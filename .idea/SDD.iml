@@ -9,6 +9,9 @@
       <excludeFolder url="file://$MODULE_DIR$/packages/meteor-roles/examples/mini-pages/.meteor/local" />
       <excludeFolder url="file://$MODULE_DIR$/packages/meteor-roles/examples/rolesWithAccountsUI/.meteor/local" />
       <excludeFolder url="file://$MODULE_DIR$/packages/meteor-roles/examples/router/.meteor/local" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/meteor-roles/meteor-roles/examples/iron-router/client/.meteor/local" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/meteor-roles/meteor-roles/examples/mini-pages/.meteor/local" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/meteor-roles/meteor-roles/examples/router/.meteor/local" />
       <excludeFolder url="file://$MODULE_DIR$/packages/roles/alanning/meteor-roles/2d7dc91848ec874d3a0852c77f462d0fae749de5/examples/iron-router/client/.meteor/local" />
       <excludeFolder url="file://$MODULE_DIR$/packages/roles/alanning/meteor-roles/2d7dc91848ec874d3a0852c77f462d0fae749de5/examples/mini-pages/.meteor/local" />
       <excludeFolder url="file://$MODULE_DIR$/packages/roles/alanning/meteor-roles/2d7dc91848ec874d3a0852c77f462d0fae749de5/examples/router/.meteor/local" />
