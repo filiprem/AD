@@ -5,7 +5,7 @@ Session.setDefault('paginationCount', 1);
 Session.setDefault('selectedPagination', 0);
 Session.setDefault('skipCount', 0);
 
-Template.listUsers2.events({
+Template.listUsers.events({
     'keyup #searchInput':function(){
         Session.set('usersSearchFilter', $('#searchInput').val());
     },
@@ -35,7 +35,7 @@ Template.listUsers2.events({
         Session.set('userInScope', this);
     }
 });
-Template.listUsers2.helpers({
+Template.listUsers.helpers({
     usersList: function(){
         Session.set('receivedData', new Date());
         Session.set('paginationCount', Math.ceil(Users.find().count() / Session.get('tableLimit')));
@@ -83,7 +83,7 @@ Template.listUsers2.helpers({
         return Meteor.userId() === userId;
     }
 });
-Template.listUsers2.rendered = function()
+Template.listUsers.rendered = function()
 {
     $(this.find('#usersTable')).tablesorter();
     Deps.autorun(function(){

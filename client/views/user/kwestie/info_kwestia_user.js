@@ -1,6 +1,9 @@
 Template.informacjeKwestia.events({
     'click .btn-success': function(event, template){
         Session.set('kwestiaInScope',this);
+    },
+    'click #backToList': function(e){
+        Router.go('listKwestia');
     }
 });
 Template.informacjeKwestia.helpers({
