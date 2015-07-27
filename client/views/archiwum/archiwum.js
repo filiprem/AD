@@ -1,3 +1,13 @@
+Template.archiwum.rendered = function()
+{
+    $(this.find('#kwestiaTable')).tablesorter();
+    Deps.autorun(function(){
+        setTimeout(function(){
+            $("#kwestiaTable").trigger("update");
+        }, 200);
+    });
+};
+
 Session.setDefault('receivedData', false);
 Session.setDefault('kwestiaSearchFilter', '');
 Session.setDefault('tableLimit', 20);
@@ -91,13 +101,4 @@ Template.archiwum.helpers({
         return Rodzaj.findOne({_id: this.rodzaj_id});
     }
 });
-Template.archiwum.rendered = function()
-{
-    $(this.find('#kwestiaTable')).tablesorter();
-    Deps.autorun(function(){
-        setTimeout(function(){
-            $("#kwestiaTable").trigger("update");
-        }, 200);
-    });
-}
 

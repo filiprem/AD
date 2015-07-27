@@ -1,58 +1,59 @@
 <template name="informacjeKwestia" xmlns="http://www.w3.org/1999/html">
     <div class="main">
-        <h3>Informacje o kwestii</h3>
-        <h4>Liczba osób, które nadały priorytet tej kwestii: {{glosujacyCount}}</h4>
-        <!--{{#with nazwa}}-->
-            <!--{{kwestiaNazwa}}-->
-            <!--{{priorytet}}-->
-            <!--{{/with}}-->
+        <h3>Informacje o Kwestii</h3>
+        <h4>Liczba osób, które nadały priorytet tej Kwestii: {{glosujacyCount}}</h4>
+
         <div class="pull-right">
             <a href="{{pathFor 'proceduraWstrzymania'}}" class="btn btn-danger">
                 <span
-                    class="glyphicon glyphicon-remove-circle">
-                </span>  Wstrzymaj kwestię</a>
+                        class="glyphicon glyphicon-remove-circle">
+                </span> Wstrzymaj kwestię</a>
             <a class="btn btn-success" href="#nadajpriorytetkwestia" data-toggle="modal">
                 <span data-toggle="modal" class="glyphicon glyphicon-thumbs-up clickable"
-                      title="Nadaj priorytet"></span>  Nadaj priorytet</a>
-            <!--<span data-toggle="modal" href="#nadajpriorytetkwestia"-->
-                  <!--class="glyphicon glyphicon-thumbs-up clickable" title="Nadaj priorytet"></span>-->
+                      title="Nadaj priorytet"></span> Nadaj priorytet</a>
         </div>
         <div class="clearfix"></div>
         <hr/>
         <table class="table table-bordered manageTable">
             <tr>
-                <td><strong> Data wprowadzenia</strong></td><td>{{dataWprowadzenia}}</td>
+                <td><strong> Data</strong></td>
+                <td>{{date}}</td>
             </tr>
             <tr>
-                <td><strong> Nazwa kwestii</strong></td><td>{{kwestiaNazwa}}</td>
+                <td><strong> Nazwa Kwestii</strong></td>
+                <td>{{kwestiaNazwa}}</td>
             </tr>
             <tr>
-                <td><strong> Priorytet</strong></td><td>{{sredniaPriorytet}}</td>
+                <td><strong> Priorytet</strong></td>
+                <td>{{sredniaPriorytet}}</td>
             </tr>
             <tr>
-                <td><strong> Temat</strong></td><td>{{tematNazwa.nazwaTemat}}</td>
+                <td><strong> Temat</strong></td>
+                <td>{{tematNazwa.nazwaTemat}}</td>
             </tr>
             <tr>
-                <td><strong> Rodzaj</strong></td><td>{{rodzajNazwa.nazwaRodzaj}}</td>
+                <td><strong> Rodzaj</strong></td>
+                <td>{{rodzajNazwa.nazwaRodzaj}}</td>
             </tr>
 
             <tr>
-                <td><strong> Data dyskusji</strong></td><td>{{dataDyskusji}}</td>
-            </tr>
-            <tr>
-                <td><strong> Data głosowania</strong></td><td>{{dataGlosowania}}</td>
+                <td><strong> Data głosowania</strong></td>
+                <td>{{dateG}}</td>
             </tr>
 
         </table>
         <hr/>
-        <h3>Treść kwestii</h3>
+        <h3>Treść Kwestii</h3>
+
         <div class="clearfix"></div>
         <table class="table table-bordered manageTable">
             <tr>
-                <td><strong> Krótka treść</strong></td><td>{{krotkaTresc}}</td>
+                <td><strong> Krótka treść</strong></td>
+                <td>{{krotkaTresc}}</td>
             </tr>
             <tr>
-                <td><strong> Szczegółowa treść</strong></td><td>{{szczegolowaTresc}}</td>
+                <td><strong> Opis z uzasadnieniem</strong></td>
+                <td>{{szczegolowaTresc}}</td>
             </tr>
 
         </table>

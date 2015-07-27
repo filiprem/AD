@@ -1,27 +1,14 @@
-Session.setDefault('receivedData', false);
-Session.setDefault('kwestiaSearchFilter', '');
-Session.setDefault('tableLimit', 20);
-Session.setDefault('paginationCount', 1);
-Session.setDefault('selectedPagination', 0);
-Session.setDefault('skipCount', 0);
+Template.listKwestia.rendered = function()
+{
+    $(this.find('#kwestiaTable')).tablesorter();
+    Deps.autorun(function(){
+        setTimeout(function(){
+            $("#kwestiaTable").trigger("update");
+        }, 200);
+    });
+};
+
 Template.listKwestia.events({
-    'keyup #searchInput':function(){
-        Session.set('kwestiaSearchFilter', $('#searchInput').val());
-    },
-    'click #twentyButton':function(){
-        Session.set('tableLimit', 20);
-    },
-    'click #fiftyButton': function(){
-        Session.set('tableLimit', 50);
-    },
-    'click #hundredButton': function(){
-        Session.set('tableLimit', 100);
-    },
-    'click .pagination-btn':function(){
-        //alert(JSON.stringify(this.index));
-        Session.set('selectedPagination', this.index);
-        Session.set('skipCount', this.index * Session.get('tableLimit'));
-    },
     'click .glyphicon-trash': function(event, template) {
         Session.set('kwestiaInScope', this);
     },
@@ -31,6 +18,10 @@ Template.listKwestia.events({
     //'click .glyphicon-info-sign': function(event, template){
     //    Session.set('kwestiaInScope',this);
     //},
+    'click #kwestiaId': function(e) {
+        var idKwestii = this._id;
+        console.log(idKwestii);
+    },
     'click .glyphicon-thumbs-up': function(event, template){
         Session.set('kwestiaInScope',this);
     },
@@ -39,21 +30,32 @@ Template.listKwestia.events({
     }
 });
 Template.listKwestia.helpers({
-    kwestiaList: function(){
-        Session.set('receivedData', new Date());
-        Session.set('paginationCount', Math.ceil(Kwestia.find().count() / Session.get('tableLimit')));
-        return Kwestia.find({czyAktywny: true, $or:[
-            {dataWprowadzenia: { $regex: Session.get('kwestiaSearchFilter'), $options: 'i' }},
-            {kwestiaNazwa: { $regex: Session.get('kwestiaSearchFilter'), $options: 'i' }},
-            {priorytet: { $regex: Session.get('kwestiaSearchFilter'), $options: 'i' }},
-            {sredniaPriorytet: { $regex: Session.get('kwestiaSearchFilter'), $options: 'i' }},
-            {temat: { $regex: Session.get('kwestiaSearchFilter'), $options: 'i' }},
-            {rodzaj: { $regex: Session.get('kwestiaSearchFilter'), $options: 'i' }},
-            {dataDyskusji: { $regex: Session.get('kwestiaSearchFilter'), $options: 'i' }},
-            {dataGlosowania: { $regex: Session.get('kwestiaSearchFilter'), $options: 'i' }},
-            //{historia: { $regex: Session.get('kwestiaSearchFilter'), $options: 'i' }},
-        ]
-        },{limit: Session.get('tableLimit'), skip: Session.get('skipCount'), sort: {sredniaPriorytet: -1}});
+    'settings': function () {
+        return {
+            rowsPerPage: 10,
+            showFilter: true,
+            showNavigation: 'always',
+            showColumnToggles: true,
+            enableRegex: false,
+            fields: [
+                {key: 'dataWprowadzenia', label: "Data", tmpl:Template.dataUtwKwestia},
+                {key: 'kwestiaNazwa', label: "Nazwa Kwestii", tmpl: Template.nazwaKwestiLink},
+                {
+                    key: 'sredniaPriorytet',
+                    label: "Priorytet",
+                    tmpl: Template.priorytetKwestia,
+                    sortOrder: 1,
+                    sortDirection: 'ascending'},
+                {key: 'temat_id', label: "Temat", tmpl: Template.tematKwestia},
+                {key: 'rodzaj_id', label: "Rodzaj", tmpl: Template.rodzajKwestia},
+                {key: 'dataGlosowania', label: "Finał", tmpl: Template.dataGlKwestia},
+                {key: 'status', label: "Status"},
+                {key: 'options', label: "Opcje", tmpl: Template.editColumnKwestia }
+            ]
+        };
+    },
+    KwestiaList: function(){
+        return Kwestia.find({}).fetch();
     },
     priorytetsr: function() {
         var i=0;
@@ -73,53 +75,67 @@ Template.listKwestia.helpers({
     email: function () {
         return getEmail(this);
     },
-    getPaginationCount: function(){
-        return Session.get('paginationCount');
-    },
-    paginationButtonList: function(){
-        var paginationArray = [];
-        for (var i = 0; i < Session.get('paginationCount'); i++) {
-            paginationArray[i] = {
-                index: i
-            };
-        };
-        return paginationArray;
-    },
-    isTwentyActive: function(){
-        if(Session.get('tableLimit') === 20){
-            return "active";
-        }
-    },
-    isFiftyActive: function(){
-        if(Session.get('tableLimit') === 50){
-            return "active";
-        }
-    },
-    isHundredActive: function(){
-        if(Session.get('tableLimit') === 100){
-            return "active";
-        }
-    },
     kwestiaCount: function(){
         return Kwestia.find({czyAktywny: true}).count();
     },
     isAdminUser: function() {
         return IsAdminUser();
-    },
-    tematNazwa: function(){
-        return Temat.findOne({_id: this.temat_id});
-    },
-    rodzajNazwa: function(){
-        return Rodzaj.findOne({_id: this.rodzaj_id});
     }
 });
-Template.listKwestia.rendered = function()
-{
-    $(this.find('#kwestiaTable')).tablesorter();
-    Deps.autorun(function(){
-        setTimeout(function(){
-            $("#kwestiaTable").trigger("update");
-        }, 200);
-    });
-}
 
+Template.tematKwestia.helpers({
+    tematNazwa: function(){
+        var t = Temat.findOne({_id: this.temat_id});
+        if(t){
+            return t.nazwaTemat;
+        }
+    }
+});
+
+Template.rodzajKwestia.helpers({
+    rodzajNazwa: function(){
+        var r = Rodzaj.findOne({_id: this.rodzaj_id});
+        if(r){
+            return r.nazwaRodzaj;
+        }
+    }
+});
+
+Template.dataGlKwestia.helpers({
+    date: function () {
+        var d = this.dataGlosowania;
+        if(d){
+            return moment(d).format("DD-MM-YYYY");
+        }
+    }
+});
+
+Template.dataUtwKwestia.helpers({
+    date: function () {
+        var d = this.dataWprowadzenia;
+        if(d){
+            return moment(d).format("DD-MM-YYYY");
+        }
+    }
+});
+
+Template.priorytetKwestia.helpers({
+   priorytet: function () {
+       var p = this.sredniaPriorytet;
+       //if(p){
+           return p.toFixed(2);
+       //}
+   }
+});
+
+Template.editColumnKwestia.helpers({
+
+});
+
+Template.editColumnKwestia.events({
+
+});
+
+Template.nazwaKwestiLink.events({
+
+})

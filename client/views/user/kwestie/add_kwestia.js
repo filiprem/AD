@@ -1,21 +1,29 @@
+Template.addKwestiaForm.rendered = function(){
+    //$('#test1').datetimepicker({sideBySide: true});
+    $('#test2').datetimepicker({sideBySide: true});
+    $('#test3').datetimepicker({sideBySide: true});
+    setTematy();
+    setRodzaje();
+
+};
+
 Template.addKwestiaForm.events({
     'submit form': function (e) {
         e.preventDefault();
+
+        var dataG =  new Date();
+        var d = dataG.setDate(dataG.getDate()+7);
+
         var newKwestia = [
             {
-                //dataWprowadzenia: $(e.target).find('[name=dzienW]').val() + ' ' +
-                //                  $(e.target).find('[name=miesiacW]').val() + ' ' +
-                //                  $(e.target).find('[name=rokW]').val(),
-                //
-                //dataWprowadzenia: $(e.target).find('[name=dataWprowadzenia]').val(),
-                dataWprowadzenia: moment().format('DD/MM/YYYY HH:mm A'),
+                dataWprowadzenia: new Date(),
                 kwestiaNazwa: $(e.target).find('[name=kwestiaNazwa]').val(),
                 priorytet: 0,
                 sredniaPriorytet: 0,
                 temat_id: $(e.target).find('[name=tematy]').val(),
                 rodzaj_id: $(e.target).find('[name=rodzaje]').val(),
-                dataDyskusji: $(e.target).find('[name=dataDyskusji]').val(),
-                dataGlosowania: $(e.target).find('[name=dataGlosowania]').val(),
+                dataDyskusji: new Date(),
+                dataGlosowania: d,
                 //historia: $(e.target).find('[name=historia]').val(),
                 krotkaTresc: $(e.target).find('[name=krotkaTresc]').val(),
                 szczegolowaTresc: $(e.target).find('[name=szczegolowaTresc]').val()
@@ -87,14 +95,3 @@ Template.addKwestiaForm.events({
         }
     }
 });
-Template.addKwestiaForm.rendered = function(){
-    //$('#test1').datetimepicker({sideBySide: true});
-    $('#test2').datetimepicker({sideBySide: true});
-    $('#test3').datetimepicker({sideBySide: true});
-    setTematy();
-    setRodzaje();
-    setDays();
-    setMonths();
-    setYears();
-
-}

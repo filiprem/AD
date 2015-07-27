@@ -80,7 +80,6 @@ Template.profileEdit.events({
         }
         else
         {
-            console.log('return false');
             return false;
         }
     }

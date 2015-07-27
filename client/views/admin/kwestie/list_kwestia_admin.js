@@ -1,27 +1,14 @@
-Session.setDefault('receivedData', false);
-Session.setDefault('kwestiaSearchFilter', '');
-Session.setDefault('tableLimit', 20);
-Session.setDefault('paginationCount', 1);
-Session.setDefault('selectedPagination', 0);
-Session.setDefault('skipCount', 0);
+Template.listKwestiaAdmin.rendered = function()
+{
+    $(this.find('#kwestiaTable')).tablesorter();
+    Deps.autorun(function(){
+        setTimeout(function(){
+            $("#kwestiaTable").trigger("update");
+        }, 200);
+    });
+};
+
 Template.listKwestiaAdmin.events({
-    'keyup #searchInput':function(){
-        Session.set('kwestiaSearchFilter', $('#searchInput').val());
-    },
-    'click #twentyButton':function(){
-        Session.set('tableLimit', 20);
-    },
-    'click #fiftyButton': function(){
-        Session.set('tableLimit', 50);
-    },
-    'click #hundredButton': function(){
-        Session.set('tableLimit', 100);
-    },
-    'click .pagination-btn':function(){
-        //alert(JSON.stringify(this.index));
-        Session.set('selectedPagination', this.index);
-        Session.set('skipCount', this.index * Session.get('tableLimit'));
-    },
     'click .glyphicon-trash': function(event, template) {
         Session.set('kwestiaInScope', this);
     },
@@ -107,12 +94,3 @@ Template.listKwestiaAdmin.helpers({
         return Rodzaj.findOne({_id: this.rodzaj_id});
     }
 });
-Template.listKwestiaAdmin.rendered = function()
-{
-    $(this.find('#kwestiaTable')).tablesorter();
-    Deps.autorun(function(){
-        setTimeout(function(){
-            $("#kwestiaTable").trigger("update");
-        }, 200);
-    });
-};

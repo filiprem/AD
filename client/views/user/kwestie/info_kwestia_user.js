@@ -20,5 +20,17 @@ Template.informacjeKwestia.helpers({
     },
     rodzajNazwa: function(){
         return Rodzaj.findOne({_id: this.rodzaj_id});
+    },
+    date: function () {
+        var d = this.dataWprowadzenia;
+        if(d){
+            return moment(d).format("DD-MM-YYYY, HH:mm");
+        }
+    },
+    dateG: function () {
+        var d = this.dataGlosowania;
+        if(d){
+            return moment(d).format("DD-MM-YYYY, HH:mm");
+        }
     }
 });
