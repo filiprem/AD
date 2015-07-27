@@ -4,7 +4,6 @@ Template.addKwestiaForm.rendered = function(){
     $('#test3').datetimepicker({sideBySide: true});
     setTematy();
     setRodzaje();
-
 };
 
 Template.addKwestiaForm.events({
@@ -93,5 +92,8 @@ Template.addKwestiaForm.events({
             else
                 document.getElementById('szczegolowaTrescGroup').classList.remove('has-error');
         }
+    },
+    'reset form': function(){
+        Router.go('listKwestia');
     }
 });

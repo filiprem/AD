@@ -9,18 +9,14 @@ Template.listKwestia.rendered = function()
 };
 
 Template.listKwestia.events({
+    //usunięcie kwestii
     'click .glyphicon-trash': function(event, template) {
         Session.set('kwestiaInScope', this);
     },
+    //edycja kwestii
     'click .glyphicon-pencil': function(event, template) {
         Session.set('kwestiaInScope', this);
-    },
-    //'click .glyphicon-info-sign': function(event, template){
-    //    Session.set('kwestiaInScope',this);
-    //},
-    'click #kwestiaId': function(e) {
-        var idKwestii = this._id;
-        console.log(idKwestii);
+        Router.go("editKwestia");
     },
     'click .glyphicon-thumbs-up': function(event, template){
         Session.set('kwestiaInScope',this);
@@ -135,7 +131,3 @@ Template.editColumnKwestia.helpers({
 Template.editColumnKwestia.events({
 
 });
-
-Template.nazwaKwestiLink.events({
-
-})
