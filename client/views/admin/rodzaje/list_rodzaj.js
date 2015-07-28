@@ -1,12 +1,5 @@
 Template.listRodzaj.rendered = function()
-{
-    $(this.find('#rodzajTable')).tablesorter();
-    Deps.autorun(function(){
-        setTimeout(function(){
-            $("#rodzajTable").trigger("update");
-        }, 200);
-    });
-};
+{};
 
 Template.listRodzaj.events({
     'click .glyphicon-trash': function(event, template) {
@@ -35,9 +28,6 @@ Template.listRodzaj.helpers({
     },
     RodzajList: function(){
        return Rodzaj.find({}).fetch();
-    },
-    email: function () {
-        return getEmail(this);
     },
     rodzajCount: function(){
         return Rodzaj.find().count();

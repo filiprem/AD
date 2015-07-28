@@ -1,3 +1,7 @@
+Template.addRodzajForm.rendered = function(){
+    setTematy();
+};
+
 Template.addRodzajForm.events({
     'submit form': function (e) {
         e.preventDefault();
@@ -32,6 +36,3 @@ Template.addRodzajForm.events({
         }
     }
 });
-Template.addRodzajForm.rendered = function(){
-    setTematy();
-}

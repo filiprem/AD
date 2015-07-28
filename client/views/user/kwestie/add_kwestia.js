@@ -15,6 +15,7 @@ Template.addKwestiaForm.events({
 
         var newKwestia = [
             {
+                userId: Meteor.userId(),
                 dataWprowadzenia: new Date(),
                 kwestiaNazwa: $(e.target).find('[name=kwestiaNazwa]').val(),
                 priorytet: 0,
@@ -28,14 +29,12 @@ Template.addKwestiaForm.events({
                 szczegolowaTresc: $(e.target).find('[name=szczegolowaTresc]').val()
 
             }];
-        if (//isNotEmpty(newKwestia[0].dataWprowadzenia) &&
+        if (
             isNotEmpty(newKwestia[0].kwestiaNazwa) &&
-            //isNotEmpty(newKwestia[0].priorytet) &&
             isNotEmpty(newKwestia[0].temat_id) &&
             isNotEmpty(newKwestia[0].rodzaj_id) &&
             isNotEmpty(newKwestia[0].dataDyskusji) &&
             isNotEmpty(newKwestia[0].dataGlosowania) &&
-            //isNotEmpty(newKwestia[0].historia) &&
             isNotEmpty(newKwestia[0].krotkaTresc) &&
             isNotEmpty(newKwestia[0].szczegolowaTresc)
         ) {

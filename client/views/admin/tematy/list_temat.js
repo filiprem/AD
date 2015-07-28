@@ -1,12 +1,5 @@
 Template.listTemat.rendered = function()
-{
-    $(this.find('#tematTable')).tablesorter();
-    Deps.autorun(function(){
-        setTimeout(function(){
-            $("#tematTable").trigger("update");
-        }, 200);
-    });
-};
+{};
 
 Template.listTemat.events({
     'click .glyphicon-trash': function(event, template) {
@@ -33,9 +26,6 @@ Template.listTemat.helpers({
     },
     TematListAdmin: function(){
         return Temat.find({}).fetch();
-    },
-    email: function () {
-        return getEmail(this);
     },
     tematCount: function(){
         return Temat.find().count();

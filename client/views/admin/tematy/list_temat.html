@@ -2,7 +2,6 @@
     {{#if currentUser}}
         <div class="main">
             <h3>Lista tematów</h3>
-            <h4>Parametry tematów</h4>
             <div class="pull-right">
                 <span>Liczba tematów: </span><span class="badge">{{tematCount}}</span>
             </div>
@@ -17,7 +16,6 @@
                     </div>
                 </div>
             </div>
-            <hr/>
             <div class="row">
                 <div class="col-md-12">
                     {{> reactiveTable
@@ -28,7 +26,6 @@
                     }}
                 </div>
             </div>
-            <hr/>
         </div>
         {{> updateTematModal}}
         {{> deleteTematModal}}

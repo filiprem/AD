@@ -1,12 +1,5 @@
 Template.listKwestia.rendered = function()
-{
-    $(this.find('#kwestiaTable')).tablesorter();
-    Deps.autorun(function(){
-        setTimeout(function(){
-            $("#kwestiaTable").trigger("update");
-        }, 200);
-    });
-};
+{};
 
 Template.listKwestia.events({
     //usunięcie kwestii
@@ -41,7 +34,7 @@ Template.listKwestia.helpers({
                     label: "Priorytet",
                     tmpl: Template.priorytetKwestia,
                     sortOrder: 1,
-                    sortDirection: 'ascending'},
+                    sortDirection: 'descending'},
                 {key: 'temat_id', label: "Temat", tmpl: Template.tematKwestia},
                 {key: 'rodzaj_id', label: "Rodzaj", tmpl: Template.rodzajKwestia},
                 {key: 'dataGlosowania', label: "Finał", tmpl: Template.dataGlKwestia},
@@ -67,9 +60,6 @@ Template.listKwestia.helpers({
             var srPriorytet = kwestia.priorytet/i ;
 
         return srPriorytet
-    },
-    email: function () {
-        return getEmail(this);
     },
     kwestiaCount: function(){
         return Kwestia.find({czyAktywny: true}).count();

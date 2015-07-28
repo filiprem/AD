@@ -9,8 +9,7 @@ Template.addTematForm.events({
         if (isNotEmpty(newTemat[0].nazwaTemat) &&
             isNotEmpty(newTemat[0].opis)) {
             Meteor.call('addTemat', newTemat, function (error) {
-                if (error)
-                {
+                if (error) {
                     // optionally use a meteor errors package
                     if (typeof Errors === "undefined")
                         Log.error('Error: ' + error.reason);
@@ -18,8 +17,7 @@ Template.addTematForm.events({
                         throwError(error.reason);
                     }
                 }
-                else
-                {
+                else {
                     Router.go('listTemat');
                 }
             });

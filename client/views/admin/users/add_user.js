@@ -1,3 +1,8 @@
+Template.addUserForm.rendered = function () {
+    $('#test1').datetimepicker({sideBySide: true});
+    setRoles();
+};
+
 Template.addUserForm.events({
     'submit form': function (e) {
         e.preventDefault();
@@ -48,15 +53,13 @@ Template.addUserForm.events({
                     // optionally use a meteor errors package
                     if (typeof Errors === "undefined")
                         Log.error('Error: ' + error.reason);
-                    else
-                    {
+                    else {
                         if(error.error === 409)
                         throwError(error.reason);
                     }
                 }
-                else
-                {
-                    Router.go('home');
+                else {
+                    Router.go('listUsers');
                 }
             });
         } else {
@@ -64,12 +67,3 @@ Template.addUserForm.events({
         }
     }
 });
-Template.addUserForm.rendered = function () {
-    $('#test1').datetimepicker({});
-    setRoles();
-    //// załadowanie dni, miesięcy, roku do poszczególnych ddls
-    //setDays();
-    //setMonths();
-    //setYears();
-    //// załadowanie roli do ddl
-};

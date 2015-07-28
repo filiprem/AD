@@ -1,12 +1,5 @@
 Template.listKwestiaAdmin.rendered = function()
-{
-    $(this.find('#kwestiaTable')).tablesorter();
-    Deps.autorun(function(){
-        setTimeout(function(){
-            $("#kwestiaTable").trigger("update");
-        }, 200);
-    });
-};
+{};
 
 Template.listKwestiaAdmin.events({
     'click .glyphicon-trash': function(event, template) {
