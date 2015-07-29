@@ -36,7 +36,7 @@ Template.listKwestiaAdmin.helpers({
                 {key: 'rodzaj_id', label: "Rodzaj", tmpl: Template.rodzajKwestia},
                 {key: 'dataGlosowania', label: "Finał", tmpl: Template.dataGlKwestia},
                 {key: 'status', label: "Status"},
-                {key: 'options', label: "Opcje", tmpl: Template.editColumnKwestia }
+                {key: 'options', label: "Opcje", tmpl: Template.editColumnKwestiaAdmin }
             ]
         };
     },
