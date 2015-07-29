@@ -14,5 +14,9 @@ twbs:bootstrap
 ian:accounts-ui-bootstrap-3
 sacha:spin
 alanning:roles
-meteor-accounts-admin-ui-bootstrap-3
 anti:i18n
+momentjs:moment
+aslagle:reactive-table
+raix:handlebar-helpers
+meteor-accounts-admin-ui-bootstrap-3
+meteor-accounts-ui-bootstrap-3

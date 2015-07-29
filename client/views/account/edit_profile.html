@@ -1,0 +1,103 @@
+<template name="profileEdit">
+
+    <div class="main">
+        <h3>Edytuj profil</h3>
+
+        <div class="clearfix"></div>
+        <hr/>
+        <div class="row">
+            <div class="col col-md-10">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" for="inputImię">Imię:</label>
+
+                        <div class="col-xs-9">
+                            <input name="name"  class="form-control" id="firstName" value="{{profile.first_name}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" for="inputNazwisko">Nazwisko:</label>
+
+                        <div class="col-xs-9">
+                            <input name="surname"  class="form-control" id="lastName" value="{{profile.last_name}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" for="inputEmail">Email:</label>
+
+                        <div class="col-xs-9">
+                            <input name="email" type="email" class="form-control" id="inputEmail" value="{{email}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" for="inputPlec">Płeć:</label>
+
+                        <div class="col-xs-9">
+                            <div class="col-xs-2">
+                                <label class="radio-inline">
+                                    {{#if isMan profile.gender}}
+                                        <input type="radio" name="genderRadios" value="mężczyzna" checked="checked"> Mężczyzna
+                                    {{else}}
+                                        <input type="radio" name="genderRadios" value="mężczyzna"> Mężczyzna
+                                    {{/if}}
+                                </label>
+                            </div>
+                            <div class="col-xs-2">
+                                <label class="radio-inline">
+                                    {{#if isWoman profile.gender}}
+                                        <input type="radio" name="genderRadios" value="kobieta" checked="checked"> Kobieta
+                                    {{else}}
+                                        <input type="radio" name="genderRadios" value="kobieta"> Kobieta
+                                    {{/if}}
+
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" for="inputStanowisko">Stanowisko:</label>
+
+                        <div class="col-xs-9">
+                            <input name="profession" class="form-control" id="profession" value="{{profile.profession}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" for="inputAdres">Adres:</label>
+
+                        <div class="col-xs-9">
+                            <textarea name="address" class="form-control" id="address" value="{{profile.address}}"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" for="inputZipcode">Kod pocztowy:</label>
+
+                        <div class="col-xs-9">
+                            <input name="zipcode" class="form-control" id="zipcode" value="{{profile.zip}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" for="inputTelefon">Numer tel:</label>
+
+                        <div class="col-xs-9">
+                            <input name="phone" class="form-control" id="phone" value="{{profile.phone}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" for="inputTelefon">Strona www:</label>
+
+                        <div class="col-xs-9">
+                            <input name="website" class="form-control" id="website" value="{{profile.web}}">
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <div class="col-xs-offset-3 col-xs-9">
+                            <input type="submit" class="btn btn-primary" value="Zapisz">
+                            <input type="reset" class="btn btn-default" value="Anuluj">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</template>

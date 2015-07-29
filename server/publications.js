@@ -28,20 +28,26 @@ Meteor.publish('kwestia', function(){
 Meteor.publish('kwestia_tresc', function(){
     return KwestiaTresc.find();
 });
+Meteor.publish('users', function(){
+    return Users.find();
+});
+Meteor.publish('glosujacy', function() {
+    return Parametr.find();
+});
 
 Meteor.startup(function () {
     var data = [
         {
-            "Login": "danielo",
-            "FirstName": "Daniel",
-            "LastName": "Twardowski",
-            "Profession": "Programista",
-            "Address": "Nawojowa 619",
-            "Zip": "33-335",
+            "Login": "adminSDD",
+            "FirstName": "Admin",
+            "LastName": "SDD",
+            "Profession": "Administrator",
+            "Address": "",
+            "Zip": "",
             "Gender": "mężczyzna",
-            "Phone": "880-760-785",
-            "Email": "danielo16@gmail.com",
-            "Web": "http://www.danieltwardowski.pl",
+            "Phone": "",
+            "Email": "sdd.meteor@gmail.com",
+            "Web": "sdd.meteor.com",
             "Role": "admin"
         }];
     if((Meteor.users.find().count() == 0)) {
@@ -69,7 +75,7 @@ Meteor.startup(function () {
             id = Accounts.createUser({
                 username: user.login,
                 email: user.email,
-                password: "asdqwe123",
+                password: "2015adminSDD!",
                 profile: {
                     first_name: user.first_name,
                     last_name: user.last_name,

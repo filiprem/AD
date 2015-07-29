@@ -4,8 +4,5 @@
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/packages/meteor-accounts-admin-ui-bootstrap-3" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/packages/meteor-accounts-ui-bootstrap-3" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/packages/meteor-bootstrap-3" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/packages/meteor-roles" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/packages/meteor-spin" vcs="Git" />
   </component>
 </project>

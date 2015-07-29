@@ -1,0 +1,39 @@
+<template name="manageAccount">
+    <div class="main">
+    <h3>Twój profil</h3>
+        <div class="pull-right">
+            <a href="{{pathFor 'profile_edit'}}" class="btn btn-primary">
+                <span class="glyphicon glyphicon-pencil"></span> Edytuj profil</a>
+        </div>
+
+        <div class="clearfix"></div>
+            <hr/>
+            <table class="table table-bordered manageTable">
+                <tr>
+                    <td><span class="glyphicon glyphicon-user"></span><strong> Login</strong></td><td>{{username}}</td>
+                </tr>
+                <tr>
+                    <td><span class="glyphicon glyphicon-envelope"></span><strong> Email</strong></td><td>{{test emails}}</td>
+                </tr>
+                <tr>
+                    <td><span class="glyphicon glyphicon-info-sign"></span><strong> Imię i nazwisko</strong></td><td>{{profile.full_name}}</td>
+                </tr>
+                <tr>
+                    <td><span class="glyphicon glyphicon-heart"></span><strong> Płeć</strong></td><td>{{profile.gender}}</td>
+                </tr>
+
+                <tr>
+                    <td><span class="glyphicon glyphicon-star"></span><strong> Stanowisko</strong></td><td>{{profile.profession}}</td>
+                </tr>
+                <tr>
+                    <td><span class="glyphicon glyphicon-map-marker"></span><strong> Adres</strong></td><td>{{profile.address}}, {{profile.zip}}</td>
+                </tr>
+                <tr>
+                    <td><span class="glyphicon glyphicon-earphone"></span><strong> Telefon</strong></td><td>{{profile.phone}}</td>
+                </tr>
+                <tr>
+                    <td><span class="glyphicon glyphicon-globe"></span><strong> WWW</strong></td><td><a href="{{profile.web}}" target="_blank">{{profile.web}}</a></td>
+                </tr>
+            </table>
+        </div>
+</template>

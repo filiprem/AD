@@ -1,0 +1,38 @@
+<template name="listTemat">
+    {{#if currentUser}}
+        <div class="main">
+            <h3>Lista tematów</h3>
+            <div class="pull-right">
+                <span>Liczba tematów: </span><span class="badge">{{tematCount}}</span>
+            </div>
+            <hr/>
+            <div class="row">
+                <div class="col col-md-6">
+                    <div class="input-group">
+                  <span class="input-group-btn">
+                    <a href="{{pathFor 'addTemat'}}" class="btn btn-primary"><span
+                            class="glyphicon glyphicon-plus"></span> Dodaj</a>
+                      </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    {{> reactiveTable
+                    class = "table table-bordered table-hover"
+                    fields = settings.fields
+                    settings = settings
+                    collection = TematListAdmin
+                    }}
+                </div>
+            </div>
+        </div>
+        {{> updateTematModal}}
+        {{> deleteTematModal}}
+    {{/if}}
+</template>
+
+<template name="editColumnTemat">
+    <a title="Edytuj" id="editTemat" href="{{ pathFor 'editTemat'}}"><i class="glyphicon glyphicon-pencil clickable"></i></a>
+    <a title="Usuń" id="removeTemat"><i class="glyphicon glyphicon-trash clickable"></i></a>
+</template>

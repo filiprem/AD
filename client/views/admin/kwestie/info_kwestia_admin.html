@@ -1,0 +1,44 @@
+<template name="infoKwestiaAdminModal">
+    <div id="infokwestia" class="modal fade" tabindex="-1" data-width="760" style="display:none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                {{> infoKwestiaAdminModalInner}}
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="infoKwestiaAdminModalInner">
+    {{#with kwestiaInScope}}
+        <div class="modal-header">
+            <h4>Szczegółowe informacje</h4>
+        </div>
+        <div class="modal-body">
+            <ul class="list-group">
+                <li class="list-group-item"><strong>Data wprowadzenia</strong><span class="pull-right">{{dataWprowadzenia}}</span></li>
+                <li class="list-group-item"><strong>Nazwa Kwestii</strong><span class="pull-right">{{kwestiaNazwa}}</span></li>
+                <hr/>
+                <div class="panel panel-default">
+                    <div class="panel-heading"><strong>Treść Kwestii</strong></div>
+                    <div class="panel-body">
+                        <ul class="list-group">
+                            <li class="list-group-item"><strong>Krótka treść</strong><span class="pull-right">{{krotkaTresc}}</span></li>
+                            <li class="list-group-item"><strong>Szczegółowa treść</strong><span class="pull-right">{{szczegolowaTresc}}</span></li>
+                            <li class="list-group-item"><strong>Dyskusja Kwestii</strong><span class="pull-right">{{dyskusjaTresci}}</span></li>
+                            <!--<li class="list-group-item"><strong>Ustalenia parametrów</strong><span class="pull-right">{{ustaleniaParametrow}}</span></li>-->
+                            <!--<li class="list-group-item"><strong>Parametry głosowania</strong><span class="pull-right">{{parametryGlosowania}}</span></li>-->
+                            <!--<li class="list-group-item"><strong>Historia dyskusji</strong><span class="pull-right">{{historiaDyskusji}}</span></li>-->
+                        </ul>
+                    </div>
+                </div>
+                <li class="list-group-item" ><strong>Priorytet</strong><span class="pull-right">{{sredniaPriorytet}}</span></li>
+                <li class="list-group-item"><strong>Temat</strong><span class="pull-right">{{temat_id}}</span></li>
+                <li class="list-group-item"><strong>Rodzaj</strong><span class="pull-right">{{rodzaj_id}}</span></li>
+                <li class="list-group-item"><strong>Data dyskusji</strong><span class="pull-right">{{dataDyskusji}}</span></li>
+                <li class="list-group-item"><strong>Data głosowania</strong><span class="pull-right">{{dataGlosowania}}</span></li>
+                <!--<li class="list-group-item"><strong>Historia</strong><span class="pull-right">{{historia}}</span></li>-->
+            </ul>
+        </div>
+    {{/with}}
+</template>
+
