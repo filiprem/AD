@@ -38,11 +38,13 @@ getEmail = function (_this) {
 //---------------------------------------------------------------------------------------
 setRoles = function () {
     var roles = document.getElementById('role');
-    Roles.getAllRoles().forEach(function (role) {
-        var option = document.createElement("option");
-        option.text = role.name;
-        roles.add(option, null);
-    });
+    if(roles){
+        Roles.getAllRoles().forEach(function (role) {
+            var option = document.createElement("option");
+            option.text = role.name;
+            roles.add(option, null);
+        });
+    }
 }
 //---------------------------------------------------------------------------------------
 setDays = function () {
@@ -104,23 +106,27 @@ setYears = function () {
 //--------------------------------------------------------------
 setTematy = function() {
     var tematy = document.getElementById('tematy');
-    Temat.find().forEach(function (temat) {
-        var option = document.createElement("option");
-        option.text = temat.nazwaTemat;
-        option.value = temat._id;
-        tematy.add(option, null);
-    });
+    if(tematy){
+        Temat.find().forEach(function (temat) {
+            var option = document.createElement("option");
+            option.text = temat.nazwaTemat;
+            option.value = temat._id;
+            tematy.add(option, null);
+        });
+    }
 }
 //--------------------------------------------------------------
 
 setRodzaje = function() {
     var rodzaje = document.getElementById('rodzaje');
-    Rodzaj.find().forEach(function (rodzaj) {
-        var option = document.createElement("option");
-        option.text = rodzaj.nazwaRodzaj;
-        option.value = rodzaj._id;
-        rodzaje.add(option, null);
-    });
+    if(rodzaje){
+        Rodzaj.find().forEach(function (rodzaj) {
+            var option = document.createElement("option");
+            option.text = rodzaj.nazwaRodzaj;
+            option.value = rodzaj._id;
+            rodzaje.add(option, null);
+        });
+    }
 }
 
 //--------------------------------------------------------------
@@ -130,9 +136,11 @@ setPriorytet = function () {
         -5,-4,-3,-2,-1,1,2,3,4,5
     ];
     var prio = document.getElementById('priorytety');
-    for (var m = 0; m < priorytetCollection.length; m++) {
-        var option = document.createElement("option");
-        option.text = priorytetCollection[m];
-        prio.add(option, null);
+    if(prio){
+        for (var m = 0; m < priorytetCollection.length; m++) {
+            var option = document.createElement("option");
+            option.text = priorytetCollection[m];
+            prio.add(option, null);
+        }
     }
 }

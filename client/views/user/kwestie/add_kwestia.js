@@ -2,10 +2,18 @@ Template.addKwestiaForm.rendered = function(){
     //$('#test1').datetimepicker({sideBySide: true});
     $('#test2').datetimepicker({sideBySide: true});
     $('#test3').datetimepicker({sideBySide: true});
-    setTematy();
-    setRodzaje();
-
+    //setTematy();
+    //setRodzaje();
 };
+
+Template.addKwestiaForm.helpers({
+    tematToList: function(){
+        return Temat.find({}).fetch();
+    } ,
+    rodzajToList: function(){
+        return Rodzaj.find({}).fetch();
+    }
+});
 
 Template.addKwestiaForm.events({
     'submit form': function (e) {
@@ -16,6 +24,7 @@ Template.addKwestiaForm.events({
 
         var newKwestia = [
             {
+                userId: Meteor.userId(),
                 dataWprowadzenia: new Date(),
                 kwestiaNazwa: $(e.target).find('[name=kwestiaNazwa]').val(),
                 priorytet: 0,
@@ -29,14 +38,12 @@ Template.addKwestiaForm.events({
                 szczegolowaTresc: $(e.target).find('[name=szczegolowaTresc]').val()
 
             }];
-        if (//isNotEmpty(newKwestia[0].dataWprowadzenia) &&
+        if (
             isNotEmpty(newKwestia[0].kwestiaNazwa) &&
-            //isNotEmpty(newKwestia[0].priorytet) &&
             isNotEmpty(newKwestia[0].temat_id) &&
             isNotEmpty(newKwestia[0].rodzaj_id) &&
             isNotEmpty(newKwestia[0].dataDyskusji) &&
             isNotEmpty(newKwestia[0].dataGlosowania) &&
-            //isNotEmpty(newKwestia[0].historia) &&
             isNotEmpty(newKwestia[0].krotkaTresc) &&
             isNotEmpty(newKwestia[0].szczegolowaTresc)
         ) {
@@ -93,5 +100,8 @@ Template.addKwestiaForm.events({
             else
                 document.getElementById('szczegolowaTrescGroup').classList.remove('has-error');
         }
+    },
+    'reset form': function(){
+        Router.go('listKwestia');
     }
 });

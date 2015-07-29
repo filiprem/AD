@@ -1,26 +1,15 @@
 Template.listKwestia.rendered = function()
-{
-    $(this.find('#kwestiaTable')).tablesorter();
-    Deps.autorun(function(){
-        setTimeout(function(){
-            $("#kwestiaTable").trigger("update");
-        }, 200);
-    });
-};
+{};
 
 Template.listKwestia.events({
+    //usunięcie kwestii
     'click .glyphicon-trash': function(event, template) {
         Session.set('kwestiaInScope', this);
     },
+    //edycja kwestii
     'click .glyphicon-pencil': function(event, template) {
         Session.set('kwestiaInScope', this);
-    },
-    //'click .glyphicon-info-sign': function(event, template){
-    //    Session.set('kwestiaInScope',this);
-    //},
-    'click #kwestiaId': function(e) {
-        var idKwestii = this._id;
-        console.log(idKwestii);
+        Router.go("editKwestia");
     },
     'click .glyphicon-thumbs-up': function(event, template){
         Session.set('kwestiaInScope',this);
@@ -45,7 +34,7 @@ Template.listKwestia.helpers({
                     label: "Priorytet",
                     tmpl: Template.priorytetKwestia,
                     sortOrder: 1,
-                    sortDirection: 'ascending'},
+                    sortDirection: 'descending'},
                 {key: 'temat_id', label: "Temat", tmpl: Template.tematKwestia},
                 {key: 'rodzaj_id', label: "Rodzaj", tmpl: Template.rodzajKwestia},
                 {key: 'dataGlosowania', label: "Finał", tmpl: Template.dataGlKwestia},
@@ -55,7 +44,7 @@ Template.listKwestia.helpers({
         };
     },
     KwestiaList: function(){
-        return Kwestia.find({}).fetch();
+        return Kwestia.find({czyAktywny: true}).fetch();
     },
     priorytetsr: function() {
         var i=0;
@@ -71,9 +60,6 @@ Template.listKwestia.helpers({
             var srPriorytet = kwestia.priorytet/i ;
 
         return srPriorytet
-    },
-    email: function () {
-        return getEmail(this);
     },
     kwestiaCount: function(){
         return Kwestia.find({czyAktywny: true}).count();
@@ -135,7 +121,3 @@ Template.editColumnKwestia.helpers({
 Template.editColumnKwestia.events({
 
 });
-
-Template.nazwaKwestiLink.events({
-
-})
