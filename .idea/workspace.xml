@@ -1,25 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="efe4b461-e297-447a-9edc-77274a07f4c3" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/server/methods/kwestia.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/server/methods/parametr.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/server/methods/raport.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/server/methods/rodzaj.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/server/methods/temat.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/server/methods/users.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/collections/glosujacy.js" afterPath="$PROJECT_DIR$/lib/collections/glosujacy.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/collections/kwestia.js" afterPath="$PROJECT_DIR$/lib/collections/kwestia.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/kwestie/list_kwestia_admin.html" afterPath="$PROJECT_DIR$/client/views/admin/kwestie/list_kwestia_admin.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/kwestie/list_kwestia_admin.js" afterPath="$PROJECT_DIR$/client/views/admin/kwestie/list_kwestia_admin.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/collections/parametr.js" afterPath="$PROJECT_DIR$/lib/collections/parametr.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/collections/raport.js" afterPath="$PROJECT_DIR$/lib/collections/raport.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/collections/rodzaj.js" afterPath="$PROJECT_DIR$/lib/collections/rodzaj.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/workflows/menus/submenu.html" afterPath="$PROJECT_DIR$/client/workflows/menus/submenu.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/collections/temat.js" afterPath="$PROJECT_DIR$/lib/collections/temat.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/collections/users.js" afterPath="$PROJECT_DIR$/lib/collections/users.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="efe4b461-e297-447a-9edc-77274a07f4c3" name="Default" comment="" />
     <ignored path="SDD.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -39,31 +21,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="list_kwestia_admin.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/views/admin/kwestie/list_kwestia_admin.html">
+      <file leaf-file-name="info_kwestia_user.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/client/views/user/kwestie/info_kwestia_user.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-17.875">
-              <caret line="33" column="38" selection-start-line="33" selection-start-column="16" selection-end-line="33" selection-end-column="38" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="list_kwestia_admin.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/client/views/admin/kwestie/list_kwestia_admin.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.024667932">
-              <caret line="38" column="86" selection-start-line="38" selection-start-column="86" selection-end-line="38" selection-end-column="86" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="list_kwestia.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/views/user/kwestie/list_kwestia.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-17.708334">
-              <caret line="53" column="11" selection-start-line="50" selection-start-column="0" selection-end-line="53" selection-end-column="11" />
+            <state vertical-scroll-proportion="0.62027836">
+              <caret line="24" column="24" selection-start-line="24" selection-start-column="24" selection-end-line="24" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -77,7 +39,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/packages/meteor-accounts-admin-ui-bootstrap-3/client/update_account_modal.html" />
         <option value="$PROJECT_DIR$/client/views/admin/users/update_user.modal.html" />
         <option value="$PROJECT_DIR$/client/views/admin/parametry/list_parametr.js" />
         <option value="$PROJECT_DIR$/client/views/admin/raporty/list_raport.js" />
@@ -95,7 +56,6 @@
         <option value="$PROJECT_DIR$/client/views/archiwum/info_kwestia_archiwum.js" />
         <option value="$PROJECT_DIR$/client/views/archiwum/archiwum.js" />
         <option value="$PROJECT_DIR$/client/views/archiwum/archiwum.html" />
-        <option value="$PROJECT_DIR$/client/views/user/kwestie/list_kwestia.js" />
         <option value="$PROJECT_DIR$/client/views/admin/rodzaje/add_rodzaj.html" />
         <option value="$PROJECT_DIR$/client/views/admin/rodzaje/edit_rodzaj.html" />
         <option value="$PROJECT_DIR$/client/views/admin/rodzaje/edit_rodzaj.js" />
@@ -128,6 +88,8 @@
         <option value="$PROJECT_DIR$/client/workflows/menus/submenu.html" />
         <option value="$PROJECT_DIR$/client/views/admin/kwestie/list_kwestia_admin.html" />
         <option value="$PROJECT_DIR$/client/views/admin/kwestie/list_kwestia_admin.js" />
+        <option value="$PROJECT_DIR$/client/views/user/kwestie/list_kwestia.js" />
+        <option value="$PROJECT_DIR$/client/views/user/kwestie/info_kwestia_user.html" />
       </list>
     </option>
   </component>
@@ -571,14 +533,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/views/user/kwestie/list_kwestia.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3946869">
-          <caret line="34" column="39" selection-start-line="34" selection-start-column="39" selection-end-line="34" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/client/views/admin/users/list_users.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -875,14 +829,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/views/user/kwestie/info_kwestia_user.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.37574553">
-          <caret line="47" column="18" selection-start-line="47" selection-start-column="18" selection-end-line="47" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/client/views/user/kwestie/info_kwestia_user.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.66603416">
@@ -931,14 +877,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/views/user/kwestie/list_kwestia.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-17.708334">
-          <caret line="53" column="11" selection-start-line="50" selection-start-column="0" selection-end-line="53" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/client/views/admin/kwestie/list_kwestia_admin.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-17.875">
@@ -951,6 +889,30 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.024667932">
           <caret line="38" column="86" selection-start-line="38" selection-start-column="86" selection-end-line="38" selection-end-column="86" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/views/user/kwestie/list_kwestia.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.125">
+          <caret line="39" column="12" selection-start-line="39" selection-start-column="12" selection-end-line="39" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/views/user/kwestie/list_kwestia.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.43263757">
+          <caret line="105" column="3" selection-start-line="105" selection-start-column="3" selection-end-line="105" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/views/user/kwestie/info_kwestia_user.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.62027836">
+          <caret line="24" column="24" selection-start-line="24" selection-start-column="24" selection-end-line="24" selection-end-column="24" />
           <folding />
         </state>
       </provider>
