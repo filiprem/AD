@@ -2,13 +2,30 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="efe4b461-e297-447a-9edc-77274a07f4c3" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/server/methods/parametr.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/server/methods/raport.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/server/methods/rodzaj.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/server/methods/temat.js" />
+      <change type="MOVED" beforePath="C:\Users\Soflab\Desktop\demokracja\AD\lib\collections\kwestia.js" afterPath="$PROJECT_DIR$/server/methods/kwestia.js" />
+      <change type="MOVED" beforePath="C:\Users\Soflab\Desktop\demokracja\AD\lib\collections\kwestia_tresc.js" afterPath="$PROJECT_DIR$/lib/collections/rodzaj.js" />
+      <change type="MOVED" beforePath="C:\Users\Soflab\Desktop\demokracja\AD\lib\collections\users.js" afterPath="$PROJECT_DIR$/server/methods/users.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/user/kwestie/add_kwestia.html" afterPath="$PROJECT_DIR$/client/views/user/kwestie/add_kwestia.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/user/kwestie/add_kwestia.js" afterPath="$PROJECT_DIR$/client/views/user/kwestie/add_kwestia.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/collections/glosujacy.js" afterPath="$PROJECT_DIR$/lib/collections/glosujacy.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/user/kwestie/info_kwestia_user.html" afterPath="$PROJECT_DIR$/client/views/user/kwestie/info_kwestia_user.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/user/kwestie/info_kwestia_user.js" afterPath="$PROJECT_DIR$/client/views/user/kwestie/info_kwestia_user.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/collections/kwestia.js" afterPath="$PROJECT_DIR$/lib/collections/kwestia.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/user/kwestie/list_kwestia.html" afterPath="$PROJECT_DIR$/client/views/user/kwestie/list_kwestia.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/user/kwestie/list_kwestia.js" afterPath="$PROJECT_DIR$/client/views/user/kwestie/list_kwestia.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/kwestie/list_kwestia_admin.html" afterPath="$PROJECT_DIR$/client/views/admin/kwestie/list_kwestia_admin.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/kwestie/list_kwestia_admin.js" afterPath="$PROJECT_DIR$/client/views/admin/kwestie/list_kwestia_admin.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.meteor/packages" afterPath="$PROJECT_DIR$/.meteor/packages" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/collections/parametr.js" afterPath="$PROJECT_DIR$/lib/collections/parametr.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/publications.js" afterPath="$PROJECT_DIR$/server/publications.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/collections/raport.js" afterPath="$PROJECT_DIR$/lib/collections/raport.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/router.js" afterPath="$PROJECT_DIR$/lib/router.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/workflows/menus/submenu.html" afterPath="$PROJECT_DIR$/client/workflows/menus/submenu.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.meteor/versions" afterPath="$PROJECT_DIR$/.meteor/versions" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/collections/temat.js" afterPath="$PROJECT_DIR$/lib/collections/temat.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/collections/users.js" afterPath="$PROJECT_DIR$/lib/collections/users.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="SDD.iws" />
@@ -30,20 +47,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="list_kwestia_admin.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="list_kwestia_admin.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/client/views/admin/kwestie/list_kwestia_admin.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.538462">
-              <caret line="34" column="49" selection-start-line="34" selection-start-column="10" selection-end-line="34" selection-end-column="49" />
+            <state vertical-scroll-proportion="0.9170732">
+              <caret line="30" column="11" selection-start-line="30" selection-start-column="11" selection-end-line="30" selection-end-column="11" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="submenu.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="submenu.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/client/workflows/menus/submenu.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.45609757">
+            <state vertical-scroll-proportion="-7.1923075">
               <caret line="51" column="55" selection-start-line="51" selection-start-column="55" selection-end-line="51" selection-end-column="55" />
               <folding />
             </state>
@@ -53,9 +70,14 @@
       <file leaf-file-name="list_kwestia_admin.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/client/views/admin/kwestie/list_kwestia_admin.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="75" column="0" selection-start-line="75" selection-start-column="0" selection-end-line="77" selection-end-column="1" />
-              <folding />
+            <state vertical-scroll-proportion="-7.962963">
+              <caret line="71" column="0" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
+              <folding>
+                <marker date="1438177954159" expanded="true" signature="567:853" placeholder="{...}" />
+                <marker date="1438177954159" expanded="true" signature="597:853" placeholder="{...}" />
+                <marker date="1438177954159" expanded="true" signature="614:853" placeholder="{&quot;rowsPerPage&quot;: 10...}" />
+                <marker date="1438177954159" expanded="true" signature="802:853" placeholder="[...]" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -112,13 +134,13 @@
         <option value="$PROJECT_DIR$/client/views/user/kwestie/add_kwestia.html" />
         <option value="$PROJECT_DIR$/client/views/user/kwestie/edit_kwestia.js" />
         <option value="$PROJECT_DIR$/.meteor/packages" />
-        <option value="$PROJECT_DIR$/client/views/admin/kwestie/list_kwestia_admin.html" />
         <option value="$PROJECT_DIR$/client/views/admin/kwestie/list_kwestia_admin.js" />
         <option value="$PROJECT_DIR$/client/views/user/kwestie/list_kwestia.html" />
         <option value="$PROJECT_DIR$/client/views/user/kwestie/list_kwestia.js" />
         <option value="$PROJECT_DIR$/client/views/admin/admin.html" />
         <option value="$PROJECT_DIR$/client/views/admin/admin.js" />
         <option value="$PROJECT_DIR$/client/workflows/menus/submenu.html" />
+        <option value="$PROJECT_DIR$/client/views/admin/kwestie/list_kwestia_admin.html" />
       </list>
     </option>
   </component>
@@ -441,14 +463,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1358" y="-8" width="1936" height="1096" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16491044" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3291592" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2795031" sideWeight="0.50054646" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32792792" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.5058573" sideWeight="0.49945354" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.5058573" sideWeight="0.49945354" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.49840257" sideWeight="0.49945354" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -537,13 +559,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/collections/raport.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/collections/kwestia_tresc.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -837,14 +852,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/views/admin/kwestie/list_kwestia_admin.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="75" column="0" selection-start-line="75" selection-start-column="0" selection-end-line="77" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/client/views/admin/admin.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5321101">
@@ -869,18 +876,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/views/admin/kwestie/list_kwestia_admin.html">
+    <entry file="file://$PROJECT_DIR$/client/workflows/menus/submenu.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.538462">
-          <caret line="34" column="49" selection-start-line="34" selection-start-column="10" selection-end-line="34" selection-end-column="49" />
+        <state vertical-scroll-proportion="-7.1923075">
+          <caret line="51" column="55" selection-start-line="51" selection-start-column="55" selection-end-line="51" selection-end-column="55" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/workflows/menus/submenu.html">
+    <entry file="file://$PROJECT_DIR$/client/views/admin/kwestie/list_kwestia_admin.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.45609757">
-          <caret line="51" column="55" selection-start-line="51" selection-start-column="55" selection-end-line="51" selection-end-column="55" />
+        <state vertical-scroll-proportion="-7.962963">
+          <caret line="71" column="0" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
+          <folding>
+            <marker date="1438177954159" expanded="true" signature="567:853" placeholder="{...}" />
+            <marker date="1438177954159" expanded="true" signature="597:853" placeholder="{...}" />
+            <marker date="1438177954159" expanded="true" signature="614:853" placeholder="{&quot;rowsPerPage&quot;: 10...}" />
+            <marker date="1438177954159" expanded="true" signature="802:853" placeholder="[...]" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/views/admin/kwestie/list_kwestia_admin.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.9170732">
+          <caret line="30" column="11" selection-start-line="30" selection-start-column="11" selection-end-line="30" selection-end-column="11" />
           <folding />
         </state>
       </provider>

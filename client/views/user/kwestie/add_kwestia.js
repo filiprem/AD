@@ -12,10 +12,21 @@ Template.addKwestiaForm.helpers({
     } ,
     rodzajToList: function(){
         return Rodzaj.find({}).fetch();
+    },
+    tresc: function(){
+        var r = Session.get("rodzaj");
+        if(r=="Uchwała"){
+            return "Wnioskuję podjęcie uchwały: ";
+        }
     }
 });
 
 Template.addKwestiaForm.events({
+    'change [name=rodzaje]': function(){
+        var rodzajId = $('[name=rodzaje]').val();
+        var r = Rodzaj.findOne({_id: rodzajId});
+        Session.set("rodzaj", r.nazwaRodzaj);
+    },
     'submit form': function (e) {
         e.preventDefault();
 
@@ -34,7 +45,7 @@ Template.addKwestiaForm.events({
                 dataDyskusji: new Date(),
                 dataGlosowania: d,
                 //historia: $(e.target).find('[name=historia]').val(),
-                krotkaTresc: $(e.target).find('[name=krotkaTresc]').val(),
+                krotkaTresc: $(e.target).find('[name=tresc]').val() + " " + $(e.target).find('[name=krotkaTresc]').val(),
                 szczegolowaTresc: $(e.target).find('[name=szczegolowaTresc]').val()
 
             }];
