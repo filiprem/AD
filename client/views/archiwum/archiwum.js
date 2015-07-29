@@ -16,20 +16,32 @@ Template.archiwum.events({
     }
 });
 Template.archiwum.helpers({
-    kwestiaList: function(){
-        Session.set('receivedData', new Date());
-        Session.set('paginationCount', Math.ceil(Kwestia.find().count() / Session.get('tableLimit')));
-        return Kwestia.find({czyAktywny:false, $or:[
-            {dataWprowadzenia: { $regex: Session.get('kwestiaSearchFilter'), $options: 'i' }},
-            {kwestiaNazwa: { $regex: Session.get('kwestiaSearchFilter'), $options: 'i' }},
-            {priorytet: { $regex: Session.get('kwestiaSearchFilter'), $options: 'i' }},
-            {temat: { $regex: Session.get('kwestiaSearchFilter'), $options: 'i' }},
-            {rodzaj: { $regex: Session.get('kwestiaSearchFilter'), $options: 'i' }},
-            {dataDyskusji: { $regex: Session.get('kwestiaSearchFilter'), $options: 'i' }},
-            {dataGlosowania: { $regex: Session.get('kwestiaSearchFilter'), $options: 'i' }},
-            {historia: { $regex: Session.get('kwestiaSearchFilter'), $options: 'i' }}
-        ]
-        },{limit: Session.get('tableLimit'), skip: Session.get('skipCount')});
+    'settings': function () {
+        return {
+            rowsPerPage: 10,
+            showFilter: true,
+            showNavigation: 'always',
+            showColumnToggles: true,
+            enableRegex: false,
+            fields: [
+                {key: 'dataWprowadzenia', label: "Data", tmpl:Template.dataUtwKwestia},
+                {key: 'kwestiaNazwa', label: "Nazwa Kwestii", tmpl: Template.nazwaKwestiArchiwumLink},
+                {
+                    key: 'sredniaPriorytet',
+                    label: "Priorytet",
+                    tmpl: Template.priorytetKwestia,
+                    sortOrder: 1,
+                    sortDirection: 'descending'},
+                {key: 'temat_id', label: "Temat", tmpl: Template.tematKwestia},
+                {key: 'rodzaj_id', label: "Rodzaj", tmpl: Template.rodzajKwestia},
+                {key: 'dataGlosowania', label: "Finał", tmpl: Template.dataGlKwestia},
+                {key: 'status', label: "Status"},
+                {key: 'options', label: "Opcje", tmpl: Template.editColumnKwestiaArch }
+            ]
+        };
+    },
+    ArchiwumList: function(){
+        return Kwestia.find({czyAktywny: false}).fetch();
     },
     kwestiaCount: function(){
         return Kwestia.find({czyAktywny: false}).count();

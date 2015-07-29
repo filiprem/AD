@@ -22,5 +22,8 @@ Template.addTematForm.events({
                 }
             });
         }
+    },
+    'reset form': function(){
+        Router.go('listTemat');
     }
 });

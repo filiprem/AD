@@ -64,5 +64,8 @@ Template.editUserForm.events({
        //        Router.go('listUsers');
        //    }
        //});
-   }
+   },
+    'reset form': function(){
+        Router.go('listUsers');
+    }
 });

@@ -44,7 +44,7 @@ Template.listKwestia.helpers({
         };
     },
     KwestiaList: function(){
-        return Kwestia.find({}).fetch();
+        return Kwestia.find({czyAktywny: true}).fetch();
     },
     priorytetsr: function() {
         var i=0;

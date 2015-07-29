@@ -15,7 +15,12 @@
                         <label class="control-label col-xs-3" for="inputEmail">Temat:</label>
                         <div class="col-xs-3">
                             <select name="tematy" id="tematy" class="form-control">
-                                <option value="0">Temat</option>
+                                <option value="">Wybierz temat</option>
+                                {{#each tematToList}}
+                                    <option value="{{this._id}}">
+                                        {{this.nazwaTemat}}
+                                    </option>
+                                {{/each}}
                             </select>
                         </div>
                     </div>
@@ -23,7 +28,12 @@
                         <label class="control-label col-xs-3" for="inputEmail">Rodzaj:</label>
                         <div class="col-xs-3">
                             <select name="rodzaje" id="rodzaje" class="form-control">
-                                <option value="0">Rodzaj</option>
+                                <option value="">Wybierz rodzaj</option>
+                                {{#each rodzajToList}}
+                                    <option value="{{this._id}}">
+                                        {{this.nazwaRodzaj}}
+                                    </option>
+                                {{/each}}
                             </select>
                         </div>
                     </div>

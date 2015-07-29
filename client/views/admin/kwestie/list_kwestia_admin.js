@@ -31,7 +31,7 @@ Template.listKwestiaAdmin.helpers({
                     label: "Priorytet",
                     tmpl: Template.priorytetKwestia,
                     sortOrder: 1,
-                    sortDirection: 'ascending'},
+                    sortDirection: 'descending'},
                 {key: 'temat_id', label: "Temat", tmpl: Template.tematKwestia},
                 {key: 'rodzaj_id', label: "Rodzaj", tmpl: Template.rodzajKwestia},
                 {key: 'dataGlosowania', label: "Finał", tmpl: Template.dataGlKwestia},

@@ -14,7 +14,7 @@
         <hr/>
         <table class="table table-bordered manageTable">
             <tr>
-                <td><strong> Data wprowadzenia</strong></td><td>{{dataWprowadzenia}}</td>
+                <td><strong> Data wprowadzenia</strong></td><td>{{date}}</td>
             </tr>
             <tr>
                 <td><strong> Nazwa Kwestii</strong></td><td>{{kwestiaNazwa}}</td>
@@ -23,17 +23,17 @@
                 <td><strong> Priorytet</strong></td><td>{{priorytet}}</td>
             </tr>
             <tr>
-                <td><strong> Temat</strong></td><td>{{temat_id}}</td>
+                <td><strong> Temat</strong></td><td>{{tematNazwa.nazwaTemat}}</td>
             </tr>
             <tr>
-                <td><strong> Rodzaj</strong></td><td>{{rodzaj_id}}</td>
+                <td><strong> Rodzaj</strong></td><td>{{rodzajNazwa.nazwaRodzaj}}</td>
             </tr>
 
+            <!--<tr>-->
+                <!--<td><strong> Data dyskusji</strong></td><td>{{dataDyskusji}}</td>-->
+            <!--</tr>-->
             <tr>
-                <td><strong> Data dyskusji</strong></td><td>{{dataDyskusji}}</td>
-            </tr>
-            <tr>
-                <td><strong> Data głosowania</strong></td><td>{{dataGlosowania}}</td>
+                <td><strong> Data głosowania</strong></td><td>{{dateG}}</td>
             </tr>
             <!--<tr>-->
                 <!--<td><strong> Status</strong></td><td>archiwalna</td>-->
@@ -59,6 +59,10 @@
                 <td><strong> Historia dyskusji kwestii</strong></td><td>{{historiaDyskusji}}</td>
             </tr>
         </table>
+        <hr/>
+        <div class="form-group">
+            <input type="reset" id="backToList" class="btn btn-default backToList" value="Powrót">
+        </div>
         {{> priorytetKwestiaModal}}
     </div>
 </template>

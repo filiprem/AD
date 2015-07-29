@@ -36,5 +36,8 @@ Template.editKwestiaForm.events({
             Router.go('listKwestia');
         }
         else{}
+    },
+    'reset form': function(){
+        Router.go('listKwestia');
     }
 });

@@ -2,9 +2,18 @@ Template.addKwestiaForm.rendered = function(){
     //$('#test1').datetimepicker({sideBySide: true});
     $('#test2').datetimepicker({sideBySide: true});
     $('#test3').datetimepicker({sideBySide: true});
-    setTematy();
-    setRodzaje();
+    //setTematy();
+    //setRodzaje();
 };
+
+Template.addKwestiaForm.helpers({
+    tematToList: function(){
+        return Temat.find({}).fetch();
+    } ,
+    rodzajToList: function(){
+        return Rodzaj.find({}).fetch();
+    }
+});
 
 Template.addKwestiaForm.events({
     'submit form': function (e) {
