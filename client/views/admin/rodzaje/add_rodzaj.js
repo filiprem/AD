@@ -1,3 +1,12 @@
+Template.addRodzajForm.rendered = function(){
+};
+
+Template.addRodzajForm.helpers({
+    tematToList: function(){
+        return Temat.find({});
+    }
+})
+
 Template.addRodzajForm.events({
     'submit form': function (e) {
         e.preventDefault();
@@ -30,8 +39,8 @@ Template.addRodzajForm.events({
                 }
             });
         }
+    },
+    'reset form': function(){
+        Router.go('listRodzaj');
     }
 });
-Template.addRodzajForm.rendered = function(){
-    setTematy();
-}

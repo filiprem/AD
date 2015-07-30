@@ -2,12 +2,31 @@ Template.addKwestiaForm.rendered = function(){
     //$('#test1').datetimepicker({sideBySide: true});
     $('#test2').datetimepicker({sideBySide: true});
     $('#test3').datetimepicker({sideBySide: true});
-    setTematy();
-    setRodzaje();
-
+    //setTematy();
+    //setRodzaje();
 };
 
+Template.addKwestiaForm.helpers({
+    tematToList: function(){
+        return Temat.find({}).fetch();
+    } ,
+    rodzajToList: function(){
+        return Rodzaj.find({}).fetch();
+    },
+    tresc: function(){
+        var r = Session.get("rodzaj");
+        if(r=="Uchwała"){
+            return "Wnioskuję podjęcie uchwały: ";
+        }
+    }
+});
+
 Template.addKwestiaForm.events({
+    'change [name=rodzaje]': function(){
+        var rodzajId = $('[name=rodzaje]').val();
+        var r = Rodzaj.findOne({_id: rodzajId});
+        Session.set("rodzaj", r.nazwaRodzaj);
+    },
     'submit form': function (e) {
         e.preventDefault();
 
@@ -16,6 +35,7 @@ Template.addKwestiaForm.events({
 
         var newKwestia = [
             {
+                userId: Meteor.userId(),
                 dataWprowadzenia: new Date(),
                 kwestiaNazwa: $(e.target).find('[name=kwestiaNazwa]').val(),
                 priorytet: 0,
@@ -25,18 +45,16 @@ Template.addKwestiaForm.events({
                 dataDyskusji: new Date(),
                 dataGlosowania: d,
                 //historia: $(e.target).find('[name=historia]').val(),
-                krotkaTresc: $(e.target).find('[name=krotkaTresc]').val(),
+                krotkaTresc: $(e.target).find('[name=tresc]').val() + " " + $(e.target).find('[name=krotkaTresc]').val(),
                 szczegolowaTresc: $(e.target).find('[name=szczegolowaTresc]').val()
 
             }];
-        if (//isNotEmpty(newKwestia[0].dataWprowadzenia) &&
+        if (
             isNotEmpty(newKwestia[0].kwestiaNazwa) &&
-            //isNotEmpty(newKwestia[0].priorytet) &&
             isNotEmpty(newKwestia[0].temat_id) &&
             isNotEmpty(newKwestia[0].rodzaj_id) &&
             isNotEmpty(newKwestia[0].dataDyskusji) &&
             isNotEmpty(newKwestia[0].dataGlosowania) &&
-            //isNotEmpty(newKwestia[0].historia) &&
             isNotEmpty(newKwestia[0].krotkaTresc) &&
             isNotEmpty(newKwestia[0].szczegolowaTresc)
         ) {
@@ -93,5 +111,8 @@ Template.addKwestiaForm.events({
             else
                 document.getElementById('szczegolowaTrescGroup').classList.remove('has-error');
         }
+    },
+    'reset form': function(){
+        Router.go('listKwestia');
     }
 });
