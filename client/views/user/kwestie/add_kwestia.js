@@ -67,10 +67,10 @@ Template.addKwestiaForm.events({
                     }
                 }
                 else {
-                    Session.set("draftId", ret);
-                    console.log(ret)
                     //Router.go('previewKwestia');
                     $("#previewKwestiaModal").modal("show");
+                    Session.set("draftId", ret);
+                    console.log(ret)
                 }
             });
 
@@ -117,3 +117,7 @@ Template.addKwestiaForm.events({
         Router.go('listKwestia');
     }
 });
+
+Template.addKwestiaForm.deleted = function(){
+    Session.set("rodzaj", null)
+};
