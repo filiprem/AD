@@ -37,12 +37,20 @@ Template.informacjeKwestia.helpers({
         }
     },
     dataGlosowaniaObliczana: function(){
-        var dataWprKw = this.dataWprowadzenia;
+        //var dataWprKw = this.dataWprowadzenia;
+        //var rodzajId = this.rodzaj_id;
+        //var r = Rodzaj.findOne({_id: this.rodzaj_id});
+        //if(r){
+        //    var czasGlRodzaj = r.czasGlosowania;
+        //    var k = moment(dataWprKw).add(czasGlRodzaj, 'h').format("DD-MM-YYYY, HH:mm");
+        //    return k;
+        //}
+        var dataG = this.dataGlosowania;
         var rodzajId = this.rodzaj_id;
         var r = Rodzaj.findOne({_id: this.rodzaj_id});
         if(r){
             var czasGlRodzaj = r.czasGlosowania;
-            var k = moment(dataWprKw).add(czasGlRodzaj, 'h').format("DD-MM-YYYY, HH:mm");
+            var k = moment(dataG).subtract(czasGlRodzaj, 'h').format("DD-MM-YYYY, HH:mm");
             return k;
         }
     }
