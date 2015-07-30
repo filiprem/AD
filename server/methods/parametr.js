@@ -6,5 +6,11 @@ Meteor.methods({
             kontakty: newParametr[0].kontakty,
             regulamin: newParametr[0].regulamin
         });
+    },
+    updateParametr: function(id, parametr){
+        Parametr.update(id, {$set: parametr}, {upsert: true});
+    },
+    removeParametr: function(id){
+        Parametr.remove({_id: id});
     }
 });
