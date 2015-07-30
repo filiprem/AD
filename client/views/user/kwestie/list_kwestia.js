@@ -27,18 +27,19 @@ Template.listKwestia.helpers({
             showColumnToggles: true,
             enableRegex: false,
             fields: [
-                {key: 'dataWprowadzenia', label: "Data", tmpl:Template.dataUtwKwestia},
-                {key: 'kwestiaNazwa', label: "Nazwa Kwestii", tmpl: Template.nazwaKwestiLink},
+                {key: 'dataWprowadzenia', label: Template.listKwestiaColumnLabel, labelData: {title: "Data wprowadzenia Kwestii i rozpoczęcia jej deliberacji", text:"Data"}, tmpl:Template.dataUtwKwestia},
+                {key: 'kwestiaNazwa', label: Template.listKwestiaColumnLabel, labelData: {title: "Kliknij, aby zobaczyć szczegóły", text:"Nazwa kwestii"}, tmpl: Template.nazwaKwestiLink},
                 {
                     key: 'sredniaPriorytet',
-                    label: "Priorytet",
+                    label: Template.listKwestiaColumnLabel,
+                    labelData: {title: "Kliknij, aby zmienić swój priorytet dla tej Kwestii", text:"Priorytet"},
                     tmpl: Template.priorytetKwestia,
                     sortOrder: 1,
                     sortDirection: 'descending'},
                 {key: 'temat_id', label: "Temat", tmpl: Template.tematKwestia},
                 {key: 'rodzaj_id', label: "Rodzaj", tmpl: Template.rodzajKwestia},
-                {key: 'dataGlosowania', label: "Finał", tmpl: Template.dataGlKwestia},
-                {key: 'status', label: "Status"},
+                {key: 'dataGlosowania', label: Template.listKwestiaColumnLabel, labelData: {title: "Data zakończenia głosowania", text:"Finał"}, tmpl: Template.dataGlKwestia},
+                {key: 'status', label: Template.listKwestiaColumnLabel ,labelData: {title: "Etap, na którym znajduje sie ta Kwestia", text:"Status"}},
                 {key: 'options', label: "Opcje", tmpl: Template.editColumnKwestia }
             ]
         };
@@ -131,3 +132,7 @@ Template.editColumnKwestia.helpers({
 Template.editColumnKwestia.events({
 
 });
+
+Template.listKwestiaColumnLabel.rendered = function(){
+    $('[data-toggle="tooltip"]').tooltip();
+}
