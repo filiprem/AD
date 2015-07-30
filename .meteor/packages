@@ -5,6 +5,7 @@
 # but you can also edit it by hand.
 
 meteor-platform
+iron:router
 accounts-facebook
 accounts-password
 maazalik:highcharts
@@ -18,5 +19,3 @@ momentjs:moment
 aslagle:reactive-table
 raix:handlebar-helpers
 meteor-accounts-admin-ui-bootstrap-3
-meteor-accounts-ui-bootstrap-3
-iron:router
