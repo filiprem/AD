@@ -6,15 +6,16 @@ Template.editRodzajForm.helpers({
     rodzajToEdit: function(){
         return Session.get("rodzajInScope");
     },
-    tematName: function(){
+    tematToList: function(){
+        return Temat.find({});
+    },
+    isSelected: function(id) {
         var r = Session.get("rodzajInScope");
-        if(r){
-            var t = r.temat_id;
-            var item = Temat.findOne({_id: t});
-            if(item){
-                return item.nazwaTemat;
-            }
-        }
+        var item = Temat.findOne({_id: r.temat_id});
+        if(item._id==id)
+            return true;
+        else
+            return false;
     }
 });
 
