@@ -1,6 +1,9 @@
 Template.informacjeKwestia.events({
     'click .btn-success': function(event, template){
         Session.set('kwestiaInScope',this);
+    },
+    'click #backToList': function(e){
+        Router.go('listKwestia');
     }
 });
 Template.informacjeKwestia.helpers({
@@ -31,6 +34,16 @@ Template.informacjeKwestia.helpers({
         var d = this.dataGlosowania;
         if(d){
             return moment(d).format("DD-MM-YYYY, HH:mm");
+        }
+    },
+    dataGlosowaniaObliczana: function(){
+        var dataWprKw = this.dataWprowadzenia;
+        var rodzajId = this.rodzaj_id;
+        var r = Rodzaj.findOne({_id: this.rodzaj_id});
+        if(r){
+            var czasGlRodzaj = r.czasGlosowania;
+            var k = moment(dataWprKw).add(czasGlRodzaj, 'h').format("DD-MM-YYYY, HH:mm");
+            return k;
         }
     }
 });

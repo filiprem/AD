@@ -26,5 +26,8 @@ Template.addParametrForm.events({
                 }
             });
         }
+    },
+    'reset form': function(){
+        Router.go('listParametr');
     }
 });

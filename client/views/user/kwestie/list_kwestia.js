@@ -1,26 +1,15 @@
 Template.listKwestia.rendered = function()
-{
-    $(this.find('#kwestiaTable')).tablesorter();
-    Deps.autorun(function(){
-        setTimeout(function(){
-            $("#kwestiaTable").trigger("update");
-        }, 200);
-    });
-};
+{};
 
 Template.listKwestia.events({
+    //usunięcie kwestii
     'click .glyphicon-trash': function(event, template) {
         Session.set('kwestiaInScope', this);
     },
+    //edycja kwestii
     'click .glyphicon-pencil': function(event, template) {
         Session.set('kwestiaInScope', this);
-    },
-    //'click .glyphicon-info-sign': function(event, template){
-    //    Session.set('kwestiaInScope',this);
-    //},
-    'click #kwestiaId': function(e) {
-        var idKwestii = this._id;
-        console.log(idKwestii);
+        Router.go("editKwestia");
     },
     'click .glyphicon-thumbs-up': function(event, template){
         Session.set('kwestiaInScope',this);
@@ -38,24 +27,25 @@ Template.listKwestia.helpers({
             showColumnToggles: true,
             enableRegex: false,
             fields: [
-                {key: 'dataWprowadzenia', label: "Data", tmpl:Template.dataUtwKwestia},
-                {key: 'kwestiaNazwa', label: "Nazwa Kwestii", tmpl: Template.nazwaKwestiLink},
+                {key: 'dataWprowadzenia', label: Template.listKwestiaColumnLabel, labelData: {title: "Data wprowadzenia Kwestii i rozpoczęcia jej deliberacji", text:"Data"}, tmpl:Template.dataUtwKwestia},
+                {key: 'kwestiaNazwa', label: Template.listKwestiaColumnLabel, labelData: {title: "Kliknij, aby zobaczyć szczegóły", text:"Nazwa kwestii"}, tmpl: Template.nazwaKwestiLink},
                 {
                     key: 'sredniaPriorytet',
-                    label: "Priorytet",
+                    label: Template.listKwestiaColumnLabel,
+                    labelData: {title: "Kliknij, aby zmienić swój priorytet dla tej Kwestii", text:"Priorytet"},
                     tmpl: Template.priorytetKwestia,
                     sortOrder: 1,
-                    sortDirection: 'ascending'},
+                    sortDirection: 'descending'},
                 {key: 'temat_id', label: "Temat", tmpl: Template.tematKwestia},
                 {key: 'rodzaj_id', label: "Rodzaj", tmpl: Template.rodzajKwestia},
-                {key: 'dataGlosowania', label: "Finał", tmpl: Template.dataGlKwestia},
-                {key: 'status', label: "Status"},
+                {key: 'dataGlosowania', label: Template.listKwestiaColumnLabel, labelData: {title: "Data zakończenia głosowania", text:"Finał"}, tmpl: Template.dataGlKwestia},
+                {key: 'status', label: Template.listKwestiaColumnLabel ,labelData: {title: "Etap, na którym znajduje sie ta Kwestia", text:"Status"}},
                 {key: 'options', label: "Opcje", tmpl: Template.editColumnKwestia }
             ]
         };
     },
     KwestiaList: function(){
-        return Kwestia.find({}).fetch();
+        return Kwestia.find({czyAktywny: true}).fetch();
     },
     priorytetsr: function() {
         var i=0;
@@ -71,9 +61,6 @@ Template.listKwestia.helpers({
             var srPriorytet = kwestia.priorytet/i ;
 
         return srPriorytet
-    },
-    email: function () {
-        return getEmail(this);
     },
     kwestiaCount: function(){
         return Kwestia.find({czyAktywny: true}).count();
@@ -129,13 +116,23 @@ Template.priorytetKwestia.helpers({
 });
 
 Template.editColumnKwestia.helpers({
-
+    //isMine: function(){
+    //    var usr = Users.findOne({_id: this.userId});
+    //    console.log(usr)
+    //    var usrId = this.userId;
+    //    if(usrId==Meteor.userId){
+    //        return ;
+    //    }
+    //    else{
+    //        return false;
+    //    }
+    //}
 });
 
 Template.editColumnKwestia.events({
 
 });
 
-Template.nazwaKwestiLink.events({
-
-})
+Template.listKwestiaColumnLabel.rendered = function(){
+    $('[data-toggle="tooltip"]').tooltip();
+}

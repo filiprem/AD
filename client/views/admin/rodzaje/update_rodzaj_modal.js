@@ -1,3 +1,7 @@
+Template.updateRodzajModalInner.rendered = function(){
+    setTematy();
+};
+
 Template.updateRodzajModalInner.helpers({
     updateRodzaj: function() {
         return Session.get('rodzajInScope');
@@ -20,7 +24,3 @@ Template.updateRodzajModalInner.events({
         Rodzaj.update(currentRodzajId, {$set: postProperties});
     }
 });
-
-Template.updateRodzajModalInner.rendered = function(){
-    setTematy();
-}

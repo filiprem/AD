@@ -9,8 +9,16 @@
                         <label class="control-label col-xs-3">Temat:</label>
 
                         <div class="col-xs-3">
+                            <!--<select name="tematy" id="tematy" class="form-control">-->
+                                <!--<option value="0">Temat</option>-->
+                            <!--</select>-->
                             <select name="tematy" id="tematy" class="form-control">
-                                <option value="0">Temat</option>
+                                <option value="">Wybierz temat</option>
+                                {{#each tematToList}}
+                                    <option value="{{this._id}}">
+                                        {{this.nazwaTemat}}
+                                    </option>
+                                {{/each}}
                             </select>
                         </div>
                     </div>
@@ -43,7 +51,7 @@
                     <div class="form-group">
                         <div class="col-xs-offset-3 col-xs-9">
                             <input type="submit" class="btn btn-primary" value="Zapisz">
-                            <input type="reset" class="btn btn-default" value="Resetuj">
+                            <input type="reset" class="btn btn-default" value="Anuluj">
                         </div>
                     </div>
                 </form>

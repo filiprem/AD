@@ -25,7 +25,11 @@ Meteor.publish('kwestia', function(){
     return Kwestia.find();
 });
 
-Meteor.publish('kwestia_tresc', function(){
+Meteor.publish('kwestiaDraft', function(){
+    return KwestiaDraft.find();
+})
+
+Meteor.publish('kwestiaTresc', function(){
     return KwestiaTresc.find();
 });
 Meteor.publish('users', function(){
