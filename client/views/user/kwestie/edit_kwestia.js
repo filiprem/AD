@@ -1,11 +1,33 @@
 Template.editKwestiaForm.rendered = function(){
-    setTematy();
-    setRodzaje();
+    //setTematy();
+    //setRodzaje();
 };
 
 Template.editKwestiaForm.helpers({
     kwestiaToEdit: function(){
         return Session.get("kwestiaInScope");
+    },
+    tematToList: function(){
+        return Temat.find({});
+    },
+    rodzajToList: function(){
+        return Rodzaj.find({});
+    },
+    isSelectedTemat: function(id) {
+        var r = Session.get("kwestiaInScope");
+        var item = Temat.findOne({_id: r.temat_id});
+        if(item._id==id)
+            return true;
+        else
+            return false;
+    },
+    isSelectedRodzaj: function(id){
+        var r=Session.get("kwestiaInScope");
+        var item=Rodzaj.findOne({_id: r.rodzaj_id});
+        if(item._id==id)
+            return true;
+        else
+            return false;
     }
 });
 
