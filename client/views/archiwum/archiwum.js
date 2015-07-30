@@ -42,7 +42,7 @@ Template.archiwum.helpers({
         };
     },
     ArchiwumList: function(){
-        return Kwestia.find({czyAktywny: false}).fetch();
+        return Kwestia.find({$or:[{czyAktywny: false}, {dataGlosowania: {$lt:moment().format()}}]}).fetch();
     },
     kwestiaCount: function(){
         return Kwestia.find({czyAktywny: false}).count();
@@ -55,6 +55,9 @@ Template.archiwum.helpers({
     },
     rodzajNazwa: function(){
         return Rodzaj.findOne({_id: this.rodzaj_id});
+    },
+    getWymaganyPriorytet: function(id){
+        return 50;
     }
 });
 
