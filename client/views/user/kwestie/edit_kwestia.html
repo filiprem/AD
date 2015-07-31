@@ -16,7 +16,17 @@
                         <label class="control-label col-xs-3" for="inputEmail">Temat:</label>
                         <div class="col-xs-3">
                             <select name="tematy" id="tematy" class="form-control">
-                                <option value="0">Temat</option>
+                                {{#each tematToList}}
+                                    {{#if isSelectedTemat _id}}
+                                        <option value="{{this._id}}" selected>
+                                            {{this.nazwaTemat}}
+                                        </option>
+                                    {{else}}
+                                        <option value="{{this._id}}">
+                                            {{this.nazwaTemat}}
+                                        </option>
+                                    {{/if}}
+                                {{/each}}
                             </select>
                         </div>
                     </div>
@@ -24,7 +34,17 @@
                         <label class="control-label col-xs-3" for="inputEmail">Rodzaj:</label>
                         <div class="col-xs-3">
                             <select name="rodzaje" id="rodzaje" class="form-control">
-                                <option value="0">Rodzaj</option>
+                                {{#each rodzajToList}}
+                                    {{#if isSelectedRodzaj _id}}
+                                        <option value="{{this._id}}" selected>
+                                            {{this.nazwaRodzaj}}
+                                        </option>
+                                    {{else}}
+                                        <option value="{{this._id}}">
+                                            {{this.nazwaRodzaj}}
+                                        </option>
+                                    {{/if}}
+                                {{/each}}
                             </select>
                         </div>
                     </div>

@@ -33,15 +33,15 @@ Template.priorytetKwestiaModalInner.events({
                 {
                     var roznica = kwestia.glosujacy[i][1] - liczba;
                     roznica = -roznica;
-                    var srednia = (kwestia.priorytet + roznica)/kwestia.glosujacy.length;
-                    Kwestia.update(currentKwestiaId, {$set: {glosujacy: [[user._id, liczba]], sredniaPriorytet: srednia}, $inc: {priorytet: roznica}});
+                    var srednia = (kwestia.wartoscPriorytetu + roznica)/kwestia.glosujacy.length;
+                    Kwestia.update(currentKwestiaId, {$set: {glosujacy: [[user._id, liczba]], sredniaPriorytet: srednia}, $inc: {wartoscPriorytetu: roznica}});
                     flaga = true;
                 }
                 else if(kwestia.glosujacy[i][1] < liczba)
                 {
                     var roznica = liczba - kwestia.glosujacy[i][1];
-                    var srednia = (kwestia.priorytet + roznica)/kwestia.glosujacy.length;
-                    Kwestia.update(currentKwestiaId, {$set: {glosujacy: [[user._id, liczba]], sredniaPriorytet: srednia} , $inc: {priorytet: roznica}});
+                    var srednia = (kwestia.wartoscPriorytetu + roznica)/kwestia.glosujacy.length;
+                    Kwestia.update(currentKwestiaId, {$set: {glosujacy: [[user._id, liczba]], sredniaPriorytet: srednia} , $inc: {wartoscPriorytetu: roznica}});
                     flaga = true;
                 }
                 $("#nadajpriorytetkwestia").modal("hide");
@@ -55,8 +55,8 @@ Template.priorytetKwestiaModalInner.events({
         //}
         if(flaga === false)
         {
-            var srednia = (kwestia.priorytet + liczba)/(kwestia.glosujacy.length + 1);
-            Kwestia.update(currentKwestiaId, {$addToSet: {glosujacy: [user._id, liczba]}, $inc: {priorytet: liczba}, $set: {sredniaPriorytet: srednia}});
+            var srednia = (kwestia.wartoscPriorytetu + liczba)/(kwestia.glosujacy.length + 1);
+            Kwestia.update(currentKwestiaId, {$addToSet: {glosujacy: [user._id, liczba]}, $inc: {wartoscPriorytetu: liczba}, $set: {sredniaPriorytet: srednia}});
             //Meteor.call('addGlosujacy', newGlosujacy, function(error){
             //    if (error)
             //    {
