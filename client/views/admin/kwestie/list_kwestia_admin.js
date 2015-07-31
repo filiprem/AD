@@ -24,19 +24,20 @@ Template.listKwestiaAdmin.helpers({
             showColumnToggles: true,
             enableRegex: false,
             fields: [
-                {key: 'dataWprowadzenia', label: "Data", tmpl:Template.dataUtwKwestia},
-                {key: 'kwestiaNazwa', label: "Nazwa Kwestii", tmpl: Template.nazwaKwestiLink},
+                {key: 'dataWprowadzenia', label: Template.listKwestiaAdminColumnLabel, labelData: {title: "Data wprowadzenia Kwestii i rozpoczęcia jej deliberacji", text:"Data"}, tmpl:Template.dataUtwKwestia},
+                {key: 'kwestiaNazwa', label: Template.listKwestiaAdminColumnLabel, labelData: {title: "Kliknij, aby zobaczyć szczegóły", text:"Nazwa kwestii"}, tmpl: Template.nazwaKwestiLink},
                 {
                     key: 'sredniaPriorytet',
-                    label: "Priorytet",
+                    label: Template.listKwestiaAdminColumnLabel,
+                    labelData: {title: "Kliknij, aby zmienić swój priorytet dla tej Kwestii", text:"Priorytet"},
                     tmpl: Template.priorytetKwestia,
                     sortOrder: 1,
                     sortDirection: 'descending'},
-                {key: 'temat_id', label: "Temat", tmpl: Template.tematKwestia},
+                {key: 'temat_id', label: "Temat",  tmpl: Template.tematKwestia},
                 {key: 'rodzaj_id', label: "Rodzaj", tmpl: Template.rodzajKwestia},
-                {key: 'dataGlosowania', label: "Finał", tmpl: Template.dataGlKwestia},
-                {key: 'status', label: "Status"},
-                {key: 'options', label: "Opcje", tmpl: Template.editColumnKwestia }
+                {key: 'dataGlosowania', label: Template.listKwestiaAdminColumnLabel, labelData: {title: "Data zakończenia głosowania", text:"Finał"}, tmpl: Template.dataGlKwestia},
+                {key: 'status', label: Template.listKwestiaAdminColumnLabel, labelData: {title: "Etap, na którym znajduje sie ta Kwestia", text:"Status"}},
+                {key: 'options', label: "Opcje", tmpl: Template.editColumnKwestiaAdmin }
             ]
         };
     },
@@ -71,3 +72,7 @@ Template.listKwestiaAdmin.helpers({
         return Rodzaj.findOne({_id: this.rodzaj_id});
     }
 });
+
+Template.listKwestiaAdminColumnLabel.rendered = function(){
+    $('[data-toggle="tooltip"]').tooltip();
+}
