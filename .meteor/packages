@@ -18,5 +18,4 @@ anti:i18n
 momentjs:moment
 aslagle:reactive-table
 raix:handlebar-helpers
-meteor-accounts-admin-ui-bootstrap-3
 handlebars
