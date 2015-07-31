@@ -6,15 +6,16 @@ Template.editRodzajForm.helpers({
     rodzajToEdit: function(){
         return Session.get("rodzajInScope");
     },
-    tematName: function(){
+    tematToList: function(){
+        return Temat.find({});
+    },
+    isSelected: function(id) {
         var r = Session.get("rodzajInScope");
-        if(r){
-            var t = r.temat_id;
-            var item = Temat.findOne({_id: t});
-            if(item){
-                return item.nazwaTemat;
-            }
-        }
+        var item = Temat.findOne({_id: r.temat_id});
+        if(item._id==id)
+            return true;
+        else
+            return false;
     }
 });
 
@@ -40,6 +41,11 @@ Template.editRodzajForm.events({
                 }
             }
             else {
+                Kwestia.find({rodzaj_id: r._id}).forEach(function(doc){
+                    var id = Kwestia.update({_id: doc._id},{$set:{pulapPriorytetu:Rodzaj.findOne({_id: r._id}).pulapPriorytetu}});
+                    if(!id)
+                        console.log("Update kwestii "+doc._id+" nie zosta³ wykonany pomyœlnie");
+                });
                 Router.go('listRodzaj');
             }
         });

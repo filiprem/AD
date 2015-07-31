@@ -38,17 +38,18 @@ Template.addKwestiaForm.events({
                 userId: Meteor.userId(),
                 dataWprowadzenia: new Date(),
                 kwestiaNazwa: $(e.target).find('[name=kwestiaNazwa]').val(),
-                priorytet: 0,
+                wartoscPriorytetu: 0,
                 sredniaPriorytet: 0,
                 temat_id: $(e.target).find('[name=tematy]').val(),
                 rodzaj_id: $(e.target).find('[name=rodzaje]').val(),
+                pulapPriorytetu: Rodzaj.findOne({_id:$(e.target).find('[name=rodzaje]').val()}).pulapPriorytetu,
                 dataDyskusji: new Date(),
                 dataGlosowania: d,
                 //historia: $(e.target).find('[name=historia]').val(),
                 krotkaTresc: $(e.target).find('[name=tresc]').val() + " " + $(e.target).find('[name=krotkaTresc]').val(),
                 szczegolowaTresc: $(e.target).find('[name=szczegolowaTresc]').val()
-
             }];
+
         if (
             isNotEmpty(newKwestiaDraft[0].kwestiaNazwa) &&
             isNotEmpty(newKwestiaDraft[0].temat_id) &&

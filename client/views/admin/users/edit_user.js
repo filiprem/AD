@@ -50,20 +50,20 @@ Template.editUserForm.events({
        console.log(userProperties)
        console.log(usrId)
        console.log($(e.target).find('[name=firstName]').val());
-       //Meteor.call('updateUser',usrId, userProperties, function (error) {
-       //    if (error) {
-       //        // optionally use a meteor errors package
-       //        if (typeof Errors === "undefined")
-       //            Log.error('Error: ' + error.reason);
-       //        else {
-       //            if(error.error === 409)
-       //                throwError(error.reason);
-       //        }
-       //    }
-       //    else {
-       //        Router.go('listUsers');
-       //    }
-       //});
+   //Meteor.call('updateUser',usrId, userProperties, function (error) {
+   //    if (error) {
+   //        // optionally use a meteor errors package
+   //        if (typeof Errors === "undefined")
+   //            Log.error('Error: ' + error.reason);
+   //        else {
+   //            if(error.error === 409)
+   //                throwError(error.reason);
+   //        }
+   //    }
+   //    else {
+   //        Router.go('listUsers');
+   //    }
+   //});
    },
     'reset form': function(){
         Router.go('listUsers');

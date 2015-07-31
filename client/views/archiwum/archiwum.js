@@ -42,7 +42,8 @@ Template.archiwum.helpers({
         };
     },
     ArchiwumList: function(){
-        return Kwestia.find({czyAktywny: false}).fetch();
+        //return Kwestia.find({$where:function(){return ((this.czyAktywny==false) || (moment(this.dataGlosowania) < moment()&& this.wartoscPriorytetu < this.pulapPriorytetu));}}).fetch();
+        return  Kwestia.find({$or:[{czyAktywny: false}, {$and:[{dataGlosowania: {$lt:moment().format()}},{$where:function(){return this.wartoscPriorytetu < this.pulapPriorytetu}}]}]}).fetch();
     },
     kwestiaCount: function(){
         return Kwestia.find({czyAktywny: false}).count();
@@ -55,6 +56,9 @@ Template.archiwum.helpers({
     },
     rodzajNazwa: function(){
         return Rodzaj.findOne({_id: this.rodzaj_id});
+    },
+    getWymaganyPriorytet: function(id){
+        return 50;
     }
 });
 
