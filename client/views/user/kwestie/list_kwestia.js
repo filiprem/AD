@@ -16,6 +16,11 @@ Template.listKwestia.events({
     },
     'click .glyphicon-remove-circle': function(event, template){
         Session.set('kwestiaInScope',this);
+    },
+    'click #addKwestiaButton':function (){
+        if(!!Session.get("kwestiaPreview"))
+            Session.set("kwestiaPreview",null);
+        Router.go("addKwestia");
     }
 });
 Template.listKwestia.helpers({

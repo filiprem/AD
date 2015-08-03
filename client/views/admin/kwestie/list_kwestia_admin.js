@@ -13,6 +13,11 @@ Template.listKwestiaAdmin.events({
     },
     'click .glyphicon-info-sign': function(event, template){
         Session.set('kwestiaInScope',this);
+    },
+    'click #addKwestiaButton':function (){
+        if(!!Session.get("kwestiaPreview"))
+            Session.set("kwestiaPreview",null);
+        Router.go("addKwestia");
     }
 });
 Template.listKwestiaAdmin.helpers({

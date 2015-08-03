@@ -13,7 +13,7 @@ Template.editKwestiaForm.helpers({
     rodzajToList: function(){
         return Rodzaj.find({});
     },
-    isSelectedTemat: function(id) {
+    isSelectedTemat: function(id, tematId) {
         var r = Session.get("kwestiaInScope");
         var item = Temat.findOne({_id: r.temat_id});
         if(item._id==id)

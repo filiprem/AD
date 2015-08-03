@@ -24,7 +24,7 @@ Template.editRodzajForm.events({
         e.preventDefault();
         var r = Session.get("rodzajInScope");
         var rodzaj = {
-            temat_id: $(e.target).find('[name=tematy]').val(),
+            //temat_id: $(e.target).find('[name=tematy]').val(),
             nazwaRodzaj: $(e.target).find('[name=nazwaRodzaj]').val(),
             czasDyskusji: $(e.target).find('[name=czasDyskusji]').val(),
             czasGlosowania: $(e.target).find('[name=czasGlosowania]').val(),
