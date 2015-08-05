@@ -13,7 +13,7 @@ Template.editKwestiaForm.helpers({
     rodzajToList: function(){
         return Rodzaj.find({});
     },
-    isSelectedTemat: function(id) {
+    isSelectedTemat: function(id, tematId) {
         var r = Session.get("kwestiaInScope");
         var item = Temat.findOne({_id: r.temat_id});
         if(item._id==id)
@@ -45,11 +45,13 @@ Template.editKwestiaForm.events({
         var rodzaj = eventForm.find('[name=rodzaje]').val();
         var krotkaTresc = eventForm.find('[name=krotkaTresc]').val();
         var szczegolowaTresc = eventForm.find('[name=szczegolowaTresc]').val();
+        var pulapPriorytetu = Rodzaj.findOne({_id:rodzaj}).pulapPriorytetu;
 
         var kw = {
             kwestiaNazwa: nazwa,
             temat_id: temat,
             rodzaj_id: rodzaj,
+            pulapPriorytetu:pulapPriorytetu,
             krotkaTresc: krotkaTresc,
             szczegolowaTresc: szczegolowaTresc
         }

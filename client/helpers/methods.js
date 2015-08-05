@@ -144,3 +144,9 @@ setPriorytet = function () {
         }
     }
 }
+
+//-------------------------------------------------------------
+
+stringContains = function (inputString, stringToFind) {
+    return (inputString.indexOf(stringToFind) != -1);
+}

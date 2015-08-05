@@ -3,26 +3,13 @@ Template.profileEdit.helpers({
         return getEmail(this);
     },
 
-    isMan: function (gender) {
-        if(gender === 'mężczyzna')
-        {
-            return true;
-        }
+    isSelected: function(gender)
+    {
+        var gen=this.profile.gender;
+        if(gen==gender)
+            return "checked";
         else
-        {
-            return false;
-        }
-    },
-
-    isWoman: function (gender) {
-        if(gender === 'kobieta')
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+            return "";
     }
 });
 
@@ -31,14 +18,17 @@ Template.profileEdit.events({
         e.preventDefault();
 
         var currentUserId = this._id;
-        if( isNotEmpty($(e.target).find('[name=name]').val()) &&
-            isNotEmpty($(e.target).find('[name=surname]').val()) &&
+        if( isNotEmpty($(e.target).find('[name=name]').val(),'imię') &&
+            isNotEmpty($(e.target).find('[name=surname]').val(),'nazwisko') &&
             isEmail($(e.target).find('[name=email]').val()))
         {
+            var object = {
+                address:$(e.target).find('[name=email]').val()
+            };
+            var array = [];
+            array.push(object);
             var userProperties = {
-                emails: {
-                  0: { address: $(e.target).find('[name=email]').val() }
-                },
+                emails: array,
                 profile: {
                     first_name: $(e.target).find('[name=name]').val(),
                     last_name: $(e.target).find('[name=surname]').val(),
@@ -46,7 +36,7 @@ Template.profileEdit.events({
                     profession: $(e.target).find('[name=profession]').val(),
                     address: $(e.target).find('[name=address]').val(),
                     zip: $(e.target).find('[name=zipcode]').val(),
-                    gender: $(e.target).find('[name=genderRadios]').val(),
+                    gender: $(e.target).find('[name=genderRadios]:checked').val(),
                     phone: $(e.target).find('[name=phone]').val(),
                     web: $(e.target).find('[name=website]').val()
                 }
@@ -59,7 +49,7 @@ Template.profileEdit.events({
             //    Router.go('manage_account');
             //}
             //});
-
+            console.log("ZOstalo: "+userProperties.profile.gender);
             Meteor.call('updateUser',currentUserId, userProperties, function (error) {
                 if (error)
                 {

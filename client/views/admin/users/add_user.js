@@ -28,10 +28,10 @@ Template.addUserForm.events({
                 role: $(e.target).find('[name=role]').val(),
                 role_desc: $(e.target).find('[name=uwagiStatus]').val()
             }];
-        if (isNotEmpty(newUser[0].role) &&
-            isNotEmpty(newUser[0].first_name) &&
-            isNotEmpty(newUser[0].last_name) &&
-            isNotEmpty(newUser[0].password) &&
+        if (isNotEmpty(newUser[0].role,'rola') &&
+            isNotEmpty(newUser[0].first_name,'imię') &&
+            isNotEmpty(newUser[0].last_name,'nazwisko') &&
+            isNotEmpty(newUser[0].password,'hasło') &&
             isEmail(newUser[0].email) &&
             isValidPassword(newUser[0].password) &&
             areValidPasswords(newUser[0].password, newUser[0].confirm_password)) {

@@ -19,4 +19,6 @@ momentjs:moment
 aslagle:reactive-table
 raix:handlebar-helpers
 meteor-accounts-admin-ui-bootstrap-3
-meteor-accounts-ui-bootstrap-3
+handlebars
+reactive-var
+underscore

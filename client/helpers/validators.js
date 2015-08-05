@@ -2,11 +2,11 @@ trimInput = function(value) {
     return value.replace(/^\s*|\s*$/g, '');
 };
 
-isNotEmpty = function(value) {
-    if (value && value !== '' && value !== '0'){
+isNotEmpty = function(value, statement) {
+    if (!_.isEmpty(value) && value !== '0'){
         return true;
     }
-    throwError('Uzupełnij poprawnie pola formularza.');
+    throwError('Uzupełnij pole '+statement);
     return false;
 };
 
@@ -37,3 +37,20 @@ areValidPasswords = function(password, confirm) {
     }
     return true;
 };
+
+isPositiveNumber=function(value, statement) {
+    if(value>0){
+        return true;
+    }
+    throwError('Nie można podawać ujemnych wartości w polu '+ statement);
+    return false;
+};
+
+isNumeric= function(value, statement){
+    var filter=/^\d+([.]\d+)?$/;
+    if(filter.test(value)) {
+        return true;
+    }
+    throwError('Proszę wpisać prawidłowy format liczby w polu '+statement);
+    return false;
+}

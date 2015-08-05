@@ -1,0 +1,52 @@
+<template name="previewKwestia">
+        <div class="main">
+            <h4>UWAGA! Złożonego wniosku nie można wycofać. Wnioskuj odpowiedzialnie i sprawdź przed wprowadzeniem do systemu.</h4>
+            <hr/>
+            <h3>Kwestia</h3>
+            <div class="row">
+                <div class="col col-md-10">
+                    <form class="form-horizontal">
+                        <div class="form-group" id="kwestiaNazwaGroup">
+                            <label class=" col-xs-offset-1 col-xs-2">Nazwa Kwestii:</label>
+                            <div class="col-xs-9">
+                               {{kwestiaNazwa}}
+                            </div>
+                        </div>
+                        <div class="form-group" id="tematyGroup">
+                            <label class="col-xs-offset-1 col-xs-2">Temat:</label>
+                            <div class="col-xs-9">
+                                {{getTematName temat_id}}
+                            </div>
+                        </div>
+                        <div class="form-group" id="rodzajeGroup">
+                            <label class="col-xs-offset-1 col-xs-2">Rodzaj:</label>
+                            <div class="col-xs-9">
+                                {{getRodzajName rodzaj_id}}
+                            </div>
+                        </div>
+                        <hr/>
+                        <h3>Treść Kwestii</h3>
+                        <div class="form-group" id="krotkaTrescGroup">
+                            <label class="col-xs-offset-1 col-xs-2">Krótka treść:</label>
+                            <div class="col-xs-9">
+                                {{krotkaTresc}}
+                            </div>
+                        </div>
+                        <div class="form-group" id="szczegolowaTrescGroup">
+                            <label class="col-xs-offset-1 col-xs-2">Opis z uzasadnieniem:</label>
+                            <div class="col-xs-9">
+                                {{szczegolowaTresc}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-offset-3 col-xs-9">
+                                <a href="{{pathFor "addKwestia"}}" id="edit" type="button" class="btn btn-primary">Popraw</a>
+                                <a id="save" type="button" class="btn btn-primary">Dodaj</a>
+                                <a id="cancel" type="reset" class="btn btn-default">Anuluj</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+</template>

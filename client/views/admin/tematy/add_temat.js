@@ -6,8 +6,8 @@ Template.addTematForm.events({
                 nazwaTemat: $(e.target).find('[name=nazwaTemat]').val(),
                 opis: $(e.target).find('[name=opis]').val()
             }];
-        if (isNotEmpty(newTemat[0].nazwaTemat) &&
-            isNotEmpty(newTemat[0].opis)) {
+        if (isNotEmpty(newTemat[0].nazwaTemat,'nazwa tematu') &&
+            isNotEmpty(newTemat[0].opis,'opis')) {
             Meteor.call('addTemat', newTemat, function (error) {
                 if (error) {
                     // optionally use a meteor errors package

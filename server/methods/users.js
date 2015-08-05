@@ -36,6 +36,10 @@ Meteor.methods({
             {upsert:true});
     },
 
+    removeUser: function(id){
+        Users.remove({_id: id});
+    },
+
     addGlosujacy: function(newGlosujacy) {
         Glosujacy.insert({
             glosujacy_id: newGlosujacy[0].glosujacy_id,
