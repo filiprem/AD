@@ -1,51 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="efe4b461-e297-447a-9edc-77274a07f4c3" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/user/kwestie/add_kwestia.html" afterPath="$PROJECT_DIR$/client/views/user/kwestie/add_kwestia.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/user/kwestie/add_kwestia.js" afterPath="$PROJECT_DIR$/client/views/user/kwestie/add_kwestia.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/parametry/add_parametr.html" afterPath="$PROJECT_DIR$/client/views/admin/parametry/add_parametr.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/parametry/add_parametr.js" afterPath="$PROJECT_DIR$/client/views/admin/parametry/add_parametr.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/rodzaje/add_rodzaj.html" afterPath="$PROJECT_DIR$/client/views/admin/rodzaje/add_rodzaj.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/rodzaje/add_rodzaj.js" afterPath="$PROJECT_DIR$/client/views/admin/rodzaje/add_rodzaj.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/tematy/add_temat.js" afterPath="$PROJECT_DIR$/client/views/admin/tematy/add_temat.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/users/add_user.js" afterPath="$PROJECT_DIR$/client/views/admin/users/add_user.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/archiwum/archiwum.js" afterPath="$PROJECT_DIR$/client/views/archiwum/archiwum.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/user/kwestie/edit_kwestia.js" afterPath="$PROJECT_DIR$/client/views/user/kwestie/edit_kwestia.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/account/edit_profile.html" afterPath="$PROJECT_DIR$/client/views/account/edit_profile.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/account/edit_profile.js" afterPath="$PROJECT_DIR$/client/views/account/edit_profile.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/rodzaje/edit_rodzaj.html" afterPath="$PROJECT_DIR$/client/views/admin/rodzaje/edit_rodzaj.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/rodzaje/edit_rodzaj.js" afterPath="$PROJECT_DIR$/client/views/admin/rodzaje/edit_rodzaj.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/tematy/edit_temat.js" afterPath="$PROJECT_DIR$/client/views/admin/tematy/edit_temat.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/users/edit_user.js" afterPath="$PROJECT_DIR$/client/views/admin/users/edit_user.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/user/kwestie/info_kwestia_user.js" afterPath="$PROJECT_DIR$/client/views/user/kwestie/info_kwestia_user.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/methods/kwestia.js" afterPath="$PROJECT_DIR$/server/methods/kwestia.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/user/kwestie/list_kwestia.html" afterPath="$PROJECT_DIR$/client/views/user/kwestie/list_kwestia.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/user/kwestie/list_kwestia.js" afterPath="$PROJECT_DIR$/client/views/user/kwestie/list_kwestia.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/kwestie/list_kwestia_admin.html" afterPath="$PROJECT_DIR$/client/views/admin/kwestie/list_kwestia_admin.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/kwestie/list_kwestia_admin.js" afterPath="$PROJECT_DIR$/client/views/admin/kwestie/list_kwestia_admin.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/rodzaje/list_rodzaj.html" afterPath="$PROJECT_DIR$/client/views/admin/rodzaje/list_rodzaj.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/tematy/list_temat.html" afterPath="$PROJECT_DIR$/client/views/admin/tematy/list_temat.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/account/login_form.js" afterPath="$PROJECT_DIR$/client/views/account/login_form.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/account/login_form_top.js" afterPath="$PROJECT_DIR$/client/views/account/login_form_top.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/meteor_packages_auto_import_browser.xml" afterPath="$PROJECT_DIR$/.idea/libraries/meteor_packages_auto_import_browser.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/helpers/methods.js" afterPath="$PROJECT_DIR$/client/helpers/methods.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.meteor/packages" afterPath="$PROJECT_DIR$/.meteor/packages" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/methods/parametr.js" afterPath="$PROJECT_DIR$/server/methods/parametr.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/user/kwestie/preview_kwestia.html" afterPath="$PROJECT_DIR$/client/views/user/kwestie/preview_kwestia.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/user/kwestie/preview_kwestia.js" afterPath="$PROJECT_DIR$/client/views/user/kwestie/preview_kwestia.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/user/kwestie/priorytet_kwestia_modal.js" afterPath="$PROJECT_DIR$/client/views/user/kwestie/priorytet_kwestia_modal.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/methods/raport.js" afterPath="$PROJECT_DIR$/server/methods/raport.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/methods/rodzaj.js" afterPath="$PROJECT_DIR$/server/methods/rodzaj.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/router.js" afterPath="$PROJECT_DIR$/lib/router.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/workflows/menus/submenu.html" afterPath="$PROJECT_DIR$/client/workflows/menus/submenu.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/methods/temat.js" afterPath="$PROJECT_DIR$/server/methods/temat.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/methods/users.js" afterPath="$PROJECT_DIR$/server/methods/users.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/helpers/validators.js" afterPath="$PROJECT_DIR$/client/helpers/validators.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.meteor/versions" afterPath="$PROJECT_DIR$/.meteor/versions" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="efe4b461-e297-447a-9edc-77274a07f4c3" name="Default" comment="" />
     <ignored path="SDD.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
