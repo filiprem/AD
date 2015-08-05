@@ -1,5 +1,5 @@
 Meteor.methods({
-    //poprawiæ aby z draftu robi³o kwestiê po zatwierdzeniu przez uzytkownika
+    // metody Kwestia
     addKwestia: function(newKwestia) {
         var id = Kwestia.insert({
             userId: Meteor.userId(),
@@ -24,6 +24,8 @@ Meteor.methods({
     updateKwestia: function (kwestiaId, kwestia) {
         Kwestia.update(kwestiaId, {$set: kwestia}, {upsert: true});
     },
+
+    // metody KwestiaDraft
     addKwestiaDraft: function(newKwestiaDraft){
         var id = KwestiaDraft.insert({
             userId: Meteor.userId(),
@@ -48,5 +50,52 @@ Meteor.methods({
         var page = PagesDraft.findOne({_id: kwestiaDraft._id});
         KwestiaDraft.upsert({_id: kwestiaDraft._id}, kwestiaDraft);
         return kwestiaDraft._id;
+    },
+
+    // metody KwestiaSuspension -  zawieszone kwestie przeznaczone do dyskusji dygresyjnej
+    addKwestiaSuspension: function(newKwestiaSuspension){
+        var id = KwestiaSuspension.insert({
+            kwestia_id: newKwestiaSuspension[0].kwestia_id,
+            user_id: newKwestiaSuspension[0].user_id,
+            uzasadnienie: newKwestiaSuspension[0].uzasadnienie,
+            dataDodania: new Date(),
+            czyAktywny: newKwestiaSuspension[0].czyAktywny
+        });
+        return id;
+    },
+    updateKwestiaSuspension: function(kwestiaSuspension){
+        KwestiaSuspension.update(kwestiaSuspension[0]._id, {$set:{ uzasadnienie: kwestiaSuspension[0].uzasadnienie}});
+        return kwestiaSuspension._id;
+    },
+    removeKwestiaSuspension: function(id){
+        KwestiaSuspension.update(id, {$set:{ czyAktywny: false}});
+        return KwestiaSuspension.findOne({_id:id}).kwestia_id;
+    },
+
+    //metody KwestiaSuspensionPosts
+    addKwestiaSuspensionPosts: function(newPost){
+        var id = KwestiaSuspensionPosts.insert({
+            kwestia_suspension_id: newPost[0].kwestia_suspension_id,
+            post_message: newPost[0].post_message,
+            user_id: newPost[0].user_id,
+            user_full_name:newPost[0].user_full_name,
+            add_date: newPost[0].add_date,
+            isParent: newPost[0].isParent,
+            czyAktywny: newPost[0].czyAktywny
+        });
+        return id;
+    },
+    addKwestiaSuspensionPostsAnswer: function(newPost){
+        var id = KwestiaSuspensionPosts.insert({
+            kwestia_suspension_id: newPost[0].kwestia_suspension_id,
+            post_message: newPost[0].post_message,
+            user_id: newPost[0].user_id,
+            user_full_name:newPost[0].user_full_name,
+            add_date: newPost[0].add_date,
+            isParent: newPost[0].isParent,
+            parentId: newPost[0].parentId,
+            czyAktywny: newPost[0].czyAktywny
+        });
+        return id;
     }
 });

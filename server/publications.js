@@ -32,11 +32,33 @@ Meteor.publish('kwestiaDraft', function(){
 Meteor.publish('kwestiaTresc', function(){
     return KwestiaTresc.find();
 });
+
 Meteor.publish('users', function(){
     return Users.find();
 });
+
 Meteor.publish('glosujacy', function() {
     return Parametr.find();
+});
+
+Meteor.publish('allKwestiaSuspension', function() {
+    return KwestiaSuspension.find({czyAktywny:true});
+});
+
+Meteor.publish('kwestiaSuspension', function(id) {
+    return KwestiaSuspension.find({_id:id,czyAktywny:true});
+});
+
+Meteor.publish('kwestiaSuspensionBykwestiaId', function(id) {
+    return KwestiaSuspension.find({kwestia_id:id,czyAktywny:true});
+});
+
+Meteor.publish('allKwestiaSuspensionPosts', function() {
+    return KwestiaSuspensionPosts.find({czyAktywny:true});
+});
+
+Meteor.publish('kwestiaSuspensionPosts', function(id) {
+    return KwestiaSuspensionPosts.find({kwestia_suspension_id:id, czyAktywny:true});
 });
 
 Meteor.startup(function () {

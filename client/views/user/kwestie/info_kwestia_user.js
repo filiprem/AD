@@ -4,6 +4,32 @@ Template.informacjeKwestia.events({
     },
     'click #backToList': function(e){
         Router.go('listKwestia');
+    },
+    'click #proceduraWstrzymaniaButton':function(){
+        Router.go('proceduraWstrzymania',{_id:ret});
+    },
+    'click #wstrzymajKwestieButton': function (e) {
+
+        var kwestiaSuspension = [
+            {
+                kwestia_id: this._id,
+                user_id:Meteor.userId(),
+                uzasadnienie:"",
+                czyAktywny:true
+            }];
+        if (isNotEmpty(kwestiaSuspension[0].kwestia_id) &&
+            isNotEmpty(kwestiaSuspension[0].user_id)) {
+            Meteor.call('addKwestiaSuspension', kwestiaSuspension, function (error,ret) {
+                if (error) {
+                    if (typeof Errors === "undefined")
+                        Log.error('Error: ' + error.reason);
+                    else
+                        throwError(error.reason);
+                }else {
+                    Router.go('proceduraWstrzymania',{_id:ret});
+                }
+            });
+        }
     }
 });
 Template.informacjeKwestia.helpers({
@@ -37,14 +63,6 @@ Template.informacjeKwestia.helpers({
         }
     },
     dataGlosowaniaObliczana: function(){
-        //var dataWprKw = this.dataWprowadzenia;
-        //var rodzajId = this.rodzaj_id;
-        //var r = Rodzaj.findOne({_id: this.rodzaj_id});
-        //if(r){
-        //    var czasGlRodzaj = r.czasGlosowania;
-        //    var k = moment(dataWprKw).add(czasGlRodzaj, 'h').format("DD-MM-YYYY, HH:mm");
-        //    return k;
-        //}
         var dataG = this.dataGlosowania;
         var rodzajId = this.rodzaj_id;
         var r = Rodzaj.findOne({_id: this.rodzaj_id});
@@ -53,5 +71,11 @@ Template.informacjeKwestia.helpers({
             var k = moment(dataG).subtract(czasGlRodzaj, 'h').format("DD-MM-YYYY, HH:mm");
             return k;
         }
+    },
+    'isIssueSuspended':function(id){
+        return KwestiaSuspension.find({kwestia_id:id,czyAktywny:true}).count()<=0 ? false : true;
+    },
+    'getIssueSuspended':function(id){
+        return KwestiaSuspension.findOne({kwestia_id:id,czyAktywny:true});
     }
 });
