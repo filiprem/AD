@@ -42,6 +42,10 @@
                 <h4 class="panel-title">
                     <div class="row">
                         <div class="col-md-12">
+                            <div class="pull-left">
+                                {{> postRating
+                                rating_post_id=post_id}}
+                            </div>
                             <div class="pull-right">
                                 <h6><b>{{user_full_name}}</b> {{getSimpleDate add_date}} <small>{{getFullHourDate add_date}}</small></h6>
                             </div>
@@ -111,5 +115,24 @@
                 <p>{{post_message}}</p>
             </div>
         </div>
+    </div>
+</template>
+
+<template name="postRating">
+    <div>
+        <form>
+            <div class="btn-group" role="group" aria-label="..." >
+                <button id="ratingButton" name="{{rating_post_id}}" type="button" class="btn btn-xs btn-danger" value="-5">-5</button>
+                <button id="ratingButton" name="{{rating_post_id}}" type="button" class="btn btn-xs btn-danger" value="-4">-4</button>
+                <button id="ratingButton" name="{{rating_post_id}}" type="button" class="btn btn-xs btn-danger" value="-3">-3</button>
+                <button id="ratingButton" name="{{rating_post_id}}" type="button" class="btn btn-xs btn-danger" value="-2">-2</button>
+                <button id="ratingButton" name="{{rating_post_id}}" type="button" class="btn btn-xs btn-danger" value="-1">-1</button>
+                <button id="ratingButton" name="{{rating_post_id}}" type="button" class="btn btn-xs btn-success" value="1">+1</button>
+                <button id="ratingButton" name="{{rating_post_id}}" type="button" class="btn btn-xs btn-success" value="2">+2</button>
+                <button id="ratingButton" name="{{rating_post_id}}" type="button" class="btn btn-xs btn-success" value="3">+3</button>
+                <button id="ratingButton" name="{{rating_post_id}}" type="button" class="btn btn-xs btn-success" value="4">+4</button>
+                <button id="ratingButton" name="{{rating_post_id}}" type="button" class="btn btn-xs btn-success" value="5">+5</button>
+            </div>
+        </form>
     </div>
 </template>
