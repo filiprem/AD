@@ -11,13 +11,13 @@ Meteor.methods({
                 email: newUser[0].email,
                 password: newUser[0].password,
                 profile: {
-                    first_name: newUser[0].firstName,
-                    last_name: newUser[0].lastName,
-                    full_name: newUser[0].firstName + ' ' + newUser[0].lastName,
+                    first_name: newUser[0].first_name,
+                    last_name: newUser[0].last_name,
+                    full_name: newUser[0].first_name + ' ' + newUser[0].last_name,
                     profession: newUser[0].profession,
                     address: newUser[0].address,
                     zip: newUser[0].zip,
-                    dateOfBirth: newUser[0].dateOfBirth,
+                    date_of_birth: newUser[0].date_of_birth,
                     gender: newUser[0].gender,
                     phone: newUser[0].phone,
                     web: newUser[0].web,
@@ -26,11 +26,14 @@ Meteor.methods({
                 }
             });
         }
+
         Roles.addUsersToRoles(uID, newUser[0].role);
     },
 
     updateUser: function(currentUserId,currentUser) {
-        Users.update(currentUserId, {$set: currentUser}, {upsert:true});
+        Users.update(currentUserId, {
+            $set: currentUser},
+            {upsert:true});
     },
 
     removeUser: function(id){

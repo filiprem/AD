@@ -32,6 +32,18 @@ Template.informacjeKwestia.events({
     }
 });
 Template.informacjeKwestia.helpers({
+    mojPiorytet: function(){
+        var currentKwestiaId = this._id;
+        var kwestia = Kwestia.findOne(currentKwestiaId);
+        var g = kwestia.glosujacy;
+        for(var i=0; i < g.length; i++){
+            if(Meteor.userId()==g[i][0]){
+                console.log("nadales tej kwestii priorytet: ");
+                console.log(g[i][1])
+                return g[i][1];
+            }
+        }
+    },
     glosujacyCount: function () {
         var currentKwestiaId = this._id;
         var tab = Kwestia.findOne(currentKwestiaId);

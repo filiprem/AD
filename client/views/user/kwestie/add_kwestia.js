@@ -73,10 +73,16 @@ Template.addKwestiaForm.events({
         var dataG =  new Date();
         var d = dataG.setDate(dataG.getDate()+7);
         var pulapPriorytetu = null;
-        var rodzaj = $(e.target).find('[name=rodzaje]').val()
-        if(rodzaj){
-            pulapPriorytetu = Rodzaj.findOne({_id:rodzaj}).pulapPriorytetu;
-        }
+       // var rodzaj = $(e.target).find('[name=rodzaje]').val()
+       // console.log(rodzaj);
+
+       // if(rodzaj!='default'){
+      //      pulapPriorytetu = Rodzaj.findOne({_id:rodzaj}).pulapPriorytetu;
+       // }
+       // else{
+        //    isNotEmpty('','rodzaj');
+       //     var t=false;
+       // }
 
         var newKwestiaDraft = [
             {
@@ -87,7 +93,7 @@ Template.addKwestiaForm.events({
                 sredniaPriorytet: 0,
                 temat_id: $(e.target).find('[name=tematy]').val(),
                 rodzaj_id: $(e.target).find('[name=rodzaje]').val(),
-                pulapPriorytetu: pulapPriorytetu,
+               // pulapPriorytetu: pulapPriorytetu,
                 dataDyskusji: new Date(),
                 dataGlosowania: d,
                 krotkaTresc1:$(e.target).find('[name=tresc]').val(),
@@ -95,20 +101,28 @@ Template.addKwestiaForm.events({
                 szczegolowaTresc: $(e.target).find('[name=szczegolowaTresc]').val()
             }];
 
-        if (
-            isNotEmpty(newKwestiaDraft[0].kwestiaNazwa) &&
-            isNotEmpty(newKwestiaDraft[0].temat_id) &&
-            isNotEmpty(newKwestiaDraft[0].rodzaj_id) &&
-            isNotEmpty(newKwestiaDraft[0].dataDyskusji) &&
-            isNotEmpty(newKwestiaDraft[0].dataGlosowania) &&
-            isNotEmpty(newKwestiaDraft[0].krotkaTresc1) &&
-            isNotEmpty(newKwestiaDraft[0].krotkaTresc2) &&
-            isNotEmpty(newKwestiaDraft[0].szczegolowaTresc)
-        ) {
-            Session.set("kwestiaPreview", newKwestiaDraft[0]);
-            Router.go('previewKwestia');
+        if(newKwestiaDraft[0].rodzaj_id!='default') {
+            newKwestiaDraft[0].pulapPriorytetu = Rodzaj.findOne({_id: newKwestiaDraft[0].rodzaj_id}).pulapPriorytetu;
+            if (
+                isNotEmpty(newKwestiaDraft[0].kwestiaNazwa, 'nazwa kwestii') &&
+                isNotEmpty(newKwestiaDraft[0].temat_id, 'temat') &&
+                isNotEmpty(newKwestiaDraft[0].rodzaj_id, 'rodzaj') &&
+                isNotEmpty(newKwestiaDraft[0].krotkaTresc1, 'krótka treść') &&
+                isNotEmpty(newKwestiaDraft[0].krotkaTresc2, 'krótka treść cd') &&
+                isNotEmpty(newKwestiaDraft[0].szczegolowaTresc, 'opis z uzasadnieniem') &&
+                isNotEmpty(newKwestiaDraft[0].dataDyskusji.toString(), 'data dyskusji') &&
+                isNotEmpty(newKwestiaDraft[0].dataGlosowania.toString(), 'data głosowania')
+            ) {
+
+                Session.set("kwestiaPreview", newKwestiaDraft[0]);
+                Router.go('previewKwestia');
+            }
         }
         else
+        {
+            isNotEmpty('', 'rodzaj')
+        }
+       /* else
         {
             if(newKwestiaDraft[0].kwestiaNazwa === '')
                 document.getElementById('kwestiaNazwaGroup').classList.add('has-error');
@@ -135,7 +149,12 @@ Template.addKwestiaForm.events({
             else
                 document.getElementById('dataGlosowaniaGroup').classList.remove('has-error');
 
-            if(newKwestiaDraft[0].krotkaTresc === '')
+            if(newKwestiaDraft[0].krotkaTresc1 === '')
+                document.getElementById('krotkaTrescGroup').classList.add('has-error');
+            else
+                document.getElementById('krotkaTrescGroup').classList.remove('has-error');
+
+            if(newKwestiaDraft[0].krotkaTresc2 === '')
                 document.getElementById('krotkaTrescGroup').classList.add('has-error');
             else
                 document.getElementById('krotkaTrescGroup').classList.remove('has-error');
@@ -144,7 +163,7 @@ Template.addKwestiaForm.events({
                 document.getElementById('szczegolowaTrescGroup').classList.add('has-error');
             else
                 document.getElementById('szczegolowaTrescGroup').classList.remove('has-error');
-        }
+        }*/
     },
     'reset form': function(){
         Router.go('listKwestia');

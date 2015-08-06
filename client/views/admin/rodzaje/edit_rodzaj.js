@@ -23,32 +23,44 @@ Template.editRodzajForm.events({
     'submit form': function(e){
         e.preventDefault();
         var r = Session.get("rodzajInScope");
+
+        var czasD=$(e.target).find('[name=czasDyskusji]').val();
+        if(czasD == '' || czasD == '0')
+            czasD=7;
+        var czasG=$(e.target).find('[name=czasGlosowania]').val();
+        if(czasG == '' || czasG == '0')
+            czasG=24;
+
         var rodzaj = {
-            //temat_id: $(e.target).find('[name=tematy]').val(),
+            temat_id: $(e.target).find('[name=tematy]').val(),
             nazwaRodzaj: $(e.target).find('[name=nazwaRodzaj]').val(),
-            czasDyskusji: $(e.target).find('[name=czasDyskusji]').val(),
-            czasGlosowania: $(e.target).find('[name=czasGlosowania]').val(),
+            czasDyskusji: czasD,
+            czasGlosowania:czasG,
             pulapPriorytetu: $(e.target).find('[name=pulapPriorytetu]').val()
         };
-
-        Meteor.call('updateRodzaj', r._id ,rodzaj, function (error) {
-            if (error) {
-                // optionally use a meteor errors package
-                if (typeof Errors === "undefined")
-                    Log.error('Error: ' + error.reason);
-                else {
-                    throwError(error.reason);
+        if (isNotEmpty(rodzaj.nazwaRodzaj,'nazwa rodzaju') &&
+            isPositiveNumber(rodzaj.czasDyskusji,'czas dyskusji') &&
+            isNumeric(rodzaj.czasGlosowania,'czas gÅ‚osowania') &&
+            isNotEmpty(rodzaj.pulapPriorytetu,'puÅ‚ap priorytetu')) {
+            Meteor.call('updateRodzaj', r._id, rodzaj, function (error) {
+                if (error) {
+                    // optionally use a meteor errors package
+                    if (typeof Errors === "undefined")
+                        Log.error('Error: ' + error.reason);
+                    else {
+                        throwError(error.reason);
+                    }
                 }
-            }
-            else {
-                Kwestia.find({rodzaj_id: r._id}).forEach(function(doc){
-                    var id = Kwestia.update({_id: doc._id},{$set:{pulapPriorytetu:Rodzaj.findOne({_id: r._id}).pulapPriorytetu}});
-                    if(!id)
-                        console.log("Update kwestii "+doc._id+" nie zosta³ wykonany pomyœlnie");
-                });
-                Router.go('listRodzaj');
-            }
-        });
+                else {
+                    Kwestia.find({rodzaj_id: r._id}).forEach(function (doc) {
+                        var id = Kwestia.update({_id: doc._id}, {$set: {pulapPriorytetu: Rodzaj.findOne({_id: r._id}).pulapPriorytetu}});
+                        if (!id)
+                            console.log("Update kwestii " + doc._id + " nie zostaï¿½ wykonany pomyï¿½lnie");
+                    });
+                    Router.go('listRodzaj');
+                }
+            });
+        }
     },
     'reset form': function(){
         Router.go('listRodzaj');
