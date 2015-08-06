@@ -1,5 +1,8 @@
 Template.addUserForm.rendered = function () {
-    $('#test1').datetimepicker({sideBySide: true});
+    $('#test1').datetimepicker({
+        sideBySide: true,
+        format: 'DD/MM/YYYY'
+    });
     setRoles();
 };
 
@@ -13,11 +16,11 @@ Template.addUserForm.events({
                 login: "",
                 password: $(e.target).find('[name=password]').val(),
                 confirm_password: $(e.target).find('[name=confirmPassword]').val(),
-                firstName: $(e.target).find('[name=firstName]').val(),
-                lastName: $(e.target).find('[name=lastName]').val(),
+                first_name: $(e.target).find('[name=firstName]').val(),
+                last_name: $(e.target).find('[name=lastName]').val(),
                 profession: $(e.target).find('[name=profession]').val(),
                 phone: $(e.target).find('[name=phone]').val(),
-                dateOfBirth: $(e.target).find('[name=dateOfBirth]').val(),
+                date_of_birth: $(e.target).find('[name=dateOfBirth]').val(),
                 address: $(e.target).find('[name=address]').val(),
                 zip: $(e.target).find('[name=zipCode]').val(),
                 web: $(e.target).find('[name=web]').val(),
@@ -26,8 +29,8 @@ Template.addUserForm.events({
                 role_desc: $(e.target).find('[name=uwagiStatus]').val()
             }];
         if (isNotEmpty(newUser[0].role) &&
-            isNotEmpty(newUser[0].firstName) &&
-            isNotEmpty(newUser[0].lastName) &&
+            isNotEmpty(newUser[0].first_name) &&
+            isNotEmpty(newUser[0].last_name) &&
             isNotEmpty(newUser[0].password) &&
             isEmail(newUser[0].email) &&
             isValidPassword(newUser[0].password) &&
@@ -46,7 +49,7 @@ Template.addUserForm.events({
                 }
             });
             //-- generowanie loginu dla użytkownika
-            newUser[0].login = generateLogin(newUser[0].firstName, newUser[0].lastName);
+            newUser[0].login = generateLogin(newUser[0].first_name, newUser[0].last_name);
             Meteor.call('addUser', newUser, function (error) {
                 if (error)
                 {
