@@ -73,16 +73,6 @@ Template.addKwestiaForm.events({
         var dataG =  new Date();
         var d = dataG.setDate(dataG.getDate()+7);
         var pulapPriorytetu = null;
-       // var rodzaj = $(e.target).find('[name=rodzaje]').val()
-       // console.log(rodzaj);
-
-       // if(rodzaj!='default'){
-      //      pulapPriorytetu = Rodzaj.findOne({_id:rodzaj}).pulapPriorytetu;
-       // }
-       // else{
-        //    isNotEmpty('','rodzaj');
-       //     var t=false;
-       // }
 
         var newKwestiaDraft = [
             {
@@ -93,7 +83,6 @@ Template.addKwestiaForm.events({
                 sredniaPriorytet: 0,
                 temat_id: $(e.target).find('[name=tematy]').val(),
                 rodzaj_id: $(e.target).find('[name=rodzaje]').val(),
-               // pulapPriorytetu: pulapPriorytetu,
                 dataDyskusji: new Date(),
                 dataGlosowania: d,
                 krotkaTresc1:$(e.target).find('[name=tresc]').val(),

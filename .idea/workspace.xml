@@ -3,10 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="efe4b461-e297-447a-9edc-77274a07f4c3" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/user/kwestie/add_kwestia.js" afterPath="$PROJECT_DIR$/client/views/user/kwestie/add_kwestia.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/user/kwestie/procedura_wstrzymania.js" afterPath="$PROJECT_DIR$/client/views/user/kwestie/procedura_wstrzymania.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/user/kwestie/procedura_wstrzymania_discussion.js" afterPath="$PROJECT_DIR$/client/views/user/kwestie/procedura_wstrzymania_discussion.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/helpers/validators.js" afterPath="$PROJECT_DIR$/client/helpers/validators.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="SDD.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -30,8 +26,8 @@
       <file leaf-file-name="add_kwestia.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/client/views/user/kwestie/add_kwestia.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.83766234">
-              <caret line="114" column="14" selection-start-line="114" selection-start-column="14" selection-end-line="114" selection-end-column="14" />
+            <state vertical-scroll-proportion="-0.23863636">
+              <caret line="84" column="68" selection-start-line="84" selection-start-column="68" selection-end-line="84" selection-end-column="68" />
               <folding />
             </state>
           </provider>
@@ -1042,8 +1038,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/client/views/user/kwestie/add_kwestia.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.83766234">
-          <caret line="114" column="14" selection-start-line="114" selection-start-column="14" selection-end-line="114" selection-end-column="14" />
+        <state vertical-scroll-proportion="-0.23863636">
+          <caret line="84" column="68" selection-start-line="84" selection-start-column="68" selection-end-line="84" selection-end-column="68" />
           <folding />
         </state>
       </provider>
