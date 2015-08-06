@@ -73,23 +73,23 @@ Template.editUserForm.events({
        console.log(userProperties)
        console.log(usrId)
 
-   Meteor.call('updateUser',usrId, userProperties, function (error) {
-       if (error) {
-           // optionally use a meteor errors package
-           if (typeof Errors === "undefined")
-               Log.error('Error: ' + error.reason);
-           else {
-               if(error.error === 409)
-                   throwError(error.reason);
-           }
+       if (isNotEmpty(userProperties.profile.first_name,'imię') &&
+           isNotEmpty(userProperties.profile.last_name,'nazwisko') ) {
+           Meteor.call('updateUser', usrId, userProperties, function (error) {
+               if (error) {
+                   // optionally use a meteor errors package
+                   if (typeof Errors === "undefined")
+                       Log.error('Error: ' + error.reason);
+                   else {
+                       if (error.error === 409)
+                           throwError(error.reason);
+                   }
+               }
+               else {
+                   Router.go('listUsers');
+               }
+           });
        }
-       else {
-           Router.go('listUsers');
-       }
-   });
-    //console.log("Ajdik: "+ usrId);
-   //Meteor.users.update(usrId, { $set: userProperties });
-
    },
     'reset form': function(){
         Router.go('listUsers');

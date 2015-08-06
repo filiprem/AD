@@ -32,27 +32,16 @@
                     <div class="form-group">
                         <label class="control-label col-xs-3" for="inputPlec">Płeć:</label>
 
-                        <div class="col-xs-9">
-                            <div class="col-xs-2">
-                                <label class="radio-inline">
-                                    {{#if isMan profile.gender}}
-                                        <input type="radio" name="genderRadios" value="mężczyzna" checked="checked"> Mężczyzna
-                                    {{else}}
-                                        <input type="radio" name="genderRadios" value="mężczyzna"> Mężczyzna
-                                    {{/if}}
-                                </label>
-                            </div>
-                            <div class="col-xs-2">
-                                <label class="radio-inline">
-                                    {{#if isWoman profile.gender}}
-                                        <input type="radio" name="genderRadios" value="kobieta" checked="checked"> Kobieta
-                                    {{else}}
-                                        <input type="radio" name="genderRadios" value="kobieta"> Kobieta
-                                    {{/if}}
-
-                                </label>
-                            </div>
-                        </div>
+                         <div class="col-xs-2">
+                            <label class="radio-inline">
+                                <input type="radio" name="genderRadios" value="mężczyzna" {{isSelected 'mężczyzna'}}> Mężczyzna
+                            </label>
+                         </div>
+                         <div class="col-xs-2">
+                            <label class="radio-inline">
+                                <input type="radio" name="genderRadios" value="kobieta" {{isSelected 'kobieta'}}> Kobieta
+                            </label>
+                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-xs-3" for="inputStanowisko">Stanowisko:</label>
