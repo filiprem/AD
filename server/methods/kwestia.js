@@ -52,30 +52,30 @@ Meteor.methods({
         return kwestiaDraft._id;
     },
 
-    // metody KwestiaSuspension -  zawieszone kwestie przeznaczone do dyskusji dygresyjnej
-    addKwestiaSuspension: function(newKwestiaSuspension){
-        var id = KwestiaSuspension.insert({
-            kwestia_id: newKwestiaSuspension[0].kwestia_id,
-            user_id: newKwestiaSuspension[0].user_id,
-            uzasadnienie: newKwestiaSuspension[0].uzasadnienie,
+    // metody KwestiaSuspended -  zawieszone kwestie przeznaczone do dyskusji dygresyjnej
+    addKwestiaSuspended: function(newKwestiaSuspended){
+        var id = KwestiaSuspended.insert({
+            kwestia_id: newKwestiaSuspended[0].kwestia_id,
+            user_id: newKwestiaSuspended[0].user_id,
+            uzasadnienie: newKwestiaSuspended[0].uzasadnienie,
             dataDodania: new Date(),
-            czyAktywny: newKwestiaSuspension[0].czyAktywny
+            czyAktywny: newKwestiaSuspended[0].czyAktywny
         });
         return id;
     },
-    updateKwestiaSuspension: function(kwestiaSuspension){
-        KwestiaSuspension.update(kwestiaSuspension[0]._id, {$set:{ uzasadnienie: kwestiaSuspension[0].uzasadnienie}});
-        return kwestiaSuspension._id;
+    updateKwestiaSuspended: function(kwestiaSuspended){
+        KwestiaSuspended.update(kwestiaSuspended[0]._id, {$set:{ uzasadnienie: kwestiaSuspended[0].uzasadnienie}});
+        return kwestiaSuspended._id;
     },
-    removeKwestiaSuspension: function(id){
-        KwestiaSuspension.update(id, {$set:{ czyAktywny: false}});
-        return KwestiaSuspension.findOne({_id:id}).kwestia_id;
+    removeKwestiaSuspended: function(id){
+        KwestiaSuspended.update(id, {$set:{ czyAktywny: false}});
+        return KwestiaSuspended.findOne({_id:id}).kwestia_id;
     },
 
-    //metody KwestiaSuspensionPosts
-    addKwestiaSuspensionPosts: function(newPost){
-        var id = KwestiaSuspensionPosts.insert({
-            kwestia_suspension_id: newPost[0].kwestia_suspension_id,
+    //metody KwestiaSuspendedPosts
+    addKwestiaSuspendedPosts: function(newPost){
+        var id = KwestiaSuspendedPosts.insert({
+            kwestia_suspended_id: newPost[0].kwestia_suspended_id,
             post_message: newPost[0].post_message,
             user_id: newPost[0].user_id,
             user_full_name:newPost[0].user_full_name,
@@ -85,9 +85,9 @@ Meteor.methods({
         });
         return id;
     },
-    addKwestiaSuspensionPostsAnswer: function(newPost){
-        var id = KwestiaSuspensionPosts.insert({
-            kwestia_suspension_id: newPost[0].kwestia_suspension_id,
+    addKwestiaSuspendedPostsAnswer: function(newPost){
+        var id = KwestiaSuspendedPosts.insert({
+            kwestia_suspended_id: newPost[0].kwestia_suspended_id,
             post_message: newPost[0].post_message,
             user_id: newPost[0].user_id,
             user_full_name:newPost[0].user_full_name,

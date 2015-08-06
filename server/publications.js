@@ -41,24 +41,24 @@ Meteor.publish('glosujacy', function() {
     return Parametr.find();
 });
 
-Meteor.publish('allKwestiaSuspension', function() {
-    return KwestiaSuspension.find({czyAktywny:true});
+Meteor.publish('allKwestiaSuspended', function() {
+    return KwestiaSuspended.find({czyAktywny:true});
 });
 
-Meteor.publish('kwestiaSuspension', function(id) {
-    return KwestiaSuspension.find({_id:id,czyAktywny:true});
+Meteor.publish('kwestiaSuspended', function(id) {
+    return KwestiaSuspended.find({_id:id,czyAktywny:true});
 });
 
-Meteor.publish('kwestiaSuspensionBykwestiaId', function(id) {
-    return KwestiaSuspension.find({kwestia_id:id,czyAktywny:true});
+Meteor.publish('kwestiaSuspendedBykwestiaId', function(id) {
+    return KwestiaSuspended.find({kwestia_id:id,czyAktywny:true});
 });
 
-Meteor.publish('allKwestiaSuspensionPosts', function() {
-    return KwestiaSuspensionPosts.find({czyAktywny:true});
+Meteor.publish('allKwestiaSuspendedPosts', function() {
+    return KwestiaSuspendedPosts.find({czyAktywny:true});
 });
 
-Meteor.publish('kwestiaSuspensionPosts', function(id) {
-    return KwestiaSuspensionPosts.find({kwestia_suspension_id:id, czyAktywny:true});
+Meteor.publish('kwestiaSuspendedPosts', function(id) {
+    return KwestiaSuspendedPosts.find({kwestia_suspended_id:id, czyAktywny:true});
 });
 
 Meteor.startup(function () {

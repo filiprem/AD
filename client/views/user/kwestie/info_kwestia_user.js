@@ -9,17 +9,16 @@ Template.informacjeKwestia.events({
         Router.go('proceduraWstrzymania',{_id:ret});
     },
     'click #wstrzymajKwestieButton': function (e) {
-
-        var kwestiaSuspension = [
-            {
+        var item = [{
                 kwestia_id: this._id,
                 user_id:Meteor.userId(),
                 uzasadnienie:"",
                 czyAktywny:true
             }];
-        if (isNotEmpty(kwestiaSuspension[0].kwestia_id) &&
-            isNotEmpty(kwestiaSuspension[0].user_id)) {
-            Meteor.call('addKwestiaSuspension', kwestiaSuspension, function (error,ret) {
+
+        if (isNotEmpty(item[0].kwestia_id) &&
+            isNotEmpty(item[0].user_id)) {
+            Meteor.call('addKwestiaSuspended', item, function (error,ret) {
                 if (error) {
                     if (typeof Errors === "undefined")
                         Log.error('Error: ' + error.reason);
@@ -73,9 +72,9 @@ Template.informacjeKwestia.helpers({
         }
     },
     'isIssueSuspended':function(id){
-        return KwestiaSuspension.find({kwestia_id:id,czyAktywny:true}).count()<=0 ? false : true;
+        return KwestiaSuspended.find({kwestia_id:id,czyAktywny:true}).count()<=0 ? false : true;
     },
     'getIssueSuspended':function(id){
-        return KwestiaSuspension.findOne({kwestia_id:id,czyAktywny:true});
+        return KwestiaSuspended.findOne({kwestia_id:id,czyAktywny:true});
     }
 });

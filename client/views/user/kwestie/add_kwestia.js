@@ -94,21 +94,20 @@ Template.addKwestiaForm.events({
                 krotkaTresc2: $(e.target).find('[name=krotkaTresc]').val(),
                 szczegolowaTresc: $(e.target).find('[name=szczegolowaTresc]').val()
             }];
-
         if (
             isNotEmpty(newKwestiaDraft[0].kwestiaNazwa,'nazwa kwestii') &&
             isNotEmpty(newKwestiaDraft[0].temat_id,'temat') &&
             isNotEmpty(newKwestiaDraft[0].rodzaj_id,'rodzaj') &&
-            isNotEmpty(newKwestiaDraft[0].dataDyskusji,'data dyskusji') &&
-            isNotEmpty(newKwestiaDraft[0].dataGlosowania,'data głosowania') &&
             isNotEmpty(newKwestiaDraft[0].krotkaTresc1,'krótka treść') &&
             isNotEmpty(newKwestiaDraft[0].krotkaTresc2,'krótka treść cd') &&
             isNotEmpty(newKwestiaDraft[0].szczegolowaTresc,'opis z uzasadnieniem')
-        ) {
+            //isNotEmpty(newKwestiaDraft[0].dataDyskusji,'data dyskusji') &&
+           // isNotEmpty(newKwestiaDraft[0].dataGlosowania,'data głosowania')
+        ){
             Session.set("kwestiaPreview", newKwestiaDraft[0]);
             Router.go('previewKwestia');
         }
-        else
+       /* else
         {
             if(newKwestiaDraft[0].kwestiaNazwa === '')
                 document.getElementById('kwestiaNazwaGroup').classList.add('has-error');
@@ -135,7 +134,12 @@ Template.addKwestiaForm.events({
             else
                 document.getElementById('dataGlosowaniaGroup').classList.remove('has-error');
 
-            if(newKwestiaDraft[0].krotkaTresc === '')
+            if(newKwestiaDraft[0].krotkaTresc1 === '')
+                document.getElementById('krotkaTrescGroup').classList.add('has-error');
+            else
+                document.getElementById('krotkaTrescGroup').classList.remove('has-error');
+
+            if(newKwestiaDraft[0].krotkaTresc2 === '')
                 document.getElementById('krotkaTrescGroup').classList.add('has-error');
             else
                 document.getElementById('krotkaTrescGroup').classList.remove('has-error');
@@ -144,7 +148,7 @@ Template.addKwestiaForm.events({
                 document.getElementById('szczegolowaTrescGroup').classList.add('has-error');
             else
                 document.getElementById('szczegolowaTrescGroup').classList.remove('has-error');
-        }
+        }*/
     },
     'reset form': function(){
         Router.go('listKwestia');

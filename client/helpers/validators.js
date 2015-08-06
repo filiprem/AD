@@ -3,7 +3,13 @@ trimInput = function(value) {
 };
 
 isNotEmpty = function(value, statement) {
-    if (!_.isEmpty(value) && value !== '0'){
+
+    //value=value.replace(/^\s*|\s*$/g,'');
+    value=value.replace(/\s+/g,'');
+    console.log("Value "+value);
+    console.log("Statement "+statement)
+//!_.isEmpty(value)
+    if (value!=='' && value !== '0'){
         return true;
     }
     throwError('Uzupełnij pole '+statement);

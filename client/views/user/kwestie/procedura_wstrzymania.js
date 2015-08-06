@@ -37,7 +37,7 @@ Template.proceduraWstrzymania.events({
         var czyAktywny = $(e.target).find('[name=czyAktywny]').val();
         var dataDodania = $(e.target).find('[name=dataDodania]').val();
 
-        var kwestiaSuspension = [{
+        var item = [{
                 _id: id,
                 kwestia_id: kwestia_id,
                 user_id: user_id,
@@ -46,10 +46,10 @@ Template.proceduraWstrzymania.events({
                 czyAktywny: czyAktywny
             }];
 
-        if (isNotEmpty(kwestiaSuspension[0]._id) && isNotEmpty(kwestiaSuspension[0].kwestia_id) && isNotEmpty(kwestiaSuspension[0].user_id) &&
-            isNotEmpty(kwestiaSuspension[0].uzasadnienie && isNotEmpty(kwestiaSuspension[0].dataDodania))) {
+        if (isNotEmpty(item[0]._id,"") && isNotEmpty(item[0].kwestia_id,"") && isNotEmpty(item[0].user_id,"") &&
+            isNotEmpty((item[0].uzasadnienie,"") && (isNotEmpty(item[0].dataDodania,"")))) {
 
-            Meteor.call('updateKwestiaSuspension', kwestiaSuspension, function (error,ret) {
+            Meteor.call('updateKwestiaSuspended', item, function (error,ret) {
                 if (error) {
                     if (typeof Errors === "undefined")
                         Log.error('Error: ' + error.reason);
