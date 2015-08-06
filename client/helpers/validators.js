@@ -3,12 +3,9 @@ trimInput = function(value) {
 };
 
 isNotEmpty = function(value, statement) {
-
-    //value=value.replace(/^\s*|\s*$/g,'');
     value=value.replace(/\s+/g,'');
     console.log("Value "+value);
     console.log("Statement "+statement)
-//!_.isEmpty(value)
     if (value!=='' && value !== '0'){
         return true;
     }
