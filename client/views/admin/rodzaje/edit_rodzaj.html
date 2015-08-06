@@ -10,8 +10,19 @@
                             <label class="control-label col-xs-3">Temat:</label>
 
                             <div class="col-xs-9">
-                                <input type="text" id="tematy" name="tematy"
-                                       class="form-control" value="{{tematName}}">
+                                <select name="tematy" id="tematy" class="form-control">
+                                    {{#each tematToList}}
+                                        {{#if isSelected _id}}
+                                            <option value="{{this._id}}" selected >
+                                                {{this.nazwaTemat}}
+                                            </option>
+                                         {{else}}
+                                            <option value="{{this._id}}" >
+                                                {{this.nazwaTemat}}
+                                            </option>
+                                        {{/if}}
+                                    {{/each}}
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">

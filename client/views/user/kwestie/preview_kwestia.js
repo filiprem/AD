@@ -1,58 +1,49 @@
 Template.previewKwestia.helpers({
-    draftKwestii: function(){
-        var id = Session.get("draftId");
-        var dr = KwestiaDraft.findOne({_id: id});
-        return dr;
+    getTematName:function(id){
+        return Temat.findOne({_id:id}).nazwaTemat;
     },
-    tematToList: function(){
-        return Temat.find({}).fetch();
-    } ,
-    rodzajToList: function(){
-        return Rodzaj.find({}).fetch();
+    getRodzajName:function(id){
+        return Rodzaj.findOne({_id:id}).nazwaRodzaj;
     }
 });
 
 Template.previewKwestia.events({
-    'submit form': function(e){
+    'click #cancel':function(){
+        Session.set("kwestiaPreview",null);
+        Router.go("listKwestia");
+    },
+    'click #save': function(e){
         e.preventDefault();
 
-        //var dataG =  new Date();
-        //var d = dataG.setDate(dataG.getDate()+7);
-        //
-        //var newKwestiaDraft = [
-        //    {
-        //        userId: Meteor.userId(),
-        //        dataWprowadzenia: new Date(),
-        //        kwestiaNazwa: $(e.target).find('[name=kwestiaNazwa]').val(),
-        //        priorytet: 0,
-        //        sredniaPriorytet: 0,
-        //        temat_id: $(e.target).find('[name=tematy]').val(),
-        //        rodzaj_id: $(e.target).find('[name=rodzaje]').val(),
-        //        dataDyskusji: new Date(),
-        //        dataGlosowania: d,
-        //        //historia: $(e.target).find('[name=historia]').val(),
-        //        krotkaTresc: $(e.target).find('[name=krotkaTresc]').val(),
-        //        szczegolowaTresc: $(e.target).find('[name=szczegolowaTresc]').val()
-        //    }];
-        //Meteor.call('addKwestia', newKwestiaDraft, function (error, ret) {
-        //    if (error) {
-        //        if (typeof Errors === "undefined")
-        //            Log.error('Error: ' + error.reason);
-        //        else {
-        //            throwError(error.reason);
-        //        }
-        //    }
-        //    else {
-        //        Router.go('listKwestia');
-        //        $("#previewKwestiaModal").modal("hide");
-        //        //Session.set("draftId", ret);
-        //        //console.log(ret)
-        //    }
-        //});
+        var kwestia = Session.get("kwestiaPreview");
+
+        var newKwestiaDraft = [
+            {
+                userId: Meteor.userId(),
+                dataWprowadzenia: new Date(),
+                kwestiaNazwa: kwestia.kwestiaNazwa,
+                wartoscPriorytetu: 0,
+                sredniaPriorytet: 0,
+                temat_id: kwestia.temat_id,
+                rodzaj_id: kwestia.rodzaj_id,
+                pulapPriorytetu:kwestia.pulapPriorytetu,
+                dataDyskusji: kwestia.dataDyskusji,
+                dataGlosowania: kwestia.dataGlosowania,
+                krotkaTresc: kwestia.krotkaTresc1+" "+kwestia.krotkaTresc2,
+                szczegolowaTresc: kwestia.szczegolowaTresc
+            }];
+        Meteor.call('addKwestia', newKwestiaDraft, function (error, ret) {
+            if (error) {
+                if (typeof Errors === "undefined")
+                    Log.error('Error: ' + error.reason);
+                else {
+                    throwError(error.reason);
+                }
+            }
+            else {
+                Session.set("kwestiaPreview",null);
+                Router.go('listKwestia');
+            }
+        });
     }
 });
-
-Template.previewKwestia.deleted = function(){
-    Session.set("draftId", null);
-    Session.set("rodzaj", null)
-};
