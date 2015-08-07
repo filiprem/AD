@@ -58,20 +58,15 @@ Template.discussionRating.events({
         var ratingValue = e.target.value;
         var ratingPostId = e.target.name;
         var glosujacy = [];
-        console.log(ratingValue+" "+ratingPostId);
         var post = Posts.findOne({_id:ratingPostId});
-        console.log(post);
         glosujacy = post.glosujacy;
-        console.log("przed przypisaniem");
         var wartoscPriorytetu = post.wartoscPriorytetu;
-        console.log("przypisane");
         var object = {
             idUser: Meteor.userId(),
             value: ratingValue
         }
 
         for(var i=0; i < post.glosujacy.length; i++) {
-            console.log("for");
             if(post.glosujacy[i].idUser === Meteor.userId()) {
 
                 if(post.glosujacy[i].value === ratingValue) {
@@ -93,9 +88,6 @@ Template.discussionRating.events({
             glosujacy: glosujacy
         }];
 
-        console.log("A "+postUpdate[0].wartoscPriorytetu);
-        console.log("B "+postUpdate[0].glosujacy[0].value);
-
         Meteor.call('updatePostRating',ratingPostId, postUpdate, function (error,ret) {
             if (error) {
                 if (typeof Errors === "undefined")
@@ -103,7 +95,6 @@ Template.discussionRating.events({
                 else
                     throwError(error.reason);
             }else{
-                console.log("Update zaliczony");
             }
         });
 

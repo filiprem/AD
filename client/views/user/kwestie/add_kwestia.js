@@ -114,16 +114,6 @@ Template.addKwestiaForm.events({
         var dataG =  new Date();
         var d = dataG.setDate(dataG.getDate()+7);
         var pulapPriorytetu = null;
-       // var rodzaj = $(e.target).find('[name=rodzaje]').val()
-       // console.log(rodzaj);
-
-       // if(rodzaj!='default'){
-      //      pulapPriorytetu = Rodzaj.findOne({_id:rodzaj}).pulapPriorytetu;
-       // }
-       // else{
-        //    isNotEmpty('','rodzaj');
-       //     var t=false;
-       // }
 
         var newKwestiaDraft = [
             {

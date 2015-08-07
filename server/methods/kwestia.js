@@ -49,57 +49,5 @@ Meteor.methods({
             idParent: newKwestiaOpcja[0].idParent
         });
         return id;
-    },
-    //updateKwestiaDraft: function(kwestiaDraft){
-    //    var page = PagesDraft.findOne({_id: kwestiaDraft._id});
-    //    KwestiaDraft.upsert({_id: kwestiaDraft._id}, kwestiaDraft);
-    //    return kwestiaDraft._id;
-    //},
-
-    //// metody KwestiaSuspended -  zawieszone kwestie przeznaczone do dyskusji dygresyjnej
-    //addKwestiaSuspended: function(newKwestiaSuspended){
-    //    var id = KwestiaSuspended.insert({
-    //        kwestia_id: newKwestiaSuspended[0].kwestia_id,
-    //        user_id: newKwestiaSuspended[0].user_id,
-    //        uzasadnienie: newKwestiaSuspended[0].uzasadnienie,
-    //        dataDodania: new Date(),
-    //        czyAktywny: newKwestiaSuspended[0].czyAktywny
-    //    });
-    //    return id;
-    //},
-    //updateKwestiaSuspended: function(kwestiaSuspended){
-    //    KwestiaSuspended.update(kwestiaSuspended[0]._id, {$set:{ uzasadnienie: kwestiaSuspended[0].uzasadnienie}});
-    //    return kwestiaSuspended._id;
-    //},
-    //removeKwestiaSuspended: function(id){
-    //    KwestiaSuspended.update(id, {$set:{ czyAktywny: false}});
-    //    return KwestiaSuspended.findOne({_id:id}).kwestia_id;
-    //},
-    //
-    ////metody KwestiaSuspendedPosts
-    //addKwestiaSuspendedPosts: function(newPost){
-    //    var id = KwestiaSuspendedPosts.insert({
-    //        kwestia_suspended_id: newPost[0].kwestia_suspended_id,
-    //        post_message: newPost[0].post_message,
-    //        user_id: newPost[0].user_id,
-    //        user_full_name:newPost[0].user_full_name,
-    //        add_date: newPost[0].add_date,
-    //        isParent: newPost[0].isParent,
-    //        czyAktywny: newPost[0].czyAktywny
-    //    });
-    //    return id;
-    //},
-    //addKwestiaSuspendedPostsAnswer: function(newPost){
-    //    var id = KwestiaSuspendedPosts.insert({
-    //        kwestia_suspended_id: newPost[0].kwestia_suspended_id,
-    //        post_message: newPost[0].post_message,
-    //        user_id: newPost[0].user_id,
-    //        user_full_name:newPost[0].user_full_name,
-    //        add_date: newPost[0].add_date,
-    //        isParent: newPost[0].isParent,
-    //        parentId: newPost[0].parentId,
-    //        czyAktywny: newPost[0].czyAktywny
-    //    });
-    //    return id;
-    //}
+    }
 });

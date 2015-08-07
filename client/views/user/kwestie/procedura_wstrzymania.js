@@ -45,7 +45,6 @@ Template.proceduraWstrzymania.events({
                 dataDodania: dataDodania,
                 czyAktywny: czyAktywny
             }];
-        console.log(item[0]);
         if (isNotEmpty(item[0]._id,'') && isNotEmpty(item[0].idKwestia,'') && isNotEmpty(item[0].userId,'') &&
             isNotEmpty(item[0].uzasadnienie,'uzasadnienie') && (isNotEmpty(item[0].dataDodania.toString(),''))) {
 

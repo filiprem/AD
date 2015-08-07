@@ -121,17 +121,6 @@ Template.priorytetKwestia.helpers({
 });
 
 Template.editColumnKwestia.helpers({
-    //isMine: function(){
-    //    var usr = Users.findOne({_id: this.userId});
-    //    console.log(usr)
-    //    var usrId = this.userId;
-    //    if(usrId==Meteor.userId){
-    //        return ;
-    //    }
-    //    else{
-    //        return false;
-    //    }
-    //}
 });
 
 Template.editColumnKwestia.events({
