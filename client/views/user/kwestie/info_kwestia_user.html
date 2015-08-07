@@ -2,7 +2,6 @@
     <div class="main">
         <div class="row">
             <div class="col-md-6">
-                {{thisKwestia}}
                 <h3>Informacje o Kwestii</h3>
                 <h4>Liczba osób, które nadały priorytet tej Kwestii: {{glosujacyCount}}</h4>
 
@@ -15,6 +14,9 @@
             </div>
             <div class="col-md-6">
                 <br />
+                <a id="dyskusja" name="{{_id}}" class="btn btn-danger pull-right">
+                    <span class="glyphicon glyphicon-remove-circle"></span> Dyskusja {{_id}}
+                </a>
                 <!--{{#if isIssueSuspended _id}}-->
                     <!--{{#with getIssueSuspended _id}}-->
                         <!--<a href="{{pathFor 'proceduraWstrzymania' _id}}" class="btn btn-primary pull-right">-->
@@ -28,7 +30,6 @@
                 <!--{{/if}}-->
                 <a id="addOptionButton" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-plus"></span> Dodaj opcję tej Kwestii</a>
             </div>
-
         </div>
 
         <div class="clearfix"></div>
