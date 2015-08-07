@@ -14,14 +14,14 @@ Template.informacjeKwestia.events({
     },
     'click #wstrzymajKwestieButton': function (e) {
         var item = [{
-                kwestia_id: this._id,
-                user_id:Meteor.userId(),
+                idKwestia: this._id,
+                userId:Meteor.userId(),
                 uzasadnienie:"",
                 czyAktywny:true
             }];
 
-        if (isNotEmpty(item[0].kwestia_id) &&
-            isNotEmpty(item[0].user_id)) {
+        if (isNotEmpty(item[0].idKwestia) &&
+            isNotEmpty(item[0].userId)) {
             Meteor.call('addKwestiaSuspended', item, function (error,ret) {
                 if (error) {
                     if (typeof Errors === "undefined")
@@ -64,10 +64,10 @@ Template.informacjeKwestia.helpers({
         return tab;
     },
     tematNazwa: function(){
-        return Temat.findOne({_id: this.temat_id});
+        return Temat.findOne({_id: this.idTemat});
     },
     rodzajNazwa: function(){
-        return Rodzaj.findOne({_id: this.rodzaj_id});
+        return Rodzaj.findOne({_id: this.idRodzaj});
     },
     date: function () {
         var d = this.dataWprowadzenia;
@@ -83,12 +83,18 @@ Template.informacjeKwestia.helpers({
     },
     dataGlosowaniaObliczana: function(){
         var dataG = this.dataGlosowania;
-        var rodzajId = this.rodzaj_id;
-        var r = Rodzaj.findOne({_id: this.rodzaj_id});
+        var rodzajId = this.idRodzaj;
+        var r = Rodzaj.findOne({_id: this.idRodzaj});
         if(r){
             var czasGlRodzaj = r.czasGlosowania;
             var k = moment(dataG).subtract(czasGlRodzaj, 'h').format("DD-MM-YYYY, HH:mm");
             return k;
         }
+    },
+    'isIssueSuspended':function(id){
+        return KwestiaSuspended.find({idKwestia:id,czyAktywny:true}).count()<=0 ? false : true;
+    },
+    'getIssueSuspended':function(id){
+        return KwestiaSuspended.findOne({idKwestia:id,czyAktywny:true});
     }
 });

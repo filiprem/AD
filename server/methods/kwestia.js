@@ -7,10 +7,10 @@ Meteor.methods({
             kwestiaNazwa: newKwestia[0].kwestiaNazwa,
             wartoscPriorytetu: parseInt(newKwestia[0].wartoscPriorytetu),
             sredniaPriorytet: parseFloat(newKwestia[0].sredniaPriorytet),
-            temat_id: newKwestia[0].temat_id,
-            rodzaj_id: newKwestia[0].rodzaj_id,
+            idTemat: newKwestia[0].idTemat,
+            idRodzaj: newKwestia[0].idRodzaj,
             pulapPriorytetu:newKwestia[0].pulapPriorytetu,
-            //glosujacy_id: newKwestia[0].glosujacy_id,
+            //idGlosujacy: newKwestia[0].idGlosujacy,
             dataDyskusji: newKwestia[0].dataDyskusji,
             dataGlosowania: moment(newKwestia[0].dataGlosowania).format(),
             czyAktywny: newKwestia.czyAktywny=true,
@@ -23,7 +23,7 @@ Meteor.methods({
         return id;
     },
     updateKwestia: function (kwestiaId, kwestia) {
-        Kwestia.update(kwestiaId, {$set: kwestia}, {upsert: true});
+        Kwestia.update(idKwestia, {$set: kwestia}, {upsert: true});
     },
 
     //metody Kwestia OPCJA
@@ -34,8 +34,8 @@ Meteor.methods({
             kwestiaNazwa: newKwestiaOpcja[0].kwestiaNazwa,
             wartoscPriorytetu: parseInt(newKwestiaOpcja[0].wartoscPriorytetu),
             sredniaPriorytet: parseFloat(newKwestiaOpcja[0].sredniaPriorytet),
-            temat_id: newKwestiaOpcja[0].temat_id,
-            rodzaj_id: newKwestiaOpcja[0].rodzaj_id,
+            idTemat: newKwestiaOpcja[0].idTemat,
+            idRodzaj: newKwestiaOpcja[0].idRodzaj,
             pulapPriorytetu:newKwestiaOpcja[0].pulapPriorytetu,
             //glosujacy_id: newKwestiaOpcja[0].glosujacy_id,
             dataDyskusji: newKwestiaOpcja[0].dataDyskusji,
@@ -50,34 +50,12 @@ Meteor.methods({
         });
         return id;
     },
-
-    //// metody KwestiaDraft
-    //addKwestiaDraft: function(newKwestiaDraft){
-    //    var id = KwestiaDraft.insert({
-    //        userId: Meteor.userId(),
-    //        dataWprowadzenia: newKwestiaDraft[0].dataWprowadzenia,
-    //        kwestiaNazwa: newKwestiaDraft[0].kwestiaNazwa,
-    //        wartoscPriorytetu: parseInt(newKwestiaDraft[0].wartoscPriorytetu),
-    //        sredniaPriorytet: parseFloat(newKwestiaDraft[0].sredniaPriorytet),
-    //        temat_id: newKwestiaDraft[0].temat_id,
-    //        rodzaj_id: newKwestiaDraft[0].rodzaj_id,
-    //        glosujacy_id: newKwestiaDraft[0].glosujacy_id,
-    //        dataDyskusji: newKwestiaDraft[0].dataDyskusji,
-    //        dataGlosowania: moment(newKwestiaDraft[0].dataGlosowania).format(),
-    //        czyAktywny: newKwestiaDraft.czyAktywny=true,
-    //        status: newKwestiaDraft.status="deliberowana",
-    //        krotkaTresc: newKwestiaDraft[0].krotkaTresc,
-    //        szczegolowaTresc: newKwestiaDraft[0].szczegolowaTresc,
-    //        glosujacy: []
-    //    });
-    //    return id;
-    //},
     //updateKwestiaDraft: function(kwestiaDraft){
     //    var page = PagesDraft.findOne({_id: kwestiaDraft._id});
     //    KwestiaDraft.upsert({_id: kwestiaDraft._id}, kwestiaDraft);
     //    return kwestiaDraft._id;
     //},
-    //
+
     //// metody KwestiaSuspended -  zawieszone kwestie przeznaczone do dyskusji dygresyjnej
     //addKwestiaSuspended: function(newKwestiaSuspended){
     //    var id = KwestiaSuspended.insert({

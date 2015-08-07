@@ -11,7 +11,7 @@ Template.addKwestiaOpcjaForm.helpers({
     isSelectedTemat: function (id, tematId) {
         var r = Session.get("idKwestia");
         var k = Kwestia.findOne({_id: r});
-        var item = Temat.findOne({_id: k.temat_id});
+        var item = Temat.findOne({_id: k.idTemat});
         if (item._id == id)
             return true;
         else
@@ -20,7 +20,7 @@ Template.addKwestiaOpcjaForm.helpers({
     isSelectedRodzaj: function (id) {
         var r = Session.get("idKwestia");
         var k = Kwestia.findOne({_id: r});
-        var item = Rodzaj.findOne({_id: k.rodzaj_id});
+        var item = Rodzaj.findOne({_id: k.idRodzaj});
         if (item._id == id)
             return true;
         else
@@ -51,8 +51,8 @@ Template.addKwestiaOpcjaForm.events({
                 kwestiaNazwa: $(e.target).find('[name=kwestiaNazwa]').val(),
                 wartoscPriorytetu: 0,
                 sredniaPriorytet: 0,
-                temat_id: $(e.target).find('[name=tematy]').val(),
-                rodzaj_id: $(e.target).find('[name=rodzaje]').val(),
+                idTemat: $(e.target).find('[name=tematy]').val(),
+                idRodzaj: $(e.target).find('[name=rodzaje]').val(),
                 // pulapPriorytetu: pulapPriorytetu,
                 dataDyskusji: new Date(),
                 dataGlosowania: d,

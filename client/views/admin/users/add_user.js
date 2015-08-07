@@ -3,7 +3,64 @@ Template.addUserForm.rendered = function () {
         sideBySide: true,
         format: 'DD/MM/YYYY'
     });
-    setRoles();
+    $("#userForm").validate({
+        rules: {
+            password:{
+                minlength:6,
+            },
+            czasGlosowania:{
+                min: 0.01,
+                number:true
+            },
+            email:{
+                email: true
+            },
+            confirmPassword:{
+                equalTo: "#inputPassword"
+            }
+        },
+        messages:{
+            role:{
+                required:fieldEmptyMesssage(),
+            },
+            email:{
+                required:fieldEmptyMesssage(),
+                email:validEmailMessage()
+            },
+            firstName:{
+                required:fieldEmptyMesssage(),
+            },
+            lastName:{
+                required:fieldEmptyMesssage(),
+            },
+            password:{
+                required:fieldEmptyMesssage(),
+                minlength:minLengthMessage(6)
+            },
+            confirmPassword:{
+                equalTo:equalToMessage()
+            }
+        },
+        highlight: function(element) {
+            var id_attr = "#" + $( element ).attr("id") + "1";
+            $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+            $(id_attr).removeClass('glyphicon-ok').addClass('glyphicon-remove');
+        },
+        unhighlight: function(element) {
+            var id_attr = "#" + $( element ).attr("id") + "1";
+            $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+            $(id_attr).removeClass('glyphicon-remove').addClass('glyphicon-ok');
+        },
+        errorElement: 'span',
+        errorClass: 'help-block',
+        errorPlacement: function(error, element) {
+            if(element.length) {
+                error.insertAfter(element);
+            } else {
+                error.insertAfter(element);
+            }
+        }
+    })
 };
 
 Template.addUserForm.events({
@@ -16,25 +73,18 @@ Template.addUserForm.events({
                 login: "",
                 password: $(e.target).find('[name=password]').val(),
                 confirm_password: $(e.target).find('[name=confirmPassword]').val(),
-                first_name: $(e.target).find('[name=firstName]').val(),
-                last_name: $(e.target).find('[name=lastName]').val(),
+                firstName: $(e.target).find('[name=firstName]').val(),
+                lastName: $(e.target).find('[name=lastName]').val(),
                 profession: $(e.target).find('[name=profession]').val(),
                 phone: $(e.target).find('[name=phone]').val(),
-                date_of_birth: $(e.target).find('[name=dateOfBirth]').val(),
+                dateOfBirth: $(e.target).find('[name=dateOfBirth]').val(),
                 address: $(e.target).find('[name=address]').val(),
                 zip: $(e.target).find('[name=zipCode]').val(),
                 web: $(e.target).find('[name=web]').val(),
                 gender: $(e.target).find('[name=genderRadios]:checked').val(),
-                role: $(e.target).find('[name=role]').val(),
-                role_desc: $(e.target).find('[name=uwagiStatus]').val()
+                role: 'admin',
+                roleDesc: $(e.target).find('[name=uwagiStatus]').val()
             }];
-        if (isNotEmpty(newUser[0].role,'rola') &&
-            isNotEmpty(newUser[0].first_name,'imię') &&
-            isNotEmpty(newUser[0].last_name,'nazwisko') &&
-            isNotEmpty(newUser[0].password,'hasło') &&
-            isEmail(newUser[0].email) &&
-            isValidPassword(newUser[0].password) &&
-            areValidPasswords(newUser[0].password, newUser[0].confirm_password)) {
             // sprawdzamy, czy rola istnieje,
             // jeżeli nie to dodajemy nową.
             Meteor.call('addRole', newUser[0].role, function (error) {
@@ -49,7 +99,7 @@ Template.addUserForm.events({
                 }
             });
             //-- generowanie loginu dla użytkownika
-            newUser[0].login = generateLogin(newUser[0].first_name, newUser[0].last_name);
+            newUser[0].login = generateLogin(newUser[0].firstName, newUser[0].lastName);
             Meteor.call('addUser', newUser, function (error) {
                 if (error)
                 {
@@ -57,7 +107,7 @@ Template.addUserForm.events({
                     if (typeof Errors === "undefined")
                         Log.error('Error: ' + error.reason);
                     else {
-                        if(error.error === 409)
+                        //if(error.error === 409)
                         throwError(error.reason);
                     }
                 }
@@ -65,9 +115,6 @@ Template.addUserForm.events({
                     Router.go('listUsers');
                 }
             });
-        } else {
-            return false;
-        }
     },
     'reset form': function(){
         Router.go('listUsers');

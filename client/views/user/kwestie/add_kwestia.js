@@ -8,10 +8,51 @@ Template.addKwestiaForm.rendered = function(){
 
     if(Session.get("kwestiaPreview")) {
         var item = Session.get("kwestiaPreview");
-        var rodzaj = Rodzaj.findOne({_id: item.rodzaj_id});
+        var rodzaj = Rodzaj.findOne({_id: item.idRodzaj});
         var self = Template.instance();
         self.rodzajRV.set(rodzaj.nazwaRodzaj);
     }
+    $("#kwestiaForm").validate({
+        messages:{
+            kwestiaNazwa:{
+                required:fieldEmptyMesssage(),
+            },
+            tematy:{
+                required:fieldEmptyMesssage()
+            },
+            rodzaje:{
+                required:fieldEmptyMesssage()
+            },
+            tresc:{
+                required:fieldEmptyMesssage()
+            },
+            krotkaTresc:{
+                required:fieldEmptyMesssage()
+            },
+            szczegolowaTresc:{
+                required:fieldEmptyMesssage()
+            },
+        },
+        highlight: function(element) {
+            var id_attr = "#" + $( element ).attr("id") + "1";
+            $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+            $(id_attr).removeClass('glyphicon-ok').addClass('glyphicon-remove');
+        },
+        unhighlight: function(element) {
+            var id_attr = "#" + $( element ).attr("id") + "1";
+            $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+            $(id_attr).removeClass('glyphicon-remove').addClass('glyphicon-ok');
+        },
+        errorElement: 'span',
+        errorClass: 'help-block',
+        errorPlacement: function(error, element) {
+            if(element.length) {
+                error.insertAfter(element);
+            } else {
+                error.insertAfter(element);
+            }
+        }
+    })
 };
 
 Template.addKwestiaForm.helpers({
@@ -36,7 +77,7 @@ Template.addKwestiaForm.helpers({
     isSelectedTemat: function(id) {
         if(Session.get("kwestiaPreview")){
             var item = Session.get("kwestiaPreview");
-            var item = Temat.findOne({_id: item.temat_id});
+            var item = Temat.findOne({_id: item.idTemat});
 
             return item._id == id ? true : false;
         }
@@ -46,7 +87,7 @@ Template.addKwestiaForm.helpers({
     isSelectedRodzaj: function(id) {
         if(Session.get("kwestiaPreview")) {
             var item = Session.get("kwestiaPreview");
-            var item = Rodzaj.findOne({_id: item.rodzaj_id});
+            var item = Rodzaj.findOne({_id: item.idRodzaj});
             if (item._id == id)
                 return true;
             else
@@ -73,6 +114,16 @@ Template.addKwestiaForm.events({
         var dataG =  new Date();
         var d = dataG.setDate(dataG.getDate()+7);
         var pulapPriorytetu = null;
+       // var rodzaj = $(e.target).find('[name=rodzaje]').val()
+       // console.log(rodzaj);
+
+       // if(rodzaj!='default'){
+      //      pulapPriorytetu = Rodzaj.findOne({_id:rodzaj}).pulapPriorytetu;
+       // }
+       // else{
+        //    isNotEmpty('','rodzaj');
+       //     var t=false;
+       // }
 
         var newKwestiaDraft = [
             {
@@ -81,9 +132,9 @@ Template.addKwestiaForm.events({
                 kwestiaNazwa: $(e.target).find('[name=kwestiaNazwa]').val(),
                 wartoscPriorytetu: 0,
                 sredniaPriorytet: 0,
-                temat_id: $(e.target).find('[name=tematy]').val(),
-                rodzaj_id: $(e.target).find('[name=rodzaje]').val(),
-               // pulapPriorytetu: pulapPriorytetu,
+                idTemat: $(e.target).find('[name=tematy]').val(),
+                idRodzaj: $(e.target).find('[name=rodzaje]').val(),
+
                 dataDyskusji: new Date(),
                 dataGlosowania: d,
                 krotkaTresc1:$(e.target).find('[name=tresc]').val(),
@@ -92,18 +143,19 @@ Template.addKwestiaForm.events({
                 isOption: false
             }];
 
-        if(newKwestiaDraft[0].rodzaj_id!='default') {
-            newKwestiaDraft[0].pulapPriorytetu = Rodzaj.findOne({_id: newKwestiaDraft[0].rodzaj_id}).pulapPriorytetu;
+        if(newKwestiaDraft[0].idRodzaj!='default') {
+            newKwestiaDraft[0].pulapPriorytetu = Rodzaj.findOne({_id: newKwestiaDraft[0].idRodzaj}).pulapPriorytetu;
             if (
                 isNotEmpty(newKwestiaDraft[0].kwestiaNazwa, 'nazwa kwestii') &&
-                isNotEmpty(newKwestiaDraft[0].temat_id, 'temat') &&
-                isNotEmpty(newKwestiaDraft[0].rodzaj_id, 'rodzaj') &&
+                isNotEmpty(newKwestiaDraft[0].idTemat, 'temat') &&
+                isNotEmpty(newKwestiaDraft[0].idRodzaj, 'rodzaj') &&
                 isNotEmpty(newKwestiaDraft[0].krotkaTresc1, 'krótka treść') &&
                 isNotEmpty(newKwestiaDraft[0].krotkaTresc2, 'krótka treść cd') &&
                 isNotEmpty(newKwestiaDraft[0].szczegolowaTresc, 'opis z uzasadnieniem') &&
                 isNotEmpty(newKwestiaDraft[0].dataDyskusji.toString(), 'data dyskusji') &&
                 isNotEmpty(newKwestiaDraft[0].dataGlosowania.toString(), 'data głosowania')
             ) {
+
                 Session.set("kwestiaPreview", newKwestiaDraft[0]);
                 Router.go('previewKwestia');
             }

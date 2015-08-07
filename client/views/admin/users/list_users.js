@@ -24,8 +24,8 @@ Template.listUsers.helpers({
             showColumnToggles: true,
             enableRegex: false,
             fields: [
-                {key: 'profile.first_name', label: "Imię"},
-                {key: 'profile.last_name', label: "Nazwisko"},
+                {key: 'profile.firstName', label: "Imię"},
+                {key: 'profile.lastName', label: "Nazwisko"},
                 {key: 'username', label: "Nazwa użytkownika"},
                 {key: 'email', label: "Email", tmpl: Template.userEmail},
                 {key: 'roles', label: "Rola"},

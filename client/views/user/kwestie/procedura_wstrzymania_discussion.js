@@ -1,6 +1,6 @@
 Template.discussionMainPanel.helpers({
     'getPosts':function(id){
-        return KwestiaSuspendedPosts.find({kwestia_suspended_id:id,isParent:true});
+        return KwestiaSuspendedPosts.find({kwestiaSuspendedId:id,isParent:true});
     }
 });
 
@@ -33,25 +33,25 @@ Template.postForm.events({
         e.preventDefault();
 
         var message = $(e.target).find('[name=message]').val();
-        var kwestia_suspended_id = $(e.target).find('[name=kwestia_suspended_id]').val();
+        var kwestiaSuspendedId = $(e.target).find('[name=kwestia_suspended_id]').val();
         var userId = Meteor.userId();
         var add_date = new Date();
         var isParent = true;
         var czyAktywny = true;
-        var user_full_name = Meteor.user().profile.full_name;
+        var userFullName = Meteor.user().profile.fullName;
 
         var post = [{
-            kwestia_suspended_id: kwestia_suspended_id,
+            kwestiaSuspendedId: kwestiaSuspendedId,
             post_message: message,
-            user_id: userId,
-            user_full_name:user_full_name,
+            userId: userId,
+            userFullName:userFullName,
             add_date: add_date,
             isParent: isParent,
             czyAktywny: czyAktywny
         }];
        // console.log(post[0]);
-        if (isNotEmpty(post[0].kwestia_suspended_id,'') && isNotEmpty(post[0].post_message,'komentarz') && isNotEmpty(post[0].user_id,'') &&
-            isNotEmpty(post[0].add_date.toString(),'') && isNotEmpty(post[0].czyAktywny.toString(),'') && isNotEmpty(post[0].user_full_name,'' && isNotEmpty(post[0].isParent.toString(),''))) {
+        if (isNotEmpty(post[0].kwestiaSuspendedId,'') && isNotEmpty(post[0].post_message,'komentarz') && isNotEmpty(post[0].userId,'') &&
+            isNotEmpty(post[0].add_date.toString(),'') && isNotEmpty(post[0].czyAktywny.toString(),'') && isNotEmpty(post[0].userFullName,'' && isNotEmpty(post[0].isParent.toString(),''))) {
 
             Meteor.call('addKwestiaSuspendedPosts', post, function (error,ret) {
                 if (error) {
@@ -72,28 +72,28 @@ Template.postAnswerForm.events({
         e.preventDefault();
 
         var message = $(e.target).find('[name=answer_message]').val();
-        var kwestia_suspended_id = $(e.target).find('[name=answer_kwestia_suspended_id]').val();
+        var kwestiaSuspendedId = $(e.target).find('[name=answer_kwestia_suspended_id]').val();
         var parentId = $(e.target).find('[name=answer_post_id]').val();
         var userId = Meteor.userId();
         var add_date = new Date();
         var isParent = false;
         var czyAktywny = true;
-        var user_full_name = Meteor.user().profile.full_name;
+        var userFullName = Meteor.user().profile.fullName;
 
         var post = [{
-            kwestia_suspended_id: kwestia_suspended_id,
+            kwestiaSuspendedId: kwestiaSuspendedId,
             post_message: message,
-            user_id: userId,
-            user_full_name: user_full_name,
+            userId: userId,
+            userFullName: userFullName,
             add_date: add_date,
             isParent: isParent,
             parentId: parentId,
             czyAktywny: czyAktywny
         }];
 
-        if (isNotEmpty(post[0].kwestia_suspended_id,'a') && isNotEmpty(post[0].post_message,'komentarz') &&
-            isNotEmpty(post[0].user_id,'b') && isNotEmpty(post[0].add_date,'c') &&
-            isNotEmpty(post[0].parentId,'d') && isNotEmpty(post[0].user_full_name,'e') &&
+        if (isNotEmpty(post[0].kwestiaSuspendedId,'a') && isNotEmpty(post[0].post_message,'komentarz') &&
+            isNotEmpty(post[0].userId,'b') && isNotEmpty(post[0].addDate,'c') &&
+            isNotEmpty(post[0].parentId,'d') && isNotEmpty(post[0].userFullName,'e') &&
             !post[0].isParent && post[0].czyAktywny) {
 
             Meteor.call('addKwestiaSuspendedPostsAnswer', post, function (error,ret) {

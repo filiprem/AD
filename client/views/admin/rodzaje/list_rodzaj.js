@@ -19,7 +19,7 @@ Template.listRodzaj.helpers({
             enableRegex: false,
             fields: [
                 {key: 'nazwaRodzaj', label: "Nazwa rodzaju", tmpl:Template.nazwaRodzajuLink},
-                {key: 'temat_id', label: "Temat", tmpl: Template.tematRodzaj},
+                {key: 'idTemat', label: "Temat", tmpl: Template.tematRodzaj},
                 {key: 'czasDyskusji', label: "Czas dyskusji",},
                 {key: 'pulapPriorytetu', label: "Pułap priorytetu"},
                 {key: 'options', label: "Opcje", tmpl: Template.editColumnRodzaj }
@@ -36,13 +36,13 @@ Template.listRodzaj.helpers({
         return IsAdminUser();
     },
     tematNazwa: function(){
-        return Temat.findOne({_id: this.temat_id});
+        return Temat.findOne({_id: this.idTemat});
     }
 });
 
 Template.tematRodzaj.helpers({
     tematNazwa: function(){
-        var t = Temat.findOne({_id: this.temat_id});
+        var t = Temat.findOne({_id: this.idTemat});
         if(t){
             return t.nazwaTemat;
         }

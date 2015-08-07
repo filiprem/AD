@@ -14,6 +14,7 @@ Template.previewKwestia.events({
     },
     'click #save': function(e){
         e.preventDefault();
+
         var kwestia = Session.get("kwestiaPreview");
         var idParentKwestii = Session.get("idKwestia");
         if(kwestia.idParent){
@@ -24,8 +25,8 @@ Template.previewKwestia.events({
                     kwestiaNazwa: kwestia.kwestiaNazwa,
                     wartoscPriorytetu: 0,
                     sredniaPriorytet: 0,
-                    temat_id: kwestia.temat_id,
-                    rodzaj_id: kwestia.rodzaj_id,
+                    idTemat: kwestia.idTemat,
+                    idRodzaj: kwestia.idRodzaj,
                     pulapPriorytetu:kwestia.pulapPriorytetu,
                     dataDyskusji: kwestia.dataDyskusji,
                     dataGlosowania: kwestia.dataGlosowania,
@@ -56,8 +57,8 @@ Template.previewKwestia.events({
                     kwestiaNazwa: kwestia.kwestiaNazwa,
                     wartoscPriorytetu: 0,
                     sredniaPriorytet: 0,
-                    temat_id: kwestia.temat_id,
-                    rodzaj_id: kwestia.rodzaj_id,
+                    idTemat: kwestia.idTemat,
+                    idRodzaj: kwestia.idRodzaj,
                     pulapPriorytetu:kwestia.pulapPriorytetu,
                     dataDyskusji: kwestia.dataDyskusji,
                     dataGlosowania: kwestia.dataGlosowania,
