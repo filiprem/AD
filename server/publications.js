@@ -25,10 +25,6 @@ Meteor.publish('kwestia', function(){
     return Kwestia.find();
 });
 
-Meteor.publish('kwestiaDraft', function(){
-    return KwestiaDraft.find();
-})
-
 Meteor.publish('kwestiaTresc', function(){
     return KwestiaTresc.find();
 });
@@ -41,24 +37,12 @@ Meteor.publish('glosujacy', function() {
     return Parametr.find();
 });
 
-Meteor.publish('allKwestiaSuspended', function() {
-    return KwestiaSuspended.find({czyAktywny:true});
+Meteor.publish('postsByKwestiaId', function(id) {
+    return Posts.find({idKwestia:id, czyAktywny:true});
 });
 
-Meteor.publish('kwestiaSuspended', function(id) {
-    return KwestiaSuspended.find({_id:id,czyAktywny:true});
-});
-
-Meteor.publish('kwestiaSuspendedBykwestiaId', function(id) {
-    return KwestiaSuspended.find({idKwestia:id,czyAktywny:true});
-});
-
-Meteor.publish('allKwestiaSuspendedPosts', function() {
-    return KwestiaSuspendedPosts.find({czyAktywny:true});
-});
-
-Meteor.publish('kwestiaSuspendedPosts', function(id) {
-    return KwestiaSuspendedPosts.find({kwestiaSuspendedId:id, czyAktywny:true});
+Meteor.publish('allPosts', function() {
+    return Posts.find({czyAktywny:true});
 });
 
 Meteor.startup(function () {

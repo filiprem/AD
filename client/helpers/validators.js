@@ -53,7 +53,7 @@ trimInput = function(value) {
 isNotEmpty = function(value, statement, fieldName) {
     value=value.replace(/\s+/g,'');
     console.log("Value "+value);
-    console.log("Statement "+statement);
+    console.log("Statement "+statement)
     if (value!=='' && value !== '0'){
         if(fieldName!=null) {
             document.getElementById(fieldName).classList.remove('has-error');

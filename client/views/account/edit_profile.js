@@ -89,7 +89,6 @@ Template.profileEdit.events({
             //    Router.go('manage_account');
             //}
             //});
-            console.log("ZOstalo: "+userProperties.profile.gender);
             Meteor.call('updateUser',currentUserId, userProperties, function (error) {
                 if (error)
                 {

@@ -38,13 +38,5 @@ Meteor.methods({
 
     removeUser: function(id){
         Users.remove({_id: id});
-    },
-
-    addGlosujacy: function(newGlosujacy) {
-        Glosujacy.insert({
-            idGlosujacy: newGlosujacy[0].idGlosujacy,
-            userId: newGlosujacy[0].userId,
-            obecny_priorytet: newGlosujacy[0].obecny_priorytet
-        });
     }
 });

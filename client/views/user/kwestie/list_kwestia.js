@@ -56,15 +56,15 @@ Template.listKwestia.helpers({
         var i=0;
 
         var kwestia = Kwestia.findOne({_id: this._id});
-        kwestia.glosujacy.forEach(function(item)
-        {
+        kwestia.glosujacy.forEach(function(item) {
             i++;
         });
-        if(kwestia.priorytet === 0)
+        if(kwestia.priorytet === 0) {
             var srPriorytet = kwestia.priorytet;
-        else
-            var srPriorytet = kwestia.priorytet/i ;
-
+        }
+        else{
+            var srPriorytet = kwestia.priorytet/i;
+        }
         return srPriorytet
     },
     kwestiaCount: function(){
@@ -124,8 +124,8 @@ Template.editColumnKwestia.helpers({
     //isMine: function(){
     //    var usr = Users.findOne({_id: this.userId});
     //    console.log(usr)
-    //    var userId = this.userId;
-    //    if(userId==Meteor.userId){
+    //    var usrId = this.userId;
+    //    if(usrId==Meteor.userId){
     //        return ;
     //    }
     //    else{
