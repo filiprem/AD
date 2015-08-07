@@ -73,16 +73,6 @@ Template.addKwestiaForm.events({
         var dataG =  new Date();
         var d = dataG.setDate(dataG.getDate()+7);
         var pulapPriorytetu = null;
-       // var rodzaj = $(e.target).find('[name=rodzaje]').val()
-       // console.log(rodzaj);
-
-       // if(rodzaj!='default'){
-      //      pulapPriorytetu = Rodzaj.findOne({_id:rodzaj}).pulapPriorytetu;
-       // }
-       // else{
-        //    isNotEmpty('','rodzaj');
-       //     var t=false;
-       // }
 
         var newKwestiaDraft = [
             {
@@ -98,7 +88,8 @@ Template.addKwestiaForm.events({
                 dataGlosowania: d,
                 krotkaTresc1:$(e.target).find('[name=tresc]').val(),
                 krotkaTresc2: $(e.target).find('[name=krotkaTresc]').val(),
-                szczegolowaTresc: $(e.target).find('[name=szczegolowaTresc]').val()
+                szczegolowaTresc: $(e.target).find('[name=szczegolowaTresc]').val(),
+                isOption: false
             }];
 
         if(newKwestiaDraft[0].rodzaj_id!='default') {
@@ -113,7 +104,6 @@ Template.addKwestiaForm.events({
                 isNotEmpty(newKwestiaDraft[0].dataDyskusji.toString(), 'data dyskusji') &&
                 isNotEmpty(newKwestiaDraft[0].dataGlosowania.toString(), 'data głosowania')
             ) {
-
                 Session.set("kwestiaPreview", newKwestiaDraft[0]);
                 Router.go('previewKwestia');
             }
@@ -122,48 +112,6 @@ Template.addKwestiaForm.events({
         {
             isNotEmpty('', 'rodzaj')
         }
-       /* else
-        {
-            if(newKwestiaDraft[0].kwestiaNazwa === '')
-                document.getElementById('kwestiaNazwaGroup').classList.add('has-error');
-            else
-                document.getElementById('kwestiaNazwaGroup').classList.remove('has-error');
-
-            if(newKwestiaDraft[0].temat_id === '0')
-                document.getElementById('tematyGroup').classList.add('has-error');
-            else
-                document.getElementById('tematyGroup').classList.remove('has-error');
-
-            if(newKwestiaDraft[0].rodzaj_id === '0')
-                document.getElementById('rodzajeGroup').classList.add('has-error');
-            else
-                document.getElementById('rodzajeGroup').classList.remove('has-error');
-
-            if(newKwestiaDraft[0].dataDyskusji === '')
-                document.getElementById('dataDyskusjiGroup').classList.add('has-error');
-            else
-                document.getElementById('dataDyskusjiGroup').classList.remove('has-error');
-
-            if(newKwestiaDraft[0].dataGlosowania === '')
-                document.getElementById('dataGlosowaniaGroup').classList.add('has-error');
-            else
-                document.getElementById('dataGlosowaniaGroup').classList.remove('has-error');
-
-            if(newKwestiaDraft[0].krotkaTresc1 === '')
-                document.getElementById('krotkaTrescGroup').classList.add('has-error');
-            else
-                document.getElementById('krotkaTrescGroup').classList.remove('has-error');
-
-            if(newKwestiaDraft[0].krotkaTresc2 === '')
-                document.getElementById('krotkaTrescGroup').classList.add('has-error');
-            else
-                document.getElementById('krotkaTrescGroup').classList.remove('has-error');
-
-            if(newKwestiaDraft[0].szczegolowaTresc === '')
-                document.getElementById('szczegolowaTrescGroup').classList.add('has-error');
-            else
-                document.getElementById('szczegolowaTrescGroup').classList.remove('has-error');
-        }*/
     },
     'reset form': function(){
         Router.go('listKwestia');

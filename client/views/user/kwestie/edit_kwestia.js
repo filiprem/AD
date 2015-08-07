@@ -1,7 +1,4 @@
-Template.editKwestiaForm.rendered = function(){
-    //setTematy();
-    //setRodzaje();
-};
+Template.editKwestiaForm.rendered = function(){};
 
 Template.editKwestiaForm.helpers({
     kwestiaToEdit: function(){

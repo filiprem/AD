@@ -29,17 +29,21 @@ Template.informacjeKwestia.events({
                 }
             });
         }
+    },
+    'click #addOptionButton':function (){
+        Router.go("addKwestiaOpcja");
     }
 });
 Template.informacjeKwestia.helpers({
+    thisKwestia: function(){
+        var k = Session.get("idKwestia")
+    },
     mojPiorytet: function(){
         var currentKwestiaId = this._id;
         var kwestia = Kwestia.findOne(currentKwestiaId);
         var g = kwestia.glosujacy;
         for(var i=0; i < g.length; i++){
             if(Meteor.userId()==g[i][0]){
-                console.log("nadales tej kwestii priorytet: ");
-                console.log(g[i][1])
                 return g[i][1];
             }
         }

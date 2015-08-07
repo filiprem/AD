@@ -70,8 +70,6 @@ Template.editUserForm.events({
                role_desc: $(e.target).find('[name=uwagiStatus]').val()
            }
        };
-       console.log(userProperties)
-       console.log(usrId)
 
        if (isNotEmpty(userProperties.profile.first_name,'imię') &&
            isNotEmpty(userProperties.profile.last_name,'nazwisko') ) {

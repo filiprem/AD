@@ -49,7 +49,6 @@ Template.postForm.events({
             isParent: isParent,
             czyAktywny: czyAktywny
         }];
-       // console.log(post[0]);
         if (isNotEmpty(post[0].kwestia_suspended_id,'') && isNotEmpty(post[0].post_message,'komentarz') && isNotEmpty(post[0].user_id,'') &&
             isNotEmpty(post[0].add_date.toString(),'') && isNotEmpty(post[0].czyAktywny.toString(),'') && isNotEmpty(post[0].user_full_name,'' && isNotEmpty(post[0].isParent.toString(),''))) {
 
