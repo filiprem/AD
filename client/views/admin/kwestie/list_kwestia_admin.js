@@ -38,8 +38,8 @@ Template.listKwestiaAdmin.helpers({
                     tmpl: Template.priorytetKwestia,
                     sortOrder: 1,
                     sortDirection: 'descending'},
-                {key: 'temat_id', label: "Temat",  tmpl: Template.tematKwestia},
-                {key: 'rodzaj_id', label: "Rodzaj", tmpl: Template.rodzajKwestia},
+                {key: 'idTemat', label: "Temat",  tmpl: Template.tematKwestia},
+                {key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestia},
                 {key: 'dataGlosowania', label: Template.listKwestiaAdminColumnLabel, labelData: {title: "Data zakończenia głosowania", text:"Finał"}, tmpl: Template.dataGlKwestia},
                 {key: 'status', label: Template.listKwestiaAdminColumnLabel, labelData: {title: "Etap, na którym znajduje sie ta Kwestia", text:"Status"}},
                 {key: 'options', label: "Opcje", tmpl: Template.editColumnKwestiaAdmin }
@@ -71,10 +71,10 @@ Template.listKwestiaAdmin.helpers({
         return IsAdminUser();
     },
     tematNazwa: function(){
-        return Temat.findOne({_id: this.temat_id});
+        return Temat.findOne({_id: this.idTemat});
     },
     rodzajNazwa: function(){
-        return Rodzaj.findOne({_id: this.rodzaj_id});
+        return Rodzaj.findOne({_id: this.idRodzaj});
     }
 });
 

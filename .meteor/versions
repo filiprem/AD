@@ -71,6 +71,7 @@ srp@1.0.3
 standard-app-packages@1.0.5
 stylus@1.0.7
 templating@1.1.1
+themeteorchef:jquery-validation@1.13.1
 tracker@1.0.7
 tsega:bootstrap3-datetimepicker@4.7.14_3
 twbs:bootstrap@3.3.4

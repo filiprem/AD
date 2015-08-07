@@ -7,10 +7,10 @@ Meteor.methods({
             kwestiaNazwa: newKwestia[0].kwestiaNazwa,
             wartoscPriorytetu: parseInt(newKwestia[0].wartoscPriorytetu),
             sredniaPriorytet: parseFloat(newKwestia[0].sredniaPriorytet),
-            temat_id: newKwestia[0].temat_id,
-            rodzaj_id: newKwestia[0].rodzaj_id,
+            idTemat: newKwestia[0].idTemat,
+            idRodzaj: newKwestia[0].idRodzaj,
             pulapPriorytetu:newKwestia[0].pulapPriorytetu,
-            glosujacy_id: newKwestia[0].glosujacy_id,
+            idGlosujacy: newKwestia[0].idGlosujacy,
             dataDyskusji: newKwestia[0].dataDyskusji,
             dataGlosowania: moment(newKwestia[0].dataGlosowania).format(),
             czyAktywny: newKwestia.czyAktywny=true,
@@ -22,7 +22,7 @@ Meteor.methods({
         return id;
     },
     updateKwestia: function (kwestiaId, kwestia) {
-        Kwestia.update(kwestiaId, {$set: kwestia}, {upsert: true});
+        Kwestia.update(idKwestia, {$set: kwestia}, {upsert: true});
     },
 
     // metody KwestiaDraft
@@ -33,9 +33,9 @@ Meteor.methods({
             kwestiaNazwa: newKwestiaDraft[0].kwestiaNazwa,
             wartoscPriorytetu: parseInt(newKwestiaDraft[0].wartoscPriorytetu),
             sredniaPriorytet: parseFloat(newKwestiaDraft[0].sredniaPriorytet),
-            temat_id: newKwestiaDraft[0].temat_id,
-            rodzaj_id: newKwestiaDraft[0].rodzaj_id,
-            glosujacy_id: newKwestiaDraft[0].glosujacy_id,
+            idTemat: newKwestiaDraft[0].idTemat,
+            idRodzaj: newKwestiaDraft[0].idRodzaj,
+            idGlosujacy: newKwestiaDraft[0].idGlosujacy,
             dataDyskusji: newKwestiaDraft[0].dataDyskusji,
             dataGlosowania: moment(newKwestiaDraft[0].dataGlosowania).format(),
             czyAktywny: newKwestiaDraft.czyAktywny=true,
@@ -55,8 +55,8 @@ Meteor.methods({
     // metody KwestiaSuspended -  zawieszone kwestie przeznaczone do dyskusji dygresyjnej
     addKwestiaSuspended: function(newKwestiaSuspended){
         var id = KwestiaSuspended.insert({
-            kwestia_id: newKwestiaSuspended[0].kwestia_id,
-            user_id: newKwestiaSuspended[0].user_id,
+            idKwestia: newKwestiaSuspended[0].idKwestia,
+            userId: newKwestiaSuspended[0].userId,
             uzasadnienie: newKwestiaSuspended[0].uzasadnienie,
             dataDodania: new Date(),
             czyAktywny: newKwestiaSuspended[0].czyAktywny
@@ -69,17 +69,17 @@ Meteor.methods({
     },
     removeKwestiaSuspended: function(id){
         KwestiaSuspended.update(id, {$set:{ czyAktywny: false}});
-        return KwestiaSuspended.findOne({_id:id}).kwestia_id;
+        return KwestiaSuspended.findOne({_id:id}).idKwestia;
     },
 
     //metody KwestiaSuspendedPosts
     addKwestiaSuspendedPosts: function(newPost){
         var id = KwestiaSuspendedPosts.insert({
-            kwestia_suspended_id: newPost[0].kwestia_suspended_id,
+            kwestiaSuspendedId: newPost[0].kwestiaSuspendedId,
             post_message: newPost[0].post_message,
-            user_id: newPost[0].user_id,
-            user_full_name:newPost[0].user_full_name,
-            add_date: newPost[0].add_date,
+            userId: newPost[0].userId,
+            userFullName:newPost[0].userFullName,
+            addDate: newPost[0].addDate,
             isParent: newPost[0].isParent,
             czyAktywny: newPost[0].czyAktywny
         });
@@ -87,11 +87,11 @@ Meteor.methods({
     },
     addKwestiaSuspendedPostsAnswer: function(newPost){
         var id = KwestiaSuspendedPosts.insert({
-            kwestia_suspended_id: newPost[0].kwestia_suspended_id,
+            kwestiaSuspendedId: newPost[0].kwestiaSuspendedId,
             post_message: newPost[0].post_message,
-            user_id: newPost[0].user_id,
-            user_full_name:newPost[0].user_full_name,
-            add_date: newPost[0].add_date,
+            userId: newPost[0].userId,
+            userFullName:newPost[0].userFullName,
+            addDate: newPost[0].addDate,
             isParent: newPost[0].isParent,
             parentId: newPost[0].parentId,
             czyAktywny: newPost[0].czyAktywny

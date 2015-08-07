@@ -2,20 +2,20 @@
     <div class="row">
         <label class="control-label col-xs-12">{{title}}</label>
         <div class="col-xs-12">
-            {{#each getPosts kwestia_suspended_id}}
+            {{#each getPosts kwestiaSuspendedId}}
                {{> postItem
                post_message = post_message
-               user_id = user_id
-               user_full_name = user_full_name
+               userId = userId
+               userFullName = userFullName
                add_date=add_date
-               kwestia_suspended_id=kwestia_suspended_id
+               kwestiaSuspendedId=kwestiaSuspendedId
                post_id=_id
                }}
             {{/each}}
         </div>
     </div>
     {{> postForm
-    kwestia_suspended_id=kwestia_suspended_id
+    kwestiaSuspendedId=kwestiaSuspendedId
     }}
 </template>
 
@@ -25,7 +25,7 @@
             <div class="col-xs-12">
                 <textarea id="message" name="message" type="text" class="form-control" placeholder="Komentarz"></textarea>
             </div>
-            <input id="kwestia_suspended_id" name="kwestia_suspended_id" type="hidden" value="{{kwestia_suspended_id}}">
+            <input id="kwestiaSuspendedId" name="kwestiaSuspendedId" type="hidden" value="{{kwestiaSuspendedId}}">
         </div>
         <div class="form-group">
             <div class="col-xs-12">
@@ -43,13 +43,13 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="pull-right">
-                                <h6><b>{{user_full_name}}</b> {{getSimpleDate add_date}} <small>{{getFullHourDate add_date}}</small></h6>
+                                <h6><b>{{userFullName}}</b> {{getSimpleDate addDate}} <small>{{getFullHourDate addDate}}</small></h6>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <p>{{post_message}}</p>
+                            <p>{{postMessage}}</p>
                         </div>
                     </div>
                     <div class="pull-right">
@@ -67,11 +67,11 @@
                     {{#each getAnswers post_id}}
                         {{> postAnswerItem
                         post_message = post_message
-                        user_full_name = user_full_name
+                        userFullName = userFullName
                         }}
                     {{/each}}
                     {{> postAnswerForm
-                    kwestia_suspended_id=kwestia_suspended_id
+                    kwestiaSuspendedId=kwestiaSuspendedId
                     post_id=post_id
                     }}
                 </div>
@@ -86,7 +86,7 @@
             <div class="col-xs-12">
                 <textarea id="answer_message" name="answer_message" type="text" class="form-control" placeholder="Odpowiedź"></textarea>
             </div>
-            <input id="answer_kwestia_suspended_id" name="answer_kwestia_suspended_id" type="hidden" value="{{kwestia_suspended_id}}">
+            <input id="answer_kwestia_suspended_id" name="answer_kwestia_suspended_id" type="hidden" value="{{kwestiaSuspendedId}}">
             <input id="answer_post_id" name="answer_post_id" type="hidden" value="{{post_id}}">
         </div>
         <div class="form-group">
@@ -102,7 +102,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="pull-right">
-                    <h6><b>{{user_full_name}}</b> {{getSimpleDate add_date}} <small>{{getFullHourDate add_date}}</small></h6>
+                    <h6><b>{{userFullName}}</b> {{getSimpleDate addDate}} <small>{{getFullHourDate addDate}}</small></h6>
                 </div>
             </div>
         </div>

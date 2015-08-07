@@ -11,18 +11,18 @@ Meteor.methods({
                 email: newUser[0].email,
                 password: newUser[0].password,
                 profile: {
-                    first_name: newUser[0].first_name,
-                    last_name: newUser[0].last_name,
-                    full_name: newUser[0].first_name + ' ' + newUser[0].last_name,
+                    firstName: newUser[0].firstName,
+                    lastName: newUser[0].lastName,
+                    fullName: newUser[0].firstName + ' ' + newUser[0].lastName,
                     profession: newUser[0].profession,
                     address: newUser[0].address,
                     zip: newUser[0].zip,
-                    date_of_birth: newUser[0].date_of_birth,
+                    dateOfBirth: newUser[0].dateOfBirth,
                     gender: newUser[0].gender,
                     phone: newUser[0].phone,
                     web: newUser[0].web,
-                    role: newUser[0].role,
-                    role_desc:  newUser[0].role_desc
+                   // role: newUser[0].role,
+                    roleDesc:  newUser[0].roleDesc
                 }
             });
         }
@@ -42,8 +42,8 @@ Meteor.methods({
 
     addGlosujacy: function(newGlosujacy) {
         Glosujacy.insert({
-            glosujacy_id: newGlosujacy[0].glosujacy_id,
-            user_id: newGlosujacy[0].user_id,
+            idGlosujacy: newGlosujacy[0].idGlosujacy,
+            userId: newGlosujacy[0].userId,
             obecny_priorytet: newGlosujacy[0].obecny_priorytet
         });
     }

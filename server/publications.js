@@ -50,7 +50,7 @@ Meteor.publish('kwestiaSuspended', function(id) {
 });
 
 Meteor.publish('kwestiaSuspendedBykwestiaId', function(id) {
-    return KwestiaSuspended.find({kwestia_id:id,czyAktywny:true});
+    return KwestiaSuspended.find({idKwestia:id,czyAktywny:true});
 });
 
 Meteor.publish('allKwestiaSuspendedPosts', function() {
@@ -58,7 +58,7 @@ Meteor.publish('allKwestiaSuspendedPosts', function() {
 });
 
 Meteor.publish('kwestiaSuspendedPosts', function(id) {
-    return KwestiaSuspendedPosts.find({kwestia_suspended_id:id, czyAktywny:true});
+    return KwestiaSuspendedPosts.find({kwestiaSuspendedId:id, czyAktywny:true});
 });
 
 Meteor.startup(function () {
@@ -80,9 +80,9 @@ Meteor.startup(function () {
         var users = [];
         for (var i = 0; i < data.length; i++) {
             users.push({
-                    first_name: data[i].FirstName,
-                    last_name: data[i].LastName,
-                    full_name: data[i].FirstName + ' ' + data[i].LastName,
+                    firstName: data[i].FirstName,
+                    lastName: data[i].LastName,
+                    fulName: data[i].FirstName + ' ' + data[i].LastName,
                     login: data[i].Login,
                     email: data[i].Email,
                     profession: data[i].Profession,
@@ -103,9 +103,9 @@ Meteor.startup(function () {
                 email: user.email,
                 password: "2015adminSDD!",
                 profile: {
-                    first_name: user.first_name,
-                    last_name: user.last_name,
-                    full_name: user.full_name,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    fullName: user.fullName,
                     profession: user.profession,
                     address: user.address,
                     zip: user.zip,

@@ -41,8 +41,8 @@ Template.listKwestia.helpers({
                     tmpl: Template.priorytetKwestia,
                     sortOrder: 1,
                     sortDirection: 'descending'},
-                {key: 'temat_id', label: "Temat", tmpl: Template.tematKwestia},
-                {key: 'rodzaj_id', label: "Rodzaj", tmpl: Template.rodzajKwestia},
+                {key: 'idTemat', label: "Temat", tmpl: Template.tematKwestia},
+                {key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestia},
                 {key: 'dataGlosowania', label: Template.listKwestiaColumnLabel, labelData: {title: "Data zakończenia głosowania", text:"Finał"}, tmpl: Template.dataGlKwestia},
                 {key: 'status', label: Template.listKwestiaColumnLabel ,labelData: {title: "Etap, na którym znajduje sie ta Kwestia", text:"Status"}},
                 {key: 'options', label: "Opcje", tmpl: Template.editColumnKwestia }
@@ -77,7 +77,7 @@ Template.listKwestia.helpers({
 
 Template.tematKwestia.helpers({
     tematNazwa: function(){
-        var t = Temat.findOne({_id: this.temat_id});
+        var t = Temat.findOne({_id: this.idTemat});
         if(t){
             return t.nazwaTemat;
         }
@@ -86,7 +86,7 @@ Template.tematKwestia.helpers({
 
 Template.rodzajKwestia.helpers({
     rodzajNazwa: function(){
-        var r = Rodzaj.findOne({_id: this.rodzaj_id});
+        var r = Rodzaj.findOne({_id: this.idRodzaj});
         if(r){
             return r.nazwaRodzaj;
         }
@@ -124,8 +124,8 @@ Template.editColumnKwestia.helpers({
     //isMine: function(){
     //    var usr = Users.findOne({_id: this.userId});
     //    console.log(usr)
-    //    var usrId = this.userId;
-    //    if(usrId==Meteor.userId){
+    //    var userId = this.userId;
+    //    if(userId==Meteor.userId){
     //        return ;
     //    }
     //    else{

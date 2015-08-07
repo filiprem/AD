@@ -8,10 +8,51 @@ Template.addKwestiaForm.rendered = function(){
 
     if(Session.get("kwestiaPreview")) {
         var item = Session.get("kwestiaPreview");
-        var rodzaj = Rodzaj.findOne({_id: item.rodzaj_id});
+        var rodzaj = Rodzaj.findOne({_id: item.idRodzaj});
         var self = Template.instance();
         self.rodzajRV.set(rodzaj.nazwaRodzaj);
     }
+    $("#kwestiaForm").validate({
+        messages:{
+            kwestiaNazwa:{
+                required:fieldEmptyMesssage(),
+            },
+            tematy:{
+                required:fieldEmptyMesssage()
+            },
+            rodzaje:{
+                required:fieldEmptyMesssage()
+            },
+            tresc:{
+                required:fieldEmptyMesssage()
+            },
+            krotkaTresc:{
+                required:fieldEmptyMesssage()
+            },
+            szczegolowaTresc:{
+                required:fieldEmptyMesssage()
+            },
+        },
+        highlight: function(element) {
+            var id_attr = "#" + $( element ).attr("id") + "1";
+            $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+            $(id_attr).removeClass('glyphicon-ok').addClass('glyphicon-remove');
+        },
+        unhighlight: function(element) {
+            var id_attr = "#" + $( element ).attr("id") + "1";
+            $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+            $(id_attr).removeClass('glyphicon-remove').addClass('glyphicon-ok');
+        },
+        errorElement: 'span',
+        errorClass: 'help-block',
+        errorPlacement: function(error, element) {
+            if(element.length) {
+                error.insertAfter(element);
+            } else {
+                error.insertAfter(element);
+            }
+        }
+    })
 };
 
 Template.addKwestiaForm.helpers({
@@ -36,7 +77,7 @@ Template.addKwestiaForm.helpers({
     isSelectedTemat: function(id) {
         if(Session.get("kwestiaPreview")){
             var item = Session.get("kwestiaPreview");
-            var item = Temat.findOne({_id: item.temat_id});
+            var item = Temat.findOne({_id: item.idTemat});
 
             return item._id == id ? true : false;
         }
@@ -46,7 +87,7 @@ Template.addKwestiaForm.helpers({
     isSelectedRodzaj: function(id) {
         if(Session.get("kwestiaPreview")) {
             var item = Session.get("kwestiaPreview");
-            var item = Rodzaj.findOne({_id: item.rodzaj_id});
+            var item = Rodzaj.findOne({_id: item.idRodzaj});
             if (item._id == id)
                 return true;
             else
@@ -81,8 +122,9 @@ Template.addKwestiaForm.events({
                 kwestiaNazwa: $(e.target).find('[name=kwestiaNazwa]').val(),
                 wartoscPriorytetu: 0,
                 sredniaPriorytet: 0,
-                temat_id: $(e.target).find('[name=tematy]').val(),
-                rodzaj_id: $(e.target).find('[name=rodzaje]').val(),
+                idTemat: $(e.target).find('[name=tematy]').val(),
+                idRodzaj: $(e.target).find('[name=rodzaje]').val(),
+
                 dataDyskusji: new Date(),
                 dataGlosowania: d,
                 krotkaTresc1:$(e.target).find('[name=tresc]').val(),
@@ -90,69 +132,11 @@ Template.addKwestiaForm.events({
                 szczegolowaTresc: $(e.target).find('[name=szczegolowaTresc]').val()
             }];
 
-        if(newKwestiaDraft[0].rodzaj_id!='default') {
-            newKwestiaDraft[0].pulapPriorytetu = Rodzaj.findOne({_id: newKwestiaDraft[0].rodzaj_id}).pulapPriorytetu;
-            if (
-                isNotEmpty(newKwestiaDraft[0].kwestiaNazwa, 'nazwa kwestii') &&
-                isNotEmpty(newKwestiaDraft[0].temat_id, 'temat') &&
-                isNotEmpty(newKwestiaDraft[0].rodzaj_id, 'rodzaj') &&
-                isNotEmpty(newKwestiaDraft[0].krotkaTresc1, 'krótka treść') &&
-                isNotEmpty(newKwestiaDraft[0].krotkaTresc2, 'krótka treść cd') &&
-                isNotEmpty(newKwestiaDraft[0].szczegolowaTresc, 'opis z uzasadnieniem') &&
-                isNotEmpty(newKwestiaDraft[0].dataDyskusji.toString(), 'data dyskusji') &&
-                isNotEmpty(newKwestiaDraft[0].dataGlosowania.toString(), 'data głosowania')
-            ) {
+        newKwestiaDraft[0].pulapPriorytetu = Rodzaj.findOne({_id: $(e.target).find('[name=rodzaje]').val()}).pulapPriorytetu;
 
-                Session.set("kwestiaPreview", newKwestiaDraft[0]);
-                Router.go('previewKwestia');
-            }
-        }
-        else
-        {
-            isNotEmpty('', 'rodzaj')
-        }
-       /* else
-        {
-            if(newKwestiaDraft[0].kwestiaNazwa === '')
-                document.getElementById('kwestiaNazwaGroup').classList.add('has-error');
-            else
-                document.getElementById('kwestiaNazwaGroup').classList.remove('has-error');
+        Session.set("kwestiaPreview", newKwestiaDraft[0]);
+        Router.go('previewKwestia');
 
-            if(newKwestiaDraft[0].temat_id === '0')
-                document.getElementById('tematyGroup').classList.add('has-error');
-            else
-                document.getElementById('tematyGroup').classList.remove('has-error');
-
-            if(newKwestiaDraft[0].rodzaj_id === '0')
-                document.getElementById('rodzajeGroup').classList.add('has-error');
-            else
-                document.getElementById('rodzajeGroup').classList.remove('has-error');
-
-            if(newKwestiaDraft[0].dataDyskusji === '')
-                document.getElementById('dataDyskusjiGroup').classList.add('has-error');
-            else
-                document.getElementById('dataDyskusjiGroup').classList.remove('has-error');
-
-            if(newKwestiaDraft[0].dataGlosowania === '')
-                document.getElementById('dataGlosowaniaGroup').classList.add('has-error');
-            else
-                document.getElementById('dataGlosowaniaGroup').classList.remove('has-error');
-
-            if(newKwestiaDraft[0].krotkaTresc1 === '')
-                document.getElementById('krotkaTrescGroup').classList.add('has-error');
-            else
-                document.getElementById('krotkaTrescGroup').classList.remove('has-error');
-
-            if(newKwestiaDraft[0].krotkaTresc2 === '')
-                document.getElementById('krotkaTrescGroup').classList.add('has-error');
-            else
-                document.getElementById('krotkaTrescGroup').classList.remove('has-error');
-
-            if(newKwestiaDraft[0].szczegolowaTresc === '')
-                document.getElementById('szczegolowaTrescGroup').classList.add('has-error');
-            else
-                document.getElementById('szczegolowaTrescGroup').classList.remove('has-error');
-        }*/
     },
     'reset form': function(){
         Router.go('listKwestia');

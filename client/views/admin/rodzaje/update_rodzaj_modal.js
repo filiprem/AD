@@ -15,7 +15,7 @@ Template.updateRodzajModalInner.events({
         var formParent = e.target.parentNode.parentNode;
         var postProperties =
             {
-                temat_id: $(formParent).find('[name=tematy]').val(),
+                idTemat: $(formParent).find('[name=tematy]').val(),
                 nazwaRodzaj: $(formParent).find('[name=nazwaRodzaj]').val(),
                 czasDyskusji: $(formParent).find('[name=czasDyskusji]').val(),
                 czasGlosowania: $(formParent).find('[name=czasGlosowania]').val(),
