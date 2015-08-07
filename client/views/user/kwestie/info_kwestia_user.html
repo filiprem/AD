@@ -7,28 +7,31 @@
 
                 {{#if mojPiorytet}}
                     <h4>Nadałeś tej Kwestii priorytet: {{mojPiorytet}}. Możesz go w każdej chwili zmienić.</h4>
-                    {{else}}
+                {{else}}
                     <h4>Nie nadałeś jeszcze tej Kwestii priorytetu.</h4>
                 {{/if}}
 
             </div>
             <div class="col-md-6">
-                <br />
+                <br/>
                 <a id="dyskusja" name="{{_id}}" class="btn btn-danger pull-right">
                     <span class="glyphicon glyphicon-remove-circle"></span> Dyskusja {{_id}}
                 </a>
-                <!--{{#if isIssueSuspended _id}}-->
+                <a id="addOptionButton" class="btn btn-primary pull-right">
+                    <span class="glyphicon glyphicon-plus"></span> Dodaj opcję tej Kwestii</a>
+
+                    <!--{{#if isIssueSuspended _id}}-->
                     <!--{{#with getIssueSuspended _id}}-->
-                        <!--<a href="{{pathFor 'proceduraWstrzymania' _id}}" class="btn btn-primary pull-right">-->
-                            <!--<span class="glyphicon glyphicon-hand-right"></span> Kwestia wstrzymana-->
-                        <!--</a>-->
-                    <!--{{/with}}-->
-                <!--{{else}}-->
-                    <!--<a id="wstrzymajKwestieButton" class="btn btn-danger pull-right">-->
-                        <!--<span class="glyphicon glyphicon-remove-circle"></span> Wstrzymaj kwestię-->
+                    <!--<a href="{{pathFor 'proceduraWstrzymania' _id}}" class="btn btn-primary pull-right">-->
+                    <!--<span class="glyphicon glyphicon-hand-right"></span> Kwestia wstrzymana-->
                     <!--</a>-->
-                <!--{{/if}}-->
-                <a id="addOptionButton" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-plus"></span> Dodaj opcję tej Kwestii</a>
+                        <!--{{/with}}-->
+                    <!--{{else}}-->
+                <!--<a id="wstrzymajKwestieButton" class="btn btn-danger pull-right">-->
+                <!--<span class="glyphicon glyphicon-remove-circle"></span> Wstrzymaj kwestię-->
+                <!--</a>-->
+                    <!--{{/if}}-->
+
             </div>
         </div>
 
@@ -54,7 +57,8 @@
             </tr>
             <tr>
                 <td><strong> Priorytet</strong></td>
-                <td>{{sredniaPriorytet}} <a class="btn btn-success pull-right" href="#nadajpriorytetkwestia" data-toggle="modal">
+                <td>{{sredniaPriorytet}} <a class="btn btn-success pull-right" href="#nadajpriorytetkwestia"
+                                            data-toggle="modal">
                 <span data-toggle="modal" class="glyphicon glyphicon-thumbs-up clickable"
                       title="Nadaj priorytet"></span> Nadaj lub zmień priorytet</a></td>
             </tr>
