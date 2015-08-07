@@ -1,4 +1,8 @@
 Template.informacjeKwestia.events({
+    'click #dyskusja':function(e){
+        var id = document.getElementById("dyskusja").name;
+        Router.go('dyskusjaKwestia',{_id:id})
+    },
     'click .btn-success': function(event, template){
         Session.set('kwestiaInScope',this);
     },
@@ -82,11 +86,5 @@ Template.informacjeKwestia.helpers({
             var k = moment(dataG).subtract(czasGlRodzaj, 'h').format("DD-MM-YYYY, HH:mm");
             return k;
         }
-    },
-    'isIssueSuspended':function(id){
-        return KwestiaSuspended.find({kwestia_id:id,czyAktywny:true}).count()<=0 ? false : true;
-    },
-    'getIssueSuspended':function(id){
-        return KwestiaSuspended.findOne({kwestia_id:id,czyAktywny:true});
     }
 });

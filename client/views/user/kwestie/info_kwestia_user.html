@@ -14,17 +14,9 @@
             </div>
             <div class="col-md-6">
                 <br />
-                {{#if isIssueSuspended _id}}
-                    {{#with getIssueSuspended _id}}
-                        <a href="{{pathFor 'proceduraWstrzymania' _id}}" class="btn btn-primary pull-right">
-                            <span class="glyphicon glyphicon-hand-right"></span> Kwestia wstrzymana
-                        </a>
-                    {{/with}}
-                {{else}}
-                    <a id="wstrzymajKwestieButton" class="btn btn-danger pull-right">
-                        <span class="glyphicon glyphicon-remove-circle"></span> Wstrzymaj kwestię
-                    </a>
-                {{/if}}
+                <a id="dyskusja" name="{{_id}}" class="btn btn-danger pull-right">
+                    <span class="glyphicon glyphicon-remove-circle"></span> Dyskusja {{_id}}
+                </a>
             </div>
         </div>
 
