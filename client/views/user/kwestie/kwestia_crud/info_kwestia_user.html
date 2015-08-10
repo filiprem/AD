@@ -17,9 +17,9 @@
             </div>
             <div class="col-md-6">
                 <br/>
-                <a id="dyskusja" name="{{_id}}" class="btn btn-danger pull-right">
-                    <span class="glyphicon glyphicon-remove-circle"></span> Dyskusja {{_id}}
-                </a>
+                <!--<a id="dyskusja" name="{{_id}}" class="btn btn-danger pull-right">-->
+                    <!--<span class="glyphicon glyphicon-remove-circle"></span> Dyskusja {{_id}}-->
+                <!--</a>-->
                 {{#unless czyOpcja}}
                 <a id="addOptionButton" class="btn btn-primary pull-right">
                     <span class="glyphicon glyphicon-plus"></span> Dodaj opcję tej Kwestii</a>
@@ -27,6 +27,7 @@
             </div>
         </div>
         <div class="clearfix"></div>
+        <br />
         <table class="table table-bordered manageTable">
             <tr>
                 <td><strong> Data wprowadzenia Kwestii</strong></td>
@@ -99,6 +100,7 @@
             </tr>
         </table>
         <hr/>
+        <br />
         {{#unless czyOpcja}}
             <h3>Opcje tej Kwestii</h3>
             <div class="row">
