@@ -114,16 +114,6 @@ Template.addKwestiaForm.events({
         var dataG =  new Date();
         var d = dataG.setDate(dataG.getDate()+7);
         var pulapPriorytetu = null;
-       // var rodzaj = $(e.target).find('[name=rodzaje]').val()
-       // console.log(rodzaj);
-
-       // if(rodzaj!='default'){
-      //      pulapPriorytetu = Rodzaj.findOne({_id:rodzaj}).pulapPriorytetu;
-       // }
-       // else{
-        //    isNotEmpty('','rodzaj');
-       //     var t=false;
-       // }
 
         var newKwestiaDraft = [
             {
@@ -134,7 +124,6 @@ Template.addKwestiaForm.events({
                 sredniaPriorytet: 0,
                 idTemat: $(e.target).find('[name=tematy]').val(),
                 idRodzaj: $(e.target).find('[name=rodzaje]').val(),
-
                 dataDyskusji: new Date(),
                 dataGlosowania: d,
                 krotkaTresc1:$(e.target).find('[name=tresc]').val(),
@@ -143,27 +132,10 @@ Template.addKwestiaForm.events({
                 isOption: false
             }];
 
-        if(newKwestiaDraft[0].idRodzaj!='default') {
             newKwestiaDraft[0].pulapPriorytetu = Rodzaj.findOne({_id: newKwestiaDraft[0].idRodzaj}).pulapPriorytetu;
-            if (
-                isNotEmpty(newKwestiaDraft[0].kwestiaNazwa, 'nazwa kwestii') &&
-                isNotEmpty(newKwestiaDraft[0].idTemat, 'temat') &&
-                isNotEmpty(newKwestiaDraft[0].idRodzaj, 'rodzaj') &&
-                isNotEmpty(newKwestiaDraft[0].krotkaTresc1, 'krótka treść') &&
-                isNotEmpty(newKwestiaDraft[0].krotkaTresc2, 'krótka treść cd') &&
-                isNotEmpty(newKwestiaDraft[0].szczegolowaTresc, 'opis z uzasadnieniem') &&
-                isNotEmpty(newKwestiaDraft[0].dataDyskusji.toString(), 'data dyskusji') &&
-                isNotEmpty(newKwestiaDraft[0].dataGlosowania.toString(), 'data głosowania')
-            ) {
 
                 Session.set("kwestiaPreview", newKwestiaDraft[0]);
                 Router.go('previewKwestia');
-            }
-        }
-        else
-        {
-            isNotEmpty('', 'rodzaj')
-        }
     },
     'reset form': function(){
         Router.go('listKwestia');
