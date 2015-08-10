@@ -29,7 +29,7 @@ Template.listKwestia.helpers({
             rowsPerPage: 10,
             showFilter: true,
             showNavigation: 'always',
-            showColumnToggles: true,
+            showColumnToggles: false,
             enableRegex: false,
             fields: [
                 {key: 'dataWprowadzenia', label: Template.listKwestiaColumnLabel, labelData: {title: "Data wprowadzenia Kwestii i rozpoczęcia jej deliberacji", text:"Data"}, tmpl:Template.dataUtwKwestia},
@@ -44,8 +44,8 @@ Template.listKwestia.helpers({
                 {key: 'idTemat', label: "Temat", tmpl: Template.tematKwestia},
                 {key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestia},
                 {key: 'dataGlosowania', label: Template.listKwestiaColumnLabel, labelData: {title: "Data zakończenia głosowania", text:"Finał"}, tmpl: Template.dataGlKwestia},
-                {key: 'status', label: Template.listKwestiaColumnLabel ,labelData: {title: "Etap, na którym znajduje sie ta Kwestia", text:"Status"}},
-                {key: 'options', label: "Opcje", tmpl: Template.editColumnKwestia }
+                {key: 'status', label: Template.listKwestiaColumnLabel ,labelData: {title: "Etap, na którym znajduje sie ta Kwestia", text:"Status"}}
+                //{key: 'options', label: "Opcje", tmpl: Template.editColumnKwestia }
             ]
         };
     },

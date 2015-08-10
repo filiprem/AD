@@ -45,34 +45,43 @@ Template.informacjeKwestia.events({
         var liczba = parseInt((document.getElementById("b-5")).value);
         var flaga = false;
         for (var i = 0; i < kwestia.glosujacy.length; i++) {
-            if(kwestia.glosujacy[i][0] === user._id)
-            {
-                if(kwestia.glosujacy[i][1] === liczba)
-                {
+            if (kwestia.glosujacy[i][0] === user._id) {
+                if (kwestia.glosujacy[i][1] === liczba) {
                     throwError("Nadałeś już priorytet o tej wadze w tej kwestii!");
                     return false;
                 }
-                else if(kwestia.glosujacy[i][1] > liczba)
-                {
+                else if (kwestia.glosujacy[i][1] > liczba) {
                     var roznica = kwestia.glosujacy[i][1] - liczba;
                     roznica = -roznica;
-                    var srednia = (kwestia.wartoscPriorytetu + roznica)/kwestia.glosujacy.length;
-                    Kwestia.update(currentKwestiaId, {$set: {glosujacy: [[user._id, liczba]], sredniaPriorytet: srednia}, $inc: {wartoscPriorytetu: roznica}});
+                    var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
+                    Kwestia.update(currentKwestiaId, {
+                        $set: {
+                            glosujacy: [[user._id, liczba]],
+                            sredniaPriorytet: srednia
+                        }, $inc: {wartoscPriorytetu: roznica}
+                    });
                     flaga = true;
                 }
-                else if(kwestia.glosujacy[i][1] < liczba)
-                {
+                else if (kwestia.glosujacy[i][1] < liczba) {
                     var roznica = liczba - kwestia.glosujacy[i][1];
-                    var srednia = (kwestia.wartoscPriorytetu + roznica)/kwestia.glosujacy.length;
-                    Kwestia.update(currentKwestiaId, {$set: {glosujacy: [[user._id, liczba]], sredniaPriorytet: srednia} , $inc: {wartoscPriorytetu: roznica}});
+                    var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
+                    Kwestia.update(currentKwestiaId, {
+                        $set: {
+                            glosujacy: [[user._id, liczba]],
+                            sredniaPriorytet: srednia
+                        }, $inc: {wartoscPriorytetu: roznica}
+                    });
                     flaga = true;
                 }
             }
         }
-        if(flaga === false)
-        {
-            var srednia = (kwestia.wartoscPriorytetu + liczba)/(kwestia.glosujacy.length + 1);
-            Kwestia.update(currentKwestiaId, {$addToSet: {glosujacy: [user._id, liczba]}, $inc: {wartoscPriorytetu: liczba}, $set: {sredniaPriorytet: srednia}});
+        if (flaga === false) {
+            var srednia = (kwestia.wartoscPriorytetu + liczba) / (kwestia.glosujacy.length + 1);
+            Kwestia.update(currentKwestiaId, {
+                $addToSet: {glosujacy: [user._id, liczba]},
+                $inc: {wartoscPriorytetu: liczba},
+                $set: {sredniaPriorytet: srednia}
+            });
             flaga = true;
         }
     },
@@ -84,34 +93,43 @@ Template.informacjeKwestia.events({
         var liczba = parseInt(document.getElementById("b-4").value);
         var flaga = false;
         for (var i = 0; i < kwestia.glosujacy.length; i++) {
-            if(kwestia.glosujacy[i][0] === user._id)
-            {
-                if(kwestia.glosujacy[i][1] === liczba)
-                {
+            if (kwestia.glosujacy[i][0] === user._id) {
+                if (kwestia.glosujacy[i][1] === liczba) {
                     throwError("Nadałeś już priorytet o tej wadze w tej kwestii!");
                     return false;
                 }
-                else if(kwestia.glosujacy[i][1] > liczba)
-                {
+                else if (kwestia.glosujacy[i][1] > liczba) {
                     var roznica = kwestia.glosujacy[i][1] - liczba;
                     roznica = -roznica;
-                    var srednia = (kwestia.wartoscPriorytetu + roznica)/kwestia.glosujacy.length;
-                    Kwestia.update(currentKwestiaId, {$set: {glosujacy: [[user._id, liczba]], sredniaPriorytet: srednia}, $inc: {wartoscPriorytetu: roznica}});
+                    var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
+                    Kwestia.update(currentKwestiaId, {
+                        $set: {
+                            glosujacy: [[user._id, liczba]],
+                            sredniaPriorytet: srednia
+                        }, $inc: {wartoscPriorytetu: roznica}
+                    });
                     flaga = true;
                 }
-                else if(kwestia.glosujacy[i][1] < liczba)
-                {
+                else if (kwestia.glosujacy[i][1] < liczba) {
                     var roznica = liczba - kwestia.glosujacy[i][1];
-                    var srednia = (kwestia.wartoscPriorytetu + roznica)/kwestia.glosujacy.length;
-                    Kwestia.update(currentKwestiaId, {$set: {glosujacy: [[user._id, liczba]], sredniaPriorytet: srednia} , $inc: {wartoscPriorytetu: roznica}});
+                    var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
+                    Kwestia.update(currentKwestiaId, {
+                        $set: {
+                            glosujacy: [[user._id, liczba]],
+                            sredniaPriorytet: srednia
+                        }, $inc: {wartoscPriorytetu: roznica}
+                    });
                     flaga = true;
                 }
             }
         }
-        if(flaga === false)
-        {
-            var srednia = (kwestia.wartoscPriorytetu + liczba)/(kwestia.glosujacy.length + 1);
-            Kwestia.update(currentKwestiaId, {$addToSet: {glosujacy: [user._id, liczba]}, $inc: {wartoscPriorytetu: liczba}, $set: {sredniaPriorytet: srednia}});
+        if (flaga === false) {
+            var srednia = (kwestia.wartoscPriorytetu + liczba) / (kwestia.glosujacy.length + 1);
+            Kwestia.update(currentKwestiaId, {
+                $addToSet: {glosujacy: [user._id, liczba]},
+                $inc: {wartoscPriorytetu: liczba},
+                $set: {sredniaPriorytet: srednia}
+            });
             flaga = true;
         }
     },
@@ -123,34 +141,43 @@ Template.informacjeKwestia.events({
         var liczba = parseInt(document.getElementById("b-3").value);
         var flaga = false;
         for (var i = 0; i < kwestia.glosujacy.length; i++) {
-            if(kwestia.glosujacy[i][0] === user._id)
-            {
-                if(kwestia.glosujacy[i][1] === liczba)
-                {
+            if (kwestia.glosujacy[i][0] === user._id) {
+                if (kwestia.glosujacy[i][1] === liczba) {
                     throwError("Nadałeś już priorytet o tej wadze w tej kwestii!");
                     return false;
                 }
-                else if(kwestia.glosujacy[i][1] > liczba)
-                {
+                else if (kwestia.glosujacy[i][1] > liczba) {
                     var roznica = kwestia.glosujacy[i][1] - liczba;
                     roznica = -roznica;
-                    var srednia = (kwestia.wartoscPriorytetu + roznica)/kwestia.glosujacy.length;
-                    Kwestia.update(currentKwestiaId, {$set: {glosujacy: [[user._id, liczba]], sredniaPriorytet: srednia}, $inc: {wartoscPriorytetu: roznica}});
+                    var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
+                    Kwestia.update(currentKwestiaId, {
+                        $set: {
+                            glosujacy: [[user._id, liczba]],
+                            sredniaPriorytet: srednia
+                        }, $inc: {wartoscPriorytetu: roznica}
+                    });
                     flaga = true;
                 }
-                else if(kwestia.glosujacy[i][1] < liczba)
-                {
+                else if (kwestia.glosujacy[i][1] < liczba) {
                     var roznica = liczba - kwestia.glosujacy[i][1];
-                    var srednia = (kwestia.wartoscPriorytetu + roznica)/kwestia.glosujacy.length;
-                    Kwestia.update(currentKwestiaId, {$set: {glosujacy: [[user._id, liczba]], sredniaPriorytet: srednia} , $inc: {wartoscPriorytetu: roznica}});
+                    var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
+                    Kwestia.update(currentKwestiaId, {
+                        $set: {
+                            glosujacy: [[user._id, liczba]],
+                            sredniaPriorytet: srednia
+                        }, $inc: {wartoscPriorytetu: roznica}
+                    });
                     flaga = true;
                 }
             }
         }
-        if(flaga === false)
-        {
-            var srednia = (kwestia.wartoscPriorytetu + liczba)/(kwestia.glosujacy.length + 1);
-            Kwestia.update(currentKwestiaId, {$addToSet: {glosujacy: [user._id, liczba]}, $inc: {wartoscPriorytetu: liczba}, $set: {sredniaPriorytet: srednia}});
+        if (flaga === false) {
+            var srednia = (kwestia.wartoscPriorytetu + liczba) / (kwestia.glosujacy.length + 1);
+            Kwestia.update(currentKwestiaId, {
+                $addToSet: {glosujacy: [user._id, liczba]},
+                $inc: {wartoscPriorytetu: liczba},
+                $set: {sredniaPriorytet: srednia}
+            });
             flaga = true;
         }
     },
@@ -162,34 +189,43 @@ Template.informacjeKwestia.events({
         var liczba = parseInt(document.getElementById("b-2").value);
         var flaga = false;
         for (var i = 0; i < kwestia.glosujacy.length; i++) {
-            if(kwestia.glosujacy[i][0] === user._id)
-            {
-                if(kwestia.glosujacy[i][1] === liczba)
-                {
+            if (kwestia.glosujacy[i][0] === user._id) {
+                if (kwestia.glosujacy[i][1] === liczba) {
                     throwError("Nadałeś już priorytet o tej wadze w tej kwestii!");
                     return false;
                 }
-                else if(kwestia.glosujacy[i][1] > liczba)
-                {
+                else if (kwestia.glosujacy[i][1] > liczba) {
                     var roznica = kwestia.glosujacy[i][1] - liczba;
                     roznica = -roznica;
-                    var srednia = (kwestia.wartoscPriorytetu + roznica)/kwestia.glosujacy.length;
-                    Kwestia.update(currentKwestiaId, {$set: {glosujacy: [[user._id, liczba]], sredniaPriorytet: srednia}, $inc: {wartoscPriorytetu: roznica}});
+                    var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
+                    Kwestia.update(currentKwestiaId, {
+                        $set: {
+                            glosujacy: [[user._id, liczba]],
+                            sredniaPriorytet: srednia
+                        }, $inc: {wartoscPriorytetu: roznica}
+                    });
                     flaga = true;
                 }
-                else if(kwestia.glosujacy[i][1] < liczba)
-                {
+                else if (kwestia.glosujacy[i][1] < liczba) {
                     var roznica = liczba - kwestia.glosujacy[i][1];
-                    var srednia = (kwestia.wartoscPriorytetu + roznica)/kwestia.glosujacy.length;
-                    Kwestia.update(currentKwestiaId, {$set: {glosujacy: [[user._id, liczba]], sredniaPriorytet: srednia} , $inc: {wartoscPriorytetu: roznica}});
+                    var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
+                    Kwestia.update(currentKwestiaId, {
+                        $set: {
+                            glosujacy: [[user._id, liczba]],
+                            sredniaPriorytet: srednia
+                        }, $inc: {wartoscPriorytetu: roznica}
+                    });
                     flaga = true;
                 }
             }
         }
-        if(flaga === false)
-        {
-            var srednia = (kwestia.wartoscPriorytetu + liczba)/(kwestia.glosujacy.length + 1);
-            Kwestia.update(currentKwestiaId, {$addToSet: {glosujacy: [user._id, liczba]}, $inc: {wartoscPriorytetu: liczba}, $set: {sredniaPriorytet: srednia}});
+        if (flaga === false) {
+            var srednia = (kwestia.wartoscPriorytetu + liczba) / (kwestia.glosujacy.length + 1);
+            Kwestia.update(currentKwestiaId, {
+                $addToSet: {glosujacy: [user._id, liczba]},
+                $inc: {wartoscPriorytetu: liczba},
+                $set: {sredniaPriorytet: srednia}
+            });
             flaga = true;
         }
     },
@@ -201,34 +237,43 @@ Template.informacjeKwestia.events({
         var liczba = parseInt(document.getElementById("b-1").value);
         var flaga = false;
         for (var i = 0; i < kwestia.glosujacy.length; i++) {
-            if(kwestia.glosujacy[i][0] === user._id)
-            {
-                if(kwestia.glosujacy[i][1] === liczba)
-                {
+            if (kwestia.glosujacy[i][0] === user._id) {
+                if (kwestia.glosujacy[i][1] === liczba) {
                     throwError("Nadałeś już priorytet o tej wadze w tej kwestii!");
                     return false;
                 }
-                else if(kwestia.glosujacy[i][1] > liczba)
-                {
+                else if (kwestia.glosujacy[i][1] > liczba) {
                     var roznica = kwestia.glosujacy[i][1] - liczba;
                     roznica = -roznica;
-                    var srednia = (kwestia.wartoscPriorytetu + roznica)/kwestia.glosujacy.length;
-                    Kwestia.update(currentKwestiaId, {$set: {glosujacy: [[user._id, liczba]], sredniaPriorytet: srednia}, $inc: {wartoscPriorytetu: roznica}});
+                    var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
+                    Kwestia.update(currentKwestiaId, {
+                        $set: {
+                            glosujacy: [[user._id, liczba]],
+                            sredniaPriorytet: srednia
+                        }, $inc: {wartoscPriorytetu: roznica}
+                    });
                     flaga = true;
                 }
-                else if(kwestia.glosujacy[i][1] < liczba)
-                {
+                else if (kwestia.glosujacy[i][1] < liczba) {
                     var roznica = liczba - kwestia.glosujacy[i][1];
-                    var srednia = (kwestia.wartoscPriorytetu + roznica)/kwestia.glosujacy.length;
-                    Kwestia.update(currentKwestiaId, {$set: {glosujacy: [[user._id, liczba]], sredniaPriorytet: srednia} , $inc: {wartoscPriorytetu: roznica}});
+                    var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
+                    Kwestia.update(currentKwestiaId, {
+                        $set: {
+                            glosujacy: [[user._id, liczba]],
+                            sredniaPriorytet: srednia
+                        }, $inc: {wartoscPriorytetu: roznica}
+                    });
                     flaga = true;
                 }
             }
         }
-        if(flaga === false)
-        {
-            var srednia = (kwestia.wartoscPriorytetu + liczba)/(kwestia.glosujacy.length + 1);
-            Kwestia.update(currentKwestiaId, {$addToSet: {glosujacy: [user._id, liczba]}, $inc: {wartoscPriorytetu: liczba}, $set: {sredniaPriorytet: srednia}});
+        if (flaga === false) {
+            var srednia = (kwestia.wartoscPriorytetu + liczba) / (kwestia.glosujacy.length + 1);
+            Kwestia.update(currentKwestiaId, {
+                $addToSet: {glosujacy: [user._id, liczba]},
+                $inc: {wartoscPriorytetu: liczba},
+                $set: {sredniaPriorytet: srednia}
+            });
             flaga = true;
         }
     },
@@ -240,34 +285,43 @@ Template.informacjeKwestia.events({
         var liczba = parseInt(document.getElementById("b0").value);
         var flaga = false;
         for (var i = 0; i < kwestia.glosujacy.length; i++) {
-            if(kwestia.glosujacy[i][0] === user._id)
-            {
-                if(kwestia.glosujacy[i][1] === liczba)
-                {
+            if (kwestia.glosujacy[i][0] === user._id) {
+                if (kwestia.glosujacy[i][1] === liczba) {
                     throwError("Nadałeś już priorytet o tej wadze w tej kwestii!");
                     return false;
                 }
-                else if(kwestia.glosujacy[i][1] > liczba)
-                {
+                else if (kwestia.glosujacy[i][1] > liczba) {
                     var roznica = kwestia.glosujacy[i][1] - liczba;
                     roznica = -roznica;
-                    var srednia = (kwestia.wartoscPriorytetu + roznica)/kwestia.glosujacy.length;
-                    Kwestia.update(currentKwestiaId, {$set: {glosujacy: [[user._id, liczba]], sredniaPriorytet: srednia}, $inc: {wartoscPriorytetu: roznica}});
+                    var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
+                    Kwestia.update(currentKwestiaId, {
+                        $set: {
+                            glosujacy: [[user._id, liczba]],
+                            sredniaPriorytet: srednia
+                        }, $inc: {wartoscPriorytetu: roznica}
+                    });
                     flaga = true;
                 }
-                else if(kwestia.glosujacy[i][1] < liczba)
-                {
+                else if (kwestia.glosujacy[i][1] < liczba) {
                     var roznica = liczba - kwestia.glosujacy[i][1];
-                    var srednia = (kwestia.wartoscPriorytetu + roznica)/kwestia.glosujacy.length;
-                    Kwestia.update(currentKwestiaId, {$set: {glosujacy: [[user._id, liczba]], sredniaPriorytet: srednia} , $inc: {wartoscPriorytetu: roznica}});
+                    var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
+                    Kwestia.update(currentKwestiaId, {
+                        $set: {
+                            glosujacy: [[user._id, liczba]],
+                            sredniaPriorytet: srednia
+                        }, $inc: {wartoscPriorytetu: roznica}
+                    });
                     flaga = true;
                 }
             }
         }
-        if(flaga === false)
-        {
-            var srednia = (kwestia.wartoscPriorytetu + liczba)/(kwestia.glosujacy.length + 1);
-            Kwestia.update(currentKwestiaId, {$addToSet: {glosujacy: [user._id, liczba]}, $inc: {wartoscPriorytetu: liczba}, $set: {sredniaPriorytet: srednia}});
+        if (flaga === false) {
+            var srednia = (kwestia.wartoscPriorytetu + liczba) / (kwestia.glosujacy.length + 1);
+            Kwestia.update(currentKwestiaId, {
+                $addToSet: {glosujacy: [user._id, liczba]},
+                $inc: {wartoscPriorytetu: liczba},
+                $set: {sredniaPriorytet: srednia}
+            });
             flaga = true;
         }
     },
@@ -279,34 +333,43 @@ Template.informacjeKwestia.events({
         var liczba = parseInt(document.getElementById("b1").value);
         var flaga = false;
         for (var i = 0; i < kwestia.glosujacy.length; i++) {
-            if(kwestia.glosujacy[i][0] === user._id)
-            {
-                if(kwestia.glosujacy[i][1] === liczba)
-                {
+            if (kwestia.glosujacy[i][0] === user._id) {
+                if (kwestia.glosujacy[i][1] === liczba) {
                     throwError("Nadałeś już priorytet o tej wadze w tej kwestii!");
                     return false;
                 }
-                else if(kwestia.glosujacy[i][1] > liczba)
-                {
+                else if (kwestia.glosujacy[i][1] > liczba) {
                     var roznica = kwestia.glosujacy[i][1] - liczba;
                     roznica = -roznica;
-                    var srednia = (kwestia.wartoscPriorytetu + roznica)/kwestia.glosujacy.length;
-                    Kwestia.update(currentKwestiaId, {$set: {glosujacy: [[user._id, liczba]], sredniaPriorytet: srednia}, $inc: {wartoscPriorytetu: roznica}});
+                    var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
+                    Kwestia.update(currentKwestiaId, {
+                        $set: {
+                            glosujacy: [[user._id, liczba]],
+                            sredniaPriorytet: srednia
+                        }, $inc: {wartoscPriorytetu: roznica}
+                    });
                     flaga = true;
                 }
-                else if(kwestia.glosujacy[i][1] < liczba)
-                {
+                else if (kwestia.glosujacy[i][1] < liczba) {
                     var roznica = liczba - kwestia.glosujacy[i][1];
-                    var srednia = (kwestia.wartoscPriorytetu + roznica)/kwestia.glosujacy.length;
-                    Kwestia.update(currentKwestiaId, {$set: {glosujacy: [[user._id, liczba]], sredniaPriorytet: srednia} , $inc: {wartoscPriorytetu: roznica}});
+                    var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
+                    Kwestia.update(currentKwestiaId, {
+                        $set: {
+                            glosujacy: [[user._id, liczba]],
+                            sredniaPriorytet: srednia
+                        }, $inc: {wartoscPriorytetu: roznica}
+                    });
                     flaga = true;
                 }
             }
         }
-        if(flaga === false)
-        {
-            var srednia = (kwestia.wartoscPriorytetu + liczba)/(kwestia.glosujacy.length + 1);
-            Kwestia.update(currentKwestiaId, {$addToSet: {glosujacy: [user._id, liczba]}, $inc: {wartoscPriorytetu: liczba}, $set: {sredniaPriorytet: srednia}});
+        if (flaga === false) {
+            var srednia = (kwestia.wartoscPriorytetu + liczba) / (kwestia.glosujacy.length + 1);
+            Kwestia.update(currentKwestiaId, {
+                $addToSet: {glosujacy: [user._id, liczba]},
+                $inc: {wartoscPriorytetu: liczba},
+                $set: {sredniaPriorytet: srednia}
+            });
             flaga = true;
         }
     },
@@ -318,34 +381,43 @@ Template.informacjeKwestia.events({
         var liczba = parseInt(document.getElementById("b2").value)
         var flaga = false;
         for (var i = 0; i < kwestia.glosujacy.length; i++) {
-            if(kwestia.glosujacy[i][0] === user._id)
-            {
-                if(kwestia.glosujacy[i][1] === liczba)
-                {
+            if (kwestia.glosujacy[i][0] === user._id) {
+                if (kwestia.glosujacy[i][1] === liczba) {
                     throwError("Nadałeś już priorytet o tej wadze w tej kwestii!");
                     return false;
                 }
-                else if(kwestia.glosujacy[i][1] > liczba)
-                {
+                else if (kwestia.glosujacy[i][1] > liczba) {
                     var roznica = kwestia.glosujacy[i][1] - liczba;
                     roznica = -roznica;
-                    var srednia = (kwestia.wartoscPriorytetu + roznica)/kwestia.glosujacy.length;
-                    Kwestia.update(currentKwestiaId, {$set: {glosujacy: [[user._id, liczba]], sredniaPriorytet: srednia}, $inc: {wartoscPriorytetu: roznica}});
+                    var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
+                    Kwestia.update(currentKwestiaId, {
+                        $set: {
+                            glosujacy: [[user._id, liczba]],
+                            sredniaPriorytet: srednia
+                        }, $inc: {wartoscPriorytetu: roznica}
+                    });
                     flaga = true;
                 }
-                else if(kwestia.glosujacy[i][1] < liczba)
-                {
+                else if (kwestia.glosujacy[i][1] < liczba) {
                     var roznica = liczba - kwestia.glosujacy[i][1];
-                    var srednia = (kwestia.wartoscPriorytetu + roznica)/kwestia.glosujacy.length;
-                    Kwestia.update(currentKwestiaId, {$set: {glosujacy: [[user._id, liczba]], sredniaPriorytet: srednia} , $inc: {wartoscPriorytetu: roznica}});
+                    var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
+                    Kwestia.update(currentKwestiaId, {
+                        $set: {
+                            glosujacy: [[user._id, liczba]],
+                            sredniaPriorytet: srednia
+                        }, $inc: {wartoscPriorytetu: roznica}
+                    });
                     flaga = true;
                 }
             }
         }
-        if(flaga === false)
-        {
-            var srednia = (kwestia.wartoscPriorytetu + liczba)/(kwestia.glosujacy.length + 1);
-            Kwestia.update(currentKwestiaId, {$addToSet: {glosujacy: [user._id, liczba]}, $inc: {wartoscPriorytetu: liczba}, $set: {sredniaPriorytet: srednia}});
+        if (flaga === false) {
+            var srednia = (kwestia.wartoscPriorytetu + liczba) / (kwestia.glosujacy.length + 1);
+            Kwestia.update(currentKwestiaId, {
+                $addToSet: {glosujacy: [user._id, liczba]},
+                $inc: {wartoscPriorytetu: liczba},
+                $set: {sredniaPriorytet: srednia}
+            });
             flaga = true;
         }
     },
@@ -357,34 +429,43 @@ Template.informacjeKwestia.events({
         var liczba = parseInt(document.getElementById("b3").value);
         var flaga = false;
         for (var i = 0; i < kwestia.glosujacy.length; i++) {
-            if(kwestia.glosujacy[i][0] === user._id)
-            {
-                if(kwestia.glosujacy[i][1] === liczba)
-                {
+            if (kwestia.glosujacy[i][0] === user._id) {
+                if (kwestia.glosujacy[i][1] === liczba) {
                     throwError("Nadałeś już priorytet o tej wadze w tej kwestii!");
                     return false;
                 }
-                else if(kwestia.glosujacy[i][1] > liczba)
-                {
+                else if (kwestia.glosujacy[i][1] > liczba) {
                     var roznica = kwestia.glosujacy[i][1] - liczba;
                     roznica = -roznica;
-                    var srednia = (kwestia.wartoscPriorytetu + roznica)/kwestia.glosujacy.length;
-                    Kwestia.update(currentKwestiaId, {$set: {glosujacy: [[user._id, liczba]], sredniaPriorytet: srednia}, $inc: {wartoscPriorytetu: roznica}});
+                    var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
+                    Kwestia.update(currentKwestiaId, {
+                        $set: {
+                            glosujacy: [[user._id, liczba]],
+                            sredniaPriorytet: srednia
+                        }, $inc: {wartoscPriorytetu: roznica}
+                    });
                     flaga = true;
                 }
-                else if(kwestia.glosujacy[i][1] < liczba)
-                {
+                else if (kwestia.glosujacy[i][1] < liczba) {
                     var roznica = liczba - kwestia.glosujacy[i][1];
-                    var srednia = (kwestia.wartoscPriorytetu + roznica)/kwestia.glosujacy.length;
-                    Kwestia.update(currentKwestiaId, {$set: {glosujacy: [[user._id, liczba]], sredniaPriorytet: srednia} , $inc: {wartoscPriorytetu: roznica}});
+                    var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
+                    Kwestia.update(currentKwestiaId, {
+                        $set: {
+                            glosujacy: [[user._id, liczba]],
+                            sredniaPriorytet: srednia
+                        }, $inc: {wartoscPriorytetu: roznica}
+                    });
                     flaga = true;
                 }
             }
         }
-        if(flaga === false)
-        {
-            var srednia = (kwestia.wartoscPriorytetu + liczba)/(kwestia.glosujacy.length + 1);
-            Kwestia.update(currentKwestiaId, {$addToSet: {glosujacy: [user._id, liczba]}, $inc: {wartoscPriorytetu: liczba}, $set: {sredniaPriorytet: srednia}});
+        if (flaga === false) {
+            var srednia = (kwestia.wartoscPriorytetu + liczba) / (kwestia.glosujacy.length + 1);
+            Kwestia.update(currentKwestiaId, {
+                $addToSet: {glosujacy: [user._id, liczba]},
+                $inc: {wartoscPriorytetu: liczba},
+                $set: {sredniaPriorytet: srednia}
+            });
             flaga = true;
         }
     },
@@ -396,34 +477,43 @@ Template.informacjeKwestia.events({
         var liczba = parseInt(document.getElementById("b4").value);
         var flaga = false;
         for (var i = 0; i < kwestia.glosujacy.length; i++) {
-            if(kwestia.glosujacy[i][0] === user._id)
-            {
-                if(kwestia.glosujacy[i][1] === liczba)
-                {
+            if (kwestia.glosujacy[i][0] === user._id) {
+                if (kwestia.glosujacy[i][1] === liczba) {
                     throwError("Nadałeś już priorytet o tej wadze w tej kwestii!");
                     return false;
                 }
-                else if(kwestia.glosujacy[i][1] > liczba)
-                {
+                else if (kwestia.glosujacy[i][1] > liczba) {
                     var roznica = kwestia.glosujacy[i][1] - liczba;
                     roznica = -roznica;
-                    var srednia = (kwestia.wartoscPriorytetu + roznica)/kwestia.glosujacy.length;
-                    Kwestia.update(currentKwestiaId, {$set: {glosujacy: [[user._id, liczba]], sredniaPriorytet: srednia}, $inc: {wartoscPriorytetu: roznica}});
+                    var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
+                    Kwestia.update(currentKwestiaId, {
+                        $set: {
+                            glosujacy: [[user._id, liczba]],
+                            sredniaPriorytet: srednia
+                        }, $inc: {wartoscPriorytetu: roznica}
+                    });
                     flaga = true;
                 }
-                else if(kwestia.glosujacy[i][1] < liczba)
-                {
+                else if (kwestia.glosujacy[i][1] < liczba) {
                     var roznica = liczba - kwestia.glosujacy[i][1];
-                    var srednia = (kwestia.wartoscPriorytetu + roznica)/kwestia.glosujacy.length;
-                    Kwestia.update(currentKwestiaId, {$set: {glosujacy: [[user._id, liczba]], sredniaPriorytet: srednia} , $inc: {wartoscPriorytetu: roznica}});
+                    var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
+                    Kwestia.update(currentKwestiaId, {
+                        $set: {
+                            glosujacy: [[user._id, liczba]],
+                            sredniaPriorytet: srednia
+                        }, $inc: {wartoscPriorytetu: roznica}
+                    });
                     flaga = true;
                 }
             }
         }
-        if(flaga === false)
-        {
-            var srednia = (kwestia.wartoscPriorytetu + liczba)/(kwestia.glosujacy.length + 1);
-            Kwestia.update(currentKwestiaId, {$addToSet: {glosujacy: [user._id, liczba]}, $inc: {wartoscPriorytetu: liczba}, $set: {sredniaPriorytet: srednia}});
+        if (flaga === false) {
+            var srednia = (kwestia.wartoscPriorytetu + liczba) / (kwestia.glosujacy.length + 1);
+            Kwestia.update(currentKwestiaId, {
+                $addToSet: {glosujacy: [user._id, liczba]},
+                $inc: {wartoscPriorytetu: liczba},
+                $set: {sredniaPriorytet: srednia}
+            });
             flaga = true;
         }
     },
@@ -435,39 +525,63 @@ Template.informacjeKwestia.events({
         var liczba = parseInt(document.getElementById("b5").value);
         var flaga = false;
         for (var i = 0; i < kwestia.glosujacy.length; i++) {
-            if(kwestia.glosujacy[i][0] === user._id)
-            {
-                if(kwestia.glosujacy[i][1] === liczba)
-                {
+            if (kwestia.glosujacy[i][0] === user._id) {
+                if (kwestia.glosujacy[i][1] === liczba) {
                     throwError("Nadałeś już priorytet o tej wadze w tej kwestii!");
                     return false;
                 }
-                else if(kwestia.glosujacy[i][1] > liczba)
-                {
+                else if (kwestia.glosujacy[i][1] > liczba) {
                     var roznica = kwestia.glosujacy[i][1] - liczba;
                     roznica = -roznica;
-                    var srednia = (kwestia.wartoscPriorytetu + roznica)/kwestia.glosujacy.length;
-                    Kwestia.update(currentKwestiaId, {$set: {glosujacy: [[user._id, liczba]], sredniaPriorytet: srednia}, $inc: {wartoscPriorytetu: roznica}});
+                    var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
+                    Kwestia.update(currentKwestiaId, {
+                        $set: {
+                            glosujacy: [[user._id, liczba]],
+                            sredniaPriorytet: srednia
+                        }, $inc: {wartoscPriorytetu: roznica}
+                    });
                     flaga = true;
                 }
-                else if(kwestia.glosujacy[i][1] < liczba)
-                {
+                else if (kwestia.glosujacy[i][1] < liczba) {
                     var roznica = liczba - kwestia.glosujacy[i][1];
-                    var srednia = (kwestia.wartoscPriorytetu + roznica)/kwestia.glosujacy.length;
-                    Kwestia.update(currentKwestiaId, {$set: {glosujacy: [[user._id, liczba]], sredniaPriorytet: srednia} , $inc: {wartoscPriorytetu: roznica}});
+                    var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
+                    Kwestia.update(currentKwestiaId, {
+                        $set: {
+                            glosujacy: [[user._id, liczba]],
+                            sredniaPriorytet: srednia
+                        }, $inc: {wartoscPriorytetu: roznica}
+                    });
                     flaga = true;
                 }
             }
         }
-        if(flaga === false)
-        {
-            var srednia = (kwestia.wartoscPriorytetu + liczba)/(kwestia.glosujacy.length + 1);
-            Kwestia.update(currentKwestiaId, {$addToSet: {glosujacy: [user._id, liczba]}, $inc: {wartoscPriorytetu: liczba}, $set: {sredniaPriorytet: srednia}});
+        if (flaga === false) {
+            var srednia = (kwestia.wartoscPriorytetu + liczba) / (kwestia.glosujacy.length + 1);
+            Kwestia.update(currentKwestiaId, {
+                $addToSet: {glosujacy: [user._id, liczba]},
+                $inc: {wartoscPriorytetu: liczba},
+                $set: {sredniaPriorytet: srednia}
+            });
             flaga = true;
         }
     },
 });
 Template.informacjeKwestia.helpers({
+    czyOpcja: function(){
+        var kwestia = this;
+        if(kwestia.isOption){
+            console.log("Jestem opcją kwestii")
+            var idKwestiiGlownej = kwestia.idParent;
+            //lista kwestii ktore maja id parenta takie samo
+            var kwestiaList = Kwestia.find({idParent: idKwestiiGlownej}).fetch();
+            for(var i=0;i<kwestiaList.length;i++){
+                console.log(kwestiaList[i]);
+            }
+        }
+        else{
+            console.log("Jestem główną kwestią")
+        }
+    },
     thisKwestia: function () {
         var k = Session.get("idKwestia")
     },
@@ -478,6 +592,19 @@ Template.informacjeKwestia.helpers({
         for (var i = 0; i < g.length; i++) {
             if (Meteor.userId() == g[i][0]) {
                 return g[i][1];
+            }
+        }
+    },
+    mojPriorytetZero: function () {
+        var currentKwestiaId = this._id;
+        var kwestia = Kwestia.findOne(currentKwestiaId);
+        var g = kwestia.glosujacy;
+        for (var i = 0; i < g.length; i++) {
+            if (Meteor.userId() == g[i][0] && g[i][1] == 0) {
+                return true;
+            }
+            else {
+                return false;
             }
         }
     },
