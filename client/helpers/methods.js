@@ -14,7 +14,12 @@ replacePolishChars = function(_elem){
         .replace(/ź/g, 'z').replace(/Ź/g, 'Z');
 }
 generateLogin = function (u_firstName, u_lastName) {
-    return replacePolishChars(u_firstName.slice(0, 1).toLowerCase() + u_lastName.toLowerCase());
+    do{
+        var userName=replacePolishChars(u_firstName.slice(0, 1).toLowerCase() + u_lastName.toLowerCase()+Math.floor(Math.random()*9000+1000));
+        var userExists=Users.findOne({username:userName});
+    }
+    while(userExists!=null);
+    return userName;
 }
 //---------------------------------------------------------------------------------------
 getEmail = function (_this) {
