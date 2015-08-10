@@ -30,9 +30,6 @@ Meteor.methods({
         return id;
     },
     updatePostRating: function (id,obj) {
-        console.log("ID: "+id);
-        console.log("wartosc: "+obj[0].wartoscPriorytetu);
-        console.log("glos: "+obj[0].glosujacy.length);
         var id = Posts.update(id,{$set:{wartoscPriorytetu:  obj[0].wartoscPriorytetu, glosujacy:  obj[0].glosujacy}});
         return id;
     }

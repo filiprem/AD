@@ -20,6 +20,7 @@
                         </div>
                     </div>
                     <div class="pull-right">
+                        <i class="label {{getLabelClass wartoscPriorytetu}}">{{wartoscPriorytetu}}</i>
                         <h6>{{getAnswersCount idPost}} odpowiedzi&nbsp;
                             <a class="collapsed pull-right" role="button" data-toggle="collapse" data-parent="#accordion" href="#{{idPost}}" aria-expanded="false" aria-controls="{{idPost}}">
                                 <i class="glyphicon glyphicon-triangle-bottom"></i>
@@ -35,6 +36,8 @@
                         {{> discussionAnswerItem
                         wiadomosc = wiadomosc
                         userFullName = userFullName
+                        wartoscPriorytetu = wartoscPriorytetu
+                        idPost = _id
                         }}
                     {{/each}}
                     {{> discussionAnswerForm
@@ -68,6 +71,11 @@
     <div class="well background-color-white">
         <div class="row">
             <div class="col-md-12">
+                <div class="pull-left">
+                    {{> discussionRating
+                    idPost = idPost
+                    }}
+                </div>
                 <div class="pull-right">
                     <h6><b>{{userFullName}}</b> {{getSimpleDate addDate}} <small>{{getFullHourDate addDate}}</small></h6>
                 </div>
@@ -76,6 +84,9 @@
         <div class="row">
             <div class="col-md-12">
                 <p>{{wiadomosc}}</p>
+            </div>
+            <div class="pull-right">
+                <i class="label {{getLabelClass wartoscPriorytetu}}">{{wartoscPriorytetu}}</i>
             </div>
         </div>
     </div>

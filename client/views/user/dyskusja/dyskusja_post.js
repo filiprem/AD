@@ -10,6 +10,9 @@ Template.discussionPostItem.helpers({
     },
     'getAnswersCount':function(id){
         return Posts.find({idParent:id, isParent:false, czyAktywny:true}).count();
+    },
+    'getLabelClass':function(value){
+        return value >= 0 ? "label-success" : "label-danger";
     }
 });
 
@@ -66,5 +69,8 @@ Template.discussionAnswerItem.helpers({
     },
     'getFullHourDate':function(date){
         return moment(date).format("HH:mm:ss");
+    },
+    'getLabelClass':function(value){
+        return value >= 0 ? "label-success" : "label-danger";
     }
 });

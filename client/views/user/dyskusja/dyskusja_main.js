@@ -55,46 +55,48 @@ Template.discussionPostForm.events({
 Template.discussionRating.events({
     'click #ratingButton':function(e){
 
-        var ratingValue = e.target.value;
+        var ratingValue = parseInt(e.target.value);
         var ratingPostId = e.target.name;
-        var glosujacy = [];
-        console.log(ratingValue+" "+ratingPostId);
         var post = Posts.findOne({_id:ratingPostId});
-        console.log(post);
-        glosujacy = post.glosujacy;
-        console.log("przed przypisaniem");
-        var wartoscPriorytetu = post.wartoscPriorytetu;
-        console.log("przypisane");
+        var glosujacy = post.glosujacy;
+        var glosujacyTab = post.glosujacy.slice();
+        var wartoscPriorytetu = parseInt(post.wartoscPriorytetu);
         var object = {
             idUser: Meteor.userId(),
             value: ratingValue
         }
+        var flag = false;
 
         for(var i=0; i < post.glosujacy.length; i++) {
-            console.log("for");
             if(post.glosujacy[i].idUser === Meteor.userId()) {
-
+                flag=false;
                 if(post.glosujacy[i].value === ratingValue) {
                     throwError("Nadałeś już priorytet o tej wadze w tym poście!");
                     return false;
                 } else {
-                    wartoscPriorytetu -=glosujacy[i].value;
-                    glosujacy[i].value =  ratingValue;
-                    wartoscPriorytetu +=glosujacy[i].value;
+                    wartoscPriorytetu -=glosujacyTab[i].value;
+                    glosujacyTab[i].value =  ratingValue;
+                    wartoscPriorytetu +=glosujacyTab[i].value;
                 }
             } else{
-                glosujacy.push(object);
-                wartoscPriorytetu+=ratingValue;
+                flag = true;
             }
+        }
+
+        if(flag){
+            glosujacyTab.push(object);
+            wartoscPriorytetu+=ratingValue;
+        }
+
+        if(glosujacy.length==0){
+            glosujacyTab.push(object);
+            wartoscPriorytetu+=ratingValue;
         }
 
         var postUpdate = [{
             wartoscPriorytetu: wartoscPriorytetu,
-            glosujacy: glosujacy
+            glosujacy: glosujacyTab
         }];
-
-        console.log("A "+postUpdate[0].wartoscPriorytetu);
-        console.log("B "+postUpdate[0].glosujacy[0].value);
 
         Meteor.call('updatePostRating',ratingPostId, postUpdate, function (error,ret) {
             if (error) {
