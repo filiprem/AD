@@ -1,9 +1,9 @@
 Template.opcjeList.helpers({
     OpcjeList: function(){
         var kwestiaGlownaId = Session.get("idKwestia");
-        console.log(kwestiaGlownaId);
+        //console.log(kwestiaGlownaId);
         var k = Kwestia.find({idParent: kwestiaGlownaId}).fetch();
-        console.log(k);
+        //console.log(k);
         return k;
     },
     'settings': function () {
