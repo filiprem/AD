@@ -79,17 +79,17 @@ Template.addUserForm.events({
             }];
             // sprawdzamy, czy rola istnieje,
             // jeżeli nie to dodajemy nową.
-            Meteor.call('addRole', newUser[0].role, function (error) {
-                if (error) {
-                    // optionally use a meteor errors package
-                    if (typeof Errors === "undefined")
-                        Log.error('Error: ' + error.reason);
-                    else {
-                        if(error.error !== 422)
-                        throwError(error.reason);
-                    }
-                }
-            });
+            //Meteor.call('addRole', newUser[0].role, function (error) {
+            //    if (error) {
+            //        // optionally use a meteor errors package
+            //        if (typeof Errors === "undefined")
+            //            Log.error('Error: ' + error.reason);
+            //        else {
+            //            if(error.error !== 422)
+            //            throwError(error.reason);
+            //        }
+            //    }
+            //});
             //-- generowanie loginu dla użytkownika
             newUser[0].login = generateLogin(newUser[0].firstName, newUser[0].lastName);
             Meteor.call('addUser', newUser, function (error) {

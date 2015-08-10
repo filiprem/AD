@@ -27,7 +27,7 @@ Meteor.methods({
             });
         }
 
-        Roles.addUsersToRoles(uID, newUser[0].role);
+        //Roles.addUsersToRoles(uID, newUser[0].role);
     },
 
     updateUser: function(currentUserId,currentUser) {

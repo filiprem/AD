@@ -21,7 +21,7 @@ Template.listUsers.helpers({
             rowsPerPage: 10,
             showFilter: true,
             showNavigation: 'always',
-            showColumnToggles: true,
+            showColumnToggles: false,
             enableRegex: false,
             fields: [
                 {key: 'profile.firstName', label: "Imię"},

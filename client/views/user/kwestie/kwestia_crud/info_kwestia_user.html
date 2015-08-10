@@ -2,7 +2,6 @@
     <div class="main">
         <div class="row">
             <div class="col-md-6">
-                {{czyOpcja}}
                 <h3>Informacje o Kwestii</h3>
                 <h4>Liczba osób, które nadały priorytet tej Kwestii: <b>{{glosujacyCount}}</b></h4>
                 {{#if mojPriorytetZero}}
@@ -21,12 +20,13 @@
                 <a id="dyskusja" name="{{_id}}" class="btn btn-danger pull-right">
                     <span class="glyphicon glyphicon-remove-circle"></span> Dyskusja {{_id}}
                 </a>
+                {{#unless czyOpcja}}
                 <a id="addOptionButton" class="btn btn-primary pull-right">
                     <span class="glyphicon glyphicon-plus"></span> Dodaj opcję tej Kwestii</a>
+                {{/unless}}
             </div>
         </div>
         <div class="clearfix"></div>
-        <hr/>
         <table class="table table-bordered manageTable">
             <tr>
                 <td><strong> Data wprowadzenia Kwestii</strong></td>
@@ -48,27 +48,27 @@
                 <td><strong> Priorytet</strong></td>
                 <td>
                     <div class="row">
-                        <div class="col-md-1" style="margin-top: 5px">
+                        <div class="col-md-1">
                             {{sredniaPriorytet}}
                         </div>
                         <div class="col-md-11">
-                            <button id="b-5" name="b-5" type="button" class="btn btn-warning" value="-5"><b>-5</b>
+                            <button id="b-5" name="b-5" type="button" class="btn btn-warning btn-xs" value="-5"><b>-5</b>
                             </button>
-                            <button id="b-4" name="b-4" type="button" class="btn btn-warning" value="-4"><b>-4</b>
+                            <button id="b-4" name="b-4" type="button" class="btn btn-warning btn-xs" value="-4"><b>-4</b>
                             </button>
-                            <button id="b-3" name="b-3" type="button" class="btn btn-warning" value="-3"><b>-3</b>
+                            <button id="b-3" name="b-3" type="button" class="btn btn-warning btn-xs" value="-3"><b>-3</b>
                             </button>
-                            <button id="b-2" name="b-2" type="button" class="btn btn-warning" value="-2"><b>-2</b>
+                            <button id="b-2" name="b-2" type="button" class="btn btn-warning btn-xs" value="-2"><b>-2</b>
                             </button>
-                            <button id="b-1" name="b-1" type="button" class="btn btn-warning" value="-1"><b>-1</b>
+                            <button id="b-1" name="b-1" type="button" class="btn btn-warning btn-xs" value="-1"><b>-1</b>
                             </button>
-                            <button id="b0" name="b0" type="button" class="btn btn-default" value="0"><b>0 *</b>
+                            <button id="b0" name="b0" type="button" class="btn btn-default btn-xs" value="0"><b>0 *</b>
                             </button>
-                            <button id="b1" name="b1" type="button" class="btn btn-success" value="1"><b>+1</b></button>
-                            <button id="b2" name="b2" type="button" class="btn btn-success" value="2"><b>+2</b></button>
-                            <button id="b3" name="b3" type="button" class="btn btn-success" value="3"><b>+3</b></button>
-                            <button id="b4" name="b4" type="button" class="btn btn-success" value="4"><b>+4</b></button>
-                            <button id="b5" name="b5" type="button" class="btn btn-success" value="5"><b>+5</b></button>
+                            <button id="b1" name="b1" type="button" class="btn btn-success btn-xs" value="1"><b>+1</b></button>
+                            <button id="b2" name="b2" type="button" class="btn btn-success btn-xs" value="2"><b>+2</b></button>
+                            <button id="b3" name="b3" type="button" class="btn btn-success btn-xs" value="3"><b>+3</b></button>
+                            <button id="b4" name="b4" type="button" class="btn btn-success btn-xs" value="4"><b>+4</b></button>
+                            <button id="b5" name="b5" type="button" class="btn btn-success btn-xs" value="5"><b>+5</b></button>
                         </div>
                     </div>
                 </td>
@@ -99,10 +99,15 @@
             </tr>
         </table>
         <hr/>
+        {{#unless czyOpcja}}
+            <h3>Opcje tej Kwestii</h3>
+            <div class="row">
+               {{> opcjeList}}
+            </div>
+        {{/unless}}
 
         <div class="form-group">
             <input type="reset" id="backToList" class="btn btn-default backToList" value="Powrót">
         </div>
-        <!--{{> priorytetKwestiaModal}}-->
     </div>
 </template>

@@ -568,19 +568,10 @@ Template.informacjeKwestia.events({
 });
 Template.informacjeKwestia.helpers({
     czyOpcja: function(){
-        var kwestia = this;
-        if(kwestia.isOption){
-            console.log("Jestem opcją kwestii")
-            var idKwestiiGlownej = kwestia.idParent;
-            //lista kwestii ktore maja id parenta takie samo
-            var kwestiaList = Kwestia.find({idParent: idKwestiiGlownej}).fetch();
-            for(var i=0;i<kwestiaList.length;i++){
-                console.log(kwestiaList[i]);
-            }
-        }
-        else{
-            console.log("Jestem główną kwestią")
-        }
+        if(this.isOption)
+            return true;
+        else
+            return false;
     },
     thisKwestia: function () {
         var k = Session.get("idKwestia")
