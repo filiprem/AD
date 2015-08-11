@@ -117,7 +117,7 @@ Template.addKwestiaForm.events({
 
         var newKwestiaDraft = [
             {
-                userId: Meteor.userId(),
+                idUser: Meteor.userId(),
                 dataWprowadzenia: new Date(),
                 kwestiaNazwa: $(e.target).find('[name=kwestiaNazwa]').val(),
                 wartoscPriorytetu: 0,
