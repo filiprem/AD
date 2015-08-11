@@ -46,7 +46,7 @@ Template.addKwestiaOpcjaForm.events({
         var pulapPriorytetu = null;
 
         var newKwestiaOpcja = [{
-                userId: Meteor.userId(),
+            idUser: Meteor.userId(),
                 dataWprowadzenia: new Date(),
                 kwestiaNazwa: $(e.target).find('[name=kwestiaNazwa]').val(),
                 wartoscPriorytetu: 0,

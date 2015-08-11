@@ -3,6 +3,14 @@
     <ul class="nav nav-tabs">
             {{#if isAdminUser}}
                 <li class="dropdown">
+                    <a href="#" data-toggle="dropdown" class="dropdown-toggle">Tematy<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li class="{{activeRouteClass 'listTemat'}}"><a href="{{pathFor 'listTemat'}}">Lista tematów</a></li>
+                        <li class="divider"></li>
+                        <li class="{{activeRouteClass 'addTemat'}}"><a href="{{pathFor 'addTemat'}}">Dodaj temat</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
                     <a href="#" data-toggle="dropdown" class="dropdown-toggle">Rodzaje <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{pathFor 'listRodzaj'}}">Lista rodzajów</a></li>
@@ -26,14 +34,6 @@
                         <li class="divider"></li>
                         <li class="{{activeRouteClass 'addParametr'}}"><a href="{{pathFor 'addParametr'}}">Dodaj parametr</a>
                         </li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="#" data-toggle="dropdown" class="dropdown-toggle">Tematy<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li class="{{activeRouteClass 'listTemat'}}"><a href="{{pathFor 'listTemat'}}">Lista tematów</a></li>
-                        <li class="divider"></li>
-                        <li class="{{activeRouteClass 'addTemat'}}"><a href="{{pathFor 'addTemat'}}">Dodaj temat</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">

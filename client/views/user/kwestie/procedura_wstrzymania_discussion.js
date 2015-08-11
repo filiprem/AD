@@ -34,7 +34,7 @@ Template.postForm.events({
 
         var message = $(e.target).find('[name=message]').val();
         var kwestiaSuspendedId = $(e.target).find('[name=kwestia_suspended_id]').val();
-        var userId = Meteor.userId();
+        var idUser = Meteor.userId();
         var add_date = new Date();
         var isParent = true;
         var czyAktywny = true;
@@ -43,13 +43,13 @@ Template.postForm.events({
         var post = [{
             kwestiaSuspendedId: kwestiaSuspendedId,
             post_message: message,
-            userId: userId,
+            idUser: idUser,
             userFullName:userFullName,
             add_date: add_date,
             isParent: isParent,
             czyAktywny: czyAktywny
         }];
-        if (isNotEmpty(post[0].kwestiaSuspendedId,'') && isNotEmpty(post[0].post_message,'komentarz') && isNotEmpty(post[0].userId,'') &&
+        if (isNotEmpty(post[0].kwestiaSuspendedId,'') && isNotEmpty(post[0].post_message,'komentarz') && isNotEmpty(post[0].idUser,'') &&
             isNotEmpty(post[0].add_date.toString(),'') && isNotEmpty(post[0].czyAktywny.toString(),'') && isNotEmpty(post[0].userFullName,'' && isNotEmpty(post[0].isParent.toString(),''))) {
 
             Meteor.call('addKwestiaSuspendedPosts', post, function (error,ret) {
@@ -73,7 +73,7 @@ Template.postAnswerForm.events({
         var message = $(e.target).find('[name=answer_message]').val();
         var kwestiaSuspendedId = $(e.target).find('[name=answer_kwestia_suspended_id]').val();
         var parentId = $(e.target).find('[name=answer_post_id]').val();
-        var userId = Meteor.userId();
+        var idUser = Meteor.userId();
         var add_date = new Date();
         var isParent = false;
         var czyAktywny = true;
@@ -82,7 +82,7 @@ Template.postAnswerForm.events({
         var post = [{
             kwestiaSuspendedId: kwestiaSuspendedId,
             post_message: message,
-            userId: userId,
+            idUser: idUser,
             userFullName: userFullName,
             add_date: add_date,
             isParent: isParent,
@@ -91,7 +91,7 @@ Template.postAnswerForm.events({
         }];
 
         if (isNotEmpty(post[0].kwestiaSuspendedId,'a') && isNotEmpty(post[0].post_message,'komentarz') &&
-            isNotEmpty(post[0].userId,'b') && isNotEmpty(post[0].addDate,'c') &&
+            isNotEmpty(post[0].idUser,'b') && isNotEmpty(post[0].addDate,'c') &&
             isNotEmpty(post[0].parentId,'d') && isNotEmpty(post[0].userFullName,'e') &&
             !post[0].isParent && post[0].czyAktywny) {
 

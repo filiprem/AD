@@ -20,7 +20,7 @@ Template.previewKwestia.events({
         if(kwestia.idParent){
             var newKwestiaDraft = [
                 {
-                    userId: Meteor.userId(),
+                    idUser: Meteor.userId(),
                     dataWprowadzenia: new Date(),
                     kwestiaNazwa: kwestia.kwestiaNazwa,
                     wartoscPriorytetu: 0,
@@ -52,7 +52,7 @@ Template.previewKwestia.events({
         else{
             var newKwestiaDraft = [
                 {
-                    userId: Meteor.userId(),
+                    idUser: Meteor.userId(),
                     dataWprowadzenia: new Date(),
                     kwestiaNazwa: kwestia.kwestiaNazwa,
                     wartoscPriorytetu: 0,

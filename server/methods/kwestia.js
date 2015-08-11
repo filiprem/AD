@@ -2,7 +2,7 @@ Meteor.methods({
     // metody Kwestia GŁÓWNA
     addKwestia: function(newKwestia) {
         var id = Kwestia.insert({
-            userId: Meteor.userId(),
+            idUser: Meteor.userId(),
             dataWprowadzenia: newKwestia[0].dataWprowadzenia,
             kwestiaNazwa: newKwestia[0].kwestiaNazwa,
             wartoscPriorytetu: parseInt(newKwestia[0].wartoscPriorytetu),
@@ -29,7 +29,7 @@ Meteor.methods({
     //metody Kwestia OPCJA
     addKwestiaOpcja: function(newKwestiaOpcja) {
         var id = Kwestia.insert({
-            userId: Meteor.userId(),
+            idUser: Meteor.userId(),
             dataWprowadzenia: newKwestiaOpcja[0].dataWprowadzenia,
             kwestiaNazwa: newKwestiaOpcja[0].kwestiaNazwa,
             wartoscPriorytetu: parseInt(newKwestiaOpcja[0].wartoscPriorytetu),

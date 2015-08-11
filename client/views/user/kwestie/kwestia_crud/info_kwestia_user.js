@@ -15,13 +15,13 @@ Template.informacjeKwestia.events({
     'click #wstrzymajKwestieButton': function (e) {
         var item = [{
             idKwestia: this._id,
-            userId: Meteor.userId(),
+            idUser: Meteor.userId(),
             uzasadnienie: "",
             czyAktywny: true
         }];
 
         if (isNotEmpty(item[0].idKwestia) &&
-            isNotEmpty(item[0].userId)) {
+            isNotEmpty(item[0].idUser)) {
             Meteor.call('addKwestiaSuspended', item, function (error, ret) {
                 if (error) {
                     if (typeof Errors === "undefined")
@@ -567,6 +567,23 @@ Template.informacjeKwestia.events({
     },
 });
 Template.informacjeKwestia.helpers({
+    opcje: function(){
+        if(this.isOption){
+            console.log("===jestem opcja===")
+            console.log("===id parent===")
+            console.log(this.idParent)
+            var parent = this.idParent;
+            var kwestieOpcje = Kwestia.find({idParent: parent}).fetch();
+            console.log("===kwestie opcje list===")
+            console.log(kwestieOpcje);
+            for(var i=0;i<kwestieOpcje.length;i++){
+                console.log(kwestieOpcje[i])
+            }
+        }
+        else{
+            console.log("jestem glowna")
+        }
+    },
     czyOpcja: function(){
         if(this.isOption)
             return true;
