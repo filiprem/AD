@@ -1,10 +1,10 @@
 Template.opcjeList.helpers({
     OpcjeList: function(){
         var kwestiaGlownaId = Session.get("idKwestia");
-        console.log(kwestiaGlownaId);
-        var k = Kwestia.find({idParent: kwestiaGlownaId}).fetch();
-        console.log(k);
-        return k;
+        var k = Kwestia.find({idParent: kwestiaGlownaId}, {isOption: true}).fetch();
+        if(k){
+            return k;
+        }
     },
     'settings': function () {
         return {
@@ -30,5 +30,5 @@ Template.opcjeList.helpers({
                 //{key: 'options', label: "Opcje", tmpl: Template.editColumnKwestia }
             ]
         };
-    },
+    }
 })

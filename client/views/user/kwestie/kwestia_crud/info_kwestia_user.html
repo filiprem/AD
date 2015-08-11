@@ -4,14 +4,14 @@
             <div class="col-md-12">
                 <legend>Informacje o kwestii</legend>
                 <p class="bg-info padding-15">
-                Liczba osób, które nadały priorytet tej kwestii: <b>{{glosujacyCount}}</b>
+                Liczba osób, które nadały priorytet tej Kwestii: <b>{{glosujacyCount}}</b>
                     {{#if mojPriorytetZero}}
-                        <br />Wstrzymałeś się od głosu nadając tej kwestii priorytet <b>0</b>
+                        <br />Wstrzymałeś się od głosu nadając tej Kwestii priorytet <b>0</b>
                     {{else}}
                         {{#if mojPiorytet}}
-                            <br />Nadałeś tej kwestii priorytet: <b>{{mojPiorytet}}</b>
+                            <br />Nadałeś tej Kwestii priorytet: <b>{{mojPiorytet}}</b>
                         {{else}}
-                            <br />Nie nadałeś jeszcze tej kwestii priorytetu
+                            <br />Nie nadałeś jeszcze tej Kwestii priorytetu
                         {{/if}}
                     {{/if}}
                 </p>
@@ -44,7 +44,7 @@
         <br />
         <table class="table table-bordered manageTable">
             <tr>
-                <td><strong> Data wprowadzenia kwestii</strong></td>
+                <td><strong> Data wprowadzenia Kwestii</strong></td>
                 <td>{{date}}</td>
             </tr>
             <tr>
@@ -56,7 +56,7 @@
                 <td>{{dateG}}</td>
             </tr>
             <tr>
-                <td><strong> Nazwa kwestii</strong></td>
+                <td><strong> Nazwa Kwestii</strong></td>
                 <td>{{kwestiaNazwa}}</td>
             </tr>
             <tr>
@@ -64,7 +64,7 @@
                 <td>
                     <div class="row">
                         <div class="col-md-1">
-                            {{sredniaPriorytet}}
+                            {{srednia}}
                         </div>
                         <div class="col-md-11">
                             <button id="b-5" name="b-5" type="button" class="btn btn-danger btn-xs" value="-5"><b>-5</b>
@@ -96,9 +96,11 @@
                 <td><strong> Rodzaj</strong></td>
                 <td>{{rodzajNazwa.nazwaRodzaj}}</td>
             </tr>
+            <br/>
+            <label> * 0 oznacza wstrzymanie się od głosu.</label>
         </table>
-
-        <legend>Treść kwestii</legend>
+        
+        <legend>Treść Kwestii</legend>
 
         <div class="clearfix"></div>
         <table class="table table-bordered manageTable">
@@ -111,15 +113,15 @@
                 <td>{{szczegolowaTresc}}</td>
             </tr>
         </table>
+        
         <br />
 
-        {{#unless czyOpcja}}
-            <legend>Opcje tej kwestii</legend>
-            <div class="row">
-               {{> opcjeList}}
-            </div>
-        {{/unless}}
+        <h3>Opcje Kwestii</h3>
 
+        <div class="row">
+            {{> opcjeList}}
+        </div>
+        
         <legend>Dyskusja kwestii</legend>
         <div class="row">
             <div class="col-md-12">
