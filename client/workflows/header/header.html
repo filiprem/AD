@@ -12,11 +12,9 @@
         <div id="navbar-collapse" class="navbar-collapse collapse">
             {{#if currentUser}}
                 <ul class="nav navbar-nav">
-                    <li class="{{activeRouteClass 'home'}}"><a href="{{pathFor 'home'}}"><span class="glyphicon glyphicon-home"></span>  Strona główna</a></li>
+                    <li class="{{activeRouteClass 'listKwestia'}}"><a href="{{pathFor 'listKwestia'}}"><span class="glyphicon glyphicon-list-alt"></span>  Wykaz Kwestii</a></li>
                     <li class="{{activeRouteClass 'manage_account'}}"><a href="{{pathFor 'manage_account'}}"><span class="glyphicon glyphicon-user"></span>  Profil</a></li>
                     <li class="{{activeRouteClass 'archiwum'}}"><a href="{{pathFor 'archiwum'}}"><span class="glyphicon glyphicon-lock"></span>  Archiwum</a></li>
-
-                    <!--<li class="{{activeRouteClass 'messages'}}"><a href="{{pathFor 'home'}}"><span class="glyphicon glyphicon-envelope"></span> Wiadomości</a></li>-->
                 </ul>
             {{/if}}
             <ul class="nav navbar-nav navbar-right">

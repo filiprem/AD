@@ -1,17 +1,72 @@
+//validation Messages
+fieldEmptyMesssage=function(){
+    return 'Pole jest wymagane';
+},
+positiveNumberMesssage=function(){
+    return 'Podaj wartość większą od zera';
+},
+decimalNumberMesssage=function(){
+    return 'Podana wartość nie jest liczbą';
+},
+minLengthMessage=function(length) {
+    return 'Pole musi mieć minimum '+length+' znaków';
+},
+validEmailMessage=function(){
+    return 'Wprowadż poprawny adres email';
+},
+equalToMessage=function(){
+    return 'Wprowadź tę samą wartość ponownie';
+},
+//validation- highlight field
+highlightFunction= function(element) {
+    var id_attr = "#" + $( element ).attr("id") + "1";
+    $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+    $(id_attr).removeClass('glyphicon-ok').addClass('glyphicon-remove');
+},
+//validation- unhighlight field
+unhighlightFunction= function(element) {
+    var id_attr = "#" + $( element ).attr("id") + "1";
+    $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+    $(id_attr).removeClass('glyphicon-remove').addClass('glyphicon-ok');
+},
+//validation - error
+validationPlacementError=function(error, element){
+        if(element.length) {
+            error.insertAfter(element);
+        } else {
+            error.insertAfter(element);
+        }
+},
+
+
+
+//NOT USED!
 trimInput = function(value) {
     return value.replace(/^\s*|\s*$/g, '');
-};
+},
+    /*
 
-isNotEmpty = function(value, statement) {
+    @value- value to check either is empty or not
+    @statement- name of field,that will be displayed in messsage,if field is empty
+    @fieldName- name of field, that has to be highlighted or not depending of value content
+     */
+isNotEmpty = function(value, statement, fieldName) {
     value=value.replace(/\s+/g,'');
     console.log("Value "+value);
     console.log("Statement "+statement)
     if (value!=='' && value !== '0'){
+        if(fieldName!=null) {
+            document.getElementById(fieldName).classList.remove('has-error');
+        }
         return true;
+    }
+    if(fieldName!=null) {
+        document.getElementById(fieldName).classList.add('has-error');
     }
     throwError('Uzupełnij pole '+statement);
     return false;
 };
+
 
 isEmail = function(value) {
     var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;

@@ -5,7 +5,7 @@
         <hr/>
         <div class="row">
             <div class="col col-md-10">
-                <form class="form-horizontal">
+                <form class="form-horizontal" id="userForm">
                     <div class="form-group">
                         <label class="control-label col-xs-3">Rola:</label>
 
@@ -17,14 +17,14 @@
                         <label class="control-label col-xs-3" for="uwagiStatus">Uwagi do roli:</label>
 
                         <div class="col-xs-9">
-                            <textarea name="uwagiStatus" value={{profile.role_desc}} rows="3" class="form-control" id="uwagiStatus" placeholder="Uwagi do roli"></textarea>
+                            <textarea name="uwagiStatus" value={{profile.roleDesc}} rows="3" class="form-control" id="uwagiStatus" placeholder="Uwagi do roli"></textarea>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-xs-3" for="inputEmail">Email:</label>
+                        <label class="control-label col-xs-3" for="inputEmail" >Email:</label>
 
                         <div class="col-xs-9">
-                            <input name="email" type="email" value={{email}} class="form-control" id="inputEmail" placeholder="Email">
+                            <input name="email" type="email" value={{email}} class="form-control" id="inputEmail" placeholder="Email" required>
                         </div>
                     </div>
                     <!--<div class="form-group">-->
@@ -47,15 +47,15 @@
                         <label class="control-label col-xs-3" for="firstName">Imię:</label>
 
                         <div class="col-xs-9">
-                            <input name="firstName" type="text" value={{profile.first_name}} class="form-control" id="firstName" placeholder="Imię">
+                            <input name="firstName" type="text" value={{profile.firstName}} class="form-control" id="firstName" placeholder="Imię" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-xs-3" for="lastName">Nazwisko:</label>
 
                         <div class="col-xs-9">
-                            <input name="lastName" type="text" value={{profile.last_name}} class="form-control" id="lastName"
-                                   placeholder="Nazwisko">
+                            <input name="lastName" type="text" value={{profile.lastName}} class="form-control" id="lastName"
+                                   placeholder="Nazwisko" required>
                         </div>
                     </div>
                     <div class="form-group">

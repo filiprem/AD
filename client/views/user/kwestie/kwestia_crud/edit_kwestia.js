@@ -1,7 +1,4 @@
-Template.editKwestiaForm.rendered = function(){
-    //setTematy();
-    //setRodzaje();
-};
+Template.editKwestiaForm.rendered = function(){};
 
 Template.editKwestiaForm.helpers({
     kwestiaToEdit: function(){
@@ -15,7 +12,7 @@ Template.editKwestiaForm.helpers({
     },
     isSelectedTemat: function(id, tematId) {
         var r = Session.get("kwestiaInScope");
-        var item = Temat.findOne({_id: r.temat_id});
+        var item = Temat.findOne({_id: r.idTemat});
         if(item._id==id)
             return true;
         else
@@ -23,7 +20,7 @@ Template.editKwestiaForm.helpers({
     },
     isSelectedRodzaj: function(id){
         var r=Session.get("kwestiaInScope");
-        var item=Rodzaj.findOne({_id: r.rodzaj_id});
+        var item=Rodzaj.findOne({_id: r.idRodzaj});
         if(item._id==id)
             return true;
         else
@@ -49,8 +46,8 @@ Template.editKwestiaForm.events({
 
         var kw = {
             kwestiaNazwa: nazwa,
-            temat_id: temat,
-            rodzaj_id: rodzaj,
+            idTemat: temat,
+            idRodzaj: rodzaj,
             pulapPriorytetu:pulapPriorytetu,
             krotkaTresc: krotkaTresc,
             szczegolowaTresc: szczegolowaTresc
