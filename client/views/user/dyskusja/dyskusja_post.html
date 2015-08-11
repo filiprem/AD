@@ -93,7 +93,17 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <p>{{wiadomosc}}</p>
+                <p>
+                    {{getAnswerText wiadomosc idPost}}
+                    <br />
+                    <small class="pull-right">
+                        {{#if isAnswerInTab idPost}}
+                            [ <a id="zwinTextAnswer" name="{{idPost}}">mniej</a> ]
+                        {{else}}
+                            [ <a id="rozwinTextAnswer" name="{{idPost}}">więcej</a> ]
+                        {{/if}}
+                    </small>
+                </p>
             </div>
         </div>
     <hr />
