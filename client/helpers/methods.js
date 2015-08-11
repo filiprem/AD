@@ -154,4 +154,13 @@ setPriorytet = function () {
 
 stringContains = function (inputString, stringToFind) {
     return (inputString.indexOf(stringToFind) != -1);
+};
+
+isInTab = function(item,tab){
+    var flag = false;
+    tab.forEach(function(a){
+        if(a==item)
+            flag=true;
+    });
+    return flag;
 }

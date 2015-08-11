@@ -30,7 +30,7 @@ Meteor.methods({
         return id;
     },
     updatePostRating: function (id,obj) {
-        var idPR = Posts.update(id,{$set:{wartoscPriorytetu:  obj[0].wartoscPriorytetu, glosujacy:  obj[0].glosujacy}});
-        return idPR;
+        var id = Posts.update(id,{$set:{wartoscPriorytetu:  obj[0].wartoscPriorytetu, glosujacy:  obj[0].glosujacy}});
+        return id;
     }
 });

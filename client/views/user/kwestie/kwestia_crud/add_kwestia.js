@@ -15,7 +15,7 @@ Template.addKwestiaForm.rendered = function(){
     $("#kwestiaForm").validate({
         messages:{
             kwestiaNazwa:{
-                required:fieldEmptyMesssage(),
+                required:fieldEmptyMesssage()
             },
             tematy:{
                 required:fieldEmptyMesssage()
@@ -31,7 +31,7 @@ Template.addKwestiaForm.rendered = function(){
             },
             szczegolowaTresc:{
                 required:fieldEmptyMesssage()
-            },
+            }
         },
         highlight: function(element) {
             var id_attr = "#" + $( element ).attr("id") + "1";
