@@ -2,82 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="efe4b461-e297-447a-9edc-77274a07f4c3" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/views/user/kwestie/kwestia_crud/add_kwestia.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/views/user/kwestie/opcje_crud/add_kwestia_opcja.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/views/user/kwestie/opcje_crud/add_kwestia_opcja.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/views/user/kwestie/kwestia_crud/info_kwestia_user.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/views/user/kwestie/kwestia_crud/info_kwestia_user.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/views/user/priorytetowanie/nadaj_priorytet.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/views/user/priorytetowanie/nadaj_priorytet.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/views/user/kwestie/opcje_crud/opcje_list.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/views/user/kwestie/opcje_crud/opcje_list.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/views/user/kwestie/procedura_wstrzymania.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/views/user/kwestie/procedura_wstrzymania.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/views/user/kwestie/procedura_wstrzymania_discussion.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/views/user/kwestie/procedura_wstrzymania_discussion.js" />
-      <change type="DELETED" beforePath="C:\Users\Soflab\Desktop\demokracja\AD\client\views\user\kwestie\add_kwestia.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Soflab\Desktop\demokracja\AD\client\views\user\kwestie\info_kwestia_user.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Soflab\Desktop\demokracja\AD\client\views\user\kwestie\info_kwestia_user.js" afterPath="" />
-      <change type="MOVED" beforePath="C:\Users\Soflab\Desktop\demokracja\AD\client\views\user\kwestie\add_kwestia.html" afterPath="$PROJECT_DIR$/client/views/user/kwestie/kwestia_crud/add_kwestia.html" />
-      <change type="MOVED" beforePath="C:\Users\Soflab\Desktop\demokracja\AD\client\views\user\kwestie\edit_kwestia.html" afterPath="$PROJECT_DIR$/client/views/user/kwestie/kwestia_crud/edit_kwestia.html" />
-      <change type="MOVED" beforePath="C:\Users\Soflab\Desktop\demokracja\AD\client\views\user\kwestie\edit_kwestia.js" afterPath="$PROJECT_DIR$/client/views/user/kwestie/kwestia_crud/edit_kwestia.js" />
-      <change type="MOVED" beforePath="C:\Users\Soflab\Desktop\demokracja\AD\client\views\user\kwestie\list_kwestia.html" afterPath="$PROJECT_DIR$/client/views/user/kwestie/kwestia_crud/list_kwestia.html" />
-      <change type="MOVED" beforePath="C:\Users\Soflab\Desktop\demokracja\AD\client\views\user\kwestie\list_kwestia.js" afterPath="$PROJECT_DIR$/client/views/user/kwestie/kwestia_crud/list_kwestia.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/parametry/add_parametr.js" afterPath="$PROJECT_DIR$/client/views/admin/parametry/add_parametr.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/rodzaje/add_rodzaj.html" afterPath="$PROJECT_DIR$/client/views/admin/rodzaje/add_rodzaj.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/rodzaje/add_rodzaj.js" afterPath="$PROJECT_DIR$/client/views/admin/rodzaje/add_rodzaj.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/tematy/add_temat.html" afterPath="$PROJECT_DIR$/client/views/admin/tematy/add_temat.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/tematy/add_temat.js" afterPath="$PROJECT_DIR$/client/views/admin/tematy/add_temat.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/users/add_user.html" afterPath="$PROJECT_DIR$/client/views/admin/users/add_user.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/users/add_user.js" afterPath="$PROJECT_DIR$/client/views/admin/users/add_user.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/archiwum/archiwum.js" afterPath="$PROJECT_DIR$/client/views/archiwum/archiwum.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/user/dyskusja/dyskusja_main.js" afterPath="$PROJECT_DIR$/client/views/user/dyskusja/dyskusja_main.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/account/edit_profile.html" afterPath="$PROJECT_DIR$/client/views/account/edit_profile.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/account/edit_profile.js" afterPath="$PROJECT_DIR$/client/views/account/edit_profile.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/rodzaje/edit_rodzaj.html" afterPath="$PROJECT_DIR$/client/views/admin/rodzaje/edit_rodzaj.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/rodzaje/edit_rodzaj.js" afterPath="$PROJECT_DIR$/client/views/admin/rodzaje/edit_rodzaj.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/tematy/edit_temat.html" afterPath="$PROJECT_DIR$/client/views/admin/tematy/edit_temat.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/tematy/edit_temat.js" afterPath="$PROJECT_DIR$/client/views/admin/tematy/edit_temat.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/users/edit_user.html" afterPath="$PROJECT_DIR$/client/views/admin/users/edit_user.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/users/edit_user.js" afterPath="$PROJECT_DIR$/client/views/admin/users/edit_user.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/workflows/header/header.html" afterPath="$PROJECT_DIR$/client/workflows/header/header.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/kwestie/info_kwestia_admin.html" afterPath="$PROJECT_DIR$/client/views/admin/kwestie/info_kwestia_admin.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/archiwum/info_kwestia_archiwum.js" afterPath="$PROJECT_DIR$/client/views/archiwum/info_kwestia_archiwum.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/methods/kwestia.js" afterPath="$PROJECT_DIR$/server/methods/kwestia.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/kwestie/list_kwestia_admin.html" afterPath="$PROJECT_DIR$/client/views/admin/kwestie/list_kwestia_admin.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/kwestie/list_kwestia_admin.js" afterPath="$PROJECT_DIR$/client/views/admin/kwestie/list_kwestia_admin.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/parametry/list_parametr.html" afterPath="$PROJECT_DIR$/client/views/admin/parametry/list_parametr.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/parametry/list_parametr.js" afterPath="$PROJECT_DIR$/client/views/admin/parametry/list_parametr.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/raporty/list_raport.js" afterPath="$PROJECT_DIR$/client/views/admin/raporty/list_raport.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/rodzaje/list_rodzaj.html" afterPath="$PROJECT_DIR$/client/views/admin/rodzaje/list_rodzaj.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/rodzaje/list_rodzaj.js" afterPath="$PROJECT_DIR$/client/views/admin/rodzaje/list_rodzaj.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/tematy/list_temat.html" afterPath="$PROJECT_DIR$/client/views/admin/tematy/list_temat.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/tematy/list_temat.js" afterPath="$PROJECT_DIR$/client/views/admin/tematy/list_temat.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/users/list_users.js" afterPath="$PROJECT_DIR$/client/views/admin/users/list_users.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/account/login_form.js" afterPath="$PROJECT_DIR$/client/views/account/login_form.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/account/manage_account.html" afterPath="$PROJECT_DIR$/client/views/account/manage_account.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/meteor_packages_auto_import_browser.xml" afterPath="$PROJECT_DIR$/.idea/libraries/meteor_packages_auto_import_browser.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/helpers/methods.js" afterPath="$PROJECT_DIR$/client/helpers/methods.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.meteor/packages" afterPath="$PROJECT_DIR$/.meteor/packages" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/user/kwestie/preview_kwestia.html" afterPath="$PROJECT_DIR$/client/views/user/kwestie/preview_kwestia.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/user/kwestie/preview_kwestia.js" afterPath="$PROJECT_DIR$/client/views/user/kwestie/preview_kwestia.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/user/kwestie/priorytet_kwestia_modal.html" afterPath="$PROJECT_DIR$/client/views/user/kwestie/priorytet_kwestia_modal.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/publications.js" afterPath="$PROJECT_DIR$/server/publications.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.meteor/release" afterPath="$PROJECT_DIR$/.meteor/release" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/methods/rodzaj.js" afterPath="$PROJECT_DIR$/server/methods/rodzaj.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/router.js" afterPath="$PROJECT_DIR$/lib/router.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/workflows/menus/submenu.html" afterPath="$PROJECT_DIR$/client/workflows/menus/submenu.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/parametry/update_parametr_modal.html" afterPath="$PROJECT_DIR$/client/views/admin/parametry/update_parametr_modal.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/parametry/update_parametr_modal.js" afterPath="$PROJECT_DIR$/client/views/admin/parametry/update_parametr_modal.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/rodzaje/update_rodzaj_modal.html" afterPath="$PROJECT_DIR$/client/views/admin/rodzaje/update_rodzaj_modal.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/rodzaje/update_rodzaj_modal.js" afterPath="$PROJECT_DIR$/client/views/admin/rodzaje/update_rodzaj_modal.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/tematy/update_temat_modal.html" afterPath="$PROJECT_DIR$/client/views/admin/tematy/update_temat_modal.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/admin/tematy/update_temat_modal.js" afterPath="$PROJECT_DIR$/client/views/admin/tematy/update_temat_modal.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/methods/users.js" afterPath="$PROJECT_DIR$/server/methods/users.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/helpers/validators.js" afterPath="$PROJECT_DIR$/client/helpers/validators.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.meteor/versions" afterPath="$PROJECT_DIR$/.meteor/versions" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/views/user/kwestie/kwestia_crud/info_kwestia_user.html" afterPath="$PROJECT_DIR$/client/views/user/kwestie/kwestia_crud/info_kwestia_user.html" />
     </list>
     <ignored path="SDD.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -285,10 +210,10 @@
     </key>
   </component>
   <component name="RunManager" selected="Meteor.AppStart">
-    <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
+    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
       <method />
     </configuration>
-    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
+    <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
       <method />
     </configuration>
     <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" config-file="">
@@ -413,7 +338,10 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4118705" sideWeight="0.49683145" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3291592" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22813489" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22813489" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19488817" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17765957" sideWeight="0.49945354" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2442953" sideWeight="0.5031686" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32792792" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
@@ -421,12 +349,9 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5647482" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19488817" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17784877" sideWeight="0.49945354" order="2" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -444,9 +369,9 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16491044" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.5058573" sideWeight="0.49945354" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
