@@ -1,0 +1,78 @@
+<template name="addKwestiaForm">
+    <div class="main">
+        <h3>Dodaj Kwestię</h3>
+        <hr/>
+        <div class="row">
+            <div class="col col-md-10">
+                <form class="form-horizontal" id="kwestiaForm">
+                    <div class="form-group" id="kwestiaNazwaGroup">
+                        <label class="control-label col-xs-3" for="inputEmail">Nazwa Kwestii:</label>
+                        <div class="col-xs-9">
+                            <input class="form-control" name="kwestiaNazwa" maxlength="50" id="kwestiaNazwa" placeholder="Nazwa Kwestii" value="{{kwestiaNazwa}}" required>
+                        </div>
+                    </div>
+                    <div class="form-group" id="tematyGroup">
+                        <label class="control-label col-xs-3" for="inputEmail">Temat:</label>
+                        <div class="col-xs-3">
+                            <select name="tematy" id="tematy" class="form-control" required>
+                                <option value="">Wybierz temat</option>
+                                {{#each tematToList}}
+                                    {{#if isSelectedTemat _id}}
+                                        <option value="{{this._id}}" selected>
+                                            {{this.nazwaTemat}}
+                                        </option>
+                                    {{else}}
+                                        <option value="{{this._id}}">
+                                            {{this.nazwaTemat}}
+                                        </option>
+                                    {{/if}}
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" id="rodzajeGroup">
+                        <label class="control-label col-xs-3" for="inputEmail">Rodzaj:</label>
+                        <div class="col-xs-3">
+                            <select name="rodzaje" id="rodzaje" class="form-control" required>
+                                <option value="">Wybierz rodzaj</option>
+                                {{#each rodzajToList}}
+                                    {{#if isSelectedRodzaj _id}}
+                                        <option value="{{this._id}}" selected>
+                                            {{this.nazwaRodzaj}}
+                                        </option>
+                                    {{else}}
+                                        <option value="{{this._id}}">
+                                            {{this.nazwaRodzaj}}
+                                        </option>
+                                    {{/if}}
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+                    <hr/>
+                    <h3>Treść Kwestii</h3>
+                    <div class="form-group" id="krotkaTrescGroup">
+                        <label class="control-label col-xs-3" for="tresc">Krótka treść:</label>
+                        <div class="col-xs-9">
+                            <input class="form-control" value="{{tresc}}{{krotkaTrescValidator krotkaTresc1}}" name="tresc" id="tresc" required>
+                            <br />
+                            <textarea class="form-control" rows="3" name="krotkaTresc" id="krotkaTresc" placeholder="Krótka treść" required>{{krotkaTresc2}}</textarea>
+                        </div>
+                    </div>
+                    <div class="form-group" id="szczegolowaTrescGroup">
+                        <label class="control-label col-xs-3" for="inputEmail">Opis z uzasadnieniem:</label>
+                        <div class="col-xs-9">
+                            <textarea class="form-control" rows="6" name="szczegolowaTresc" id="szczegolowaTresc" placeholder="Opis z uzasadnieniem" required>{{szczegolowaTresc}}</textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-offset-3 col-xs-9">
+                            <input type="submit" class="btn btn-primary" value="Dodaj">
+                            <input type="reset" class="btn btn-default" value="Anuluj">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</template>

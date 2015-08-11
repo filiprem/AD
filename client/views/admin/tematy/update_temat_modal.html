@@ -1,42 +1,42 @@
-<template name="updateTematModal">
-    <div id="updatetemat" class="modal fade" tabindex="-1" data-width="760" style="display:none;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                {{> updateTematModalInner}}
-            </div>
-        </div>
-    </div>
-</template>
+<!--<template name="updateTematModal">-->
+    <!--<div id="updatetemat" class="modal fade" tabindex="-1" data-width="760" style="display:none;">-->
+        <!--<div class="modal-dialog">-->
+            <!--<div class="modal-content">-->
+                <!--{{> updateTematModalInner}}-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</template>-->
 
-<template name="updateTematModalInner">
-    {{#with updateTemat}}
-        <div class="modal-header">
-            <h4>Edycja tematu</h4>
-        </div>
-        <div class="modal-body">
-            <div class="row">
-                <div class="col col-md-10">
-                    <form class="form-horizontal">
-                        <div class="form-group">
-                            <label class="control-label col-xs-3" for="inputEmail">Nazwa tematu:</label>
-                            <div class="col-xs-6">
-                                <input name="nazwaTemat" type="text" class="form-control" value="{{nazwaTemat}}" id="inputNazwaTemat" placeholder="Nazwa rodzaju (np. wniosek, uchwała, propozycja, zapytanie itp.)">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-xs-3" for="inputEmail">Opis:</label>
-                            <div class="col-xs-6">
-                                <textarea name="opis" value="{{opis}}" class="form-control" id="opis" placeholder="Czas dyskusji (dni). Domyślnie 7 dni"></textarea>
-                                <!--<input name="opis" type="text" class="form-control" id="opis" value="{{opis}}" placeholder="Czas dyskusji (dni). Domyślnie 7 dni">-->
-                            </div>
-                        </div>
-                        <br />
-                        <div class="modal-footer">
-                            <input type="submit" data-dismiss="modal" class="btn btn-primary submit" value="Zrobione">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    {{/with}}
-</template>
+<!--<template name="updateTematModalInner">-->
+    <!--{{#with updateTemat}}-->
+        <!--<div class="modal-header">-->
+            <!--<h4>Edycja tematu</h4>-->
+        <!--</div>-->
+        <!--<div class="modal-body">-->
+            <!--<div class="row">-->
+                <!--<div class="col col-md-10">-->
+                    <!--<form class="form-horizontal">-->
+                        <!--<div class="form-group">-->
+                            <!--<label class="control-label col-xs-3" for="inputEmail">Nazwa tematu:</label>-->
+                            <!--<div class="col-xs-6">-->
+                                <!--<input name="nazwaTemat" type="text" class="form-control" value="{{nazwaTemat}}" id="inputNazwaTemat" placeholder="Nazwa rodzaju (np. wniosek, uchwała, propozycja, zapytanie itp.)">-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="form-group">-->
+                            <!--<label class="control-label col-xs-3" for="inputEmail">Opis:</label>-->
+                            <!--<div class="col-xs-6">-->
+                                <!--<textarea name="opis" value="{{opis}}" class="form-control" id="opis" placeholder="Czas dyskusji (dni). Domyślnie 7 dni"></textarea>-->
+                                <!--&lt;!&ndash;<input name="opis" type="text" class="form-control" id="opis" value="{{opis}}" placeholder="Czas dyskusji (dni). Domyślnie 7 dni">&ndash;&gt;-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<br />-->
+                        <!--<div class="modal-footer">-->
+                            <!--<input type="submit" data-dismiss="modal" class="btn btn-primary submit" value="Zrobione">-->
+                        <!--</div>-->
+                    <!--</form>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--{{/with}}-->
+<!--</template>-->

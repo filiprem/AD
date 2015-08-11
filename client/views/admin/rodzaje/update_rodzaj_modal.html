@@ -1,63 +1,63 @@
-<template name="updateRodzajModal">
-    <div id="updaterodzaj" class="modal fade" tabindex="-1" data-width="760" style="display:none;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-              {{> updateRodzajModalInner}}
-            </div>
-        </div>
-    </div>
-</template>
+<!--<template name="updateRodzajModal">-->
+    <!--<div id="updaterodzaj" class="modal fade" tabindex="-1" data-width="760" style="display:none;">-->
+        <!--<div class="modal-dialog">-->
+            <!--<div class="modal-content">-->
+              <!--{{> updateRodzajModalInner}}-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</template>-->
 
-<template name="updateRodzajModalInner">
-  {{#with updateRodzaj}}
-      <div class="modal-header">
-          <h4>Edycja rodzaju</h4>
-      </div>
-      <div class="modal-body">
-  <div class="row">
-      <div class="col col-md-10">
-          <form class="form-horizontal">
-          <div class="form-group">
-              <label class="control-label col-xs-3">Temat:</label>
+<!--<template name="updateRodzajModalInner">-->
+  <!--{{#with updateRodzaj}}-->
+      <!--<div class="modal-header">-->
+          <!--<h4>Edycja rodzaju</h4>-->
+      <!--</div>-->
+      <!--<div class="modal-body">-->
+  <!--<div class="row">-->
+      <!--<div class="col col-md-10">-->
+          <!--<form class="form-horizontal">-->
+          <!--<div class="form-group">-->
+              <!--<label class="control-label col-xs-3">Temat:</label>-->
 
-              <div class="col-xs-6">
-                  <select name="tematy" id="tematy" class="form-control">
-                      <option value="0">Temat</option>
-                  </select>
-              </div>
-          </div>
-          <div class="form-group">
-              <label class="control-label col-xs-3" for="inputEmail">Nazwa rodzaju:</label>
+              <!--<div class="col-xs-6">-->
+                  <!--<select name="tematy" id="tematy" class="form-control">-->
+                      <!--<option value="0">Temat</option>-->
+                  <!--</select>-->
+              <!--</div>-->
+          <!--</div>-->
+          <!--<div class="form-group">-->
+              <!--<label class="control-label col-xs-3" for="inputEmail">Nazwa rodzaju:</label>-->
 
-              <div class="col-xs-6">
-                  <input name="nazwaRodzaj" type="text" class="form-control" value="{{nazwaRodzaj}}" id="inputNazwaRodzaj" placeholder="Nazwa rodzaju (np. wniosek, uchwała, propozycja, zapytanie itp.)">
-              </div>
-          </div>
-          <div class="form-group">
-              <label class="control-label col-xs-3" for="inputEmail">Czas dyskusji:</label>
-              <div class="col-xs-6">
-                  <input name="czasDyskusji" type="text" class="form-control" id="czasDyskusji" value="{{czasDyskusji}}" placeholder="Czas dyskusji (dni). Domyślnie 7 dni">
-              </div>
-          </div>
-          <div class="form-group">
-              <label class="control-label col-xs-3" for="inputEmail">Czas głosowania:</label>
-              <div class="col-xs-6">
-                  <input name="czasGlosowania" type="text" class="form-control" id="czasGlosowania" value="{{czasGlosowania}}" placeholder="Czas głosowania (h). Domyślnie 24 h.">
-              </div>
-          </div>
-          <div class="form-group">
-              <label class="control-label col-xs-3" for="inputEmail">Pułap priorytetu:</label>
-              <div class="col-xs-6">
-                  <input name="pulapPriorytetu" type="text" class="form-control" id="pulapPriorytetu" value="{{pulapPriorytetu}}" placeholder="Pułap priorytetu">
-              </div>
-          </div>
-          <br />
-              <div class="modal-footer">
-                  <input type="submit" data-dismiss="modal" class="btn btn-primary submit" value="Zrobione">
-              </div>
-        </form>
-        </div>
-        </div>
-      </div>
-  {{/with}}
-</template>
+              <!--<div class="col-xs-6">-->
+                  <!--<input name="nazwaRodzaj" type="text" class="form-control" value="{{nazwaRodzaj}}" id="inputNazwaRodzaj" placeholder="Nazwa rodzaju (np. wniosek, uchwała, propozycja, zapytanie itp.)">-->
+              <!--</div>-->
+          <!--</div>-->
+          <!--<div class="form-group">-->
+              <!--<label class="control-label col-xs-3" for="inputEmail">Czas dyskusji:</label>-->
+              <!--<div class="col-xs-6">-->
+                  <!--<input name="czasDyskusji" type="text" class="form-control" id="czasDyskusji" value="{{czasDyskusji}}" placeholder="Czas dyskusji (dni). Domyślnie 7 dni">-->
+              <!--</div>-->
+          <!--</div>-->
+          <!--<div class="form-group">-->
+              <!--<label class="control-label col-xs-3" for="inputEmail">Czas głosowania:</label>-->
+              <!--<div class="col-xs-6">-->
+                  <!--<input name="czasGlosowania" type="text" class="form-control" id="czasGlosowania" value="{{czasGlosowania}}" placeholder="Czas głosowania (h). Domyślnie 24 h.">-->
+              <!--</div>-->
+          <!--</div>-->
+          <!--<div class="form-group">-->
+              <!--<label class="control-label col-xs-3" for="inputEmail">Pułap priorytetu:</label>-->
+              <!--<div class="col-xs-6">-->
+                  <!--<input name="pulapPriorytetu" type="text" class="form-control" id="pulapPriorytetu" value="{{pulapPriorytetu}}" placeholder="Pułap priorytetu">-->
+              <!--</div>-->
+          <!--</div>-->
+          <!--<br />-->
+              <!--<div class="modal-footer">-->
+                  <!--<input type="submit" data-dismiss="modal" class="btn btn-primary submit" value="Zrobione">-->
+              <!--</div>-->
+        <!--</form>-->
+        <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+  <!--{{/with}}-->
+<!--</template>-->

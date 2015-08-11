@@ -10,7 +10,7 @@
                 <div class="col col-md-6">
                     <div class="input-group">
                         <span class="input-group-btn">
-                        <a href="{{pathFor 'addKwestia'}}" class="btn btn-primary"><span
+                        <a id="addKwestiaButton"  class="btn btn-primary"><span
                                 class="glyphicon glyphicon-plus"></span> Dodaj</a>
                         </span>
                     </div>
@@ -27,13 +27,13 @@
                 </div>
             </div>
         </div>
-        {{> infoKwestiaAdminModal}}
+        <!--{{> infoKwestiaAdminModal}}-->
     {{/if}}
 </template>
 
 <template name="editColumnKwestiaAdmin">
     <a title="Edytuj" id="editKwestia" href="#"><i class="glyphicon glyphicon-pencil clickable"></i></a>
-    <!--<a title="Usuñ" id="removeKwestia"><i class="glyphicon glyphicon-trash clickable"></i></a>-->
+    <!--<a title="Usuï¿½" id="removeKwestia"><i class="glyphicon glyphicon-trash clickable"></i></a>-->
 </template>
 
 <template name="listKwestiaAdminColumnLabel">

@@ -1,28 +1,55 @@
+Template.profileEdit.rendered = function () {
+    $("#profileForm").validate({
+        rules: {
+            email:{
+                email: true
+            }
+        },
+        messages:{
+            email:{
+                required:fieldEmptyMesssage(),
+                email:validEmailMessage()
+            },
+            name:{
+                required:fieldEmptyMesssage(),
+            },
+            surname:{
+                required:fieldEmptyMesssage(),
+            }
+        },
+        highlight: function(element) {
+            var id_attr = "#" + $( element ).attr("id") + "1";
+            $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+            $(id_attr).removeClass('glyphicon-ok').addClass('glyphicon-remove');
+        },
+        unhighlight: function(element) {
+            var id_attr = "#" + $( element ).attr("id") + "1";
+            $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+            $(id_attr).removeClass('glyphicon-remove').addClass('glyphicon-ok');
+        },
+        errorElement: 'span',
+        errorClass: 'help-block',
+        errorPlacement: function(error, element) {
+            if(element.length) {
+                error.insertAfter(element);
+            } else {
+                error.insertAfter(element);
+            }
+        }
+    })
+};
 Template.profileEdit.helpers({
     email: function () {
         return getEmail(this);
     },
 
-    isMan: function (gender) {
-        if(gender === 'mężczyzna')
-        {
-            return true;
-        }
+    isSelected: function(gender)
+    {
+        var gen=this.profile.gender;
+        if(gen==gender)
+            return "checked";
         else
-        {
-            return false;
-        }
-    },
-
-    isWoman: function (gender) {
-        if(gender === 'kobieta')
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+            return "";
     }
 });
 
@@ -31,22 +58,25 @@ Template.profileEdit.events({
         e.preventDefault();
 
         var currentUserId = this._id;
-        if( isNotEmpty($(e.target).find('[name=name]').val()) &&
-            isNotEmpty($(e.target).find('[name=surname]').val()) &&
+        if( isNotEmpty($(e.target).find('[name=name]').val(),'imię') &&
+            isNotEmpty($(e.target).find('[name=surname]').val(),'nazwisko') &&
             isEmail($(e.target).find('[name=email]').val()))
         {
+            var object = {
+                address:$(e.target).find('[name=email]').val()
+            };
+            var array = [];
+            array.push(object);
             var userProperties = {
-                emails: {
-                  0: { address: $(e.target).find('[name=email]').val() }
-                },
+                emails: array,
                 profile: {
-                    first_name: $(e.target).find('[name=name]').val(),
-                    last_name: $(e.target).find('[name=surname]').val(),
-                    full_name: $(e.target).find('[name=name]').val() + ' ' + $(e.target).find('[name=surname]').val(),
+                    firstName: $(e.target).find('[name=name]').val(),
+                    lastName: $(e.target).find('[name=surname]').val(),
+                    fullName: $(e.target).find('[name=name]').val() + ' ' + $(e.target).find('[name=surname]').val(),
                     profession: $(e.target).find('[name=profession]').val(),
                     address: $(e.target).find('[name=address]').val(),
                     zip: $(e.target).find('[name=zipcode]').val(),
-                    gender: $(e.target).find('[name=genderRadios]').val(),
+                    gender: $(e.target).find('[name=genderRadios]:checked').val(),
                     phone: $(e.target).find('[name=phone]').val(),
                     web: $(e.target).find('[name=website]').val()
                 }
@@ -59,7 +89,6 @@ Template.profileEdit.events({
             //    Router.go('manage_account');
             //}
             //});
-
             Meteor.call('updateUser',currentUserId, userProperties, function (error) {
                 if (error)
                 {

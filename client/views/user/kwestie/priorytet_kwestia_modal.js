@@ -12,12 +12,7 @@ Template.priorytetKwestiaModalInner.events({
         var kwestia = Kwestia.findOne(currentKwestiaId);
         var hidden = document.getElementById('pole').value;
         var liczba = parseInt(hidden);
-        //var newGlosujacy = [
-        //    {
-        //        user_id: user._id,
-        //        obecny_priorytet: liczba
-        //    }
-        //];
+
         var flaga = false;
 
         for(var i=0; i < kwestia.glosujacy.length; i++)
@@ -33,43 +28,25 @@ Template.priorytetKwestiaModalInner.events({
                 {
                     var roznica = kwestia.glosujacy[i][1] - liczba;
                     roznica = -roznica;
-                    var srednia = (kwestia.priorytet + roznica)/kwestia.glosujacy.length;
-                    Kwestia.update(currentKwestiaId, {$set: {glosujacy: [[user._id, liczba]], sredniaPriorytet: srednia}, $inc: {priorytet: roznica}});
+                    var srednia = (kwestia.wartoscPriorytetu + roznica)/kwestia.glosujacy.length;
+                    Kwestia.update(currentKwestiaId, {$set: {glosujacy: [[user._id, liczba]], sredniaPriorytet: srednia}, $inc: {wartoscPriorytetu: roznica}});
                     flaga = true;
                 }
                 else if(kwestia.glosujacy[i][1] < liczba)
                 {
                     var roznica = liczba - kwestia.glosujacy[i][1];
-                    var srednia = (kwestia.priorytet + roznica)/kwestia.glosujacy.length;
-                    Kwestia.update(currentKwestiaId, {$set: {glosujacy: [[user._id, liczba]], sredniaPriorytet: srednia} , $inc: {priorytet: roznica}});
+                    var srednia = (kwestia.wartoscPriorytetu + roznica)/kwestia.glosujacy.length;
+                    Kwestia.update(currentKwestiaId, {$set: {glosujacy: [[user._id, liczba]], sredniaPriorytet: srednia} , $inc: {wartoscPriorytetu: roznica}});
                     flaga = true;
                 }
                 $("#nadajpriorytetkwestia").modal("hide");
             }
         }
-        //if(_.include(kwestia.glosujacy, user._id))
-        //{
-        //
-        //    throwError("Nadałeś już priorytet tej kwestii!");
-        //    return false;
-        //}
+
         if(flaga === false)
         {
-            var srednia = (kwestia.priorytet + liczba)/(kwestia.glosujacy.length + 1);
-            Kwestia.update(currentKwestiaId, {$addToSet: {glosujacy: [user._id, liczba]}, $inc: {priorytet: liczba}, $set: {sredniaPriorytet: srednia}});
-            //Meteor.call('addGlosujacy', newGlosujacy, function(error){
-            //    if (error)
-            //    {
-            //        if (typeof Errors === "undefined")
-            //            Log.error('Error: ' + error.reason);
-            //        else
-            //        {
-            //            throwError(error.reason);
-            //        }
-            //    }
-            //});
-            //
-            //Kwestia.update(currentKwestiaId, {$addToSet: {glosujacy_id: [user._id, liczba]}, $inc: {priorytet: liczba}, $set: {sredniaPriorytet: srednia}});
+            var srednia = (kwestia.wartoscPriorytetu + liczba)/(kwestia.glosujacy.length + 1);
+            Kwestia.update(currentKwestiaId, {$addToSet: {glosujacy: [user._id, liczba]}, $inc: {wartoscPriorytetu: liczba}, $set: {sredniaPriorytet: srednia}});
             $("#nadajpriorytetkwestia").modal("hide");
             flaga = true;
         }

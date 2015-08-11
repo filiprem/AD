@@ -1,0 +1,10 @@
+<template name="opcjeList">
+    <div class="col-md-12">
+        {{> reactiveTable
+            class = "table table-bordered table-hover"
+            fields = settings.fields
+            settings = settings
+            collection = OpcjeList
+        }}
+    </div>
+</template>

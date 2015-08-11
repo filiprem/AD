@@ -8,10 +8,10 @@ Template.addParametrForm.events({
                 kontakty: $(e.target).find('[name=kontakty]').val(),
                 regulamin: $(e.target).find('[name=regulamin]').val()
             }];
-        if (isNotEmpty(newParametr[0].nazwaOrganizacji) &&
-            isNotEmpty(newParametr[0].terytorium) &&
-            isNotEmpty(newParametr[0].kontakty) &&
-            isNotEmpty(newParametr[0].regulamin)) {
+        if (isNotEmpty(newParametr[0].nazwaOrganizacji,'nazwa organizacji') &&
+            isNotEmpty(newParametr[0].terytorium,'terytorium') &&
+            isNotEmpty(newParametr[0].kontakty,'kontakty') &&
+            isNotEmpty(newParametr[0].regulamin,'regulamin')) {
             Meteor.call('addParametr', newParametr, function (error) {
                 if (error) {
                     // optionally use a meteor errors package

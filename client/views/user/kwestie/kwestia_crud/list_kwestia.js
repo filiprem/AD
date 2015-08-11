@@ -16,6 +16,11 @@ Template.listKwestia.events({
     },
     'click .glyphicon-remove-circle': function(event, template){
         Session.set('kwestiaInScope',this);
+    },
+    'click #addKwestiaButton':function (){
+        if(!!Session.get("kwestiaPreview"))
+            Session.set("kwestiaPreview",null);
+        Router.go("addKwestia");
     }
 });
 Template.listKwestia.helpers({
@@ -24,7 +29,7 @@ Template.listKwestia.helpers({
             rowsPerPage: 10,
             showFilter: true,
             showNavigation: 'always',
-            showColumnToggles: true,
+            showColumnToggles: false,
             enableRegex: false,
             fields: [
                 {key: 'dataWprowadzenia', label: Template.listKwestiaColumnLabel, labelData: {title: "Data wprowadzenia Kwestii i rozpoczęcia jej deliberacji", text:"Data"}, tmpl:Template.dataUtwKwestia},
@@ -36,11 +41,11 @@ Template.listKwestia.helpers({
                     tmpl: Template.priorytetKwestia,
                     sortOrder: 1,
                     sortDirection: 'descending'},
-                {key: 'temat_id', label: "Temat", tmpl: Template.tematKwestia},
-                {key: 'rodzaj_id', label: "Rodzaj", tmpl: Template.rodzajKwestia},
+                {key: 'idTemat', label: "Temat", tmpl: Template.tematKwestia},
+                {key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestia},
                 {key: 'dataGlosowania', label: Template.listKwestiaColumnLabel, labelData: {title: "Data zakończenia głosowania", text:"Finał"}, tmpl: Template.dataGlKwestia},
-                {key: 'status', label: Template.listKwestiaColumnLabel ,labelData: {title: "Etap, na którym znajduje sie ta Kwestia", text:"Status"}},
-                {key: 'options', label: "Opcje", tmpl: Template.editColumnKwestia }
+                {key: 'status', label: Template.listKwestiaColumnLabel ,labelData: {title: "Etap, na którym znajduje sie ta Kwestia", text:"Status"}}
+                //{key: 'options', label: "Opcje", tmpl: Template.editColumnKwestia }
             ]
         };
     },
@@ -51,15 +56,15 @@ Template.listKwestia.helpers({
         var i=0;
 
         var kwestia = Kwestia.findOne({_id: this._id});
-        kwestia.glosujacy.forEach(function(item)
-        {
+        kwestia.glosujacy.forEach(function(item) {
             i++;
         });
-        if(kwestia.priorytet === 0)
+        if(kwestia.priorytet === 0) {
             var srPriorytet = kwestia.priorytet;
-        else
-            var srPriorytet = kwestia.priorytet/i ;
-
+        }
+        else{
+            var srPriorytet = kwestia.priorytet/i;
+        }
         return srPriorytet
     },
     kwestiaCount: function(){
@@ -72,7 +77,7 @@ Template.listKwestia.helpers({
 
 Template.tematKwestia.helpers({
     tematNazwa: function(){
-        var t = Temat.findOne({_id: this.temat_id});
+        var t = Temat.findOne({_id: this.idTemat});
         if(t){
             return t.nazwaTemat;
         }
@@ -81,7 +86,7 @@ Template.tematKwestia.helpers({
 
 Template.rodzajKwestia.helpers({
     rodzajNazwa: function(){
-        var r = Rodzaj.findOne({_id: this.rodzaj_id});
+        var r = Rodzaj.findOne({_id: this.idRodzaj});
         if(r){
             return r.nazwaRodzaj;
         }
@@ -116,17 +121,6 @@ Template.priorytetKwestia.helpers({
 });
 
 Template.editColumnKwestia.helpers({
-    //isMine: function(){
-    //    var usr = Users.findOne({_id: this.userId});
-    //    console.log(usr)
-    //    var usrId = this.userId;
-    //    if(usrId==Meteor.userId){
-    //        return ;
-    //    }
-    //    else{
-    //        return false;
-    //    }
-    //}
 });
 
 Template.editColumnKwestia.events({

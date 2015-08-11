@@ -1,0 +1,93 @@
+<template name="discussionPostItem">
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingOne">
+                <h4 class="panel-title">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="pull-left">
+                                {{> discussionRating
+                                idPost=idPost}}
+                            </div>
+                            <div class="pull-right">
+                                <h6><b>{{userFullName}}</b> {{getSimpleDate addDate}} <small>{{getFullHourDate addDate}}</small></h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p>{{wiadomosc}}</p>
+                        </div>
+                    </div>
+                    <div class="pull-right">
+                        <i class="label {{getLabelClass wartoscPriorytetu}}">{{wartoscPriorytetu}}</i>
+                        <h6>{{getAnswersCount idPost}} odpowiedzi&nbsp;
+                            <a class="collapsed pull-right" role="button" data-toggle="collapse" data-parent="#accordion" href="#{{idPost}}" aria-expanded="false" aria-controls="{{idPost}}">
+                                <i class="glyphicon glyphicon-triangle-bottom"></i>
+                            </a>
+                        </h6>
+                    </div>
+                    <div class="clearfix"></div>
+                </h4>
+            </div>
+            <div id="{{idPost}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                <div class="panel-body">
+                    {{#each getAnswers idPost}}
+                        {{> discussionAnswerItem
+                        wiadomosc = wiadomosc
+                        userFullName = userFullName
+                        wartoscPriorytetu = wartoscPriorytetu
+                        idPost = _id
+                        }}
+                    {{/each}}
+                    {{> discussionAnswerForm
+                    idKwestia=idKwestia
+                    idPost=idPost
+                    }}
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="discussionAnswerForm">
+    <form id="dyskusjaAnswerForm" class="form-horizontal">
+        <div class="form-group">
+            <div class="col-xs-12">
+                <textarea id="answer_message" name="answer_message" type="text" class="form-control" placeholder="Odpowiedź"></textarea>
+            </div>
+            <input id="idKwestiaAnswer" name="idKwestiaAnswer" type="hidden" value="{{idKwestia}}">
+            <input id="idPost" name="idPost" type="hidden" value="{{idPost}}">
+        </div>
+        <div class="form-group">
+            <div class="col-xs-12">
+                <input type="submit" for="dyskusjaAnswerForm" class="btn btn-sm btn-default" value="Dodaj odpowiedź">
+            </div>
+        </div>
+    </form>
+</template>
+
+<template name="discussionAnswerItem">
+    <div class="well background-color-white">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="pull-left">
+                    {{> discussionRating
+                    idPost = idPost
+                    }}
+                </div>
+                <div class="pull-right">
+                    <h6><b>{{userFullName}}</b> {{getSimpleDate addDate}} <small>{{getFullHourDate addDate}}</small></h6>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <p>{{wiadomosc}}</p>
+            </div>
+            <div class="pull-right">
+                <i class="label {{getLabelClass wartoscPriorytetu}}">{{wartoscPriorytetu}}</i>
+            </div>
+        </div>
+    </div>
+</template>

@@ -1,5 +1,41 @@
 Template.editRodzajForm.rendered = function(){
-    //setTematy();
+    $("#rodzajForm").validate({
+        rules: {
+            czasDyskusji:{
+                min: 1,
+            },
+            czasGlosowania:{
+                min: 0.01,
+                number:true
+            }
+        },
+        messages:{
+            nazwaRodzaj:{
+                required:fieldEmptyMesssage(),
+            },
+            tematy:{
+                required:fieldEmptyMesssage()
+            },
+            czasDyskusji:{
+                min:positiveNumberMesssage()
+            },
+            czasGlosowania:{
+                min:positiveNumberMesssage(),
+                number:decimalNumberMesssage()
+            }
+        },
+        highlight: function(element) {
+            highlightFunction(element);
+        },
+        unhighlight: function(element) {
+            unhighlightFunction(element);
+        },
+        errorElement: 'span',
+        errorClass: 'help-block',
+        errorPlacement: function(error, element) {
+            validationPlacementError(error,element);
+        }
+    })
 };
 
 Template.editRodzajForm.helpers({
@@ -11,7 +47,7 @@ Template.editRodzajForm.helpers({
     },
     isSelected: function(id) {
         var r = Session.get("rodzajInScope");
-        var item = Temat.findOne({_id: r.temat_id});
+        var item = Temat.findOne({_id: r.idTemat});
         if(item._id==id)
             return true;
         else
@@ -23,27 +59,42 @@ Template.editRodzajForm.events({
     'submit form': function(e){
         e.preventDefault();
         var r = Session.get("rodzajInScope");
-        var rodzaj = {
-            temat_id: $(e.target).find('[name=tematy]').val(),
-            nazwaRodzaj: $(e.target).find('[name=nazwaRodzaj]').val(),
-            czasDyskusji: $(e.target).find('[name=czasDyskusji]').val(),
-            czasGlosowania: $(e.target).find('[name=czasGlosowania]').val(),
-            pulapPriorytetu: $(e.target).find('[name=pulapPriorytetu]').val()
-        };
 
-        Meteor.call('updateRodzaj', r._id ,rodzaj, function (error) {
-            if (error) {
-                // optionally use a meteor errors package
-                if (typeof Errors === "undefined")
-                    Log.error('Error: ' + error.reason);
-                else {
-                    throwError(error.reason);
+        var czasD=$(e.target).find('[name=czasDyskusji]').val();
+        if(czasD == '' || czasD == '0')
+            czasD=7;
+        var czasG=$(e.target).find('[name=czasGlosowania]').val().replace(/\s+/g,'');
+        if(czasG == '' || czasG == '0')
+            czasG=24;
+        var pulapP=$(e.target).find('[name=pulapPriorytetu]').val();
+        if(_.isEmpty(pulapP))
+            pulapP=Users.find().count()*0.1*5;
+
+        var rodzaj = {
+            idTemat: $(e.target).find('[name=tematy]').val(),
+            nazwaRodzaj: $(e.target).find('[name=nazwaRodzaj]').val(),
+            czasDyskusji: czasD,
+            czasGlosowania:czasG,
+            pulapPriorytetu: pulapP
+        };
+            Meteor.call('updateRodzaj', r._id, rodzaj, function (error) {
+                if (error) {
+                    // optionally use a meteor errors package
+                    if (typeof Errors === "undefined")
+                        Log.error('Error: ' + error.reason);
+                    else {
+                        throwError(error.reason);
+                    }
                 }
-            }
-            else {
-                Router.go('listRodzaj');
-            }
-        });
+                else {
+                    Kwestia.find({idRodzaj: r._id}).forEach(function (doc) {
+                        var id = Kwestia.update({_id: doc._id}, {$set: {pulapPriorytetu: Rodzaj.findOne({_id: r._id}).pulapPriorytetu}});
+                        if (!id){
+                        }
+                    });
+                    Router.go('listRodzaj');
+                }
+            });
     },
     'reset form': function(){
         Router.go('listRodzaj');

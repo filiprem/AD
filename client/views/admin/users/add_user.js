@@ -1,6 +1,58 @@
 Template.addUserForm.rendered = function () {
-    $('#test1').datetimepicker({sideBySide: true});
-    setRoles();
+    $('#test1').datetimepicker({
+        sideBySide: true,
+        format: 'DD/MM/YYYY'
+    });
+    $("#userForm").validate({
+        rules: {
+            password:{
+                minlength:6,
+            },
+            czasGlosowania:{
+                min: 0.01,
+                number:true
+            },
+            email:{
+                email: true
+            },
+            confirmPassword:{
+                equalTo: "#inputPassword"
+            }
+        },
+        messages:{
+            role:{
+                required:fieldEmptyMesssage(),
+            },
+            email:{
+                required:fieldEmptyMesssage(),
+                email:validEmailMessage()
+            },
+            firstName:{
+                required:fieldEmptyMesssage(),
+            },
+            lastName:{
+                required:fieldEmptyMesssage(),
+            },
+            password:{
+                required:fieldEmptyMesssage(),
+                minlength:minLengthMessage(6)
+            },
+            confirmPassword:{
+                equalTo:equalToMessage()
+            }
+        },
+        highlight: function(element) {
+            highlightFunction(element);
+        },
+        unhighlight: function(element) {
+            unhighlightFunction(element);
+        },
+        errorElement: 'span',
+        errorClass: 'help-block',
+        errorPlacement: function(error, element) {
+            validationPlacementError(error,element);
+        }
+    })
 };
 
 Template.addUserForm.events({
@@ -22,29 +74,22 @@ Template.addUserForm.events({
                 zip: $(e.target).find('[name=zipCode]').val(),
                 web: $(e.target).find('[name=web]').val(),
                 gender: $(e.target).find('[name=genderRadios]:checked').val(),
-                role: $(e.target).find('[name=role]').val(),
-                role_desc: $(e.target).find('[name=uwagiStatus]').val()
+                role: 'admin',
+                roleDesc: $(e.target).find('[name=uwagiStatus]').val()
             }];
-        if (isNotEmpty(newUser[0].role) &&
-            isNotEmpty(newUser[0].firstName) &&
-            isNotEmpty(newUser[0].lastName) &&
-            isNotEmpty(newUser[0].password) &&
-            isEmail(newUser[0].email) &&
-            isValidPassword(newUser[0].password) &&
-            areValidPasswords(newUser[0].password, newUser[0].confirm_password)) {
             // sprawdzamy, czy rola istnieje,
             // jeżeli nie to dodajemy nową.
-            Meteor.call('addRole', newUser[0].role, function (error) {
-                if (error) {
-                    // optionally use a meteor errors package
-                    if (typeof Errors === "undefined")
-                        Log.error('Error: ' + error.reason);
-                    else {
-                        if(error.error !== 422)
-                        throwError(error.reason);
-                    }
-                }
-            });
+            //Meteor.call('addRole', newUser[0].role, function (error) {
+            //    if (error) {
+            //        // optionally use a meteor errors package
+            //        if (typeof Errors === "undefined")
+            //            Log.error('Error: ' + error.reason);
+            //        else {
+            //            if(error.error !== 422)
+            //            throwError(error.reason);
+            //        }
+            //    }
+            //});
             //-- generowanie loginu dla użytkownika
             newUser[0].login = generateLogin(newUser[0].firstName, newUser[0].lastName);
             Meteor.call('addUser', newUser, function (error) {
@@ -54,7 +99,7 @@ Template.addUserForm.events({
                     if (typeof Errors === "undefined")
                         Log.error('Error: ' + error.reason);
                     else {
-                        if(error.error === 409)
+                        //if(error.error === 409)
                         throwError(error.reason);
                     }
                 }
@@ -62,9 +107,6 @@ Template.addUserForm.events({
                     Router.go('listUsers');
                 }
             });
-        } else {
-            return false;
-        }
     },
     'reset form': function(){
         Router.go('listUsers');
