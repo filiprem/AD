@@ -39,13 +39,29 @@ Template.informacjeKwestia.events({
     },
     'click #b-5': function (e) {
         e.preventDefault();
-        var user = new Meteor.user();
+        var user = new Meteor.userId();
         var currentKwestiaId = this._id;
+        var parent = this.idParent;
+        var kwestieOpcje = Kwestia.find({idParent: parent}).fetch();
         var kwestia = Kwestia.findOne(currentKwestiaId);
         var liczba = parseInt((document.getElementById("b-5")).value);
         var flaga = false;
+
+        for (var i = 0; i < kwestieOpcje.length; i++) {
+            for (var j = 0; j < kwestieOpcje[i].glosujacy.length; j++) {
+                var user = kwestieOpcje[i].glosujacy[j][0];
+                var oddanyGlos = kwestieOpcje[i].glosujacy[j][1];
+                if (user == Meteor.userId()) {
+                    if (oddanyGlos == liczba) {
+                        throwError("Nadałeś już priorytet o tej wadze innej Kwestii!")
+                        return false;
+                    }
+                }
+            }
+        }
+
         for (var i = 0; i < kwestia.glosujacy.length; i++) {
-            if (kwestia.glosujacy[i][0] === user._id) {
+            if (kwestia.glosujacy[i][0] === user) {
                 if (kwestia.glosujacy[i][1] === liczba) {
                     throwError("Nadałeś już priorytet o tej wadze w tej kwestii!");
                     return false;
@@ -56,7 +72,7 @@ Template.informacjeKwestia.events({
                     var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
                     Kwestia.update(currentKwestiaId, {
                         $set: {
-                            glosujacy: [[user._id, liczba]],
+                            glosujacy: [[user, liczba]],
                             sredniaPriorytet: srednia
                         }, $inc: {wartoscPriorytetu: roznica}
                     });
@@ -67,7 +83,7 @@ Template.informacjeKwestia.events({
                     var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
                     Kwestia.update(currentKwestiaId, {
                         $set: {
-                            glosujacy: [[user._id, liczba]],
+                            glosujacy: [[user, liczba]],
                             sredniaPriorytet: srednia
                         }, $inc: {wartoscPriorytetu: roznica}
                     });
@@ -78,7 +94,7 @@ Template.informacjeKwestia.events({
         if (flaga === false) {
             var srednia = (kwestia.wartoscPriorytetu + liczba) / (kwestia.glosujacy.length + 1);
             Kwestia.update(currentKwestiaId, {
-                $addToSet: {glosujacy: [user._id, liczba]},
+                $addToSet: {glosujacy: [user, liczba]},
                 $inc: {wartoscPriorytetu: liczba},
                 $set: {sredniaPriorytet: srednia}
             });
@@ -87,13 +103,29 @@ Template.informacjeKwestia.events({
     },
     'click #b-4': function (e) {
         e.preventDefault();
-        var user = new Meteor.user();
+        var user = new Meteor.userId();
         var currentKwestiaId = this._id;
+        var parent = this.idParent;
+        var kwestieOpcje = Kwestia.find({idParent: parent}).fetch();
         var kwestia = Kwestia.findOne(currentKwestiaId);
         var liczba = parseInt(document.getElementById("b-4").value);
         var flaga = false;
+
+        for (var i = 0; i < kwestieOpcje.length; i++) {
+            for (var j = 0; j < kwestieOpcje[i].glosujacy.length; j++) {
+                var user = kwestieOpcje[i].glosujacy[j][0];
+                var oddanyGlos = kwestieOpcje[i].glosujacy[j][1];
+                if (user == Meteor.userId()) {
+                    if (oddanyGlos == liczba) {
+                        throwError("Nadałeś już priorytet o tej wadze innej Kwestii!")
+                        return false;
+                    }
+                }
+            }
+        }
+
         for (var i = 0; i < kwestia.glosujacy.length; i++) {
-            if (kwestia.glosujacy[i][0] === user._id) {
+            if (kwestia.glosujacy[i][0] === user) {
                 if (kwestia.glosujacy[i][1] === liczba) {
                     throwError("Nadałeś już priorytet o tej wadze w tej kwestii!");
                     return false;
@@ -104,7 +136,7 @@ Template.informacjeKwestia.events({
                     var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
                     Kwestia.update(currentKwestiaId, {
                         $set: {
-                            glosujacy: [[user._id, liczba]],
+                            glosujacy: [[user, liczba]],
                             sredniaPriorytet: srednia
                         }, $inc: {wartoscPriorytetu: roznica}
                     });
@@ -115,7 +147,7 @@ Template.informacjeKwestia.events({
                     var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
                     Kwestia.update(currentKwestiaId, {
                         $set: {
-                            glosujacy: [[user._id, liczba]],
+                            glosujacy: [[user, liczba]],
                             sredniaPriorytet: srednia
                         }, $inc: {wartoscPriorytetu: roznica}
                     });
@@ -126,7 +158,7 @@ Template.informacjeKwestia.events({
         if (flaga === false) {
             var srednia = (kwestia.wartoscPriorytetu + liczba) / (kwestia.glosujacy.length + 1);
             Kwestia.update(currentKwestiaId, {
-                $addToSet: {glosujacy: [user._id, liczba]},
+                $addToSet: {glosujacy: [user, liczba]},
                 $inc: {wartoscPriorytetu: liczba},
                 $set: {sredniaPriorytet: srednia}
             });
@@ -135,13 +167,29 @@ Template.informacjeKwestia.events({
     },
     'click #b-3': function (e) {
         e.preventDefault();
-        var user = new Meteor.user();
+        var user = new Meteor.userId();
         var currentKwestiaId = this._id;
+        var parent = this.idParent;
+        var kwestieOpcje = Kwestia.find({idParent: parent}).fetch();
         var kwestia = Kwestia.findOne(currentKwestiaId);
         var liczba = parseInt(document.getElementById("b-3").value);
         var flaga = false;
+
+        for (var i = 0; i < kwestieOpcje.length; i++) {
+            for (var j = 0; j < kwestieOpcje[i].glosujacy.length; j++) {
+                var user = kwestieOpcje[i].glosujacy[j][0];
+                var oddanyGlos = kwestieOpcje[i].glosujacy[j][1];
+                if (user == Meteor.userId()) {
+                    if (oddanyGlos == liczba) {
+                        throwError("Nadałeś już priorytet o tej wadze innej Kwestii!")
+                        return false;
+                    }
+                }
+            }
+        }
+
         for (var i = 0; i < kwestia.glosujacy.length; i++) {
-            if (kwestia.glosujacy[i][0] === user._id) {
+            if (kwestia.glosujacy[i][0] === user) {
                 if (kwestia.glosujacy[i][1] === liczba) {
                     throwError("Nadałeś już priorytet o tej wadze w tej kwestii!");
                     return false;
@@ -152,7 +200,7 @@ Template.informacjeKwestia.events({
                     var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
                     Kwestia.update(currentKwestiaId, {
                         $set: {
-                            glosujacy: [[user._id, liczba]],
+                            glosujacy: [[user, liczba]],
                             sredniaPriorytet: srednia
                         }, $inc: {wartoscPriorytetu: roznica}
                     });
@@ -163,7 +211,7 @@ Template.informacjeKwestia.events({
                     var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
                     Kwestia.update(currentKwestiaId, {
                         $set: {
-                            glosujacy: [[user._id, liczba]],
+                            glosujacy: [[user, liczba]],
                             sredniaPriorytet: srednia
                         }, $inc: {wartoscPriorytetu: roznica}
                     });
@@ -174,7 +222,7 @@ Template.informacjeKwestia.events({
         if (flaga === false) {
             var srednia = (kwestia.wartoscPriorytetu + liczba) / (kwestia.glosujacy.length + 1);
             Kwestia.update(currentKwestiaId, {
-                $addToSet: {glosujacy: [user._id, liczba]},
+                $addToSet: {glosujacy: [user, liczba]},
                 $inc: {wartoscPriorytetu: liczba},
                 $set: {sredniaPriorytet: srednia}
             });
@@ -183,13 +231,29 @@ Template.informacjeKwestia.events({
     },
     'click #b-2': function (e) {
         e.preventDefault();
-        var user = new Meteor.user();
+        var user = new Meteor.userId();
         var currentKwestiaId = this._id;
+        var parent = this.idParent;
+        var kwestieOpcje = Kwestia.find({idParent: parent}).fetch();
         var kwestia = Kwestia.findOne(currentKwestiaId);
         var liczba = parseInt(document.getElementById("b-2").value);
         var flaga = false;
+
+        for (var i = 0; i < kwestieOpcje.length; i++) {
+            for (var j = 0; j < kwestieOpcje[i].glosujacy.length; j++) {
+                var user = kwestieOpcje[i].glosujacy[j][0];
+                var oddanyGlos = kwestieOpcje[i].glosujacy[j][1];
+                if (user == Meteor.userId()) {
+                    if (oddanyGlos == liczba) {
+                        throwError("Nadałeś już priorytet o tej wadze innej Kwestii!")
+                        return false;
+                    }
+                }
+            }
+        }
+
         for (var i = 0; i < kwestia.glosujacy.length; i++) {
-            if (kwestia.glosujacy[i][0] === user._id) {
+            if (kwestia.glosujacy[i][0] === user) {
                 if (kwestia.glosujacy[i][1] === liczba) {
                     throwError("Nadałeś już priorytet o tej wadze w tej kwestii!");
                     return false;
@@ -200,7 +264,7 @@ Template.informacjeKwestia.events({
                     var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
                     Kwestia.update(currentKwestiaId, {
                         $set: {
-                            glosujacy: [[user._id, liczba]],
+                            glosujacy: [[user, liczba]],
                             sredniaPriorytet: srednia
                         }, $inc: {wartoscPriorytetu: roznica}
                     });
@@ -211,7 +275,7 @@ Template.informacjeKwestia.events({
                     var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
                     Kwestia.update(currentKwestiaId, {
                         $set: {
-                            glosujacy: [[user._id, liczba]],
+                            glosujacy: [[user, liczba]],
                             sredniaPriorytet: srednia
                         }, $inc: {wartoscPriorytetu: roznica}
                     });
@@ -222,7 +286,7 @@ Template.informacjeKwestia.events({
         if (flaga === false) {
             var srednia = (kwestia.wartoscPriorytetu + liczba) / (kwestia.glosujacy.length + 1);
             Kwestia.update(currentKwestiaId, {
-                $addToSet: {glosujacy: [user._id, liczba]},
+                $addToSet: {glosujacy: [user, liczba]},
                 $inc: {wartoscPriorytetu: liczba},
                 $set: {sredniaPriorytet: srednia}
             });
@@ -231,13 +295,29 @@ Template.informacjeKwestia.events({
     },
     'click #b-1': function (e) {
         e.preventDefault();
-        var user = new Meteor.user();
+        var user = new Meteor.userId();
         var currentKwestiaId = this._id;
+        var parent = this.idParent;
+        var kwestieOpcje = Kwestia.find({idParent: parent}).fetch();
         var kwestia = Kwestia.findOne(currentKwestiaId);
         var liczba = parseInt(document.getElementById("b-1").value);
         var flaga = false;
+
+        for (var i = 0; i < kwestieOpcje.length; i++) {
+            for (var j = 0; j < kwestieOpcje[i].glosujacy.length; j++) {
+                var user = kwestieOpcje[i].glosujacy[j][0];
+                var oddanyGlos = kwestieOpcje[i].glosujacy[j][1];
+                if (user == Meteor.userId()) {
+                    if (oddanyGlos == liczba) {
+                        throwError("Nadałeś już priorytet o tej wadze innej Kwestii!")
+                        return false;
+                    }
+                }
+            }
+        }
+
         for (var i = 0; i < kwestia.glosujacy.length; i++) {
-            if (kwestia.glosujacy[i][0] === user._id) {
+            if (kwestia.glosujacy[i][0] === user) {
                 if (kwestia.glosujacy[i][1] === liczba) {
                     throwError("Nadałeś już priorytet o tej wadze w tej kwestii!");
                     return false;
@@ -248,7 +328,7 @@ Template.informacjeKwestia.events({
                     var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
                     Kwestia.update(currentKwestiaId, {
                         $set: {
-                            glosujacy: [[user._id, liczba]],
+                            glosujacy: [[user, liczba]],
                             sredniaPriorytet: srednia
                         }, $inc: {wartoscPriorytetu: roznica}
                     });
@@ -259,7 +339,7 @@ Template.informacjeKwestia.events({
                     var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
                     Kwestia.update(currentKwestiaId, {
                         $set: {
-                            glosujacy: [[user._id, liczba]],
+                            glosujacy: [[user, liczba]],
                             sredniaPriorytet: srednia
                         }, $inc: {wartoscPriorytetu: roznica}
                     });
@@ -270,7 +350,7 @@ Template.informacjeKwestia.events({
         if (flaga === false) {
             var srednia = (kwestia.wartoscPriorytetu + liczba) / (kwestia.glosujacy.length + 1);
             Kwestia.update(currentKwestiaId, {
-                $addToSet: {glosujacy: [user._id, liczba]},
+                $addToSet: {glosujacy: [user, liczba]},
                 $inc: {wartoscPriorytetu: liczba},
                 $set: {sredniaPriorytet: srednia}
             });
@@ -279,13 +359,29 @@ Template.informacjeKwestia.events({
     },
     'click #b0': function (e) {
         e.preventDefault();
-        var user = new Meteor.user();
+        var user = new Meteor.userId();
         var currentKwestiaId = this._id;
+        var parent = this.idParent;
+        var kwestieOpcje = Kwestia.find({idParent: parent}).fetch();
         var kwestia = Kwestia.findOne(currentKwestiaId);
         var liczba = parseInt(document.getElementById("b0").value);
         var flaga = false;
+
+        for (var i = 0; i < kwestieOpcje.length; i++) {
+            for (var j = 0; j < kwestieOpcje[i].glosujacy.length; j++) {
+                var user = kwestieOpcje[i].glosujacy[j][0];
+                var oddanyGlos = kwestieOpcje[i].glosujacy[j][1];
+                if (user == Meteor.userId()) {
+                    if (oddanyGlos == liczba) {
+                        throwError("Nadałeś już priorytet o tej wadze innej Kwestii!")
+                        return false;
+                    }
+                }
+            }
+        }
+
         for (var i = 0; i < kwestia.glosujacy.length; i++) {
-            if (kwestia.glosujacy[i][0] === user._id) {
+            if (kwestia.glosujacy[i][0] === user) {
                 if (kwestia.glosujacy[i][1] === liczba) {
                     throwError("Nadałeś już priorytet o tej wadze w tej kwestii!");
                     return false;
@@ -296,7 +392,7 @@ Template.informacjeKwestia.events({
                     var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
                     Kwestia.update(currentKwestiaId, {
                         $set: {
-                            glosujacy: [[user._id, liczba]],
+                            glosujacy: [[user, liczba]],
                             sredniaPriorytet: srednia
                         }, $inc: {wartoscPriorytetu: roznica}
                     });
@@ -307,7 +403,7 @@ Template.informacjeKwestia.events({
                     var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
                     Kwestia.update(currentKwestiaId, {
                         $set: {
-                            glosujacy: [[user._id, liczba]],
+                            glosujacy: [[user, liczba]],
                             sredniaPriorytet: srednia
                         }, $inc: {wartoscPriorytetu: roznica}
                     });
@@ -318,7 +414,7 @@ Template.informacjeKwestia.events({
         if (flaga === false) {
             var srednia = (kwestia.wartoscPriorytetu + liczba) / (kwestia.glosujacy.length + 1);
             Kwestia.update(currentKwestiaId, {
-                $addToSet: {glosujacy: [user._id, liczba]},
+                $addToSet: {glosujacy: [user, liczba]},
                 $inc: {wartoscPriorytetu: liczba},
                 $set: {sredniaPriorytet: srednia}
             });
@@ -327,13 +423,29 @@ Template.informacjeKwestia.events({
     },
     'click #b1': function (e) {
         e.preventDefault();
-        var user = new Meteor.user();
+        var user = new Meteor.userId();
         var currentKwestiaId = this._id;
+        var parent = this.idParent;
+        var kwestieOpcje = Kwestia.find({idParent: parent}).fetch();
         var kwestia = Kwestia.findOne(currentKwestiaId);
+
+        for (var i = 0; i < kwestieOpcje.length; i++) {
+            for (var j = 0; j < kwestieOpcje[i].glosujacy.length; j++) {
+                var user = kwestieOpcje[i].glosujacy[j][0];
+                var oddanyGlos = kwestieOpcje[i].glosujacy[j][1];
+                if (user == Meteor.userId()) {
+                    if (oddanyGlos == liczba) {
+                        throwError("Nadałeś już priorytet o tej wadze innej Kwestii!")
+                        return false;
+                    }
+                }
+            }
+        }
+
         var liczba = parseInt(document.getElementById("b1").value);
         var flaga = false;
         for (var i = 0; i < kwestia.glosujacy.length; i++) {
-            if (kwestia.glosujacy[i][0] === user._id) {
+            if (kwestia.glosujacy[i][0] === user) {
                 if (kwestia.glosujacy[i][1] === liczba) {
                     throwError("Nadałeś już priorytet o tej wadze w tej kwestii!");
                     return false;
@@ -344,7 +456,7 @@ Template.informacjeKwestia.events({
                     var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
                     Kwestia.update(currentKwestiaId, {
                         $set: {
-                            glosujacy: [[user._id, liczba]],
+                            glosujacy: [[user, liczba]],
                             sredniaPriorytet: srednia
                         }, $inc: {wartoscPriorytetu: roznica}
                     });
@@ -355,7 +467,7 @@ Template.informacjeKwestia.events({
                     var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
                     Kwestia.update(currentKwestiaId, {
                         $set: {
-                            glosujacy: [[user._id, liczba]],
+                            glosujacy: [[user, liczba]],
                             sredniaPriorytet: srednia
                         }, $inc: {wartoscPriorytetu: roznica}
                     });
@@ -366,7 +478,7 @@ Template.informacjeKwestia.events({
         if (flaga === false) {
             var srednia = (kwestia.wartoscPriorytetu + liczba) / (kwestia.glosujacy.length + 1);
             Kwestia.update(currentKwestiaId, {
-                $addToSet: {glosujacy: [user._id, liczba]},
+                $addToSet: {glosujacy: [user, liczba]},
                 $inc: {wartoscPriorytetu: liczba},
                 $set: {sredniaPriorytet: srednia}
             });
@@ -375,13 +487,29 @@ Template.informacjeKwestia.events({
     },
     'click #b2': function (e) {
         e.preventDefault();
-        var user = new Meteor.user();
+        var user = new Meteor.userId();
         var currentKwestiaId = this._id;
+        var parent = this.idParent;
+        var kwestieOpcje = Kwestia.find({idParent: parent}).fetch();
         var kwestia = Kwestia.findOne(currentKwestiaId);
         var liczba = parseInt(document.getElementById("b2").value)
         var flaga = false;
+
+        for (var i = 0; i < kwestieOpcje.length; i++) {
+            for (var j = 0; j < kwestieOpcje[i].glosujacy.length; j++) {
+                var user = kwestieOpcje[i].glosujacy[j][0];
+                var oddanyGlos = kwestieOpcje[i].glosujacy[j][1];
+                if (user == Meteor.userId()) {
+                    if (oddanyGlos == liczba) {
+                        throwError("Nadałeś już priorytet o tej wadze innej Kwestii!")
+                        return false;
+                    }
+                }
+            }
+        }
+
         for (var i = 0; i < kwestia.glosujacy.length; i++) {
-            if (kwestia.glosujacy[i][0] === user._id) {
+            if (kwestia.glosujacy[i][0] === user) {
                 if (kwestia.glosujacy[i][1] === liczba) {
                     throwError("Nadałeś już priorytet o tej wadze w tej kwestii!");
                     return false;
@@ -392,7 +520,7 @@ Template.informacjeKwestia.events({
                     var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
                     Kwestia.update(currentKwestiaId, {
                         $set: {
-                            glosujacy: [[user._id, liczba]],
+                            glosujacy: [[user, liczba]],
                             sredniaPriorytet: srednia
                         }, $inc: {wartoscPriorytetu: roznica}
                     });
@@ -403,7 +531,7 @@ Template.informacjeKwestia.events({
                     var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
                     Kwestia.update(currentKwestiaId, {
                         $set: {
-                            glosujacy: [[user._id, liczba]],
+                            glosujacy: [[user, liczba]],
                             sredniaPriorytet: srednia
                         }, $inc: {wartoscPriorytetu: roznica}
                     });
@@ -414,7 +542,7 @@ Template.informacjeKwestia.events({
         if (flaga === false) {
             var srednia = (kwestia.wartoscPriorytetu + liczba) / (kwestia.glosujacy.length + 1);
             Kwestia.update(currentKwestiaId, {
-                $addToSet: {glosujacy: [user._id, liczba]},
+                $addToSet: {glosujacy: [user, liczba]},
                 $inc: {wartoscPriorytetu: liczba},
                 $set: {sredniaPriorytet: srednia}
             });
@@ -423,13 +551,29 @@ Template.informacjeKwestia.events({
     },
     'click #b3': function (e) {
         e.preventDefault();
-        var user = new Meteor.user();
+        var user = new Meteor.userId();
         var currentKwestiaId = this._id;
+        var parent = this.idParent;
+        var kwestieOpcje = Kwestia.find({idParent: parent}).fetch();
         var kwestia = Kwestia.findOne(currentKwestiaId);
         var liczba = parseInt(document.getElementById("b3").value);
         var flaga = false;
+
+        for (var i = 0; i < kwestieOpcje.length; i++) {
+            for (var j = 0; j < kwestieOpcje[i].glosujacy.length; j++) {
+                var user = kwestieOpcje[i].glosujacy[j][0];
+                var oddanyGlos = kwestieOpcje[i].glosujacy[j][1];
+                if (user == Meteor.userId()) {
+                    if (oddanyGlos == liczba) {
+                        throwError("Nadałeś już priorytet o tej wadze innej Kwestii!")
+                        return false;
+                    }
+                }
+            }
+        }
+
         for (var i = 0; i < kwestia.glosujacy.length; i++) {
-            if (kwestia.glosujacy[i][0] === user._id) {
+            if (kwestia.glosujacy[i][0] === user) {
                 if (kwestia.glosujacy[i][1] === liczba) {
                     throwError("Nadałeś już priorytet o tej wadze w tej kwestii!");
                     return false;
@@ -440,7 +584,7 @@ Template.informacjeKwestia.events({
                     var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
                     Kwestia.update(currentKwestiaId, {
                         $set: {
-                            glosujacy: [[user._id, liczba]],
+                            glosujacy: [[user, liczba]],
                             sredniaPriorytet: srednia
                         }, $inc: {wartoscPriorytetu: roznica}
                     });
@@ -451,7 +595,7 @@ Template.informacjeKwestia.events({
                     var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
                     Kwestia.update(currentKwestiaId, {
                         $set: {
-                            glosujacy: [[user._id, liczba]],
+                            glosujacy: [[user, liczba]],
                             sredniaPriorytet: srednia
                         }, $inc: {wartoscPriorytetu: roznica}
                     });
@@ -462,7 +606,7 @@ Template.informacjeKwestia.events({
         if (flaga === false) {
             var srednia = (kwestia.wartoscPriorytetu + liczba) / (kwestia.glosujacy.length + 1);
             Kwestia.update(currentKwestiaId, {
-                $addToSet: {glosujacy: [user._id, liczba]},
+                $addToSet: {glosujacy: [user, liczba]},
                 $inc: {wartoscPriorytetu: liczba},
                 $set: {sredniaPriorytet: srednia}
             });
@@ -471,13 +615,29 @@ Template.informacjeKwestia.events({
     },
     'click #b4': function (e) {
         e.preventDefault();
-        var user = new Meteor.user();
+        var user = new Meteor.userId();
         var currentKwestiaId = this._id;
+        var parent = this.idParent;
+        var kwestieOpcje = Kwestia.find({idParent: parent}).fetch();
         var kwestia = Kwestia.findOne(currentKwestiaId);
         var liczba = parseInt(document.getElementById("b4").value);
         var flaga = false;
+
+        for (var i = 0; i < kwestieOpcje.length; i++) {
+            for (var j = 0; j < kwestieOpcje[i].glosujacy.length; j++) {
+                var user = kwestieOpcje[i].glosujacy[j][0];
+                var oddanyGlos = kwestieOpcje[i].glosujacy[j][1];
+                if (user == Meteor.userId()) {
+                    if (oddanyGlos == liczba) {
+                        throwError("Nadałeś już priorytet o tej wadze innej Kwestii!")
+                        return false;
+                    }
+                }
+            }
+        }
+
         for (var i = 0; i < kwestia.glosujacy.length; i++) {
-            if (kwestia.glosujacy[i][0] === user._id) {
+            if (kwestia.glosujacy[i][0] === user) {
                 if (kwestia.glosujacy[i][1] === liczba) {
                     throwError("Nadałeś już priorytet o tej wadze w tej kwestii!");
                     return false;
@@ -488,7 +648,7 @@ Template.informacjeKwestia.events({
                     var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
                     Kwestia.update(currentKwestiaId, {
                         $set: {
-                            glosujacy: [[user._id, liczba]],
+                            glosujacy: [[user, liczba]],
                             sredniaPriorytet: srednia
                         }, $inc: {wartoscPriorytetu: roznica}
                     });
@@ -499,7 +659,7 @@ Template.informacjeKwestia.events({
                     var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
                     Kwestia.update(currentKwestiaId, {
                         $set: {
-                            glosujacy: [[user._id, liczba]],
+                            glosujacy: [[user, liczba]],
                             sredniaPriorytet: srednia
                         }, $inc: {wartoscPriorytetu: roznica}
                     });
@@ -510,7 +670,7 @@ Template.informacjeKwestia.events({
         if (flaga === false) {
             var srednia = (kwestia.wartoscPriorytetu + liczba) / (kwestia.glosujacy.length + 1);
             Kwestia.update(currentKwestiaId, {
-                $addToSet: {glosujacy: [user._id, liczba]},
+                $addToSet: {glosujacy: [user, liczba]},
                 $inc: {wartoscPriorytetu: liczba},
                 $set: {sredniaPriorytet: srednia}
             });
@@ -519,15 +679,32 @@ Template.informacjeKwestia.events({
     },
     'click #b5': function (e) {
         e.preventDefault();
-        var user = new Meteor.user();
+        var user = new Meteor.userId();
         var currentKwestiaId = this._id;
+        var parent = this.idParent;
+        var kwestieOpcje = Kwestia.find({idParent: parent}).fetch();
         var kwestia = Kwestia.findOne(currentKwestiaId);
         var liczba = parseInt(document.getElementById("b5").value);
+
         var flaga = false;
+
+        for (var i = 0; i < kwestieOpcje.length; i++) {
+            for (var j = 0; j < kwestieOpcje[i].glosujacy.length; j++) {
+                var user = kwestieOpcje[i].glosujacy[j][0];
+                var oddanyGlos = kwestieOpcje[i].glosujacy[j][1];
+                if (user == Meteor.userId()) {
+                    if (oddanyGlos == liczba) {
+                        throwError("Nadałeś już priorytet o tej wadze innej Kwestii!")
+                        return false;
+                    }
+                }
+            }
+        }
+
         for (var i = 0; i < kwestia.glosujacy.length; i++) {
-            if (kwestia.glosujacy[i][0] === user._id) {
+            if (kwestia.glosujacy[i][0] === user) {
                 if (kwestia.glosujacy[i][1] === liczba) {
-                    throwError("Nadałeś już priorytet o tej wadze w tej kwestii!");
+                    throwError("Nadałeś już priorytet o tej wadze w tej Kwestii!");
                     return false;
                 }
                 else if (kwestia.glosujacy[i][1] > liczba) {
@@ -536,7 +713,7 @@ Template.informacjeKwestia.events({
                     var srednia = (kwestia.wartoscPriorytetu + roznica) / kwestia.glosujacy.length;
                     Kwestia.update(currentKwestiaId, {
                         $set: {
-                            glosujacy: [[user._id, liczba]],
+                            glosujacy: [[user, liczba]],
                             sredniaPriorytet: srednia
                         }, $inc: {wartoscPriorytetu: roznica}
                     });
@@ -564,28 +741,19 @@ Template.informacjeKwestia.events({
             });
             flaga = true;
         }
-    },
+    }
 });
 Template.informacjeKwestia.helpers({
-    opcje: function(){
-        if(this.isOption){
-            console.log("===jestem opcja===")
-            console.log("===id parent===")
-            console.log(this.idParent)
-            var parent = this.idParent;
-            var kwestieOpcje = Kwestia.find({idParent: parent}).fetch();
-            console.log("===kwestie opcje list===")
-            console.log(kwestieOpcje);
-            for(var i=0;i<kwestieOpcje.length;i++){
-                console.log(kwestieOpcje[i])
-            }
-        }
-        else{
-            console.log("jestem glowna")
-        }
+    opcje: function () {
+        var kwestiaGlownaId = Session.get("idKwestia");
+        var op = Kwestia.find({idParent: kwestiaGlownaId}).fetch();
+        if (op)
+            return true;
+        else
+            return false;
     },
-    czyOpcja: function(){
-        if(this.isOption)
+    czyOpcja: function () {
+        if (this.isOption)
             return true;
         else
             return false;
@@ -596,36 +764,51 @@ Template.informacjeKwestia.helpers({
     mojPiorytet: function () {
         var currentKwestiaId = this._id;
         var kwestia = Kwestia.findOne(currentKwestiaId);
-        var g = kwestia.glosujacy;
-        for (var i = 0; i < g.length; i++) {
-            if (Meteor.userId() == g[i][0]) {
-                return g[i][1];
+        if (kwestia) {
+            var g = kwestia.glosujacy;
+            for (var i = 0; i < g.length; i++) {
+                if (Meteor.userId() == g[i][0]) {
+                    return g[i][1];
+                }
             }
         }
     },
     mojPriorytetZero: function () {
         var currentKwestiaId = this._id;
         var kwestia = Kwestia.findOne(currentKwestiaId);
-        var g = kwestia.glosujacy;
-        for (var i = 0; i < g.length; i++) {
-            if (Meteor.userId() == g[i][0] && g[i][1] == 0) {
-                return true;
-            }
-            else {
-                return false;
+        if (kwestia) {
+            var g = kwestia.glosujacy;
+            for (var i = 0; i < g.length; i++) {
+                if (Meteor.userId() == g[i][0] && g[i][1] == 0) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
             }
         }
     },
     glosujacyCount: function () {
         var currentKwestiaId = this._id;
         var tab = Kwestia.findOne(currentKwestiaId);
-        var liczba = tab.glosujacy.length;
-        return liczba;
+        if (tab) {
+            var liczba = tab.glosujacy.length;
+            return liczba;
+        }
+    },
+    srednia: function () {
+        var s = this.sredniaPriorytet;
+        //if(s){
+        var ss = s.toFixed(2);
+        return ss;
+        //}
     },
     nazwa: function () {
         var currentKwestiaId = this._id;
         var tab = Kwestia.findOne(currentKwestiaId);
-        return tab;
+        if (tab) {
+            return tab;
+        }
     },
     tematNazwa: function () {
         return Temat.findOne({_id: this.idTemat});

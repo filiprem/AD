@@ -20,6 +20,7 @@ Meteor.methods({
             glosujacy: [],
             isOption: false
         });
+        Kwestia.update({_id: id}, {$set: {idParent: id}}, {upsert: true});
         return id;
     },
     updateKwestia: function (kwestiaId, kwestia) {

@@ -43,7 +43,7 @@ Template.addKwestiaOpcjaForm.events({
 
         var dataG =  new Date();
         var d = dataG.setDate(dataG.getDate()+7);
-        var pulapPriorytetu = null;
+        //var pulapPriorytetu = null;
 
         var newKwestiaOpcja = [{
             idUser: Meteor.userId(),

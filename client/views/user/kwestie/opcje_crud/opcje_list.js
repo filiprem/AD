@@ -1,10 +1,10 @@
 Template.opcjeList.helpers({
     OpcjeList: function(){
         var kwestiaGlownaId = Session.get("idKwestia");
-        //console.log(kwestiaGlownaId);
-        var k = Kwestia.find({idParent: kwestiaGlownaId}).fetch();
-        //console.log(k);
-        return k;
+        var k = Kwestia.find({idParent: kwestiaGlownaId}, {isOption: true}).fetch();
+        if(k){
+            return k;
+        }
     },
     'settings': function () {
         return {
@@ -27,8 +27,7 @@ Template.opcjeList.helpers({
                 {key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestia},
                 {key: 'dataGlosowania', label: Template.listKwestiaColumnLabel, labelData: {title: "Data zakończenia głosowania", text:"Finał"}, tmpl: Template.dataGlKwestia},
                 {key: 'status', label: Template.listKwestiaColumnLabel ,labelData: {title: "Etap, na którym znajduje sie ta Kwestia", text:"Status"}}
-                //{key: 'options', label: "Opcje", tmpl: Template.editColumnKwestia }
             ]
         };
-    },
+    }
 })

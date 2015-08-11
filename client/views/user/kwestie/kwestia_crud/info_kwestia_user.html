@@ -17,17 +17,14 @@
             </div>
             <div class="col-md-6">
                 <br/>
-                <!--<a id="dyskusja" name="{{_id}}" class="btn btn-danger pull-right">-->
-                    <!--<span class="glyphicon glyphicon-remove-circle"></span> Dyskusja {{_id}}-->
-                <!--</a>-->
                 {{#unless czyOpcja}}
-                <a id="addOptionButton" class="btn btn-primary pull-right">
-                    <span class="glyphicon glyphicon-plus"></span> Dodaj opcję tej Kwestii</a>
+                    <a id="addOptionButton" class="btn btn-primary pull-right">
+                        <span class="glyphicon glyphicon-plus"></span> Dodaj opcję tej Kwestii</a>
                 {{/unless}}
             </div>
         </div>
         <div class="clearfix"></div>
-        <br />
+        <br/>
         <table class="table table-bordered manageTable">
             <tr>
                 <td><strong> Data wprowadzenia Kwestii</strong></td>
@@ -50,7 +47,7 @@
                 <td>
                     <div class="row">
                         <div class="col-md-1">
-                            {{sredniaPriorytet}}
+                            {{srednia}}
                         </div>
                         <div class="col-md-11">
                             <button id="b-5" name="b-5" type="button" class="btn btn-danger btn-xs" value="-5"><b>-5</b>
@@ -65,11 +62,16 @@
                             </button>
                             <button id="b0" name="b0" type="button" class="btn btn-default btn-xs" value="0"><b>0 *</b>
                             </button>
-                            <button id="b1" name="b1" type="button" class="btn btn-success btn-xs" value="1"><b>+1</b></button>
-                            <button id="b2" name="b2" type="button" class="btn btn-success btn-xs" value="2"><b>+2</b></button>
-                            <button id="b3" name="b3" type="button" class="btn btn-success btn-xs" value="3"><b>+3</b></button>
-                            <button id="b4" name="b4" type="button" class="btn btn-success btn-xs" value="4"><b>+4</b></button>
-                            <button id="b5" name="b5" type="button" class="btn btn-success btn-xs" value="5"><b>+5</b></button>
+                            <button id="b1" name="b1" type="button" class="btn btn-success btn-xs" value="1"><b>+1</b>
+                            </button>
+                            <button id="b2" name="b2" type="button" class="btn btn-success btn-xs" value="2"><b>+2</b>
+                            </button>
+                            <button id="b3" name="b3" type="button" class="btn btn-success btn-xs" value="3"><b>+3</b>
+                            </button>
+                            <button id="b4" name="b4" type="button" class="btn btn-success btn-xs" value="4"><b>+4</b>
+                            </button>
+                            <button id="b5" name="b5" type="button" class="btn btn-success btn-xs" value="5"><b>+5</b>
+                            </button>
                         </div>
                     </div>
                 </td>
@@ -100,16 +102,15 @@
             </tr>
         </table>
         <hr/>
-        <br />
 
-        {{#unless czyOpcja}}
-            <h3>Opcje tej Kwestii</h3>
-            <div class="row">
-               {{> opcjeList}}
-            </div>
-        {{/unless}}
+        <h3>Opcje Kwestii</h3>
+
+        <div class="row">
+            {{> opcjeList}}
+        </div>
 
         <h3>Dyskusja Kwestii</h3>
+
         <div class="row">
             <div class="col-md-12">
                 {{> discussionMain}}

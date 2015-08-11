@@ -13,18 +13,22 @@ Template.editKwestiaForm.helpers({
     isSelectedTemat: function(id, tematId) {
         var r = Session.get("kwestiaInScope");
         var item = Temat.findOne({_id: r.idTemat});
-        if(item._id==id)
-            return true;
-        else
-            return false;
+        if(item){
+            if(item._id==id)
+                return true;
+            else
+                return false;
+        }
     },
     isSelectedRodzaj: function(id){
         var r=Session.get("kwestiaInScope");
         var item=Rodzaj.findOne({_id: r.idRodzaj});
-        if(item._id==id)
-            return true;
-        else
-            return false;
+        if(item){
+            if(item._id==id)
+                return true;
+            else
+                return false;
+        }
     }
 });
 
