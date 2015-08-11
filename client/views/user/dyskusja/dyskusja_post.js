@@ -1,6 +1,12 @@
+Template.discussionPostItem.created = function(){
+    this.colTextRV = new ReactiveVar();
+    var tab =[];
+    this.colTextRV.set(tab);
+}
+
 Template.discussionPostItem.helpers({
     'getSimpleDate':function(date){
-        return moment(date).format("YYYY-MM-DD,");
+        return moment(date).format("YYYY-MM-DD");
     },
     'getFullHourDate':function(date){
         return moment(date).format("HH:mm:ss");
@@ -13,6 +19,47 @@ Template.discussionPostItem.helpers({
     },
     'getLabelClass':function(value){
         return value >= 0 ? "label-success" : "label-danger";
+    },
+    'getText':function(value,id){
+        var self = Template.instance();
+        return isInTab(id,self.colTextRV.get()) ? value : value.substring(0,DISCUSSION_OPTIONS.POST_CHARACTERS_DISPLAY)+"...";
+    },
+    'isInTab':function(id){
+        var self = Template.instance();
+        return isInTab(id,self.colTextRV.get());
+    }
+});
+
+Template.discussionPostItem.events({
+    'click #rozwinText':function(e){
+
+        var id = e.target.name;
+        var self = Template.instance();
+        var itemTab = self.colTextRV.get();
+        var flag = false;
+
+        itemTab.forEach(function(item){
+            if(id==item)
+                flag=true;
+        });
+
+        if(!flag)
+            itemTab.push(id);
+
+        self.colTextRV.set(itemTab);
+    },
+    'click #zwinText':function(e){
+
+        var self = Template.instance();
+        var itemTab = self.colTextRV.get();
+        var id = e.target.name;
+
+        itemTab.forEach(function(item){
+            if(id==item)
+                itemTab.splice(itemTab.indexOf(item),1);
+        });
+
+        self.colTextRV.set(itemTab);
     }
 });
 
@@ -65,7 +112,7 @@ Template.discussionAnswerForm.events({
 
 Template.discussionAnswerItem.helpers({
     'getSimpleDate':function(date){
-        return moment(date).format("YYYY-MM-DD,");
+        return moment(date).format("YYYY-MM-DD");
     },
     'getFullHourDate':function(date){
         return moment(date).format("HH:mm:ss");
