@@ -13,7 +13,10 @@ Template.archiwum.events({
     },
     'click .glyphicon-info-sign': function(event, template){
         Session.set('kwestiaInScope',this);
-    }
+    },
+    'click #backToList': function (e) {
+        Router.go('home');
+    },
 });
 Template.archiwum.helpers({
     'settings': function () {
