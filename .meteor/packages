@@ -21,3 +21,5 @@ raix:handlebar-helpers
 meteor-accounts-admin-ui-bootstrap-3
 handlebars
 reactive-var
+underscore
+themeteorchef:jquery-validation
