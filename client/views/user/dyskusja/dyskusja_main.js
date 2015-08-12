@@ -1,6 +1,6 @@
 Template.discussionMain.helpers({
     'getPosts':function(id){
-        return Posts.find({idKwestia:id,isParent:true});
+        return Posts.find({idKwestia:id,isParent:true},{sort:{wartoscPriorytetu:-1}});
     }
 });
 

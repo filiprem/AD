@@ -12,7 +12,7 @@ Template.discussionPostItem.helpers({
         return moment(date).format("HH:mm:ss");
     },
     'getAnswers':function(id){
-        return Posts.find({idParent:id, isParent:false, czyAktywny:true});
+        return Posts.find({idParent:id, isParent:false, czyAktywny:true},{sort:{wartoscPriorytetu:-1}});
     },
     'getAnswersCount':function(id){
         return Posts.find({idParent:id, isParent:false, czyAktywny:true}).count();
@@ -31,6 +31,9 @@ Template.discussionPostItem.helpers({
     'isInTab':function(id){
         var self = Template.instance();
         return isInTab(id,self.colTextRV.get());
+    },
+    'textTooLong':function(value){
+        return value.length < DISCUSSION_OPTIONS.POST_CHARACTERS_DISPLAY ? false : true;
     }
 });
 
@@ -42,15 +45,10 @@ Template.discussionPostItem.events({
         var itemTab = self.colTextRV.get();
         var flag = false;
 
-        itemTab.forEach(function(item){
-            if(id==item)
-                flag=true;
-        });
-
-        if(!flag)
+        if(!isInTab(id,itemTab)) {
             itemTab.push(id);
-
-        self.colTextRV.set(itemTab);
+            self.colTextRV.set(itemTab);
+        }
     },
     'click #zwinText':function(e){
 
@@ -71,7 +69,7 @@ Template.discussionAnswerForm.events({
     'submit #dyskusjaAnswerForm':function(e){
         e.preventDefault();
 
-        var wiadomosc = $(e.target).find('[name=answer_message]').val();
+        var wiadomosc = $(e.target).find('[id=answer_message]').val();
         var idKwestia = $(e.target).find('[name=idKwestiaAnswer]').val();
         var idParent = $(e.target).find('[name=idPost]').val();
         var idUser = Meteor.userId();
@@ -107,7 +105,7 @@ Template.discussionAnswerForm.events({
                     else
                         throwError(error.reason);
                 }else{
-                    document.getElementById("answer_message").value = "";
+                    document.getElementsByName("answer_message"+idParent)[0].value="";
                 }
             });
         }
@@ -141,6 +139,9 @@ Template.discussionAnswerItem.helpers({
     'isAnswerInTab':function(id){
         var self = Template.instance();
         return isInTab(id,self.colTextAnswerRV.get());
+    },
+    'textAnswerTooLong':function(value){
+        return value.length < DISCUSSION_OPTIONS.POST_CHARACTERS_DISPLAY ? false : true;
     }
 });
 
@@ -150,12 +151,6 @@ Template.discussionAnswerItem.events({
         var id = e.target.name;
         var self = Template.instance();
         var itemTab = self.colTextAnswerRV.get();
-        //var flag = false;
-
-        //itemTab.forEach(function(item){
-        //    if(id==item)
-        //        flag=true;
-        //});
 
         if(!isInTab(id,itemTab)) {
             itemTab.push(id);

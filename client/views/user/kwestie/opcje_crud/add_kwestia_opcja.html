@@ -1,18 +1,18 @@
 <template name="addKwestiaOpcjaForm">
     <div class="main">
-        <h3>Dodaj Kwestię</h3>
+        <h3>{{_ "addKwestiaOpcjaForm.addKwestiaH3"}}</h3>
         <hr/>
         <div class="row">
             <div class="col col-md-10">
                 <form class="form-horizontal">
                     <div class="form-group" id="kwestiaNazwaGroup">
-                        <label class="control-label col-xs-3" for="inputEmail">Nazwa Kwestii:</label>
+                        <label class="control-label col-xs-3" for="inputEmail">{{_ "addKwestiaOpcjaForm.nazwaKwestiiLabel"}}</label>
                         <div class="col-xs-9">
                             <input class="form-control" name="kwestiaNazwa" id="kwestiaNazwa" placeholder="Nazwa kwestii" value={{kwestiaNazwa}}>
                         </div>
                     </div>
                     <div class="form-group" id="tematyGroup">
-                        <label class="control-label col-xs-3" for="inputEmail">Temat:</label>
+                        <label class="control-label col-xs-3" for="inputEmail">{{_ "addKwestiaOpcjaForm.tematLabel"}}</label>
                         <div class="col-xs-3">
                             <select name="tematy" id="tematy" class="form-control">
                                 {{#each tematToList}}
@@ -64,7 +64,7 @@
                     <div class="form-group">
                         <div class="col-xs-offset-3 col-xs-9">
                             <input type="submit" class="btn btn-primary" value="Zapisz">
-                            <input type="reset" class="btn btn-default" value="Anuluj">
+                            <input id="anuluj" type="reset" class="btn btn-default" value="Anuluj">
                         </div>
                     </div>
                 </form>
