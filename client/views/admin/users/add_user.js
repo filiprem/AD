@@ -75,7 +75,8 @@ Template.addUserForm.events({
                 web: $(e.target).find('[name=web]').val(),
                 gender: $(e.target).find('[name=genderRadios]:checked').val(),
                 role: 'admin',
-                roleDesc: $(e.target).find('[name=uwagiStatus]').val()
+                roleDesc: $(e.target).find('[name=uwagiStatus]').val(),
+                rADking:0,
             }];
             // sprawdzamy, czy rola istnieje,
             // jeżeli nie to dodajemy nową.

@@ -2,7 +2,7 @@ Template.addRodzajForm.rendered = function(){
     $("#rodzajForm").validate({
         rules: {
             czasDyskusji:{
-                min: 1,
+                min: 1
             },
             czasGlosowania:{
                 min: 0.01,
@@ -11,7 +11,7 @@ Template.addRodzajForm.rendered = function(){
         },
         messages:{
             nazwaRodzaj:{
-                required:fieldEmptyMesssage(),
+                required:fieldEmptyMesssage()
             },
             tematy:{
                 required:fieldEmptyMesssage()
