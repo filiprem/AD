@@ -20,13 +20,15 @@
                             <p>
                                 {{getText wiadomosc idPost}}
                                 <br />
-                                <small class="pull-right">
-                                    {{#if isInTab idPost}}
-                                        [ <a id="zwinText" name="{{idPost}}">mniej</a> ]
-                                    {{else}}
-                                        [ <a id="rozwinText" name="{{idPost}}">więcej</a> ]
-                                    {{/if}}
-                                </small>
+                                {{#if textTooLong wiadomosc}}
+                                    <small class="pull-right">
+                                        {{#if isInTab idPost}}
+                                            [ <a id="zwinText" name="{{idPost}}">mniej</a> ]
+                                        {{else}}
+                                            [ <a id="rozwinText" name="{{idPost}}">więcej</a> ]
+                                        {{/if}}
+                                    </small>
+                                {{/if}}
                             </p>
                         </div>
                     </div>
@@ -64,7 +66,7 @@
     <form id="dyskusjaAnswerForm" class="form-horizontal">
         <div class="form-group">
             <div class="col-xs-12">
-                <textarea id="answer_message" name="answer_message" type="text" class="form-control" placeholder="Odpowiedź"></textarea>
+                <textarea id="answer_message" name="answer_message{{idPost}}" type="text" class="form-control" placeholder="Odpowiedź"></textarea>
             </div>
             <input id="idKwestiaAnswer" name="idKwestiaAnswer" type="hidden" value="{{idKwestia}}">
             <input id="idPost" name="idPost" type="hidden" value="{{idPost}}">
@@ -96,13 +98,15 @@
                 <p>
                     {{getAnswerText wiadomosc idPost}}
                     <br />
-                    <small class="pull-right">
-                        {{#if isAnswerInTab idPost}}
-                            [ <a id="zwinTextAnswer" name="{{idPost}}">mniej</a> ]
-                        {{else}}
-                            [ <a id="rozwinTextAnswer" name="{{idPost}}">więcej</a> ]
-                        {{/if}}
-                    </small>
+                        {{#if textAnswerTooLong wiadomosc}}
+                        <small class="pull-right">
+                            {{#if isAnswerInTab idPost}}
+                                [ <a id="zwinTextAnswer" name="{{idPost}}">mniej</a> ]
+                            {{else}}
+                                [ <a id="rozwinTextAnswer" name="{{idPost}}">więcej</a> ]
+                            {{/if}}
+                        </small>
+                    {{/if}}
                 </p>
             </div>
         </div>

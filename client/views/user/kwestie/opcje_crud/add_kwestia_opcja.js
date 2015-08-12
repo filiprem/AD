@@ -64,5 +64,8 @@ Template.addKwestiaOpcjaForm.events({
             }];
         Session.set("kwestiaPreview", newKwestiaOpcja[0]);
         Router.go('previewKwestia');
+    },
+    'click #anuluj':function(){
+        Router.go("informacjeKwestia",{_id:Session.get("idKwestia")});
     }
 });
