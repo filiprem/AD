@@ -3,5 +3,8 @@
     "addKwestiaH3":"Dodaj Kwestię",
     "nazwaKwestiiLabel":"Nazwa Kwestii:",
     "tematLabel":"Temat:"
+  },
+  "addKwestiaForm":{
+    "addKwestiaH3":"Dodaj Kwestię"
   }
 }

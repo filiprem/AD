@@ -13,3 +13,38 @@ Template.header.helpers({
         return IsAdminUser();
     }
 });
+
+Template.language.events({
+    'click .lang':function(e){
+        var lang = e.target.textContent;
+
+        var newUser = {
+            profile:{
+                language:lang
+            }
+        };
+
+        Meteor.call('updateUser',Meteor.userId(), newUser, function (error) {
+            if (error) {
+                if (typeof Errors === "undefined")
+                    Log.error('Error: ' + error.reason);
+                else
+                    throwError(error.reason);
+            } else{
+                TAPi18n.setLanguage(lang)
+                    .done(function () {
+                        console.log("Załadowano język");
+                    })
+                    .fail(function (error_message) {
+                        console.log(error_message);
+                    });
+            }
+        });
+    }
+});
+
+Template.language.helpers({
+    'getUserLang':function(){
+        return Meteor.user().profile.language;
+    }
+})

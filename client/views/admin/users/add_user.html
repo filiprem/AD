@@ -81,7 +81,7 @@
                     <div class="form-group">
                         <label class="control-label col-xs-3">Data urodzenia: </label>
                         <div class="col-xs-9">
-                            <div class="input-group datetimepicker col-xs-5" id="test1">
+                            <div class="input-group datetimepicker col-xs-5" id="dataUrodzeniaDatePicker">
                                 <span class="input-group-addon glyphicon glyphicon-calendar"><i class="fa fa-calendar"></i></span>
                                 <input class="set-due-date form-control" type="text" name="dateOfBirth"/>
                             </div>
@@ -122,6 +122,15 @@
                             <label class="radio-inline">
                                 <input type="radio" name="genderRadios" value="kobieta"> Kobieta
                             </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3">Język użytkownika: </label>
+                        <div class="col-xs-3">
+                            <select name="language" id="language" class="form-control" required>
+                                <option value="pl">polski</option>
+                                <option value="en">angielski</option>
+                            </select>
                         </div>
                     </div>
                     <br />

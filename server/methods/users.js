@@ -22,7 +22,8 @@ Meteor.methods({
                     phone: newUser[0].phone,
                     web: newUser[0].web,
                    // role: newUser[0].role,
-                    roleDesc:  newUser[0].roleDesc
+                    roleDesc:  newUser[0].roleDesc,
+                    language:newUser[0].language
                 }
             });
         }
