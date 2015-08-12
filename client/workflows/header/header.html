@@ -20,6 +20,7 @@
             <ul class="nav navbar-nav navbar-right">
                 {{#if currentUser}}
                     {{> loginButtons}}
+                    {{> language}}
                 {{else}}
                     <!--<div class="loginTop">-->
                         <!--{{> loginFormTop}}-->
@@ -28,4 +29,16 @@
             </ul>
         </div>
     </div>
+</template>
+
+<template name="language">
+    <li class="dropdown">
+        <a class="dropdown-toggle cursor-pointer" data-toggle="dropdown">
+            {{getUserLang}} <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li><a href="" class="lang">pl</a></li>
+            <li><a href="" class="lang">en</a></li>
+        </ul>
+    </li>
 </template>

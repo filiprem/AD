@@ -1,12 +1,12 @@
 Template.addUserForm.rendered = function () {
-    $('#test1').datetimepicker({
+    $('#dataUrodzeniaDatePicker').datetimepicker({
         sideBySide: true,
         format: 'DD/MM/YYYY'
     });
     $("#userForm").validate({
         rules: {
             password:{
-                minlength:6,
+                minlength:6
             },
             czasGlosowania:{
                 min: 0.01,
@@ -21,17 +21,17 @@ Template.addUserForm.rendered = function () {
         },
         messages:{
             role:{
-                required:fieldEmptyMesssage(),
+                required:fieldEmptyMesssage()
             },
             email:{
                 required:fieldEmptyMesssage(),
                 email:validEmailMessage()
             },
             firstName:{
-                required:fieldEmptyMesssage(),
+                required:fieldEmptyMesssage()
             },
             lastName:{
-                required:fieldEmptyMesssage(),
+                required:fieldEmptyMesssage()
             },
             password:{
                 required:fieldEmptyMesssage(),
@@ -75,7 +75,8 @@ Template.addUserForm.events({
                 web: $(e.target).find('[name=web]').val(),
                 gender: $(e.target).find('[name=genderRadios]:checked').val(),
                 role: 'admin',
-                roleDesc: $(e.target).find('[name=uwagiStatus]').val()
+                roleDesc: $(e.target).find('[name=uwagiStatus]').val(),
+                language: $(e.target).find('[name=language]').val()
             }];
             // sprawdzamy, czy rola istnieje,
             // jeżeli nie to dodajemy nową.

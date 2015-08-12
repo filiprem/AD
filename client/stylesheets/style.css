@@ -181,3 +181,7 @@ body {
 .padding-15{
     padding: 15px;
 }
+
+.cursor-pointer{
+    cursor:pointer;
+}
