@@ -2,9 +2,8 @@
     {{#if currentUser}}
         <div class="main">
             <h3>Lista tematów</h3>
-            <h4>Parametry tematów</h4>
             <div class="pull-right">
-                <span>Ilość tematów: </span><span class="badge">{{tematCount}}</span>
+                <span>Liczba tematów: </span><span class="badge">{{tematCount}}</span>
             </div>
             <hr/>
             <div class="row">
@@ -14,51 +13,26 @@
                     <a href="{{pathFor 'addTemat'}}" class="btn btn-primary"><span
                             class="glyphicon glyphicon-plus"></span> Dodaj</a>
                       </span>
-                        <input id="searchInput" type="text" class="form-control search-input-filter"
-                               placeholder="szukaj..."/>
-                    </div>
-                </div>
-                <div class="centered col col-md-6">
-                    <div class="pull-right btn-group">
-                        <button id="twentyButton" class="{{isTwentyActive}} btn btn-default">20</button>
-                        <button id="fiftyButton" class="{{isFiftyActive}} btn btn-default">50</button>
-                        <button id="hundredButton" class="{{isHundredActive}} btn btn-default">100</button>
                     </div>
                 </div>
             </div>
-            <hr/>
-            <table id="tematTable" class="table table-striped tablesorter">
-                <thead>
-                <tr>
-                    <th>Nazwa tematu</th>
-                    <th>Opis</th>
-                </tr>
-                </thead>
-                <tbody>
-                {{#each tematList}}
-                    <tr>
-                        <td>{{nazwaTemat}}</td>
-                        <td>{{opis}}</td>
-                        <td>
-                            {{#if isAdminUser}}
-                                <span data-toggle="modal" href="#deletetemat"
-                                      class="glyphicon glyphicon-trash clickable"></span>
-                                <span data-toggle="modal" href="#updatetemat"
-                                      class="glyphicon glyphicon-pencil clickable"></span>
-                            {{/if}}
-                        </td>
-                    </tr>
-                {{/each}}
-                </tbody>
-            </table>
-            <hr/>
-            <div class="btn-group">
-                {{#each paginationButtonList }}
-                    {{> paginationButton }}
-                {{/each}}
+            <div class="row">
+                <div class="col-md-12">
+                    {{> reactiveTable
+                    class = "table table-bordered table-hover"
+                    fields = settings.fields
+                    settings = settings
+                    collection = TematListAdmin
+                    }}
+                </div>
             </div>
         </div>
-        {{> updateTematModal}}
-        {{> deleteTematModal}}
+        <!--{{> updateTematModal}}-->
+        <!--{{> deleteTematModal}}-->
     {{/if}}
+</template>
+
+<template name="editColumnTemat">
+    <a title="Edytuj" id="editTemat" href="{{ pathFor 'editTemat'}}"><i class="glyphicon glyphicon-pencil clickable"></i></a>
+    <!--<a title="Usuń" id="removeTemat"><i class="glyphicon glyphicon-trash clickable"></i></a>-->
 </template>

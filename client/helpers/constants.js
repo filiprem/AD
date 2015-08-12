@@ -1,0 +1,10 @@
+KWESTIA_STATUS = {
+    DELIBEROWANA : "deliberowana",
+    ZABLOKOWANA : "zablokowana",
+    ARCHIWALNA : "archiwalna"
+}
+
+DISCUSSION_OPTIONS = {
+    POST_CHARACTERS_DISPLAY : 300,
+    POST_ANSWER_CHARACTERS_DISPLAY: 200
+}

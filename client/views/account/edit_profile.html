@@ -7,52 +7,41 @@
         <hr/>
         <div class="row">
             <div class="col col-md-10">
-                <form class="form-horizontal">
+                <form class="form-horizontal" id="profileForm">
                     <div class="form-group">
                         <label class="control-label col-xs-3" for="inputImię">Imię:</label>
 
                         <div class="col-xs-9">
-                            <input name="name"  class="form-control" id="firstName" value="{{profile.first_name}}">
+                            <input name="name"  class="form-control" id="firstName" value="{{profile.firstName}}" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-xs-3" for="inputNazwisko">Nazwisko:</label>
 
                         <div class="col-xs-9">
-                            <input name="surname"  class="form-control" id="lastName" value="{{profile.last_name}}">
+                            <input name="surname"  class="form-control" id="lastName" value="{{profile.lastName}}" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-xs-3" for="inputEmail">Email:</label>
 
                         <div class="col-xs-9">
-                            <input name="email" type="email" class="form-control" id="inputEmail" value="{{email}}">
+                            <input name="email" type="email" class="form-control" id="inputEmail" value="{{email}}" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-xs-3" for="inputPlec">Płeć:</label>
 
-                        <div class="col-xs-9">
-                            <div class="col-xs-2">
-                                <label class="radio-inline">
-                                    {{#if isMan profile.gender}}
-                                        <input type="radio" name="genderRadios" value="mężczyzna" checked="checked"> Mężczyzna
-                                    {{else}}
-                                        <input type="radio" name="genderRadios" value="mężczyzna"> Mężczyzna
-                                    {{/if}}
-                                </label>
-                            </div>
-                            <div class="col-xs-2">
-                                <label class="radio-inline">
-                                    {{#if isWoman profile.gender}}
-                                        <input type="radio" name="genderRadios" value="kobieta" checked="checked"> Kobieta
-                                    {{else}}
-                                        <input type="radio" name="genderRadios" value="kobieta"> Kobieta
-                                    {{/if}}
-
-                                </label>
-                            </div>
-                        </div>
+                         <div class="col-xs-2">
+                            <label class="radio-inline">
+                                <input type="radio" name="genderRadios" value="mężczyzna" {{isSelected 'mężczyzna'}}> Mężczyzna
+                            </label>
+                         </div>
+                         <div class="col-xs-2">
+                            <label class="radio-inline">
+                                <input type="radio" name="genderRadios" value="kobieta" {{isSelected 'kobieta'}}> Kobieta
+                            </label>
+                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-xs-3" for="inputStanowisko">Stanowisko:</label>
@@ -93,7 +82,7 @@
                     <div class="form-group">
                         <div class="col-xs-offset-3 col-xs-9">
                             <input type="submit" class="btn btn-primary" value="Zapisz">
-                            <input type="reset" class="btn btn-default" value="Resetuj">
+                            <input type="reset" class="btn btn-default" value="Anuluj">
                         </div>
                     </div>
                 </form>
