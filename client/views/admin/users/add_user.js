@@ -74,7 +74,6 @@ Template.addUserForm.events({
                 zip: $(e.target).find('[name=zipCode]').val(),
                 web: $(e.target).find('[name=web]').val(),
                 gender: $(e.target).find('[name=genderRadios]:checked').val(),
-                role: 'admin',
                 roleDesc: $(e.target).find('[name=uwagiStatus]').val()
             }];
             // sprawdzamy, czy rola istnieje,

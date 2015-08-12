@@ -94,6 +94,12 @@ Template.listKwestia.helpers({
     },
     isAdminUser: function () {
         return IsAdminUser();
+    },
+    isAdmin: function(){
+        if(Meteor.user().roles=="admin")
+            return true;
+        else
+            return false;
     }
 });
 
