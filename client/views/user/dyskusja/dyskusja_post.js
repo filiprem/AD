@@ -34,6 +34,21 @@ Template.discussionPostItem.helpers({
     },
     'textTooLong':function(value){
         return value.length < DISCUSSION_OPTIONS.POST_CHARACTERS_DISPLAY ? false : true;
+    },
+    'isDoArchiwum': function(){
+        var p = Posts.findOne({_id: this.idPost});
+        if(p.postType=="archiwum"){
+            return true;
+        }
+        else
+            return false;
+    },
+    'isDoKosza': function(){
+        var p = Posts.findOne({_id: this.idPost});
+        if(p.postType=="kosz")
+            return true;
+        else
+            return false;
     }
 });
 

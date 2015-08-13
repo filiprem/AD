@@ -15,9 +15,9 @@ DISCUSSION_OPTIONS = {
 
 POSTS_TYPES = {
     //domyœlna wartoœæ -> komentarz zwyk³y
-    DEFAULT: 1,
+    DEFAULT: "default",
     //komentarz, który oznacza chêæ przeniesienia kwestii do archiwum
-    ARCHIWUM: 2,
+    ARCHIWUM: "archiwum",
     //komentarz, który oznacza chêæ przeniesienia do kosza
-    KOSZ: 3
+    KOSZ: "kosz"
 }

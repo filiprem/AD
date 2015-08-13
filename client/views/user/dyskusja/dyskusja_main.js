@@ -57,7 +57,6 @@ Template.discussionRating.events({
         var ratingValue = parseInt(e.target.value);
         var ratingPostId = e.target.name;
         var glosujacy = [];
-        console.log(ratingValue+" "+ratingPostId);
         var post = Posts.findOne({_id:ratingPostId});
         var glosujacy = post.glosujacy;
         var glosujacyTab = post.glosujacy.slice();
@@ -69,7 +68,6 @@ Template.discussionRating.events({
         var flag = false;
 
         for(var i=0; i < post.glosujacy.length; i++) {
-            console.log("for");
             if(post.glosujacy[i].idUser === Meteor.userId()) {
                 flag=false;
                 if(post.glosujacy[i].value === ratingValue) {
