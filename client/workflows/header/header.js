@@ -24,7 +24,7 @@ Template.language.events({
             }
         };
 
-        Meteor.call('updateUser',Meteor.userId(), newUser, function (error) {
+        Meteor.call('updateUserLanguage',Meteor.userId(), newUser, function (error) {
             if (error) {
                 if (typeof Errors === "undefined")
                     Log.error('Error: ' + error.reason);

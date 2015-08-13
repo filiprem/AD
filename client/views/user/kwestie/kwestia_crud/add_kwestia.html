@@ -36,16 +36,18 @@
                         </div>
                     </div>
                     <legend>Opcje dodatkowe</legend>
-                    <div class="form-group" id="sugerowaneTematyGroup">
-                        <label class="control-label col-xs-3" for="inputEmail">Sugerowany temat:</label>
+                    <input type="hidden" value="{{sugerowanyRodzaj}}" id="rodzajHidden"/>
+                    <input type="hidden" value="{{sugerowanyTemat}}" id="tematHidden"/>
+                    <div class="form-group" >
+                        <label class="control-label col-xs-3" for="sugerowanyTemat">Sugerowany temat:</label>
                         <div class="col-xs-9">
-                            <input class="form-control" type="text" placeholder="Sugerowny temat" name="sugerowanyTemat" id="sugerownyTemat" />
+                            <input type="text" placeholder="Sugerowny temat" name="sugerowanyTemat" id="sugerowanyTemat" />
                         </div>
                     </div>
-                    <div class="form-group" id="sugerowaneRodzajeGroup">
-                        <label class="control-label col-xs-3" for="inputEmail">Sugerowany rodzaj:</label>
+                    <div class="form-group" >
+                        <label class="control-label col-xs-3" for="sugerowanyRodzaj">Sugerowany rodzaj:</label>
                         <div class="col-xs-9">
-                            <input class="form-control" type="text" placeholder="Sugerowny rodzaj" name="sugerowanyRodzaj" id="sugerownyRodzaj" />
+                            <input type="text" placeholder="Sugerowany rodzaj" name="sugerowanyRodzaj" id="sugerowanyRodzaj" />
                         </div>
                     </div>
                     <div class="form-group">

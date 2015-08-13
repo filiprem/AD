@@ -42,5 +42,9 @@ Meteor.methods({
 
     removeUser: function(id){
         Users.remove({_id: id});
+    },
+
+    updateUserLanguage: function(id,user) {
+        Users.update({_id:id},{$set:{'profile.language':user.profile.language}});
     }
 });
