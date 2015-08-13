@@ -15,8 +15,7 @@ Template.discussionPostForm.events({
         var isParent = true;
         var idParent = null;
         var czyAktywny = true;
-        var userFullName = Meteor.user().profile.full_name;
-        var idParent = null;
+        var userFullName = Meteor.user().profile.fullName;
         var ratingValue = 0;
         var glosujacy = [];
 

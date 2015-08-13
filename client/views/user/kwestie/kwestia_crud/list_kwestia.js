@@ -69,12 +69,12 @@ Template.listKwestia.helpers({
                     label: Template.listKwestiaColumnLabel,
                     labelData: {title: "Data zakończenia głosowania", text: "Finał"},
                     tmpl: Template.dataGlKwestia
-                },
-                {
-                    key: 'status',
-                    label: Template.listKwestiaColumnLabel,
-                    labelData: {title: "Etap, na którym znajduje sie ta Kwestia", text: "Status"}
                 }
+                //{
+                //    key: 'status',
+                //    label: Template.listKwestiaColumnLabel,
+                //    labelData: {title: "Etap, na którym znajduje sie ta Kwestia", text: "Status"}
+                //}
                 //{key: 'options', label: "Opcje", tmpl: Template.editColumnKwestia }
             ],
             rowClass:function(item){

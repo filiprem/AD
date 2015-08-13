@@ -9,33 +9,100 @@ Template.informacjeKwestia.events({
     'click #backToList': function (e) {
         Router.go('listKwestia');
     },
-    'click #proceduraWstrzymaniaButton': function () {
-        Router.go('proceduraWstrzymania', {_id: ret});
+    'click #addOptionButton': function () {
+        Router.go("addKwestiaOpcja");
     },
-    'click #wstrzymajKwestieButton': function (e) {
-        var item = [{
-            idKwestia: this._id,
-            idUser: Meteor.userId(),
-            uzasadnienie: "",
-            czyAktywny: true
-        }];
+    'click #doArchiwum': function (e) {
+        e.preventDefault();
+        var message = "Proponuję przenieść tę kwestię do Archiwum? Dyskusja i siła priorytetu w tym wątku o tym zdecyduje.";
+        var idKwestia = Session.get("idKwestia");
+        var idUser = Meteor.userId();
+        var addDate = new Date();
+        var isParent = true;
+        var idParent = null;
+        var czyAktywny = true;
+        var userFullName = Meteor.user().profile.fullName;
+        var ratingValue = 0;
+        var glosujacy = [];
+        var postType = POSTS_TYPES.ARCHIWUM;
 
-        if (isNotEmpty(item[0].idKwestia) &&
-            isNotEmpty(item[0].idUser)) {
-            Meteor.call('addKwestiaSuspended', item, function (error, ret) {
+        var post = [{
+            idKwestia: idKwestia,
+            wiadomosc: message,
+            idUser: idUser,
+            userFullName:userFullName,
+            addDate: addDate,
+            isParent: isParent,
+            idParent: idParent,
+            czyAktywny: czyAktywny,
+            idParent: idParent,
+            wartoscPriorytetu: ratingValue,
+            glosujacy: glosujacy,
+            postType: postType
+        }]
+        console.log(post);
+
+        if (isNotEmpty(post[0].idKwestia,'') && isNotEmpty(post[0].wiadomosc,'komentarz') && isNotEmpty(post[0].idUser,'') &&
+            isNotEmpty(post[0].addDate.toString(),'') && isNotEmpty(post[0].czyAktywny.toString(),'') &&
+            isNotEmpty(post[0].userFullName,'' && isNotEmpty(post[0].isParent.toString(),''))) {
+
+            Meteor.call('addPost', post, function (error,ret) {
                 if (error) {
                     if (typeof Errors === "undefined")
                         Log.error('Error: ' + error.reason);
                     else
                         throwError(error.reason);
-                } else {
-                    Router.go('proceduraWstrzymania', {_id: ret});
+                }else{
+                    document.getElementById("message").value = "";
                 }
             });
         }
     },
-    'click #addOptionButton': function () {
-        Router.go("addKwestiaOpcja");
+    'click #doKosza': function(e){
+        e.preventDefault();
+        var message = "Proponuję przenieść tę kwestię do Kosza? Dyskusja i siła priorytetu w tym wątku o tym zdecyduje.";
+        var idKwestia = Session.get("idKwestia");
+        var idUser = Meteor.userId();
+        var addDate = new Date();
+        var isParent = true;
+        var idParent = null;
+        var czyAktywny = true;
+        var userFullName = Meteor.user().profile.fullName;
+        var ratingValue = 0;
+        var glosujacy = [];
+        var postType = POSTS_TYPES.KOSZ;
+
+        var post = [{
+            idKwestia: idKwestia,
+            wiadomosc: message,
+            idUser: idUser,
+            userFullName:userFullName,
+            addDate: addDate,
+            isParent: isParent,
+            idParent: idParent,
+            czyAktywny: czyAktywny,
+            idParent: idParent,
+            wartoscPriorytetu: ratingValue,
+            glosujacy: glosujacy,
+            postType: postType
+        }]
+        console.log(post);
+
+        if (isNotEmpty(post[0].idKwestia,'') && isNotEmpty(post[0].wiadomosc,'komentarz') && isNotEmpty(post[0].idUser,'') &&
+            isNotEmpty(post[0].addDate.toString(),'') && isNotEmpty(post[0].czyAktywny.toString(),'') &&
+            isNotEmpty(post[0].userFullName,'' && isNotEmpty(post[0].isParent.toString(),''))) {
+
+            Meteor.call('addPost', post, function (error,ret) {
+                if (error) {
+                    if (typeof Errors === "undefined")
+                        Log.error('Error: ' + error.reason);
+                    else
+                        throwError(error.reason);
+                }else{
+                    document.getElementById("message").value = "";
+                }
+            });
+        }
     },
     'click #b-5': function (e) {
         e.preventDefault();
@@ -744,8 +811,8 @@ Template.informacjeKwestia.events({
     }
 });
 Template.informacjeKwestia.helpers({
-    isAdmin: function(){
-        if(Meteor.user().roles=="admin")
+    isAdmin: function () {
+        if (Meteor.user().roles == "admin")
             return true;
         else
             return false;
@@ -804,10 +871,10 @@ Template.informacjeKwestia.helpers({
     },
     srednia: function () {
         var s = this.sredniaPriorytet;
-        //if(s){
-        var ss = s.toFixed(2);
-        return ss;
-        //}
+        if (s) {
+            var ss = s.toFixed(2);
+            return ss;
+        }
     },
     nazwa: function () {
         var currentKwestiaId = this._id;

@@ -10,7 +10,8 @@ Meteor.methods({
             idParent: newPost[0].idParent,
             czyAktywny: newPost[0].czyAktywny,
             wartoscPriorytetu:  newPost[0].wartoscPriorytetu,
-            glosujacy:  newPost[0].glosujacy
+            glosujacy:  newPost[0].glosujacy,
+            postType: newPost[0].postType
         });
         return id;
     },
