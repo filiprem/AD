@@ -95,7 +95,7 @@ Template.previewKwestia.events({
                     var newValue=0;
                     var pktAddKwestia=Parametr.findOne({});
                     console.log(Number(pktAddKwestia.pktDodanieKwestii));
-                    var actualUser= Meteor.userId();
+                    var actualUser= Metgieor.userId();
                     console.log(getUserRadkingValue(actualUser));
                     newValue=Number(pktAddKwestia.pktDodanieKwestii)+getUserRadkingValue(actualUser);
                     console.log(newValue);
