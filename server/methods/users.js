@@ -10,6 +10,7 @@ Meteor.methods({
                 username: newUser[0].login,
                 email: newUser[0].email,
                 password: newUser[0].password,
+
                 profile: {
                     firstName: newUser[0].firstName,
                     lastName: newUser[0].lastName,
@@ -23,7 +24,9 @@ Meteor.methods({
                     web: newUser[0].web,
                    // role: newUser[0].role,
                     roleDesc:  newUser[0].roleDesc,
-                    language:newUser[0].language
+                    language:newUser[0].language,
+                    //roleDesc:  newUser[0].roleDesc,
+                    rADking:newUser[0].rADking
                 }
             });
         }

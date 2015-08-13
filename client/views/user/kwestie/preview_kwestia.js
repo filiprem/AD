@@ -44,6 +44,17 @@ Template.previewKwestia.events({
                     }
                 }
                 else {
+                    //TO DO
+                    //var pktAddKwestia=Parametr.findOne({});
+                    //console.log(pktAddKwestia.pktDodanieKwestii);
+                    //var actualUser= Meteor.userId();
+                    //console.log(actualUser);
+                    //var updateUserValue=Users.findOne({_id: actualUser}).profile.rADking;
+                    //console.log(Number(updateUserValue));
+                    //var newValue=Number(pktAddKwestia)+Number(updateUserValue);
+                    //console.log(newValue);
+                    //var newUserValue=Users.update({_id:actualUser},{$set:{rADking: newValue}});
+                    //console.log(actualUser);
                     Session.set("kwestiaPreview",null);
                     Router.go('listKwestia');
                 }

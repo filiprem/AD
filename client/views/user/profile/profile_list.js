@@ -1,7 +1,7 @@
-Template.listUsers.rendered = function()
+Template.profileList.rendered = function()
 {};
 
-Template.listUsers.events({
+Template.profileList.events({
     'click .glyphicon-trash': function(event, template) {
         Session.set('userInScope', this);
     },
@@ -15,7 +15,7 @@ Template.listUsers.events({
         Session.set('userInScope', this);
     }
 });
-Template.listUsers.helpers({
+Template.profileList.helpers({
     'settings': function () {
         return {
             rowsPerPage: 10,
@@ -26,30 +26,17 @@ Template.listUsers.helpers({
             fields: [
                 {key: 'profile.firstName', label: "Imię"},
                 {key: 'profile.lastName', label: "Nazwisko"},
-                {key: 'username', label: "Nazwa użytkownika"},
+                {key: 'username', label: "Nazwa użytkownika",tmpl:Template.usernameLink},
                 {key: 'email', label: "Email", tmpl: Template.userEmail},
                 {key: 'roles', label: "Rola"},
                 {key: 'profile.rADking', label: "Ranking"},
-                {key: 'options', label: "Opcje", tmpl: Template.editColumnUsers }
             ]
         };
     },
     UserListAdmin: function(){
-        return Users.find({}).fetch();
+        return Users.find({$where:function(){return (this._id!=Meteor.userId());}}).fetch();
     },
     usersCount: function(){
-        return Users.find().count();
+        return Users.find().count()-1;
     }
 });
-
-Template.editColumnUsers.helpers({
-    myself: function(userId) {
-        return Meteor.userId() === userId;
-    }
-});
-
-Template.userEmail.helpers({
-    email: function () {
-        return getEmail(this);
-    }
-})
