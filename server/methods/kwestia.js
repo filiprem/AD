@@ -23,8 +23,12 @@ Meteor.methods({
         Kwestia.update({_id: id}, {$set: {idParent: id}}, {upsert: true});
         return id;
     },
-    updateKwestia: function (kwestiaId, kwestia) {
-        Kwestia.update(idKwestia, {$set: kwestia}, {upsert: true});
+    updateKwestia: function (id, kwestia) {
+        Kwestia.update(id, {$set: kwestia}, {upsert: true});
+    },
+
+    updateKwestiaNoUpsert: function (id, kwestia) {
+        Kwestia.update(id, {$set: kwestia}, {upsert: false});
     },
 
     //metody Kwestia OPCJA
