@@ -3,7 +3,7 @@
         <legend>Kwestia</legend>
         <div class="row">
             <div class="col col-md-10">
-                <form class="form-horizontal">
+                <form class="form-horizontal" id="setTopicForm">
                     <div class="form-group" id="kwestiaNazwaGroup">
                         <label class="col-xs-3">Nazwa Kwestii:</label>
                         <div class="col-xs-9">
@@ -40,8 +40,8 @@
                     <div class="form-group" id="kwestiaTematGroup">
                         <label class="control-label col-xs-3">Temat:</label>
                         <div class="col-xs-9">
-                            <select class="form-control">
-                                <option>Wybierz temat</option>
+                            <select id="tematSelect" name="tematSelect" class="form-control required" >
+                                <option value="">Wybierz temat</option>
                                 {{#each getTematy}}
                                     <option value="{{_id}}">{{nazwaTemat}}</option>
                                 {{/each}}
@@ -51,18 +51,19 @@
                     <div class="form-group" id="kwestiaRodzajGroup">
                         <label class="control-label col-xs-3">Rodzaj:</label>
                         <div class="col-xs-9">
-                            <select class="form-control">
-                                <option>wybierz rodzaj</option>
+                            <select id="rodzajSelect" name="rodzajSelect" class="form-control required" >
+                                <option value="">Wybierz rodzaj</option>
                                 {{#each getRodzaje}}
                                     <option value="{{_id}}">{{nazwaRodzaj}}</option>
                                 {{/each}}
                             </select>
                         </div>
                     </div>
+                    <input type="hidden" id="idKwestia" value="{{_id}}"/>
                     <div class="form-group">
                         <div class="col-xs-offset-3 col-xs-9">
-                            <a id="save" type="button" class="btn btn-primary">Zapisz</a>
-                            <a id="cancel" type="reset" class="btn btn-default">Anuluj</a>
+                            <input  type="submit" class="btn btn-primary" value="Zapisz">
+                            <a href="{{pathFor 'listaKwestiiOczekujacych'}}" class="btn btn-default">Anuluj</a>
                         </div>
                     </div>
                 </form>
