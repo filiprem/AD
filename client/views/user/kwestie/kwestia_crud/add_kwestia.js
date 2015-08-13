@@ -13,6 +13,11 @@ Template.addKwestiaForm.rendered = function(){
         self.rodzajRV.set(rodzaj.nazwaRodzaj);
     }
     $("#kwestiaForm").validate({
+        rules: {
+            kwestiaNazwa:{
+                checkExistsNazwaKwestii:true
+            }
+        },
         messages:{
             kwestiaNazwa:{
                 required:fieldEmptyMesssage()

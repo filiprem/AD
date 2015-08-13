@@ -76,6 +76,8 @@ Template.addUserForm.events({
                 gender: $(e.target).find('[name=genderRadios]:checked').val(),
                 role: 'admin',
                 roleDesc: $(e.target).find('[name=uwagiStatus]').val(),
+                rADking:0,
+                //roleDesc: $(e.target).find('[name=uwagiStatus]').val(),
                 language: $(e.target).find('[name=language]').val()
             }];
             // sprawdzamy, czy rola istnieje,

@@ -164,3 +164,10 @@ isInTab = function(item,tab){
     });
     return flag;
 }
+
+setValueIfEmptyField=function(field,value){
+    if(_.isEmpty(field)){
+        return value;
+    }
+    return field;
+}

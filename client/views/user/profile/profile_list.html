@@ -1,0 +1,29 @@
+<template name="profileList">
+    {{#if currentUser}}
+        <div class="main">
+            <h3>Lista użytkowników </h3>
+            <div class="pull-right">
+                <span>Liczba użytkowników: </span><span class="badge">{{usersCount}}</span>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-md-12">
+                    {{> reactiveTable
+                    class = "table table-bordered table-hover"
+                    fields = settings.fields
+                    settings = settings
+                    collection = UserListAdmin
+                    }}
+                </div>
+            </div>
+        </div>
+        {{> updateRolesModal}}
+        {{> deleteAccountModal}}
+        {{> infoAccountModal}}
+        {{> updateAccountModal}}
+    {{/if}}
+</template>
+
+<template name="usernameLink">
+    <a href="{{ pathFor 'profileInfo' this._id}}">{{this.username}}</a>
+</template>

@@ -1,36 +1,121 @@
 <template name="addParametrForm">
         <div class="main">
-            <h3>Dodaj parametr</h3>
-            <hr/>
+
             <div class="row">
+
                 <div class="col col-md-10">
-                    <form class="form-horizontal">
+                    <form class="form-horizontal" id="parametrForm">
+                        <h3>Dodaj parametr</h3>
+                        <hr/>
                         <div class="form-group">
                             <label class="control-label col-xs-3" for="inputEmail">Nazwa organizacji:</label>
 
                             <div class="col-xs-9">
-                                <input name="nazwaOrganizacji" type="text" class="form-control" id="nazwaOrganizacji" placeholder="Nazwa organizacji">
+                                <input name="nazwaOrganizacji" type="text" class="form-control" id="nazwaOrganizacji" placeholder="Nazwa organizacji" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-xs-3" for="inputEmail">Terytorium:</label>
                             <div class="col-xs-9">
-                                <input name="terytorium" type="text" class="form-control" id="terytorium" placeholder="Terytorium">
+                                <input name="terytorium" type="text" class="form-control" id="terytorium" placeholder="Terytorium" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-xs-3" for="inputEmail">Kontakty:</label>
                             <div class="col-xs-9">
-                                <input name="kontakty" type="text" class="form-control" id="kontakty" placeholder="Kontakty">
+                                <input name="kontakty" type="text" class="form-control" id="kontakty" placeholder="Kontakty" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-xs-3" for="inputEmail">Regulamin:</label>
                             <div class="col-xs-9">
-                                <textarea name="regulamin" class="form-control" id="regulamin" placeholder="Regulamin" rows="3"></textarea>
+                                <textarea name="regulamin" class="form-control" id="regulamin" placeholder="Regulamin" rows="3" required></textarea>
                             </div>
                         </div>
                         <br />
+                        <!--TO FINISH-->
+                        <h3>Punktacja aktywności</h3>
+                        <hr/>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3" for="inputKwestia">Dodanie kwestii:</label>
+
+                            <div class="col-xs-9">
+                                <input name="dodanieKwestii" class="form-control" id="dodanieKwestii" placeholder="Domyślnie 10" type="number" min="0" oninvalid="The value is not an integerrrr">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3" for="inputKomentarz">Dodanie komentarza:</label>
+                            <div class="col-xs-9">
+                                <input name="dodanieKomentarza" class="form-control" id="dodanieKomentarza" placeholder="Domyślnie 5" type="number" min="0">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3" for="inputOdniesienie">Dodanie odniesienia:</label>
+                            <div class="col-xs-9">
+                                <input name="dodanieOdniesienia" class="form-control" id="dodanieOdniesienia" placeholder="Domyślnie 2" type="number" min="0">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3" for="inputPriorytet">Nadanie priorytetu:</label>
+                            <div class="col-xs-9">
+                                <input name="nadaniePriorytetu" class="form-control" id="nadaniePriorytetu" placeholder="Domyślnie 1" type="number" min="0"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3" for="inputAwansKwestii">Awans kwestii do realizacji:</label>
+                            <div class="col-xs-9">
+                                <input name="awansKwestii" class="form-control" id="awansKwestii" placeholder="Domyślnie 20" type="number" min="0"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3" for="inputUdzialWZespole">Udział w zespole realizacyjnym:</label>
+                            <div class="col-xs-9">
+                                <input name="udzialWZespole" class="form-control" id="udzialWZespole" placeholder="Domyślnie 10" type="number" min="0"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3" for="inputZlozenieRaportu">Złożenie raportu realizacyjnego:</label>
+                            <div class="col-xs-9">
+                                <input name="zlozenieRaportu" class="form-control" id="zlozenieRaportu" placeholder="Domyślnie 5" type="number" min="0"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3" for="inputNadaniePriorytetu">Otrzymanie priorytetu:</label>
+                            <div class="col-xs-9">
+                                <input name="nadaniePriorytetu" class="form-control" id="nadaniePriorytetu" placeholder="Domyślnie 1" type="number" min="0"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3" for="inputOtrzymaniePriorytetu">Otrzymanie priorytetu:</label>
+                            <div class="col-xs-9">
+                                <input name="otrzymaniePriorytetu" class="form-control" id="otrzymaniePriorytetu" placeholder="Tego nie będzie" type="number" min="0"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3" for="inputWycofanieKwestiiDoArchiwum">Wycofanie kwestii do archiwum:</label>
+                            <div class="col-xs-9">
+                                <input name="wycofanieKwestiiDoArchwium" class="form-control" id="wycofanieKwestiiDoArchwium" placeholder="Domyślnie -20" type="number" max="0"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3" for="inputWycofanieKwestiiDoKosza">Wycofanie kwestii do ksoza:</label>
+                            <div class="col-xs-9">
+                                <input name="wycofanieKwestiiDoKosza" class="form-control" id="wycofanieKwestiiDoKosza" placeholder="Domyślnie -40" type="number" max="0"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3" for="inputWyjscieZZespolu">Wyjście z zespołu realizacyjnego:</label>
+                            <div class="col-xs-9">
+                                <input name="wyjscieZZespolu" class="form-control" id="wyjscieZZespolu" placeholder="Domyślnie -30" type="number" max="0"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3" for="inputBrakUdzialuWGlosowaniu">Brak udziału w głosowaniu:</label>
+                            <div class="col-xs-9">
+                                <input name="brakUdzialuWGlosowaniu" class="form-control" id="brakUdzialuWGlosowaniu" placeholder="Domyślnie -30" type="number"/>
+                            </div>
+                        </div>
+                        <br/>
                         <div class="form-group">
                             <div class="col-xs-offset-3 col-xs-9">
                                 <input type="submit" class="btn btn-primary" value="Zapisz">

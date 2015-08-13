@@ -744,6 +744,12 @@ Template.informacjeKwestia.events({
     }
 });
 Template.informacjeKwestia.helpers({
+    isAdmin: function(){
+        if(Meteor.user().roles=="admin")
+            return true;
+        else
+            return false;
+    },
     opcje: function () {
         var kwestiaGlownaId = Session.get("idKwestia");
         var op = Kwestia.find({idParent: kwestiaGlownaId}).fetch();

@@ -1,6 +1,15 @@
 Template.listKwestia.rendered = function () {
 };
-
+Template.listKwestia.created = function(){
+    this.liczbaKwestiRV = new ReactiveVar();
+    //var kwestie=Kwestia.find({$where:function(){return ((this.czyAktywny==true) && (this.wartoscPriorytetu >= this.pulapPriorytetu));}});
+    var kwestie=Kwestia.find({$where:function(){return ((this.czyAktywny==true) && (this.sredniaPriorytet>0));}},{sort:{sredniaPriorytet:-1},limit:3});
+    var tab=[];
+    kwestie.forEach(function(item){
+        tab.push(item._id);
+    });
+    this.liczbaKwestiRV.set(tab);
+},
 Template.listKwestia.events({
     //usunięcie kwestii
     'click .glyphicon-trash': function (event, template) {
@@ -25,6 +34,7 @@ Template.listKwestia.events({
 });
 Template.listKwestia.helpers({
     'settings': function () {
+        var self = Template.instance();
         return {
             rowsPerPage: 10,
             showFilter: true,
@@ -66,7 +76,13 @@ Template.listKwestia.helpers({
                     labelData: {title: "Etap, na którym znajduje sie ta Kwestia", text: "Status"}
                 }
                 //{key: 'options', label: "Opcje", tmpl: Template.editColumnKwestia }
-            ]
+            ],
+            rowClass:function(item){
+                tab=self.liczbaKwestiRV.get();
+                if(_.contains(tab,item._id)){
+                    return 'priorityClass';
+                }
+            }
         };
     },
     KwestiaList: function () {
@@ -94,6 +110,12 @@ Template.listKwestia.helpers({
     },
     isAdminUser: function () {
         return IsAdminUser();
+    },
+    isAdmin: function(){
+        if(Meteor.user().roles=="admin")
+            return true;
+        else
+            return false;
     }
 });
 
