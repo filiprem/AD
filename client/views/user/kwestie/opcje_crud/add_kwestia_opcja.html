@@ -4,47 +4,23 @@
         <hr/>
         <div class="row">
             <div class="col col-md-10">
-                <form class="form-horizontal">
+                <form class="form-horizontal" id="kwestiaForm">
                     <div class="form-group" id="kwestiaNazwaGroup">
                         <label class="control-label col-xs-3" for="inputEmail">{{_ "addKwestiaOpcjaForm.nazwaKwestiiLabel"}}</label>
                         <div class="col-xs-9">
-                            <input class="form-control" name="kwestiaNazwa" id="kwestiaNazwa" placeholder="Nazwa kwestii" value={{kwestiaNazwa}}>
+                            <input class="form-control required" name="kwestiaNazwa" id="kwestiaNazwa" placeholder="Nazwa kwestii" value={{kwestiaNazwa}}>
                         </div>
                     </div>
                     <div class="form-group" id="tematyGroup">
                         <label class="control-label col-xs-3" for="inputEmail">{{_ "addKwestiaOpcjaForm.tematLabel"}}</label>
                         <div class="col-xs-3">
-                            <select name="tematy" id="tematy" class="form-control">
-                                {{#each tematToList}}
-                                    {{#if isSelectedTemat _id}}
-                                        <option value="{{this._id}}" selected>
-                                            {{this.nazwaTemat}}
-                                        </option>
-                                    {{else}}
-                                        <option value="{{this._id}}">
-                                            {{this.nazwaTemat}}
-                                        </option>
-                                    {{/if}}
-                                {{/each}}
-                            </select>
+                            <input type="text" readonly name="temat" id="temat" class="form-control" value="{{tematNazwa}}"/>
                         </div>
                     </div>
                     <div class="form-group" id="rodzajeGroup">
                         <label class="control-label col-xs-3" for="inputEmail">Rodzaj:</label>
                         <div class="col-xs-3">
-                            <select name="rodzaje" id="rodzaje" class="form-control">
-                                {{#each rodzajToList}}
-                                    {{#if isSelectedRodzaj _id}}
-                                        <option value="{{this._id}}" selected>
-                                            {{this.nazwaRodzaj}}
-                                        </option>
-                                    {{else}}
-                                        <option value="{{this._id}}">
-                                            {{this.nazwaRodzaj}}
-                                        </option>
-                                    {{/if}}
-                                {{/each}}
-                            </select>
+                            <input type="text" readonly name="rodzaj" id="rodzaj" class="form-control" value="{{rodzajNazwa}}"/>
                         </div>
                     </div>
                     <hr/>
@@ -52,13 +28,13 @@
                     <div class="form-group" id="krotkaTrescGroup">
                         <label class="control-label col-xs-3" for="inputEmail">Krótka treść:</label>
                         <div class="col-xs-9">
-                            <textarea class="form-control" name="krotkaTresc" id="krotkaTresc" placeholder="Krótka treść" value={{krotkaTresc}}></textarea>
+                            <textarea class="form-control" name="krotkaTresc" id="krotkaTresc" placeholder="Krótka treść" value={{krotkaTresc}} required></textarea>
                         </div>
                     </div>
                     <div class="form-group" id="szczegolowaTrescGroup">
                         <label class="control-label col-xs-3" for="inputEmail">Opis z uzasadnieniem:</label>
                         <div class="col-xs-9">
-                            <textarea class="form-control" name="szczegolowaTresc" value={{szczegolowaTresc}} id="szczegolowaTresc" placeholder="Opis z uzasadnieniem"></textarea>
+                            <textarea class="form-control" name="szczegolowaTresc" value={{szczegolowaTresc}} id="szczegolowaTresc" placeholder="Opis z uzasadnieniem" required></textarea>
                         </div>
                     </div>
                     <div class="form-group">

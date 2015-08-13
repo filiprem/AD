@@ -4,6 +4,27 @@ Template.discussionPostItem.created = function(){
     this.colTextRV.set(tab);
 };
 
+Template.discussionPostItem.rendered = function(){
+    $("#dyskusjaAnswerForm").validate({
+        messages:{
+            answer_message:{
+                required:fieldEmptyMesssage(),
+            }
+        },
+        highlight: function(element) {
+            highlightFunction(element);
+        },
+        unhighlight: function(element) {
+            unhighlightFunction(element);
+        },
+        errorElement: 'span',
+        errorClass: 'help-block',
+        errorPlacement: function(error, element) {
+            validationPlacementError(error,element);
+        }
+    })
+};
+
 Template.discussionPostItem.helpers({
     'getSimpleDate':function(date){
         return moment(date).format("YYYY-MM-DD");
@@ -34,6 +55,21 @@ Template.discussionPostItem.helpers({
     },
     'textTooLong':function(value){
         return value.length < DISCUSSION_OPTIONS.POST_CHARACTERS_DISPLAY ? false : true;
+    },
+    'isDoArchiwum': function(){
+        var p = Posts.findOne({_id: this.idPost});
+        if(p.postType=="archiwum"){
+            return true;
+        }
+        else
+            return false;
+    },
+    'isDoKosza': function(){
+        var p = Posts.findOne({_id: this.idPost});
+        if(p.postType=="kosz")
+            return true;
+        else
+            return false;
     }
 });
 
@@ -93,22 +129,37 @@ Template.discussionAnswerForm.events({
             glosujacy: glosujacy
         }];
 
-        if (isNotEmpty(post[0].idKwestia,'id kwestii') && isNotEmpty(post[0].wiadomosc,'komentarz') &&
-            isNotEmpty(post[0].idUser,'id użytkownika') && isNotEmpty(post[0].addDate.toString(),'data dodania') &&
-            isNotEmpty(post[0].idParent,'id parent') && isNotEmpty(post[0].userFullName,'e') &&
-            !post[0].isParent && post[0].czyAktywny) {
+        //if (isNotEmpty(post[0].idKwestia,'id kwestii') && isNotEmpty(post[0].wiadomosc,'komentarz') &&
+        //    isNotEmpty(post[0].idUser,'id użytkownika') && isNotEmpty(post[0].addDate.toString(),'data dodania') &&
+        //    isNotEmpty(post[0].idParent,'id parent') && isNotEmpty(post[0].userFullName,'e') &&
+        //    !post[0].isParent && post[0].czyAktywny) {
 
-            Meteor.call('addPostAnswer', post, function (error,ret) {
-                if (error) {
-                    if (typeof Errors === "undefined")
-                        Log.error('Error: ' + error.reason);
-                    else
-                        throwError(error.reason);
-                }else{
-                    document.getElementsByName("answer_message"+idParent)[0].value="";
-                }
-            });
-        }
+        Meteor.call('addPostAnswer', post, function (error,ret) {
+            if (error) {
+                if (typeof Errors === "undefined")
+                    Log.error('Error: ' + error.reason);
+                else
+                    throwError(error.reason);
+            }else{
+                document.getElementsByName("answer_message"+idParent)[0].value="";
+
+                var newValue=0;
+                var pktAddKwestia=Parametr.findOne({});
+                newValue=Number(pktAddKwestia.pktDodanieOdniesienia)+getUserRadkingValue(Meteor.userId());
+                Meteor.call('updateUserRanking', Meteor.userId(),newValue, function (error) {
+                    if (error)
+                    {
+                        if (typeof Errors === "undefined")
+                            Log.error('Error: ' + error.reason);
+                        else
+                        {
+                            throwError(error.reason);
+                        }
+                    }
+                });
+            }
+        });
+        // }
     }
 });
 

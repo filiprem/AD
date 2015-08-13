@@ -39,6 +39,9 @@ Meteor.methods({
             $set: currentUser},
             {upsert:true});
     },
+    updateUserLanguage: function(currentUserId,value) {
+        Users.update({_id:currentUserId}, {$set:{'profile.language': value}});
+    },
     updateUserRanking: function(currentUserId,value) {
         Users.update({_id:currentUserId},{$set:{'profile.rADking': value}});
     },

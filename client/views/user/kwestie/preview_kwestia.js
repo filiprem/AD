@@ -42,24 +42,6 @@ Template.previewKwestia.events({
                     }
                 }
                 else {
-                    var newValue=0;
-                    var pktAddKwestia=Parametr.findOne({});
-
-                    var actualUser= Meteor.userId();
-
-                    newValue=Number(pktAddKwestia.pktDodanieKwestii)+getUserRadkingValue(actualUser);
-
-                    Meteor.call('updateUserRanking', actualUser,newValue, function (error) {
-                        if (error)
-                        {
-                            if (typeof Errors === "undefined")
-                                Log.error('Error: ' + error.reason);
-                            else
-                            {
-                                throwError(error.reason);
-                            }
-                        }
-                    });
                     Session.set("kwestiaPreview",null);
                     Router.go('listKwestia');
                 }
@@ -92,24 +74,7 @@ Template.previewKwestia.events({
                     }
                 }
                 else {
-                    var newValue=0;
-                    var pktAddKwestia=Parametr.findOne({});
-                    console.log(Number(pktAddKwestia.pktDodanieKwestii));
-                    var actualUser= Metgieor.userId();
-                    console.log(getUserRadkingValue(actualUser));
-                    newValue=Number(pktAddKwestia.pktDodanieKwestii)+getUserRadkingValue(actualUser);
-                    console.log(newValue);
-                    Meteor.call('updateUserRanking', actualUser,newValue, function (error) {
-                        if (error)
-                        {
-                            if (typeof Errors === "undefined")
-                                Log.error('Error: ' + error.reason);
-                            else
-                            {
-                                throwError(error.reason);
-                            }
-                        }
-                    });
+
                     Session.set("kwestiaPreview",null);
                     Router.go('listKwestia');
                 }

@@ -8,7 +8,13 @@ Template.addKwestiaOpcjaForm.helpers({
     rodzajToList: function () {
         return Rodzaj.find({});
     },
-    isSelectedTemat: function (id, tematId) {
+    rodzajNazwa:function(){
+        //console.log("Rodzaj:");
+        //console.log(this.idRodzaj);
+        //var rodzajId = this.idRodzaj;
+        //return Rodzaj.findOne({_id:rodzajId}).nazwaRodzaj;
+    },
+    isSelectedTemat: function(id, tematId) {
         var r = Session.get("idKwestia");
         var k = Kwestia.findOne({_id: r});
         var item = Temat.findOne({_id: k.idTemat});
