@@ -1,8 +1,9 @@
 <template name="previewKwestia">
         <div class="main">
-            <h4>UWAGA! Złożonego wniosku nie można wycofać. Wnioskuj odpowiedzialnie i sprawdź przed wprowadzeniem do systemu.</h4>
-            <hr/>
-            <h3>Kwestia</h3>
+            <p class="col-md-12 bg-warning padding-15">
+                UWAGA! Złożonego wniosku nie można wycofać. Wnioskuj odpowiedzialnie i sprawdź przed wprowadzeniem do systemu.
+            </p>
+            <legend>Kwestia</legend>
             <div class="row">
                 <div class="col col-md-10">
                     <form class="form-horizontal">
@@ -12,20 +13,7 @@
                                {{kwestiaNazwa}}
                             </div>
                         </div>
-                        <div class="form-group" id="tematyGroup">
-                            <label class="col-xs-offset-1 col-xs-2">Temat:</label>
-                            <div class="col-xs-9">
-                                {{getTematName idTemat}}
-                            </div>
-                        </div>
-                        <div class="form-group" id="rodzajeGroup">
-                            <label class="col-xs-offset-1 col-xs-2">Rodzaj:</label>
-                            <div class="col-xs-9">
-                                {{getRodzajName idRodzaj}}
-                            </div>
-                        </div>
-                        <hr/>
-                        <h3>Treść Kwestii</h3>
+                        <legend>Treść Kwestii</legend>
                         <div class="form-group" id="krotkaTrescGroup">
                             <label class="col-xs-offset-1 col-xs-2">Krótka treść:</label>
                             <div class="col-xs-9">
@@ -36,6 +24,19 @@
                             <label class="col-xs-offset-1 col-xs-2">Opis z uzasadnieniem:</label>
                             <div class="col-xs-9">
                                 {{szczegolowaTresc}}
+                            </div>
+                        </div>
+                        <legend>Opcje dodatkowe</legend>
+                        <div class="form-group">
+                            <label class="col-xs-offset-1 col-xs-2">Sugerowany temat:</label>
+                            <div class="col-xs-9">
+                                {{sugerowanyTemat}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-offset-1 col-xs-2">Sugerowany rodzaj:</label>
+                            <div class="col-xs-9">
+                                {{sugerowanyRodzaj}}
                             </div>
                         </div>
                         <div class="form-group">

@@ -9,16 +9,16 @@ Meteor.methods({
             sredniaPriorytet: parseFloat(newKwestia[0].sredniaPriorytet),
             idTemat: newKwestia[0].idTemat,
             idRodzaj: newKwestia[0].idRodzaj,
-            pulapPriorytetu:newKwestia[0].pulapPriorytetu,
-            //idGlosujacy: newKwestia[0].idGlosujacy,
             dataDyskusji: newKwestia[0].dataDyskusji,
             dataGlosowania: moment(newKwestia[0].dataGlosowania).format(),
-            czyAktywny: newKwestia.czyAktywny=true,
-            status: newKwestia.status="deliberowana",
+            czyAktywny: newKwestia[0].czyAktywny=true,
+            status: newKwestia[0].status,
             krotkaTresc: newKwestia[0].krotkaTresc,
             szczegolowaTresc: newKwestia[0].szczegolowaTresc,
             glosujacy: [],
-            isOption: false
+            isOption: false,
+            sugerowanyTemat: newKwestia[0].sugerowanyTemat,
+            sugerowanyRodzaj: newKwestia[0].sugerowanyRodzaj
         });
         Kwestia.update({_id: id}, {$set: {idParent: id}}, {upsert: true});
         return id;
@@ -37,8 +37,6 @@ Meteor.methods({
             sredniaPriorytet: parseFloat(newKwestiaOpcja[0].sredniaPriorytet),
             idTemat: newKwestiaOpcja[0].idTemat,
             idRodzaj: newKwestiaOpcja[0].idRodzaj,
-            pulapPriorytetu:newKwestiaOpcja[0].pulapPriorytetu,
-            //glosujacy_id: newKwestiaOpcja[0].glosujacy_id,
             dataDyskusji: newKwestiaOpcja[0].dataDyskusji,
             dataGlosowania: moment(newKwestiaOpcja[0].dataGlosowania).format(),
             czyAktywny: newKwestiaOpcja.czyAktywny=true,

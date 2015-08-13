@@ -25,6 +25,14 @@ Meteor.publish('kwestia', function(){
     return Kwestia.find();
 });
 
+Meteor.publish('kwestieOczekujace', function(status){
+    return Kwestia.find({status:status,czyAktywny:true})
+});
+
+Meteor.publish('oneKwestia', function(id){
+    return Kwestia.find({_id:id});
+});
+
 Meteor.publish('kwestiaTresc', function(){
     return KwestiaTresc.find();
 });

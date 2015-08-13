@@ -1,7 +1,6 @@
 <template name="addKwestiaForm">
     <div class="main">
-        <h3>{{_ "addKwestiaForm.addKwestiaH3"}}</h3>
-        <hr/>
+        <legend>{{_ "addKwestiaForm.addKwestiaH3"}}</legend>
         <div class="row">
             <div class="col col-md-10">
                 <form class="form-horizontal" id="kwestiaForm">
@@ -13,56 +12,40 @@
                     </div>
                     <div class="form-group" id="tematyGroup">
                         <label class="control-label col-xs-3" for="inputEmail">Temat:</label>
-                        <div class="col-xs-3">
-                            <select name="tematy" id="tematy" class="form-control" required>
-                                <option value="">Wybierz temat</option>
-                                {{#each tematToList}}
-                                    {{#if isSelectedTemat _id}}
-                                        <option value="{{this._id}}" selected>
-                                            {{this.nazwaTemat}}
-                                        </option>
-                                    {{else}}
-                                        <option value="{{this._id}}">
-                                            {{this.nazwaTemat}}
-                                        </option>
-                                    {{/if}}
-                                {{/each}}
-                            </select>
+                        <div class="col-xs-9">
+                            <input class="form-control" type="text" value="Kategoryzowane" name="tematy" id="tematy" disabled/>
                         </div>
                     </div>
                     <div class="form-group" id="rodzajeGroup">
                         <label class="control-label col-xs-3" for="inputEmail">Rodzaj:</label>
-                        <div class="col-xs-3">
-                            <select name="rodzaje" id="rodzaje" class="form-control" required>
-                                <option value="">Wybierz rodzaj</option>
-                                {{#each rodzajToList}}
-                                    {{#if isSelectedRodzaj _id}}
-                                        <option value="{{this._id}}" selected>
-                                            {{this.nazwaRodzaj}}
-                                        </option>
-                                    {{else}}
-                                        <option value="{{this._id}}">
-                                            {{this.nazwaRodzaj}}
-                                        </option>
-                                    {{/if}}
-                                {{/each}}
-                            </select>
+                        <div class="col-xs-9">
+                            <input class="form-control" type="text" value="Kategoryzowane" name="rodzaje" id="rodzaje" disabled/>
                         </div>
                     </div>
-                    <hr/>
-                    <h3>Treść Kwestii</h3>
+                    <legend>Treść Kwestii</legend>
                     <div class="form-group" id="krotkaTrescGroup">
                         <label class="control-label col-xs-3" for="tresc">Krótka treść:</label>
                         <div class="col-xs-9">
-                            <input class="form-control" value="{{tresc}}{{krotkaTrescValidator krotkaTresc1}}" name="tresc" id="tresc" required>
-                            <br />
-                            <textarea class="form-control" rows="3" name="krotkaTresc" id="krotkaTresc" placeholder="Krótka treść" required>{{krotkaTresc2}}</textarea>
+                            <textarea class="form-control" rows="3" name="krotkaTresc" id="krotkaTresc" placeholder="Krótka treść" required>{{krotkaTresc}}</textarea>
                         </div>
                     </div>
                     <div class="form-group" id="szczegolowaTrescGroup">
                         <label class="control-label col-xs-3" for="inputEmail">Opis z uzasadnieniem:</label>
                         <div class="col-xs-9">
                             <textarea class="form-control" rows="6" name="szczegolowaTresc" id="szczegolowaTresc" placeholder="Opis z uzasadnieniem" required>{{szczegolowaTresc}}</textarea>
+                        </div>
+                    </div>
+                    <legend>Opcje dodatkowe</legend>
+                    <div class="form-group" id="sugerowaneTematyGroup">
+                        <label class="control-label col-xs-3" for="inputEmail">Sugerowany temat:</label>
+                        <div class="col-xs-9">
+                            <input class="form-control" type="text" placeholder="Sugerowny temat" name="sugerowanyTemat" id="sugerownyTemat" />
+                        </div>
+                    </div>
+                    <div class="form-group" id="sugerowaneRodzajeGroup">
+                        <label class="control-label col-xs-3" for="inputEmail">Sugerowany rodzaj:</label>
+                        <div class="col-xs-9">
+                            <input class="form-control" type="text" placeholder="Sugerowny rodzaj" name="sugerowanyRodzaj" id="sugerownyRodzaj" />
                         </div>
                     </div>
                     <div class="form-group">

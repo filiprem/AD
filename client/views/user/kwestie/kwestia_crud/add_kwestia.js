@@ -3,8 +3,8 @@ Template.addKwestiaForm.created = function(){
 }
 
 Template.addKwestiaForm.rendered = function(){
-    $('#test2').datetimepicker({sideBySide: true});
-    $('#test3').datetimepicker({sideBySide: true});
+    //$('#test2').datetimepicker({sideBySide: true});
+    //$('#test3').datetimepicker({sideBySide: true});
 
     if(Session.get("kwestiaPreview")) {
         var item = Session.get("kwestiaPreview");
@@ -113,9 +113,8 @@ Template.addKwestiaForm.events({
 
         var dataG =  new Date();
         var d = dataG.setDate(dataG.getDate()+7);
-        var pulapPriorytetu = null;
 
-        var newKwestiaDraft = [
+        var newKwestia = [
             {
                 idUser: Meteor.userId(),
                 dataWprowadzenia: new Date(),
@@ -126,15 +125,14 @@ Template.addKwestiaForm.events({
                 idRodzaj: $(e.target).find('[name=rodzaje]').val(),
                 dataDyskusji: new Date(),
                 dataGlosowania: d,
-                krotkaTresc1:$(e.target).find('[name=tresc]').val(),
-                krotkaTresc2: $(e.target).find('[name=krotkaTresc]').val(),
+                krotkaTresc: $(e.target).find('[name=krotkaTresc]').val(),
                 szczegolowaTresc: $(e.target).find('[name=szczegolowaTresc]').val(),
-                isOption: false
+                isOption: false,
+                sugerowanyTemat : $(e.target).find('[name=sugerowanyTemat]').val(),
+                sugerowanyRodzaj : $(e.target).find('[name=sugerowanyRodzaj]').val(),
             }];
 
-            newKwestiaDraft[0].pulapPriorytetu = Rodzaj.findOne({_id: newKwestiaDraft[0].idRodzaj}).pulapPriorytetu;
-
-                Session.set("kwestiaPreview", newKwestiaDraft[0]);
+                Session.set("kwestiaPreview", newKwestia[0]);
                 Router.go('previewKwestia');
     },
     'reset form': function(){

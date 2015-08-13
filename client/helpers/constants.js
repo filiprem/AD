@@ -1,4 +1,5 @@
 KWESTIA_STATUS = {
+    KATEGORYZOWANA : "kategoryzowana",
     DELIBEROWANA : "deliberowana",
     ZABLOKOWANA : "zablokowana",
     ARCHIWALNA : "archiwalna"

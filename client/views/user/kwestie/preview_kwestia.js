@@ -18,8 +18,7 @@ Template.previewKwestia.events({
         var kwestia = Session.get("kwestiaPreview");
         var idParentKwestii = Session.get("idKwestia");
         if(kwestia.idParent){
-            var newKwestiaDraft = [
-                {
+            var newKwestiaOpcja = [{
                     idUser: Meteor.userId(),
                     dataWprowadzenia: new Date(),
                     kwestiaNazwa: kwestia.kwestiaNazwa,
@@ -27,15 +26,14 @@ Template.previewKwestia.events({
                     sredniaPriorytet: 0,
                     idTemat: kwestia.idTemat,
                     idRodzaj: kwestia.idRodzaj,
-                    pulapPriorytetu:kwestia.pulapPriorytetu,
                     dataDyskusji: kwestia.dataDyskusji,
                     dataGlosowania: kwestia.dataGlosowania,
-                    krotkaTresc: kwestia.krotkaTresc2,
+                    krotkaTresc: kwestia.krotkaTresc,
                     szczegolowaTresc: kwestia.szczegolowaTresc,
                     idParent: idParentKwestii,
                     isOption: true
                 }];
-            Meteor.call('addKwestiaOpcja', newKwestiaDraft, function (error, ret) {
+            Meteor.call('addKwestiaOpcja', newKwestiaOpcja, function (error, ret) {
                 if (error) {
                     if (typeof Errors === "undefined")
                         Log.error('Error: ' + error.reason);
@@ -48,10 +46,9 @@ Template.previewKwestia.events({
                     Router.go('listKwestia');
                 }
             });
-        }
-        else{
-            var newKwestiaDraft = [
-                {
+        } else {
+            var status = KWESTIA_STATUS.KATEGORYZOWANA;
+            var newKwestia = [{
                     idUser: Meteor.userId(),
                     dataWprowadzenia: new Date(),
                     kwestiaNazwa: kwestia.kwestiaNazwa,
@@ -59,14 +56,16 @@ Template.previewKwestia.events({
                     sredniaPriorytet: 0,
                     idTemat: kwestia.idTemat,
                     idRodzaj: kwestia.idRodzaj,
-                    pulapPriorytetu:kwestia.pulapPriorytetu,
                     dataDyskusji: kwestia.dataDyskusji,
                     dataGlosowania: kwestia.dataGlosowania,
-                    krotkaTresc: kwestia.krotkaTresc1+" "+kwestia.krotkaTresc2,
+                    status: status,
+                    krotkaTresc: kwestia.krotkaTresc,
                     szczegolowaTresc: kwestia.szczegolowaTresc,
-                    isOption: false
+                    isOption: false,
+                    sugerowanyTemat:kwestia.sugerowanyTemat,
+                    sugerowanyRodzaj:kwestia.sugerowanyRodzaj
                 }];
-            Meteor.call('addKwestia', newKwestiaDraft, function (error, ret) {
+            Meteor.call('addKwestia', newKwestia, function (error, ret) {
                 if (error) {
                     if (typeof Errors === "undefined")
                         Log.error('Error: ' + error.reason);

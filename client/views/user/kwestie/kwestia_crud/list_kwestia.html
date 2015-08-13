@@ -43,6 +43,10 @@
     <a href="{{ pathFor 'informacjeKwestia'}}" id="kwestiaId" class="kwestiaId">{{this.kwestiaNazwa}}</a>
 </template>
 
+<template name="nazwaKwestii">
+    {{this.kwestiaNazwa}}
+</template>
+
 <template name="priorytetKwestia">
     {{priorytet}}
 </template>
@@ -54,4 +58,12 @@
 
 <template name="listKwestiaColumnLabel">
     <span data-toggle="tooltip" title="{{title}}">{{text}}</span>
+</template>
+
+<template name="sugerowanyTemat">
+    {{sugerowanyTemat}}
+</template>
+
+<template name="sugerowanyRodzaj">
+    {{sugerowanyRodzaj}}
 </template>

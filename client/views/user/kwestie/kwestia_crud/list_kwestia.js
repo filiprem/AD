@@ -70,7 +70,7 @@ Template.listKwestia.helpers({
         };
     },
     KwestiaList: function () {
-        return Kwestia.find({czyAktywny: true}).fetch();
+        return Kwestia.find({czyAktywny: true, status:KWESTIA_STATUS.DELIBEROWANA}).fetch();
     },
     priorytetsr: function () {
         var i = 0;
