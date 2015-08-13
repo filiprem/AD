@@ -42,17 +42,24 @@ Template.previewKwestia.events({
                     }
                 }
                 else {
-                    //TO DO
-                    //var pktAddKwestia=Parametr.findOne({});
-                    //console.log(pktAddKwestia.pktDodanieKwestii);
-                    //var actualUser= Meteor.userId();
-                    //console.log(actualUser);
-                    //var updateUserValue=Users.findOne({_id: actualUser}).profile.rADking;
-                    //console.log(Number(updateUserValue));
-                    //var newValue=Number(pktAddKwestia)+Number(updateUserValue);
-                    //console.log(newValue);
-                    //var newUserValue=Users.update({_id:actualUser},{$set:{rADking: newValue}});
-                    //console.log(actualUser);
+                    var newValue=0;
+                    var pktAddKwestia=Parametr.findOne({});
+
+                    var actualUser= Meteor.userId();
+
+                    newValue=Number(pktAddKwestia.pktDodanieKwestii)+getUserRadkingValue(actualUser);
+
+                    Meteor.call('updateUserRanking', actualUser,newValue, function (error) {
+                        if (error)
+                        {
+                            if (typeof Errors === "undefined")
+                                Log.error('Error: ' + error.reason);
+                            else
+                            {
+                                throwError(error.reason);
+                            }
+                        }
+                    });
                     Session.set("kwestiaPreview",null);
                     Router.go('listKwestia');
                 }
@@ -85,6 +92,24 @@ Template.previewKwestia.events({
                     }
                 }
                 else {
+                    var newValue=0;
+                    var pktAddKwestia=Parametr.findOne({});
+                    console.log(Number(pktAddKwestia.pktDodanieKwestii));
+                    var actualUser= Meteor.userId();
+                    console.log(getUserRadkingValue(actualUser));
+                    newValue=Number(pktAddKwestia.pktDodanieKwestii)+getUserRadkingValue(actualUser);
+                    console.log(newValue);
+                    Meteor.call('updateUserRanking', actualUser,newValue, function (error) {
+                        if (error)
+                        {
+                            if (typeof Errors === "undefined")
+                                Log.error('Error: ' + error.reason);
+                            else
+                            {
+                                throwError(error.reason);
+                            }
+                        }
+                    });
                     Session.set("kwestiaPreview",null);
                     Router.go('listKwestia');
                 }

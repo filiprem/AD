@@ -170,4 +170,8 @@ setValueIfEmptyField=function(field,value){
         return value;
     }
     return field;
-}
+},
+getUserRadkingValue=function(idUser){
+    var user=Users.findOne({_id:idUser});
+    return Number(user.profile.rADking);
+};
