@@ -1,36 +1,36 @@
 Template.profileEdit.rendered = function () {
     $("#profileForm").validate({
         rules: {
-            email:{
+            email: {
                 email: true
             }
         },
-        messages:{
-            email:{
-                required:fieldEmptyMesssage(),
-                email:validEmailMessage()
+        messages: {
+            email: {
+                required: fieldEmptyMesssage(),
+                email: validEmailMessage()
             },
-            name:{
-                required:fieldEmptyMesssage(),
+            name: {
+                required: fieldEmptyMesssage(),
             },
-            surname:{
-                required:fieldEmptyMesssage(),
+            surname: {
+                required: fieldEmptyMesssage(),
             }
         },
-        highlight: function(element) {
-            var id_attr = "#" + $( element ).attr("id") + "1";
+        highlight: function (element) {
+            var id_attr = "#" + $(element).attr("id") + "1";
             $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
             $(id_attr).removeClass('glyphicon-ok').addClass('glyphicon-remove');
         },
-        unhighlight: function(element) {
-            var id_attr = "#" + $( element ).attr("id") + "1";
+        unhighlight: function (element) {
+            var id_attr = "#" + $(element).attr("id") + "1";
             $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
             $(id_attr).removeClass('glyphicon-remove').addClass('glyphicon-ok');
         },
         errorElement: 'span',
         errorClass: 'help-block',
-        errorPlacement: function(error, element) {
-            if(element.length) {
+        errorPlacement: function (error, element) {
+            if (element.length) {
                 error.insertAfter(element);
             } else {
                 error.insertAfter(element);
@@ -43,10 +43,9 @@ Template.profileEdit.helpers({
         return getEmail(this);
     },
 
-    isSelected: function(gender)
-    {
-        var gen=this.profile.gender;
-        if(gen==gender)
+    isSelected: function (gender) {
+        var gen = this.profile.gender;
+        if (gen == gender)
             return "checked";
         else
             return "";
@@ -54,16 +53,15 @@ Template.profileEdit.helpers({
 });
 
 Template.profileEdit.events({
-    'submit form': function(e) {
+    'submit form': function (e) {
         e.preventDefault();
 
         var currentUserId = this._id;
-        if( isNotEmpty($(e.target).find('[name=name]').val(),'imię') &&
-            isNotEmpty($(e.target).find('[name=surname]').val(),'nazwisko') &&
-            isEmail($(e.target).find('[name=email]').val()))
-        {
+        if (isNotEmpty($(e.target).find('[name=name]').val(), 'imię') &&
+            isNotEmpty($(e.target).find('[name=surname]').val(), 'nazwisko') &&
+            isEmail($(e.target).find('[name=email]').val())) {
             var object = {
-                address:$(e.target).find('[name=email]').val()
+                address: $(e.target).find('[name=email]').val()
             };
             var array = [];
             array.push(object);
@@ -81,37 +79,23 @@ Template.profileEdit.events({
                     web: $(e.target).find('[name=website]').val()
                 }
             };
-            //Users.update(currentUserId, {$set: userProperties}, function(error) {
-            //if (error) {
-            // display the error to the user
-            //alert(error.reason);
-            //} else {
-            //    Router.go('manage_account');
-            //}
-            //});
-            Meteor.call('updateUser',currentUserId, userProperties, function (error) {
-                if (error)
-                {
+            Meteor.call('updateUser', currentUserId, userProperties, function (error) {
+                if (error) {
                     // optionally use a meteor errors package
                     if (typeof Errors === "undefined")
                         Log.error('Error: ' + error.reason);
-                    else
-                    {
-                        if(error.error === 409)
+                    else {
+                        if (error.error === 409)
                             throwError(error.reason);
                     }
                 }
-                else
-                {
+                else {
                     Router.go('manage_account');
                 }
             });
         }
-        else
-        {
+        else {
             return false;
         }
     }
 });
-
-//alert(Users.profile.gender);

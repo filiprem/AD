@@ -2,7 +2,7 @@
     <div class="main">
         <div class="row">
             <div class="col-md-12">
-                <legend>Informacje o kwestii</legend>
+                <legend>Informacje o Kwestii</legend>
                 <p class="bg-info padding-15">
                     Liczba osób, które nadały priorytet tej Kwestii: <b>{{glosujacyCount}}</b>
                     {{#if mojPriorytetZero}}
@@ -15,17 +15,6 @@
                         {{/if}}
                     {{/if}}
                 </p>
-                <!--<h4>Liczba osób, które nadały priorytet tej Kwestii: <b>{{glosujacyCount}}</b></h4>-->
-                    <!--{{#if mojPriorytetZero}}-->
-                <!--<h4>Wstrzymałeś się od głosu nadając tej Kwestii priorytet <b>0</b>.</h4>-->
-                    <!--{{else}}-->
-                    <!--{{#if mojPiorytet}}-->
-                    <!--<h4>Nadałeś tej Kwestii priorytet: <b>{{mojPiorytet}}</b>. Możesz go w każdej chwili zmienić.-->
-                    <!--</h4>-->
-                        <!--{{else}}-->
-                    <!--<h4>Nie nadałeś jeszcze tej Kwestii priorytetu.</h4>-->
-                        <!--{{/if}}-->
-                    <!--{{/if}}-->
             </div>
             <div class="col-md-12">
                 <div class="btn-group pull-right" role="group" aria-label="...">
@@ -35,7 +24,7 @@
                     {{#unless czyOpcja}}
                         {{#unless isAdmin}}
                             <button id="addOptionButton" class="btn btn-primary">
-                                <span class="glyphicon glyphicon-plus"></span> Dodaj opcję tej kwestii
+                                <span class="glyphicon glyphicon-plus"></span> Dodaj opcję tej Kwestii
                             </button>
                         {{/unless}}
                     {{/unless}}
@@ -146,7 +135,7 @@
             {{> opcjeList}}
         </div>
         {{#unless isAdmin}}
-            <legend id="dyskusja">Dyskusja kwestii</legend>
+            <legend id="dyskusja">Dyskusja Kwestii</legend>
             <div class="row">
                 <div class="col-md-12">
                     {{> discussionMain

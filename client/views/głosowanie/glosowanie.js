@@ -1,13 +1,8 @@
-Template.opcjeList.helpers({
-    OpcjeList: function () {
-        var kwestiaGlownaId = Session.get("idKwestia");
-        var k = Kwestia.find({idParent: kwestiaGlownaId}, {isOption: true}).fetch();
-        if (k) return k;
-    },
+Template.glosowanie.helpers({
     'settings': function () {
         return {
             rowsPerPage: 10,
-            showFilter: false,
+            showFilter: true,
             showNavigation: 'always',
             showColumnToggles: false,
             enableRegex: false,
@@ -16,7 +11,7 @@ Template.opcjeList.helpers({
                     key: 'dataWprowadzenia',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        title: "Data wprowadzenia Kwestii i rozpoczÄ™cia jej deliberacji",
+                        title: "Data wprowadzenia Kwestii i rozpoczêcia jej deliberacji",
                         text: "Data"
                     },
                     tmpl: Template.dataUtwKwestia
@@ -25,7 +20,7 @@ Template.opcjeList.helpers({
                     key: 'kwestiaNazwa',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        title: "Kliknij, aby zobaczyÄ‡ szczegÃ³Å‚y",
+                        title: "Kliknij, aby zobaczyæ szczegó³y",
                         text: "Nazwa Kwestii"
                     },
                     tmpl: Template.nazwaKwestiLink
@@ -34,7 +29,7 @@ Template.opcjeList.helpers({
                     key: 'sredniaPriorytet',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        title: "Kliknij, aby zmieniÄ‡ swÃ³j priorytet dla tej Kwestii",
+                        title: "Kliknij, aby zmieniæ swój priorytet dla tej Kwestii",
                         text: "Priorytet"
                     },
                     tmpl: Template.priorytetKwestia,
@@ -47,12 +42,15 @@ Template.opcjeList.helpers({
                     key: 'dataGlosowania',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        title: "Data zakoÅ„czenia gÅ‚osowania",
-                        text: "FinaÅ‚"
+                        title: "Data zakoñczenia g³osowania",
+                        text: "Fina³"
                     },
                     tmpl: Template.dataGlKwestia
                 }
             ]
         };
+    },
+    GlosowanieList: function () {
+        return Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.GLOSOWANA}).fetch();
     }
-})
+});

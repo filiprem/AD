@@ -1,5 +1,4 @@
 <template name="discussionPostItem">
-    <!--<div class="panel-group" id="accordion{{idPost}}" role="tablist" aria-multiselectable="true">-->
     <div class="panel panel-default">
         {{#if isDoArchiwum}}
             <div class="panel-heading" role="tab" id="heading{{idPost}}" style="background-color: #F0AD4E">
@@ -22,7 +21,7 @@
                         <div class="col-md-12">
                             <p>
                                 {{getText wiadomosc idPost}}
-                                <br />
+                                <br/>
                                 {{#if textTooLong wiadomosc}}
                                     <small class="pull-right">
                                         {{#if isInTab idPost}}
@@ -40,7 +39,7 @@
                             <a class="btn btn-xs btn-default pull-right" role="button" data-toggle="collapse"
                                data-parent="#accordion{{idPost}}" href="#{{idPost}}" aria-expanded="true"
                                aria-controls="{{idPost}}">
-                                {{getAnswersCount idPost}} odpowiedzi&nbsp; <i
+                                {{getAnswersCount idPost}} odniesień&nbsp; <i
                                     class="glyphicon glyphicon-triangle-bottom"></i>
                             </a>
                         </h6>
@@ -105,7 +104,7 @@
                                    data-toggle="collapse"
                                    data-parent="#accordion{{idPost}}" href="#{{idPost}}" aria-expanded="true"
                                    aria-controls="{{idPost}}">
-                                    {{getAnswersCount idPost}} odpowiedzi&nbsp; <i
+                                    {{getAnswersCount idPost}} odniesień&nbsp; <i
                                         class="glyphicon glyphicon-triangle-bottom"></i>
                                 </a>
                             </h6>
@@ -170,7 +169,7 @@
                                    data-toggle="collapse"
                                    data-parent="#accordion{{idPost}}" href="#{{idPost}}" aria-expanded="false"
                                    aria-controls="{{idPost}}">
-                                    {{getAnswersCount idPost}} odpowiedzi&nbsp; <i
+                                    {{getAnswersCount idPost}} odniesień&nbsp; <i
                                         class="glyphicon glyphicon-triangle-bottom"></i>
                                 </a>
                             </h6>
@@ -198,7 +197,6 @@
             {{/if}}
         {{/if}}
     </div>
-    <!--</div>-->
 </template>
 
 <template name="discussionAnswerForm">
@@ -206,14 +204,14 @@
         <div class="form-group">
             <div class="col-xs-12">
                 <textarea id="answer_message" name="answer_message{{idPost}}" type="text" class="form-control"
-                          placeholder="Odpowiedź" required></textarea>
+                          placeholder="Odniesienie" required></textarea>
             </div>
             <input id="idKwestiaAnswer" name="idKwestiaAnswer" type="hidden" value="{{idKwestia}}">
             <input id="idPost" name="idPost" type="hidden" value="{{idPost}}">
         </div>
         <div class="form-group">
             <div class="col-xs-12">
-                <input type="submit" for="dyskusjaAnswerForm" class="btn btn-sm btn-default" value="Dodaj odpowiedź">
+                <input type="submit" for="dyskusjaAnswerForm" class="btn btn-sm btn-default" value="Dodaj odniesienie">
             </div>
         </div>
     </form>

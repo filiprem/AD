@@ -51,7 +51,7 @@ jQuery.validator.addMethod("checkExistsNazwaKwestii", function(value, element) {
         }
     });
     return this.optional( element ) || found==null;
-}, 'Istnieje już taka kwestia!');
+}, 'Ta Kwestia już istnieje!');
 
 
 //NOT USED!

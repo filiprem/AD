@@ -1,7 +1,7 @@
 EmailNotifications = function () {
     //Komunikat po dodaniu Kwestii
-    this.registerAddKwestiaNotification = function(nazwaSystem, organizacja, user, nazwaKwestii, rodzaj,
-                                                   szczegolyKwestii, linkDK, linkLoginTo){
+    this.registerAddKwestiaNotification = function (nazwaSystem, organizacja, user, nazwaKwestii, rodzaj,
+                                                    szczegolyKwestii, linkDK, linkLoginTo) {
         var prop = {
             nazwaSystem: nazwaSystem,
             organizacja: organizacja,
@@ -15,9 +15,9 @@ EmailNotifications = function () {
     };
 
     //Komunikat po rozpoczęciu głosowania
-    this.registerStartGlosowanieNotification = function(nazwaSystem, organizacja, user, nazwaKwestii, temat, rodzaj,
-                                                        szczegolyKwestii, final, priorytet, linkDK, silaPrior,
-                                                        kworum, obecnych, linkLoginTo){
+    this.registerStartGlosowanieNotification = function (nazwaSystem, organizacja, user, nazwaKwestii, temat, rodzaj,
+                                                         szczegolyKwestii, final, priorytet, linkDK, silaPrior,
+                                                         kworum, obecnych, linkLoginTo) {
         var prop = {
             nazwaSystem: nazwaSystem,
             organizacja: organizacja,
@@ -37,11 +37,11 @@ EmailNotifications = function () {
     };
 
     //Komunikat o podjęciu uchwały
-    this.PodjecieUchwalyNotification = function(nazwaSystem, organizacja, user, status, nazwaKwestii,
-                                                temat, rodzaj, szczegolyKwestii, pdfUchwala, linkDR, linkLoginTo){
+    this.PodjecieUchwalyNotification = function (nazwaSystem, organizacja, user, status, nazwaKwestii,
+                                                 temat, rodzaj, szczegolyKwestii, pdfUchwala, linkDR, linkLoginTo) {
         var prop = {
             nazwaSystem: nazwaSystem,
-            organizacja : organizacja,
+            organizacja: organizacja,
             user: user,
             status: status,
             nazwaKwestii: nazwaKwestii,
@@ -54,8 +54,8 @@ EmailNotifications = function () {
         }
     };
     //Lobbowanie Kwestii
-    this.registerLobKwestiaNotification = function(nazwaSystem, organizacja, user, kwestiaNazwa, temat, rodzaj,
-                                                   szczegolyKwestii, uzasadnienie, mojeImie, mojeNazwisko, mojEmail, linkMojProfil){
+    this.registerLobKwestiaNotification = function (nazwaSystem, organizacja, user, kwestiaNazwa, temat, rodzaj,
+                                                    szczegolyKwestii, uzasadnienie, mojeImie, mojeNazwisko, mojEmail, linkMojProfil) {
         var prop = {
             nazwaSystem: nazwaSystem,
             organizacja: organizacja,

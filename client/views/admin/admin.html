@@ -1,28 +1,34 @@
 <template name="adminTemplate">
-    <br />
-        <div class="col-md-7">
+    <br/>
+
+    <div class="col-md-7">
         <div class="panel panel-default">
             <div class="panel-heading">Administracja - OPIS</div>
             <div class="panel-body">
-                Panel "AD" - administracji będzie służył wypełnianiu danymi szkieletu systemu.<br /><br />
-                Te dane to:<br />
-                - nazwa organizacji, jej adresy, kontakty,<br />
-                - wprowadzenie uczestników systemu i ich statusy,<br />
-                - parametry specyficzne wymagane dla funkcjonowania systemu,<br />
-                - nazwy tematów, działów, ...<br />
-                - terminy.<br />
-                - szablony raportów.<br /><br />
+                Panel "AD" - administracji będzie służył wypełnianiu danymi szkieletu systemu.<br/><br/>
+                Te dane to:<br/>
+                - nazwa organizacji, jej adresy, kontakty,<br/>
+                - wprowadzenie uczestników systemu i ich statusy,<br/>
+                - parametry specyficzne wymagane dla funkcjonowania systemu,<br/>
+                - nazwy tematów, działów, ...<br/>
+                - terminy.<br/>
+                - szablony raportów.<br/><br/>
 
-                Domyślnie administratorem będzie osoba pełniąca w organizacji funkcję referenta lub sekretarza. Organizacja może wyznaczyć też inną osobę do przeprowadzania bieżącej aktualizacji danych<br /><br />
+                Domyślnie administratorem będzie osoba pełniąca w organizacji funkcję referenta lub sekretarza.
+                Organizacja może wyznaczyć też inną osobę do przeprowadzania bieżącej aktualizacji danych<br/><br/>
 
-                Nie będzie to administrator w popularnym rozumieniu administracji informatycznej. Nie będzie miał wpływu na sposób działania systemu, uruchamianie wstrzymanie jakiejkolwiek funkcji.<br /><br />
-                Wprowadzane dane przez administratora będa dotyczyły tylko specyfiki i wymogów statutowych organizacji.<br /><br />
-                Czyli - rola administracyjna w dosłownym tego słowa znaczeniu - wprowadzanie danych istotnych dla rodzaju działalności, szczegółow osobowych uczestników, podstawowych parametrów dla funkcjonowania systemu i pobieranie raportów systemu.
-                <br /><br />
+                Nie będzie to administrator w popularnym rozumieniu administracji informatycznej. Nie będzie miał wpływu
+                na sposób działania systemu, uruchamianie wstrzymanie jakiejkolwiek funkcji.<br/><br/>
+                Wprowadzane dane przez administratora będa dotyczyły tylko specyfiki i wymogów statutowych
+                organizacji.<br/><br/>
+                Czyli - rola administracyjna w dosłownym tego słowa znaczeniu - wprowadzanie danych istotnych dla
+                rodzaju działalności, szczegółow osobowych uczestników, podstawowych parametrów dla funkcjonowania
+                systemu i pobieranie raportów systemu.
+                <br/><br/>
             </div>
         </div>
-        </div>
-        <div class="col-md-5">
+    </div>
+    <div class="col-md-5">
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 class="panel-title">Statystyki systemu</h3>
@@ -31,24 +37,30 @@
                 <p>Informacje o ilości danych w systemie.</p>
             </div>
             <div class="list-group">
-                <a href="{{pathFor 'listUsers'}}" class="list-group-item">Użytkownicy <span class="badge">{{usersCount}}</span>
+                <a href="{{pathFor 'listUsers'}}" class="list-group-item">Użytkownicy <span
+                        class="badge">{{usersCount}}</span>
                 </a>
-                <a href="{{pathFor 'listTemat'}}" class="list-group-item">Tematy <span class="badge">{{tematyCount}}</span>
+                <a href="{{pathFor 'listTemat'}}" class="list-group-item">Tematy <span
+                        class="badge">{{tematyCount}}</span>
                 </a>
-                <a href="{{pathFor 'listRodzaj'}}" class="list-group-item">Rodzaje  <span class="badge">{{rodzajeCount}}</span>
+                <a href="{{pathFor 'listRodzaj'}}" class="list-group-item">Rodzaje <span
+                        class="badge">{{rodzajeCount}}</span>
                 </a>
-                <a href="{{pathFor 'listParametr'}}" class="list-group-item">Parametry <span class="badge">{{parametryCount}}</span>
+                <a href="{{pathFor 'listParametr'}}" class="list-group-item">Parametry <span
+                        class="badge">{{parametryCount}}</span>
                 </a>
-                <a href="{{pathFor 'listRaport'}}"  class="list-group-item">Raporty <span class="badge">{{raportyCount}}</span>
+                <a href="{{pathFor 'listRaport'}}" class="list-group-item">Raporty <span
+                        class="badge">{{raportyCount}}</span>
                 </a>
-                <a href="{{pathFor 'listKwestia'}}"  class="list-group-item">Kwestie <span class="badge">{{kwestieCount}}</span>
+                <a href="{{pathFor 'listKwestia'}}" class="list-group-item">Kwestie <span
+                        class="badge">{{kwestieCount}}</span>
                 </a>
             </div>
-                <div style="padding: 5px;">
-                    {{>columnDemo}}
-                </div>
+            <div style="padding: 5px;">
+                {{>columnDemo}}
             </div>
         </div>
+    </div>
 </template>
 
 <template name="columnDemo">

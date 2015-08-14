@@ -13,11 +13,6 @@
                     </div>
                 </div>
             </div>
-
-            <!--<div class="pull-right">-->
-                <!--<span>Liczba Kwestii w archiwum: </span><span class="badge">{{kwestiaCount}}</span>-->
-            <!--</div>-->
-            <!--<hr/>-->
             {{#if ArchiwumList}}
                 <div class="row">
                     <div class="col-md-12">
@@ -37,11 +32,8 @@
 </template>
 
 <template name="editColumnKwestiaArch">
-    <!--<a title="Edytuj" id="editKwestia" href="{{ pathFor 'editKwestia'}}"><i class="glyphicon glyphicon-pencil clickable"></i>-->
-    <!--</a>-->
-    <!--<a href="{{pathFor 'informacjeKwestiaArchiwum'}}" class="glyphicon glyphicon-info-sign" title="Szczegółowe informacje"></a>-->
     <a href="{{pathFor 'proceduraPrzywracania'}}" class="glyphicon glyphicon-repeat"
-       title="Procedura przywracania kwestii"></a>
+       title="Procedura przywracania Kwestii"></a>
 </template>
 
 <template name="nazwaKwestiArchiwumLink">

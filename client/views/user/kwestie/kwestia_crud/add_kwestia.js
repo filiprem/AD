@@ -1,26 +1,26 @@
-Template.addKwestiaForm.rendered = function(){
+Template.addKwestiaForm.rendered = function () {
 
     var rodzaj = document.getElementById("rodzajHidden").value;
     var temat = document.getElementById("tematHidden").value;
 
-    var tabRodzaj =[];
+    var tabRodzaj = [];
     var tabTemat = [];
 
-    if(!!rodzaj)
-        tabRodzaj.push({nazwa:rodzaj})
-    if(!!temat)
-        tabTemat.push({nazwa:temat})
+    if (!!rodzaj)
+        tabRodzaj.push({nazwa: rodzaj})
+    if (!!temat)
+        tabTemat.push({nazwa: temat})
 
-    Rodzaj.find({}).forEach(function(item){
+    Rodzaj.find({}).forEach(function (item) {
         var rodzaj = {
-            nazwa:item.nazwaRodzaj
+            nazwa: item.nazwaRodzaj
         }
         tabRodzaj.push(rodzaj);
     });
 
-    Temat.find({}).forEach(function(item){
+    Temat.find({}).forEach(function (item) {
         var temat = {
-            nazwa:item.nazwaTemat
+            nazwa: item.nazwaTemat
         }
         tabTemat.push(temat);
     });
@@ -29,20 +29,20 @@ Template.addKwestiaForm.rendered = function(){
         persist: false,
         createOnBlur: true,
         create: true,
-        maxItems:1,
-        labelField:'nazwa',
-        valueField:'nazwa',
-        options:tabRodzaj
+        maxItems: 1,
+        labelField: 'nazwa',
+        valueField: 'nazwa',
+        options: tabRodzaj
     });
 
     var $select2 = $('#sugerowanyTemat').selectize({
         persist: false,
         createOnBlur: true,
         create: true,
-        maxItems:1,
-        labelField:'nazwa',
-        valueField:'nazwa',
-        options:tabTemat
+        maxItems: 1,
+        labelField: 'nazwa',
+        valueField: 'nazwa',
+        options: tabTemat
     });
 
     $select1[0].selectize.setValue(rodzaj);
@@ -50,44 +50,44 @@ Template.addKwestiaForm.rendered = function(){
 
     $("#kwestiaForm").validate({
         rules: {
-            kwestiaNazwa:{
-                checkExistsNazwaKwestii:true
+            kwestiaNazwa: {
+                checkExistsNazwaKwestii: true
             }
         },
-        messages:{
-            kwestiaNazwa:{
-                required:fieldEmptyMesssage()
+        messages: {
+            kwestiaNazwa: {
+                required: fieldEmptyMesssage()
             },
-            tematy:{
-                required:fieldEmptyMesssage()
+            tematy: {
+                required: fieldEmptyMesssage()
             },
-            rodzaje:{
-                required:fieldEmptyMesssage()
+            rodzaje: {
+                required: fieldEmptyMesssage()
             },
-            tresc:{
-                required:fieldEmptyMesssage()
+            tresc: {
+                required: fieldEmptyMesssage()
             },
-            krotkaTresc:{
-                required:fieldEmptyMesssage()
+            krotkaTresc: {
+                required: fieldEmptyMesssage()
             },
-            szczegolowaTresc:{
-                required:fieldEmptyMesssage()
+            szczegolowaTresc: {
+                required: fieldEmptyMesssage()
             }
         },
-        highlight: function(element) {
-            var id_attr = "#" + $( element ).attr("id") + "1";
+        highlight: function (element) {
+            var id_attr = "#" + $(element).attr("id") + "1";
             $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
             $(id_attr).removeClass('glyphicon-ok').addClass('glyphicon-remove');
         },
-        unhighlight: function(element) {
-            var id_attr = "#" + $( element ).attr("id") + "1";
+        unhighlight: function (element) {
+            var id_attr = "#" + $(element).attr("id") + "1";
             $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
             $(id_attr).removeClass('glyphicon-remove').addClass('glyphicon-ok');
         },
         errorElement: 'span',
         errorClass: 'help-block',
-        errorPlacement: function(error, element) {
-            if(element.length) {
+        errorPlacement: function (error, element) {
+            if (element.length) {
                 error.insertAfter(element);
             } else {
                 error.insertAfter(element);
@@ -100,8 +100,8 @@ Template.addKwestiaForm.events({
     'submit form': function (e) {
         e.preventDefault();
 
-        var dataG =  new Date();
-        var d = dataG.setDate(dataG.getDate()+7);
+        var dataG = new Date();
+        var d = dataG.setDate(dataG.getDate() + 7);
 
         var newKwestia = [
             {
@@ -117,14 +117,14 @@ Template.addKwestiaForm.events({
                 krotkaTresc: $(e.target).find('[name=krotkaTresc]').val(),
                 szczegolowaTresc: $(e.target).find('[name=szczegolowaTresc]').val(),
                 isOption: false,
-                sugerowanyTemat : $(e.target).find('[name=sugerowanyTemat]').val(),
-                sugerowanyRodzaj : $(e.target).find('[name=sugerowanyRodzaj]').val(),
+                sugerowanyTemat: $(e.target).find('[name=sugerowanyTemat]').val(),
+                sugerowanyRodzaj: $(e.target).find('[name=sugerowanyRodzaj]').val(),
             }];
 
-                Session.set("kwestiaPreview", newKwestia[0]);
-                Router.go('previewKwestia');
+        Session.set("kwestiaPreview", newKwestia[0]);
+        Router.go('previewKwestia');
     },
-    'reset form': function(){
+    'reset form': function () {
         Router.go('listKwestia');
     }
 });

@@ -6,6 +6,7 @@
                 <form class="form-horizontal" id="setTopicForm">
                     <div class="form-group" id="kwestiaNazwaGroup">
                         <label class="col-xs-3">Nazwa Kwestii:</label>
+
                         <div class="col-xs-9">
                             {{kwestiaNazwa}}
                         </div>
@@ -13,12 +14,14 @@
                     <legend>Treść Kwestii</legend>
                     <div class="form-group" id="krotkaTrescGroup">
                         <label class="col-xs-3">Krótka treść:</label>
+
                         <div class="col-xs-9">
                             {{krotkaTresc}}
                         </div>
                     </div>
                     <div class="form-group" id="szczegolowaTrescGroup">
                         <label class="col-xs-3">Opis z uzasadnieniem:</label>
+
                         <div class="col-xs-9">
                             {{szczegolowaTresc}}
                         </div>
@@ -26,12 +29,14 @@
                     <legend>Opcje dodatkowe</legend>
                     <div class="form-group">
                         <label class="col-xs-3">Sugerowany temat:</label>
+
                         <div class="col-xs-9">
                             {{sugerowanyTemat}}
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-xs-3">Sugerowany rodzaj:</label>
+
                         <div class="col-xs-9">
                             {{sugerowanyRodzaj}}
                         </div>
@@ -39,8 +44,9 @@
                     <legend>Nadaj temat i rodzaj</legend>
                     <div class="form-group" id="kwestiaTematGroup">
                         <label class="control-label col-xs-3">Temat:</label>
+
                         <div class="col-xs-9">
-                            <select id="tematSelect" name="tematSelect" class="form-control required" >
+                            <select id="tematSelect" name="tematSelect" class="form-control required">
                                 <option value="">Wybierz temat</option>
                                 {{#each getTematy}}
                                     <option value="{{_id}}">{{nazwaTemat}}</option>
@@ -50,8 +56,9 @@
                     </div>
                     <div class="form-group" id="kwestiaRodzajGroup">
                         <label class="control-label col-xs-3">Rodzaj:</label>
+
                         <div class="col-xs-9">
-                            <select id="rodzajSelect" name="rodzajSelect" class="form-control required" >
+                            <select id="rodzajSelect" name="rodzajSelect" class="form-control required">
                                 <option value="">Wybierz rodzaj</option>
                                 {{#each getRodzaje}}
                                     <option value="{{_id}}">{{nazwaRodzaj}}</option>
@@ -61,9 +68,10 @@
                     </div>
                     <input type="hidden" id="idKwestia" value="{{_id}}"/>
                     <input type="hidden" id="idUser" value="{{idUser}}"/>
+
                     <div class="form-group">
                         <div class="col-xs-offset-3 col-xs-9">
-                            <input  type="submit" class="btn btn-primary" value="Zapisz">
+                            <input type="submit" class="btn btn-primary" value="Zapisz">
                             <a href="{{pathFor 'listaKwestiiOczekujacych'}}" class="btn btn-default">Anuluj</a>
                         </div>
                     </div>

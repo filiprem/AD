@@ -1,11 +1,11 @@
-Template.listRaport.rendered = function()
-{};
+Template.listRaport.rendered = function () {
+};
 
 Template.listRaport.events({
-    'click .glyphicon-trash': function(event, template) {
+    'click .glyphicon-trash': function (event, template) {
         Session.set('raportInScope', this);
     },
-    'click .glyphicon-pencil': function(event, template) {
+    'click .glyphicon-pencil': function (event, template) {
         Session.set('raportInScope', this);
     }
 });
@@ -25,16 +25,16 @@ Template.listRaport.helpers({
             ]
         };
     },
-    RaportListAdmin: function(){
+    RaportListAdmin: function () {
         return Raport.find({}).fetch();
     },
     email: function () {
         return getEmail(this);
     },
-    raportCount: function(){
+    raportCount: function () {
         return Raport.find().count();
     },
-    isAdminUser: function() {
+    isAdminUser: function () {
         return IsAdminUser();
     }
 });

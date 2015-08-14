@@ -6,48 +6,63 @@
                 <form class="form-horizontal" id="kwestiaForm">
                     <div class="form-group" id="kwestiaNazwaGroup">
                         <label class="control-label col-xs-3" for="inputEmail">Nazwa Kwestii:</label>
+
                         <div class="col-xs-9">
-                            <input class="form-control" name="kwestiaNazwa" maxlength="50" id="kwestiaNazwa" placeholder="Nazwa Kwestii" value="{{kwestiaNazwa}}" required>
+                            <input class="form-control" name="kwestiaNazwa" maxlength="50" id="kwestiaNazwa"
+                                   placeholder="Nazwa Kwestii" value="{{kwestiaNazwa}}" required>
                         </div>
                     </div>
                     <div class="form-group" id="tematyGroup">
                         <label class="control-label col-xs-3" for="inputEmail">Temat:</label>
+
                         <div class="col-xs-9">
-                            <input class="form-control" type="text" value="Kategoryzowane" name="tematy" id="tematy" disabled/>
+                            <input class="form-control" type="text" value="Kategoryzowane" name="tematy" id="tematy"
+                                   disabled/>
                         </div>
                     </div>
                     <div class="form-group" id="rodzajeGroup">
                         <label class="control-label col-xs-3" for="inputEmail">Rodzaj:</label>
+
                         <div class="col-xs-9">
-                            <input class="form-control" type="text" value="Kategoryzowane" name="rodzaje" id="rodzaje" disabled/>
+                            <input class="form-control" type="text" value="Kategoryzowane" name="rodzaje" id="rodzaje"
+                                   disabled/>
                         </div>
                     </div>
                     <legend>Treść Kwestii</legend>
                     <div class="form-group" id="krotkaTrescGroup">
                         <label class="control-label col-xs-3" for="tresc">Krótka treść:</label>
+
                         <div class="col-xs-9">
-                            <textarea class="form-control" rows="3" name="krotkaTresc" id="krotkaTresc" placeholder="Krótka treść" required>{{krotkaTresc}}</textarea>
+                            <textarea class="form-control" rows="3" name="krotkaTresc" id="krotkaTresc"
+                                      placeholder="Krótka treść" required>{{krotkaTresc}}</textarea>
                         </div>
                     </div>
                     <div class="form-group" id="szczegolowaTrescGroup">
                         <label class="control-label col-xs-3" for="inputEmail">Opis z uzasadnieniem:</label>
+
                         <div class="col-xs-9">
-                            <textarea class="form-control" rows="6" name="szczegolowaTresc" id="szczegolowaTresc" placeholder="Opis z uzasadnieniem" required>{{szczegolowaTresc}}</textarea>
+                            <textarea class="form-control" rows="6" name="szczegolowaTresc" id="szczegolowaTresc"
+                                      placeholder="Opis z uzasadnieniem" required>{{szczegolowaTresc}}</textarea>
                         </div>
                     </div>
                     <legend>Opcje dodatkowe</legend>
                     <input type="hidden" value="{{sugerowanyRodzaj}}" id="rodzajHidden"/>
                     <input type="hidden" value="{{sugerowanyTemat}}" id="tematHidden"/>
-                    <div class="form-group" >
+
+                    <div class="form-group">
                         <label class="control-label col-xs-3" for="sugerowanyTemat">Sugerowany temat:</label>
+
                         <div class="col-xs-9">
-                            <input type="text" placeholder="Sugerowny temat" name="sugerowanyTemat" id="sugerowanyTemat" />
+                            <input type="text" placeholder="Sugerowny temat" name="sugerowanyTemat"
+                                   id="sugerowanyTemat"/>
                         </div>
                     </div>
-                    <div class="form-group" >
+                    <div class="form-group">
                         <label class="control-label col-xs-3" for="sugerowanyRodzaj">Sugerowany rodzaj:</label>
+
                         <div class="col-xs-9">
-                            <input type="text" placeholder="Sugerowany rodzaj" name="sugerowanyRodzaj" id="sugerowanyRodzaj" />
+                            <input type="text" placeholder="Sugerowany rodzaj" name="sugerowanyRodzaj"
+                                   id="sugerowanyRodzaj"/>
                         </div>
                     </div>
                     <div class="form-group">

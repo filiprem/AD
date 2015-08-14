@@ -16,12 +16,10 @@ Template.informacjeKwestia.events({
         e.preventDefault();
 
         $('html, body').animate({
-            scrollTop:  $("#dyskusja").offset().top
+            scrollTop: $("#dyskusja").offset().top
         }, 600);
 
-        //$(document).scrollTop( $("#dyskusja").offset().top );
-
-        var message = "Proponuję przenieść tę kwestię do Archiwum? Dyskusja i siła priorytetu w tym wątku o tym zdecyduje.";
+        var message = "Proponuję przenieść tę Kwestię do Archiwum? Dyskusja i siła priorytetu w tym wątku o tym zdecyduje.";
         var idKwestia = Session.get("idKwestia");
         var idUser = Meteor.userId();
         var addDate = new Date();
@@ -37,7 +35,7 @@ Template.informacjeKwestia.events({
             idKwestia: idKwestia,
             wiadomosc: message,
             idUser: idUser,
-            userFullName:userFullName,
+            userFullName: userFullName,
             addDate: addDate,
             isParent: isParent,
             idParent: idParent,
@@ -47,30 +45,30 @@ Template.informacjeKwestia.events({
             glosujacy: glosujacy,
             postType: postType
         }]
-        if (isNotEmpty(post[0].idKwestia,'') && isNotEmpty(post[0].wiadomosc,'komentarz') && isNotEmpty(post[0].idUser,'') &&
-            isNotEmpty(post[0].addDate.toString(),'') && isNotEmpty(post[0].czyAktywny.toString(),'') &&
-            isNotEmpty(post[0].userFullName,'' && isNotEmpty(post[0].isParent.toString(),''))) {
+        if (isNotEmpty(post[0].idKwestia, '') && isNotEmpty(post[0].wiadomosc, 'komentarz') && isNotEmpty(post[0].idUser, '') &&
+            isNotEmpty(post[0].addDate.toString(), '') && isNotEmpty(post[0].czyAktywny.toString(), '') &&
+            isNotEmpty(post[0].userFullName, '' && isNotEmpty(post[0].isParent.toString(), ''))) {
 
-            Meteor.call('addPost', post, function (error,ret) {
+            Meteor.call('addPost', post, function (error, ret) {
                 if (error) {
                     if (typeof Errors === "undefined")
                         Log.error('Error: ' + error.reason);
                     else
                         throwError(error.reason);
-                }else{
+                } else {
                     document.getElementById("message").value = "";
                 }
             });
         }
     },
-    'click #doKosza': function(e){
+    'click #doKosza': function (e) {
         e.preventDefault();
 
         $('html, body').animate({
-            scrollTop:  $("#dyskusja").offset().top
+            scrollTop: $("#dyskusja").offset().top
         }, 600);
 
-        var message = "Proponuję przenieść tę kwestię do Kosza? Dyskusja i siła priorytetu w tym wątku o tym zdecyduje.";
+        var message = "Proponuję przenieść tę Kwestię do Kosza? Dyskusja i siła priorytetu w tym wątku o tym zdecyduje.";
         var idKwestia = Session.get("idKwestia");
         var idUser = Meteor.userId();
         var addDate = new Date();
@@ -86,7 +84,7 @@ Template.informacjeKwestia.events({
             idKwestia: idKwestia,
             wiadomosc: message,
             idUser: idUser,
-            userFullName:userFullName,
+            userFullName: userFullName,
             addDate: addDate,
             isParent: isParent,
             idParent: idParent,
@@ -96,17 +94,17 @@ Template.informacjeKwestia.events({
             glosujacy: glosujacy,
             postType: postType
         }]
-        if (isNotEmpty(post[0].idKwestia,'') && isNotEmpty(post[0].wiadomosc,'komentarz') && isNotEmpty(post[0].idUser,'') &&
-            isNotEmpty(post[0].addDate.toString(),'') && isNotEmpty(post[0].czyAktywny.toString(),'') &&
-            isNotEmpty(post[0].userFullName,'' && isNotEmpty(post[0].isParent.toString(),''))) {
+        if (isNotEmpty(post[0].idKwestia, '') && isNotEmpty(post[0].wiadomosc, 'komentarz') && isNotEmpty(post[0].idUser, '') &&
+            isNotEmpty(post[0].addDate.toString(), '') && isNotEmpty(post[0].czyAktywny.toString(), '') &&
+            isNotEmpty(post[0].userFullName, '' && isNotEmpty(post[0].isParent.toString(), ''))) {
 
-            Meteor.call('addPost', post, function (error,ret) {
+            Meteor.call('addPost', post, function (error, ret) {
                 if (error) {
                     if (typeof Errors === "undefined")
                         Log.error('Error: ' + error.reason);
                     else
                         throwError(error.reason);
-                }else{
+                } else {
                     document.getElementById("message").value = "";
                 }
             });
@@ -138,7 +136,7 @@ Template.informacjeKwestia.events({
         for (var i = 0; i < kwestia.glosujacy.length; i++) {
             if (kwestia.glosujacy[i][0] === u) {
                 if (kwestia.glosujacy[i][1] === liczba) {
-                    throwError("Nadałeś już priorytet o tej wadze w tej kwestii!");
+                    throwError("Nadałeś już priorytet o tej wadze w tej Kwestii!");
                     return false;
                 }
                 else if (kwestia.glosujacy[i][1] > liczba) {
@@ -202,7 +200,7 @@ Template.informacjeKwestia.events({
         for (var i = 0; i < kwestia.glosujacy.length; i++) {
             if (kwestia.glosujacy[i][0] === u) {
                 if (kwestia.glosujacy[i][1] === liczba) {
-                    throwError("Nadałeś już priorytet o tej wadze w tej kwestii!");
+                    throwError("Nadałeś już priorytet o tej wadze w tej Kwestii!");
                     return false;
                 }
                 else if (kwestia.glosujacy[i][1] > liczba) {
@@ -266,7 +264,7 @@ Template.informacjeKwestia.events({
         for (var i = 0; i < kwestia.glosujacy.length; i++) {
             if (kwestia.glosujacy[i][0] === u) {
                 if (kwestia.glosujacy[i][1] === liczba) {
-                    throwError("Nadałeś już priorytet o tej wadze w tej kwestii!");
+                    throwError("Nadałeś już priorytet o tej wadze w tej Kwestii!");
                     return false;
                 }
                 else if (kwestia.glosujacy[i][1] > liczba) {
@@ -330,7 +328,7 @@ Template.informacjeKwestia.events({
         for (var i = 0; i < kwestia.glosujacy.length; i++) {
             if (kwestia.glosujacy[i][0] === u) {
                 if (kwestia.glosujacy[i][1] === liczba) {
-                    throwError("Nadałeś już priorytet o tej wadze w tej kwestii!");
+                    throwError("Nadałeś już priorytet o tej wadze w tej Kwestii!");
                     return false;
                 }
                 else if (kwestia.glosujacy[i][1] > liczba) {
@@ -394,7 +392,7 @@ Template.informacjeKwestia.events({
         for (var i = 0; i < kwestia.glosujacy.length; i++) {
             if (kwestia.glosujacy[i][0] === u) {
                 if (kwestia.glosujacy[i][1] === liczba) {
-                    throwError("Nadałeś już priorytet o tej wadze w tej kwestii!");
+                    throwError("Nadałeś już priorytet o tej wadze w tej Kwestii!");
                     return false;
                 }
                 else if (kwestia.glosujacy[i][1] > liczba) {
@@ -458,7 +456,7 @@ Template.informacjeKwestia.events({
         for (var i = 0; i < kwestia.glosujacy.length; i++) {
             if (kwestia.glosujacy[i][0] === u) {
                 if (kwestia.glosujacy[i][1] === liczba) {
-                    throwError("Nadałeś już priorytet o tej wadze w tej kwestii!");
+                    throwError("Nadałeś już priorytet o tej wadze w tej Kwestii!");
                     return false;
                 }
                 else if (kwestia.glosujacy[i][1] > liczba) {
@@ -522,7 +520,7 @@ Template.informacjeKwestia.events({
         for (var i = 0; i < kwestia.glosujacy.length; i++) {
             if (kwestia.glosujacy[i][0] === u) {
                 if (kwestia.glosujacy[i][1] === liczba) {
-                    throwError("Nadałeś już priorytet o tej wadze w tej kwestii!");
+                    throwError("Nadałeś już priorytet o tej wadze w tej Kwestii!");
                     return false;
                 }
                 else if (kwestia.glosujacy[i][1] > liczba) {
@@ -586,7 +584,7 @@ Template.informacjeKwestia.events({
         for (var i = 0; i < kwestia.glosujacy.length; i++) {
             if (kwestia.glosujacy[i][0] === u) {
                 if (kwestia.glosujacy[i][1] === liczba) {
-                    throwError("Nadałeś już priorytet o tej wadze w tej kwestii!");
+                    throwError("Nadałeś już priorytet o tej wadze w tej Kwestii!");
                     return false;
                 }
                 else if (kwestia.glosujacy[i][1] > liczba) {
@@ -650,7 +648,7 @@ Template.informacjeKwestia.events({
         for (var i = 0; i < kwestia.glosujacy.length; i++) {
             if (kwestia.glosujacy[i][0] === u) {
                 if (kwestia.glosujacy[i][1] === liczba) {
-                    throwError("Nadałeś już priorytet o tej wadze w tej kwestii!");
+                    throwError("Nadałeś już priorytet o tej wadze w tej Kwestii!");
                     return false;
                 }
                 else if (kwestia.glosujacy[i][1] > liczba) {
@@ -714,7 +712,7 @@ Template.informacjeKwestia.events({
         for (var i = 0; i < kwestia.glosujacy.length; i++) {
             if (kwestia.glosujacy[i][0] === u) {
                 if (kwestia.glosujacy[i][1] === liczba) {
-                    throwError("Nadałeś już priorytet o tej wadze w tej kwestii!");
+                    throwError("Nadałeś już priorytet o tej wadze w tej Kwestii!");
                     return false;
                 }
                 else if (kwestia.glosujacy[i][1] > liczba) {
@@ -820,28 +818,18 @@ Template.informacjeKwestia.events({
 });
 Template.informacjeKwestia.helpers({
     isAdmin: function () {
-        if (Meteor.user().roles == "admin")
-            return true;
-        else
-            return false;
+        if (Meteor.user().roles == "admin") return true;
+        else return false;
     },
     opcje: function () {
         var kwestiaGlownaId = Session.get("idKwestia");
         var op = Kwestia.find({idParent: kwestiaGlownaId}).fetch();
-        if (op)
-            return true;
-        else
-            return false;
+        if (op) return true;
+        else return false;
     },
     czyOpcja: function () {
-        if (this.isOption)
-            return true;
-        else
-            return false;
-    },
-    thisKwestia: function () {
-        var k = Session.get("idKwestia")
-        var kwestia = Kwestia.findOne({_id: k});
+        if (this.isOption) return true;
+        else return false;
     },
     mojPiorytet: function () {
         var currentKwestiaId = this._id;
@@ -920,16 +908,16 @@ Template.informacjeKwestia.helpers({
             return k;
         }
     },
-    czyKliknietoArchiwum: function(){
+    czyKliknietoArchiwum: function () {
         var idKw = this._id;
         var z = Posts.findOne({idKwestia: idKw, postType: "archiwum"});
-        if(z) return true;
+        if (z) return true;
         else return false;
     },
-    czyKliknietoKosz: function(){
+    czyKliknietoKosz: function () {
         var idKw = this._id;
         var z = Posts.findOne({idKwestia: idKw, postType: "kosz"});
-        if(z) return true;
+        if (z) return true;
         else return false;
     },
     'isIssueSuspended': function (id) {

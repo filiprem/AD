@@ -1,72 +1,72 @@
-Template.discussionPostItem.created = function(){
+Template.discussionPostItem.created = function () {
     this.colTextRV = new ReactiveVar();
-    var tab =[];
+    var tab = [];
     this.colTextRV.set(tab);
 };
 
-Template.discussionPostItem.rendered = function(){
+Template.discussionPostItem.rendered = function () {
     $("#dyskusjaAnswerForm").validate({
-        messages:{
-            answer_message:{
-                required:fieldEmptyMesssage(),
+        messages: {
+            answer_message: {
+                required: fieldEmptyMesssage(),
             }
         },
-        highlight: function(element) {
+        highlight: function (element) {
             highlightFunction(element);
         },
-        unhighlight: function(element) {
+        unhighlight: function (element) {
             unhighlightFunction(element);
         },
         errorElement: 'span',
         errorClass: 'help-block',
-        errorPlacement: function(error, element) {
-            validationPlacementError(error,element);
+        errorPlacement: function (error, element) {
+            validationPlacementError(error, element);
         }
     })
 };
 
 Template.discussionPostItem.helpers({
-    'getSimpleDate':function(date){
+    'getSimpleDate': function (date) {
         return moment(date).format("YYYY-MM-DD");
     },
-    'getFullHourDate':function(date){
+    'getFullHourDate': function (date) {
         return moment(date).format("HH:mm:ss");
     },
-    'getAnswers':function(id){
-        return Posts.find({idParent:id, isParent:false, czyAktywny:true},{sort:{wartoscPriorytetu:-1}});
+    'getAnswers': function (id) {
+        return Posts.find({idParent: id, isParent: false, czyAktywny: true}, {sort: {wartoscPriorytetu: -1}});
     },
-    'getAnswersCount':function(id){
-        return Posts.find({idParent:id, isParent:false, czyAktywny:true}).count();
+    'getAnswersCount': function (id) {
+        return Posts.find({idParent: id, isParent: false, czyAktywny: true}).count();
     },
-    'getLabelClass':function(value){
+    'getLabelClass': function (value) {
         return value >= 0 ? "label-success" : "label-danger";
     },
-    'getText':function(value,id){
+    'getText': function (value, id) {
         var self = Template.instance();
 
-        if(value.length < DISCUSSION_OPTIONS.POST_CHARACTERS_DISPLAY)
+        if (value.length < DISCUSSION_OPTIONS.POST_CHARACTERS_DISPLAY)
             return value;
         else
-            return isInTab(id,self.colTextRV.get()) ? value : value.substring(0,DISCUSSION_OPTIONS.POST_CHARACTERS_DISPLAY)+"...";
+            return isInTab(id, self.colTextRV.get()) ? value : value.substring(0, DISCUSSION_OPTIONS.POST_CHARACTERS_DISPLAY) + "...";
     },
-    'isInTab':function(id){
+    'isInTab': function (id) {
         var self = Template.instance();
-        return isInTab(id,self.colTextRV.get());
+        return isInTab(id, self.colTextRV.get());
     },
-    'textTooLong':function(value){
+    'textTooLong': function (value) {
         return value.length < DISCUSSION_OPTIONS.POST_CHARACTERS_DISPLAY ? false : true;
     },
-    'isDoArchiwum': function(){
+    'isDoArchiwum': function () {
         var p = Posts.findOne({_id: this.idPost});
-        if(p.postType=="archiwum"){
+        if (p.postType == "archiwum") {
             return true;
         }
         else
             return false;
     },
-    'isDoKosza': function(){
+    'isDoKosza': function () {
         var p = Posts.findOne({_id: this.idPost});
-        if(p.postType=="kosz")
+        if (p.postType == "kosz")
             return true;
         else
             return false;
@@ -74,27 +74,27 @@ Template.discussionPostItem.helpers({
 });
 
 Template.discussionPostItem.events({
-    'click #rozwinText':function(e){
+    'click #rozwinText': function (e) {
 
         var id = e.target.name;
         var self = Template.instance();
         var itemTab = self.colTextRV.get();
         var flag = false;
 
-        if(!isInTab(id,itemTab)) {
+        if (!isInTab(id, itemTab)) {
             itemTab.push(id);
             self.colTextRV.set(itemTab);
         }
     },
-    'click #zwinText':function(e){
+    'click #zwinText': function (e) {
 
         var self = Template.instance();
         var itemTab = self.colTextRV.get();
         var id = e.target.name;
 
-        itemTab.forEach(function(item){
-            if(id==item)
-                itemTab.splice(itemTab.indexOf(item),1);
+        itemTab.forEach(function (item) {
+            if (id == item)
+                itemTab.splice(itemTab.indexOf(item), 1);
         });
 
         self.colTextRV.set(itemTab);
@@ -102,7 +102,7 @@ Template.discussionPostItem.events({
 });
 
 Template.discussionAnswerForm.events({
-    'submit #dyskusjaAnswerForm':function(e){
+    'submit #dyskusjaAnswerForm': function (e) {
         e.preventDefault();
 
         var wiadomosc = $(e.target).find('[id=answer_message]').val();
@@ -129,94 +129,86 @@ Template.discussionAnswerForm.events({
             glosujacy: glosujacy
         }];
 
-        //if (isNotEmpty(post[0].idKwestia,'id kwestii') && isNotEmpty(post[0].wiadomosc,'komentarz') &&
-        //    isNotEmpty(post[0].idUser,'id użytkownika') && isNotEmpty(post[0].addDate.toString(),'data dodania') &&
-        //    isNotEmpty(post[0].idParent,'id parent') && isNotEmpty(post[0].userFullName,'e') &&
-        //    !post[0].isParent && post[0].czyAktywny) {
-
-        Meteor.call('addPostAnswer', post, function (error,ret) {
+        Meteor.call('addPostAnswer', post, function (error, ret) {
             if (error) {
                 if (typeof Errors === "undefined")
                     Log.error('Error: ' + error.reason);
                 else
                     throwError(error.reason);
-            }else{
-                document.getElementsByName("answer_message"+idParent)[0].value="";
+            } else {
+                document.getElementsByName("answer_message" + idParent)[0].value = "";
 
-                var newValue=0;
-                var pktAddKwestia=Parametr.findOne({});
-                newValue=Number(pktAddKwestia.pktDodanieOdniesienia)+getUserRadkingValue(Meteor.userId());
-                Meteor.call('updateUserRanking', Meteor.userId(),newValue, function (error) {
-                    if (error)
-                    {
+                var newValue = 0;
+                var pktAddKwestia = Parametr.findOne({});
+                newValue = Number(pktAddKwestia.pktDodanieOdniesienia) + getUserRadkingValue(Meteor.userId());
+                Meteor.call('updateUserRanking', Meteor.userId(), newValue, function (error) {
+                    if (error) {
                         if (typeof Errors === "undefined")
                             Log.error('Error: ' + error.reason);
-                        else
-                        {
+                        else {
                             throwError(error.reason);
                         }
                     }
                 });
             }
         });
-        // }
     }
 });
 
-Template.discussionAnswerItem.created = function(){
+Template.discussionAnswerItem.created = function () {
     this.colTextAnswerRV = new ReactiveVar();
-    var tab =[];
+    var tab = [];
     this.colTextAnswerRV.set(tab);
 };
 
 Template.discussionAnswerItem.helpers({
-    'getSimpleDate':function(date){
+    'getSimpleDate': function (date) {
         return moment(date).format("YYYY-MM-DD");
     },
-    'getFullHourDate':function(date){
+    'getFullHourDate': function (date) {
         return moment(date).format("HH:mm:ss");
     },
-    'getLabelClass':function(value){
+    'getLabelClass': function (value) {
         return value >= 0 ? "label-success" : "label-danger";
     },
-    'getAnswerText':function(value,id){
+    'getAnswerText': function (value, id) {
         var self = Template.instance();
 
-        if(value.length < DISCUSSION_OPTIONS.POST_CHARACTERS_DISPLAY)
+        if (value.length < DISCUSSION_OPTIONS.POST_CHARACTERS_DISPLAY)
             return value;
         else
-            return isInTab(id,self.colTextAnswerRV.get()) ? value : value.substring(0,DISCUSSION_OPTIONS.POST_ANSWER_CHARACTERS_DISPLAY)+"...";
+            return isInTab(id, self.colTextAnswerRV.get()) ? value : value.substring(0, DISCUSSION_OPTIONS.POST_ANSWER_CHARACTERS_DISPLAY) + "...";
     },
-    'isAnswerInTab':function(id){
+    'isAnswerInTab': function (id) {
         var self = Template.instance();
-        return isInTab(id,self.colTextAnswerRV.get());
+        return isInTab(id, self.colTextAnswerRV.get());
     },
-    'textAnswerTooLong':function(value){
+    'textAnswerTooLong': function (value) {
         return value.length < DISCUSSION_OPTIONS.POST_CHARACTERS_DISPLAY ? false : true;
     }
 });
 
 Template.discussionAnswerItem.events({
-    'click #rozwinTextAnswer':function(e){
+    'click #rozwinTextAnswer': function (e) {
 
         var id = e.target.name;
         var self = Template.instance();
         var itemTab = self.colTextAnswerRV.get();
 
-        if(!isInTab(id,itemTab)) {
+        if (!isInTab(id, itemTab)) {
             itemTab.push(id);
             self.colTextAnswerRV.set(itemTab);
         }
     },
-    'click #zwinTextAnswer':function(e){
+    'click #zwinTextAnswer': function (e) {
 
         var self = Template.instance();
         var itemTab = self.colTextAnswerRV.get();
         var id = e.target.name;
 
-        itemTab.forEach(function(item){
-            if(id==item)
-                itemTab.splice(itemTab.indexOf(item),1);
+        itemTab.forEach(function (item) {
+            if (id == item)
+                itemTab.splice(itemTab.indexOf(item), 1);
         });
 
         self.colTextAnswerRV.set(itemTab);

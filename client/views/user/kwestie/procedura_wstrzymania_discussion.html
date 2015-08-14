@@ -53,7 +53,7 @@
                         </div>
                     </div>
                     <div class="pull-right">
-                        <h6>{{getAnswersCount post_id}} odpowiedzi&nbsp;
+                        <h6>{{getAnswersCount post_id}} odniesienia&nbsp;
                             <a class="collapsed pull-right" role="button" data-toggle="collapse" data-parent="#accordion" href="#{{post_id}}" aria-expanded="false" aria-controls="{{post_id}}">
                                 <i class="glyphicon glyphicon-triangle-bottom"></i>
                             </a>
@@ -84,14 +84,14 @@
     <form id="postAnswerFormId" class="form-horizontal">
         <div class="form-group">
             <div class="col-xs-12">
-                <textarea id="answer_message" name="answer_message" type="text" class="form-control" placeholder="Odpowiedź"></textarea>
+                <textarea id="answer_message" name="answer_message" type="text" class="form-control" placeholder="Odniesienie"></textarea>
             </div>
             <input id="answer_kwestia_suspended_id" name="answer_kwestia_suspended_id" type="hidden" value="{{kwestia_suspended_id}}">
             <input id="answer_post_id" name="answer_post_id" type="hidden" value="{{post_id}}">
         </div>
         <div class="form-group">
             <div class="col-xs-12">
-                <input type="submit" for="postAnswerFormId" class="btn btn-sm btn-default" value="Dodaj odpowiedź">
+                <input type="submit" for="postAnswerFormId" class="btn btn-sm btn-default" value="Dodaj odniesienie">
             </div>
         </div>
     </form>

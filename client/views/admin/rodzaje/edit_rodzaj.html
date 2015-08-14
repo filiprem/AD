@@ -13,11 +13,11 @@
                                 <select name="tematy" id="tematy" class="form-control required">
                                     {{#each tematToList}}
                                         {{#if isSelected _id}}
-                                            <option value="{{this._id}}" selected >
+                                            <option value="{{this._id}}" selected>
                                                 {{this.nazwaTemat}}
                                             </option>
-                                         {{else}}
-                                            <option value="{{this._id}}" >
+                                        {{else}}
+                                            <option value="{{this._id}}">
                                                 {{this.nazwaTemat}}
                                             </option>
                                         {{/if}}
@@ -29,15 +29,18 @@
                             <label class="control-label col-xs-3" for="inputNazwaRodzaj">Nazwa rodzaju:</label>
 
                             <div class="col-xs-9">
-                                <input name="nazwaRodzaj" type="text"  class="form-control required" id="inputNazwaRodzaj"
-                                       placeholder="Nazwa rodzaju (np. wniosek, uchwała, propozycja, zapytanie itp.)" value={{nazwaRodzaj}}>
+                                <input name="nazwaRodzaj" type="text" class="form-control required"
+                                       id="inputNazwaRodzaj"
+                                       placeholder="Nazwa rodzaju (np. wniosek, uchwała, propozycja, zapytanie itp.)"
+                                       value={{nazwaRodzaj}}>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-xs-3" for="inputCzasDyskusji">Czas dyskusji:</label>
 
                             <div class="col-xs-9">
-                                <input name="czasDyskusji" type="number" value={{czasDyskusji}} class="form-control" id="czasDyskusji"
+                                <input name="czasDyskusji" type="number" value={{czasDyskusji}} class="form-control"
+                                       id="czasDyskusji"
                                        placeholder="Czas dyskusji (dni). Domyślnie 7 dni">
                             </div>
                         </div>
@@ -45,7 +48,8 @@
                             <label class="control-label col-xs-3" for="inputCzasGlosowania">Czas głosowania:</label>
 
                             <div class="col-xs-9">
-                                <input name="czasGlosowania" type="text" value={{czasGlosowania}} class="form-control" id="czasGlosowania"
+                                <input name="czasGlosowania" type="text" value={{czasGlosowania}} class="form-control"
+                                       id="czasGlosowania"
                                        placeholder="Czas głosowania (h). Domyślnie 24 h.">
                             </div>
                         </div>
@@ -53,7 +57,8 @@
                             <label class="control-label col-xs-3" for="inputPulapPriorytetu">Pułap priorytetu:</label>
 
                             <div class="col-xs-9">
-                                <input name="pulapPriorytetu" type="number"  class="form-control" id="pulapPriorytetu" number="true"
+                                <input name="pulapPriorytetu" type="number" class="form-control" id="pulapPriorytetu"
+                                       number="true"
                                        placeholder="Pułap priorytetu" value={{pulapPriorytetu}}>
                             </div>
                         </div>
