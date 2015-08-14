@@ -51,7 +51,7 @@ setRoles = function () {
         });
     }
 }
-
+//---------------------------------------------------------------------------------------
 //-------------------------------------------------------------
 
 stringContains = function (inputString, stringToFind) {
@@ -65,7 +65,7 @@ isInTab = function (item, tab) {
             flag = true;
     });
     return flag;
-}
+};
 
 setValueIfEmptyField = function (field, value) {
     if (_.isEmpty(field)) {
@@ -73,18 +73,17 @@ setValueIfEmptyField = function (field, value) {
     }
     return field;
 }
-getUserRadkingValue = function (idUser) {
-    var user = Users.findOne({_id: idUser});
+getUserRadkingValue=function(idUser){
+    var user=Users.findOne({_id:idUser});
     return Number(user.profile.rADking);
 };
-
-getAllUsersWhoVoted = function (idKWestia) {
-    var kwestia = Kwestia.findOne({_id: idKWestia});
-    var tab = kwestia.glosujacy;
+getAllUsersWhoVoted=function(idKWestia){
+    var kwestia=Kwestia.findOne({_id:idKWestia});
+    var tab=kwestia.glosujacy;
     console.log(tab);
-    console.log("Liczba glosujacych " + tab.length);
-    var tabNew = [];
-    for (var j = 0; j < tab.length; j++) {
+    console.log("Liczba glosujacych "+tab.length);
+    var tabNew=[];
+    for(var j= 0;j<tab.length;j++){
         tabNew.push(tab[j][0]);
     }
     console.log(tabNew);

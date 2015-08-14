@@ -37,28 +37,55 @@
                         <h3>Punktacja aktywności</h3>
                         <hr/>
                         <div class="form-group">
-                            <label class="control-label col-xs-3" for="inputKwestia">Dodanie Kwestii:</label>
-
-                            <div class="col-xs-9">
+                            <div class="col-xs-6">
+                                <h4>Plusy za pozytywną aktywność </h4>
+                            </div>
+                            <div class="col-xs-6">
+                                <h4>Minusy za negatywną aktywność </h4>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3" for="inputKwestia">Dodanie kwestii:</label>
+                            <div class="col-xs-3">
                                 <input name="dodanieKwestii" class="form-control" id="dodanieKwestii" placeholder="Domyślnie 10" type="number" min="0" oninvalid="The value is not an integerrrr">
+                            </div>
+
+                            <label class="control-label col-xs-3" for="inputWycofanieKwestiiDoArchiwum">Wycofanie kwestii do archiwum:</label>
+                            <div class="col-xs-3">
+                                <input name="wycofanieKwestiiDoArchwium" class="form-control" id="wycofanieKwestiiDoArchwium" placeholder="Domyślnie -20" type="number" max="0"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-xs-3" for="inputKomentarz">Dodanie komentarza:</label>
-                            <div class="col-xs-9">
+                            <div class="col-xs-3">
                                 <input name="dodanieKomentarza" class="form-control" id="dodanieKomentarza" placeholder="Domyślnie 5" type="number" min="0">
+                            </div>
+
+                            <label class="control-label col-xs-3" for="inputWycofanieKwestiiDoKosza">Wycofanie kwestii do kosza:</label>
+                            <div class="col-xs-3">
+                                <input name="wycofanieKwestiiDoKosza" class="form-control" id="wycofanieKwestiiDoKosza" placeholder="Domyślnie -40" type="number" max="0"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-xs-3" for="inputOdniesienie">Dodanie odniesienia:</label>
-                            <div class="col-xs-9">
+                            <div class="col-xs-3">
                                 <input name="dodanieOdniesienia" class="form-control" id="dodanieOdniesienia" placeholder="Domyślnie 2" type="number" min="0">
+                            </div>
+
+                            <label class="control-label col-xs-3" for="inputWyjscieZZespolu">Wyjście z zespołu realizacyjnego:</label>
+                            <div class="col-xs-3">
+                                <input name="wyjscieZZespolu" class="form-control" id="wyjscieZZespolu" placeholder="Domyślnie -30" type="number" max="0"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-xs-3" for="inputPriorytet">Nadanie priorytetu:</label>
-                            <div class="col-xs-9">
+                            <div class="col-xs-3">
                                 <input name="nadaniePriorytetu" class="form-control" id="nadaniePriorytetu" placeholder="Domyślnie 1" type="number" min="0"/>
+                            </div>
+
+                            <label class="control-label col-xs-3" for="inputBrakUdzialuWGlosowaniu">Brak udziału w głosowaniu:</label>
+                            <div class="col-xs-3">
+                                <input name="brakUdzialuWGlosowaniu" class="form-control" id="brakUdzialuWGlosowaniu" placeholder="Domyślnie -30" type="number"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -69,50 +96,20 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label col-xs-3" for="inputUdzialWZespole">Udział w zespole realizacyjnym:</label>
-                            <div class="col-xs-9">
+                            <div class="col-xs-3">
                                 <input name="udzialWZespole" class="form-control" id="udzialWZespole" placeholder="Domyślnie 10" type="number" min="0"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-xs-3" for="inputZlozenieRaportu">Złożenie raportu realizacyjnego:</label>
-                            <div class="col-xs-9">
+                            <div class="col-xs-3">
                                 <input name="zlozenieRaportu" class="form-control" id="zlozenieRaportu" placeholder="Domyślnie 5" type="number" min="0"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-xs-3" for="inputNadaniePriorytetu">Otrzymanie priorytetu:</label>
-                            <div class="col-xs-9">
+                            <div class="col-xs-3">
                                 <input name="nadaniePriorytetu" class="form-control" id="nadaniePriorytetu" placeholder="Domyślnie 1" type="number" min="0"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-xs-3" for="inputOtrzymaniePriorytetu">Otrzymanie priorytetu:</label>
-                            <div class="col-xs-9">
-                                <input name="otrzymaniePriorytetu" class="form-control" id="otrzymaniePriorytetu" placeholder="Tego nie będzie" type="number" min="0"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-xs-3" for="inputWycofanieKwestiiDoArchiwum">Wycofanie Kwestii do archiwum:</label>
-                            <div class="col-xs-9">
-                                <input name="wycofanieKwestiiDoArchwium" class="form-control" id="wycofanieKwestiiDoArchwium" placeholder="Domyślnie -20" type="number" max="0"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-xs-3" for="inputWycofanieKwestiiDoKosza">Wycofanie Kwestii do kosza:</label>
-                            <div class="col-xs-9">
-                                <input name="wycofanieKwestiiDoKosza" class="form-control" id="wycofanieKwestiiDoKosza" placeholder="Domyślnie -40" type="number" max="0"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-xs-3" for="inputWyjscieZZespolu">Wyjście z zespołu realizacyjnego:</label>
-                            <div class="col-xs-9">
-                                <input name="wyjscieZZespolu" class="form-control" id="wyjscieZZespolu" placeholder="Domyślnie -30" type="number" max="0"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-xs-3" for="inputBrakUdzialuWGlosowaniu">Brak udziału w głosowaniu:</label>
-                            <div class="col-xs-9">
-                                <input name="brakUdzialuWGlosowaniu" class="form-control" id="brakUdzialuWGlosowaniu" placeholder="Domyślnie -30" type="number"/>
                             </div>
                         </div>
                         <br/>

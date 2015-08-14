@@ -74,15 +74,11 @@ Template.addKwestiaForm.rendered = function () {
                 required: fieldEmptyMesssage()
             }
         },
-        highlight: function (element) {
-            var id_attr = "#" + $(element).attr("id") + "1";
-            $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-            $(id_attr).removeClass('glyphicon-ok').addClass('glyphicon-remove');
+        highlight: function(element) {
+            highlightFunction(element);
         },
-        unhighlight: function (element) {
-            var id_attr = "#" + $(element).attr("id") + "1";
-            $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
-            $(id_attr).removeClass('glyphicon-remove').addClass('glyphicon-ok');
+        unhighlight: function(element) {
+            unhighlightFunction(element);
         },
         errorElement: 'span',
         errorClass: 'help-block',

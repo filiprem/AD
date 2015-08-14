@@ -1,20 +1,20 @@
-Template.informacjeKwestia.rendered = function () {
+Template.informacjeKwestia.rendered = function() {
     var self = Template.instance();
-    var currentKwestiaId = Session.get("idKwestia");
-    var tabOfUsersVoted = [];
-    tabOfUsersVoted = getAllUsersWhoVoted(currentKwestiaId);
-    if (_.contains(tabOfUsersVoted, Meteor.userId())) {
+    var currentKwestiaId=Session.get("idKwestia");
+    var tabOfUsersVoted=[];
+    tabOfUsersVoted=getAllUsersWhoVoted(currentKwestiaId);
+    if(_.contains(tabOfUsersVoted,Meteor.userId())){
         self.ifUserVoted.set(true);
     }
-    else {
+    else{
         self.ifUserVoted.set(false);
     }
-};
-Template.informacjeKwestia.created = function () {
+},
+Template.informacjeKwestia.created = function(){
     this.ifUserVoted = new ReactiveVar();
-};
+},
 Template.informacjeKwestia.events({
-    'click #dyskusja': function (e) {
+    'click #dyskusja': function (e){
         var id = document.getElementById("dyskusja").name;
         Router.go('dyskusjaKwestia', {_id: id})
     },
@@ -33,6 +33,8 @@ Template.informacjeKwestia.events({
         $('html, body').animate({
             scrollTop: $("#dyskusja").offset().top
         }, 600);
+
+        //$(document).scrollTop( $("#dyskusja").offset().top );
 
         var message = "Proponuję przenieść tę kwestię do Archiwum? Dyskusja i siła priorytetu w tym wątku o tym zdecyduje.";
         var idKwestia = Session.get("idKwestia");
@@ -217,6 +219,7 @@ Template.informacjeKwestia.events({
             }
         });
     }
+
 });
 Template.informacjeKwestia.helpers({
     isAdmin: function () {
