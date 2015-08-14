@@ -34,7 +34,7 @@ Template.profileList.helpers({
         };
     },
     UserListAdmin: function(){
-        return Users.find({$where:function(){return (this._id!=Meteor.userId());}}).fetch();
+        return Users.find({$where:function(){return ((this._id!=Meteor.userId()) && (this.roles!='admin'));}}).fetch();
     },
     usersCount: function(){
         return Users.find().count()-1;

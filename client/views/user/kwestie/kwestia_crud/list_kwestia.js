@@ -1,14 +1,17 @@
 Template.listKwestia.rendered = function () {
+    var self = Template.instance();
+    this.autorun(function(){
+        var kwestie=Kwestia.find({$where:function(){return ((this.czyAktywny==true) && (this.sredniaPriorytet>0));}},{sort:{sredniaPriorytet:-1},limit:3});
+        var tab=[];
+        kwestie.forEach(function(item){
+            tab.push(item._id);
+        });
+        self.liczbaKwestiRV.set(tab);
+    })
+
 };
 Template.listKwestia.created = function(){
     this.liczbaKwestiRV = new ReactiveVar();
-    //var kwestie=Kwestia.find({$where:function(){return ((this.czyAktywny==true) && (this.wartoscPriorytetu >= this.pulapPriorytetu));}});
-    var kwestie=Kwestia.find({$where:function(){return ((this.czyAktywny==true) && (this.sredniaPriorytet>0));}},{sort:{sredniaPriorytet:-1},limit:3});
-    var tab=[];
-    kwestie.forEach(function(item){
-        tab.push(item._id);
-    });
-    this.liczbaKwestiRV.set(tab);
 },
 Template.listKwestia.events({
     //usunięcie kwestii

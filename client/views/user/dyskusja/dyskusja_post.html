@@ -22,7 +22,7 @@
                         <div class="col-md-12">
                             <p>
                                 {{getText wiadomosc idPost}}
-                                <br/>
+                                <br />
                                 {{#if textTooLong wiadomosc}}
                                     <small class="pull-right">
                                         {{#if isInTab idPost}}
@@ -206,7 +206,7 @@
         <div class="form-group">
             <div class="col-xs-12">
                 <textarea id="answer_message" name="answer_message{{idPost}}" type="text" class="form-control"
-                          placeholder="Odpowiedź"></textarea>
+                          placeholder="Odpowiedź" required></textarea>
             </div>
             <input id="idKwestiaAnswer" name="idKwestiaAnswer" type="hidden" value="{{idKwestia}}">
             <input id="idPost" name="idPost" type="hidden" value="{{idPost}}">

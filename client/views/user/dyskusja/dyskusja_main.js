@@ -4,6 +4,27 @@ Template.discussionMain.helpers({
     }
 });
 
+Template.discussionPostForm.rendered = function(){
+    $("#dyskusjaForm").validate({
+        messages:{
+            message:{
+                required:fieldEmptyMesssage(),
+            }
+        },
+        highlight: function(element) {
+            highlightFunction(element);
+        },
+        unhighlight: function(element) {
+            unhighlightFunction(element);
+        },
+        errorElement: 'span',
+        errorClass: 'help-block',
+        errorPlacement: function(error, element) {
+            validationPlacementError(error,element);
+        }
+    })
+};
+
 Template.discussionPostForm.events({
     'submit #dyskusjaForm':function(e){
         e.preventDefault();
@@ -26,16 +47,14 @@ Template.discussionPostForm.events({
             userFullName:userFullName,
             addDate: addDate,
             isParent: isParent,
-            idParent: idParent,
             czyAktywny: czyAktywny,
             idParent: idParent,
             wartoscPriorytetu: ratingValue,
             glosujacy: glosujacy
         }];
-
-        if (isNotEmpty(post[0].idKwestia,'') && isNotEmpty(post[0].wiadomosc,'komentarz') && isNotEmpty(post[0].idUser,'') &&
-            isNotEmpty(post[0].addDate.toString(),'') && isNotEmpty(post[0].czyAktywny.toString(),'') &&
-            isNotEmpty(post[0].userFullName,'' && isNotEmpty(post[0].isParent.toString(),''))) {
+        //if (isNotEmpty(post[0].idKwestia,'') && isNotEmpty(post[0].wiadomosc,'komentarz') && isNotEmpty(post[0].idUser,'') &&
+        //    isNotEmpty(post[0].addDate.toString(),'') && isNotEmpty(post[0].czyAktywny.toString(),'') &&
+        //    isNotEmpty(post[0].userFullName,'' && isNotEmpty(post[0].isParent.toString(),''))) {
 
             Meteor.call('addPost', post, function (error,ret) {
                 if (error) {
@@ -44,10 +63,26 @@ Template.discussionPostForm.events({
                     else
                         throwError(error.reason);
                 }else{
+
                     document.getElementById("message").value = "";
+
+                    var newValue=0;
+                    var pktAddKwestia=Parametr.findOne({});
+                    newValue=Number(pktAddKwestia.pktDodanieKomentarza)+getUserRadkingValue(Meteor.userId());
+                    Meteor.call('updateUserRanking', Meteor.userId(),newValue, function (error) {
+                        if (error)
+                        {
+                            if (typeof Errors === "undefined")
+                                Log.error('Error: ' + error.reason);
+                            else
+                            {
+                                throwError(error.reason);
+                            }
+                        }
+                    });
                 }
             });
-        }
+       // }
     }
 });
 
