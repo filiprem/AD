@@ -92,7 +92,6 @@ Template.discussionRating.events({
         var ratingValue = parseInt(e.target.value);
         var ratingPostId = e.target.name;
         var glosujacy = [];
-        console.log(ratingValue+" "+ratingPostId);
         var post = Posts.findOne({_id:ratingPostId});
         var glosujacy = post.glosujacy;
         var glosujacyTab = post.glosujacy.slice();

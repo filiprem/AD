@@ -39,6 +39,18 @@
                             </button>
                         {{/unless}}
                     {{/unless}}
+                    <br/>
+                    <br/>
+                    {{#unless czyKliknietoArchiwum}}
+                        <button id="doArchiwum" class="btn btn-warning">
+                            <span class="glyphicon glyphicon-lock"></span> Do Archiwum
+                        </button>
+                    {{/unless}}
+                    {{#unless czyKliknietoKosz}}
+                        <button id="doKosza" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-trash"></span> Do Kosza
+                        </button>
+                    {{/unless}}
                 </div>
             </div>
         </div>
@@ -134,7 +146,7 @@
             {{> opcjeList}}
         </div>
         {{#unless isAdmin}}
-            <legend>Dyskusja kwestii</legend>
+            <legend id="dyskusja">Dyskusja kwestii</legend>
             <div class="row">
                 <div class="col-md-12">
                     {{> discussionMain

@@ -57,9 +57,6 @@ Template.kwestiaOczekujaca.events({
         var temat = $(e.target).find('[id=tematSelect]').val();
         var idKwestia = $(e.target).find('[id=idKwestia]').val();
         var status = KWESTIA_STATUS.DELIBEROWANA;
-        console.log(rodzaj);
-        console.log(temat);
-        console.log(idKwestia);
 
         var kwestiaUpdate = {
             idTemat:temat,

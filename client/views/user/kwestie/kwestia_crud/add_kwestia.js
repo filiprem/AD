@@ -1,17 +1,53 @@
-Template.addKwestiaForm.created = function(){
-    this.rodzajRV = new ReactiveVar();
-}
-
 Template.addKwestiaForm.rendered = function(){
-    //$('#test2').datetimepicker({sideBySide: true});
-    //$('#test3').datetimepicker({sideBySide: true});
 
-    if(Session.get("kwestiaPreview")) {
-        var item = Session.get("kwestiaPreview");
-        var rodzaj = Rodzaj.findOne({_id: item.idRodzaj});
-        var self = Template.instance();
-        self.rodzajRV.set(rodzaj.nazwaRodzaj);
-    }
+    var rodzaj = document.getElementById("rodzajHidden").value;
+    var temat = document.getElementById("tematHidden").value;
+
+    var tabRodzaj =[];
+    var tabTemat = [];
+
+    if(!!rodzaj)
+        tabRodzaj.push({nazwa:rodzaj})
+    if(!!temat)
+        tabTemat.push({nazwa:temat})
+
+    Rodzaj.find({}).forEach(function(item){
+        var rodzaj = {
+            nazwa:item.nazwaRodzaj
+        }
+        tabRodzaj.push(rodzaj);
+    });
+
+    Temat.find({}).forEach(function(item){
+        var temat = {
+            nazwa:item.nazwaTemat
+        }
+        tabTemat.push(temat);
+    });
+
+    var $select1 = $('#sugerowanyRodzaj').selectize({
+        persist: false,
+        createOnBlur: true,
+        create: true,
+        maxItems:1,
+        labelField:'nazwa',
+        valueField:'nazwa',
+        options:tabRodzaj
+    });
+
+    var $select2 = $('#sugerowanyTemat').selectize({
+        persist: false,
+        createOnBlur: true,
+        create: true,
+        maxItems:1,
+        labelField:'nazwa',
+        valueField:'nazwa',
+        options:tabTemat
+    });
+
+    $select1[0].selectize.setValue(rodzaj);
+    $select2[0].selectize.setValue(temat);
+
     $("#kwestiaForm").validate({
         rules: {
             kwestiaNazwa:{
@@ -56,59 +92,7 @@ Template.addKwestiaForm.rendered = function(){
     })
 };
 
-Template.addKwestiaForm.helpers({
-    tematToList: function(){
-        return Temat.find({}).fetch();
-    } ,
-    rodzajToList: function(){
-        return Rodzaj.find({}).fetch();
-    },
-    tresc: function(){
-        var self = Template.instance();
-        if(self.rodzajRV.get()=="Uchwała"){
-            return "Wnioskuję podjęcie uchwały: ";
-        }
-    },
-    krotkaTrescValidator:function(tresc){
-        if(tresc && stringContains(tresc,"Wnioskuję podjęcie uchwały:"))
-            tresc = tresc.replace("Wnioskuję podjęcie uchwały: ", "");
-
-        return tresc;
-    },
-    isSelectedTemat: function(id) {
-        if(Session.get("kwestiaPreview")){
-            var item = Session.get("kwestiaPreview");
-            var item = Temat.findOne({_id: item.idTemat});
-
-            return item._id == id ? true : false;
-        }
-        else
-            return false;
-    },
-    isSelectedRodzaj: function(id) {
-        if(Session.get("kwestiaPreview")) {
-            var item = Session.get("kwestiaPreview");
-            var item = Rodzaj.findOne({_id: item.idRodzaj});
-            if (item._id == id)
-                return true;
-            else
-                return false;
-        }
-        else return false;
-    }
-});
-
 Template.addKwestiaForm.events({
-    'change [name=rodzaje]': function() {
-        var self = Template.instance();
-        var rodzajId = $('[name=rodzaje]').val();
-        if(rodzajId!="default"){
-            var r = Rodzaj.findOne({_id: rodzajId});
-            self.rodzajRV.set(r.nazwaRodzaj);
-        }else{
-            self.rodzajRV.set(rodzajId);
-        }
-    },
     'submit form': function (e) {
         e.preventDefault();
 
