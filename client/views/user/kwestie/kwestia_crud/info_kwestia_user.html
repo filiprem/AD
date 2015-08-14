@@ -67,39 +67,49 @@
                 <td>
                     <div class="row">
                         <div class="col-md-1">
-                            {{srednia}}
+                            {{wartoscPriorytetu}}
                         </div>
                         {{#unless isAdmin}}
                             <div class="col-md-11">
-                                <button id="b-5" name="b-5" type="button" class="btn btn-danger btn-xs" value="-5">
-                                    <b>-5</b>
-                                </button>
-                                <button id="b-4" name="b-4" type="button" class="btn btn-danger btn-xs" value="-4">
-                                    <b>-4</b>
-                                </button>
-                                <button id="b-3" name="b-3" type="button" class="btn btn-danger btn-xs" value="-3">
-                                    <b>-3</b>
-                                </button>
-                                <button id="b-2" name="b-2" type="button" class="btn btn-danger btn-xs" value="-2">
-                                    <b>-2</b>
-                                </button>
-                                <button id="b-1" name="b-1" type="button" class="btn btn-danger btn-xs" value="-1">
-                                    <b>-1</b>
-                                </button>
-                                <button id="b0" name="b0" type="button" class="btn btn-default btn-xs" value="0"
-                                        data-toggle="tooltip" data-placement="top"
-                                        title="Oznacza wstrzymanie się od głosu"><b>&nbsp;0</b>
-                                </button>
-                                <button id="b1" name="b1" type="button" class="btn btn-success btn-xs" value="1">
-                                    <b>+1</b></button>
-                                <button id="b2" name="b2" type="button" class="btn btn-success btn-xs" value="2">
-                                    <b>+2</b></button>
-                                <button id="b3" name="b3" type="button" class="btn btn-success btn-xs" value="3">
-                                    <b>+3</b></button>
-                                <button id="b4" name="b4" type="button" class="btn btn-success btn-xs" value="4">
-                                    <b>+4</b></button>
-                                <button id="b5" name="b5" type="button" class="btn btn-success btn-xs" value="5">
-                                    <b>+5</b></button>
+                                <form>
+                                    <div class="btn-group" role="group" aria-label="...">
+                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
+                                                class="btn btn-xs btn-danger" value="-5">-5
+                                        </button>
+                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
+                                                class="btn btn-xs btn-danger" value="-4">-4
+                                        </button>
+                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
+                                                class="btn btn-xs btn-danger" value="-3">-3
+                                        </button>
+                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
+                                                class="btn btn-xs btn-danger" value="-2">-2
+                                        </button>
+                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
+                                                class="btn btn-xs btn-danger" value="-1">-1
+                                        </button>
+                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
+                                                class="btn btn-xs btn-default" value="0"
+                                                data-toggle="tooltip" data-placement="top"
+                                                title="Oznacza wstrzymanie się od głosu">&nbsp;0
+                                        </button>
+                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
+                                                class="btn btn-xs btn-success" value="1">+1
+                                        </button>
+                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
+                                                class="btn btn-xs btn-success" value="2">+2
+                                        </button>
+                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
+                                                class="btn btn-xs btn-success" value="3">+3
+                                        </button>
+                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
+                                                class="btn btn-xs btn-success" value="4">+4
+                                        </button>
+                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
+                                                class="btn btn-xs btn-success" value="5">+5
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
                         {{/unless}}
                     </div>

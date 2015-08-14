@@ -3,9 +3,9 @@ Template.listKwestia.rendered = function () {
     this.autorun(function () {
         var kwestie = Kwestia.find({
             $where: function () {
-                return ((this.czyAktywny == true) && (this.sredniaPriorytet > 0));
+                return ((this.czyAktywny == true) && (this.wartoscPriorytetu > 0));
             }
-        }, {sort: {sredniaPriorytet: -1}, limit: 3});
+        }, {sort: {wartoscPriorytetu: -1}, limit: 3});
         var tab = [];
         kwestie.forEach(function (item) {
             tab.push(item._id);
@@ -16,19 +16,25 @@ Template.listKwestia.rendered = function () {
 };
 Template.listKwestia.created = function () {
     this.liczbaKwestiRV = new ReactiveVar();
-},
-    Template.listKwestia.events({
-        //edycja kwestii
-        'click .glyphicon-pencil': function (event, template) {
-            Session.set('kwestiaInScope', this);
-            Router.go("editKwestia");
-        },
-        'click #addKwestiaButton': function () {
-            if (!!Session.get("kwestiaPreview"))
-                Session.set("kwestiaPreview", null);
-            Router.go("addKwestia");
-        }
-    });
+};
+
+Template.listKwestia.events({
+    //edycja kwestii
+    'click .glyphicon-pencil': function (event, template) {
+        Session.set('kwestiaInScope', this);
+        Router.go("editKwestia");
+    },
+    'click #addKwestiaButton': function () {
+        if (!!Session.get("kwestiaPreview"))
+            Session.set("kwestiaPreview", null);
+        Router.go("addKwestia");
+    },
+    'click #clickMe': function(){
+        var en = new EmailNotifications();
+        en.registerAddKwestiaNotification('AD', 'Organizacja DOM', "",
+            'Kwestia w sprawie...', 'Uchwała', 'Opis Kwestii....', 'linkDK', 'linkLoginTo');
+    }
+});
 Template.listKwestia.helpers({
     'settings': function () {
         var self = Template.instance();
@@ -58,7 +64,7 @@ Template.listKwestia.helpers({
                     tmpl: Template.nazwaKwestiLink
                 },
                 {
-                    key: 'sredniaPriorytet',
+                    key: 'wartoscPriorytetu',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
                         title: "Kliknij, aby zmienić swój priorytet dla tej Kwestii",
@@ -149,7 +155,7 @@ Template.dataUtwKwestia.helpers({
 
 Template.priorytetKwestia.helpers({
     priorytet: function () {
-        var p = this.sredniaPriorytet;
+        var p = this.wartoscPriorytetu;
         //if(p){
         return p.toFixed(2);
         //}

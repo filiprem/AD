@@ -133,7 +133,7 @@ Template.discussionRating.events({
                 else
                     throwError(error.reason);
             } else {
-                console.log("Update zaliczony");
+                console.log("Udało sie update'ować ranking");
             }
         });
 
