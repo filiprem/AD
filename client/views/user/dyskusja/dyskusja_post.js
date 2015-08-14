@@ -112,7 +112,7 @@ Template.discussionAnswerForm.events({
         var addDate = new Date();
         var isParent = false;
         var czyAktywny = true;
-        var userFullName = Meteor.user().profile.full_name;
+        var userFullName = Meteor.user().profile.fullName;
         var ratingValue = 0;
         var glosujacy = [];
 
