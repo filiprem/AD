@@ -188,7 +188,33 @@ Template.informacjeKwestia.events({
                 else
                     throwError(error.reason);
             }
-            else console.log("Udało sie update'ować priorytet");
+            else {
+                console.log("Udało sie update'ować priorytet");
+                var self = Template.instance();
+                console.log(self)
+                if (self.ifUserVoted.get() == false) {
+                    console.log("Użytkownik nie nadał jeszcze priorytetu");
+                    var newValue = 0;
+                    var pktAddPriorytet = Parametr.findOne({});
+                    newValue = Number(pktAddPriorytet.pktNadaniePriorytetu) + getUserRadkingValue(Meteor.userId());
+                    console.log(newValue);
+                    Meteor.call('updateUserRanking', Meteor.userId(), newValue, function (error) {
+                        if (error) {
+                            if (typeof Errors === "undefined")
+                                Log.error('Error: ' + error.reason);
+                            else {
+                                throwError(error.reason);
+                            }
+                        }
+                        else {
+                            self.ifUserVoted.set(true);
+                        }
+                    });
+                }
+                else {
+                    console.log("Użytkownik nadał już priorytet");
+                }
+            }
         });
     }
 });
