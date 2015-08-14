@@ -83,8 +83,9 @@ Template.addKwestiaOpcjaForm.events({
                 idParent: idParentKwestii,
                 isOption: true
             }];
-        Session.set("kwestiaPreview", newKwestiaOpcja[0]);
-        Router.go('previewKwestia');
+        Session.set("kwestiaPreviewOpcja", newKwestiaOpcja[0]);
+        Session.set("kwestiaPreviewO", newKwestiaOpcja[0]);
+        Router.go('previewKwestiaOpcja');
     },
     'click #anuluj':function(){
         Router.go("informacjeKwestia",{_id:Session.get("idKwestia")});

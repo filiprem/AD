@@ -1,0 +1,40 @@
+<template name="previewKwestiaOpcja">
+    <div class="main">
+        <p class="col-md-12 bg-warning padding-15">
+            UWAGA! Złożonego wniosku nie można wycofać. Wnioskuj odpowiedzialnie i sprawdż przed wprowadzeniem do systemu.
+        </p>
+        <legend>Kwestia</legend>
+        <div class="row">
+            <div class="col col-md-10">
+                <form class="form-horizontal">
+                    <div class="form-group" id="kwestiaNazwaGroup">
+                        <label class=" col-xs-offset-1 col-xs-2">Nazwa Kwestii:</label>
+                        <div class="col-xs-9">
+                            {{kwestiaNazwa}}
+                        </div>
+                    </div>
+                    <legend>Treść Kwestii</legend>
+                    <div class="form-group" id="krotkaTrescGroup">
+                        <label class="col-xs-offset-1 col-xs-2">Krótka treść:</label>
+                        <div class="col-xs-9">
+                            {{krotkaTresc}}
+                        </div>
+                    </div>
+                    <div class="form-group" id="szczegolowaTrescGroup">
+                        <label class="col-xs-offset-1 col-xs-2">Opis z uzasadnieniem:</label>
+                        <div class="col-xs-9">
+                            {{szczegolowaTresc}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-offset-3 col-xs-9">
+                            <a href="{{pathFor "addKwestiaOpcja"}}" id="edit" type="button" class="btn btn-primary">Popraw</a>
+                            <a id="save" type="button" class="btn btn-primary">Dodaj</a>
+                            <a id="cancel" type="reset" class="btn btn-default">Anuluj</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</template>

@@ -1,5 +1,20 @@
+Template.informacjeKwestia.rendered = function() {
+    var self = Template.instance();
+    var currentKwestiaId=Session.get("idKwestia");
+    var tabOfUsersVoted=[];
+    tabOfUsersVoted=getAllUsersWhoVoted(currentKwestiaId);
+    if(_.contains(tabOfUsersVoted,Meteor.userId())){
+        self.ifUserVoted.set(true);
+    }
+    else{
+        self.ifUserVoted.set(false);
+    }
+},
+Template.informacjeKwestia.created = function(){
+    this.ifUserVoted = new ReactiveVar();
+},
 Template.informacjeKwestia.events({
-    'click #dyskusja': function (e) {
+    'click #dyskusja': function (e){
         var id = document.getElementById("dyskusja").name;
         Router.go('dyskusjaKwestia', {_id: id})
     },
@@ -175,6 +190,33 @@ Template.informacjeKwestia.events({
             });
             flaga = true;
         }
+
+        var self = Template.instance();
+        if(self.ifUserVoted.get()==false)
+        {
+            console.log("Użytkownik nie nadał jeszcze priorytetu");
+            var newValue=0;
+            var pktAddPriorytet=Parametr.findOne({});
+            newValue=Number(pktAddPriorytet.pktNadaniePriorytetu)+getUserRadkingValue(Meteor.userId());
+            console.log(newValue);
+            Meteor.call('updateUserRanking', Meteor.userId(),newValue, function (error) {
+                if (error)
+                {
+                    if (typeof Errors === "undefined")
+                        Log.error('Error: ' + error.reason);
+                    else
+                    {
+                        throwError(error.reason);
+                    }
+                }
+                else{
+                    self.ifUserVoted.set(true);
+                }
+            });
+        }
+        else{
+            console.log("Użytkownik nadał już priorytet");
+        }
     },
     'click #b-4': function (e) {
         e.preventDefault();
@@ -238,6 +280,33 @@ Template.informacjeKwestia.events({
                 $set: {sredniaPriorytet: srednia}
             });
             flaga = true;
+        }
+
+        var self = Template.instance();
+        if(self.ifUserVoted.get()==false)
+        {
+            console.log("Użytkownik nie nadał jeszcze priorytetu");
+            var newValue=0;
+            var pktAddPriorytet=Parametr.findOne({});
+            newValue=Number(pktAddPriorytet.pktNadaniePriorytetu)+getUserRadkingValue(Meteor.userId());
+            console.log(newValue);
+            Meteor.call('updateUserRanking', Meteor.userId(),newValue, function (error) {
+                if (error)
+                {
+                    if (typeof Errors === "undefined")
+                        Log.error('Error: ' + error.reason);
+                    else
+                    {
+                        throwError(error.reason);
+                    }
+                }
+                else{
+                    self.ifUserVoted.set(true);
+                }
+            });
+        }
+        else{
+            console.log("Użytkownik nadał już priorytet");
         }
     },
     'click #b-3': function (e) {
@@ -303,6 +372,33 @@ Template.informacjeKwestia.events({
             });
             flaga = true;
         }
+
+        var self = Template.instance();
+        if(self.ifUserVoted.get()==false)
+        {
+            console.log("Użytkownik nie nadał jeszcze priorytetu");
+            var newValue=0;
+            var pktAddPriorytet=Parametr.findOne({});
+            newValue=Number(pktAddPriorytet.pktNadaniePriorytetu)+getUserRadkingValue(Meteor.userId());
+            console.log(newValue);
+            Meteor.call('updateUserRanking', Meteor.userId(),newValue, function (error) {
+                if (error)
+                {
+                    if (typeof Errors === "undefined")
+                        Log.error('Error: ' + error.reason);
+                    else
+                    {
+                        throwError(error.reason);
+                    }
+                }
+                else{
+                    self.ifUserVoted.set(true);
+                }
+            });
+        }
+        else{
+            console.log("Użytkownik nadał już priorytet");
+        }
     },
     'click #b-2': function (e) {
         e.preventDefault();
@@ -366,6 +462,33 @@ Template.informacjeKwestia.events({
                 $set: {sredniaPriorytet: srednia}
             });
             flaga = true;
+        }
+
+        var self = Template.instance();
+        if(self.ifUserVoted.get()==false)
+        {
+            console.log("Użytkownik nie nadał jeszcze priorytetu");
+            var newValue=0;
+            var pktAddPriorytet=Parametr.findOne({});
+            newValue=Number(pktAddPriorytet.pktNadaniePriorytetu)+getUserRadkingValue(Meteor.userId());
+            console.log(newValue);
+            Meteor.call('updateUserRanking', Meteor.userId(),newValue, function (error) {
+                if (error)
+                {
+                    if (typeof Errors === "undefined")
+                        Log.error('Error: ' + error.reason);
+                    else
+                    {
+                        throwError(error.reason);
+                    }
+                }
+                else{
+                    self.ifUserVoted.set(true);
+                }
+            });
+        }
+        else{
+            console.log("Użytkownik nadał już priorytet");
         }
     },
     'click #b-1': function (e) {
@@ -431,6 +554,33 @@ Template.informacjeKwestia.events({
             });
             flaga = true;
         }
+
+        var self = Template.instance();
+        if(self.ifUserVoted.get()==false)
+        {
+            console.log("Użytkownik nie nadał jeszcze priorytetu");
+            var newValue=0;
+            var pktAddPriorytet=Parametr.findOne({});
+            newValue=Number(pktAddPriorytet.pktNadaniePriorytetu)+getUserRadkingValue(Meteor.userId());
+            console.log(newValue);
+            Meteor.call('updateUserRanking', Meteor.userId(),newValue, function (error) {
+                if (error)
+                {
+                    if (typeof Errors === "undefined")
+                        Log.error('Error: ' + error.reason);
+                    else
+                    {
+                        throwError(error.reason);
+                    }
+                }
+                else{
+                    self.ifUserVoted.set(true);
+                }
+            });
+        }
+        else{
+            console.log("Użytkownik nadał już priorytet");
+        }
     },
     'click #b0': function (e) {
         e.preventDefault();
@@ -494,6 +644,30 @@ Template.informacjeKwestia.events({
                 $set: {sredniaPriorytet: srednia}
             });
             flaga = true;
+        }
+
+        var self = Template.instance();
+        if(self.ifUserVoted.get()==false)
+        {
+            console.log("Użytkownik nie nadał jeszcze priorytetu");
+            var newValue=0;
+            var pktAddPriorytet=Parametr.findOne({});
+            newValue=Number(pktAddPriorytet.pktNadaniePriorytetu)+getUserRadkingValue(Meteor.userId());
+            console.log(newValue);
+            Meteor.call('updateUserRanking', Meteor.userId(),newValue, function (error) {
+                if (error)
+                {
+                    if (typeof Errors === "undefined")
+                        Log.error('Error: ' + error.reason);
+                    else
+                    {
+                        throwError(error.reason);
+                    }
+                }
+                else{
+                    self.ifUserVoted.set(true);
+                }
+            });
         }
     },
     'click #b1': function (e) {
@@ -559,6 +733,33 @@ Template.informacjeKwestia.events({
             });
             flaga = true;
         }
+
+        var self = Template.instance();
+        if(self.ifUserVoted.get()==false)
+        {
+            console.log("Użytkownik nie nadał jeszcze priorytetu");
+            var newValue=0;
+            var pktAddPriorytet=Parametr.findOne({});
+            newValue=Number(pktAddPriorytet.pktNadaniePriorytetu)+getUserRadkingValue(Meteor.userId());
+            console.log(newValue);
+            Meteor.call('updateUserRanking', Meteor.userId(),newValue, function (error) {
+                if (error)
+                {
+                    if (typeof Errors === "undefined")
+                        Log.error('Error: ' + error.reason);
+                    else
+                    {
+                        throwError(error.reason);
+                    }
+                }
+                else{
+                    self.ifUserVoted.set(true);
+                }
+            });
+        }
+        else{
+            console.log("Użytkownik nadał już priorytet");
+        }
     },
     'click #b2': function (e) {
         e.preventDefault();
@@ -622,6 +823,30 @@ Template.informacjeKwestia.events({
                 $set: {sredniaPriorytet: srednia}
             });
             flaga = true;
+        }
+
+        var self = Template.instance();
+        if(self.ifUserVoted.get()==false)
+        {
+            console.log("Użytkownik nie nadał jeszcze priorytetu");
+            var newValue=0;
+            var pktAddPriorytet=Parametr.findOne({});
+            newValue=Number(pktAddPriorytet.pktNadaniePriorytetu)+getUserRadkingValue(Meteor.userId());
+            console.log(newValue);
+            Meteor.call('updateUserRanking', Meteor.userId(),newValue, function (error) {
+                if (error)
+                {
+                    if (typeof Errors === "undefined")
+                        Log.error('Error: ' + error.reason);
+                    else
+                    {
+                        throwError(error.reason);
+                    }
+                }
+                else{
+                    self.ifUserVoted.set(true);
+                }
+            });
         }
     },
     'click #b3': function (e) {
@@ -687,6 +912,33 @@ Template.informacjeKwestia.events({
             });
             flaga = true;
         }
+
+        var self = Template.instance();
+        if(self.ifUserVoted.get()==false)
+        {
+            console.log("Użytkownik nie nadał jeszcze priorytetu");
+            var newValue=0;
+            var pktAddPriorytet=Parametr.findOne({});
+            newValue=Number(pktAddPriorytet.pktNadaniePriorytetu)+getUserRadkingValue(Meteor.userId());
+            console.log(newValue);
+            Meteor.call('updateUserRanking', Meteor.userId(),newValue, function (error) {
+                if (error)
+                {
+                    if (typeof Errors === "undefined")
+                        Log.error('Error: ' + error.reason);
+                    else
+                    {
+                        throwError(error.reason);
+                    }
+                }
+                else{
+                    self.ifUserVoted.set(true);
+                }
+            });
+        }
+        else{
+            console.log("Użytkownik nadał już priorytet");
+        }
     },
     'click #b4': function (e) {
         e.preventDefault();
@@ -750,6 +1002,33 @@ Template.informacjeKwestia.events({
                 $set: {sredniaPriorytet: srednia}
             });
             flaga = true;
+        }
+
+        var self = Template.instance();
+        if(self.ifUserVoted.get()==false)
+        {
+            console.log("Użytkownik nie nadał jeszcze priorytetu");
+            var newValue=0;
+            var pktAddPriorytet=Parametr.findOne({});
+            newValue=Number(pktAddPriorytet.pktNadaniePriorytetu)+getUserRadkingValue(Meteor.userId());
+            console.log(newValue);
+            Meteor.call('updateUserRanking', Meteor.userId(),newValue, function (error) {
+                if (error)
+                {
+                    if (typeof Errors === "undefined")
+                        Log.error('Error: ' + error.reason);
+                    else
+                    {
+                        throwError(error.reason);
+                    }
+                }
+                else{
+                    self.ifUserVoted.set(true);
+                }
+            });
+        }
+        else{
+            console.log("Użytkownik nadał już priorytet");
         }
     },
     'click #b5': function (e) {
@@ -815,6 +1094,30 @@ Template.informacjeKwestia.events({
                 $set: {sredniaPriorytet: srednia}
             });
             flaga = true;
+        }
+
+        var self = Template.instance();
+        if(self.ifUserVoted.get()==false)
+        {
+            console.log("Użytkownik nie nadał jeszcze priorytetu");
+            var newValue=0;
+            var pktAddPriorytet=Parametr.findOne({});
+            newValue=Number(pktAddPriorytet.pktNadaniePriorytetu)+getUserRadkingValue(Meteor.userId());
+            console.log(newValue);
+            Meteor.call('updateUserRanking', Meteor.userId(),newValue, function (error) {
+                if (error)
+                {
+                    if (typeof Errors === "undefined")
+                        Log.error('Error: ' + error.reason);
+                    else
+                    {
+                        throwError(error.reason);
+                    }
+                }
+                else{
+                    self.ifUserVoted.set(true);
+                }
+            });
         }
     }
 });

@@ -76,16 +76,8 @@ Template.kwestiaOczekujaca.events({
                 var userKwestia= $(e.target).find('[id=idUser]').val();
                 var newValue=0;
                 var pktAddKwestia=Parametr.findOne({});
-                console.log(Number(pktAddKwestia.pktDodanieKwestii));
-                console.log(getUserRadkingValue(userKwestia));
                 newValue=Number(pktAddKwestia.pktDodanieKwestii)+getUserRadkingValue(userKwestia);
 
-                //newValue = {
-                //    profile:{
-                //        rADking:Number(pktAddKwestia.pktDodanieKwestii)+getUserRadkingValue(Meteor.userId())
-                //    }
-                //};
-                console.log(newValue);
                 Meteor.call('updateUserRanking', userKwestia,newValue, function (error) {
                     if (error)
                     {
