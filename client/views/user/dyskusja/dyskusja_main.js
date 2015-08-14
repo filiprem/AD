@@ -15,10 +15,15 @@ Template.discussionPostForm.events({
         var isParent = true;
         var idParent = null;
         var czyAktywny = true;
-        var userFullName = Meteor.user().profile.full_name;
+        var userFullName = Meteor.user().profile.fullName;
         var idParent = null;
         var ratingValue = 0;
         var glosujacy = [];
+        console.log("message "+message);
+        console.log("idKwestia "+idKwestia);
+        console.log("idUser "+idUser);
+        console.log("userFullName "+userFullName);
+        console.log("idParent "+idParent);
 
         var post = [{
             idKwestia: idKwestia,

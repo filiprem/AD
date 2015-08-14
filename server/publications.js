@@ -1,8 +1,17 @@
-Meteor.publish('rodzaj', function() {
+Meteor.publish('rodzaje', function() {
     return Rodzaj.find();
 });
+
+Meteor.publish('rodzaj', function(id) {
+    return Rodzaj.find({_id:id});
+});
+//TO DO zbadac gdzie są subskrypcje i używac jednej publikacji bo robia to samo
 Meteor.publish("allUserData", function () {
     return Meteor.users.find({});
+});
+
+Meteor.publish('users', function(){
+    return Users.find();
 });
 
 Meteor.publish(null, function (){
@@ -13,32 +22,32 @@ Meteor.publish('parametr', function() {
     return Parametr.find();
 });
 
-Meteor.publish('temat', function() {
+Meteor.publish('tematy', function() {
     return Temat.find();
+});
+
+Meteor.publish('temat', function(id) {
+    return Temat.find({_id:id});
 });
 
 Meteor.publish('raport', function(){
    return Raport.find();
 });
 
-Meteor.publish('kwestia', function(){
+Meteor.publish('kwestie', function(){
     return Kwestia.find();
+});
+
+Meteor.publish('kwestia', function(id){
+    return Kwestia.find({_id:id});
 });
 
 Meteor.publish('kwestieOczekujace', function(status){
     return Kwestia.find({status:status,czyAktywny:true})
 });
 
-Meteor.publish('oneKwestia', function(id){
-    return Kwestia.find({_id:id});
-});
-
 Meteor.publish('kwestiaTresc', function(){
     return KwestiaTresc.find();
-});
-
-Meteor.publish('users', function(){
-    return Users.find();
 });
 
 Meteor.publish('glosujacy', function() {
