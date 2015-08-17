@@ -192,13 +192,18 @@ Template.informacjeKwestia.events({
             }
             else {
                 console.log("Udało sie update'ować priorytet");
+                console.log("Teraz bedzie operacja radking")
                 var self = Template.instance();
-                console.log(self)
+                console.log(Template.instance())
                 if (self.ifUserVoted.get() == false) {
+                    console.log("jestesmy w if self.ifUserVoted.get() == false")
                     console.log("Użytkownik nie nadał jeszcze priorytetu");
                     var newValue = 0;
                     var pktAddPriorytet = Parametr.findOne({});
+                    console.log("pkt add priorytet")
+                    console.log(pktAddPriorytet)
                     newValue = Number(pktAddPriorytet.pktNadaniePriorytetu) + getUserRadkingValue(Meteor.userId());
+                    console.log("new value")
                     console.log(newValue);
                     Meteor.call('updateUserRanking', Meteor.userId(), newValue, function (error) {
                         if (error) {
@@ -214,6 +219,7 @@ Template.informacjeKwestia.events({
                     });
                 }
                 else {
+                    console.log("jestesmy w else funkcji self.ifUserVoted.get() == false")
                     console.log("Użytkownik nadał już priorytet");
                 }
             }

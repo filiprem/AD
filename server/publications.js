@@ -19,11 +19,11 @@ Meteor.publish(null, function (){
 });
 
 Meteor.publish('parametr', function() {
-    return Parametr.find();
+    return Parametr.find({});
 });
 
 Meteor.publish('tematy', function() {
-    return Temat.find();
+    return Temat.find({});
 });
 
 Meteor.publish('temat', function(id) {
@@ -31,11 +31,11 @@ Meteor.publish('temat', function(id) {
 });
 
 Meteor.publish('raport', function(){
-   return Raport.find();
+   return Raport.find({});
 });
 
 Meteor.publish('kwestie', function(){
-    return Kwestia.find();
+    return Kwestia.find({});
 });
 
 Meteor.publish('kwestia', function(id){
@@ -47,7 +47,7 @@ Meteor.publish('kwestieOczekujace', function(status){
 });
 
 Meteor.publish('kwestiaTresc', function(){
-    return KwestiaTresc.find();
+    return KwestiaTresc.find({});
 });
 
 Meteor.publish('glosujacy', function() {
