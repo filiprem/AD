@@ -6,5 +6,11 @@
   },
   "addKwestiaForm":{
     "addKwestiaH3":"Dodaj Kwestię"
+  },
+  "pageInfo":{
+    "user_administration":{
+      "title":"Administracja",
+      "message":"Opis tej strony"
+    }
   }
 }

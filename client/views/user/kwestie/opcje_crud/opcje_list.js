@@ -1,14 +1,16 @@
 Template.opcjeList.helpers({
     OpcjeList: function () {
         var kwestiaGlownaId = Session.get("idKwestia");
-        var k = Kwestia.find({idParent: kwestiaGlownaId}, {isOption: true}).fetch();
+        var k = Kwestia.find({idParent: kwestiaGlownaId, isOption: true}).fetch();
+        console.log(k);
         if (k) return k;
+        else return false;
     },
     'settings': function () {
         return {
             rowsPerPage: 10,
             showFilter: false,
-            showNavigation: 'always',
+            showNavigation: 'never',
             showColumnToggles: false,
             enableRegex: false,
             fields: [

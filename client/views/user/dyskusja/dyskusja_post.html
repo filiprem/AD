@@ -1,7 +1,7 @@
 <template name="discussionPostItem">
     <div class="panel panel-default">
         {{#if isDoArchiwum}}
-            <div class="panel-heading" role="tab" id="heading{{idPost}}" style="background-color: #F0AD4E">
+            <div class="panel-heading doArchiwumClass" role="tab" id="heading{{idPost}}" style="background-color: #ffeeaa">
                 <h4 class="panel-title">
                     <div class="row">
                         <div class="col-md-12">
@@ -65,7 +65,7 @@
             </div>
         {{else}}
             {{#if isDoKosza}}
-                <div class="panel-heading" role="tab" id="heading{{idPost}}" style="background-color: #C9302C">
+                <div class="panel-heading doKoszaClass" role="tab" id="heading{{idPost}}" style="background-color: #ffcccc">
                     <h4 class="panel-title">
                         <div class="row">
                             <div class="col-md-12">
@@ -177,8 +177,7 @@
                         <div class="clearfix"></div>
                     </h4>
                 </div>
-                <div id="{{idPost}}" class="panel-collapse collapse" role="tabpanel"
-                     aria-labelledby="heading{{idPost}}">
+                <div id="{{idPost}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading{{idPost}}">
                     <div class="panel-body">
                         {{#each getAnswers idPost}}
                             {{> discussionAnswerItem

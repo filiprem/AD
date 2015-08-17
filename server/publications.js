@@ -42,6 +42,10 @@ Meteor.publish('kwestia', function(id){
     return Kwestia.find({_id:id});
 });
 
+Meteor.publish('kwestieOpcje', function(id){
+    return Kwestia.find({idParent: id});
+});
+
 Meteor.publish('kwestieOczekujace', function(status){
     return Kwestia.find({status:status,czyAktywny:true})
 });
@@ -54,6 +58,11 @@ Meteor.publish('kwestieInfo', function(){
     return Kwestia.find({},{fields:{'kwestiaNazwa':1,czyAktywny:1,krotkaTresc:1,szczegolowaTresc:1,idTemat:1,idRodzaj:1}});
 });
 
+Meteor.publish('kwestieUser', function(id){
+    return Kwestia.find({idUser:id,czyAktywny:true})
+});
+
+// TO DO - usunąc przy refaktorze
 Meteor.publish('kwestiaTresc', function(){
     return KwestiaTresc.find({});
 });

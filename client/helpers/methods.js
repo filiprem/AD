@@ -86,8 +86,23 @@ getAllUsersWhoVoted=function(idKWestia){
     var tabNew=[];
     for(var j= 0;j<tab.length;j++){
         tabNew.push(tab[j].idUser);
-    }
-    console.log("tabNew");
-    console.log(tabNew);
+    }    
     return tabNew;
+};
+
+getUrlPathArray=function(){
+    var pathArray = window.location.pathname.split( '/' );
+    return pathArray;
+};
+
+preparePageInfoString=function(pathArray,label){
+
+    var str = "pageInfo.";
+    for(var item in pathArray){
+        if(!!pathArray[item])
+            str+=pathArray[item]+".";
+    }
+    str+=label;
+
+    return str;
 };
