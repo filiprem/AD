@@ -5,6 +5,9 @@ fieldEmptyMesssage=function(){
 positiveNumberMesssage=function(){
     return 'Podaj wartość większą od zera';
 },
+negativeNumberMessage=function(){
+    return 'Nie można wprowadzać ujemnych wartości';
+},
 decimalNumberMesssage=function(){
     return 'Podana wartość nie jest liczbą';
 },
@@ -37,7 +40,18 @@ validationPlacementError=function(error, element){
             error.insertAfter(element);
         }
 },
-
+jQuery.validator.addMethod("checkExistsNazwaKwestii", function(value, element) {
+    var kwestie=Kwestia.find({czyAktywny:true});
+    console.log(kwestie.count());
+    var found=null;
+    kwestie.forEach(function(item){
+        console.log(item.kwestiaNazwa);
+        if( _.isEqual(item.kwestiaNazwa.toLowerCase().trim(),value.toLowerCase().trim()) ){
+            found=true;
+        }
+    });
+    return this.optional( element ) || found==null;
+}, 'Ta Kwestia już istnieje!');
 
 
 //NOT USED!

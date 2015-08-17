@@ -10,6 +10,7 @@ Meteor.methods({
                 username: newUser[0].login,
                 email: newUser[0].email,
                 password: newUser[0].password,
+
                 profile: {
                     firstName: newUser[0].firstName,
                     lastName: newUser[0].lastName,
@@ -22,12 +23,15 @@ Meteor.methods({
                     phone: newUser[0].phone,
                     web: newUser[0].web,
                    // role: newUser[0].role,
-                    roleDesc:  newUser[0].roleDesc
+                    roleDesc:  newUser[0].roleDesc,
+                    language:newUser[0].language,
+                    //roleDesc:  newUser[0].roleDesc,
+                    rADking:newUser[0].rADking
                 }
             });
         }
 
-        //Roles.addUsersToRoles(uID, newUser[0].role);
+        Roles.addUsersToRoles(uID, "user");
     },
 
     updateUser: function(currentUserId,currentUser) {
@@ -35,8 +39,19 @@ Meteor.methods({
             $set: currentUser},
             {upsert:true});
     },
-
+    updateUserLanguage: function(currentUserId,value) {
+        Users.update({_id:currentUserId}, {$set:{'profile.language': value}});
+    },
+    updateUserRanking: function(currentUserId,value) {
+        console.log(currentUserId);
+        console.log(value);
+        Users.update({_id:currentUserId},{$set:{'profile.rADking': value}});
+    },
     removeUser: function(id){
         Users.remove({_id: id});
+    },
+
+    updateUserLanguage: function(id,user) {
+        Users.update({_id:id},{$set:{'profile.language':user.profile.language}});
     }
 });

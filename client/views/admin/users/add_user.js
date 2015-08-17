@@ -1,56 +1,56 @@
 Template.addUserForm.rendered = function () {
-    $('#test1').datetimepicker({
+    $('#dataUrodzeniaDatePicker').datetimepicker({
         sideBySide: true,
         format: 'DD/MM/YYYY'
     });
     $("#userForm").validate({
         rules: {
-            password:{
-                minlength:6,
+            password: {
+                minlength: 6
             },
-            czasGlosowania:{
+            czasGlosowania: {
                 min: 0.01,
-                number:true
+                number: true
             },
-            email:{
+            email: {
                 email: true
             },
-            confirmPassword:{
+            confirmPassword: {
                 equalTo: "#inputPassword"
             }
         },
-        messages:{
-            role:{
-                required:fieldEmptyMesssage(),
+        messages: {
+            role: {
+                required: fieldEmptyMesssage()
             },
-            email:{
-                required:fieldEmptyMesssage(),
-                email:validEmailMessage()
+            email: {
+                required: fieldEmptyMesssage(),
+                email: validEmailMessage()
             },
-            firstName:{
-                required:fieldEmptyMesssage(),
+            firstName: {
+                required: fieldEmptyMesssage()
             },
-            lastName:{
-                required:fieldEmptyMesssage(),
+            lastName: {
+                required: fieldEmptyMesssage()
             },
-            password:{
-                required:fieldEmptyMesssage(),
-                minlength:minLengthMessage(6)
+            password: {
+                required: fieldEmptyMesssage(),
+                minlength: minLengthMessage(6)
             },
-            confirmPassword:{
-                equalTo:equalToMessage()
+            confirmPassword: {
+                equalTo: equalToMessage()
             }
         },
-        highlight: function(element) {
+        highlight: function (element) {
             highlightFunction(element);
         },
-        unhighlight: function(element) {
+        unhighlight: function (element) {
             unhighlightFunction(element);
         },
         errorElement: 'span',
         errorClass: 'help-block',
-        errorPlacement: function(error, element) {
-            validationPlacementError(error,element);
+        errorPlacement: function (error, element) {
+            validationPlacementError(error, element);
         }
     })
 };
@@ -75,40 +75,29 @@ Template.addUserForm.events({
                 web: $(e.target).find('[name=web]').val(),
                 gender: $(e.target).find('[name=genderRadios]:checked').val(),
                 role: 'admin',
-                roleDesc: $(e.target).find('[name=uwagiStatus]').val()
+                roleDesc: $(e.target).find('[name=uwagiStatus]').val(),
+                rADking: 0,
+                //roleDesc: $(e.target).find('[name=uwagiStatus]').val(),
+                language: $(e.target).find('[name=language]').val()
             }];
-            // sprawdzamy, czy rola istnieje,
-            // jeżeli nie to dodajemy nową.
-            //Meteor.call('addRole', newUser[0].role, function (error) {
-            //    if (error) {
-            //        // optionally use a meteor errors package
-            //        if (typeof Errors === "undefined")
-            //            Log.error('Error: ' + error.reason);
-            //        else {
-            //            if(error.error !== 422)
-            //            throwError(error.reason);
-            //        }
-            //    }
-            //});
-            //-- generowanie loginu dla użytkownika
-            newUser[0].login = generateLogin(newUser[0].firstName, newUser[0].lastName);
-            Meteor.call('addUser', newUser, function (error) {
-                if (error)
-                {
-                    // optionally use a meteor errors package
-                    if (typeof Errors === "undefined")
-                        Log.error('Error: ' + error.reason);
-                    else {
-                        //if(error.error === 409)
-                        throwError(error.reason);
-                    }
-                }
+        //-- generowanie loginu dla użytkownika
+        newUser[0].login = generateLogin(newUser[0].firstName, newUser[0].lastName);
+        Meteor.call('addUser', newUser, function (error) {
+            if (error) {
+                // optionally use a meteor errors package
+                if (typeof Errors === "undefined")
+                    Log.error('Error: ' + error.reason);
                 else {
-                    Router.go('listUsers');
+                    //if(error.error === 409)
+                    throwError(error.reason);
                 }
-            });
+            }
+            else {
+                Router.go('listUsers');
+            }
+        });
     },
-    'reset form': function(){
+    'reset form': function () {
         Router.go('listUsers');
     }
 });

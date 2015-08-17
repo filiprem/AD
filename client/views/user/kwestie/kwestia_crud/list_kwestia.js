@@ -1,30 +1,43 @@
-Template.listKwestia.rendered = function()
-{};
+Template.listKwestia.rendered = function () {
+    var self = Template.instance();
+    this.autorun(function () {
+        var kwestie = Kwestia.find({
+            $where: function () {
+                return ((this.czyAktywny == true) && (this.wartoscPriorytetu > 0));
+            }
+        }, {sort: {wartoscPriorytetu: -1}, limit: 3});
+        var tab = [];
+        kwestie.forEach(function (item) {
+            tab.push(item._id);
+        });
+        self.liczbaKwestiRV.set(tab);
+    })
+
+};
+Template.listKwestia.created = function () {
+    this.liczbaKwestiRV = new ReactiveVar();
+};
 
 Template.listKwestia.events({
-    //usunięcie kwestii
-    'click .glyphicon-trash': function(event, template) {
-        Session.set('kwestiaInScope', this);
-    },
     //edycja kwestii
-    'click .glyphicon-pencil': function(event, template) {
+    'click .glyphicon-pencil': function (event, template) {
         Session.set('kwestiaInScope', this);
         Router.go("editKwestia");
     },
-    'click .glyphicon-thumbs-up': function(event, template){
-        Session.set('kwestiaInScope',this);
-    },
-    'click .glyphicon-remove-circle': function(event, template){
-        Session.set('kwestiaInScope',this);
-    },
-    'click #addKwestiaButton':function (){
-        if(!!Session.get("kwestiaPreview"))
-            Session.set("kwestiaPreview",null);
+    'click #addKwestiaButton': function () {
+        if (!!Session.get("kwestiaPreview"))
+            Session.set("kwestiaPreview", null);
         Router.go("addKwestia");
+    },
+    'click #clickMe': function(){
+        var en = new EmailNotifications();
+        en.registerAddKwestiaNotification('AD', 'Organizacja DOM', "",
+            'Kwestia w sprawie...', 'Uchwała', 'Opis Kwestii....', 'linkDK', 'linkLoginTo');
     }
 });
 Template.listKwestia.helpers({
     'settings': function () {
+        var self = Template.instance();
         return {
             rowsPerPage: 10,
             showFilter: true,
@@ -32,101 +45,123 @@ Template.listKwestia.helpers({
             showColumnToggles: false,
             enableRegex: false,
             fields: [
-                {key: 'dataWprowadzenia', label: Template.listKwestiaColumnLabel, labelData: {title: "Data wprowadzenia Kwestii i rozpoczęcia jej deliberacji", text:"Data"}, tmpl:Template.dataUtwKwestia},
-                {key: 'kwestiaNazwa', label: Template.listKwestiaColumnLabel, labelData: {title: "Kliknij, aby zobaczyć szczegóły", text:"Nazwa kwestii"}, tmpl: Template.nazwaKwestiLink},
                 {
-                    key: 'sredniaPriorytet',
+                    key: 'dataWprowadzenia',
                     label: Template.listKwestiaColumnLabel,
-                    labelData: {title: "Kliknij, aby zmienić swój priorytet dla tej Kwestii", text:"Priorytet"},
+                    labelData: {
+                        title: "Data wprowadzenia Kwestii i rozpoczęcia jej deliberacji",
+                        text: "Data"
+                    },
+                    tmpl: Template.dataUtwKwestia
+                },
+                {
+                    key: 'kwestiaNazwa',
+                    label: Template.listKwestiaColumnLabel,
+                    labelData: {
+                        title: "Kliknij, aby zobaczyć szczegóły",
+                        text: "Nazwa Kwestii"
+                    },
+                    tmpl: Template.nazwaKwestiLink
+                },
+                {
+                    key: 'wartoscPriorytetu',
+                    label: Template.listKwestiaColumnLabel,
+                    labelData: {
+                        title: "Kliknij, aby zmienić swój priorytet dla tej Kwestii",
+                        text: "Priorytet"
+                    },
                     tmpl: Template.priorytetKwestia,
                     sortOrder: 1,
-                    sortDirection: 'descending'},
+                    sortDirection: 'descending'
+                },
                 {key: 'idTemat', label: "Temat", tmpl: Template.tematKwestia},
                 {key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestia},
-                {key: 'dataGlosowania', label: Template.listKwestiaColumnLabel, labelData: {title: "Data zakończenia głosowania", text:"Finał"}, tmpl: Template.dataGlKwestia},
-                {key: 'status', label: Template.listKwestiaColumnLabel ,labelData: {title: "Etap, na którym znajduje sie ta Kwestia", text:"Status"}}
-                //{key: 'options', label: "Opcje", tmpl: Template.editColumnKwestia }
-            ]
+                {
+                    key: 'dataGlosowania',
+                    label: Template.listKwestiaColumnLabel,
+                    labelData: {
+                        title: "Data zakończenia głosowania",
+                        text: "Finał"
+                    },
+                    tmpl: Template.dataGlKwestia
+                }
+            ],
+            rowClass: function (item) {
+                tab = self.liczbaKwestiRV.get();
+                if (_.contains(tab, item._id)) {
+                    return 'priorityClass';
+                }
+            }
         };
     },
-    KwestiaList: function(){
-        return Kwestia.find({czyAktywny: true}).fetch();
+    KwestiaList: function () {
+        return Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.DELIBEROWANA}).fetch();
     },
-    priorytetsr: function() {
-        var i=0;
-
+    priorytetsr: function () {
+        var i = 0;
         var kwestia = Kwestia.findOne({_id: this._id});
-        kwestia.glosujacy.forEach(function(item) {
-            i++;
-        });
-        if(kwestia.priorytet === 0) {
-            var srPriorytet = kwestia.priorytet;
+        if (kwestia) {
+            kwestia.glosujacy.forEach(function (item) {
+                i++;
+            });
+            if (kwestia.priorytet === 0) {
+                var srPriorytet = kwestia.priorytet;
+            }
+            else {
+                var srPriorytet = kwestia.priorytet / i;
+            }
+            return srPriorytet
         }
-        else{
-            var srPriorytet = kwestia.priorytet/i;
-        }
-        return srPriorytet
     },
-    kwestiaCount: function(){
+    kwestiaCount: function () {
         return Kwestia.find({czyAktywny: true}).count();
     },
-    isAdminUser: function() {
+    isAdminUser: function () {
         return IsAdminUser();
+    },
+    isAdmin: function () {
+        if (Meteor.user().roles == "admin") return true;
+        else return false;
     }
 });
 
 Template.tematKwestia.helpers({
-    tematNazwa: function(){
+    tematNazwa: function () {
         var t = Temat.findOne({_id: this.idTemat});
-        if(t){
-            return t.nazwaTemat;
-        }
+        if (t) return t.nazwaTemat;
     }
 });
 
 Template.rodzajKwestia.helpers({
-    rodzajNazwa: function(){
+    rodzajNazwa: function () {
         var r = Rodzaj.findOne({_id: this.idRodzaj});
-        if(r){
-            return r.nazwaRodzaj;
-        }
+        if (r) return r.nazwaRodzaj;
     }
 });
 
 Template.dataGlKwestia.helpers({
     date: function () {
         var d = this.dataGlosowania;
-        if(d){
-            return moment(d).format("DD-MM-YYYY");
-        }
+        if (d) return moment(d).format("DD-MM-YYYY");
     }
 });
 
 Template.dataUtwKwestia.helpers({
     date: function () {
         var d = this.dataWprowadzenia;
-        if(d){
-            return moment(d).format("DD-MM-YYYY");
-        }
+        if (d) return moment(d).format("DD-MM-YYYY");
     }
 });
 
 Template.priorytetKwestia.helpers({
-   priorytet: function () {
-       var p = this.sredniaPriorytet;
-       //if(p){
-           return p.toFixed(2);
-       //}
-   }
+    priorytet: function () {
+        var p = this.wartoscPriorytetu;
+        //if(p){
+        return p.toFixed(2);
+        //}
+    }
 });
 
-Template.editColumnKwestia.helpers({
-});
-
-Template.editColumnKwestia.events({
-
-});
-
-Template.listKwestiaColumnLabel.rendered = function(){
+Template.listKwestiaColumnLabel.rendered = function () {
     $('[data-toggle="tooltip"]').tooltip();
 }

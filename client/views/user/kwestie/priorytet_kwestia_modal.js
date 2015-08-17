@@ -21,7 +21,7 @@ Template.priorytetKwestiaModalInner.events({
             {
                 if(kwestia.glosujacy[i][1] === liczba)
                 {
-                    throwError("Nadałeś już priorytet o tej wadze w tej kwestii!");
+                    throwError("Nadałeś już priorytet o tej wadze w tej Kwestii!");
                     return false;
                 }
                 else if(kwestia.glosujacy[i][1] > liczba)

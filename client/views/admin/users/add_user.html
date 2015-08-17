@@ -5,30 +5,20 @@
         <div class="row">
             <div class="col col-md-10">
                 <form class="form-horizontal" id="userForm">
-                    <!--<div class="form-group">-->
-                        <!--<label class="control-label col-xs-3">Rola: </label>-->
-
-                        <!--<div class="col-xs-3">-->
-                            <!--<select name="role" id="role" class="form-control" required>-->
-                                <!--<option value="">Wybierz rolę</option>-->
-                                <!--{{#each roleToList}}-->
-                                    <!--<option value="{{this._id}}">{{this.name}}</option>-->
-                                <!--{{/each}}-->
-                            <!--</select>-->
-                        <!--</div>-->
-                    <!--</div>-->
                     <div class="form-group">
                         <label class="control-label col-xs-3" for="uwagiStatus">Uwagi do roli: </label>
 
                         <div class="col-xs-9">
-                            <textarea name="uwagiStatus" rows="3" class="form-control" id="uwagiStatus" placeholder="Uwagi do roli"></textarea>
+                            <textarea name="uwagiStatus" rows="3" class="form-control" id="uwagiStatus"
+                                      placeholder="Uwagi do roli"></textarea>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-xs-3" for="inputEmail">Email: </label>
 
                         <div class="col-xs-9">
-                            <input name="email" type="email" class="form-control" id="inputEmail" placeholder="Email" required>
+                            <input name="email" type="email" class="form-control" id="inputEmail" placeholder="Email"
+                                   required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -44,14 +34,15 @@
 
                         <div class="col-xs-9">
                             <input name="confirmPassword" type="password" class="form-control" id="confirmPassword"
-                                   placeholder="Potwierdź hasło" >
+                                   placeholder="Potwierdź hasło">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-xs-3" for="firstName">Imię: </label>
 
                         <div class="col-xs-9">
-                            <input name="firstName" type="text" class="form-control" id="firstName" placeholder="Imię" required>
+                            <input name="firstName" type="text" class="form-control" id="firstName" placeholder="Imię"
+                                   required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -80,9 +71,10 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label col-xs-3">Data urodzenia: </label>
+
                         <div class="col-xs-9">
-                            <div class="input-group datetimepicker col-xs-5" id="test1">
-                                <span class="input-group-addon glyphicon glyphicon-calendar"><i class="fa fa-calendar"></i></span>
+                            <div class="input-group datetimepicker col-xs-5" id="dataUrodzeniaDatePicker">
+                                <span class="input-group-addon glyphicon glyphicon-calendar"></span>
                                 <input class="set-due-date form-control" type="text" name="dateOfBirth"/>
                             </div>
                         </div>
@@ -91,7 +83,8 @@
                         <label class="control-label col-xs-3" for="postalAddress">Adres: </label>
 
                         <div class="col-xs-9">
-                            <textarea name="address" rows="3" class="form-control" id="postalAddress" placeholder="Adres"></textarea>
+                            <textarea name="address" rows="3" class="form-control" id="postalAddress"
+                                      placeholder="Adres"></textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -124,7 +117,18 @@
                             </label>
                         </div>
                     </div>
-                    <br />
+                    <div class="form-group">
+                        <label class="control-label col-xs-3">Język użytkownika: </label>
+
+                        <div class="col-xs-3">
+                            <select name="language" id="language" class="form-control" required>
+                                <option value="pl">polski</option>
+                                <option value="en">angielski</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br/>
+
                     <div class="form-group">
                         <div class="col-xs-offset-3 col-xs-9">
                             <input type="submit" class="btn btn-primary" value="Zapisz">

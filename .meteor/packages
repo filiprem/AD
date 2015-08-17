@@ -23,3 +23,9 @@ handlebars
 reactive-var
 underscore
 themeteorchef:jquery-validation
+email
+cunneen:mailgun
+tap:i18n
+fortawesome:fontawesome
+jeremy:selectize
+mizzao:bootboxjs

@@ -1,4 +1,6 @@
 <template name="header">
+    {{>language}}
+    <br />
     <div class="navbar navbar-default" role="navigation">
         <div class="navbar-header">
             <a class="navbar-brand" href="{{pathFor 'home'}}"><strong>AD</strong> - <small>Aktywna Demokracja</small></a>
@@ -12,20 +14,46 @@
         <div id="navbar-collapse" class="navbar-collapse collapse">
             {{#if currentUser}}
                 <ul class="nav navbar-nav">
-                    <li class="{{activeRouteClass 'listKwestia'}}"><a href="{{pathFor 'listKwestia'}}"><span class="glyphicon glyphicon-list-alt"></span>  Wykaz Kwestii</a></li>
-                    <li class="{{activeRouteClass 'manage_account'}}"><a href="{{pathFor 'manage_account'}}"><span class="glyphicon glyphicon-user"></span>  Profil</a></li>
+                    <li class="{{activeRouteClass 'listKwestia'}}"><a href="{{pathFor 'listKwestia'}}"><span class="glyphicon glyphicon-list-alt"></span> Wykaz Kwestii</a></li>
+                    <li class="{{activeRouteClass 'glosowanie'}}"><a href="{{pathFor 'glosowanie'}}"><span class="glyphicon glyphicon-list-alt"></span> Głosowanie</a></li>
+                    <li class="{{activeRouteClass 'realizacja'}}"><a href="{{pathFor 'realizacja'}}"><span class="glyphicon glyphicon-list-alt"></span> Realizacja</a></li>
                     <li class="{{activeRouteClass 'archiwum'}}"><a href="{{pathFor 'archiwum'}}"><span class="glyphicon glyphicon-lock"></span>  Archiwum</a></li>
+                    <li class="{{activeRouteClass 'profile_list'}}"><a href="{{pathFor 'profile_list'}}"><span class="glyphicon glyphicon-heart"></span>  Użytkownicy</a></li>
+                    <li class="{{activeRouteClass ''}}"><a href="{{pathFor ''}}"><span class="glyphicon glyphicon-duplicate"></span>  Administracja</a></li>
                 </ul>
             {{/if}}
             <ul class="nav navbar-nav navbar-right">
                 {{#if currentUser}}
                     {{> loginButtons}}
+                    <!--{{> language}}-->
                 {{else}}
                     <!--<div class="loginTop">-->
                         <!--{{> loginFormTop}}-->
                     <!--</div>-->
                 {{/if}}
             </ul>
+        </div>
+    </div>
+</template>
+
+<template name="language">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pull-right">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default btn-xs" id="showPageInfo">
+                        <i class="fa fa-info-circle fa-lg cursor-pointer"></i> Page info
+                    </button>
+                    <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-language fa-lg cursor-pointer"></i> {{getUserLang}} <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        {{#each langs}}
+                            <li><a class="lang">{{this}}</a></li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </template>

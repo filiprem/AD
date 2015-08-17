@@ -1,33 +1,72 @@
 <template name="informacjeKwestia" xmlns="http://www.w3.org/1999/html">
     <div class="main">
         <div class="row">
-            <div class="col-md-6">
-                <h3>Informacje o Kwestii</h3>
-                <h4>Liczba osób, które nadały priorytet tej Kwestii: <b>{{glosujacyCount}}</b></h4>
-                {{#if mojPriorytetZero}}
-                    <h4>Wstrzymałeś się od głosu nadając tej Kwestii priorytet <b>0</b>.</h4>
-                {{else}}
-                    {{#if mojPiorytet}}
-                        <h4>Nadałeś tej Kwestii priorytet: <b>{{mojPiorytet}}</b>. Możesz go w każdej chwili zmienić.
-                        </h4>
+            <div class="col-md-12">
+                <legend>Informacje o Kwestii</legend>
+                <p class="bg-info padding-15">
+                    Liczba osób, które nadały priorytet tej Kwestii: <b>{{glosujacyCount}}</b>
+                    {{#if mojPriorytetZero}}
+                        <br/>Wstrzymałeś się od głosu nadając tej Kwestii priorytet <b>0</b>
                     {{else}}
-                        <h4>Nie nadałeś jeszcze tej Kwestii priorytetu.</h4>
+                        {{#if mojPiorytet}}
+                            <br/>Nadałeś tej Kwestii priorytet: <b>{{mojPiorytet}}</b>
+                        {{else}}
+                            <br/>Nie nadałeś jeszcze tej Kwestii priorytetu
+                        {{/if}}
                     {{/if}}
-                {{/if}}
+                </p>
             </div>
-            <div class="col-md-6">
-                <br/>
-                <!--<a id="dyskusja" name="{{_id}}" class="btn btn-danger pull-right">-->
-                    <!--<span class="glyphicon glyphicon-remove-circle"></span> Dyskusja {{_id}}-->
-                <!--</a>-->
-                {{#unless czyOpcja}}
-                <a id="addOptionButton" class="btn btn-primary pull-right">
-                    <span class="glyphicon glyphicon-plus"></span> Dodaj opcję tej Kwestii</a>
-                {{/unless}}
+            <div class="col-md-12">
+                <!--<div class="btn-group pull-right" role="group" aria-label="...">-->
+
+                <!--<button id="backToList" class="btn btn-primary">-->
+                <!--<span class="glyphicon glyphicon-arrow-left"></span> Powrót-->
+                <!--</button>-->
+                    <!--{{#unless czyOpcja}}-->
+                    <!--{{#unless isAdmin}}-->
+                    <!--<button id="addOptionButton" class="btn btn-primary">-->
+                    <!--<span class="glyphicon glyphicon-plus"></span> Dodaj opcję-->
+                    <!--</button>-->
+                        <!--{{/unless}}-->
+                    <!--{{/unless}}-->
+
+                <!--<button id="doArchiwum" class="btn btn-warning">-->
+                <!--<span class="glyphicon glyphicon-lock"></span> Do Archiwum-->
+                <!--</button>-->
+                <!--<button id="doKosza" class="btn btn-danger">-->
+                <!--<span class="glyphicon glyphicon-trash"></span> Do Kosza-->
+                <!--</button>-->
+                <!--</div>-->
+
+                <div class="btn-toolbar pull-right" role="toolbar" aria-label="...">
+                    <div class="btn-group" role="group" aria-label="...">
+                        <button id="backToList" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-arrow-left"></span> Powrót
+                        </button>
+                        {{#unless czyOpcja}}
+                            {{#unless isAdmin}}
+                                <button id="addOptionButton" class="btn btn-primary">
+                                    <span class="glyphicon glyphicon-plus"></span> Dodaj opcję
+                                </button>
+                            {{/unless}}
+                        {{/unless}}
+                    </div>
+                    <div class="btn-group" role="group" aria-label="...">
+                        <label class="btn btn-danger">Przeniesienie Kwestii</label>
+                        {{> uzasadnienieArchiwumModal}}
+                        <button id="doArchiwum" class="btn btn-warning">
+                            <span class="glyphicon glyphicon-lock"></span> Do Archiwum
+                        </button>
+                        {{> uzasadnienieKoszModal}}
+                        <button id="doKosza" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-trash"></span> Do Kosza
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="clearfix"></div>
-        <br />
+
+        <br/>
         <table class="table table-bordered manageTable">
             <tr>
                 <td><strong> Data wprowadzenia Kwestii</strong></td>
@@ -50,27 +89,51 @@
                 <td>
                     <div class="row">
                         <div class="col-md-1">
-                            {{sredniaPriorytet}}
+                            {{wartoscPriorytetu}}
                         </div>
-                        <div class="col-md-11">
-                            <button id="b-5" name="b-5" type="button" class="btn btn-danger btn-xs" value="-5"><b>-5</b>
-                            </button>
-                            <button id="b-4" name="b-4" type="button" class="btn btn-danger btn-xs" value="-4"><b>-4</b>
-                            </button>
-                            <button id="b-3" name="b-3" type="button" class="btn btn-danger btn-xs" value="-3"><b>-3</b>
-                            </button>
-                            <button id="b-2" name="b-2" type="button" class="btn btn-danger btn-xs" value="-2"><b>-2</b>
-                            </button>
-                            <button id="b-1" name="b-1" type="button" class="btn btn-danger btn-xs" value="-1"><b>-1</b>
-                            </button>
-                            <button id="b0" name="b0" type="button" class="btn btn-default btn-xs" value="0"><b>0 *</b>
-                            </button>
-                            <button id="b1" name="b1" type="button" class="btn btn-success btn-xs" value="1"><b>+1</b></button>
-                            <button id="b2" name="b2" type="button" class="btn btn-success btn-xs" value="2"><b>+2</b></button>
-                            <button id="b3" name="b3" type="button" class="btn btn-success btn-xs" value="3"><b>+3</b></button>
-                            <button id="b4" name="b4" type="button" class="btn btn-success btn-xs" value="4"><b>+4</b></button>
-                            <button id="b5" name="b5" type="button" class="btn btn-success btn-xs" value="5"><b>+5</b></button>
-                        </div>
+                        {{#unless isAdmin}}
+                            <div class="col-md-11">
+                                <form>
+                                    <div class="btn-group" role="group" aria-label="...">
+                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
+                                                class="btn btn-xs btn-danger" value="-5">-5
+                                        </button>
+                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
+                                                class="btn btn-xs btn-danger" value="-4">-4
+                                        </button>
+                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
+                                                class="btn btn-xs btn-danger" value="-3">-3
+                                        </button>
+                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
+                                                class="btn btn-xs btn-danger" value="-2">-2
+                                        </button>
+                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
+                                                class="btn btn-xs btn-danger" value="-1">-1
+                                        </button>
+                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
+                                                class="btn btn-xs btn-default" value="0"
+                                                data-toggle="tooltip" data-placement="top"
+                                                title="Oznacza wstrzymanie się od głosu">&nbsp;0
+                                        </button>
+                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
+                                                class="btn btn-xs btn-success" value="1">+1
+                                        </button>
+                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
+                                                class="btn btn-xs btn-success" value="2">+2
+                                        </button>
+                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
+                                                class="btn btn-xs btn-success" value="3">+3
+                                        </button>
+                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
+                                                class="btn btn-xs btn-success" value="4">+4
+                                        </button>
+                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
+                                                class="btn btn-xs btn-success" value="5">+5
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        {{/unless}}
                     </div>
                 </td>
             </tr>
@@ -82,11 +145,9 @@
                 <td><strong> Rodzaj</strong></td>
                 <td>{{rodzajNazwa.nazwaRodzaj}}</td>
             </tr>
-            <br/>
-            <label> * 0 oznacza wstrzymanie się od głosu.</label>
         </table>
-        <hr/>
-        <h3>Treść Kwestii</h3>
+
+        <legend>Treść Kwestii</legend>
 
         <div class="clearfix"></div>
         <table class="table table-bordered manageTable">
@@ -99,25 +160,21 @@
                 <td>{{szczegolowaTresc}}</td>
             </tr>
         </table>
-        <hr/>
-        <br />
 
-        {{#unless czyOpcja}}
-            <h3>Opcje tej Kwestii</h3>
+        {{#if ifHasOpcje}}
             <div class="row">
-               {{> opcjeList}}
+                {{> opcjeList}}
+            </div>
+        {{/if}}
+
+        {{#unless isAdmin}}
+            <legend id="dyskusja">Dyskusja Kwestii</legend>
+            <div class="row">
+                <div class="col-md-12">
+                    {{> discussionMain
+                    _id =_id}}
+                </div>
             </div>
         {{/unless}}
-
-        <h3>Dyskusja Kwestii</h3>
-        <div class="row">
-            <div class="col-md-12">
-                {{> discussionMain}}
-            </div>
-        </div>
-        <div class="form-group">
-            <input type="reset" id="backToList" class="btn btn-default backToList" value="Powrót">
-        </div>
     </div>
-    {{opcje}}
 </template>

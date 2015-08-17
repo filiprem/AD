@@ -1,38 +1,43 @@
-Template.editKwestiaForm.rendered = function(){};
+Template.editKwestiaForm.rendered = function () {
+};
 
 Template.editKwestiaForm.helpers({
-    kwestiaToEdit: function(){
+    kwestiaToEdit: function () {
         return Session.get("kwestiaInScope");
     },
-    tematToList: function(){
+    tematToList: function () {
         return Temat.find({});
     },
-    rodzajToList: function(){
+    rodzajToList: function () {
         return Rodzaj.find({});
     },
-    isSelectedTemat: function(id, tematId) {
+    isSelectedTemat: function (id, tematId) {
         var r = Session.get("kwestiaInScope");
         var item = Temat.findOne({_id: r.idTemat});
-        if(item._id==id)
-            return true;
-        else
-            return false;
+        if (item) {
+            if (item._id == id)
+                return true;
+            else
+                return false;
+        }
     },
-    isSelectedRodzaj: function(id){
-        var r=Session.get("kwestiaInScope");
-        var item=Rodzaj.findOne({_id: r.idRodzaj});
-        if(item._id==id)
-            return true;
-        else
-            return false;
+    isSelectedRodzaj: function (id) {
+        var r = Session.get("kwestiaInScope");
+        var item = Rodzaj.findOne({_id: r.idRodzaj});
+        if (item) {
+            if (item._id == id)
+                return true;
+            else
+                return false;
+        }
     }
 });
 
 Template.editKwestiaForm.events({
-    'reset form': function(){
+    'reset form': function () {
         Router.go('listKwestia');
     },
-    'submit form': function(e){
+    'submit form': function (e) {
         e.preventDefault();
         var eventForm = $(e.target);
         var kwestia = Session.get("kwestiaInScope");
@@ -42,23 +47,24 @@ Template.editKwestiaForm.events({
         var rodzaj = eventForm.find('[name=rodzaje]').val();
         var krotkaTresc = eventForm.find('[name=krotkaTresc]').val();
         var szczegolowaTresc = eventForm.find('[name=szczegolowaTresc]').val();
-        var pulapPriorytetu = Rodzaj.findOne({_id:rodzaj}).pulapPriorytetu;
+        var pulapPriorytetu = Rodzaj.findOne({_id: rodzaj}).pulapPriorytetu;
 
         var kw = {
             kwestiaNazwa: nazwa,
             idTemat: temat,
             idRodzaj: rodzaj,
-            pulapPriorytetu:pulapPriorytetu,
+            pulapPriorytetu: pulapPriorytetu,
             krotkaTresc: krotkaTresc,
             szczegolowaTresc: szczegolowaTresc
         }
-        var id = Kwestia.update({_id: kwestiaId},{$set:kw});
-        if(id){
+        var id = Kwestia.update({_id: kwestiaId}, {$set: kw});
+        if (id) {
             Router.go('listKwestia');
         }
-        else{}
+        else {
+        }
     },
-    'reset form': function(){
+    'reset form': function () {
         Router.go('listKwestia');
     }
 });

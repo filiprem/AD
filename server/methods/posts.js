@@ -10,7 +10,8 @@ Meteor.methods({
             idParent: newPost[0].idParent,
             czyAktywny: newPost[0].czyAktywny,
             wartoscPriorytetu:  newPost[0].wartoscPriorytetu,
-            glosujacy:  newPost[0].glosujacy
+            glosujacy:  newPost[0].glosujacy,
+            postType: newPost[0].postType
         });
         return id;
     },
@@ -30,7 +31,7 @@ Meteor.methods({
         return id;
     },
     updatePostRating: function (id,obj) {
-        var idPR = Posts.update(id,{$set:{wartoscPriorytetu:  obj[0].wartoscPriorytetu, glosujacy:  obj[0].glosujacy}});
-        return idPR;
+        var id = Posts.update(id,{$set:{wartoscPriorytetu:  obj[0].wartoscPriorytetu, glosujacy:  obj[0].glosujacy}});
+        return id;
     }
 });

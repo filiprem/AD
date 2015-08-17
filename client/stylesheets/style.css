@@ -177,3 +177,14 @@ body {
 .background-color-white{
     background-color: white;
 }
+
+.padding-15{
+    padding: 15px;
+}
+
+.cursor-pointer{
+    cursor:pointer;
+}
+.priorityClass{
+    background-color: #dff0d8;
+}
