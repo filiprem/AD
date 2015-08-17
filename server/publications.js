@@ -50,6 +50,11 @@ Meteor.publish('kwestieOczekujace', function(status){
     return Kwestia.find({status:status,czyAktywny:true})
 });
 
+Meteor.publish('kwestieUser', function(id){
+    return Kwestia.find({idUser:id,czyAktywny:true})
+});
+
+// TO DO - usunąc przy refaktorze
 Meteor.publish('kwestiaTresc', function(){
     return KwestiaTresc.find({});
 });

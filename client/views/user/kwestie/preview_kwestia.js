@@ -75,7 +75,7 @@ Template.previewKwestia.events({
                 }
                 else {
                     Session.set("kwestiaPreview", null);
-                    Router.go('listKwestia');
+                    Router.go('administracjaUserMain');
                 }
             });
         }
