@@ -42,7 +42,7 @@ validationPlacementError=function(error, element){
 },
 jQuery.validator.addMethod("checkExistsNazwaKwestii", function(value, element) {
     var kwestie=Kwestia.find({czyAktywny:true});
-    console.log(kwestie.count());
+    console.log("Liczba kwestii"+kwestie.count());
     var found=null;
     kwestie.forEach(function(item){
         console.log(item.kwestiaNazwa);

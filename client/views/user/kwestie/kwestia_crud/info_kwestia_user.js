@@ -1,4 +1,5 @@
 Template.informacjeKwestia.rendered = function() {
+    console.log("RENDERED!");
     var self = Template.instance();
     var currentKwestiaId=Session.get("idKwestia");
     var tabOfUsersVoted=[];
@@ -9,10 +10,10 @@ Template.informacjeKwestia.rendered = function() {
     else{
         self.ifUserVoted.set(false);
     }
-},
+}
 Template.informacjeKwestia.created = function(){
     this.ifUserVoted = new ReactiveVar();
-},
+}
 Template.informacjeKwestia.events({
     'click #dyskusja': function (e){
         var id = document.getElementById("dyskusja").name;
@@ -183,6 +184,7 @@ Template.informacjeKwestia.events({
             wartoscPriorytetu: wartoscPriorytetu,
             glosujacy: glosujacyTab
         }];
+        var self = Template.instance();
         Meteor.call('updateKwestiaRating', ratingKwestiaId, kwestiaUpdate, function (error, ret) {
             if (error) {
                 if (typeof Errors === "undefined")
@@ -192,19 +194,39 @@ Template.informacjeKwestia.events({
             }
             else {
                 console.log("Udało sie update'ować priorytet");
-                console.log("Teraz bedzie operacja radking")
-                var self = Template.instance();
-                console.log(Template.instance())
+
                 if (self.ifUserVoted.get() == false) {
-                    console.log("jestesmy w if self.ifUserVoted.get() == false")
                     console.log("Użytkownik nie nadał jeszcze priorytetu");
                     var newValue = 0;
                     var pktAddPriorytet = Parametr.findOne({});
-                    console.log("pkt add priorytet")
                     console.log(pktAddPriorytet)
                     newValue = Number(pktAddPriorytet.pktNadaniePriorytetu) + getUserRadkingValue(Meteor.userId());
-                    console.log("new value")
                     console.log(newValue);
+
+                    var kwestiaOwner=Kwestia.findOne({_id:Session.get("idKwestia")}).idUser;
+                    console.log("Właściciel kwestii");
+                    console.log(kwestiaOwner);
+                    if(kwestiaOwner==Meteor.userId()) {//jezeli nadajacy priorytet jest tym,który utworzył kwestię
+                        newValue += ratingValue;
+                        console.log(newValue);
+                    }
+                    else{
+                        console.log("Tyle dodamy: "+ratingValue);
+                        console.log("tyle jest :"+getUserRadkingValue(kwestiaOwner));
+                        var newValueOwner=0;
+                        newValueOwner=Number(ratingValue)+getUserRadkingValue(kwestiaOwner);
+
+                        Meteor.call('updateUserRanking', kwestiaOwner,newValueOwner, function (error) {
+                            if (error)
+                            {
+                                if (typeof Errors === "undefined")
+                                    Log.error('Error: ' + error.reason);
+                                else {
+                                    throwError(error.reason);
+                                }
+                            }
+                        });
+                    }
                     Meteor.call('updateUserRanking', Meteor.userId(), newValue, function (error) {
                         if (error) {
                             if (typeof Errors === "undefined")
@@ -219,7 +241,6 @@ Template.informacjeKwestia.events({
                     });
                 }
                 else {
-                    console.log("jestesmy w else funkcji self.ifUserVoted.get() == false")
                     console.log("Użytkownik nadał już priorytet");
                 }
             }

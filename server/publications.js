@@ -46,6 +46,14 @@ Meteor.publish('kwestieOczekujace', function(status){
     return Kwestia.find({status:status,czyAktywny:true})
 });
 
+Meteor.publish('kwestieNazwa', function(){
+    return Kwestia.find({},{fields:{'kwestiaNazwa':1,czyAktywny:1}});
+});
+
+Meteor.publish('kwestieInfo', function(){
+    return Kwestia.find({},{fields:{'kwestiaNazwa':1,czyAktywny:1,krotkaTresc:1,szczegolowaTresc:1,idTemat:1,idRodzaj:1}});
+});
+
 Meteor.publish('kwestiaTresc', function(){
     return KwestiaTresc.find({});
 });

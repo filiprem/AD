@@ -10,13 +10,13 @@ Template.previewKwestiaOpcja.helpers({
 Template.previewKwestiaOpcja.events({
     'click #cancel':function(){
         Session.set("kwestiaPreviewOpcja",null);
+        Session.set("actualKwestiaId",null);
         Router.go("listKwestia");
     },
     'click #save': function(e){
         e.preventDefault();
 
         var kwestia = Session.get("kwestiaPreviewOpcja");
-        console.log("TAKA");
         console.log(kwestia);
         var idParentKwestii = Session.get("idKwestia");
         var newKwestiaOpcja = [{
@@ -43,7 +43,24 @@ Template.previewKwestiaOpcja.events({
                 }
             }
             else {
+                var userKwestia= Meteor.userId();
+                var newValue=0;
+                var pktAddKwestia=Parametr.findOne({});
+                newValue=Number(pktAddKwestia.pktDodanieKwestii)+getUserRadkingValue(userKwestia);
+
+                Meteor.call('updateUserRanking', userKwestia,newValue, function (error) {
+                    if (error)
+                    {
+                        if (typeof Errors === "undefined")
+                            Log.error('Error: ' + error.reason);
+                        else {
+                            throwError(error.reason);
+                        }
+                    }
+                });
+
                 Session.set("kwestiaPreviewOpcja",null);
+                Session.set("actualKwestiaId",null);
                 Router.go('listKwestia');
             }
         });
