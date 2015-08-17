@@ -53,17 +53,13 @@ Template.addRodzajForm.helpers({
             var czasG = $(e.target).find('[name=czasGlosowania]').val().replace(/\s+/g, '');
             if (czasG == '' || czasG == '0')
                 czasG = 24;
-            var pulapP = $(e.target).find('[name=pulapPriorytetu]').val();
-            if (_.isEmpty(pulapP))
-                pulapP = Users.find().count() * 0.1 * 5;
 
             var newRodzaj = [
                 {
                     idTemat: $(e.target).find('[name=tematy]').val(),
                     nazwaRodzaj: $(e.target).find('[name=nazwaRodzaj]').val(),
                     czasDyskusji: czasD,
-                    czasGlosowania: czasG,
-                    pulapPriorytetu: pulapP
+                    czasGlosowania: czasG
                 }];
             Meteor.call('addRodzaj', newRodzaj, function (error) {
                 if (error) {
