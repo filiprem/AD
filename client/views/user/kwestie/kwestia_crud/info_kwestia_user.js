@@ -9,141 +9,145 @@ Template.informacjeKwestia.rendered = function () {
     else {
         self.ifUserVoted.set(false);
     }
-},
-    Template.informacjeKwestia.created = function () {
-        this.ifUserVoted = new ReactiveVar();
+};
+Template.informacjeKwestia.created = function () {
+    this.ifUserVoted = new ReactiveVar();
+};
+Template.informacjeKwestia.events({
+    'click #dyskusja': function (e) {
+        var id = document.getElementById("dyskusja").name;
+        Router.go('dyskusjaKwestia', {_id: id})
     },
-    Template.informacjeKwestia.events({
-        'click #dyskusja': function (e) {
-            var id = document.getElementById("dyskusja").name;
-            Router.go('dyskusjaKwestia', {_id: id})
-        },
-        'click .btn-success': function (event, template) {
-            Session.set('kwestiaInScope', this);
-        },
-        'click #backToList': function (e) {
-            Router.go('listKwestia');
-        },
-        'click #addOptionButton': function () {
-            Router.go("addKwestiaOpcja");
-        },
-        'click #doArchiwum': function (e) {
-            e.preventDefault();
-            var idKw = this._id;
-            var z = Posts.findOne({idKwestia: idKw, postType: "archiwum"});
-            if (z) {
-                $('html, body').animate({
-                    scrollTop: $(".doArchiwumClass").offset().top
-                }, 600);
-            }
-            else {
-                $("#uzasadnijWyborArchiwum").modal("show");
-            }
-        },
-        'click #doKosza': function (e) {
-            e.preventDefault();
-            var idKw = this._id;
-            var z = Posts.findOne({idKwestia: idKw, postType: "kosz"});
-            if (z) {
-                $('html, body').animate({
-                    scrollTop: $(".doKoszaClass").offset().top
-                }, 600);
-            }
-            else {
-                $("#uzasadnijWyborKosz").modal("show");
-            }
-        },
-        'click #priorytetButton': function (e) {
-            var u = Meteor.userId();
-            var ratingValue = parseInt(e.target.value);
-            var ratingKwestiaId = this._id;
-            var kwestia = Kwestia.findOne({_id: ratingKwestiaId});
-            var parent = this.idParent;
-            var kwestieOpcje = Kwestia.find({idParent: parent}).fetch();
-            var glosujacy = [];
-            var glosujacy = kwestia.glosujacy;
-            var glosujacyTab = kwestia.glosujacy.slice();
-            var wartoscPriorytetu = parseInt(kwestia.wartoscPriorytetu);
-            var object = {
-                idUser: Meteor.userId(),
-                value: ratingValue
-            }
-            var flag = false;
-
-            for (var i = 0; i < kwestieOpcje.length; i++) {
-                for (var j = 0; j < kwestieOpcje[i].glosujacy.length; j++) {
-                    var user = kwestieOpcje[i].glosujacy[j].idUser;
-                    var oddanyGlos = kwestieOpcje[i].glosujacy[j].value;
-                    if (user == Meteor.userId()) {
-                        if (oddanyGlos == ratingValue) {
-                            throwError("Nadałeś już priorytet o tej wadze innej Kwestii!")
-                            return false;
-                        }
-                    }
-                }
-            }
-
-            for (var i = 0; i < kwestia.glosujacy.length; i++) {
-                if (kwestia.glosujacy[i].idUser === Meteor.userId()) {
-                    flag = false;
-                    if (kwestia.glosujacy[i].value === ratingValue) {
-                        throwError("Nadałeś już priorytet o tej wadze w tym poście!");
+    'click .btn-success': function (event, template) {
+        Session.set('kwestiaInScope', this);
+    },
+    'click #backToList': function (e) {
+        Router.go('listKwestia');
+    },
+    'click #addOptionButton': function () {
+        Router.go("addKwestiaOpcja");
+    },
+    'click #doArchiwum': function (e) {
+        e.preventDefault();
+        var idKw = this._id;
+        var z = Posts.findOne({idKwestia: idKw, postType: "archiwum"});
+        if (z) {
+            $('html, body').animate({
+                scrollTop: $(".doArchiwumClass").offset().top
+            }, 600);
+        }
+        else {
+            $("#uzasadnijWyborArchiwum").modal("show");
+        }
+    },
+    'click #doKosza': function (e) {
+        e.preventDefault();
+        var idKw = this._id;
+        var z = Posts.findOne({idKwestia: idKw, postType: "kosz"});
+        if (z) {
+            $('html, body').animate({
+                scrollTop: $(".doKoszaClass").offset().top
+            }, 600);
+        }
+        else {
+            $("#uzasadnijWyborKosz").modal("show");
+        }
+    },
+    'click #priorytetButton': function (e) {
+        var u = Meteor.userId();
+        var ratingValue = parseInt(e.target.value);
+        var ratingKwestiaId = this._id;
+        var kwestia = Kwestia.findOne({_id: ratingKwestiaId});
+        var parent = this.idParent;
+        var kwestieOpcje = Kwestia.find({idParent: parent}).fetch();
+        var glosujacy = [];
+        var glosujacy = kwestia.glosujacy;
+        var glosujacyTab = kwestia.glosujacy.slice();
+        var wartoscPriorytetu = parseInt(kwestia.wartoscPriorytetu);
+        var object = {
+            idUser: Meteor.userId(),
+            value: ratingValue
+        }
+        var flag = false;
+        for (var i = 0; i < kwestieOpcje.length; i++) {
+            for (var j = 0; j < kwestieOpcje[i].glosujacy.length; j++) {
+                var user = kwestieOpcje[i].glosujacy[j].idUser;
+                var oddanyGlos = kwestieOpcje[i].glosujacy[j].value;
+                if (user == Meteor.userId()) {
+                    if (oddanyGlos == ratingValue) {
+                        throwError("Nadałeś już priorytet o tej wadze innej Kwestii!")
                         return false;
-                    } else {
-                        wartoscPriorytetu -= glosujacyTab[i].value;
-                        glosujacyTab[i].value = ratingValue;
-                        wartoscPriorytetu += glosujacyTab[i].value;
                     }
                 }
-                else flag = true;
             }
-            if (flag) {
-                glosujacyTab.push(object);
-                wartoscPriorytetu += ratingValue;
+        }
+        for (var i = 0; i < kwestia.glosujacy.length; i++) {
+            if (kwestia.glosujacy[i].idUser === Meteor.userId()) {
+                flag = false;
+                if (kwestia.glosujacy[i].value === ratingValue) {
+                    throwError("Nadałeś już priorytet o tej wadze w tym poście!");
+                    return false;
+                } else {
+                    wartoscPriorytetu -= glosujacyTab[i].value;
+                    glosujacyTab[i].value = ratingValue;
+                    wartoscPriorytetu += glosujacyTab[i].value;
+                }
             }
-            if (glosujacy.length == 0) {
-                glosujacyTab.push(object);
-                wartoscPriorytetu += ratingValue;
+            else flag = true;
+        }
+        if (flag) {
+            glosujacyTab.push(object);
+            wartoscPriorytetu += ratingValue;
+        }
+        if (glosujacy.length == 0) {
+            glosujacyTab.push(object);
+            wartoscPriorytetu += ratingValue;
+        }
+        var kwestiaUpdate = [{
+            wartoscPriorytetu: wartoscPriorytetu,
+            glosujacy: glosujacyTab
+        }];
+        var self = Template.instance();
+        Meteor.call('updateKwestiaRating', ratingKwestiaId, kwestiaUpdate, function (error, ret) {
+            if (error) {
+                if (typeof Errors === "undefined")
+                    Log.error('Error: ' + error.reason);
+                else
+                    throwError(error.reason);
             }
-            var kwestiaUpdate = [{
-                wartoscPriorytetu: wartoscPriorytetu,
-                glosujacy: glosujacyTab
-            }];
-            var self = Template.instance();
-            Meteor.call('updateKwestiaRating', ratingKwestiaId, kwestiaUpdate, function (error, ret) {
-                if (error) {
-                    if (typeof Errors === "undefined")
-                        Log.error('Error: ' + error.reason);
-                    else
-                        throwError(error.reason);
+            else {
+                if (self.ifUserVoted.get() == false) {
+                    var newValue = 0;
+                    var pktAddPriorytet = Parametr.findOne({});
+                    newValue = Number(pktAddPriorytet.pktNadaniePriorytetu) + getUserRadkingValue(Meteor.userId());
+                    Meteor.call('updateUserRanking', Meteor.userId(), newValue, function (error) {
+                        if (error) {
+                            if (typeof Errors === "undefined")
+                                Log.error('Error: ' + error.reason);
+                            else {
+                                throwError(error.reason);
+                            }
+                        }
+                        else {
+                            self.ifUserVoted.set(true);
+                        }
+                    });
                 }
                 else {
-                    if (self.ifUserVoted.get() == false) {
-                        var newValue = 0;
-                        var pktAddPriorytet = Parametr.findOne({});
-                        newValue = Number(pktAddPriorytet.pktNadaniePriorytetu) + getUserRadkingValue(Meteor.userId());
-                        Meteor.call('updateUserRanking', Meteor.userId(), newValue, function (error) {
-                            if (error) {
-                                if (typeof Errors === "undefined")
-                                    Log.error('Error: ' + error.reason);
-                                else {
-                                    throwError(error.reason);
-                                }
-                            }
-                            else {
-                                self.ifUserVoted.set(true);
-                            }
-                        });
-                    }
-                    else {
-                        console.log("Użytkownik nadał już priorytet");
-                    }
+                    console.log("Użytkownik nadał już priorytet");
                 }
-            });
-        }
+            }
+        });
+    }
 
-    });
+});
 Template.informacjeKwestia.helpers({
+    ifHasOpcje: function () {
+        var kwestiaGlownaId = this._id;
+        var k = Kwestia.find({idParent: kwestiaGlownaId,isOption: true}).fetch();
+        if(k) return true;
+        else return false;
+    },
     isAdmin: function () {
         if (Meteor.user().roles == "admin") return true;
         else return false;

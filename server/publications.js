@@ -42,6 +42,10 @@ Meteor.publish('kwestia', function(id){
     return Kwestia.find({_id:id});
 });
 
+Meteor.publish('kwestieOpcje', function(id){
+    return Kwestia.find({idParent: id});
+});
+
 Meteor.publish('kwestieOczekujace', function(status){
     return Kwestia.find({status:status,czyAktywny:true})
 });

@@ -1,8 +1,10 @@
 Template.opcjeList.helpers({
     OpcjeList: function () {
         var kwestiaGlownaId = Session.get("idKwestia");
-        var k = Kwestia.find({idParent: kwestiaGlownaId}, {isOption: true}).fetch();
+        var k = Kwestia.find({idParent: kwestiaGlownaId, isOption: true}).fetch();
+        console.log(k);
         if (k) return k;
+        else return false;
     },
     'settings': function () {
         return {
