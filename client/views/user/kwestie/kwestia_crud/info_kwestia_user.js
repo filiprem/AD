@@ -1,20 +1,20 @@
 Template.informacjeKwestia.rendered = function() {
     var self = Template.instance();
-    var currentKwestiaId=Session.get("idKwestia");
-    var tabOfUsersVoted=[];
-    tabOfUsersVoted=getAllUsersWhoVoted(currentKwestiaId);
-    if(_.contains(tabOfUsersVoted,Meteor.userId())){
+    var currentKwestiaId = Session.get("idKwestia");
+    var tabOfUsersVoted = [];
+    tabOfUsersVoted = getAllUsersWhoVoted(currentKwestiaId);
+    if (_.contains(tabOfUsersVoted, Meteor.userId())) {
         self.ifUserVoted.set(true);
     }
-    else{
+    else {
         self.ifUserVoted.set(false);
     }
-},
+};
 Template.informacjeKwestia.created = function(){
     this.ifUserVoted = new ReactiveVar();
-},
+};
 Template.informacjeKwestia.events({
-    'click #dyskusja': function (e){
+    'click #dyskusja': function (e) {
         var id = document.getElementById("dyskusja").name;
         Router.go('dyskusjaKwestia', {_id: id})
     },
@@ -29,53 +29,15 @@ Template.informacjeKwestia.events({
     },
     'click #doArchiwum': function (e) {
         e.preventDefault();
-
-        $('html, body').animate({
-            scrollTop: $("#dyskusja").offset().top
-        }, 600);
-
-        //$(document).scrollTop( $("#dyskusja").offset().top );
-
-        var message = "Proponuję przenieść tę kwestię do Archiwum? Dyskusja i siła priorytetu w tym wątku o tym zdecyduje.";
-        var idKwestia = Session.get("idKwestia");
-        var idUser = Meteor.userId();
-        var addDate = new Date();
-        var isParent = true;
-        var idParent = null;
-        var czyAktywny = true;
-        var userFullName = Meteor.user().profile.fullName;
-        var ratingValue = 0;
-        var glosujacy = [];
-        var postType = POSTS_TYPES.ARCHIWUM;
-
-        var post = [{
-            idKwestia: idKwestia,
-            wiadomosc: message,
-            idUser: idUser,
-            userFullName: userFullName,
-            addDate: addDate,
-            isParent: isParent,
-            idParent: idParent,
-            czyAktywny: czyAktywny,
-            idParent: idParent,
-            wartoscPriorytetu: ratingValue,
-            glosujacy: glosujacy,
-            postType: postType
-        }]
-        if (isNotEmpty(post[0].idKwestia, '') && isNotEmpty(post[0].wiadomosc, 'komentarz') && isNotEmpty(post[0].idUser, '') &&
-            isNotEmpty(post[0].addDate.toString(), '') && isNotEmpty(post[0].czyAktywny.toString(), '') &&
-            isNotEmpty(post[0].userFullName, '' && isNotEmpty(post[0].isParent.toString(), ''))) {
-
-            Meteor.call('addPost', post, function (error, ret) {
-                if (error) {
-                    if (typeof Errors === "undefined")
-                        Log.error('Error: ' + error.reason);
-                    else
-                        throwError(error.reason);
-                } else {
-                    document.getElementById("message").value = "";
-                }
-            });
+        var idKw = this._id;
+        var z = Posts.findOne({idKwestia: idKw, postType: "archiwum"});
+        if (z) {
+            $('html, body').animate({
+                scrollTop: $(".doArchiwumClass").offset().top
+            }, 600);
+        }
+        else {
+            $("#uzasadnijWyborArchiwum").modal("show");
         }
     },
     'click #doKosza': function (e) {
@@ -126,6 +88,9 @@ Template.informacjeKwestia.events({
                 }
             });
         }
+        else {
+            $("#uzasadnijWyborKosz").modal("show");
+        }
     },
     'click #priorytetButton': function (e) {
         var u = Meteor.userId();
@@ -143,7 +108,6 @@ Template.informacjeKwestia.events({
             value: ratingValue
         }
         var flag = false;
-
         for (var i = 0; i < kwestieOpcje.length; i++) {
             for (var j = 0; j < kwestieOpcje[i].glosujacy.length; j++) {
                 var user = kwestieOpcje[i].glosujacy[j].idUser;
@@ -156,7 +120,6 @@ Template.informacjeKwestia.events({
                 }
             }
         }
-
         for (var i = 0; i < kwestia.glosujacy.length; i++) {
             if (kwestia.glosujacy[i].idUser === Meteor.userId()) {
                 flag = false;
@@ -183,6 +146,7 @@ Template.informacjeKwestia.events({
             wartoscPriorytetu: wartoscPriorytetu,
             glosujacy: glosujacyTab
         }];
+        var self = Template.instance();
         Meteor.call('updateKwestiaRating', ratingKwestiaId, kwestiaUpdate, function (error, ret) {
             if (error) {
                 if (typeof Errors === "undefined")
@@ -192,19 +156,40 @@ Template.informacjeKwestia.events({
             }
             else {
                 console.log("Udało sie update'ować priorytet");
-                console.log("Teraz bedzie operacja radking")
                 var self = Template.instance();
                 console.log(Template.instance())
                 if (self.ifUserVoted.get() == false) {
-                    console.log("jestesmy w if self.ifUserVoted.get() == false")
                     console.log("Użytkownik nie nadał jeszcze priorytetu");
                     var newValue = 0;
                     var pktAddPriorytet = Parametr.findOne({});
-                    console.log("pkt add priorytet")
                     console.log(pktAddPriorytet)
                     newValue = Number(pktAddPriorytet.pktNadaniePriorytetu) + getUserRadkingValue(Meteor.userId());
-                    console.log("new value")
                     console.log(newValue);
+
+                    var kwestiaOwner=Kwestia.findOne({_id:Session.get("idKwestia")}).idUser;
+                    console.log("Właściciel kwestii");
+                    console.log(kwestiaOwner);
+                    if(kwestiaOwner==Meteor.userId()) {//jezeli nadajacy priorytet jest tym,który utworzył kwestię
+                        newValue += ratingValue;
+                        console.log(newValue);
+                    }
+                    else{
+                        console.log("Tyle dodamy: "+ratingValue);
+                        console.log("tyle jest :"+getUserRadkingValue(kwestiaOwner));
+                        var newValueOwner=0;
+                        newValueOwner=Number(ratingValue)+getUserRadkingValue(kwestiaOwner);
+
+                        Meteor.call('updateUserRanking', kwestiaOwner,newValueOwner, function (error) {
+                            if (error)
+                            {
+                                if (typeof Errors === "undefined")
+                                    Log.error('Error: ' + error.reason);
+                                else {
+                                    throwError(error.reason);
+                                }
+                            }
+                        });
+                    }
                     Meteor.call('updateUserRanking', Meteor.userId(), newValue, function (error) {
                         if (error) {
                             if (typeof Errors === "undefined")
@@ -219,7 +204,6 @@ Template.informacjeKwestia.events({
                     });
                 }
                 else {
-                    console.log("jestesmy w else funkcji self.ifUserVoted.get() == false")
                     console.log("Użytkownik nadał już priorytet");
                 }
             }
@@ -228,6 +212,12 @@ Template.informacjeKwestia.events({
 
 });
 Template.informacjeKwestia.helpers({
+    ifHasOpcje: function () {
+        var kwestiaGlownaId = this._id;
+        var k = Kwestia.find({idParent: kwestiaGlownaId,isOption: true}).fetch();
+        if(k) return true;
+        else return false;
+    },
     isAdmin: function () {
         if (Meteor.user().roles == "admin") return true;
         else return false;
@@ -313,18 +303,6 @@ Template.informacjeKwestia.helpers({
             var k = moment(dataG).subtract(czasGlRodzaj, 'h').format("DD-MM-YYYY, HH:mm");
             return k;
         }
-    },
-    czyKliknietoArchiwum: function () {
-        var idKw = this._id;
-        var z = Posts.findOne({idKwestia: idKw, postType: "archiwum"});
-        if (z) return true;
-        else return false;
-    },
-    czyKliknietoKosz: function () {
-        var idKw = this._id;
-        var z = Posts.findOne({idKwestia: idKw, postType: "kosz"});
-        if (z) return true;
-        else return false;
     },
     'isIssueSuspended': function (id) {
         return KwestiaSuspended.find({idKwestia: id, czyAktywny: true}).count() <= 0 ? false : true;

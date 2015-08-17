@@ -81,16 +81,12 @@ getAllUsersWhoVoted=function(idKWestia){
     var kwestia=Kwestia.findOne({_id:idKWestia});
     console.log(kwestia)
     var tab=kwestia.glosujacy;
-    console.log("tablica kwestia.glosujacy ->");
     console.log(tab);
-    console.log("Liczba glosujacych ->");
     console.log(tab.length)
     var tabNew=[];
     for(var j= 0;j<tab.length;j++){
         tabNew.push(tab[j].idUser);
-    }
-    console.log("tabNew");
-    console.log(tabNew);
+    }    
     return tabNew;
 };
 
