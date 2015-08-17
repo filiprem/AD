@@ -40,11 +40,6 @@ Template.discussionPostForm.events({
         var idParent = null;
         var ratingValue = 0;
         var glosujacy = [];
-        console.log("message "+message);
-        console.log("idKwestia "+idKwestia);
-        console.log("idUser "+idUser);
-        console.log("userFullName "+userFullName);
-        console.log("idParent "+idParent);
 
         var post = [{
             idKwestia: idKwestia,
@@ -107,7 +102,6 @@ Template.discussionRating.events({
         var flag = false;
 
         for(var i=0; i < post.glosujacy.length; i++) {
-            console.log("for");
             if(post.glosujacy[i].idUser === Meteor.userId()) {
                 flag=false;
                 if(post.glosujacy[i].value === ratingValue) {

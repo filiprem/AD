@@ -16,8 +16,6 @@ Template.previewKwestiaOpcja.events({
         e.preventDefault();
 
         var kwestia = Session.get("kwestiaPreviewOpcja");
-        console.log("TAKA");
-        console.log(kwestia);
         var idParentKwestii = Session.get("idKwestia");
         var newKwestiaOpcja = [{
             idUser: Meteor.userId(),

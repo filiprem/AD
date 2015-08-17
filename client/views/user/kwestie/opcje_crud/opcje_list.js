@@ -8,7 +8,7 @@ Template.opcjeList.helpers({
         return {
             rowsPerPage: 10,
             showFilter: false,
-            showNavigation: 'always',
+            showNavigation: 'never',
             showColumnToggles: false,
             enableRegex: false,
             fields: [
