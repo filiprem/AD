@@ -1,5 +1,5 @@
 Template.header.helpers({
-    activeRouteClass: function(/* route names */) {
+    'activeRouteClass': function(/* route names */) {
         var args = Array.prototype.slice.call(arguments, 0);
         args.pop();
 
@@ -9,7 +9,7 @@ Template.header.helpers({
 
         return active && 'active';
     },
-    isAdminUser: function() {
+    'isAdminUser': function() {
         return IsAdminUser();
     }
 });
@@ -40,11 +40,29 @@ Template.language.events({
                     });
             }
         });
+    },
+    'click #showPageInfo':function(){
+        var pathArray = getUrlPathArray();
+
+        var strMessage = preparePageInfoString(pathArray,"message");
+        var strTitle = preparePageInfoString(pathArray,"title");
+        bootbox.dialog({
+            message: TAPi18n.__(strMessage),
+            title: TAPi18n.__(strTitle)
+        });
     }
 });
 
 Template.language.helpers({
     'getUserLang':function(){
         return Meteor.user().profile.language;
+    },
+    'langs':function(){
+        var tab = [];
+        for(var lang in LANGUAGES){
+            tab.push(LANGUAGES[lang]);
+        }
+
+        return tab;
     }
 })

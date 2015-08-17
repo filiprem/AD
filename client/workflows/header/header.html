@@ -1,4 +1,6 @@
 <template name="header">
+    {{>language}}
+    <br />
     <div class="navbar navbar-default" role="navigation">
         <div class="navbar-header">
             <a class="navbar-brand" href="{{pathFor 'home'}}"><strong>AD</strong> - <small>Aktywna Demokracja</small></a>
@@ -24,13 +26,13 @@
                     <!--<li class="{{activeRouteClass 'kosz'}}"><a href="{{pathFor 'kosz'}}"><span class="glyphicon glyphicon-trash"></span>  Kosz</a></li>-->
                     <li class="{{activeRouteClass 'profile_list'}}"><a href="{{pathFor 'profile_list'}}"><span class="glyphicon glyphicon-heart"></span>  Profile użytkowników</a></li>
                     <li class="{{activeRouteClass 'manage_account'}}"><a href="{{pathFor 'manage_account'}}"><span class="glyphicon glyphicon-user"></span>  Mój profil</a></li>
-                    <li class="{{activeRouteClass ''}}"><a href="{{pathFor ''}}"><span class="glyphicon glyphicon-duplicate"></span>  Administracja</a></li>
+                    <li class="{{activeRouteClass 'administracjaUserMain'}}"><a href="{{pathFor 'administracjaUserMain'}}"><span class="glyphicon glyphicon-duplicate"></span>  Administracja</a></li>
                 </ul>
             {{/if}}
             <ul class="nav navbar-nav navbar-right">
                 {{#if currentUser}}
                     {{> loginButtons}}
-                    {{> language}}
+                    <!--{{> language}}-->
                 {{else}}
                     <!--<div class="loginTop">-->
                         <!--{{> loginFormTop}}-->
@@ -42,13 +44,23 @@
 </template>
 
 <template name="language">
-    <li class="dropdown">
-        <a class="dropdown-toggle cursor-pointer" data-toggle="dropdown">
-            {{getUserLang}} <b class="caret"></b>
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li><a href="" class="lang">pl</a></li>
-            <li><a href="" class="lang">en</a></li>
-        </ul>
-    </li>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pull-right">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default btn-xs" id="showPageInfo">
+                        <i class="fa fa-info-circle fa-lg cursor-pointer"></i> Page info
+                    </button>
+                    <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-language fa-lg cursor-pointer"></i> {{getUserLang}} <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        {{#each langs}}
+                            <li><a class="lang">{{this}}</a></li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>

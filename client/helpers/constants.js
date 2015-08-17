@@ -15,10 +15,15 @@ DISCUSSION_OPTIONS = {
 }
 
 POSTS_TYPES = {
-    //domyœlna wartoœæ -> komentarz zwyk³y
+    //domyÅ›lna wartoÅ›Ä‡ -> komentarz zwykÅ‚y
     DEFAULT: "default",
-    //komentarz, który oznacza chêæ przeniesienia kwestii do archiwum
+    //komentarz, ktÃ³ry oznacza chÄ™Ä‡ przeniesienia kwestii do archiwum
     ARCHIWUM: "archiwum",
-    //komentarz, który oznacza chêæ przeniesienia do kosza
+    //komentarz, ktÃ³ry oznacza chÄ™Ä‡ przeniesienia do kosza
     KOSZ: "kosz"
+}
+
+LANGUAGES = {
+    PL: "pl",
+    EN: "en"
 }
