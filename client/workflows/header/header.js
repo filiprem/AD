@@ -55,7 +55,10 @@ Template.language.events({
 
 Template.language.helpers({
     'getUserLang':function(){
-        return Meteor.user().profile.language;
+        var user = Users.findOne({_id: Meteor.userId()});
+        if (!!user.profile.language){
+            return user.profile.language;
+        }
     },
     'langs':function(){
         var tab = [];
