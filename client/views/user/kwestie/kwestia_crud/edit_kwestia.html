@@ -1,0 +1,86 @@
+<template name="editKwestiaForm" xmlns="http://www.w3.org/1999/html">
+    {{#with kwestiaToEdit}}
+        <div class="main">
+            <h3>Edytuj Kwestię</h3>
+            <hr/>
+            <div class="row">
+                <div class="col col-md-10">
+                    <form class="form-horizontal">
+                        <div class="form-group" id="kwestiaNazwaGroup">
+                            <label class="control-label col-xs-3" for="inputEmail">Nazwa Kwestii:</label>
+
+                            <div class="col-xs-9">
+                                <input class="form-control" name="kwestiaNazwa" id="kwestiaNazwa"
+                                       placeholder="Nazwa Kwestii" value={{kwestiaNazwa}}>
+                            </div>
+                        </div>
+                        <div class="form-group" id="tematyGroup">
+                            <label class="control-label col-xs-3" for="inputEmail">Temat:</label>
+
+                            <div class="col-xs-3">
+                                <select name="tematy" id="tematy" class="form-control">
+                                    {{#each tematToList}}
+                                        {{#if isSelectedTemat _id}}
+                                            <option value="{{this._id}}" selected>
+                                                {{this.nazwaTemat}}
+                                            </option>
+                                        {{else}}
+                                            <option value="{{this._id}}">
+                                                {{this.nazwaTemat}}
+                                            </option>
+                                        {{/if}}
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" id="rodzajeGroup">
+                            <label class="control-label col-xs-3" for="inputEmail">Rodzaj:</label>
+
+                            <div class="col-xs-3">
+                                <select name="rodzaje" id="rodzaje" class="form-control">
+                                    {{#each rodzajToList}}
+                                        {{#if isSelectedRodzaj _id}}
+                                            <option value="{{this._id}}" selected>
+                                                {{this.nazwaRodzaj}}
+                                            </option>
+                                        {{else}}
+                                            <option value="{{this._id}}">
+                                                {{this.nazwaRodzaj}}
+                                            </option>
+                                        {{/if}}
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                        <hr/>
+                        <h3>Treść Kwestii</h3>
+
+                        <div class="form-group" id="krotkaTrescGroup">
+                            <label class="control-label col-xs-3" for="inputEmail">Krótka treść:</label>
+
+                            <div class="col-xs-9">
+                                <textarea class="form-control" name="krotkaTresc" id="krotkaTresc"
+                                          placeholder="Krótka treść" value={{krotkaTresc}}></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group" id="szczegolowaTrescGroup">
+                            <label class="control-label col-xs-3" for="inputEmail">Opis z uzasadnieniem:</label>
+
+                            <div class="col-xs-9">
+                                <textarea class="form-control" name="szczegolowaTresc"
+                                          value={{szczegolowaTresc}} id="szczegolowaTresc"
+                                          placeholder="Opis z uzasadnieniem"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-offset-3 col-xs-9">
+                                <input type="submit" class="btn btn-primary" value="Zapisz">
+                                <input type="reset" class="btn btn-default" value="Anuluj">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {{/with}}
+</template>

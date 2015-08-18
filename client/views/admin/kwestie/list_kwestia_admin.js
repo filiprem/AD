@@ -1,18 +1,13 @@
-Template.listKwestiaAdmin.rendered = function()
-{};
-
+Template.listKwestiaAdmin.rendered = function () {
+};
 Template.listKwestiaAdmin.events({
-    'click .glyphicon-trash': function(event, template) {
+    'click .glyphicon-pencil': function (event, template) {
         Session.set('kwestiaInScope', this);
     },
-    'click .glyphicon-pencil': function(event, template) {
-        Session.set('kwestiaInScope', this);
-    },
-    'click .glyphicon-repeat': function(event, template){
-        Session.set('kwestiaInScope',this);
-    },
-    'click .glyphicon-info-sign': function(event, template){
-        Session.set('kwestiaInScope',this);
+    'click #addKwestiaButton': function () {
+        if (!!Session.get("kwestiaPreview"))
+            Session.set("kwestiaPreview", null);
+        Router.go("addKwestia");
     }
 });
 Template.listKwestiaAdmin.helpers({
@@ -21,7 +16,7 @@ Template.listKwestiaAdmin.helpers({
             rowsPerPage: 10,
             showFilter: true,
             showNavigation: 'always',
-            showColumnToggles: true,
+            showColumnToggles: false,
             enableRegex: false,
             fields: [
                 {
@@ -47,7 +42,7 @@ Template.listKwestiaAdmin.helpers({
                 {
                     key: 'sredniaPriorytet',
                     label: Template.listKwestiaAdminColumnLabel,
-                    labelData: {title: "Kliknij, aby zmienić swój priorytet dla tej Kwestii", text:"Priorytet"},
+                    labelData: {title: "Kliknij, aby zmienić swój priorytet dla tej Kwestii", text: "Priorytet"},
                     tmpl: Template.priorytetKwestia,
                     sortOrder: 1,
                     sortDirection: 'descending',
@@ -105,38 +100,35 @@ Template.listKwestiaAdmin.helpers({
             ]
         };
     },
-    KwestiaListAdmin: function(){
+    KwestiaListAdmin: function () {
         return Kwestia.find({}).fetch();
     },
-    priorytetsr: function() {
-        var i=0;
-
+    priorytetsr: function () {
+        var i = 0;
         var kwestia = Kwestia.findOne({_id: this._id});
-        kwestia.glosujacy.forEach(function(item)
-        {
+        kwestia.glosujacy.forEach(function (item) {
             i++;
         });
-        if(kwestia.priorytet === 0)
-        var srPriorytet = kwestia.priorytet;
+        if (kwestia.priorytet === 0)
+            var srPriorytet = kwestia.priorytet;
         else
-        var srPriorytet = kwestia.priorytet/i ;
-
+            var srPriorytet = kwestia.priorytet / i;
         return srPriorytet
     },
-    kwestiaCount: function(){
+    kwestiaCount: function () {
         return Kwestia.find({czyAktywny: true}).count();
     },
-    isAdminUser: function() {
+    isAdminUser: function () {
         return IsAdminUser();
     },
-    tematNazwa: function(){
-        return Temat.findOne({_id: this.temat_id});
+    tematNazwa: function () {
+        return Temat.findOne({_id: this.idTemat});
     },
-    rodzajNazwa: function(){
-        return Rodzaj.findOne({_id: this.rodzaj_id});
+    rodzajNazwa: function () {
+        return Rodzaj.findOne({_id: this.idRodzaj});
     }
 });
 
-Template.listKwestiaAdminColumnLabel.rendered = function(){
+Template.listKwestiaAdminColumnLabel.rendered = function () {
     $('[data-toggle="tooltip"]').tooltip();
 }

@@ -1,12 +1,11 @@
-Template.listParametr.rendered = function()
-{
+Template.listParametr.rendered = function () {
 };
 
 Template.listParametr.events({
-    'click .glyphicon-trash': function(event, template) {
+    'click .glyphicon-trash': function (event, template) {
         Session.set('parametrInScope', this);
     },
-    'click .glyphicon-pencil': function(event, template) {
+    'click .glyphicon-pencil': function (event, template) {
         Session.set('parametrInScope', this);
     }
 });
@@ -16,7 +15,7 @@ Template.listParametr.helpers({
             rowsPerPage: 10,
             showFilter: true,
             showNavigation: 'always',
-            showColumnToggles: true,
+            showColumnToggles: false,
             enableRegex: false,
             fields: [
                 {key: 'nazwaOrganizacji', label: "Nazwa Organizacji"},
@@ -27,16 +26,16 @@ Template.listParametr.helpers({
             ]
         };
     },
-    ParametrListAdmin: function(){
+    ParametrListAdmin: function () {
         return Parametr.find({}).fetch();
     },
     email: function () {
         return getEmail(this);
     },
-    parametrCount: function(){
+    parametrCount: function () {
         return Parametr.find().count();
     },
-    isAdminUser: function() {
+    isAdminUser: function () {
         return IsAdminUser();
     }
 });

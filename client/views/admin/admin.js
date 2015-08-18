@@ -1,20 +1,20 @@
 Template.adminTemplate.helpers({
-    usersCount: function(){
+    usersCount: function () {
         return Users.find().count();
     },
-    rodzajeCount: function(){
+    rodzajeCount: function () {
         return Rodzaj.find().count();
     },
-    parametryCount: function(){
+    parametryCount: function () {
         return Parametr.find().count();
     },
-    tematyCount: function(){
+    tematyCount: function () {
         return Temat.find().count();
     },
-    raportyCount: function(){
+    raportyCount: function () {
         return Raport.find().count();
     },
-    kwestieCount: function(){
+    kwestieCount: function () {
         return Kwestia.find().count();
     }
 });
@@ -89,6 +89,6 @@ function builtColumn() {
 /*
  * Call the function to built the chart when the template is rendered
  */
-Template.columnDemo.rendered = function() {
+Template.columnDemo.rendered = function () {
     builtColumn();
 };

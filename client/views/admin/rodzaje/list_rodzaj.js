@@ -1,11 +1,11 @@
-Template.listRodzaj.rendered = function()
-{};
+Template.listRodzaj.rendered = function () {
+};
 
 Template.listRodzaj.events({
-    'click .glyphicon-trash': function(event, template) {
+    'click .glyphicon-trash': function (event, template) {
         Session.set('rodzajInScope', this);
     },
-    'click .glyphicon-pencil': function(event, template) {
+    'click .glyphicon-pencil': function (event, template) {
         Session.set('rodzajInScope', this);
     }
 });
@@ -15,36 +15,33 @@ Template.listRodzaj.helpers({
             rowsPerPage: 10,
             showFilter: true,
             showNavigation: 'always',
-            showColumnToggles: true,
+            showColumnToggles: false,
             enableRegex: false,
             fields: [
-                {key: 'nazwaRodzaj', label: "Nazwa rodzaju", tmpl:Template.nazwaRodzajuLink},
-                {key: 'temat_id', label: "Temat", tmpl: Template.tematRodzaj},
-                {key: 'czasDyskusji', label: "Czas dyskusji",},
-                {key: 'pulapPriorytetu', label: "Pułap priorytetu"},
-                {key: 'options', label: "Opcje", tmpl: Template.editColumnRodzaj }
+                {key: 'nazwaRodzaj', label: "Nazwa rodzaju", tmpl: Template.nazwaRodzajuLink},
+                {key: 'idTemat', label: "Temat", tmpl: Template.tematRodzaj},
+                {key: 'czasDyskusji', label: "Czas dyskusji"},
+                {key: 'options', label: "Opcje", tmpl: Template.editColumnRodzaj}
             ]
         };
     },
-    RodzajList: function(){
-       return Rodzaj.find({}).fetch();
+    RodzajList: function () {
+        return Rodzaj.find({}).fetch();
     },
-    rodzajCount: function(){
+    rodzajCount: function () {
         return Rodzaj.find().count();
     },
-    isAdminUser: function(){
+    isAdminUser: function () {
         return IsAdminUser();
     },
-    tematNazwa: function(){
-        return Temat.findOne({_id: this.temat_id});
+    tematNazwa: function () {
+        return Temat.findOne({_id: this.idTemat});
     }
 });
 
 Template.tematRodzaj.helpers({
-    tematNazwa: function(){
-        var t = Temat.findOne({_id: this.temat_id});
-        if(t){
-            return t.nazwaTemat;
-        }
+    tematNazwa: function () {
+        var t = Temat.findOne({_id: this.idTemat});
+        if (t) return t.nazwaTemat;
     }
 })

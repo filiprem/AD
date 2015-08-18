@@ -1,0 +1,16 @@
+{
+  "addKwestiaOpcjaForm":{
+    "addKwestiaH3":"Dodaj Kwestię",
+    "nazwaKwestiiLabel":"Nazwa Kwestii:",
+    "tematLabel":"Temat:"
+  },
+  "addKwestiaForm":{
+    "addKwestiaH3":"Dodaj Kwestię"
+  },
+  "pageInfo":{
+    "user_administration":{
+      "title":"Administracja",
+      "message":"Opis tej strony"
+    }
+  }
+}

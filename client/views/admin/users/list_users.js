@@ -1,17 +1,17 @@
-Template.listUsers.rendered = function()
-{};
+Template.listUsers.rendered = function () {
+};
 
 Template.listUsers.events({
-    'click .glyphicon-trash': function(event, template) {
+    'click .glyphicon-trash': function (event, template) {
         Session.set('userInScope', this);
     },
-    'click .glyphicon-info-sign': function(event, template) {
+    'click .glyphicon-info-sign': function (event, template) {
         Session.set('userInScope', this);
     },
-    'click .glyphicon-cog': function(event, template) {
+    'click .glyphicon-cog': function (event, template) {
         Session.set('userInScope', this);
     },
-    'click .glyphicon-pencil': function(event, template){
+    'click .glyphicon-pencil': function (event, template) {
         Session.set('userInScope', this);
     }
 });
@@ -21,28 +21,29 @@ Template.listUsers.helpers({
             rowsPerPage: 10,
             showFilter: true,
             showNavigation: 'always',
-            showColumnToggles: true,
+            showColumnToggles: false,
             enableRegex: false,
             fields: [
-                {key: 'profile.first_name', label: "Imię"},
-                {key: 'profile.last_name', label: "Nazwisko"},
+                {key: 'profile.firstName', label: "Imię"},
+                {key: 'profile.lastName', label: "Nazwisko"},
                 {key: 'username', label: "Nazwa użytkownika"},
                 {key: 'email', label: "Email", tmpl: Template.userEmail},
                 {key: 'roles', label: "Rola"},
-                {key: 'options', label: "Opcje", tmpl: Template.editColumnUsers }
+                {key: 'profile.rADking', label: "Ranking"},
+                {key: 'options', label: "Opcje", tmpl: Template.editColumnUsers}
             ]
         };
     },
-    UserListAdmin: function(){
+    UserListAdmin: function () {
         return Users.find({}).fetch();
     },
-    usersCount: function(){
+    usersCount: function () {
         return Users.find().count();
     }
 });
 
 Template.editColumnUsers.helpers({
-    myself: function(userId) {
+    myself: function (userId) {
         return Meteor.userId() === userId;
     }
 });

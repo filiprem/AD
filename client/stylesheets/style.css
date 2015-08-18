@@ -176,4 +176,25 @@ body {
 
 .tableCellsFont {
     font-size: 13px!important;
+.background-color-white{
+    background-color: white;
+}
+
+.padding-15{
+    padding: 15px;
+}
+
+.cursor-pointer{
+    cursor:pointer;
+}
+.priorityClass{
+    background-color: #dff0d8;
+}
+
+.navbar-collapse.in {
+    padding-left:0px;
+}
+
+.navbar .container-fluid, .navbar-collapse {
+    padding-left:0;
 }

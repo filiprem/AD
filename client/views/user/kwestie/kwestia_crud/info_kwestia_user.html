@@ -1,0 +1,180 @@
+<template name="informacjeKwestia" xmlns="http://www.w3.org/1999/html">
+    <div class="main">
+        <div class="row">
+            <div class="col-md-12">
+                <legend>Informacje o Kwestii</legend>
+                <p class="bg-info padding-15">
+                    Obecni: <b>{{glosujacyCount}}</b>
+                    {{#if mojPriorytetZero}}
+                        <br/>Wstrzymałeś się od głosu nadając tej Kwestii priorytet <b>0</b>
+                    {{else}}
+                        {{#if mojPiorytet}}
+                            <br/>Nadałeś tej Kwestii priorytet: <b>{{mojPiorytet}}</b>
+                        {{else}}
+                            <br/>Nie nadałeś jeszcze tej Kwestii priorytetu
+                        {{/if}}
+                    {{/if}}
+                </p>
+            </div>
+            <div class="col-md-12">
+                <!--<div class="btn-group pull-right" role="group" aria-label="...">-->
+
+                <!--<button id="backToList" class="btn btn-primary">-->
+                <!--<span class="glyphicon glyphicon-arrow-left"></span> Powrót-->
+                <!--</button>-->
+                    <!--{{#unless czyOpcja}}-->
+                    <!--{{#unless isAdmin}}-->
+                    <!--<button id="addOptionButton" class="btn btn-primary">-->
+                    <!--<span class="glyphicon glyphicon-plus"></span> Dodaj opcję-->
+                    <!--</button>-->
+                        <!--{{/unless}}-->
+                    <!--{{/unless}}-->
+
+                <!--<button id="doArchiwum" class="btn btn-warning">-->
+                <!--<span class="glyphicon glyphicon-lock"></span> Do Archiwum-->
+                <!--</button>-->
+                <!--<button id="doKosza" class="btn btn-danger">-->
+                <!--<span class="glyphicon glyphicon-trash"></span> Do Kosza-->
+                <!--</button>-->
+                <!--</div>-->
+
+                <div class="btn-toolbar pull-right" role="toolbar" aria-label="...">
+                    <div class="btn-group" role="group" aria-label="...">
+                        <button id="backToList" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-arrow-left"></span> Powrót
+                        </button>
+                        {{#unless czyOpcja}}
+                            {{#unless isAdmin}}
+                                <button id="addOptionButton" class="btn btn-primary">
+                                    <span class="glyphicon glyphicon-plus"></span> Dodaj opcję
+                                </button>
+                            {{/unless}}
+                        {{/unless}}
+                    </div>
+                    <div class="btn-group" role="group" aria-label="...">
+                        <label class="btn btn-danger">Przeniesienie Kwestii</label>
+                        {{> uzasadnienieArchiwumModal}}
+                        <button id="doArchiwum" class="btn btn-warning">
+                            <span class="glyphicon glyphicon-lock"></span> Do Archiwum
+                        </button>
+                        {{> uzasadnienieKoszModal}}
+                        <button id="doKosza" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-trash"></span> Do Kosza
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br/>
+        <table class="table table-bordered manageTable">
+            <tr>
+                <td><strong> Data wprowadzenia Kwestii</strong></td>
+                <td>{{date}}</td>
+            </tr>
+            <tr>
+                <td><strong> Data głosowania</strong></td>
+                <td>{{dataGlosowaniaObliczana}}</td>
+            </tr>
+            <tr>
+                <td><strong> Finał deliberacji i głosowania</strong></td>
+                <td>{{dateG}}</td>
+            </tr>
+            <tr>
+                <td><strong> Nazwa Kwestii</strong></td>
+                <td>{{kwestiaNazwa}}</td>
+            </tr>
+            <tr>
+                <td><strong> Priorytet</strong></td>
+                <td>
+                    <div class="row">
+                        <div class="col-md-1">
+                            {{wartoscPriorytetu}}
+                        </div>
+                        {{#unless isAdmin}}
+                            <div class="col-md-11">
+                                <form>
+                                    <div class="btn-group" role="group" aria-label="...">
+                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
+                                                class="btn btn-xs btn-danger" value="-5">-5
+                                        </button>
+                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
+                                                class="btn btn-xs btn-danger" value="-4">-4
+                                        </button>
+                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
+                                                class="btn btn-xs btn-danger" value="-3">-3
+                                        </button>
+                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
+                                                class="btn btn-xs btn-danger" value="-2">-2
+                                        </button>
+                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
+                                                class="btn btn-xs btn-danger" value="-1">-1
+                                        </button>
+                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
+                                                class="btn btn-xs btn-default" value="0"
+                                                data-toggle="tooltip" data-placement="top"
+                                                title="Oznacza wstrzymanie się od głosu">&nbsp;0
+                                        </button>
+                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
+                                                class="btn btn-xs btn-success" value="1">+1
+                                        </button>
+                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
+                                                class="btn btn-xs btn-success" value="2">+2
+                                        </button>
+                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
+                                                class="btn btn-xs btn-success" value="3">+3
+                                        </button>
+                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
+                                                class="btn btn-xs btn-success" value="4">+4
+                                        </button>
+                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
+                                                class="btn btn-xs btn-success" value="5">+5
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        {{/unless}}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><strong> Temat</strong></td>
+                <td>{{tematNazwa.nazwaTemat}}</td>
+            </tr>
+            <tr>
+                <td><strong> Rodzaj</strong></td>
+                <td>{{rodzajNazwa.nazwaRodzaj}}</td>
+            </tr>
+        </table>
+
+        <legend>Treść Kwestii</legend>
+
+        <div class="clearfix"></div>
+        <table class="table table-bordered manageTable">
+            <tr>
+                <td><strong> Krótka treść</strong></td>
+                <td>{{krotkaTresc}}</td>
+            </tr>
+            <tr>
+                <td><strong> Opis z uzasadnieniem</strong></td>
+                <td>{{szczegolowaTresc}}</td>
+            </tr>
+        </table>
+
+        {{#if ifHasOpcje}}
+            <div class="row">
+                {{> opcjeList}}
+            </div>
+        {{/if}}
+
+        {{#unless isAdmin}}
+            <legend id="dyskusja">Dyskusja Kwestii</legend>
+            <div class="row">
+                <div class="col-md-12">
+                    {{> discussionMain
+                    _id =_id}}
+                </div>
+            </div>
+        {{/unless}}
+    </div>
+</template>

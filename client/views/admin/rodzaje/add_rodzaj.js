@@ -1,46 +1,82 @@
-Template.addRodzajForm.rendered = function(){
+Template.addRodzajForm.rendered = function () {
+    $("#rodzajForm").validate({
+        rules: {
+            czasDyskusji: {
+                min: 1
+            },
+            czasGlosowania: {
+                min: 0.01,
+                number: true
+            }
+        },
+        messages: {
+            nazwaRodzaj: {
+                required: fieldEmptyMesssage()
+            },
+            tematy: {
+                required: fieldEmptyMesssage()
+            },
+            czasDyskusji: {
+                min: positiveNumberMesssage()
+            },
+            czasGlosowania: {
+                min: positiveNumberMesssage(),
+                number: decimalNumberMesssage()
+            }
+        },
+        highlight: function (element) {
+            highlightFunction(element);
+        },
+        unhighlight: function (element) {
+            unhighlightFunction(element);
+        },
+        errorElement: 'span',
+        errorClass: 'help-block',
+        errorPlacement: function (error, element) {
+            validationPlacementError(error, element);
+        }
+    })
 };
 
 Template.addRodzajForm.helpers({
-    tematToList: function(){
+    tematToList: function () {
         return Temat.find({});
     }
-})
+}),
+    Template.addRodzajForm.events({
 
-Template.addRodzajForm.events({
-    'submit form': function (e) {
-        e.preventDefault();
-        var newRodzaj = [
-            {
-                temat_id: $(e.target).find('[name=tematy]').val(),
-                nazwaRodzaj: $(e.target).find('[name=nazwaRodzaj]').val(),
-                czasDyskusji: $(e.target).find('[name=czasDyskusji]').val(),
-                czasGlosowania: $(e.target).find('[name=czasGlosowania]').val(),
-                pulapPriorytetu: $(e.target).find('[name=pulapPriorytetu]').val()
-            }];
-        if (isNotEmpty(newRodzaj[0].temat_id) &&
-            isNotEmpty(newRodzaj[0].nazwaRodzaj) &&
-            isNotEmpty(newRodzaj[0].czasDyskusji) &&
-            isNotEmpty(newRodzaj[0].czasGlosowania) &&
-            isNotEmpty(newRodzaj[0].pulapPriorytetu)) {
-            Meteor.call('addRodzaj', newRodzaj, function (error) {
-                if (error)
+        'submit form': function (e) {
+            e.preventDefault();
+            var czasD = $(e.target).find('[name=czasDyskusji]').val();
+            if (czasD == '' || czasD == '0')
+                czasD = 7;
+            var czasG = $(e.target).find('[name=czasGlosowania]').val().replace(/\s+/g, '');
+            if (czasG == '' || czasG == '0')
+                czasG = 24;
+
+            var newRodzaj = [
                 {
+                    idTemat: $(e.target).find('[name=tematy]').val(),
+                    nazwaRodzaj: $(e.target).find('[name=nazwaRodzaj]').val(),
+                    czasDyskusji: czasD,
+                    czasGlosowania: czasG
+                }];
+            Meteor.call('addRodzaj', newRodzaj, function (error) {
+                if (error) {
                     if (typeof Errors === "undefined")
                         Log.error('Error: ' + error.reason);
-                    else
-                    {
+                    else {
                         throwError(error.reason);
                     }
                 }
-                else
-                {
+                else {
                     Router.go('listRodzaj');
                 }
             });
+        },
+        'reset form': function () {
+            Router.go('listRodzaj');
         }
-    },
-    'reset form': function(){
-        Router.go('listRodzaj');
-    }
-});
+    });
+
+
