@@ -106,3 +106,11 @@ preparePageInfoString=function(pathArray,label){
 
     return str;
 };
+setParamInfo=function(paramName,initialValue,newValue){
+    var item = {
+        paramName:paramName,
+        initialValue:initialValue,
+        newValue:newValue
+    }
+    return item;
+}

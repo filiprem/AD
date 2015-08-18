@@ -11,7 +11,10 @@ Template.header.helpers({
     },
     'isAdminUser': function() {
         return IsAdminUser();
-    }
+    },
+    nazwaOrganizacji:function(){
+        return Parametr.findOne({}).nazwaOrganizacji;
+    },
 });
 
 Template.language.events({
