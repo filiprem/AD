@@ -24,20 +24,84 @@ Template.listKwestiaAdmin.helpers({
             showColumnToggles: true,
             enableRegex: false,
             fields: [
-                {key: 'dataWprowadzenia', label: Template.listKwestiaAdminColumnLabel, labelData: {title: "Data wprowadzenia Kwestii i rozpoczęcia jej deliberacji", text:"Data"}, tmpl:Template.dataUtwKwestia},
-                {key: 'kwestiaNazwa', label: Template.listKwestiaAdminColumnLabel, labelData: {title: "Kliknij, aby zobaczyć szczegóły", text:"Nazwa kwestii"}, tmpl: Template.nazwaKwestiLink},
+                {
+                    key: 'dataWprowadzenia',
+                    label: Template.listKwestiaAdminColumnLabel,
+                    labelData: {title: "Data wprowadzenia Kwestii i rozpoczęcia jej deliberacji", text:"Data"},
+                    tmpl:Template.dataUtwKwestia,
+                    cellClass: function () {
+                        var css = 'tableCellsFont';
+                        return css;
+                    }
+                },
+                {
+                    key: 'kwestiaNazwa',
+                    label: Template.listKwestiaAdminColumnLabel,
+                    labelData: {title: "Kliknij, aby zobaczyć szczegóły", text:"Nazwa kwestii"},
+                    tmpl: Template.nazwaKwestiLink,
+                    cellClass: function () {
+                        var css = 'tableCellsFont';
+                        return css;
+                    }
+                },
                 {
                     key: 'sredniaPriorytet',
                     label: Template.listKwestiaAdminColumnLabel,
                     labelData: {title: "Kliknij, aby zmienić swój priorytet dla tej Kwestii", text:"Priorytet"},
                     tmpl: Template.priorytetKwestia,
                     sortOrder: 1,
-                    sortDirection: 'descending'},
-                {key: 'temat_id', label: "Temat",  tmpl: Template.tematKwestia},
-                {key: 'rodzaj_id', label: "Rodzaj", tmpl: Template.rodzajKwestia},
-                {key: 'dataGlosowania', label: Template.listKwestiaAdminColumnLabel, labelData: {title: "Data zakończenia głosowania", text:"Finał"}, tmpl: Template.dataGlKwestia},
-                {key: 'status', label: Template.listKwestiaAdminColumnLabel, labelData: {title: "Etap, na którym znajduje sie ta Kwestia", text:"Status"}},
-                {key: 'options', label: "Opcje", tmpl: Template.editColumnKwestiaAdmin }
+                    sortDirection: 'descending',
+                    cellClass: function () {
+                        var css = 'tableCellsFont';
+                        return css;
+                    }
+                },
+                {
+                    key: 'temat_id',
+                    label: "Temat",
+                    tmpl: Template.tematKwestia,
+                    cellClass: function () {
+                        var css = 'tableCellsFont';
+                        return css;
+                    }
+                },
+                {
+                    key: 'rodzaj_id',
+                    label: "Rodzaj",
+                    tmpl: Template.rodzajKwestia,
+                    cellClass: function () {
+                        var css = 'tableCellsFont';
+                        return css;
+                    }
+                },
+                {
+                    key: 'dataGlosowania',
+                    label: Template.listKwestiaAdminColumnLabel,
+                    labelData: {title: "Data zakończenia głosowania", text:"Finał"},
+                    tmpl: Template.dataGlKwestia,
+                    cellClass: function () {
+                        var css = 'tableCellsFont';
+                        return css;
+                    }
+                },
+                {
+                    key: 'status',
+                    label: Template.listKwestiaAdminColumnLabel,
+                    labelData: {title: "Etap, na którym znajduje sie ta Kwestia", text:"Status"},
+                    cellClass: function () {
+                        var css = 'tableCellsFont';
+                        return css;
+                    }
+                },
+                {
+                    key: 'options',
+                    label: "Opcje",
+                    tmpl: Template.editColumnKwestiaAdmin,
+                    cellClass: function () {
+                        var css = 'tableCellsFont';
+                        return css;
+                    }
+                }
             ]
         };
     },
