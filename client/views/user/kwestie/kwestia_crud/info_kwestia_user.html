@@ -16,28 +16,8 @@
                     {{/if}}
                 </p>
             </div>
+            {{thisKwestia}}
             <div class="col-md-12">
-                <!--<div class="btn-group pull-right" role="group" aria-label="...">-->
-
-                <!--<button id="backToList" class="btn btn-primary">-->
-                <!--<span class="glyphicon glyphicon-arrow-left"></span> Powrót-->
-                <!--</button>-->
-                    <!--{{#unless czyOpcja}}-->
-                    <!--{{#unless isAdmin}}-->
-                    <!--<button id="addOptionButton" class="btn btn-primary">-->
-                    <!--<span class="glyphicon glyphicon-plus"></span> Dodaj opcję-->
-                    <!--</button>-->
-                        <!--{{/unless}}-->
-                    <!--{{/unless}}-->
-
-                <!--<button id="doArchiwum" class="btn btn-warning">-->
-                <!--<span class="glyphicon glyphicon-lock"></span> Do Archiwum-->
-                <!--</button>-->
-                <!--<button id="doKosza" class="btn btn-danger">-->
-                <!--<span class="glyphicon glyphicon-trash"></span> Do Kosza-->
-                <!--</button>-->
-                <!--</div>-->
-
                 <div class="btn-toolbar pull-right" role="toolbar" aria-label="...">
                     <div class="btn-group" role="group" aria-label="...">
                         <button id="backToList" class="btn btn-primary">
@@ -62,6 +42,7 @@
                             <span class="glyphicon glyphicon-trash"></span> Do Kosza
                         </button>
                     </div>
+                    <button if="wyczyscPriorytety" type="button" class="btn btn-danger">Wyczyść priorytety</button>
                 </div>
             </div>
         </div>
@@ -89,7 +70,7 @@
                 <td>
                     <div class="row">
                         <div class="col-md-1">
-                            {{wartoscPriorytetu}}
+                            <b>{{wartoscPriorytetu}}</b>
                         </div>
                         {{#unless isAdmin}}
                             <div class="col-md-11">

@@ -42,10 +42,8 @@ validationPlacementError=function(error, element){
 },
 jQuery.validator.addMethod("checkExistsNazwaKwestii", function(value, element) {
     var kwestie=Kwestia.find({czyAktywny:true});
-    console.log("Liczba kwestii"+kwestie.count());
     var found=null;
     kwestie.forEach(function(item){
-        console.log(item.kwestiaNazwa);
         if( _.isEqual(item.kwestiaNazwa.toLowerCase().trim(),value.toLowerCase().trim()) ){
             found=true;
         }
@@ -66,8 +64,6 @@ trimInput = function(value) {
      */
 isNotEmpty = function(value, statement, fieldName) {
     value=value.replace(/\s+/g,'');
-    console.log("Value "+value);
-    console.log("Statement "+statement)
     if (value!=='' && value !== '0'){
         if(fieldName!=null) {
             document.getElementById(fieldName).classList.remove('has-error');
