@@ -1,4 +1,4 @@
-Template.informacjeKwestia.rendered = function() {
+Template.informacjeKwestia.rendered = function () {
     var self = Template.instance();
     var currentKwestiaId = Session.get("idKwestia");
     var tabOfUsersVoted = [];
@@ -10,7 +10,7 @@ Template.informacjeKwestia.rendered = function() {
         self.ifUserVoted.set(false);
     }
 };
-Template.informacjeKwestia.created = function(){
+Template.informacjeKwestia.created = function () {
     this.ifUserVoted = new ReactiveVar();
 };
 Template.informacjeKwestia.events({
@@ -94,10 +94,15 @@ Template.informacjeKwestia.events({
     },
     'click #priorytetButton': function (e) {
         var u = Meteor.userId();
+        // button, ktory zostal klikniety
         var ratingValue = parseInt(e.target.value);
+        console.log(ratingValue);
+        // id kwestii, na ktora chcemy zaglosowac
         var ratingKwestiaId = this._id;
+        // kwestia, na ktora chcemy zaglosowac
         var kwestia = Kwestia.findOne({_id: ratingKwestiaId});
         var parent = this.idParent;
+        // wszystkie kwestie opcje
         var kwestieOpcje = Kwestia.find({idParent: parent}).fetch();
         var glosujacy = [];
         var glosujacy = kwestia.glosujacy;
@@ -155,33 +160,21 @@ Template.informacjeKwestia.events({
                     throwError(error.reason);
             }
             else {
-                console.log("Udało sie update'ować priorytet");
-                var self = Template.instance();
-                console.log(Template.instance())
                 if (self.ifUserVoted.get() == false) {
-                    console.log("Użytkownik nie nadał jeszcze priorytetu");
                     var newValue = 0;
                     var pktAddPriorytet = Parametr.findOne({});
-                    console.log(pktAddPriorytet)
                     newValue = Number(pktAddPriorytet.pktNadaniePriorytetu) + getUserRadkingValue(Meteor.userId());
-                    console.log(newValue);
 
-                    var kwestiaOwner=Kwestia.findOne({_id:Session.get("idKwestia")}).idUser;
-                    console.log("Właściciel kwestii");
-                    console.log(kwestiaOwner);
-                    if(kwestiaOwner==Meteor.userId()) {//jezeli nadajacy priorytet jest tym,który utworzył kwestię
+                    var kwestiaOwner = Kwestia.findOne({_id: Session.get("idKwestia")}).idUser;
+                    if (kwestiaOwner == Meteor.userId()) {//jezeli nadajacy priorytet jest tym,który utworzył kwestię
                         newValue += ratingValue;
-                        console.log(newValue);
                     }
-                    else{
-                        console.log("Tyle dodamy: "+ratingValue);
-                        console.log("tyle jest :"+getUserRadkingValue(kwestiaOwner));
-                        var newValueOwner=0;
-                        newValueOwner=Number(ratingValue)+getUserRadkingValue(kwestiaOwner);
+                    else {
+                        var newValueOwner = 0;
+                        newValueOwner = Number(ratingValue) + getUserRadkingValue(kwestiaOwner);
 
-                        Meteor.call('updateUserRanking', kwestiaOwner,newValueOwner, function (error) {
-                            if (error)
-                            {
+                        Meteor.call('updateUserRanking', kwestiaOwner, newValueOwner, function (error) {
+                            if (error) {
                                 if (typeof Errors === "undefined")
                                     Log.error('Error: ' + error.reason);
                                 else {
@@ -204,7 +197,7 @@ Template.informacjeKwestia.events({
                     });
                 }
                 else {
-                    console.log("Użytkownik nadał już priorytet");
+                    console.log("Użytkownik nadał już priorytet -> nie doliczamy mu rankingu");
                 }
             }
         });
@@ -214,12 +207,15 @@ Template.informacjeKwestia.events({
 Template.informacjeKwestia.helpers({
     ifHasOpcje: function () {
         var kwestiaGlownaId = this._id;
-        var k = Kwestia.find({idParent: kwestiaGlownaId,isOption: true}).fetch();
-        if(k) return true;
+        var k = Kwestia.find({idParent: kwestiaGlownaId, isOption: true}).fetch();
+        if (k) return true;
         else return false;
     },
     isAdmin: function () {
-        if (Meteor.user().roles == "admin") return true;
+        if (Meteor.user().roles) {
+            if (Meteor.user().roles == "admin") return true;
+            else return false;
+        }
         else return false;
     },
     opcje: function () {
@@ -233,8 +229,6 @@ Template.informacjeKwestia.helpers({
         else return false;
     },
     thisKwestia: function () {
-        var k = Session.get("idKwestia")
-        var kwestia = Kwestia.findOne({_id: k});
     },
     mojPiorytet: function () {
         var currentKwestiaId = this._id;
