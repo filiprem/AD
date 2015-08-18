@@ -73,42 +73,47 @@ setValueIfEmptyField = function (field, value) {
     }
     return field;
 }
-getUserRadkingValue=function(idUser){
-    var user=Users.findOne({_id:idUser});
-    return Number(user.profile.rADking);
+getUserRadkingValue = function (idUser) {
+    var user = Users.findOne({_id: idUser});
+    if (user) {
+        return Number(user.profile.rADking);
+    }
 };
-getAllUsersWhoVoted=function(idKWestia){
-    var kwestia=Kwestia.findOne({_id:idKWestia});
-    var tab=kwestia.glosujacy;
-    var tabNew=[];
-    for(var j= 0;j<tab.length;j++){
-        tabNew.push(tab[j].idUser);
-    }    
-    return tabNew;
+getAllUsersWhoVoted = function (idKWestia) {
+    var kwestia = Kwestia.findOne({_id: idKWestia});
+    if(kwestia){
+        var tab = kwestia.glosujacy;
+        if(tab){
+            var tabNew = [];
+            for (var j = 0; j < tab.length; j++) {
+                tabNew.push(tab[j].idUser);
+            }
+            return tabNew;
+        }
+    }
 };
 
-getUrlPathArray=function(){
-    var pathArray = window.location.pathname.split( '/' );
+getUrlPathArray = function () {
+    var pathArray = window.location.pathname.split('/');
     return pathArray;
 };
 
-preparePageInfoString=function(pathArray,label){
-
+preparePageInfoString = function (pathArray, label) {
     var str = "pageInfo.";
-    for(var item in pathArray){
-        if(!!pathArray[item] && pathArray[item] && !_.contains(getTabOfUrlParams(),pathArray[item]))
-            str+=pathArray[item]+".";
+    for (var item in pathArray) {
+        if (!!pathArray[item] && pathArray[item] && !_.contains(getTabOfUrlParams(), pathArray[item]))
+            str += pathArray[item] + ".";
     }
-    str+=label;
+    str += label;
 
     return str;
 };
 
-getTabOfUrlParams=function(){
+getTabOfUrlParams = function () {
     var tab = [];
     var params = Router.current().params;
-    for(var item in params){
-        if(!_.isEmpty(params[item]))
+    for (var item in params) {
+        if (!_.isEmpty(params[item]))
             tab.push(params[item]);
     }
     return tab;

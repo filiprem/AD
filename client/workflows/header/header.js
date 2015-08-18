@@ -63,7 +63,6 @@ Template.language.helpers({
         for(var lang in LANGUAGES){
             tab.push(LANGUAGES[lang]);
         }
-
         return tab;
     }
 })
