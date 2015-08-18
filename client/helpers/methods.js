@@ -79,11 +79,14 @@ getUserRadkingValue=function(idUser){
 };
 getAllUsersWhoVoted=function(idKWestia){
     var kwestia=Kwestia.findOne({_id:idKWestia});
+    console.log(kwestia)
     var tab=kwestia.glosujacy;
+    console.log(tab);
+    console.log(tab.length)
     var tabNew=[];
     for(var j= 0;j<tab.length;j++){
         tabNew.push(tab[j].idUser);
-    }
+    }    
     return tabNew;
 };
 
