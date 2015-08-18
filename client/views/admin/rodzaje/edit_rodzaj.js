@@ -66,16 +66,12 @@ Template.editRodzajForm.events({
         var czasG = $(e.target).find('[name=czasGlosowania]').val().replace(/\s+/g, '');
         if (czasG == '' || czasG == '0')
             czasG = 24;
-        var pulapP = $(e.target).find('[name=pulapPriorytetu]').val();
-        if (_.isEmpty(pulapP))
-            pulapP = Users.find().count() * 0.1 * 5;
 
         var rodzaj = {
             idTemat: $(e.target).find('[name=tematy]').val(),
             nazwaRodzaj: $(e.target).find('[name=nazwaRodzaj]').val(),
             czasDyskusji: czasD,
-            czasGlosowania: czasG,
-            pulapPriorytetu: pulapP
+            czasGlosowania: czasG
         };
         Meteor.call('updateRodzaj', r._id, rodzaj, function (error) {
             if (error) {
@@ -87,11 +83,6 @@ Template.editRodzajForm.events({
                 }
             }
             else {
-                Kwestia.find({idRodzaj: r._id}).forEach(function (doc) {
-                    var id = Kwestia.update({_id: doc._id}, {$set: {pulapPriorytetu: Rodzaj.findOne({_id: r._id}).pulapPriorytetu}});
-                    if (!id) {
-                    }
-                });
                 Router.go('listRodzaj');
             }
         });

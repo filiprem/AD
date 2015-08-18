@@ -3,13 +3,13 @@
     <br />
     <div class="navbar navbar-default" role="navigation">
         <div class="navbar-header">
-            <a class="navbar-brand" href="{{pathFor 'home'}}"><strong>AD</strong> - <small>{{nazwaOrganizacji}}</small></a>
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
+            <!--<a class="navbar-brand" href="{{pathFor 'home'}}"><strong>AD</strong> - <small>Aktywna Demokracja</small></a>-->
+            <!--<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">-->
+                <!--<span class="sr-only">Toggle navigation</span>-->
+                <!--<span class="icon-bar"></span>-->
+                <!--<span class="icon-bar"></span>-->
+                <!--<span class="icon-bar"></span>-->
+            <!--</button>-->
         </div>
         <div id="navbar-collapse" class="navbar-collapse collapse">
             {{#if currentUser}}
@@ -19,7 +19,7 @@
                     <li class="{{activeRouteClass 'realizacja'}}"><a href="{{pathFor 'realizacja'}}"><span class="glyphicon glyphicon-list-alt"></span> Realizacja</a></li>
                     <li class="{{activeRouteClass 'archiwum'}}"><a href="{{pathFor 'archiwum'}}"><span class="glyphicon glyphicon-lock"></span>  Archiwum</a></li>
                     <li class="{{activeRouteClass 'profile_list'}}"><a href="{{pathFor 'profile_list'}}"><span class="glyphicon glyphicon-heart"></span>  Użytkownicy</a></li>
-                    <li class="{{activeRouteClass ''}}"><a href="{{pathFor ''}}"><span class="glyphicon glyphicon-duplicate"></span>  Administracja</a></li>
+                    <li class="{{activeRouteClass 'administracjaUserMain'}}"><a href="{{pathFor 'administracjaUserMain'}}"><span class="glyphicon glyphicon-duplicate"></span>  Administracja</a></li>
                 </ul>
             {{/if}}
             <ul class="nav navbar-nav navbar-right">
@@ -39,6 +39,9 @@
 <template name="language">
     <div class="row">
         <div class="col-md-12">
+            <div class="pull-left">
+                <strong>AD</strong> - <small>Aktywna Demokracja</small>
+            </div>
             <div class="pull-right">
                 <div class="btn-group">
                     <button type="button" class="btn btn-default btn-xs" id="showPageInfo">

@@ -106,6 +106,17 @@ preparePageInfoString=function(pathArray,label){
 
     return str;
 };
+
+getTabOfUrlParams = function () {
+    var tab = [];
+    var params = Router.current().params;
+    for (var item in params) {
+        if (!_.isEmpty(params[item]))
+            tab.push(params[item]);
+    }
+    return tab;
+};
+
 setParamInfo=function(paramName,initialValue,newValue){
     var item = {
         paramName:paramName,

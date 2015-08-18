@@ -58,14 +58,14 @@ Template.language.events({
 
 Template.language.helpers({
     'getUserLang':function(){
-        return Meteor.user().profile.language;
+        if(Meteor.user())
+            return Meteor.user().profile.language;
     },
     'langs':function(){
         var tab = [];
         for(var lang in LANGUAGES){
             tab.push(LANGUAGES[lang]);
         }
-
         return tab;
     }
 })
