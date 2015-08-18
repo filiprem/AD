@@ -79,6 +79,14 @@ Meteor.publish('allPosts', function() {
     return Posts.find({czyAktywny:true});
 });
 
+Meteor.publish('languages', function() {
+    return Languages.find({czyAktywny:true});
+});
+
+Meteor.publish('language', function(id) {
+    return Languages.find({_id:id,czyAktywny:true});
+});
+
 Meteor.startup(function () {
     var data = [
         {
