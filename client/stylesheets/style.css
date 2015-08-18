@@ -175,7 +175,9 @@ body {
 }
 
 .tableCellsFont {
-    font-size: 13px!important;
+    font-size: 13px !important;
+}
+
 .background-color-white{
     background-color: white;
 }
