@@ -1,0 +1,68 @@
+<template name="discussionMain">
+    <div class="row">
+        <label class="control-label col-xs-12">{{title}}</label>
+
+        <div class="col-xs-12">
+            {{#each getPosts _id}}
+                {{> discussionPostItem
+                wiadomosc = wiadomosc
+                idUser = idUser
+                userFullName = userFullName
+                addDate=addDate
+                idKwestia=idKwestia
+                idPost=_id
+                wartoscPriorytetu = wartoscPriorytetu
+                }}
+            {{/each}}
+        </div>
+    </div>
+    {{> discussionPostForm
+    idKwestia=_id
+    }}
+</template>
+
+<template name="discussionPostForm">
+    <form id="dyskusjaForm" class="form-horizontal">
+        <div class="form-group">
+            <div class="col-xs-12">
+                <textarea id="message" name="message" type="text" class="form-control" required
+                          placeholder="Komentarz"></textarea>
+            </div>
+            <input id="idKwestia" name="idKwestia" type="hidden" value="{{idKwestia}}">
+        </div>
+        <div class="form-group">
+            <div class="col-xs-12">
+                <input type="submit" for="dyskusjaForm" class="btn btn-primary" value="Dodaj komentarz">
+            </div>
+        </div>
+    </form>
+</template>
+
+<template name="discussionRating">
+    <div>
+        <form>
+            <div class="btn-group" role="group" aria-label="...">
+                <button id="ratingButton" name="{{idPost}}" type="button" class="btn btn-xs btn-danger" value="-5">-5
+                </button>
+                <button id="ratingButton" name="{{idPost}}" type="button" class="btn btn-xs btn-danger" value="-4">-4
+                </button>
+                <button id="ratingButton" name="{{idPost}}" type="button" class="btn btn-xs btn-danger" value="-3">-3
+                </button>
+                <button id="ratingButton" name="{{idPost}}" type="button" class="btn btn-xs btn-danger" value="-2">-2
+                </button>
+                <button id="ratingButton" name="{{idPost}}" type="button" class="btn btn-xs btn-danger" value="-1">-1
+                </button>
+                <button id="ratingButton" name="{{idPost}}" type="button" class="btn btn-xs btn-success" value="1">+1
+                </button>
+                <button id="ratingButton" name="{{idPost}}" type="button" class="btn btn-xs btn-success" value="2">+2
+                </button>
+                <button id="ratingButton" name="{{idPost}}" type="button" class="btn btn-xs btn-success" value="3">+3
+                </button>
+                <button id="ratingButton" name="{{idPost}}" type="button" class="btn btn-xs btn-success" value="4">+4
+                </button>
+                <button id="ratingButton" name="{{idPost}}" type="button" class="btn btn-xs btn-success" value="5">+5
+                </button>
+            </div>
+        </form>
+    </div>
+</template>

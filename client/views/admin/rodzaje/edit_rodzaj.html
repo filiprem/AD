@@ -5,45 +5,52 @@
             <hr/>
             <div class="row">
                 <div class="col col-md-10">
-                    <form class="form-horizontal">
+                    <form class="form-horizontal" id="rodzajForm">
                         <div class="form-group">
                             <label class="control-label col-xs-3">Temat:</label>
 
                             <div class="col-xs-9">
-                                <input type="text" id="tematy" name="tematy"
-                                       class="form-control" value="{{tematName}}">
+                                <select name="tematy" id="tematy" class="form-control required">
+                                    {{#each tematToList}}
+                                        {{#if isSelected _id}}
+                                            <option value="{{this._id}}" selected>
+                                                {{this.nazwaTemat}}
+                                            </option>
+                                        {{else}}
+                                            <option value="{{this._id}}">
+                                                {{this.nazwaTemat}}
+                                            </option>
+                                        {{/if}}
+                                    {{/each}}
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-xs-3" for="inputEmail">Nazwa rodzaju:</label>
+                            <label class="control-label col-xs-3" for="inputNazwaRodzaj">Nazwa rodzaju:</label>
 
                             <div class="col-xs-9">
-                                <input name="nazwaRodzaj" type="text" value={{nazwaRodzaj}} class="form-control" id="inputNazwaRodzaj"
-                                       placeholder="Nazwa rodzaju (np. wniosek, uchwała, propozycja, zapytanie itp.)">
+                                <input name="nazwaRodzaj" type="text" class="form-control required"
+                                       id="inputNazwaRodzaj"
+                                       placeholder="Nazwa rodzaju (np. wniosek, uchwała, propozycja, zapytanie itp.)"
+                                       value={{nazwaRodzaj}}>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-xs-3" for="inputEmail">Czas dyskusji:</label>
+                            <label class="control-label col-xs-3" for="inputCzasDyskusji">Czas dyskusji:</label>
 
                             <div class="col-xs-9">
-                                <input name="czasDyskusji" type="text" value={{czasDyskusji}} class="form-control" id="czasDyskusji"
+                                <input name="czasDyskusji" type="number" value={{czasDyskusji}} class="form-control"
+                                       id="czasDyskusji"
                                        placeholder="Czas dyskusji (dni). Domyślnie 7 dni">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-xs-3" for="inputEmail">Czas głosowania:</label>
+                            <label class="control-label col-xs-3" for="inputCzasGlosowania">Czas głosowania:</label>
 
                             <div class="col-xs-9">
-                                <input name="czasGlosowania" type="text" value={{czasGlosowania}} class="form-control" id="czasGlosowania"
+                                <input name="czasGlosowania" type="text" value={{czasGlosowania}} class="form-control"
+                                       id="czasGlosowania"
                                        placeholder="Czas głosowania (h). Domyślnie 24 h.">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-xs-3" for="inputEmail">Pułap priorytetu:</label>
-
-                            <div class="col-xs-9">
-                                <input name="pulapPriorytetu" type="text" value={{pulapPriorytetu}} class="form-control" id="pulapPriorytetu"
-                                       placeholder="Pułap priorytetu">
                             </div>
                         </div>
                         <br/>

@@ -1,0 +1,115 @@
+<template name="discussionMainPanel">
+    <div class="row">
+        <label class="control-label col-xs-12">{{title}}</label>
+        <div class="col-xs-12">
+            {{#each getPosts kwestia_suspended_id}}
+               {{> postItem
+               post_message = post_message
+               user_id = user_id
+               user_full_name = user_full_name
+               add_date=add_date
+               kwestia_suspended_id=kwestia_suspended_id
+               post_id=_id
+               }}
+            {{/each}}
+        </div>
+    </div>
+    {{> postForm
+    kwestia_suspended_id=kwestia_suspended_id
+    }}
+</template>
+
+<template name="postForm">
+    <form id="discussionFormId" class="form-horizontal">
+        <div class="form-group">
+            <div class="col-xs-12">
+                <textarea id="message" name="message" type="text" class="form-control" placeholder="Komentarz"></textarea>
+            </div>
+            <input id="kwestia_suspended_id" name="kwestia_suspended_id" type="hidden" value="{{kwestia_suspended_id}}">
+        </div>
+        <div class="form-group">
+            <div class="col-xs-12">
+                <input type="submit" for="discussionFormId" class="btn btn-primary" value="Dodaj komentarz">
+            </div>
+        </div>
+    </form>
+</template>
+
+<template name="postItem">
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingOne">
+                <h4 class="panel-title">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="pull-right">
+                                <h6><b>{{user_full_name}}</b> {{getSimpleDate add_date}} <small>{{getFullHourDate add_date}}</small></h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p>{{post_message}}</p>
+                        </div>
+                    </div>
+                    <div class="pull-right">
+                        <h6>{{getAnswersCount post_id}} odniesienia&nbsp;
+                            <a class="collapsed pull-right" role="button" data-toggle="collapse" data-parent="#accordion" href="#{{post_id}}" aria-expanded="false" aria-controls="{{post_id}}">
+                                <i class="glyphicon glyphicon-triangle-bottom"></i>
+                            </a>
+                        </h6>
+                    </div>
+                    <div class="clearfix"></div>
+                </h4>
+            </div>
+            <div id="{{post_id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                <div class="panel-body">
+                    {{#each getAnswers post_id}}
+                        {{> postAnswerItem
+                        post_message = post_message
+                        user_full_name = user_full_name
+                        }}
+                    {{/each}}
+                    {{> postAnswerForm
+                    kwestia_suspended_id=kwestia_suspended_id
+                    post_id=post_id
+                    }}
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="postAnswerForm">
+    <form id="postAnswerFormId" class="form-horizontal">
+        <div class="form-group">
+            <div class="col-xs-12">
+                <textarea id="answer_message" name="answer_message" type="text" class="form-control" placeholder="Odniesienie"></textarea>
+            </div>
+            <input id="answer_kwestia_suspended_id" name="answer_kwestia_suspended_id" type="hidden" value="{{kwestia_suspended_id}}">
+            <input id="answer_post_id" name="answer_post_id" type="hidden" value="{{post_id}}">
+        </div>
+        <div class="form-group">
+            <div class="col-xs-12">
+                <input type="submit" for="postAnswerFormId" class="btn btn-sm btn-default" value="Dodaj odniesienie">
+            </div>
+        </div>
+    </form>
+</template>
+
+<template name="postAnswerItem">
+    <div class="well background-color-white">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="pull-right">
+                    <h6><b>{{user_full_name}}</b> {{getSimpleDate add_date}} <small>{{getFullHourDate add_date}}</small></h6>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <p>{{post_message}}</p>
+            </div>
+        </div>
+    </div>
+</template>

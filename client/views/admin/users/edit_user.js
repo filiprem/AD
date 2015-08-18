@@ -1,5 +1,53 @@
+Template.editUserForm.rendered = function () {
+    $('#test1').datetimepicker({
+        sideBySide: true,
+        format: 'DD/MM/YYYY'
+    });
+    $("#userForm").validate({
+        rules: {
+            password: {
+                minlength: 6,
+            },
+            email: {
+                email: true
+            }
+        },
+        messages: {
+            email: {
+                required: fieldEmptyMesssage(),
+                email: validEmailMessage()
+            },
+            firstName: {
+                required: fieldEmptyMesssage(),
+            },
+            lastName: {
+                required: fieldEmptyMesssage(),
+            }
+        },
+        highlight: function (element) {
+            var id_attr = "#" + $(element).attr("id") + "1";
+            $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+            $(id_attr).removeClass('glyphicon-ok').addClass('glyphicon-remove');
+        },
+        unhighlight: function (element) {
+            var id_attr = "#" + $(element).attr("id") + "1";
+            $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+            $(id_attr).removeClass('glyphicon-remove').addClass('glyphicon-ok');
+        },
+        errorElement: 'span',
+        errorClass: 'help-block',
+        errorPlacement: function (error, element) {
+            if (element.length) {
+                error.insertAfter(element);
+            } else {
+                error.insertAfter(element);
+            }
+        }
+    })
+};
+
 Template.editUserForm.helpers({
-    userToEdit: function(){
+    userToEdit: function () {
         return Session.get("userInScope");
     },
     email: function () {
@@ -21,51 +69,63 @@ Template.editUserForm.helpers({
         }
         return "";
     },
-    dateB: function(){
-        var d = this.profile.dateOfBirth;
-        return moment(d).format("DD-MM-YYYY");
+    dateB: function () {
+        return this.profile.dateOfBirth;
+    },
+    roles: function () {
+        return Session.get("userInScope").roles;
+    },
+    isSelected: function (gender) {
+        var gen = this.profile.gender;
+        if (gen == gender)
+            return "checked";
+        else
+            return "";
     }
 });
 
 Template.editUserForm.events({
-   'click #clickme': function(e){
-       e.preventDefault();
-       var usr = Session.get("userInScope");
-       var usrId = usr._id;
-       var userProperties = {
-           emails: {
-               0: { address: $(e.target).find('[name=email]').val() }
-           },
-           profile: {
-               firstName: $(e.target).find('[name=firstName]').val(),
-               lastName: $(e.target).find('[name=lastName]').val(),
-               full_name: $(e.target).find('[name=firstName]').val() + ' ' + $(e.target).find('[name=lastName]').val(),
-               profession: $(e.target).find('[name=profession]').val(),
-               address: $(e.target).find('[name=address]').val(),
-               zip: $(e.target).find('[name=zipCode]').val(),
-               phone: $(e.target).find('[name=phone]').val(),
-               web: $(e.target).find('[name=web]').val()
-           }
-       };
-       console.log(userProperties)
-       console.log(usrId)
-       console.log($(e.target).find('[name=firstName]').val());
-       //Meteor.call('updateUser',usrId, userProperties, function (error) {
-       //    if (error) {
-       //        // optionally use a meteor errors package
-       //        if (typeof Errors === "undefined")
-       //            Log.error('Error: ' + error.reason);
-       //        else {
-       //            if(error.error === 409)
-       //                throwError(error.reason);
-       //        }
-       //    }
-       //    else {
-       //        Router.go('listUsers');
-       //    }
-       //});
-   },
-    'reset form': function(){
+    'submit form': function (e) {
+        e.preventDefault();
+        var usr = Session.get("userInScope");
+        var usrId = usr._id;
+        var object = {
+            address: $(e.target).find('[name=email]').val()
+        };
+        var array = [];
+        array.push(object);
+        var userProperties = {
+            emails: array,
+            profile: {
+                firstName: $(e.target).find('[name=firstName]').val(),
+                lastName: $(e.target).find('[name=lastName]').val(),
+                fullName: $(e.target).find('[name=firstName]').val() + ' ' + $(e.target).find('[name=lastName]').val(),
+                profession: $(e.target).find('[name=profession]').val(),
+                address: $(e.target).find('[name=address]').val(),
+                zip: $(e.target).find('[name=zipCode]').val(),
+                phone: $(e.target).find('[name=phone]').val(),
+                dateOfBirth: $(e.target).find('[name=dateOfBirth]').val(),
+                web: $(e.target).find('[name=web]').val(),
+                gender: $(e.target).find('[name=genderRadios]:checked').val(),
+                roleDesc: $(e.target).find('[name=uwagiStatus]').val()
+            }
+        };
+        Meteor.call('updateUser', usrId, userProperties, function (error) {
+            if (error) {
+                // optionally use a meteor errors package
+                if (typeof Errors === "undefined")
+                    Log.error('Error: ' + error.reason);
+                else {
+                    if (error.error === 409)
+                        throwError(error.reason);
+                }
+            }
+            else {
+                Router.go('listUsers');
+            }
+        });
+    },
+    'reset form': function () {
         Router.go('listUsers');
     }
 });

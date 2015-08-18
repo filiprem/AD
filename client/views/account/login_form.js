@@ -7,7 +7,7 @@ Template.loginForm.events({
             password: $(e.target).find('[name=password]').val()
         }
 
-        if (isNotEmpty(user.login) && isNotEmpty(user.password) && isValidPassword(user.password)) {
+        if (isNotEmpty(user.login,'login') && isNotEmpty(user.password,'hasło') && isValidPassword(user.password)) {
             Meteor.loginWithPassword(user.login, user.password, function(err) {
                 if (err) {
                     throwError('Niepoprawne dane logowania.');

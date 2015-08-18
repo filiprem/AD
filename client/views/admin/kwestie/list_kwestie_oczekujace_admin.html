@@ -1,0 +1,17 @@
+<template name="listaKwestiiOczekujacych">
+    {{#if currentUser}}
+        <div class="main">
+            <legend>Lista Kwestii oczekujących</legend>
+            <div class="row">
+                <div class="col-md-12">
+                    {{> reactiveTable
+                    class = "table table-bordered table-hover"
+                    fields = settings.fields
+                    settings = settings
+                    collection = listOfIssues
+                    }}
+                </div>
+            </div>
+        </div>
+    {{/if}}
+</template>

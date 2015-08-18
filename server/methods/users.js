@@ -10,10 +10,11 @@ Meteor.methods({
                 username: newUser[0].login,
                 email: newUser[0].email,
                 password: newUser[0].password,
+
                 profile: {
-                    first_name: newUser[0].firstName,
-                    last_name: newUser[0].lastName,
-                    full_name: newUser[0].firstName + ' ' + newUser[0].lastName,
+                    firstName: newUser[0].firstName,
+                    lastName: newUser[0].lastName,
+                    fullName: newUser[0].firstName + ' ' + newUser[0].lastName,
                     profession: newUser[0].profession,
                     address: newUser[0].address,
                     zip: newUser[0].zip,
@@ -21,27 +22,36 @@ Meteor.methods({
                     gender: newUser[0].gender,
                     phone: newUser[0].phone,
                     web: newUser[0].web,
-                    role: newUser[0].role,
-                    role_desc:  newUser[0].role_desc
+                   // role: newUser[0].role,
+                    roleDesc:  newUser[0].roleDesc,
+                    language:newUser[0].language,
+                    //roleDesc:  newUser[0].roleDesc,
+                    rADking:newUser[0].rADking
                 }
             });
         }
-        Roles.addUsersToRoles(uID, newUser[0].role);
+
+        Roles.addUsersToRoles(uID, "user");
     },
 
     updateUser: function(currentUserId,currentUser) {
-        Users.update(currentUserId, {$set: currentUser}, {upsert:true});
+        Users.update(currentUserId, {
+            $set: currentUser},
+            {upsert:true});
     },
-
+    updateUserLanguage: function(currentUserId,value) {
+        Users.update({_id:currentUserId}, {$set:{'profile.language': value}});
+    },
+    updateUserRanking: function(currentUserId,value) {
+        console.log(currentUserId);
+        console.log(value);
+        Users.update({_id:currentUserId},{$set:{'profile.rADking': value}});
+    },
     removeUser: function(id){
         Users.remove({_id: id});
     },
 
-    addGlosujacy: function(newGlosujacy) {
-        Glosujacy.insert({
-            glosujacy_id: newGlosujacy[0].glosujacy_id,
-            user_id: newGlosujacy[0].user_id,
-            obecny_priorytet: newGlosujacy[0].obecny_priorytet
-        });
+    updateUserLanguage: function(id,user) {
+        Users.update({_id:id},{$set:{'profile.language':user.profile.language}});
     }
 });

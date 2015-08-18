@@ -1,0 +1,80 @@
+<template name="listKwestia">
+    {{#if currentUser}}
+        <div class="main">
+            {{#unless isAdmin}}
+                <div class="row">
+                    <div class="col col-md-4">
+                          <span class="input-group-btn">
+                              <a id="addKwestiaButton" class="btn btn-primary"><span
+                                      class="glyphicon glyphicon-plus"></span>
+                                  Dodaj</a>
+                          </span>
+                        <!--<span class="input-group-btn">-->
+                              <!--<a id="clickMe" class="btn btn-primary">Click me :)</a>-->
+                          <!--</span>-->
+                    </div>
+                </div>
+            {{/unless}}
+            <div class="row">
+                <div class="col-md-12">
+                    {{> reactiveTable
+                    class = "table table-bordered table-hover"
+                    fields = settings.fields
+                    settings = settings
+                    collection = KwestiaList
+                    }}
+                </div>
+            </div>
+        </div>
+        {{> priorytetKwestiaModal}}
+    {{/if}}
+</template>
+
+<template name="tematKwestia">
+    {{tematNazwa}}
+</template>
+
+<template name="rodzajKwestia">
+    {{rodzajNazwa}}
+</template>
+
+<template name="dataGlKwestia">
+    {{date}}
+</template>
+
+<template name="dataUtwKwestia">
+    {{date}}
+</template>
+
+<template name="nazwaKwestiLink">
+    <a href="{{ pathFor 'informacjeKwestia'}}" id="kwestiaId" class="kwestiaId">{{this.kwestiaNazwa}}</a>
+</template>
+
+<template name="nazwaKwestii">
+    {{this.kwestiaNazwa}}
+</template>
+
+<template name="priorytetKwestia">
+    {{priorytet}}
+</template>
+
+<template name="editColumnKwestia">
+    <a title="Edytuj" id="editKwestia" href="{{ pathFor 'editKwestia'}}"><i
+            class="glyphicon glyphicon-pencil clickable"></i></a>
+</template>
+
+<template name="listKwestiaColumnLabel">
+    <span data-toggle="tooltip" title="{{title}}">{{text}}</span>
+</template>
+
+<template name="sugerowanyTemat">
+    {{sugerowanyTemat}}
+</template>
+
+<template name="sugerowanyRodzaj">
+    {{sugerowanyRodzaj}}
+</template>
+
+<template name="statusKwestii">
+    {{status}}
+</template>

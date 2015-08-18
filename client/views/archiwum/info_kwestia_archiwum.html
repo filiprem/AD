@@ -1,62 +1,61 @@
 <template name="informacjeKwestiaArchiwum">
     <div class="main">
         <h3>Informacje o Kwestii</h3>
+
         <div class="pull-right">
-            <!--<a href="{{pathFor 'proceduraWstrzymania'}}" class="btn btn-danger">-->
-                <!--<span class="glyphicon glyphicon-remove-circle"></span>    Wstrzymaj kwestię</a>-->
-            <!--<a class="btn btn-success" href="#priorytetkwestia" data-toggle="modal">-->
-                <!--<span data-toggle="modal" class="glyphicon glyphicon-thumbs-up clickable"-->
-                      <!--title="Nadaj priorytet"></span>    Nadaj priorytet</a>-->
-            <!--<span data-toggle="modal" href="#priorytetkwestia"-->
-            <!--class="glyphicon glyphicon-thumbs-up clickable" title="Nadaj priorytet"></span>-->
         </div>
         <div class="clearfix"></div>
         <hr/>
         <table class="table table-bordered manageTable">
             <tr>
-                <td><strong> Data wprowadzenia</strong></td><td>{{date}}</td>
+                <td><strong> Data wprowadzenia</strong></td>
+                <td>{{date}}</td>
             </tr>
             <tr>
-                <td><strong> Nazwa Kwestii</strong></td><td>{{kwestiaNazwa}}</td>
+                <td><strong> Nazwa Kwestii</strong></td>
+                <td>{{kwestiaNazwa}}</td>
             </tr>
             <tr>
-                <td><strong> Priorytet</strong></td><td>{{priorytet}}</td>
+                <td><strong> Priorytet</strong></td>
+                <td>{{priorytet}}</td>
             </tr>
             <tr>
-                <td><strong> Temat</strong></td><td>{{tematNazwa.nazwaTemat}}</td>
+                <td><strong> Temat</strong></td>
+                <td>{{tematNazwa.nazwaTemat}}</td>
             </tr>
             <tr>
-                <td><strong> Rodzaj</strong></td><td>{{rodzajNazwa.nazwaRodzaj}}</td>
+                <td><strong> Rodzaj</strong></td>
+                <td>{{rodzajNazwa.nazwaRodzaj}}</td>
             </tr>
-
-            <!--<tr>-->
-                <!--<td><strong> Data dyskusji</strong></td><td>{{dataDyskusji}}</td>-->
-            <!--</tr>-->
             <tr>
-                <td><strong> Data głosowania</strong></td><td>{{dateG}}</td>
+                <td><strong> Data głosowania</strong></td>
+                <td>{{dateG}}</td>
             </tr>
-            <!--<tr>-->
-                <!--<td><strong> Status</strong></td><td>archiwalna</td>-->
-            <!--</tr>-->
             <tr>
-                <td><strong> Historia</strong></td><td>{{historia}}</td>
+                <td><strong> Historia</strong></td>
+                <td>{{historia}}</td>
             </tr>
         </table>
         <hr/>
         <h3>Treść Kwestii</h3>
+
         <div class="clearfix"></div>
         <table class="table table-bordered manageTable">
             <tr>
-                <td><strong> Krótka treść</strong></td><td>{{krotkaTresc}}</td>
+                <td><strong> Krótka treść</strong></td>
+                <td>{{krotkaTresc}}</td>
             </tr>
             <tr>
-                <td><strong> Szczegółowa treść</strong></td><td>{{szczegolowaTresc}}</td>
+                <td><strong> Szczegółowa treść</strong></td>
+                <td>{{szczegolowaTresc}}</td>
             </tr>
             <tr>
-                <td><strong> Parametry głosowania</strong></td><td>{{parametryGlosowania}}</td>
+                <td><strong> Parametry głosowania</strong></td>
+                <td>{{parametryGlosowania}}</td>
             </tr>
             <tr>
-                <td><strong> Historia dyskusji kwestii</strong></td><td>{{historiaDyskusji}}</td>
+                <td><strong> Historia dyskusji Kwestii</strong></td>
+                <td>{{historiaDyskusji}}</td>
             </tr>
         </table>
         <hr/>
