@@ -156,9 +156,8 @@ Template.dataUtwKwestia.helpers({
 Template.priorytetKwestia.helpers({
     priorytet: function () {
         var p = this.wartoscPriorytetu;
-        //if(p){
-        return p.toFixed(2);
-        //}
+        if(p) return p.toFixed(2);
+        else return 0;
     }
 });
 

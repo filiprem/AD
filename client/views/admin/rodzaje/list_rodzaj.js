@@ -20,7 +20,6 @@ Template.listRodzaj.helpers({
             fields: [
                 {key: 'nazwaRodzaj', label: "Nazwa rodzaju", tmpl: Template.nazwaRodzajuLink},
                 {key: 'idTemat', label: "Temat", tmpl: Template.tematRodzaj},
-                {key: 'czasDyskusji', label: "Czas dyskusji"},
                 {key: 'options', label: "Opcje", tmpl: Template.editColumnRodzaj}
             ]
         };
