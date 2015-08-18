@@ -96,10 +96,20 @@ preparePageInfoString=function(pathArray,label){
 
     var str = "pageInfo.";
     for(var item in pathArray){
-        if(!!pathArray[item])
+        if(!!pathArray[item] && pathArray[item] && !_.contains(getTabOfUrlParams(),pathArray[item]))
             str+=pathArray[item]+".";
     }
     str+=label;
 
     return str;
 };
+
+getTabOfUrlParams=function(){
+    var tab = [];
+    var params = Router.current().params;
+    for(var item in params){
+        if(!_.isEmpty(params[item]))
+            tab.push(params[item]);
+    }
+    return tab;
+}
