@@ -12,7 +12,15 @@ Template.header.helpers({
     'isAdminUser': function() {
         return IsAdminUser();
     },
-
+    isAdmin: function () {
+        if (Meteor.user().roles) {
+            if (Meteor.user().roles == "admin")
+                return true;
+            else
+                return false;
+        }
+        else return false;
+    },
 });
 
 Template.language.events({
@@ -66,7 +74,16 @@ Template.language.helpers({
         }
         return tab;
     },
-    nazwaOrganizacji:function(){
-        return Parametr.findOne({}).nazwaOrganizacji;
-    },
+    nazwaOrg: function(){
+        var param = Parametr.findOne({});
+        if(param) {
+            var nazwa = param.nazwaOrganizacji;
+            if (nazwa) {
+                return nazwa;
+            }
+            else {
+                return "AD";
+            }
+        }
+    }
 })
