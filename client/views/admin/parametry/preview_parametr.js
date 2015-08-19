@@ -7,7 +7,7 @@ Template.previewParametr.events({
     'click #save': function (e) {
         e.preventDefault();
         var params=Session.get("parametryPreview");
-        console.log(params._id);
+
         var updateParam =
             {
                 nazwaOrganizacji: params.nazwaOrganizacji,
@@ -27,7 +27,7 @@ Template.previewParametr.events({
                 pktWyjscieZZespoluRealizacyjnego: params.pktWyjscieZZespoluRealizacyjnego,
                 pktBrakUdzialuWGlosowaniu: params.pktBrakUdzialuWGlosowaniu
             };
-        console.log(updateParam);
+
         Meteor.call('updateParametr',params._id, updateParam, function (error) {
             if (error) {
                 // optionally use a meteor errors package

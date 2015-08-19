@@ -76,7 +76,7 @@ Template.editParametry.events({
         e.preventDefault();
         var tab=[];
         var parameter=Parametr.findOne({id:this.id});
-        console.log(parameter);
+
         var nazwaO= $(e.target).find('[name=nazwaOrganizacji]').val();
         if(nazwaO!=Parametr.findOne({}).nazwaOrganizacji) {
             tab.push(setParamInfo("NAZWA ORGANIZACJI",parameter.nazwaOrganizacji,nazwaO));
