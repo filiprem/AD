@@ -24,6 +24,7 @@ POSTS_TYPES = {
 }
 
 LANGUAGES = {
+    DEFAULT_LANGUAGE: "pl",
     PL: "pl",
     EN: "en"
 }

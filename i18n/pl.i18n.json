@@ -11,6 +11,15 @@
     "user_administration":{
       "title":"Administracja",
       "message":"Opis tej strony"
+    },
+    "pl":{
+      "home":"Strona główna",
+      "admin":"Strona administratora",
+      "login_form":"Formularz logowania",
+      "profile_edit":"Edycja profilu",
+      "manage_account":"Zarządzanie kontem",
+      "setPagesInfo":"Informacje o stronach",
+      "setPagesInfo":"Informacje o stronach"
     }
   }
 }

@@ -303,11 +303,5 @@ Template.informacjeKwestia.helpers({
             var k = moment(dataG).subtract(czasGlRodzaj, 'h').format("DD-MM-YYYY, HH:mm");
             return k;
         }
-    },
-    'isIssueSuspended': function (id) {
-        return KwestiaSuspended.find({idKwestia: id, czyAktywny: true}).count() <= 0 ? false : true;
-    },
-    'getIssueSuspended': function (id) {
-        return KwestiaSuspended.findOne({idKwestia: id, czyAktywny: true});
     }
 });

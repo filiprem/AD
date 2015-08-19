@@ -1,3 +1,16 @@
+Template.header.created = function(){
+    this.currentRouteNameRV = new ReactiveVar;
+}
+
+Template.header.rendered = function(){
+    var self = Template.instance();
+    this.autorun(function(){
+        var routeName = Router.current().route.getName();
+        self.currentRouteNameRV.set(routeName);
+        self.subscribe("pagesInfoByLang",self.currentRouteNameRV.get());
+    });
+}
+
 Template.header.helpers({
     'activeRouteClass': function(/* route names */) {
         var args = Array.prototype.slice.call(arguments, 0);
@@ -42,14 +55,17 @@ Template.language.events({
         });
     },
     'click #showPageInfo':function(){
-        var pathArray = getUrlPathArray();
 
-        var strMessage = preparePageInfoString(pathArray,"message");
-        var strTitle = preparePageInfoString(pathArray,"title");
+        var defaultLang = LANGUAGES.DEFAULT_LANGUAGE;
+        var lang = Meteor.user().profile.language ? Meteor.user().profile.language : defaultLang;
+        var routeName = Router.current().route.getName();
+        console.log(PagesInfo.find().count());
+        var item = PagesInfo.findOne({shortLanguageName:lang,routeName:routeName});
+        var title = TAPi18n.__("pageInfo."+lang+"."+routeName)
         bootbox.dialog({
-            message: TAPi18n.__(strMessage),
-            title: TAPi18n.__(strTitle)
-        });
+                message: item.infoText ? item.infoText : "Brak opisu",
+                title: title
+            });
     }
 });
 
