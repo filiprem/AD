@@ -14,6 +14,13 @@ Template.informacjeKwestia.created = function () {
     this.ifUserVoted = new ReactiveVar();
 };
 Template.informacjeKwestia.events({
+    'click #wyczyscPriorytety': function(){
+        var me = Meteor.userId();
+        console.log(me);
+
+        var kwestie = Kwestia.find({'glosujacy.idUser': me}).fetch()
+        console.log(kwestie);
+    },
     'click #dyskusja': function (e) {
         var id = document.getElementById("dyskusja").name;
         Router.go('dyskusjaKwestia', {_id: id})
@@ -25,6 +32,7 @@ Template.informacjeKwestia.events({
         Router.go('listKwestia');
     },
     'click #addOptionButton': function () {
+        console.log(Session.get("idKwestia"));
         Router.go("addKwestiaOpcja");
     },
     'click #doArchiwum': function (e) {
@@ -93,16 +101,13 @@ Template.informacjeKwestia.events({
         }
     },
     'click #priorytetButton': function (e) {
+        var aktualnaKwestiaId = Session.set("idK", this._id);
         var u = Meteor.userId();
-        // button, ktory zostal klikniety
         var ratingValue = parseInt(e.target.value);
-        console.log(ratingValue);
-        // id kwestii, na ktora chcemy zaglosowac
+        console.log("Rating value"+ ratingValue);
         var ratingKwestiaId = this._id;
-        // kwestia, na ktora chcemy zaglosowac
         var kwestia = Kwestia.findOne({_id: ratingKwestiaId});
         var parent = this.idParent;
-        // wszystkie kwestie opcje
         var kwestieOpcje = Kwestia.find({idParent: parent}).fetch();
         var glosujacy = [];
         var glosujacy = kwestia.glosujacy;
@@ -113,9 +118,15 @@ Template.informacjeKwestia.events({
             value: ratingValue
         }
         var flag = false;
-        for (var i = 0; i < kwestieOpcje.length; i++) {
-            for (var j = 0; j < kwestieOpcje[i].glosujacy.length; j++) {
+        for (var i = 0; i < kwestieOpcje.length; i++) {//dla kwestii opcji
+            console.log("OPCJE")
+            console.log(kwestieOpcje[i]);
+            for (var j = 0; j < kwestieOpcje[i].glosujacy.length; j++) {//przechodizmy po kazdych użytkownikach,ktory zagloswoali
+                console.log("GLOSUJACY[j]");
+                console.log(kwestieOpcje[i].glosujacy[j]);
                 var user = kwestieOpcje[i].glosujacy[j].idUser;
+                console.log("USER idUser");
+                console.log(user)
                 var oddanyGlos = kwestieOpcje[i].glosujacy[j].value;
                 if (user == Meteor.userId()) {
                     if (oddanyGlos == ratingValue) {
@@ -136,14 +147,13 @@ Template.informacjeKwestia.events({
                     glosujacyTab[i].value = ratingValue;
                     wartoscPriorytetu += glosujacyTab[i].value;
                 }
+            }//bo tu whochodzilo tez jak był nowy
+            else {
+                console.log("Analizowany jest inny");
             }
-            else flag = true;
-        }
-        if (flag) {
-            glosujacyTab.push(object);
-            wartoscPriorytetu += ratingValue;
-        }
-        if (glosujacy.length == 0) {
+        }//zmiana
+        if (glosujacy.length == 0 || !_.contains(getAllUsersWhoVoted(ratingKwestiaId),Meteor.userId())) {
+            console.log("Pierwszy użytkownik");
             glosujacyTab.push(object);
             wartoscPriorytetu += ratingValue;
         }
@@ -161,18 +171,21 @@ Template.informacjeKwestia.events({
             }
             else {
                 if (self.ifUserVoted.get() == false) {
+                    console.log("Użytkownik jeszcze nie głosował");
                     var newValue = 0;
                     var pktAddPriorytet = Parametr.findOne({});
                     newValue = Number(pktAddPriorytet.pktNadaniePriorytetu) + getUserRadkingValue(Meteor.userId());
-
-                    var kwestiaOwner = Kwestia.findOne({_id: Session.get("idKwestia")}).idUser;
+                    console.log("Nadanie priorytetu: "+Number(pktAddPriorytet.pktNadaniePriorytetu));
+                    console.log("Aktualnie ma pkt: "+getUserRadkingValue(Meteor.userId()));
+                    var kw = Kwestia.findOne({_id: Session.get("idK")});
+                    var kwestiaOwner = kw.idUser;
                     if (kwestiaOwner == Meteor.userId()) {//jezeli nadajacy priorytet jest tym,który utworzył kwestię
                         newValue += ratingValue;
                     }
                     else {
                         var newValueOwner = 0;
                         newValueOwner = Number(ratingValue) + getUserRadkingValue(kwestiaOwner);
-
+                        console.log("Nowa wartosc: "+newValueOwner);
                         Meteor.call('updateUserRanking', kwestiaOwner, newValueOwner, function (error) {
                             if (error) {
                                 if (typeof Errors === "undefined")
@@ -202,9 +215,13 @@ Template.informacjeKwestia.events({
             }
         });
     }
-
 });
 Template.informacjeKwestia.helpers({
+    kwestiaOpcjaCount: function(){
+        var ile = Kwestia.find({idParent: this.idParent}).count();
+        if(ile == 10) return false;
+        else return true;
+    },
     ifHasOpcje: function () {
         var kwestiaGlownaId = this._id;
         var k = Kwestia.find({idParent: kwestiaGlownaId, isOption: true}).fetch();
@@ -213,22 +230,31 @@ Template.informacjeKwestia.helpers({
     },
     isAdmin: function () {
         if (Meteor.user().roles) {
-            if (Meteor.user().roles == "admin") return true;
-            else return false;
+            if (Meteor.user().roles == "admin")
+                return true;
+            else
+                return false;
         }
         else return false;
     },
-    opcje: function () {
-        var kwestiaGlownaId = Session.get("idKwestia");
-        var op = Kwestia.find({idParent: kwestiaGlownaId}).fetch();
-        if (op) return true;
-        else return false;
-    },
+    //opcje: function () {
+    //    var kwestiaGlownaId = Session.get("idKwestia");
+    //    var op = Kwestia.find({idParent: kwestiaGlownaId}).fetch();
+    //    if (op) return true;
+    //    else return false;
+    //},
     czyOpcja: function () {
         if (this.isOption) return true;
         else return false;
     },
     thisKwestia: function () {
+        var kw = Kwestia.findOne({_id: this._id});
+        if(kw.isOption){
+            Session.set("idKwestia",kw.idParent);
+        }
+        else{
+            Session.set("idKwestia", this._id)
+        }
     },
     mojPiorytet: function () {
         var currentKwestiaId = this._id;

@@ -15,20 +15,16 @@ Template.editKwestiaForm.helpers({
         var r = Session.get("kwestiaInScope");
         var item = Temat.findOne({_id: r.idTemat});
         if (item) {
-            if (item._id == id)
-                return true;
-            else
-                return false;
+            if (item._id == id) return true;
+            else return false;
         }
     },
     isSelectedRodzaj: function (id) {
         var r = Session.get("kwestiaInScope");
         var item = Rodzaj.findOne({_id: r.idRodzaj});
         if (item) {
-            if (item._id == id)
-                return true;
-            else
-                return false;
+            if (item._id == id) return true;
+            else return false;
         }
     }
 });

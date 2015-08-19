@@ -58,45 +58,39 @@ Template.discussionPostItem.helpers({
     },
     'isDoArchiwum': function () {
         var p = Posts.findOne({_id: this.idPost});
-        if (p.postType == "archiwum") {
-            return true;
+        if(p){
+            if (p.postType == "archiwum") return true;
+            else return false;
         }
-        else
-            return false;
     },
     'isDoKosza': function () {
         var p = Posts.findOne({_id: this.idPost});
-        if (p.postType == "kosz")
-            return true;
-        else
-            return false;
+        if(p){
+            if (p.postType == "kosz") return true;
+            else return false;
+        }
     }
 });
 
 Template.discussionPostItem.events({
     'click #rozwinText': function (e) {
-
         var id = e.target.name;
         var self = Template.instance();
         var itemTab = self.colTextRV.get();
         var flag = false;
-
         if (!isInTab(id, itemTab)) {
             itemTab.push(id);
             self.colTextRV.set(itemTab);
         }
     },
     'click #zwinText': function (e) {
-
         var self = Template.instance();
         var itemTab = self.colTextRV.get();
         var id = e.target.name;
-
         itemTab.forEach(function (item) {
             if (id == item)
                 itemTab.splice(itemTab.indexOf(item), 1);
         });
-
         self.colTextRV.set(itemTab);
     }
 });
@@ -173,7 +167,6 @@ Template.discussionAnswerItem.helpers({
     },
     'getAnswerText': function (value, id) {
         var self = Template.instance();
-
         if (value.length < DISCUSSION_OPTIONS.POST_CHARACTERS_DISPLAY)
             return value;
         else
@@ -190,27 +183,22 @@ Template.discussionAnswerItem.helpers({
 
 Template.discussionAnswerItem.events({
     'click #rozwinTextAnswer': function (e) {
-
         var id = e.target.name;
         var self = Template.instance();
         var itemTab = self.colTextAnswerRV.get();
-
         if (!isInTab(id, itemTab)) {
             itemTab.push(id);
             self.colTextAnswerRV.set(itemTab);
         }
     },
     'click #zwinTextAnswer': function (e) {
-
         var self = Template.instance();
         var itemTab = self.colTextAnswerRV.get();
         var id = e.target.name;
-
         itemTab.forEach(function (item) {
             if (id == item)
                 itemTab.splice(itemTab.indexOf(item), 1);
         });
-
         self.colTextAnswerRV.set(itemTab);
     }
 });

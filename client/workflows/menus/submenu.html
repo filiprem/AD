@@ -27,21 +27,21 @@
                         </li>
                     </ul>
                 </li>
-                <li class="dropdown">
-                    <a href="#" data-toggle="dropdown" class="dropdown-toggle">Parametry globalne<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li class="{{activeRouteClass 'listParametr'}}"><a href="{{pathFor 'listParametr'}}">Lista parametrów</a></li>
-                        <li class="divider"></li>
-                        <li class="{{activeRouteClass 'addParametr'}}"><a href="{{pathFor 'addParametr'}}">Dodaj parametr</a>
-                        </li>
-                    </ul>
-                </li>
+                <li class="{{activeRouteClass ''}}"><a href="{{pathFor 'listParametr'}}">Parametry globalne</a></li>
                 <li class="dropdown">
                     <a href="#" data-toggle="dropdown" class="dropdown-toggle">Raporty<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li class="{{activeRouteClass 'listRaport'}}"><a href="{{pathFor 'listRaport'}}">Lista raportów</a></li>
                         <li class="divider"></li>
                         <li class="{{activeRouteClass 'addRaport'}}"><a href="{{pathFor 'addRaport'}}">Dodaj raport</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown" class="dropdown-toggle">Języki<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li class="{{activeRouteClass 'listLanguages'}}"><a href="{{pathFor 'listLanguages'}}">Lista języków</a></li>
+                        <li class="divider"></li>
+                        <li class="{{activeRouteClass 'addLanguage'}}"><a href="{{pathFor 'addLanguage'}}">Dodaj język</a></li>
                     </ul>
                 </li>
                 <li class="{{activeRouteClass ''}}"><a href="{{pathFor 'listaKwestiiOczekujacych'}}">Kwestie oczekujące</a></li>

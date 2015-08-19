@@ -43,8 +43,6 @@ Meteor.methods({
         Users.update({_id:currentUserId}, {$set:{'profile.language': value}});
     },
     updateUserRanking: function(currentUserId,value) {
-        console.log(currentUserId);
-        console.log(value);
         Users.update({_id:currentUserId},{$set:{'profile.rADking': value}});
     },
     removeUser: function(id){
