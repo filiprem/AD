@@ -2,12 +2,11 @@ Template.previewParametr.helpers({
     parameters:function(){
         return Session.get("tablica");
     }
-})
+});
 Template.previewParametr.events({
     'click #save': function (e) {
         e.preventDefault();
         var params=Session.get("parametryPreview");
-        console.log("to bêdzie parametry");
         console.log(params._id);
         var updateParam =
             {
@@ -28,7 +27,6 @@ Template.previewParametr.events({
                 pktWyjscieZZespoluRealizacyjnego: params.pktWyjscieZZespoluRealizacyjnego,
                 pktBrakUdzialuWGlosowaniu: params.pktBrakUdzialuWGlosowaniu
             };
-        console.log("wynik");
         console.log(updateParam);
         Meteor.call('updateParametr',params._id, updateParam, function (error) {
             if (error) {
@@ -39,12 +37,13 @@ Template.previewParametr.events({
                     throwError(error.reason);
                 }
             } else {
+                Session.set("tablica",null);
                 Router.go('listParametr');
             }
         });
     },
     'reset form': function () {
-        console.log("tutaj");
+        Session.set("tablica",null);
         Router.go('listParametr');
     }
 });

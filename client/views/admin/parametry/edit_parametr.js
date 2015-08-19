@@ -160,7 +160,7 @@ Template.editParametry.events({
                 pktBrakUdzialuWGlosowaniu: parseInt(brakUdzWGlos)
             }];
         if(tab.length>0) {
-            Session.set("tablica", tab);
+            Session.setPersistent("tablica", tab);
             Session.set("parametryPreview",newParametr[0]);
             Router.go("previewParametr");
         }
