@@ -12,9 +12,7 @@ Template.header.helpers({
     'isAdminUser': function() {
         return IsAdminUser();
     },
-    nazwaOrganizacji:function(){
-        return Parametr.findOne({}).nazwaOrganizacji;
-    },
+
 });
 
 Template.language.events({
@@ -67,5 +65,8 @@ Template.language.helpers({
             tab.push(LANGUAGES[lang]);
         }
         return tab;
-    }
+    },
+    nazwaOrganizacji:function(){
+        return Parametr.findOne({}).nazwaOrganizacji;
+    },
 })

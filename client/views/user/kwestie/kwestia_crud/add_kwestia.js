@@ -116,7 +116,7 @@ Template.addKwestiaForm.events({
                 sugerowanyRodzaj: $(e.target).find('[name=sugerowanyRodzaj]').val(),
             }];
 
-        Session.set("kwestiaPreview", newKwestia[0]);
+        Session.setPersistent("kwestiaPreview", newKwestia[0]);
         Router.go('previewKwestia');
     },
     'reset form': function () {
