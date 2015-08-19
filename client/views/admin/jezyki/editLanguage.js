@@ -31,7 +31,6 @@ Template.editLanguage.events({
         e.preventDefault();
 
         var id  = this._id;
-        console.log("ID: "+id);
         var lang =
             {
                 languageName: $(e.target).find('[name=languageName]').val(),
