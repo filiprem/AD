@@ -88,6 +88,55 @@ Meteor.publish('language', function(id) {
 });
 
 Meteor.startup(function () {
+    var globalParameters=[
+        {
+            "nazwaOrganizacji": "Aktywna Demokracja",
+            "terytorium":"Polska",
+            "kontakty":"Warszawa ul Miła",
+            "regulamin":"brak regulaminu",
+            "pktDodanieKwestii":10,
+            "pktDodanieKomentarza":5,
+            "pktDodanieOdniesienia":2,
+            "pktNadaniePriorytetu":1,
+            "pktAwansKwestii":20,
+            "pktUdzialWZespoleRealizacyjnym":10,
+            "pktZlozenieRaportuRealizacyjnego":5,
+            "pktWycofanieKwestiiDoArchiwum":-20,
+            "pktWycofanieKwestiiDoKosza":-40,
+            "pktWyjscieZZespoluRealizacyjnego":-30,
+            "pktBrakUdzialuWGlosowaniu":-30
+        }
+    ];
+    //for(var i=0;i<globalParameters.length;i++){
+    //    Parametr.insert({
+    //            nazwaOrganizacji: globalParameters[i].nazwaOrganizacji,
+    //            terytorium:globalParameters[i].terytorium,
+    //            kontakty:globalParameters[i].kontakty,
+    //            regulamin:globalParameters[i].regulamin,
+    //            pktDodanieKwestii:globalParameters[i].pktDodanieKwestii,
+    //            pktDodanieKomentarza:globalParameters[i].pktDodanieKomentarza,
+    //            pktDodanieOdniesienia:globalParameters[i].pktDodanieOdniesienia,
+    //            pktNadaniePriorytetu:globalParameters[i].pktNadaniePriorytetu,
+    //            pktAwansKwestii:globalParameters[i].pktAwansKwestii,
+    //            pktUdzialWZespoleRealizacyjnym:globalParameters[i].pktUdzialWZespoleRealizacyjnym,
+    //            pktZlozenieRaportuRealizacyjnego:globalParameters[i].pktZlozenieRaportuRealizacyjnego,
+    //            ptkWycofanieKwestiiDoArchiwum:globalParameters[i].pktWycofanieKwestiiDoArchiwum,
+    //            pktWycofanieKwestiiDoKosza:globalParameters[i].pktWycofanieKwestiiDoKosza,
+    //            pktWyjscieZZespoluRealizacyjnego:globalParameters[i].pktWyjscieZZespoluRealizacyjnego,
+    //            pktBrakUdzialuWGlosowaniu:globalParameters[i].pktBrakUdzialuWGlosowaniu
+    //        }
+    //    );
+    //}
+    Meteor.call('addParametr', globalParameters, function (error, ret) {
+        if (error) {
+            if (typeof Errors === "undefined")
+                Log.error('Error: ' + error.reason);
+            else {
+                throwError(error.reason);
+            }
+        }
+    });
+
     var data = [
         {
             "Login": "adminSDD",
