@@ -15,5 +15,21 @@ Meteor.methods({
     },
     removeLanguage: function(id){
         Languages.remove({_id: id});
+    },
+    // metody dodawania informacji o stronie
+    setPagesInfo: function (item) {
+        var pageInfo = PagesInfo.findOne({idLanguage:item.idLanguage,routeName:item.routeName});
+        if(!!pageInfo) {
+            PagesInfo.update(pageInfo._id,{$set: {infoText: item.infoText}});
+        } else {
+            PagesInfo.insert({
+                idLanguage: item.idLanguage,
+                routeName: item.routeName,
+                shortLanguageName: item.shortLanguageName,
+                infoText: item.infoText,
+                czyAktywny: item.czyAktywny
+            });
+        }
     }
+
 });

@@ -35,15 +35,18 @@
     <div class="pull-right">
         {{#if isLangEnabled _id}}
             <button class="btn btn-default btn-xs" id="hideLang" title="Wyłącz" name="{{_id}}">
-                 <i class="fa fa-toggle-on"></i>
+                 Wyłącz <i class="fa fa-toggle-on"></i>
             </button>
         {{else}}
             <button class="btn btn-default btn-xs" id="launchLang" title="Włącz" name="{{_id}}">
-                 <i class="fa fa-toggle-off"></i>
+                 Włącz <i class="fa fa-toggle-off"></i>
             </button>
         {{/if}}
         <a class="btn btn-default btn-xs" title="Edytuj" href="{{ pathFor 'editLanguage' _id}}">
             Edytuj <i class="fa fa-pencil"></i>
+        </a>
+        <a class="btn btn-default btn-xs" href="{{pathFor 'setPagesInfo' _id}}">
+            Ustaw info <i class="fa fa-bug"></i>
         </a>
     </div>
 </template>
