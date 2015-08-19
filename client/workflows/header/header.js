@@ -24,7 +24,16 @@ Template.header.helpers({
     },
     'isAdminUser': function() {
         return IsAdminUser();
-    }
+    },
+    isAdmin: function () {
+        if (Meteor.user().roles) {
+            if (Meteor.user().roles == "admin")
+                return true;
+            else
+                return false;
+        }
+        else return false;
+    },
 });
 
 Template.language.events({
@@ -79,7 +88,18 @@ Template.language.helpers({
         for(var lang in LANGUAGES){
             tab.push(LANGUAGES[lang]);
         }
-
         return tab;
+    },
+    nazwaOrg: function(){
+        var param = Parametr.findOne({});
+        if(param) {
+            var nazwa = param.nazwaOrganizacji;
+            if (nazwa) {
+                return nazwa;
+            }
+            else {
+                return "AD";
+            }
+        }
     }
 })

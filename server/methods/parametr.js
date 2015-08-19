@@ -10,9 +10,8 @@ Meteor.methods({
             pktDodanieOdniesienia: newParametr[0].pktDodanieOdniesienia,
             pktNadaniePriorytetu: newParametr[0].pktNadaniePriorytetu,
             pktAwansKwestii: newParametr[0].pktAwansKwestii,
-            pktUdzialWZespoleRealizycjnym: newParametr[0].pktUdzialWZespoleRealizycjnym,
+            pktUdzialWZespoleRealizacyjnym: newParametr[0].pktUdzialWZespoleRealizacyjnym,
             pktZlozenieRaportuRealizacyjnego: newParametr[0].pktZlozenieRaportuRealizacyjnego,
-            //pktOtrzymaniePriorytetu//tego nie
             pktWycofanieKwestiiDoArchiwum: newParametr[0].pktWycofanieKwestiiDoArchiwum,
             pktWycofanieKwestiiDoKosza: newParametr[0].pktWycofanieKwestiiDoKosza,
             pktWyjscieZZespoluRealizacyjnego: newParametr[0].pktWyjscieZZespoluRealizacyjnego,
@@ -20,7 +19,7 @@ Meteor.methods({
         });
     },
     updateParametr: function(id, parametr){
-        Parametr.update(id, {$set: parametr}, {upsert: true});
+        Parametr.update({_id:id}, {$set: parametr}, {upsert: true});
     },
     removeParametr: function(id){
         Parametr.remove({_id: id});

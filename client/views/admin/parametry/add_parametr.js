@@ -66,7 +66,7 @@ Template.addParametrForm.events({
                 pktDodanieOdniesienia: setValueIfEmptyField($(e.target).find('[name=dodanieOdniesienia]').val(), 2),
                 pktNadaniePriorytetu: setValueIfEmptyField($(e.target).find('[name=nadaniePriorytetu]').val(), 1),
                 pktAwansKwestii: setValueIfEmptyField($(e.target).find('[name=awansKwestii]').val(), 20),
-                pktUdzialWZespoleRealizycjnym: setValueIfEmptyField($(e.target).find('[name=udzialWZespole]').val(), 10),
+                pktUdzialWZespoleRealizacyjnym: setValueIfEmptyField($(e.target).find('[name=udzialWZespole]').val(), 10),
                 pktZlozenieRaportuRealizacyjnego: setValueIfEmptyField($(e.target).find('[name=zlozenieRaportu]').val(), 5),
                 //pktOtrzymaniePriorytetu//tego nie
                 pktWycofanieKwestiiDoArchiwum: setValueIfEmptyField($(e.target).find('[name=wycofanieKwestiiDoArchwium]').val(), -20),

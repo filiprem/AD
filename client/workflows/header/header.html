@@ -1,35 +1,32 @@
 <template name="header">
     {{>language}}
-    <br />
+    <br/>
     <div class="navbar navbar-default" role="navigation">
         <div class="navbar-header">
-            <!--<a class="navbar-brand" href="{{pathFor 'home'}}"><strong>AD</strong> - <small>Aktywna Demokracja</small></a>-->
-            <!--<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">-->
-                <!--<span class="sr-only">Toggle navigation</span>-->
-                <!--<span class="icon-bar"></span>-->
-                <!--<span class="icon-bar"></span>-->
-                <!--<span class="icon-bar"></span>-->
-            <!--</button>-->
         </div>
         <div id="navbar-collapse" class="navbar-collapse collapse">
             {{#if currentUser}}
                 <ul class="nav navbar-nav">
-                    <li class="{{activeRouteClass 'listKwestia'}}"><a href="{{pathFor 'listKwestia'}}"><span class="glyphicon glyphicon-list-alt"></span> Wykaz Kwestii</a></li>
-                    <li class="{{activeRouteClass 'glosowanie'}}"><a href="{{pathFor 'glosowanie'}}"><span class="glyphicon glyphicon-list-alt"></span> Głosowanie</a></li>
-                    <li class="{{activeRouteClass 'realizacja'}}"><a href="{{pathFor 'realizacja'}}"><span class="glyphicon glyphicon-list-alt"></span> Realizacja</a></li>
-                    <li class="{{activeRouteClass 'archiwum'}}"><a href="{{pathFor 'archiwum'}}"><span class="glyphicon glyphicon-lock"></span>  Archiwum</a></li>
-                    <li class="{{activeRouteClass 'profile_list'}}"><a href="{{pathFor 'profile_list'}}"><span class="glyphicon glyphicon-heart"></span>  Użytkownicy</a></li>
-                    <li class="{{activeRouteClass 'administracjaUserMain'}}"><a href="{{pathFor 'administracjaUserMain'}}"><span class="glyphicon glyphicon-duplicate"></span>  Administracja</a></li>
+                    <li class="{{activeRouteClass 'listKwestia'}}"><a href="{{pathFor 'listKwestia'}}"><span
+                            class="glyphicon glyphicon-list-alt"></span> Wykaz Kwestii</a></li>
+                    <li class="{{activeRouteClass 'glosowanie'}}"><a href="{{pathFor 'glosowanie'}}"><span
+                            class="glyphicon glyphicon-list-alt"></span> Głosowanie</a></li>
+                    <li class="{{activeRouteClass 'realizacja'}}"><a href="{{pathFor 'realizacja'}}"><span
+                            class="glyphicon glyphicon-list-alt"></span> Realizacja</a></li>
+                    <li class="{{activeRouteClass 'archiwum'}}"><a href="{{pathFor 'archiwum'}}"><span
+                            class="glyphicon glyphicon-lock"></span> Archiwum</a></li>
+                    <li class="{{activeRouteClass 'profile_list'}}"><a href="{{pathFor 'profile_list'}}"><span
+                            class="glyphicon glyphicon-heart"></span> Użytkownicy</a></li>
+                    {{#unless isAdmin}}
+                        <li class="{{activeRouteClass 'administracjaUserMain'}}"><a
+                                href="{{pathFor 'administracjaUserMain'}}"><span
+                                class="glyphicon glyphicon-duplicate"></span> Administracja</a></li>
+                    {{/unless}}
                 </ul>
             {{/if}}
             <ul class="nav navbar-nav navbar-right">
                 {{#if currentUser}}
                     {{> loginButtons}}
-                    <!--{{> language}}-->
-                {{else}}
-                    <!--<div class="loginTop">-->
-                        <!--{{> loginFormTop}}-->
-                    <!--</div>-->
                 {{/if}}
             </ul>
         </div>
@@ -40,14 +37,15 @@
     <div class="row">
         <div class="col-md-12">
             <div class="pull-left">
-                <strong>AD</strong> - <small>Aktywna Demokracja</small>
+                <a class="navbar-brand" href="{{pathFor 'home'}}"><strong>AD</strong> - <small>{{nazwaOrg}}</small></a>
             </div>
             <div class="pull-right">
                 <div class="btn-group">
                     <button type="button" class="btn btn-default btn-xs" id="showPageInfo">
                         <i class="fa fa-info-circle fa-lg cursor-pointer"></i> Page info
                     </button>
-                    <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-language fa-lg cursor-pointer"></i> {{getUserLang}} <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-right">

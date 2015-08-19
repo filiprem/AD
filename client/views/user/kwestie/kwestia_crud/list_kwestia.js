@@ -30,8 +30,9 @@ Template.listKwestia.events({
         Router.go("addKwestia");
     },
     'click #clickMe': function(){
+        var users = Users.find({}).fetch();
         var en = new EmailNotifications();
-        en.registerAddKwestiaNotification('AD', 'Organizacja DOM', "",
+        en.registerAddKwestiaNotification('AD', 'Organizacja DOM', users,
             'Kwestia w sprawie...', 'Uchwała', 'Opis Kwestii....', 'linkDK', 'linkLoginTo');
     }
 });
@@ -156,9 +157,8 @@ Template.dataUtwKwestia.helpers({
 Template.priorytetKwestia.helpers({
     priorytet: function () {
         var p = this.wartoscPriorytetu;
-        //if(p){
-        return p.toFixed(2);
-        //}
+        if(p) return p.toFixed(2);
+        else return 0;
     }
 });
 
