@@ -58,7 +58,7 @@ Meteor.methods({
             {$set: {
                 wartoscPriorytetu:  obj[0].wartoscPriorytetu,
                 glosujacy:  obj[0].glosujacy}
-            });
+            }, {upsert: true});
         return id;
     }
 });
