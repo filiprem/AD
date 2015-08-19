@@ -1,0 +1,50 @@
+Template.previewParametr.helpers({
+    parameters:function(){
+        return Session.get("tablica");
+    }
+})
+Template.previewParametr.events({
+    'click #save': function (e) {
+        e.preventDefault();
+        var params=Session.get("parametryPreview");
+        console.log("to bêdzie parametry");
+        console.log(params._id);
+        var updateParam =
+            {
+                nazwaOrganizacji: params.nazwaOrganizacji,
+                terytorium: params.terytorium,
+                kontakty: params.kontakty,
+                regulamin: params.regulamin,
+
+                pktDodanieKwestii: params.pktDodanieKwestii,
+                pktDodanieKomentarza: params.pktDodanieKomentarza,
+                pktDodanieOdniesienia: params.pktDodanieOdniesienia,
+                pktNadaniePriorytetu: params.pktNadaniePriorytetu,
+                pktAwansKwestii: params.pktAwansKwestii,
+                pktUdzialWZespoleRealizacyjnym: params.pktUdzialWZespoleRealizacyjnym,
+                pktZlozenieRaportuRealizacyjnego: params.pktZlozenieRaportuRealizacyjnego,
+                pktWycofanieKwestiiDoArchiwum: params.pktWycofanieKwestiiDoArchiwum,
+                pktWycofanieKwestiiDoKosza: params.pktWycofanieKwestiiDoKosza,
+                pktWyjscieZZespoluRealizacyjnego: params.pktWyjscieZZespoluRealizacyjnego,
+                pktBrakUdzialuWGlosowaniu: params.pktBrakUdzialuWGlosowaniu
+            };
+        console.log("wynik");
+        console.log(updateParam);
+        Meteor.call('updateParametr',params._id, updateParam, function (error) {
+            if (error) {
+                // optionally use a meteor errors package
+                if (typeof Errors === "undefined")
+                    Log.error('Error: ' + error.reason);
+                else {
+                    throwError(error.reason);
+                }
+            } else {
+                Router.go('listParametr');
+            }
+        });
+    },
+    'reset form': function () {
+        console.log("tutaj");
+        Router.go('listParametr');
+    }
+});

@@ -14,6 +14,13 @@ Template.informacjeKwestia.created = function () {
     this.ifUserVoted = new ReactiveVar();
 };
 Template.informacjeKwestia.events({
+    'click #wyczyscPriorytety': function(){
+        var me = Meteor.userId();
+        console.log(me);
+
+        var kwestie = Kwestia.find({'glosujacy.idUser': me}).fetch()
+        console.log(kwestie);
+    },
     'click #dyskusja': function (e) {
         var id = document.getElementById("dyskusja").name;
         Router.go('dyskusjaKwestia', {_id: id})
@@ -94,19 +101,12 @@ Template.informacjeKwestia.events({
         }
     },
     'click #priorytetButton': function (e) {
-        //var thisButton = e.target;
-        //console.log(thisButton)
-        //thisButton.classList.add("disabled");
         var u = Meteor.userId();
-        // button, ktory zostal klikniety
         var ratingValue = parseInt(e.target.value);
         console.log(ratingValue);
-        // id kwestii, na ktora chcemy zaglosowac
         var ratingKwestiaId = this._id;
-        // kwestia, na ktora chcemy zaglosowac
         var kwestia = Kwestia.findOne({_id: ratingKwestiaId});
         var parent = this.idParent;
-        // wszystkie kwestie opcje
         var kwestieOpcje = Kwestia.find({idParent: parent}).fetch();
         var glosujacy = [];
         var glosujacy = kwestia.glosujacy;
@@ -118,8 +118,14 @@ Template.informacjeKwestia.events({
         }
         var flag = false;
         for (var i = 0; i < kwestieOpcje.length; i++) {
+            console.log("OPCJE")
+            console.log(kwestieOpcje[i]);
             for (var j = 0; j < kwestieOpcje[i].glosujacy.length; j++) {
+                console.log("GLOSUJACY[j]");
+                console.log(kwestieOpcje[i].glosujacy[j]);
                 var user = kwestieOpcje[i].glosujacy[j].idUser;
+                console.log("USER idUser");
+                console.log(user)
                 var oddanyGlos = kwestieOpcje[i].glosujacy[j].value;
                 if (user == Meteor.userId()) {
                     if (oddanyGlos == ratingValue) {
