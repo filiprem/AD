@@ -1,7 +1,7 @@
 IsAdminUser = function () {
     return Roles.userIsInRole(Meteor.user(), ['admin']);
-}
-//---------------------------------------------------------------------------------------
+};
+
 replacePolishChars = function (_elem) {
     return _elem.replace(/ą/g, 'a').replace(/Ą/g, 'A')
         .replace(/ć/g, 'c').replace(/Ć/g, 'C')
@@ -12,7 +12,8 @@ replacePolishChars = function (_elem) {
         .replace(/ś/g, 's').replace(/Ś/g, 'S')
         .replace(/ż/g, 'z').replace(/Ż/g, 'Z')
         .replace(/ź/g, 'z').replace(/Ź/g, 'Z');
-}
+};
+
 generateLogin = function (u_firstName, u_lastName) {
     do {
         var userName = replacePolishChars(u_firstName.slice(0, 1).toLowerCase() + u_lastName.toLowerCase() + Math.floor(Math.random() * 9000 + 1000));
@@ -20,8 +21,8 @@ generateLogin = function (u_firstName, u_lastName) {
     }
     while (userExists != null);
     return userName;
-}
-//---------------------------------------------------------------------------------------
+};
+
 getEmail = function (_this) {
     if (_this.emails && _this.emails.length)
         return _this.emails[0].address;
@@ -39,8 +40,8 @@ getEmail = function (_this) {
         }
     }
     return "";
-}
-//---------------------------------------------------------------------------------------
+};
+
 setRoles = function () {
     var roles = document.getElementById('role');
     if (roles) {
@@ -50,9 +51,7 @@ setRoles = function () {
             roles.add(option, null);
         });
     }
-}
-//---------------------------------------------------------------------------------------
-//-------------------------------------------------------------
+};
 
 stringContains = function (inputString, stringToFind) {
     return (inputString.indexOf(stringToFind) != -1);
@@ -73,36 +72,40 @@ setValueIfEmptyField = function (field, value) {
     }
     return field;
 }
-getUserRadkingValue=function(idUser){
-    var user=Users.findOne({_id:idUser});
-    return Number(user.profile.rADking);
-};
-getAllUsersWhoVoted=function(idKWestia){
-    var kwestia=Kwestia.findOne({_id:idKWestia});
-    console.log(kwestia)
-    var tab=kwestia.glosujacy;
-    console.log(tab);
-    console.log(tab.length)
-    var tabNew=[];
-    for(var j= 0;j<tab.length;j++){
-        tabNew.push(tab[j].idUser);
-    }    
-    return tabNew;
-};
-
-getUrlPathArray=function(){
-    var pathArray = window.location.pathname.split( '/' );
-    return pathArray;
-};
-
-preparePageInfoString=function(pathArray,label){
-
-    var str = "pageInfo.";
-    for(var item in pathArray){
-        if(!!pathArray[item])
-            str+=pathArray[item]+".";
+getUserRadkingValue = function (idUser) {
+    var user = Users.findOne({_id: idUser});
+    if(user){
+        return Number(user.profile.rADking)
     }
-    str+=label;
+};
+getAllUsersWhoVoted = function (idKWestia) {
+    var kwestia = Kwestia.findOne({_id: idKWestia});
+    if (kwestia) {
+        var tab = kwestia.glosujacy;
+        if (tab) {
+            var tabNew = [];
+            for (var j = 0; j < tab.length; j++) {
+                tabNew.push(tab[j].idUser);
+            }
+            return tabNew;
+        }
+    }
+};
+
+getUrlPathArray = function () {
+    var pathArray = window.location.pathname.split('/');
+    if (pathArray) {
+        return pathArray;
+    }
+};
+
+preparePageInfoString = function (pathArray, label) {
+    var str = "pageInfo.";
+    for (var item in pathArray) {
+        if (!!pathArray[item])
+            str += pathArray[item] + ".";
+    }
+    str += label;
 
     return str;
 };
@@ -117,11 +120,11 @@ getTabOfUrlParams = function () {
     return tab;
 };
 
-setParamInfo=function(paramName,initialValue,newValue){
+setParamInfo = function (paramName, initialValue, newValue) {
     var item = {
-        paramName:paramName,
-        initialValue:initialValue,
-        newValue:newValue
+        paramName: paramName,
+        initialValue: initialValue,
+        newValue: newValue
     }
     return item;
-}
+};

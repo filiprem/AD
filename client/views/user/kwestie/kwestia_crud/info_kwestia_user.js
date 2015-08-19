@@ -106,19 +106,12 @@ Template.informacjeKwestia.events({
         var ratingValue = parseInt(e.target.value);
         console.log("Rating value"+ ratingValue);
         var ratingKwestiaId = this._id;
-        console.log("AKTUALNA KWESTIA ID")
-        console.log(ratingKwestiaId);
         var kwestia = Kwestia.findOne({_id: ratingKwestiaId});
         var parent = this.idParent;
-        console.log("Parent id: "+parent);
         var kwestieOpcje = Kwestia.find({idParent: parent}).fetch();
-        console.log("liczba takich samych opcji kwestii:");
-        console.log(Kwestia.find({idParent: parent}).count());
         var glosujacy = [];
         var glosujacy = kwestia.glosujacy;
         var glosujacyTab = kwestia.glosujacy.slice();
-        console.log("Glosujacy tab");
-        console.log(glosujacyTab);
         var wartoscPriorytetu = parseInt(kwestia.wartoscPriorytetu);
         var object = {
             idUser: Meteor.userId(),
@@ -133,34 +126,26 @@ Template.informacjeKwestia.events({
                 console.log(kwestieOpcje[i].glosujacy[j]);
                 var user = kwestieOpcje[i].glosujacy[j].idUser;
                 console.log("USER idUser");
-                console.log(user);
+                console.log(user)
                 var oddanyGlos = kwestieOpcje[i].glosujacy[j].value;
-                console.log("Uzytkownik oddal glos");
-                console.log(oddanyGlos);
-                if (user == Meteor.userId()) {//jezeli już jest taki użytkownik w bazie
-                    if (oddanyGlos == ratingValue) {//sprawdz czy dal taka ocene innej opcji
+                if (user == Meteor.userId()) {
+                    if (oddanyGlos == ratingValue) {
                         throwError("Nadałeś już priorytet o tej wadze innej Kwestii!")
                         return false;
                     }
                 }
             }
         }
-        for (var i = 0; i < kwestia.glosujacy.length; i++) {//przechodzimy po tablicy glosujacych
-            console.log("Aktualny user w tablicy lgosujacych: ");
-            console.log(kwestia.glosujacy[i].idUser);
-            if (kwestia.glosujacy[i].idUser === Meteor.userId()) {//jezeli obecny ztyk oddal juz glos
+        for (var i = 0; i < kwestia.glosujacy.length; i++) {
+            if (kwestia.glosujacy[i].idUser === Meteor.userId()) {
                 flag = false;
-                if (kwestia.glosujacy[i].value === ratingValue) {//jezeli dal juz taka ocene
+                if (kwestia.glosujacy[i].value === ratingValue) {
                     throwError("Nadałeś już priorytet o tej wadze w tym poście!");
                     return false;
-                } else {//jezeli dal inna ocene
-                    //aktualny priorytet
-                    console.log("Nadales prororytet,ale o innej wadze,wiec zmeinimy");
+                } else {
                     wartoscPriorytetu -= glosujacyTab[i].value;
                     glosujacyTab[i].value = ratingValue;
                     wartoscPriorytetu += glosujacyTab[i].value;
-                    console.log("Aktualna value usera: "+ratingValue);
-                    console.log("Aktualna wart prior: "+wartoscPriorytetu);
                 }
             }//bo tu whochodzilo tez jak był nowy
             else {
@@ -368,17 +353,19 @@ Template.informacjeKwestia.helpers({
     },
     isAdmin: function () {
         if (Meteor.user().roles) {
-            if (Meteor.user().roles == "admin") return true;
-            else return false;
+            if (Meteor.user().roles == "admin")
+                return true;
+            else
+                return false;
         }
         else return false;
     },
-    opcje: function () {
-        var kwestiaGlownaId = Session.get("idKwestia");
-        var op = Kwestia.find({idParent: kwestiaGlownaId}).fetch();
-        if (op) return true;
-        else return false;
-    },
+    //opcje: function () {
+    //    var kwestiaGlownaId = Session.get("idKwestia");
+    //    var op = Kwestia.find({idParent: kwestiaGlownaId}).fetch();
+    //    if (op) return true;
+    //    else return false;
+    //},
     czyOpcja: function () {
         if (this.isOption) return true;
         else return false;
