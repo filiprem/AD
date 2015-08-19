@@ -30,8 +30,9 @@ Template.listKwestia.events({
         Router.go("addKwestia");
     },
     'click #clickMe': function(){
+        var users = Users.find({}).fetch();
         var en = new EmailNotifications();
-        en.registerAddKwestiaNotification('AD', 'Organizacja DOM', "",
+        en.registerAddKwestiaNotification('AD', 'Organizacja DOM', users,
             'Kwestia w sprawie...', 'Uchwała', 'Opis Kwestii....', 'linkDK', 'linkLoginTo');
     }
 });

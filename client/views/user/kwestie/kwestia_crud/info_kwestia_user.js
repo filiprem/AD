@@ -101,10 +101,12 @@ Template.informacjeKwestia.events({
         }
     },
     'click #priorytetButton': function (e) {
+        var aktualnaKwestiaId = Session.set("idK", this._id);
         var u = Meteor.userId();
         var ratingValue = parseInt(e.target.value);
-        console.log(ratingValue);
         var ratingKwestiaId = this._id;
+        console.log("AKTUALNA KWESTIA ID")
+        console.log(ratingKwestiaId);
         var kwestia = Kwestia.findOne({_id: ratingKwestiaId});
         var parent = this.idParent;
         var kwestieOpcje = Kwestia.find({idParent: parent}).fetch();
@@ -173,8 +175,8 @@ Template.informacjeKwestia.events({
                     var newValue = 0;
                     var pktAddPriorytet = Parametr.findOne({});
                     newValue = Number(pktAddPriorytet.pktNadaniePriorytetu) + getUserRadkingValue(Meteor.userId());
-
-                    var kwestiaOwner = Kwestia.findOne({_id: Session.get("idKwestia")}).idUser;
+                    var kw = Kwestia.findOne({_id: Session.get("idK")});
+                    var kwestiaOwner = kw.idUser;
                     if (kwestiaOwner == Meteor.userId()) {//jezeli nadajacy priorytet jest tym,który utworzył kwestię
                         newValue += ratingValue;
                     }
@@ -349,17 +351,19 @@ Template.informacjeKwestia.helpers({
     },
     isAdmin: function () {
         if (Meteor.user().roles) {
-            if (Meteor.user().roles == "admin") return true;
-            else return false;
+            if (Meteor.user().roles == "admin")
+                return true;
+            else
+                return false;
         }
         else return false;
     },
-    opcje: function () {
-        var kwestiaGlownaId = Session.get("idKwestia");
-        var op = Kwestia.find({idParent: kwestiaGlownaId}).fetch();
-        if (op) return true;
-        else return false;
-    },
+    //opcje: function () {
+    //    var kwestiaGlownaId = Session.get("idKwestia");
+    //    var op = Kwestia.find({idParent: kwestiaGlownaId}).fetch();
+    //    if (op) return true;
+    //    else return false;
+    //},
     czyOpcja: function () {
         if (this.isOption) return true;
         else return false;

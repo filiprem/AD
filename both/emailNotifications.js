@@ -1,8 +1,9 @@
 EmailNotifications = function () {
-    var nazwa
+
     //Komunikat po dodaniu Kwestii
     this.registerAddKwestiaNotification = function (nazwaSystem, organizacja, users, nazwaKwestii, rodzaj,
                                                     szczegolyKwestii, linkDK, linkLoginTo) {
+        //bedzie wysylane do wszystkich uzytkownikow, ktorzy maja uprawnienie do przegladania kwestii
         var prop = {
             nazwaSystem: nazwaSystem,
             organizacja: organizacja,
