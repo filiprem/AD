@@ -104,9 +104,8 @@ Template.informacjeKwestia.events({
         var aktualnaKwestiaId = Session.set("idK", this._id);
         var u = Meteor.userId();
         var ratingValue = parseInt(e.target.value);
+        console.log("Rating value"+ ratingValue);
         var ratingKwestiaId = this._id;
-        console.log("AKTUALNA KWESTIA ID")
-        console.log(ratingKwestiaId);
         var kwestia = Kwestia.findOne({_id: ratingKwestiaId});
         var parent = this.idParent;
         var kwestieOpcje = Kwestia.find({idParent: parent}).fetch();
@@ -119,10 +118,10 @@ Template.informacjeKwestia.events({
             value: ratingValue
         }
         var flag = false;
-        for (var i = 0; i < kwestieOpcje.length; i++) {
+        for (var i = 0; i < kwestieOpcje.length; i++) {//dla kwestii opcji
             console.log("OPCJE")
             console.log(kwestieOpcje[i]);
-            for (var j = 0; j < kwestieOpcje[i].glosujacy.length; j++) {
+            for (var j = 0; j < kwestieOpcje[i].glosujacy.length; j++) {//przechodizmy po kazdych użytkownikach,ktory zagloswoali
                 console.log("GLOSUJACY[j]");
                 console.log(kwestieOpcje[i].glosujacy[j]);
                 var user = kwestieOpcje[i].glosujacy[j].idUser;
@@ -148,13 +147,13 @@ Template.informacjeKwestia.events({
                     glosujacyTab[i].value = ratingValue;
                     wartoscPriorytetu += glosujacyTab[i].value;
                 }
-            }
+            }//bo tu whochodzilo tez jak był nowy
             else {
-                glosujacyTab.push(object);
-                wartoscPriorytetu += ratingValue;
+                console.log("Analizowany jest inny");
             }
-        }
-        if (glosujacy.length == 0) {
+        }//zmiana
+        if (glosujacy.length == 0 || !_.contains(getAllUsersWhoVoted(ratingKwestiaId),Meteor.userId())) {
+            console.log("Pierwszy użytkownik");
             glosujacyTab.push(object);
             wartoscPriorytetu += ratingValue;
         }
@@ -172,9 +171,12 @@ Template.informacjeKwestia.events({
             }
             else {
                 if (self.ifUserVoted.get() == false) {
+                    console.log("Użytkownik jeszcze nie głosował");
                     var newValue = 0;
                     var pktAddPriorytet = Parametr.findOne({});
                     newValue = Number(pktAddPriorytet.pktNadaniePriorytetu) + getUserRadkingValue(Meteor.userId());
+                    console.log("Nadanie priorytetu: "+Number(pktAddPriorytet.pktNadaniePriorytetu));
+                    console.log("Aktualnie ma pkt: "+getUserRadkingValue(Meteor.userId()));
                     var kw = Kwestia.findOne({_id: Session.get("idK")});
                     var kwestiaOwner = kw.idUser;
                     if (kwestiaOwner == Meteor.userId()) {//jezeli nadajacy priorytet jest tym,który utworzył kwestię
@@ -183,7 +185,7 @@ Template.informacjeKwestia.events({
                     else {
                         var newValueOwner = 0;
                         newValueOwner = Number(ratingValue) + getUserRadkingValue(kwestiaOwner);
-
+                        console.log("Nowa wartosc: "+newValueOwner);
                         Meteor.call('updateUserRanking', kwestiaOwner, newValueOwner, function (error) {
                             if (error) {
                                 if (typeof Errors === "undefined")
