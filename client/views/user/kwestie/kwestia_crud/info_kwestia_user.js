@@ -101,58 +101,74 @@ Template.informacjeKwestia.events({
         }
     },
     'click #priorytetButton': function (e) {
+        var aktualnaKwestiaId = Session.set("idK", this._id);
         var u = Meteor.userId();
         var ratingValue = parseInt(e.target.value);
-        console.log(ratingValue);
+        console.log("Rating value"+ ratingValue);
         var ratingKwestiaId = this._id;
+        console.log("AKTUALNA KWESTIA ID")
+        console.log(ratingKwestiaId);
         var kwestia = Kwestia.findOne({_id: ratingKwestiaId});
         var parent = this.idParent;
+        console.log("Parent id: "+parent);
         var kwestieOpcje = Kwestia.find({idParent: parent}).fetch();
+        console.log("liczba takich samych opcji kwestii:");
+        console.log(Kwestia.find({idParent: parent}).count());
         var glosujacy = [];
         var glosujacy = kwestia.glosujacy;
         var glosujacyTab = kwestia.glosujacy.slice();
+        console.log("Glosujacy tab");
+        console.log(glosujacyTab);
         var wartoscPriorytetu = parseInt(kwestia.wartoscPriorytetu);
         var object = {
             idUser: Meteor.userId(),
             value: ratingValue
         }
         var flag = false;
-        for (var i = 0; i < kwestieOpcje.length; i++) {
+        for (var i = 0; i < kwestieOpcje.length; i++) {//dla kwestii opcji
             console.log("OPCJE")
             console.log(kwestieOpcje[i]);
-            for (var j = 0; j < kwestieOpcje[i].glosujacy.length; j++) {
+            for (var j = 0; j < kwestieOpcje[i].glosujacy.length; j++) {//przechodizmy po kazdych użytkownikach,ktory zagloswoali
                 console.log("GLOSUJACY[j]");
                 console.log(kwestieOpcje[i].glosujacy[j]);
                 var user = kwestieOpcje[i].glosujacy[j].idUser;
                 console.log("USER idUser");
-                console.log(user)
+                console.log(user);
                 var oddanyGlos = kwestieOpcje[i].glosujacy[j].value;
-                if (user == Meteor.userId()) {
-                    if (oddanyGlos == ratingValue) {
+                console.log("Uzytkownik oddal glos");
+                console.log(oddanyGlos);
+                if (user == Meteor.userId()) {//jezeli już jest taki użytkownik w bazie
+                    if (oddanyGlos == ratingValue) {//sprawdz czy dal taka ocene innej opcji
                         throwError("Nadałeś już priorytet o tej wadze innej Kwestii!")
                         return false;
                     }
                 }
             }
         }
-        for (var i = 0; i < kwestia.glosujacy.length; i++) {
-            if (kwestia.glosujacy[i].idUser === Meteor.userId()) {
+        for (var i = 0; i < kwestia.glosujacy.length; i++) {//przechodzimy po tablicy glosujacych
+            console.log("Aktualny user w tablicy lgosujacych: ");
+            console.log(kwestia.glosujacy[i].idUser);
+            if (kwestia.glosujacy[i].idUser === Meteor.userId()) {//jezeli obecny ztyk oddal juz glos
                 flag = false;
-                if (kwestia.glosujacy[i].value === ratingValue) {
+                if (kwestia.glosujacy[i].value === ratingValue) {//jezeli dal juz taka ocene
                     throwError("Nadałeś już priorytet o tej wadze w tym poście!");
                     return false;
-                } else {
+                } else {//jezeli dal inna ocene
+                    //aktualny priorytet
+                    console.log("Nadales prororytet,ale o innej wadze,wiec zmeinimy");
                     wartoscPriorytetu -= glosujacyTab[i].value;
                     glosujacyTab[i].value = ratingValue;
                     wartoscPriorytetu += glosujacyTab[i].value;
+                    console.log("Aktualna value usera: "+ratingValue);
+                    console.log("Aktualna wart prior: "+wartoscPriorytetu);
                 }
-            }
+            }//bo tu whochodzilo tez jak był nowy
             else {
-                glosujacyTab.push(object);
-                wartoscPriorytetu += ratingValue;
+                console.log("Analizowany jest inny");
             }
-        }
-        if (glosujacy.length == 0) {
+        }//zmiana
+        if (glosujacy.length == 0 || !_.contains(getAllUsersWhoVoted(ratingKwestiaId),Meteor.userId())) {
+            console.log("Pierwszy użytkownik");
             glosujacyTab.push(object);
             wartoscPriorytetu += ratingValue;
         }
@@ -170,18 +186,21 @@ Template.informacjeKwestia.events({
             }
             else {
                 if (self.ifUserVoted.get() == false) {
+                    console.log("Użytkownik jeszcze nie głosował");
                     var newValue = 0;
                     var pktAddPriorytet = Parametr.findOne({});
                     newValue = Number(pktAddPriorytet.pktNadaniePriorytetu) + getUserRadkingValue(Meteor.userId());
-
-                    var kwestiaOwner = Kwestia.findOne({_id: Session.get("idKwestia")}).idUser;
+                    console.log("Nadanie priorytetu: "+Number(pktAddPriorytet.pktNadaniePriorytetu));
+                    console.log("Aktualnie ma pkt: "+getUserRadkingValue(Meteor.userId()));
+                    var kw = Kwestia.findOne({_id: Session.get("idK")});
+                    var kwestiaOwner = kw.idUser;
                     if (kwestiaOwner == Meteor.userId()) {//jezeli nadajacy priorytet jest tym,który utworzył kwestię
                         newValue += ratingValue;
                     }
                     else {
                         var newValueOwner = 0;
                         newValueOwner = Number(ratingValue) + getUserRadkingValue(kwestiaOwner);
-
+                        console.log("Nowa wartosc: "+newValueOwner);
                         Meteor.call('updateUserRanking', kwestiaOwner, newValueOwner, function (error) {
                             if (error) {
                                 if (typeof Errors === "undefined")

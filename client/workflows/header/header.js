@@ -67,6 +67,15 @@ Template.language.helpers({
         return tab;
     },
     nazwaOrganizacji:function(){
-        return Parametr.findOne({}).nazwaOrganizacji;
-    },
+        var param = Parametr.findOne({});
+        if(param) {
+            var nazwa = param.nazwaOrganizacji;
+            if (nazwa) {
+                return nazwa;
+            }
+            else {
+                return "AD";
+            }
+        }
+    }
 })
