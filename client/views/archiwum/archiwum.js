@@ -70,11 +70,23 @@ Template.archiwum.helpers({
             $or: [{czyAktywny: false}, {
                 $and: [{dataGlosowania: {$lt: moment().format()}}, {
                     $where: function () {
-                        return this.wartoscPriorytetu < this.pulapPriorytetu
+                        return this.wartoscPriorytetu <=0
                     }
                 }]
             }]
         }).fetch();
+    },
+    'ArchiwumListCount':function(){
+        var count =  Kwestia.find({
+            $or: [{czyAktywny: false}, {
+                $and: [{dataGlosowania: {$lt: moment().format()}}, {
+                    $where: function () {
+                        return this.wartoscPriorytetu <=0
+                    }
+                }]
+            }]
+        }).count();
+        return count>0 ? true : false;
     },
     kwestiaCount: function () {
         return Kwestia.find({czyAktywny: false}).count();
