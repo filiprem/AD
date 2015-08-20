@@ -39,36 +39,36 @@ Template.header.helpers({
 Template.language.events({
     'click .lang':function(e){
         var lang = e.target.textContent;
+        if(lang){
+            var newUser = {
+                profile:{
+                    language:lang
+                }
+            };
 
-        var newUser = {
-            profile:{
-                language:lang
-            }
-        };
-
-        Meteor.call('updateUserLanguage',Meteor.userId(), newUser, function (error) {
-            if (error) {
-                if (typeof Errors === "undefined")
-                    Log.error('Error: ' + error.reason);
-                else
-                    throwError(error.reason);
-            } else{
-                TAPi18n.setLanguage(lang)
-                    .done(function () {
-                        console.log("Załadowano język");
-                    })
-                    .fail(function (error_message) {
-                        console.log(error_message);
-                    });
-            }
-        });
+            Meteor.call('updateUserLanguage',Meteor.userId(), newUser, function (error) {
+                if (error) {
+                    if (typeof Errors === "undefined")
+                        Log.error('Error: ' + error.reason);
+                    else
+                        throwError(error.reason);
+                } else{
+                    TAPi18n.setLanguage(lang)
+                        .done(function () {
+                            console.log("Załadowano język");
+                        })
+                        .fail(function (error_message) {
+                            console.log(error_message);
+                        });
+                }
+            });
+        }
     },
     'click #showPageInfo':function(){
 
         var defaultLang = LANGUAGES.DEFAULT_LANGUAGE;
         var lang = Meteor.user().profile.language ? Meteor.user().profile.language : defaultLang;
         var routeName = Router.current().route.getName();
-        console.log(PagesInfo.find().count());
         var item = PagesInfo.findOne({shortLanguageName:lang,routeName:routeName});
         var title = TAPi18n.__("pageInfo."+lang+"."+routeName)
         bootbox.dialog({
@@ -83,12 +83,17 @@ Template.language.events({
 
 Template.language.helpers({
     'getUserLang':function(){
-        if(Meteor.user())
-            return Meteor.user().profile.language;
+        if(Meteor.user()){
+            if(Meteor.user().profile.language){
+                return Meteor.user().profile.language;
+            }
+        }
     },
     'langs':function(){
         var langs = Languages.find({isEnabled:true,czyAktywny:true});
-        return langs;
+        if(langs){
+            return langs;
+        }
     },
     nazwaOrg: function(){
         var param = Parametr.findOne({});

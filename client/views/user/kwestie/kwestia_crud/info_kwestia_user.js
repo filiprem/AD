@@ -16,10 +16,8 @@ Template.informacjeKwestia.created = function () {
 Template.informacjeKwestia.events({
     'click #wyczyscPriorytety': function() {
         var me = Meteor.userId();
-        console.log(me);
         var currentKwestiaId = Session.get("idKwestia");
         var kwestie = Kwestia.find({'glosujacy.idUser': me, idParent: currentKwestiaId}).fetch()
-        console.log(Kwestia.find({'glosujacy.idUser': me, idParent: currentKwestiaId}).count());
         if (Kwestia.find({'glosujacy.idUser': me, idParent: currentKwestiaId}).count() == 0) {
             throwError("Nie nadałeś priorytetu tej kwestii, ani jej opcjom");
             //sprawdzić czy sa zzero->jak zero,to tez nie updatujemy na darmo!
@@ -34,10 +32,8 @@ Template.informacjeKwestia.events({
                         className: "btn-success",
                         callback: function () {
                             kwestie.forEach(function (kwestia) {
-                                console.log("id kwestii " + kwestia._id);
                                 var array = [];
                                 var tabGlosujacych = kwestia.glosujacy;
-                                console.log("Liczba glosujacych :" + tabGlosujacych.length);
                                 for (var j = 0; j < tabGlosujacych.length; j++) {
                                     var idUser = tabGlosujacych[j].idUser;
                                     var value = 0;
@@ -53,9 +49,6 @@ Template.informacjeKwestia.events({
                                     };
                                     array.push(glosujacy);
                                 }
-                                console.log("tablica");
-                                console.log(array.length);
-                                console.log(array);
                                 Meteor.call('clearPriorytet', kwestia._id, array, function (error, ret) {
                                     if (error) {
                                         if (typeof Errors === "undefined")
@@ -86,14 +79,11 @@ Template.informacjeKwestia.events({
         Router.go('listKwestia');
     },
     'click #addOptionButton': function () {
-        console.log(Session.get("idKwestia"));
         Router.go("addKwestiaOpcja");
     },
     'click #doArchiwum': function (e) {
         e.preventDefault();
         var idKw = this._id;
-        console.log("ID KWESTIA")
-        console.log(idKw)
         Session.set("idkwestiiArchiwum", this._id);
         var z = Posts.findOne({idKwestia: idKw, postType: "archiwum"});
         if (z) {
@@ -108,8 +98,6 @@ Template.informacjeKwestia.events({
     'click #doKosza': function (e) {
         e.preventDefault();
         var idKw = this._id;
-        console.log("ID KWESTIA")
-        console.log(idKw)
         Session.set("idkwestiiKosz", this._id)
         var z = Posts.findOne({idKwestia: idKw, postType: "kosz"});
         if (z) {
@@ -125,7 +113,6 @@ Template.informacjeKwestia.events({
         var aktualnaKwestiaId = Session.set("idK", this._id);
         var u = Meteor.userId();
         var ratingValue = parseInt(e.target.value);
-        console.log("Rating value"+ ratingValue);
         var ratingKwestiaId = this._id;
         var kwestia = Kwestia.findOne({_id: ratingKwestiaId});
         var parent = this.idParent;
@@ -141,11 +128,7 @@ Template.informacjeKwestia.events({
         var flag = false;
         for (var i = 0; i < kwestieOpcje.length; i++) {//dla kwestii opcji
             for (var j = 0; j < kwestieOpcje[i].glosujacy.length; j++) {//przechodizmy po kazdych użytkownikach,ktory zagloswoali
-                console.log("GLOSUJACY[j]");
-                console.log(kwestieOpcje[i].glosujacy[j]);
                 var user = kwestieOpcje[i].glosujacy[j].idUser;
-                console.log("USER idUser");
-                console.log(user)
                 var oddanyGlos = kwestieOpcje[i].glosujacy[j].value;
                 if (user == Meteor.userId()) {
                     if (oddanyGlos == ratingValue) {
@@ -172,7 +155,6 @@ Template.informacjeKwestia.events({
             }
         }//zmiana
         if (glosujacy.length == 0 || !_.contains(getAllUsersWhoVoted(ratingKwestiaId),Meteor.userId())) {
-            console.log("Pierwszy użytkownik");
             glosujacyTab.push(object);
             wartoscPriorytetu += ratingValue;
         }
@@ -190,12 +172,9 @@ Template.informacjeKwestia.events({
             }
             else {
                 if (self.ifUserVoted.get() == false) {
-                    console.log("Użytkownik jeszcze nie głosował");
                     var newValue = 0;
                     var pktAddPriorytet = Parametr.findOne({});
                     newValue = Number(pktAddPriorytet.pktNadaniePriorytetu) + getUserRadkingValue(Meteor.userId());
-                    console.log("Nadanie priorytetu: "+Number(pktAddPriorytet.pktNadaniePriorytetu));
-                    console.log("Aktualnie ma pkt: "+getUserRadkingValue(Meteor.userId()));
                     var kw = Kwestia.findOne({_id: Session.get("idK")});
                     var kwestiaOwner = kw.idUser;
                     if (kwestiaOwner == Meteor.userId()) {//jezeli nadajacy priorytet jest tym,który utworzył kwestię
@@ -204,7 +183,6 @@ Template.informacjeKwestia.events({
                     else {
                         var newValueOwner = 0;
                         newValueOwner = Number(ratingValue) + getUserRadkingValue(kwestiaOwner);
-                        console.log("Nowa wartosc: "+newValueOwner);
                         Meteor.call('updateUserRanking', kwestiaOwner, newValueOwner, function (error) {
                             if (error) {
                                 if (typeof Errors === "undefined")
@@ -262,18 +240,10 @@ Template.informacjeKwestia.helpers({
         if (op) return true;
         else return false;
     },
-    czyOpcja: function () {
-        if (this.isOption) return true;
-        else return false;
-    },
     thisKwestia: function () {
         var kw = Kwestia.findOne({_id: this._id});
-        if(kw.isOption){
-            Session.set("idKwestia",kw.idParent);
-        }
-        else{
-            Session.set("idKwestia", this._id)
-        }
+        if(kw.isOption) Session.set("idKwestia",kw.idParent);
+        else Session.set("idKwestia", this._id)
     },
     mojPiorytet: function () {
         var currentKwestiaId = this._id;
@@ -344,35 +314,29 @@ Template.informacjeKwestia.helpers({
         }
     },
     isSelected: function( number) {
-        console.log("Jestem tu");
         var flag=false;
         var currentKwestiaId = Session.get("idKwestia");
         var kwestie = Kwestia.find({'glosujacy.idUser': Meteor.userId(),idParent:currentKwestiaId }).fetch();
-        var globalArray=[];
-        kwestie.forEach(function (kwestia) {
-            console.log("id kwestii " + kwestia._id);
-            console.log("BLOCZEK NR "+number);
-            var array = [];
-            var tabGlosujacych = kwestia.glosujacy;
-            console.log("Liczba glosujacych :" + tabGlosujacych.length);
-            for (var j = 0; j < tabGlosujacych.length; j++) {
-                if(tabGlosujacych[j].idUser==Meteor.userId()){
-                    console.log("Value: "+tabGlosujacych[j].value);
-                    console.log("Number: "+number);
-                    if(tabGlosujacych[j].value==number){
-                        console.log("DISABLED!");
-                        //return "disabled";
-                        //globalArray.push(value)
-                        flag=true;
+        if(kwestie){
+            var globalArray=[];
+            kwestie.forEach(function (kwestia) {
+                var array = [];
+                var tabGlosujacych = kwestia.glosujacy;
+                for (var j = 0; j < tabGlosujacych.length; j++) {
+                    if(tabGlosujacych[j].idUser==Meteor.userId()){
+                        if(tabGlosujacych[j].value==number){
+                            //return "disabled";
+                            //globalArray.push(value)
+                            flag=true;
+                        }
                     }
-                }
 
-            }
-            console.log("-----------------------------------------------------");
-        });
-        if(flag==true)
-            return "disabled";
-        else
-            return "";
+                }
+            });
+            if(flag==true)
+                return "disabled";
+            else
+                return "";
+        }
     }
 });

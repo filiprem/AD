@@ -98,22 +98,6 @@ Template.listKwestia.helpers({
     KwestiaList: function () {
         return Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.DELIBEROWANA}).fetch();
     },
-    priorytetsr: function () {
-        var i = 0;
-        var kwestia = Kwestia.findOne({_id: this._id});
-        if (kwestia) {
-            kwestia.glosujacy.forEach(function (item) {
-                i++;
-            });
-            if (kwestia.priorytet === 0) {
-                var srPriorytet = kwestia.priorytet;
-            }
-            else {
-                var srPriorytet = kwestia.priorytet / i;
-            }
-            return srPriorytet
-        }
-    },
     kwestiaCount: function () {
         return Kwestia.find({czyAktywny: true}).count();
     },
