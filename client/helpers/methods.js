@@ -1,3 +1,15 @@
+liczenieKworumZwykle = function(liczbaUzytkownikow){
+    var potega = 7/9;
+    var liczba = 4/7;
+    var kworum = Math.pow(liczbaUzytkownikow,potega)*liczba;
+    return Math.round(kworum);
+};
+
+liczenieKworumStatutowe = function(liczbaUzytkownikow){
+    var kworum = liczbaUzytkownikow/3*2;
+    return Math.round(kworum);
+};
+
 IsAdminUser = function () {
     return Roles.userIsInRole(Meteor.user(), ['admin']);
 };
