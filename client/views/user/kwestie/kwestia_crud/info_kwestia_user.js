@@ -375,45 +375,36 @@ Template.informacjeKwestia.helpers({
             return k;
         }
     },
-    isSelected: function (number) {
-        //console.log("Jestem tu");
-        //var flag=true;
-        //var currentKwestiaId = Session.get("idKwestia");
-        //var kwestie = Kwestia.find({'glosujacy.idUser': Meteor.userId(),idParent:currentKwestiaId }).fetch();
-        //kwestie.forEach(function (kwestia) {
-        //    console.log("id kwestii " + kwestia._id);
-        //    var array = [];
-        //    var tabGlosujacych = kwestia.glosujacy;
-        //    console.log("Liczba glosujacych :" + tabGlosujacych.length);
-        //    for (var j = 0; j < tabGlosujacych.length; j++) {
-        //        if(tabGlosujacych[j].idUser==Meteor.userId()){
-        //            console.log("Value: "+tabGlosujacych[j].value);
-        //            console.log("Number: "+number);
-        //            if(tabGlosujacych[j].value==number){
-        //                console.log("DISABLED!");
-        //                return "disabled";
-        //            }
-        //        }
-        //
-        //    }
-        //});
-        //return "";
+    isSelected: function( number) {
+        console.log("Jestem tu");
+        var flag=false;
+        var currentKwestiaId = Session.get("idKwestia");
+        var kwestie = Kwestia.find({'glosujacy.idUser': Meteor.userId(),idParent:currentKwestiaId }).fetch();
+        var globalArray=[];
+        kwestie.forEach(function (kwestia) {
+            console.log("id kwestii " + kwestia._id);
+            console.log("BLOCZEK NR "+number);
+            var array = [];
+            var tabGlosujacych = kwestia.glosujacy;
+            console.log("Liczba glosujacych :" + tabGlosujacych.length);
+            for (var j = 0; j < tabGlosujacych.length; j++) {
+                if(tabGlosujacych[j].idUser==Meteor.userId()){
+                    console.log("Value: "+tabGlosujacych[j].value);
+                    console.log("Number: "+number);
+                    if(tabGlosujacych[j].value==number){
+                        console.log("DISABLED!");
+                        //return "disabled";
+                        //globalArray.push(value)
+                        flag=true;
+                    }
+                }
 
-        //var kwestia=Session.get("actualKwestiaId");
-        //var kwestia1 = Kwestia.findOne({_id:kwestia._id});
-        //    console.log("id kwestii " + kwestia._id);
-        //    var array = [];
-        //    var tabGlosujacych = kwestia1.glosujacy;
-        //    console.log("Liczba glosujacych :" + kwestia1.glosujacy.length);
-        //    for (var j = 0; j < tabGlosujacych.length; j++) {
-        //        if(tabGlosujacych[j].idUser==Meteor.userId()){
-        //            console.log("Value: "+tabGlosujacych[j].value);
-        //            console.log("Number: "+number);
-        //            if(tabGlosujacych[j].value==number){
-        //                return "disabled";
-        //            }
-        //        }
-        //    }
-        //    return "";
+            }
+            console.log("-----------------------------------------------------");
+        });
+        if(flag==true)
+            return "disabled";
+        else
+            return "";
     }
 });
