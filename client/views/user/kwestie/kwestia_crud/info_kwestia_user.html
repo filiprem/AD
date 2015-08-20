@@ -45,7 +45,7 @@
                                 <span class="glyphicon glyphicon-trash"></span> Do Kosza
                             </button>
                         </div>
-                        <button id="wyczyscPriorytety" type="button" class="btn btn-danger">Wyczyść moje priorytety</button>
+                        <button id="wyczyscPriorytety" type="button" class="btn btn-danger" {{isAvailable }}>Wyczyść moje priorytety</button>
                     {{/unless}}
                 </div>
             </div>
@@ -98,7 +98,7 @@
                                         <button id="priorytetButton" name="{{idKwestia}}" type="button"
                                                 class="btn btn-xs btn-default" value="0"
                                                 data-toggle="tooltip" data-placement="top"
-                                                title="Oznacza wstrzymanie się od głosu" {{isSelected 0}}>&nbsp;0
+                                                title="Oznacza wstrzymanie się od głosu">&nbsp;0
                                         </button>
                                         <button id="priorytetButton" name="{{idKwestia}}" type="button"
                                                 class="btn btn-xs btn-success" value="1" {{isSelected 1}}>+1

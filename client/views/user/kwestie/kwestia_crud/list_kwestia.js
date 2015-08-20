@@ -34,6 +34,43 @@ Template.listKwestia.events({
         var en = new EmailNotifications();
         en.registerAddKwestiaNotification('AD', 'Organizacja DOM', users,
             'Kwestia w sprawie...', 'Uchwała', 'Opis Kwestii....', 'linkDK', 'linkLoginTo');
+    },
+    'click #kwestiaIdClick':function(){//nadajemy priorytet automatycznie po wejściu na kwestię + dajemy punkty
+        console.log(this._id);
+        var kwestia=Kwestia.findOne({_id:this._id});
+        console.log(kwestia);
+        var tabGlosujacy=getAllUsersWhoVoted(kwestia._id);
+        if(!_.contains(tabGlosujacy,Meteor.userId())){//jeżeli użytkownik jeszcze nie głosował
+            var glosujacy = {
+                idUser: Meteor.userId(),
+                value: 0
+            };
+            var voters=kwestia.glosujacy.slice();
+            voters.push(glosujacy);
+            Meteor.call('setGlosujacyTab', kwestia._id, voters, function (error, ret) {
+                if (error) {
+                    if (typeof Errors === "undefined")
+                        Log.error('Error: ' + error.reason);
+                    else
+                        throwError(error.reason);
+                }
+            });
+            //dodanie pkt za głosowanie
+            var newValue = 0;
+            var pktAddPriorytet = Parametr.findOne({});
+            newValue = Number(pktAddPriorytet.pktNadaniePriorytetu) + getUserRadkingValue(Meteor.userId());
+
+            Meteor.call('updateUserRanking', Meteor.userId(), newValue, function (error) {
+                if (error) {
+                    if (typeof Errors === "undefined")
+                        Log.error('Error: ' + error.reason);
+                    else {
+                        throwError(error.reason);
+                    }
+                }
+            });
+        }
+
     }
 });
 Template.listKwestia.helpers({
