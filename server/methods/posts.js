@@ -1,5 +1,7 @@
 Meteor.methods({
     addPost: function (newPost) {
+        console.log("POST")
+        console.log(newPost)
         var id = Posts.insert({
             idKwestia: newPost[0].idKwestia,
             wiadomosc: newPost[0].wiadomosc,
@@ -13,9 +15,12 @@ Meteor.methods({
             glosujacy:  newPost[0].glosujacy,
             postType: newPost[0].postType
         });
+        console.log(id)
         return id;
     },
     addPostAnswer: function (newPost) {
+        console.log("ANSWER")
+        console.log(newPost)
         var id = Posts.insert({
             idKwestia: newPost[0].idKwestia,
             wiadomosc: newPost[0].wiadomosc,
@@ -28,6 +33,7 @@ Meteor.methods({
             wartoscPriorytetu:  newPost[0].wartoscPriorytetu,
             glosujacy:  newPost[0].glosujacy
         });
+        console.log(id)
         return id;
     },
     updatePostRating: function (id,obj) {

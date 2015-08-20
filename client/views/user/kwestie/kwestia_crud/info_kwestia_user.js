@@ -86,11 +86,15 @@ Template.informacjeKwestia.events({
         Router.go('listKwestia');
     },
     'click #addOptionButton': function () {
+        console.log(Session.get("idKwestia"));
         Router.go("addKwestiaOpcja");
     },
     'click #doArchiwum': function (e) {
         e.preventDefault();
         var idKw = this._id;
+        console.log("ID KWESTIA")
+        console.log(idKw)
+        Session.set("idkwestiiArchiwum", this._id);
         var z = Posts.findOne({idKwestia: idKw, postType: "archiwum"});
         if (z) {
             $('html, body').animate({
@@ -104,6 +108,9 @@ Template.informacjeKwestia.events({
     'click #doKosza': function (e) {
         e.preventDefault();
         var idKw = this._id;
+        console.log("ID KWESTIA")
+        console.log(idKw)
+        Session.set("idkwestiiKosz", this._id)
         var z = Posts.findOne({idKwestia: idKw, postType: "kosz"});
         if (z) {
             $('html, body').animate({
@@ -336,6 +343,36 @@ Template.informacjeKwestia.helpers({
             return k;
         }
     },
-    isSelected: function (number) {
+    isSelected: function( number) {
+        console.log("Jestem tu");
+        var flag=false;
+        var currentKwestiaId = Session.get("idKwestia");
+        var kwestie = Kwestia.find({'glosujacy.idUser': Meteor.userId(),idParent:currentKwestiaId }).fetch();
+        var globalArray=[];
+        kwestie.forEach(function (kwestia) {
+            console.log("id kwestii " + kwestia._id);
+            console.log("BLOCZEK NR "+number);
+            var array = [];
+            var tabGlosujacych = kwestia.glosujacy;
+            console.log("Liczba glosujacych :" + tabGlosujacych.length);
+            for (var j = 0; j < tabGlosujacych.length; j++) {
+                if(tabGlosujacych[j].idUser==Meteor.userId()){
+                    console.log("Value: "+tabGlosujacych[j].value);
+                    console.log("Number: "+number);
+                    if(tabGlosujacych[j].value==number){
+                        console.log("DISABLED!");
+                        //return "disabled";
+                        //globalArray.push(value)
+                        flag=true;
+                    }
+                }
+
+            }
+            console.log("-----------------------------------------------------");
+        });
+        if(flag==true)
+            return "disabled";
+        else
+            return "";
     }
 });
