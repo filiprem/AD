@@ -3,6 +3,7 @@ Template.listTemat.created = function(){
 };
 
 Template.listTemat.rendered = function(){
+    $('[data-toggle="tooltip"]').tooltip();
     var self = Template.instance();
     self.idTematRV.set(null);
 };
@@ -80,3 +81,11 @@ Template.listTemat.helpers({
         return !!id ? Temat.findOne({_id:id}).nazwaTemat : "wszystkie";
     }
 });
+
+Template.optionsColumnTemat.rendered = function(){
+    $('[data-toggle="tooltip"]').tooltip();
+};
+
+Template.optionsColumnRodzaj.rendered = function(){
+    $('[data-toggle="tooltip"]').tooltip();
+};

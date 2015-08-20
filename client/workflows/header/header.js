@@ -75,6 +75,9 @@ Template.language.events({
                 message: item.infoText ? item.infoText : "Brak opisu",
                 title: title
             });
+    },
+    'click #organizationName':function(){
+        Router.go("home");
     }
 });
 
