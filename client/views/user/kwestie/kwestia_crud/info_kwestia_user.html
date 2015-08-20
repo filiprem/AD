@@ -5,17 +5,15 @@
                 <legend>Informacje o Kwestii</legend>
                 <p class="bg-info padding-15">
                     Obecni: <b>{{glosujacyCount}}</b>
-                    {{#unless isAdmin}}
-                        {{#if mojPriorytetZero}}
-                            <br/>Wstrzymałeś się od głosu nadając tej Kwestii priorytet <b>0</b>
+                    {{#if mojPriorytetZero}}
+                        <br/>Wstrzymałeś się od głosu nadając tej Kwestii priorytet <b>0</b>
+                    {{else}}
+                        {{#if mojPiorytet}}
+                            <br/>Nadałeś tej Kwestii priorytet: <b>{{mojPiorytet}}</b>
                         {{else}}
-                            {{#if mojPiorytet}}
-                                <br/>Nadałeś tej Kwestii priorytet: <b>{{mojPiorytet}}</b>
-                            {{else}}
-                                <br/>Nie nadałeś jeszcze tej Kwestii priorytetu
-                            {{/if}}
+                            <br/>Nie nadałeś jeszcze tej Kwestii priorytetu
                         {{/if}}
-                    {{/unless}}
+                    {{/if}}
                 </p>
             </div>
             {{thisKwestia}}
@@ -33,20 +31,18 @@
                             {{/unless}}
                         {{/if}}
                     </div>
-                    {{#unless isAdmin}}
-                        <div class="btn-group" role="group" aria-label="...">
-                            <label class="btn btn-danger">Przeniesienie Kwestii</label>
-                            {{> uzasadnienieArchiwumModal}}
-                            <button id="doArchiwum" class="btn btn-warning">
-                                <span class="glyphicon glyphicon-lock"></span> Do Archiwum
-                            </button>
-                            {{> uzasadnienieKoszModal}}
-                            <button id="doKosza" class="btn btn-danger">
-                                <span class="glyphicon glyphicon-trash"></span> Do Kosza
-                            </button>
-                        </div>
-                        <button id="wyczyscPriorytety" type="button" class="btn btn-danger">Wyczyść priorytety</button>
-                    {{/unless}}
+                    <div class="btn-group" role="group" aria-label="...">
+                        <label class="btn btn-danger">Przeniesienie Kwestii</label>
+                        {{> uzasadnienieArchiwumModal}}
+                        <button id="doArchiwum" class="btn btn-warning">
+                            <span class="glyphicon glyphicon-lock"></span> Do Archiwum
+                        </button>
+                        {{> uzasadnienieKoszModal}}
+                        <button id="doKosza" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-trash"></span> Do Kosza
+                        </button>
+                    </div>
+                    <button id="wyczyscPriorytety" type="button" class="btn btn-danger">Wyczyść priorytety</button>
                 </div>
             </div>
         </div>
