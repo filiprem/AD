@@ -13,10 +13,7 @@ Template.archiwum.events({
     },
     'click .glyphicon-info-sign': function (event, template) {
         Session.set('kwestiaInScope', this);
-    },
-    'click #backToList': function (e) {
-        Router.go('home');
-    },
+    }
 });
 Template.archiwum.helpers({
     'settings': function () {
@@ -37,7 +34,7 @@ Template.archiwum.helpers({
                     key: 'kwestiaNazwa',
                     label: Template.listKwestiaAdminColumnLabel,
                     labelData: {title: "Kliknij, aby zobaczyć szczegóły", text: "Nazwa Kwestii"},
-                    tmpl: Template.nazwaKwestiArchiwumLink
+                    tmpl: Template.nazwaKwestiiArchiwumLink
                 },
                 {
                     key: 'sredniaPriorytet',
@@ -47,8 +44,8 @@ Template.archiwum.helpers({
                     sortOrder: 1,
                     sortDirection: 'descending'
                 },
-                {key: 'idTemat', label: "Temat", tmpl: Template.tematKwestia},
-                {key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestia},
+                {key: 'idTemat', label: "Temat", tmpl: Template.tematKwestiiArchiwum},
+                {key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestiiArchiwum},
                 {
                     key: 'dataGlosowania',
                     label: Template.listKwestiaAdminColumnLabel,
@@ -67,13 +64,11 @@ Template.archiwum.helpers({
     ArchiwumList: function () {
         //return Kwestia.find({$where:function(){return ((this.czyAktywny==false) || (moment(this.dataGlosowania) < moment()&& this.wartoscPriorytetu < this.pulapPriorytetu));}}).fetch();
         return Kwestia.find({
-            $or: [{czyAktywny: false}, {
-                $and: [{dataGlosowania: {$lt: moment().format()}}, {
-                    $where: function () {
-                        return this.wartoscPriorytetu <=0
-                    }
-                }]
-            }]
+            $or: [
+                {czyAktywny: false},
+                {$and: [{dataGlosowania: {$lt: moment().format()}}, {$where: function () {return this.wartoscPriorytetu <=0}}]},
+                {status:KWESTIA_STATUS.ARCHIWALNA}
+            ]
         }).fetch();
     },
     'ArchiwumListCount':function(){
@@ -108,3 +103,17 @@ Template.archiwum.helpers({
 Template.archiwum.rendered = function () {
     $('[data-toggle="tooltip"]').tooltip();
 }
+
+Template.tematKwestiiArchiwum.helpers({
+    'getTemat':function(id){
+        var item = Temat.findOne({_id:id});
+        return !!item && !!item.nazwaTemat ?item.nazwaTemat : id;
+    }
+});
+
+Template.rodzajKwestiiArchiwum.helpers({
+    'getRodzaj':function(id){
+        var item = Rodzaj.findOne({_id:id});
+        return !!item && !!item.nazwaRodzaj ?item.nazwaRodzaj : id;
+    }
+});

@@ -62,9 +62,14 @@ Meteor.publish('kwestieUser', function(id){
     return Kwestia.find({idUser:id,czyAktywny:true})
 });
 
-// TO DO - usunąc przy refaktorze
-Meteor.publish('kwestiaTresc', function(){
-    return KwestiaTresc.find({});
+Meteor.publish('kwestieArchiwum',function(){
+    return Kwestia.find({
+        $or: [
+            {czyAktywny: false},
+            {$and: [{dataGlosowania: {$lt: moment().format()}}, {$where: function () {return this.wartoscPriorytetu <=0}}]},
+            {status: KWESTIA_STATUS.ARCHIWALNA}
+        ]
+    });
 });
 
 Meteor.publish('postsByKwestiaId', function(id) {
