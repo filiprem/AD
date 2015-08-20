@@ -1,3 +1,4 @@
+// TO DO czy potrzebne? Do usunięcia!!! widok też
 Template.deleteRodzajModalInner.helpers({
     rodzajInScope: function() {
         return Session.get('rodzajInScope');

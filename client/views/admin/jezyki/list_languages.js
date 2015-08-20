@@ -68,4 +68,12 @@ Template.languageOptions.events({
             }
         });
     }
-})
+});
+
+Template.listLanguages.rendered = function(){
+    $('[data-toggle="tooltip"]').tooltip();
+};
+
+Template.languageOptions.rendered = function(){
+    $('[data-toggle="tooltip"]').tooltip();
+};

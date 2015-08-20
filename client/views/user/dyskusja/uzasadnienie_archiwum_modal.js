@@ -4,7 +4,7 @@ Template.uzasadnienieArchiwumModal.events({
         var uzasadnienie = document.getElementById('uzasadnienieArchiwum').value;
         if (uzasadnienie) {
             var message = "Proponuję przenieść tę kwestię do Archiwum? Dyskusja i siła priorytetu w tym wątku o tym zdecyduje.";
-            var idKwestia = Session.get("idKwestia");
+            var idKwestia = Session.get("idkwestiiArchiwum");
             var idUser = Meteor.userId();
             var addDate = new Date();
             var isParent = true;

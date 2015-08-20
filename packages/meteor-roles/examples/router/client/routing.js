@@ -7,7 +7,7 @@
 // Routing
 //
 
-// override with meteor-router navigate method
+// override with meteor-routerFiles navigate method
 Meteor.navigateTo = function (path) {
   Meteor.Router.to(path);
 };

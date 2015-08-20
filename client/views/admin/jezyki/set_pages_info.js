@@ -12,7 +12,8 @@ Template.setPagesInfo.helpers({
     },
     'getLabel':function(routeName){
         var lang = Meteor.user().profile.language;
-        var label = TAPi18n.__("pageInfo."+lang+"."+routeName);
+        var labelName= "pageInfo."+lang+"."+routeName;
+        var label = TAPi18n.__(labelName);
         return label;
     },
     'getInfoText':function(routeName){
@@ -45,9 +46,8 @@ Template.setPagesInfo.events({
                         Log.error('Error: ' + error.reason);
                     else
                         throwError(error.reason);
-                } else {
-                    Router.go('listLanguages');
                 }
+                else Router.go('listLanguages');
             });
         });
     },

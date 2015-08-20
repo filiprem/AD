@@ -1,3 +1,7 @@
+Template.editTypeAndTopic.rendered = function(){
+    $('[data-toggle="tooltip"]').tooltip();
+}
+
 Template.listaKwestiiOczekujacych.helpers({
     'settings': function () {
         return {
@@ -11,7 +15,7 @@ Template.listaKwestiiOczekujacych.helpers({
                 {key: 'kwestiaNazwa', label: Template.listKwestiaAdminColumnLabel, labelData: {title: "Kliknij, aby zobaczyć szczegóły", text:"Nazwa Kwestii"}, tmpl: Template.nazwaKwestii},
                 {key: 'sugerowanyTemat', label: "Sugerowany temat",  tmpl: Template.sugerowanyTemat},
                 {key: 'sugerowanyRodzaj', label: "Sugerowany rodzaj", tmpl: Template.sugerowanyRodzaj},
-                {key: 'options', label: "Opcje", tmpl: Template.editTypeAndTopic }
+                {key: '_id', label: "Opcje", tmpl: Template.editTypeAndTopic }
             ]
         };
     },
