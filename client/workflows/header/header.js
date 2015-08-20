@@ -33,7 +33,7 @@ Template.header.helpers({
                 return false;
         }
         else return false;
-    },
+    }
 });
 
 Template.language.events({
@@ -84,11 +84,8 @@ Template.language.helpers({
             return Meteor.user().profile.language;
     },
     'langs':function(){
-        var tab = [];
-        for(var lang in LANGUAGES){
-            tab.push(LANGUAGES[lang]);
-        }
-        return tab;
+        var langs = Languages.find({isEnabled:true,czyAktywny:true});
+        return langs;
     },
     nazwaOrg: function(){
         var param = Parametr.findOne({});
