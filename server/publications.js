@@ -67,10 +67,6 @@ Meteor.publish('kwestiaTresc', function(){
     return KwestiaTresc.find({});
 });
 
-Meteor.publish('glosujacy', function() {
-    return Parametr.find();
-});
-
 Meteor.publish('postsByKwestiaId', function(id) {
     return Posts.find({idKwestia:id, czyAktywny:true});
 });

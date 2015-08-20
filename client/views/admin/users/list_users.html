@@ -9,13 +9,14 @@
             <hr/>
             <div class="row">
                 <div class="col col-md-6">
-                    <div class="input-group">
-                  <span class="input-group-btn">
-                      <a href="{{pathFor 'addUser'}}" class="btn btn-primary"><span
-                              class="glyphicon glyphicon-plus"></span> Dodaj</a>
-                  <button class="btn btn-primary" type="button" data-toggle="modal" href="#updateroles">
-                      <span class="glyphicon glyphicon-cog"></span> Zarządzaj rolami
-                  </button></span>
+                    <div class="btn-toolbar" role="toolbar" aria-label="...">
+                        <div class="btn-group" role="group" aria-label="...">
+                            <a href="{{pathFor 'addUser'}}" class="btn btn-primary">
+                                <i class="fa fa-plus"></i> Dodaj</a>
+                            <button class="btn btn-primary" type="button" data-toggle="modal" href="#updateroles">
+                                <i class="fa fa-gear"></i> Zarządzaj rolami
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

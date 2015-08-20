@@ -1,15 +1,11 @@
 <template name="listTemat">
     {{#if currentUser}}
         <div class="main">
-            <legend>Kategoryzacja</legend>
-
-            <div class="row">
-                <div class="col col-md-12">
-                    <div class="pull-right">
-                        <span>Liczba tematów: </span><span class="badge">{{tematCount}}</span>
-                    </div>
-                </div>
+            <h3>Kategoryzacja</h3>
+            <div class="pull-right">
+                <span>Liczba tematów: </span><span class="badge">{{tematCount}}</span>
             </div>
+            <hr />
             <div class="row">
                 <div class="col col-md-12">
                     <div class="input-group">
@@ -63,13 +59,13 @@
 
 <template name="optionsColumnTemat">
     <div class="pull-right">
-        <a class="btn btn-xs btn-default" title="Edytuj" href="{{ pathFor 'editTemat' _id}}">
+        <a class="btn btn-xs btn-default" data-toggle="tooltip" title="Edytuj" href="{{ pathFor 'editTemat' _id}}">
             <i class="fa fa-edit clickable"></i> Edytuj
         </a>
-        <a class="btn btn-xs btn-default" title="Dodaj rodzaj" href="{{ pathFor 'addRodzaj' _id}}">
+        <a class="btn btn-xs btn-default" data-toggle="tooltip" title="Dodaj rodzaj" href="{{ pathFor 'addRodzaj' _id}}">
             <i class="fa fa-plus clickable"></i> Dodaj rodzaj
         </a>
-        <a class="btn btn-xs btn-default" title="Odśwież rodzaje" href="#" id="reload" name="{{_id}}">
+        <a class="btn btn-xs btn-default" data-toggle="tooltip" title="Odśwież rodzaje" href="#" id="reload" name="{{_id}}">
             <i class="fa fa-filter clickable" name="{{_id}}"></i>
         </a>
     </div>
@@ -77,7 +73,7 @@
 
 <template name="optionsColumnRodzaj">
     <div class="pull-right">
-        <a class="btn btn-xs btn-default" title="Edytuj" href="{{ pathFor 'editRodzaj' _id}}">
+        <a class="btn btn-xs btn-default" data-toggle="tooltip" title="Edytuj" href="{{ pathFor 'editRodzaj' _id}}">
             <i class="fa fa-edit clickable"></i> Edytuj
         </a>
     </div>

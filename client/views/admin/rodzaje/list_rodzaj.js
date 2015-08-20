@@ -1,3 +1,4 @@
+// TO DO czy potrzebne? Do usunięcia!!! widok też bo lista rodzajow jest w kategoryzacji
 Template.listRodzaj.rendered = function () {
 };
 
