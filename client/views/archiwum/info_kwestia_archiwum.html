@@ -1,11 +1,13 @@
 <template name="informacjeKwestiaArchiwum">
     <div class="main">
         <h3>Informacje o Kwestii</h3>
-
-        <div class="pull-right">
-        </div>
-        <div class="clearfix"></div>
         <hr/>
+        <div class="form-group">
+            <a href="{{pathFor 'archiwum'}}" id="backToList" class="btn btn-primary">
+                <i class="fa fa-arrow-left"></i> Powrót
+            </a>
+        </div>
+
         <table class="table table-bordered manageTable">
             <tr>
                 <td><strong> Data wprowadzenia</strong></td>
@@ -17,19 +19,19 @@
             </tr>
             <tr>
                 <td><strong> Priorytet</strong></td>
-                <td>{{priorytet}}</td>
+                <td>{{wartoscPriorytetu}}</td>
             </tr>
             <tr>
                 <td><strong> Temat</strong></td>
-                <td>{{tematNazwa.nazwaTemat}}</td>
+                <td>{{getNazwaTemat idTemat}}</td>
             </tr>
             <tr>
                 <td><strong> Rodzaj</strong></td>
-                <td>{{rodzajNazwa.nazwaRodzaj}}</td>
+                <td>{{getNazwaRodzaj idRodzaj}}</td>
             </tr>
             <tr>
                 <td><strong> Data głosowania</strong></td>
-                <td>{{dateG}}</td>
+                <td>{{dataGlosowania}}</td>
             </tr>
             <tr>
                 <td><strong> Historia</strong></td>
@@ -58,10 +60,6 @@
                 <td>{{historiaDyskusji}}</td>
             </tr>
         </table>
-        <hr/>
-        <div class="form-group">
-            <input type="reset" id="backToList" class="btn btn-default backToList" value="Powrót">
-        </div>
-        {{> priorytetKwestiaModal}}
+        <!--{{> priorytetKwestiaModal}}-->
     </div>
 </template>

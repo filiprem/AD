@@ -5,9 +5,6 @@
                 <div class="col-md-12">
                     <h3 class="pull-lef">Archiwum</h3>
                     <hr />
-                    <button id="backToList" class="btn btn-primary">
-                        <span class="fa fa-arrow-left"></span> Powrót
-                    </button>
                 </div>
             </div>
             <div class="row">
@@ -29,10 +26,21 @@
 </template>
 
 <template name="editColumnKwestiaArch">
-    <a href="{{pathFor 'proceduraPrzywracania'}}" class="glyphicon glyphicon-repeat"
-       title="Procedura przywracania Kwestii"></a>
+    <div class="pull-right">
+        <a href="#" class="btn btn-xs btn-default" data-toggle="tooltip" title="Procedura przywracania Kwestii">
+            <i class="fa fa-refresh"></i> Przywróć
+        </a>
+    </div>
 </template>
 
-<template name="nazwaKwestiArchiwumLink">
+<template name="nazwaKwestiiArchiwumLink">
     <a href="{{ pathFor 'informacjeKwestiaArchiwum'}}" id="kwestiaId" class="kwestiaId">{{this.kwestiaNazwa}}</a>
+</template>
+
+<template name="tematKwestiiArchiwum">
+    {{getTemat idTemat}}
+</template>
+
+<template name="rodzajKwestiiArchiwum">
+    {{getRodzaj idRodzaj}}
 </template>

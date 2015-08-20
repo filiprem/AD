@@ -4,11 +4,15 @@ Template.informacjeKwestiaArchiwum.helpers({
         var tab = Kwestia.findOne(currentKwestiaId);
         return tab;
     },
-    tematNazwa: function(){
-        return Temat.findOne({_id: this.idTemat});
+    getNazwaTemat: function(id){
+        console.log(id);
+        var item = Temat.findOne({_id: id});
+        return !!item && !!item.nazwaTemat ? item.nazwaTemat: id;
     },
-    rodzajNazwa: function(){
-        return Rodzaj.findOne({_id: this.idRodzaj});
+    getNazwaRodzaj: function(id){
+        console.log(id);
+        var item = Rodzaj.findOne({_id: id});
+        return !!item && !!item.nazwaRodzaj ? item.nazwaRodzaj: id;
     },
     date: function () {
         var d = this.dataWprowadzenia;
@@ -23,9 +27,3 @@ Template.informacjeKwestiaArchiwum.helpers({
         }
     }
 });
-
-Template.informacjeKwestiaArchiwum.events({
-    'click #backToList': function(e){
-        Router.go('archiwum');
-    }
-})
