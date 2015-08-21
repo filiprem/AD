@@ -13,6 +13,41 @@ Template.archiwum.events({
     },
     'click .glyphicon-info-sign': function (event, template) {
         Session.set('kwestiaInScope', this);
+    },
+    'click #kwestiaIdClick':function(){//nadajemy priorytet automatycznie po wejściu na kwestię + dajemy punkty
+        var kwestia=Kwestia.findOne({_id:this._id});
+        var tabGlosujacy=getAllUsersWhoVoted(kwestia._id);
+        if(!_.contains(tabGlosujacy,Meteor.userId())){//jeżeli użytkownik jeszcze nie głosował
+            var glosujacy = {
+                idUser: Meteor.userId(),
+                value: 0
+            };
+            var voters=kwestia.glosujacy.slice();
+            voters.push(glosujacy);
+            Meteor.call('setGlosujacyTab', kwestia._id, voters, function (error, ret) {
+                if (error) {
+                    if (typeof Errors === "undefined")
+                        Log.error('Error: ' + error.reason);
+                    else
+                        throwError(error.reason);
+                }
+            });
+            //dodanie pkt za głosowanie
+            var newValue = 0;
+            var pktAddPriorytet = Parametr.findOne({});
+            newValue = Number(pktAddPriorytet.pktNadaniePriorytetu) + getUserRadkingValue(Meteor.userId());
+
+            Meteor.call('updateUserRanking', Meteor.userId(), newValue, function (error) {
+                if (error) {
+                    if (typeof Errors === "undefined")
+                        Log.error('Error: ' + error.reason);
+                    else {
+                        throwError(error.reason);
+                    }
+                }
+            });
+        }
+
     }
 });
 Template.archiwum.helpers({
@@ -73,13 +108,11 @@ Template.archiwum.helpers({
     },
     'ArchiwumListCount':function(){
         var count =  Kwestia.find({
-            $or: [{czyAktywny: false}, {
-                $and: [{dataGlosowania: {$lt: moment().format()}}, {
-                    $where: function () {
-                        return this.wartoscPriorytetu <=0
-                    }
-                }]
-            }]
+            $or: [
+                {czyAktywny: false},
+                {$and: [{dataGlosowania: {$lt: moment().format()}}, {$where: function () {return this.wartoscPriorytetu <=0}}]},
+                {status:KWESTIA_STATUS.ARCHIWALNA}
+            ]
         }).count();
         return count>0 ? true : false;
     },
@@ -94,9 +127,6 @@ Template.archiwum.helpers({
     },
     rodzajNazwa: function () {
         return Rodzaj.findOne({_id: this.idRodzaj});
-    },
-    getWymaganyPriorytet: function (id) {
-        return 50;
     }
 });
 

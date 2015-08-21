@@ -68,5 +68,5 @@ Meteor.methods({
     updateWartoscPriorytetu: function (id, obj) {
         var id = Kwestia.update(id,{$set: {wartoscPriorytetu:  obj}}, {upsert: true});
         return id;
-    },
+    }
 });
