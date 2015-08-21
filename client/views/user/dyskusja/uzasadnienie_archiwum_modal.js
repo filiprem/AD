@@ -43,7 +43,7 @@ Template.uzasadnienieArchiwumModal.events({
                     }
                     else {
                         var wiadomosc = uzasadnienie;
-                        var idKwestia = Session.get("idKwestia");
+                        var idKwestia = Session.get("idkwestiiArchiwum");
                         var idParent = ret;
                         var idUser = Meteor.userId();
                         var addDate = new Date();
@@ -90,6 +90,7 @@ Template.uzasadnienieArchiwumModal.events({
                         });
                         document.getElementById("message").value = "";
                         $("#uzasadnijWyborArchiwum").modal("hide");
+                        Session.set("idkwestiiArchiwum", null);
                         $('html, body').animate({
                             scrollTop: $(".doArchiwumClass").offset().top
                         }, 600);

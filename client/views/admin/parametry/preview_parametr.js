@@ -25,7 +25,8 @@ Template.previewParametr.events({
                 pktWycofanieKwestiiDoArchiwum: params.pktWycofanieKwestiiDoArchiwum,
                 pktWycofanieKwestiiDoKosza: params.pktWycofanieKwestiiDoKosza,
                 pktWyjscieZZespoluRealizacyjnego: params.pktWyjscieZZespoluRealizacyjnego,
-                pktBrakUdzialuWGlosowaniu: params.pktBrakUdzialuWGlosowaniu
+                pktBrakUdzialuWGlosowaniu: params.pktBrakUdzialuWGlosowaniu,
+                okresSledzeniaWatkuPrzenoszacego:params.okresSledzeniaWatkuPrzenoszacego
             };
 
         Meteor.call('updateParametr',params._id, updateParam, function (error) {

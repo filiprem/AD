@@ -109,6 +109,26 @@ _.extend(Roles, {
     }
   },
 
+  deleteSubRole: function (subRole) {
+    if (!subRole) return
+
+    Meteor.roles.update({}, {$pull: {"subRoles": {$in: [subRole]}}}, {multi: true})
+  },
+
+  deleteSubRoleFormRole: function (role, subRole) {
+    if (!role || !subRole) return
+
+    Meteor.roles.update({name: role}, {$pull: {"subRoles": {$in: [subRole]}}})
+  },
+
+  addSubRoleToRole: function (role, subRole) {
+    Meteor.roles.update({name: role}, {$push: {"subRoles": subRole}})
+
+  },
+
+  addRolesToUsers: function (user, roles) {
+    Meteor.users.update({name: user}, {$push: {"roles": roles}});
+  },
   /**
    * Add users to roles. Will create roles as needed.
    *
@@ -481,7 +501,44 @@ _.extend(Roles, {
     }
 
     return Meteor.users.find(query)
-  },  // end getUsersInRole 
+  },  // end getUsersInRole
+
+  getUsersWithPermissions: function (permissions, query, options) {
+    var roles;
+
+    if (!_.isArray(permissions)) permissions = [permissions];
+
+    roles = _.map(Meteor.roles.find({subRoles: {$in: permissions}}).fetch(), function (e) {
+      return e.name;
+    });
+    return this.getUsersInRole(roles, query, options);
+  },
+
+  getUserIfHasPermission: function (permission, userId) {
+    var result;
+    var user = null;
+    if (_.isObject(userId)) {
+      user = userId
+    }
+    else if (_.isString(userId)) {
+      user = Meteor.users.findOne({_id: userId});
+    }
+    else {
+      user = Meteor.users.findOne({_id: this.userId});
+    }
+
+    if (!user)
+      return false;
+
+    var rolesToSearch = _.keys(user.roles || {});
+
+    if (_.isString(permission))
+      permission = [permission];
+
+    result = Meteor.roles.findOne({name: {$in: rolesToSearch}, subRoles: {$in: permission}});
+
+    if (!!result) return user; else return null;
+  },
   
   /**
    * Retrieve users groups, if any

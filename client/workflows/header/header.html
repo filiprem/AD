@@ -6,6 +6,7 @@
         </div>
         <div id="navbar-collapse" class="navbar-collapse collapse">
             {{#if currentUser}}
+                {{#if hasUserAccess}}
                 <ul class="nav navbar-nav">
                     <li class="{{activeRouteClass 'listKwestia'}}">
                         <a href="{{pathFor 'listKwestia'}}">
@@ -40,6 +41,7 @@
                         </li>
                     {{/unless}}
                 </ul>
+                {{/if}}
             {{/if}}
             <ul class="nav navbar-nav navbar-right">
                 {{#if currentUser}}
