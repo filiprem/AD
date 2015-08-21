@@ -1,7 +1,3 @@
-Template.informacjeKwestiaArchiwum.rendered = function () {
-};
-Template.informacjeKwestiaArchiwum.created = function () {
-};
 Template.informacjeKwestiaArchiwum.events({
     'click #wyczyscPriorytety': function() {
         var me = Meteor.userId();
@@ -149,13 +145,7 @@ Template.informacjeKwestiaArchiwum.helpers({
         else return false;
     },
     isAdmin: function () {
-        if (Meteor.user().roles) {
-            if (Meteor.user().roles == "admin")
-                return true;
-            else
-                return false;
-        }
-        else return false;
+        return IsAdminUser();
     },
     opcje: function () {
         var kwestiaGlownaId = Session.get("idKwestia");
@@ -219,16 +209,15 @@ Template.informacjeKwestiaArchiwum.helpers({
         return Rodzaj.findOne({_id: this.idRodzaj});
     },
     date: function () {
-        var d = this.dataWprowadzenia;
-        if (d) return moment(d).format("DD-MM-YYYY, HH:mm");
+        if (this.dataWprowadzenia)
+            return moment(d).format("DD-MM-YYYY, HH:mm");
     },
     dateG: function () {
-        var d = this.dataGlosowania;
-        if (d) return moment(d).format("DD-MM-YYYY, HH:mm");
+        if(this.dataGlosowania)
+            return moment(d).format("DD-MM-YYYY, HH:mm");
     },
     dataGlosowaniaObliczana: function () {
         var dataG = this.dataGlosowania;
-        var rodzajId = this.idRodzaj;
         var r = Rodzaj.findOne({_id: this.idRodzaj});
         if (r) {
             var czasGlRodzaj = r.czasGlosowania;
@@ -238,45 +227,29 @@ Template.informacjeKwestiaArchiwum.helpers({
     },
     isSelected: function( number) {
         var flag=false;
-        var currentKwestiaId = Session.get("idKwestia");
-        var kwestie = Kwestia.find({'glosujacy.idUser': Meteor.userId(),idParent:currentKwestiaId }).fetch();
+        var kwestie = Kwestia.find({'glosujacy.idUser': Meteor.userId(),idParent:Template.instance().data._id });
         kwestie.forEach(function (kwestia) {
-            var array = [];
-            var tabGlosujacych = kwestia.glosujacy;
-            for (var j = 0; j < tabGlosujacych.length; j++) {
-                if(tabGlosujacych[j].idUser==Meteor.userId()){
-                    if(tabGlosujacych[j].value==number){
-                        flag=true;
-                    }
-                }
-
-            }
+            _.each(kwestia.glosujacy,function(item){
+                if(item.idUser == Meteor.userId() && item.value == number)
+                    flag=true;
+            });
         });
-        if(flag==true)
-            return "disabled";
-        else
-            return "";
+
+        return flag ? "disabled" : "";
     },
     isAvailable:function(){
         var i=0;
-        var currentKwestiaId = Session.get("idKwestia");
-        var kwestie = Kwestia.find({'glosujacy.idUser': Meteor.userId(),idParent:currentKwestiaId }).fetch();
+        var kwestie = Kwestia.find({'glosujacy.idUser': Meteor.userId(),idParent:Template.instance().data._id }).fetch();
         var globalCounter=0;
         kwestie.forEach(function (kwestia) {
-            var array = [];
-            var tabGlosujacych = kwestia.glosujacy;
-            for (var j = 0; j < tabGlosujacych.length; j++) {
-                if(tabGlosujacych[j].idUser==Meteor.userId()){
+            _.each(kwestia.glosujacy,function(item){
+                if(item.idUser == Meteor.userId()){
                     globalCounter+=1;
-                    if(tabGlosujacych[j].value==0){
+                    if(item.value==0)
                         i=i+1;
-                    }
                 }
-            }
+            });
         });
-        if(i==globalCounter)
-            return "disabled";
-        else
-            return "";
+        return i==globalCounter ? "disabled" : "";
     }
 });
