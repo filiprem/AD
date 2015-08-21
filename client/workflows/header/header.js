@@ -35,18 +35,19 @@ Template.header.helpers({
         else return false;
     },
     hasUserAccess:function(){
-        if(IsAdminUser()==true)
-            return true;
-        else {
-            var users = Users.find({
-                $where: function () {
-                    return (this.roles == 'user');
-                }
-            });
-            if (users.count() > 4)
-                return true;
-            else return false;
-        }
+        //if(IsAdminUser()==true)
+        //    return true;
+        //else {
+        //    var users = Users.find({
+        //        $where: function () {
+        //            return (this.roles == 'user');
+        //        }
+        //    });
+        //    if (users.count() > 4)
+        //        return true;
+        //    else return false;
+        //}
+        return true;
     }
 });
 
