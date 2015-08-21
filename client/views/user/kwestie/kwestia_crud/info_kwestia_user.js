@@ -7,7 +7,6 @@ Template.informacjeKwestia.events({
         var me = Meteor.userId();
         var currentKwestiaId = Session.get("idKwestia");
         var kwestie = Kwestia.find({'glosujacy.idUser': me,idParent:currentKwestiaId }).fetch()
-        console.log(Kwestia.find({'glosujacy.idUser': me,idParent:currentKwestiaId }).count());
         if(Kwestia.find({'glosujacy.idUser': me,idParent:currentKwestiaId }).count()==0){//zmienic,czy wszedzie są zero!
             throwError("Nie nadałeś priorytetu tej kwestii, ani jej opcjom");
             //sprawdzić czy sa zzero->jak zero,to tez nie updatujemy na darmo!
@@ -23,12 +22,10 @@ Template.informacjeKwestia.events({
                         callback: function () {
                             var tabWlascicieliKwestii=[];
                             kwestie.forEach(function (kwestia) {//dla wszystkich kwestii,w kótrech ja głosowałam
-                                console.log("id kwestii " + kwestia._id);
                                 var array = [];
                                 var wartoscPriorytetu = parseInt(kwestia.wartoscPriorytetu);
                                 var flag2=false;
                                 var tabGlosujacych = kwestia.glosujacy;
-                                console.log("Liczba glosujacych :" + tabGlosujacych.length);//+update wartosci priorytetu!!
                                 for (var j = 0; j < tabGlosujacych.length; j++) {
                                     var idUser = tabGlosujacych[j].idUser;
                                     var value = 0;
@@ -57,7 +54,6 @@ Template.informacjeKwestia.events({
                                                 newRanking: actualValue - givenPriorytet
                                             };
                                             tabWlascicieliKwestii.push(object);
-                                            console.log("Obiekt tablicy: " + object.kwestiaOwner+", new Ranking: "+object.newRanking+", wielkosc tablicy: "+tabWlascicieliKwestii.length);
                                         }
                                     }
                                     else {
@@ -90,8 +86,6 @@ Template.informacjeKwestia.events({
                                 });
                             });
                             tabWlascicieliKwestii.forEach(function(kwestiaOwner){
-                                console.log("KWESTIA USER: "+kwestiaOwner.kwestiaOwner);
-                                console.log("KWESTIA RANKING: "+kwestiaOwner.newRanking);
                                 Meteor.call('updateUserRanking', kwestiaOwner.kwestiaOwner,kwestiaOwner.newRanking, function (error, ret) {
                                     if (error) {
                                         if (typeof Errors === "undefined")
@@ -141,7 +135,7 @@ Template.informacjeKwestia.events({
     'click #doKosza': function (e) {
         e.preventDefault();
         var idKw = this._id;
-        Session.set("idkwestiiKosz", this._id)
+        Session.set("idkwestiiKosz", this._id);
         var z = Posts.findOne({idKwestia: idKw, postType: "kosz"});
         if (z) {
             $('html, body').animate({
@@ -156,7 +150,6 @@ Template.informacjeKwestia.events({
         var aktualnaKwestiaId = Session.set("idK", this._id);
         var u = Meteor.userId();
         var ratingValue = parseInt(e.target.value);
-        console.log("Rating value"+ ratingValue);
         var ratingKwestiaId = this._id;
         var kwestia = Kwestia.findOne({_id: ratingKwestiaId});
         var parent = this.idParent;
@@ -165,7 +158,6 @@ Template.informacjeKwestia.events({
         var glosujacy = kwestia.glosujacy;
         var glosujacyTab = kwestia.glosujacy.slice();
         var wartoscPriorytetu = parseInt(kwestia.wartoscPriorytetu);
-        console.log("WARTO")
         var object = {
             idUser: Meteor.userId(),
             value: ratingValue
@@ -173,15 +165,10 @@ Template.informacjeKwestia.events({
         var flag = false;
         for (var i = 0; i < kwestieOpcje.length; i++) {//dla kwestii opcji- z trgo chyba juz nie korzystamy!!
             for (var j = 0; j < kwestieOpcje[i].glosujacy.length; j++) {//przechodizmy po kazdych użytkownikach,ktory zagloswoali
-                console.log("GLOSUJACY[j]");
-                console.log(kwestieOpcje[i].glosujacy[j]);
                 var user = kwestieOpcje[i].glosujacy[j].idUser;
-                console.log("USER idUser");
-                console.log(user);
                 var oddanyGlos = kwestieOpcje[i].glosujacy[j].value;
                 if (user == Meteor.userId()) {
                     if (oddanyGlos == ratingValue) {
-                        //throwError("Nadałeś już priorytet o tej wadze innej Kwestii!")
                         return false;
                     }
                 }
@@ -190,8 +177,6 @@ Template.informacjeKwestia.events({
         var oldValue=0;
         for (var i = 0; i < kwestia.glosujacy.length; i++) {
             if (kwestia.glosujacy[i].idUser === Meteor.userId()) {
-                console.log("Ostatnio nadałeś priorytet: " +glosujacyTab[i].value);
-                console.log("Nowy,który dałeś: "+ratingValue);
                 flag = false;
                 oldValue=glosujacyTab[i].value;
 
@@ -215,12 +200,7 @@ Template.informacjeKwestia.events({
             else {
                 var newValue = 0;
                 var kwestiaOwner=kwestia.idUser;
-                console.log("Właściciel kwestii: "+kwestiaOwner);
-                console.log("Właściciel ma pkt: "+getUserRadkingValue(kwestiaOwner));
-                console.log("Taka dodamy: "+ratingValue);
-                console.log("Taka odejmiemy: "+oldValue);
                 newValue = ratingValue + getUserRadkingValue(kwestiaOwner)- oldValue;
-                console.log("Nowa wartosc dla właściciela kwestii: "+newValue);
                 Meteor.call('updateUserRanking', kwestiaOwner, newValue, function (error) {
                     if (error) {
                         if (typeof Errors === "undefined")

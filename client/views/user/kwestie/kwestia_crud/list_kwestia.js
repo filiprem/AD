@@ -36,9 +36,7 @@ Template.listKwestia.events({
             'Kwestia w sprawie...', 'Uchwała', 'Opis Kwestii....', 'linkDK', 'linkLoginTo');
     },
     'click #kwestiaIdClick':function(){//nadajemy priorytet automatycznie po wejściu na kwestię + dajemy punkty
-        console.log(this._id);
         var kwestia=Kwestia.findOne({_id:this._id});
-        console.log(kwestia);
         var tabGlosujacy=getAllUsersWhoVoted(kwestia._id);
         if(!_.contains(tabGlosujacy,Meteor.userId())){//jeżeli użytkownik jeszcze nie głosował
             var glosujacy = {

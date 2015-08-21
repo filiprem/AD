@@ -5,12 +5,10 @@ Template.informacjeKwestiaArchiwum.helpers({
         return tab;
     },
     getNazwaTemat: function(id){
-        console.log(id);
         var item = Temat.findOne({_id: id});
         return !!item && !!item.nazwaTemat ? item.nazwaTemat: id;
     },
     getNazwaRodzaj: function(id){
-        console.log(id);
         var item = Rodzaj.findOne({_id: id});
         return !!item && !!item.nazwaRodzaj ? item.nazwaRodzaj: id;
     },

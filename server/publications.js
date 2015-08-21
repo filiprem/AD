@@ -103,7 +103,7 @@ Meteor.publish('pagesInfoByLang', function(routeName) {
 Meteor.startup(function () {
     //Subroles.remove({});
     var permissions = [
-        //uzytkownicy
+        //uzytkownicy 10
         {name: "manage-my-account", description: "Zarządzanie swoim profilem"},
         {name: "edit-my-profile", description: "Edycja mojego profilu"},
         {name: "manage-all-profiles", description: "Zarządzanie wszystkimi profilami użytkowników"},
@@ -115,17 +115,17 @@ Meteor.startup(function () {
         {name: "add-role-permission", description: "Możliwość dodania roli"},
         {name: "add-subrole-permission", description: "Możliwość dodania uprawnienia"},
 
-        //rodzaje
+        //rodzaje 3
         {name: "manage-all-rodzaje", description: "Zarządzanie rodzajami"},
         {name: "add-rodzaj", description: "Możliwość dodania rodzaju"},
         {name: "edit-rodzaj", description: "Możliwość edycji rodzaju"},
 
-        //tematy
+        //tematy 3
         {name: "manage-all-tematy", description: "Zarządzanie tematami"},
         {name: "add-temat", description: "Możliwość dodania tematu"},
         {name: "edit-temat", description: "Możliwość edycji tematu"},
 
-        //kwestie
+        //kwestie 17
         {name: "manage-kwestia-list", description: "Zarządzanie Wykazem Kwestii"},
         {name: "can-vote-kwestia", description: "Możliwość nadawania priorytetu Kwestii"},
         {name: "can-vote-post", description: "Możliwość głosowania na posty w dyskusjii Kwestii"},
@@ -144,25 +144,28 @@ Meteor.startup(function () {
         {name: "can-add-post", description: "Możliwość dodania posta - dyskusja"},
         {name: "can-add-answer", description: "Możliwość dodania odpowiedzi do posta - dyskusja"},
 
-        //parametry
+        //parametry 4
         {name: "manage-all-parametry", description: "Zarządzanie parametrami"},
         {name: "add-parametr", description: "Możliwość dodania parametru"},
         {name: "edit-parametr", description: "Możliwość edycji parametru"},
         {name: "preview-parametr", description: "Możliwość podglądu parametru"},
 
-        //raporty
+        //raporty 2
         {name: "manage-all-raporty", description: "Zarządzanie raportami"},
         {name: "add-raport", description: "Możliwość dodania raportu"},
 
-        //języki
+        //języki 3
         {name: "manage-all-languages", description: "Zarządzanie językami"},
         {name: "add-language", description: "Możliwość dodania języka"},
         {name: "edit-language", description: "Możliwość edycji języka"}
     ];
 
-    _.each(permissions, function (e) {
-        var s = Subroles.insert({name: e.name, description: e.description});
-    });
+    if(Subroles.find({}).count()==0){
+        _.each(permissions, function (e) {
+            var s = Subroles.insert({name: e.name, description: e.description});
+        });
+    }
+
     var globalParameters=[
         {
             "nazwaOrganizacji": "Aktywna Demokracja",

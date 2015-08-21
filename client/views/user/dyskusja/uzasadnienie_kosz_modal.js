@@ -43,7 +43,7 @@ Template.uzasadnienieKoszModal.events({
                     }
                     else {
                         var wiadomosc = uzasadnienie;
-                        var idKwestia = Session.get("idKwestia");
+                        var idKwestia = Session.get("idkwestiiKosz");
                         var idParent = ret;
                         var idUser = Meteor.userId();
                         var addDate = new Date();
@@ -90,6 +90,7 @@ Template.uzasadnienieKoszModal.events({
                         });
                         document.getElementById("message").value = "";
                         $("#uzasadnijWyborKosz").modal("hide");
+                        Session.set("idkwestiiKosz", null);
                         $('html, body').animate({
                             scrollTop: $(".doKoszaClass").offset().top
                         }, 600);
