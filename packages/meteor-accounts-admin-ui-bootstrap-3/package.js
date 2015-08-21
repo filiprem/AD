@@ -27,5 +27,4 @@ Package.on_use(function (api, where) {
 
 	api.add_files('server/startup.js', 'server');
 	api.add_files('server/publish.js', 'server');
-	api.add_files('server/methods.js', 'server');
 });
