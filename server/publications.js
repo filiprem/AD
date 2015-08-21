@@ -1,17 +1,13 @@
-Meteor.publish('rodzaje', function () {
-    return Rodzaj.find();
-});
-
-Meteor.publish('rodzaj', function (id) {
-    return Rodzaj.find({_id: id});
-});
 //TO DO zbadac gdzie są subskrypcje i używac jednej publikacji bo robia to samo
+
+// USERS
+
 Meteor.publish("allUserData", function () {
     return Meteor.users.find({});
 });
 
 Meteor.publish('users', function () {
-    return Users.find();
+    return Users.find({});
 });
 
 Meteor.publish(null, function () {
@@ -22,9 +18,17 @@ Meteor.publish('subroles', function () {
     return Subroles.find({});
 })
 
-Meteor.publish('parametr', function () {
-    return Parametr.find({});
+// RODZAJE
+
+Meteor.publish('rodzaje', function () {
+    return Rodzaj.find({});
 });
+
+Meteor.publish('rodzaj', function (id) {
+    return Rodzaj.find({_id: id});
+});
+
+// TEMATY
 
 Meteor.publish('tematy', function () {
     return Temat.find({});
@@ -34,9 +38,19 @@ Meteor.publish('temat', function (id) {
     return Temat.find({_id: id});
 });
 
+// PARAMETRY
+
+Meteor.publish('parametr', function () {
+    return Parametr.find({});
+});
+
+// RAPORTY
+
 Meteor.publish('raport', function () {
     return Raport.find({});
 });
+
+// KWESTIE
 
 Meteor.publish('kwestie', function () {
     return Kwestia.find({});
@@ -91,6 +105,8 @@ Meteor.publish('kwestieArchiwum', function () {
     });
 });
 
+//POSTS
+
 Meteor.publish('postsByKwestiaId', function (id) {
     return Posts.find({idKwestia: id, czyAktywny: true});
 });
@@ -99,6 +115,8 @@ Meteor.publish('allPosts', function () {
     return Posts.find({czyAktywny: true});
 });
 
+//LANGUAGES
+
 Meteor.publish('languages', function () {
     return Languages.find({czyAktywny: true});
 });
@@ -106,6 +124,8 @@ Meteor.publish('languages', function () {
 Meteor.publish('language', function (id) {
     return Languages.find({_id: id, czyAktywny: true});
 });
+
+//PAGES INFO
 
 Meteor.publish('pagesInfo', function () {
     return PagesInfo.find({czyAktywny: true});
