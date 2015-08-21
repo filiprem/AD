@@ -1,7 +1,6 @@
 Template.loginForm.events({
     'submit form': function(e) {
         e.preventDefault();
-
         var user = {
             login: $(e.target).find('[name=login]').val(),
             password: $(e.target).find('[name=password]').val()
@@ -13,6 +12,7 @@ Template.loginForm.events({
                     throwError('Niepoprawne dane logowania.');
                 } else {
                     if(Meteor.loggingIn()) {
+
                         Router.go('home');
                     }
                 }

@@ -16,6 +16,7 @@ Meteor.methods({
             pktWycofanieKwestiiDoKosza: newParametr[0].pktWycofanieKwestiiDoKosza,
             pktWyjscieZZespoluRealizacyjnego: newParametr[0].pktWyjscieZZespoluRealizacyjnego,
             pktBrakUdzialuWGlosowaniu: newParametr[0].pktBrakUdzialuWGlosowaniu,
+            okresSledzeniaWatkuPrzenoszacego:newParametr[0].okresSledzeniaWatkuPrzenoszacego
         });
     },
     updateParametr: function(id, parametr){
