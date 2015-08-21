@@ -119,7 +119,7 @@ Template.listKwestia.helpers({
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
                         title: "Data zakończenia głosowania",
-                        text: "Finał"
+                        text: "Kworum"
                     },
                     tmpl: Template.dataGlKwestia
                 }
