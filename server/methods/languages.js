@@ -1,11 +1,12 @@
 Meteor.methods({
     addLanguage: function (item) {
-        Languages.insert({
-            languageName: item[0].languageName,
-            shortName: item[0].shortName,
-            isEnabled:item[0].isEnabled,
-            czyAktywny: item[0].czyAktywny
+        var id = Languages.insert({
+            languageName: item.languageName,
+            shortName: item.shortName,
+            isEnabled:item.isEnabled,
+            czyAktywny: item.czyAktywny
         });
+        return id;
     },
     updateLanguage: function (id, item) {
         Languages.update(id, {$set: {languageName:item.languageName,shortName:item.shortName}}, {upsert: true});
