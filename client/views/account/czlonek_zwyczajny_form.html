@@ -1,0 +1,126 @@
+<template name="czlonekZwyczajnyForm">
+    <div class="main">
+        <h3>Aplikuj na członka zwyczajnego</h3>
+        <hr/>
+        <div class="row">
+            <div class="col col-md-10">
+                <form class="form-horizontal" id="userForm">
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" for="inputEmail">Email: </label>
+
+                        <div class="col-xs-9">
+                            <input name="email" type="email" class="form-control" id="inputEmail" placeholder="Email"
+                                   required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" for="firstName">Imię: </label>
+
+                        <div class="col-xs-9">
+                            <input name="firstName" type="text" class="form-control" id="firstName" placeholder="Imię"
+                                   required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" for="lastName">Nazwisko: </label>
+
+                        <div class="col-xs-9">
+                            <input name="lastName" type="text" class="form-control" id="lastName"
+                                   placeholder="Nazwisko" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" for="profession">Stanowisko: </label>
+
+                        <div class="col-xs-9">
+                            <input name="profession" type="text" class="form-control" id="profession"
+                                   placeholder="Stanowisko" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" for="phoneNumber">Numer tel: </label>
+
+                        <div class="col-xs-9">
+                            <input name="phone" type="tel" class="form-control" id="phoneNumber"
+                                   placeholder="Numer telefonu" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3">Data urodzenia: </label>
+
+                        <div class="col-xs-9">
+                            <div class="input-group datetimepicker col-xs-5" id="dataUrodzeniaDatePicker">
+                                <span class="input-group-addon glyphicon glyphicon-calendar"></span>
+                                <input class="set-due-date form-control" type="text" name="dateOfBirth" required/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" for="postalAddress">Adres: </label>
+
+                        <div class="col-xs-9">
+                            <textarea name="address" rows="3" class="form-control" id="postalAddress"
+                                      placeholder="Adres" required></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" for="ZipCode">Kod pocztowy: </label>
+
+                        <div class="col-xs-9">
+                            <input name="zipCode" type="text" class="form-control" id="ZipCode"
+                                   placeholder="Kod pocztowy" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" for="web">Strona www: </label>
+
+                        <div class="col-xs-9">
+                            <input name="web" type="text" class="form-control" id="web"
+                                   placeholder="WWW">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3">Płeć: </label>
+
+                        <div class="col-xs-2">
+                            <label class="radio-inline">
+                                <input type="radio" name="genderRadios" value="mężczyzna"> Mężczyzna
+                            </label>
+                        </div>
+                        <div class="col-xs-2">
+                            <label class="radio-inline">
+                                <input type="radio" name="genderRadios" value="kobieta"> Kobieta
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" for="uwagiStatus">Uwagi: </label>
+
+                        <div class="col-xs-9">
+                            <textarea name="uwagiStatus" rows="3" class="form-control" id="uwagiStatus"
+                                      placeholder="Uwagi"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3">Język użytkownika: </label>
+
+                        <div class="col-xs-3">
+                            <select name="language" id="language" class="form-control" required>
+                                <option value="pl">polski</option>
+                                <option value="en">angielski</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br/>
+
+                    <div class="form-group">
+                        <div class="col-xs-offset-3 col-xs-9">
+                            <input type="submit" class="btn btn-primary" value="Zapisz">
+                            <input type="reset" class="btn btn-default" value="Anuluj">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</template>

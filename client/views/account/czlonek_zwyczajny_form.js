@@ -1,4 +1,4 @@
-Template.registerForm.rendered = function () {
+Template.czlonekZwyczajnyForm.rendered = function () {
     $('#dataUrodzeniaDatePicker').datetimepicker({
         sideBySide: true,
         format: 'DD/MM/YYYY'
@@ -33,12 +33,20 @@ Template.registerForm.rendered = function () {
             lastName: {
                 required: fieldEmptyMesssage()
             },
-            password: {
-                required: fieldEmptyMesssage(),
-                minlength: minLengthMessage(6)
+            profession:{
+                required:fieldEmptyMesssage()
             },
-            confirmPassword: {
-                equalTo: equalToMessage()
+            phone:{
+                required:fieldEmptyMesssage()
+            },
+            dateOfBirth:{
+                required:fieldEmptyMesssage()
+            },
+            address:{
+                required:fieldEmptyMesssage()
+            },
+            zipCode:{
+                required:fieldEmptyMesssage()
             }
         },
         highlight: function (element) {
@@ -55,10 +63,10 @@ Template.registerForm.rendered = function () {
     })
 };
 
-Template.registerForm.events({
+Template.czlonekZwyczajnyForm.events({
     'submit form': function (e) {
         e.preventDefault();
-        // uzupe≈Çnienie tymczasowej tablicy danymi z formularza
+        // uzupe≥nienie tymczasowej tablicy danymi z formularza
         var newUser = [
             {
                 email: $(e.target).find('[name=email]').val(),
@@ -77,45 +85,45 @@ Template.registerForm.events({
                 role: 'admin',
                 roleDesc: $(e.target).find('[name=uwagiStatus]').val(),
                 rADking: 0,
-                language: $(e.target).find('[name=language]').val(),
-                userType:USERTYPE.CZLONEK
+                //roleDesc: $(e.target).find('[name=uwagiStatus]').val(),
+                language: $(e.target).find('[name=language]').val()
             }];
-        //-- generowanie loginu dla u≈ºytkownika
+        //-- generowanie loginu dla uøytkownika
         newUser[0].login = generateLogin(newUser[0].firstName, newUser[0].lastName);
-        Meteor.call('addUser', newUser, function (error) {
-            if (error) {
-                // optionally use a meteor errors package
-                if (typeof Errors === "undefined")
-                    Log.error('Error: ' + error.reason);
-                else {
-                    //if(error.error === 409)
-                    throwError(error.reason);
-                }
-            }
-            else {//je≈ºeli poprawne dane
-                Meteor.loginWithPassword(newUser[0].login, newUser[0].password, function(err) {
-                    if (err) {
-                        throwError('Niepoprawne dane logowania.');
-                    } else {
-                        if(Meteor.loggingIn()) {
-                            Router.go('home');
-                        }
-                        bootbox.dialog({
-                            message: "Tw√≥j login: "+newUser[0].login,
-                            title: "Witaj "+newUser[0].firstName,
-                            buttons: {
-                                main: {
-                                    label: "Ok",
-                                    className: "btn-primary"
-                                }
-                            }
-                        });
-                    }
-                });
-            }
-        });
+        //Meteor.call('addUser', newUser, function (error) {
+        //    if (error) {
+        //        // optionally use a meteor errors package
+        //        if (typeof Errors === "undefined")
+        //            Log.error('Error: ' + error.reason);
+        //        else {
+        //            //if(error.error === 409)
+        //            throwError(error.reason);
+        //        }
+        //    }
+        //    else {//jeøeli poprawne dane
+        //        Meteor.loginWithPassword(newUser[0].login, newUser[0].password, function(err) {
+        //            if (err) {
+        //                throwError('Niepoprawne dane logowania.');
+        //            } else {
+        //                if(Meteor.loggingIn()) {
+        //                    Router.go('home');
+        //                }
+        //                bootbox.dialog({
+        //                    message: "TwÛj login: "+newUser[0].login,
+        //                    title: "Witaj "+newUser[0].firstName,
+        //                    buttons: {
+        //                        main: {
+        //                            label: "Ok",
+        //                            className: "btn-primary"
+        //                        }
+        //                    }
+        //                });
+        //            }
+        //        });
+        //    }
+        //});
     },
     'reset form': function () {
-        Router.go('listUsers');
+        Router.go('home');
     }
 });

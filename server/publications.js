@@ -13,6 +13,10 @@ Meteor.publish('usersRoles', function(){
     return Users.find({},{fields:{'roles':1}});
 });
 
+Meteor.publish('usersDraft', function () {
+    return Users.find({});
+});
+
 Meteor.publish(null, function (){
     return Meteor.roles.find({})
 });

@@ -42,23 +42,35 @@
                         </li>
                     {{/unless}}
                     {{/if}}
-
+                </ul>
                     {{#unless currentUser}}
-                        <ul class=" navbar-right">
-                        <li class="{{activeRouteClass 'login_form'}}">
-                            <a href="{{pathFor 'login_form'}}">
-                                <i class="fa fa-sign-in"></i> Zaloguj się
-                            </a>
-                        </li>
-                        <!--jezeli nie ma 5,to rejestracja,jezeli jest, to aplikacja-->
-                        <li class="{{activeRouteClass 'register_form'}}">
-                            <a href="{{pathFor 'register_form'}}">
-                                <i class="fa fa-registered"></i> Zarejestruj się
-                            </a>
-                        </li>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="{{activeRouteClass 'login_form'}}">
+                                <a href="{{pathFor 'login_form'}}">
+                                    <i class="fa fa-sign-in"></i> Zaloguj się
+                                </a>
+                            </li>
+                            {{#if lessThanFiveUsers}}
+                                <li class="{{activeRouteClass 'register_form'}}">
+                                    <a href="{{pathFor 'register_form'}}">
+                                        <i class="fa fa-registered"></i> Zarejestruj się
+                                    </a>
+                                </li>
+                            {{else}}
+                                <li>
+                                    <a id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        <i class="fa fa-male"></i> Aplikuj
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                        <li><a href="{{pathFor 'czlonek_zwyczajny_form'}}">Członek zwyczajny</a></li>
+                                        <li><a href="{{pathFor 'doradca_form'}}">Doradca</a></li>
+                                    </ul>
+                                </li>
+                            {{/if}}
                         </ul>
                     {{/unless}}
-                </ul>
+
                 {{/if}}
             <!--{{/if}}-->
             <ul class="nav navbar-nav navbar-right">
