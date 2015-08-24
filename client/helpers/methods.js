@@ -164,7 +164,7 @@ getUpdateKwestiaRatingObject = function(ratingValue,object){
         glosujacy: glosujacyTab
     }];
 
-    return kwestiaUpdate
+    return kwestiaUpdate;
 };
 
 getOldValueOfUserVote = function(ratingValue,object){
