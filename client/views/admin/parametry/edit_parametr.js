@@ -66,7 +66,7 @@ Template.editParametry.rendered = function () {
                 required: fieldEmptyMessage()
             },
             okresSledzeniaWatkuPrzenoszacego:{
-                required:fieldEmptyMesssage()
+                required:fieldEmptyMessage()
             }
         },
         highlight: function (element) {
@@ -148,6 +148,14 @@ Template.editParametry.events({
         if(brakUdzWGlos!=parameter.pktBrakUdzialuWGlosowaniu){
             tab.push(setParamInfo("BRAK UDZIAŁU W GŁOSOWANIU",parameter.pktBrakUdzialuWGlosowaniu,brakUdzWGlos));
         }
+        var rodzCzasDysk=$(e.target).find('[name=rodzajCzasDyskusji]').val();
+        if(rodzCzasDysk!=parameter.rodzajCzasDyskusji){
+            tab.push(setParamInfo("DOMYŚLNY CZAS DYSKUSJI",parameter.rodzajCzasDyskusji, rodzCzasDysk));
+        }
+        var rodzCzasGlos=$(e.target).find('[name=rodzajCzasGlosowania]').val();
+        if(rodzCzasDysk!=parameter.rodzajCzasGlosowania){
+            tab.push(setParamInfo("DOMYŚLNY CZAS GŁOSOWANIA",parameter.rodzajCzasGlosowania, rodzCzasGlos));
+        }
         var okrSledzeniaWatku=$(e.target).find('[name=okresSledzeniaWatkuPrzenoszacego]').val();
         if(okrSledzeniaWatku!=parameter.okresSledzeniaWatkuPrzenoszacego){
             tab.push(setParamInfo("OKRES ŚLEDZENIA WĄTKU PRZENOSZĄCEGO",parameter.okresSledzeniaWatkuPrzenoszacego,okrSledzeniaWatku));
@@ -172,6 +180,8 @@ Template.editParametry.events({
                 pktWycofanieKwestiiDoKosza: parseInt(wycofanieKwDoKosza),
                 pktWyjscieZZespoluRealizacyjnego: parseInt(wyjscieZZesp),
                 pktBrakUdzialuWGlosowaniu: parseInt(brakUdzWGlos),
+                rodzajCzasDyskusji: parseInt(rodzCzasDysk),
+                rodzajCzasGlosowania:parseInt(rodzCzasGlos),
                 okresSledzeniaWatkuPrzenoszacego:parseInt(okrSledzeniaWatku)
             }];
         if(tab.length>0) {
