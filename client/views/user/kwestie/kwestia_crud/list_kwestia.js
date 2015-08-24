@@ -29,21 +29,21 @@ Template.listKwestia.events({
             Session.set("kwestiaPreview", null);
         Router.go("addKwestia");
     },
-    'click #clickMe': function(){
+    'click #clickMe': function () {
         var users = Users.find({}).fetch();
         var en = new EmailNotifications();
         en.registerAddKwestiaNotification('AD', 'Organizacja DOM', users,
             'Kwestia w sprawie...', 'Uchwała', 'Opis Kwestii....', 'linkDK', 'linkLoginTo');
     },
-    'click #kwestiaIdClick':function(){//nadajemy priorytet automatycznie po wejściu na kwestię + dajemy punkty
-        var kwestia=Kwestia.findOne({_id:this._id});
-        var tabGlosujacy=getAllUsersWhoVoted(kwestia._id);
-        if(!_.contains(tabGlosujacy,Meteor.userId())){//jeżeli użytkownik jeszcze nie głosował
+    'click #kwestiaIdClick': function () {//nadajemy priorytet automatycznie po wejściu na kwestię + dajemy punkty
+        var kwestia = Kwestia.findOne({_id: this._id});
+        var tabGlosujacy = getAllUsersWhoVoted(kwestia._id);
+        if (!_.contains(tabGlosujacy, Meteor.userId())) {//jeżeli użytkownik jeszcze nie głosował
             var glosujacy = {
                 idUser: Meteor.userId(),
                 value: 0
             };
-            var voters=kwestia.glosujacy.slice();
+            var voters = kwestia.glosujacy.slice();
             voters.push(glosujacy);
             Meteor.call('setGlosujacyTab', kwestia._id, voters, function (error, ret) {
                 if (error) {
@@ -140,8 +140,15 @@ Template.listKwestia.helpers({
         return IsAdminUser();
     },
     isAdmin: function () {
-        if (Meteor.user().roles == "admin") return true;
-        else return false;
+        if(Meteor.user()){
+            if (Meteor.user().roles) {
+                if (Meteor.user().roles == "admin")
+                    return true;
+                else
+                    return false;
+            }
+            else return false;
+        }
     }
 });
 
@@ -167,19 +174,20 @@ Template.rodzajKwestia.helpers({
 //});
 
 Template.kworumNumber.helpers({//brani są tu użytkownicy,którzy zaglosowali,czy ktorzy są w systemie?
+    // Karolina: myślę, ze wszyscy uzytkownicy bo w funkcji z xml napisane jest, ze bierzemy wszystkich uprawnionych
+    // do glosowania uzytkownikow :)
     date: function () {
-        var usersCount=this.glosujacy.length;
-       // var usersCount=Users.find().count();
-        if(usersCount){
+        //var usersCount = this.glosujacy.length;
+        var usersCount = Users.find({}).count();
+        if (usersCount) {
             var data;
-            var kworum=liczenieKworumZwykle(usersCount);
-            console.log(kworum);
-            if(kworum>= 3){
+            var kworum = liczenieKworumZwykle(usersCount);
+            if (kworum >= 3) {
 
-                data=usersCount.toString()+"/"+kworum.toString();
+                data = usersCount.toString() + " / " + kworum.toString();
             }
-            else{
-                data=usersCount.toString()+"/3";
+            else {
+                data = usersCount.toString() + " / 3";
             }
             return data;
         }
@@ -197,24 +205,32 @@ Template.dataUtwKwestia.helpers({
 Template.priorytetKwestia.helpers({
     priorytet: function () {
         var p = this.wartoscPriorytetu;
-        var searchedId=this._id;
-        var kwe=Kwestia.findOne({_id:this._id});
-        var glosy=kwe.glosujacy.slice();
-        var myGlos;
-        _.each(glosy,function(glos){
-          if(glos.idUser==Meteor.userId()){
-              myGlos=glos.value;
-          }
-        });
         if(p){
-            if(p>0) p="+"+p;
-            if(myGlos){
-                if(myGlos>0) myGlos="+"+myGlos;}
-            else
-                myGlos=0;
-            return myGlos+"/"+p;
+            var searchedId = this._id;
+            var kwe = Kwestia.findOne({_id: this._id});
+            if(kwe){
+                var glosy = kwe.glosujacy.slice();
+                var myGlos;
+                _.each(glosy, function (glos) {
+                    if (glos.idUser == Meteor.userId()) {
+                        myGlos = glos.value;
+                    }
+                });
+                if (p) {
+                    if (p > 0) p = " +" + p;
+                    if (myGlos) {
+                        if (myGlos > 0) myGlos = " +" + myGlos;
+                    }
+                    else
+                        myGlos = 0;
+                    return myGlos + " / " + p;
+                }
+                else return 0;
+            }
         }
-        else return 0;
+        else{
+            return 0;
+        }
     }
 });
 

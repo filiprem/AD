@@ -26,13 +26,15 @@ Template.header.helpers({
         return IsAdminUser();
     },
     isAdmin: function () {
-        if (Meteor.user().roles) {
-            if (Meteor.user().roles == "admin")
-                return true;
-            else
-                return false;
+        if(Meteor.user()){
+            if (Meteor.user().roles) {
+                if (Meteor.user().roles == "admin")
+                    return true;
+                else
+                    return false;
+            }
+            else return false;
         }
-        else return false;
     },
     hasUserAccess:function(){
         //if(IsAdminUser()==true)

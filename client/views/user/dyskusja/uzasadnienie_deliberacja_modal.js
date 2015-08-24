@@ -1,10 +1,10 @@
-Template.uzasadnienieArchiwumModal.events({
-    'click #zatwierdzPrzeniesDoArchiwum': function (e) {
+Template.uzasadnienieDeliberacjaModal.events({
+    'click #zatwierdzPrzeniesDoWK': function (e) {
         e.preventDefault();
-        var uzasadnienie = document.getElementById('uzasadnienieArchiwum').value;
+        var uzasadnienie = document.getElementById('uzasadnienieWK').value;
         if (uzasadnienie) {
-            var message = "Proponuję przenieść tę Kwestię do Archiwum! Dyskusja i siła priorytetu w tym wątku o tym zdecyduje.";
-            var idKwestia = Session.get("idkwestiiArchiwum");
+            var message = "Proponuję przenieść tę Kwestię do Deliberacji! Dyskusja i siła priorytetu w tym wątku o tym zdecyduje.";
+            var idKwestia = Session.get("idkwestiiWK");
             var idUser = Meteor.userId();
             var addDate = new Date();
             var isParent = true;
@@ -13,7 +13,7 @@ Template.uzasadnienieArchiwumModal.events({
             var userFullName = Meteor.user().profile.fullName;
             var ratingValue = 0;
             var glosujacy = [];
-            var postType = POSTS_TYPES.ARCHIWUM;
+            var postType = POSTS_TYPES.DELIBERACJA;
 
             var post = [{
                 idKwestia: idKwestia,
@@ -43,7 +43,7 @@ Template.uzasadnienieArchiwumModal.events({
                     }
                     else {
                         var wiadomosc = uzasadnienie;
-                        var idKwestia = Session.get("idkwestiiArchiwum");
+                        var idKwestia = Session.get("idkwestiiWK");
                         var idParent = ret;
                         var idUser = Meteor.userId();
                         var addDate = new Date();
@@ -89,10 +89,10 @@ Template.uzasadnienieArchiwumModal.events({
                             }
                         });
                         document.getElementById("message").value = "";
-                        $("#uzasadnijWyborArchiwum").modal("hide");
-                        Session.set("idkwestiiArchiwum", null);
+                        $("#uzasadnijWyborWK").modal("hide");
+                        Session.set("idkwestiiWK", null);
                         $('html, body').animate({
-                            scrollTop: $(".doArchiwumClass").offset().top
+                            scrollTop: $(".doWKClass").offset().top
                         }, 600);
                     }
                 });

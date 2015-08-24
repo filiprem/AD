@@ -34,13 +34,13 @@
                         {{/if}}
                     </div>
                     {{#unless isAdmin}}
+                        {{> uzasadnienieArchiwumModal}}
+                        {{> uzasadnienieKoszModal}}
                         <div class="btn-group" role="group" aria-label="...">
-                            <label class="btn btn-danger">Przeniesienie Kwestii</label>
-                            {{> uzasadnienieArchiwumModal}}
+                            <!--<label class="btn btn-danger">Przeniesienie Kwestii</label>-->
                             <button id="doArchiwum" class="btn btn-warning">
                                 <span class="glyphicon glyphicon-lock"></span> Do Archiwum
                             </button>
-                            {{> uzasadnienieKoszModal}}
                             <button id="doKosza" class="btn btn-danger">
                                 <span class="glyphicon glyphicon-trash"></span> Do Kosza
                             </button>
@@ -67,14 +67,14 @@
             </tr>
             <tr>
                 <td><strong> Nazwa Kwestii</strong></td>
-                <td>{{kwestiaNazwa}}</td>
+                <td><b>{{kwestiaNazwa}}</b></td>
             </tr>
             <tr>
                 <td><strong> Priorytet</strong></td>
                 <td>
                     <div class="row">
                         <div class="col-md-1">
-                            <b>{{wartoscPriorytetu}}</b>
+                            <b>{{priorytetZeZnakiem}}</b>
                         </div>
                         {{#unless isAdmin}}
                             <div class="col-md-11">

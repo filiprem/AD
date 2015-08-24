@@ -3,10 +3,10 @@ Template.editLanguage.rendered = function () {
     $("#languageEditForm").validate({
         messages: {
             languageName: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             languageShortName: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             }
         },
         highlight: function (element) {

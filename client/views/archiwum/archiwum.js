@@ -81,12 +81,12 @@ Template.archiwum.helpers({
                 },
                 {key: 'idTemat', label: "Temat", tmpl: Template.tematKwestiiArchiwum},
                 {key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestiiArchiwum},
-                {
-                    key: 'dataGlosowania',
-                    label: Template.listKwestiaAdminColumnLabel,
-                    labelData: {title: "Data zakończenia głosowania", text: "Finał"},
-                    tmpl: Template.dataGlKwestia
-                },
+                //{
+                //    key: 'dataGlosowania',
+                //    label: Template.listKwestiaAdminColumnLabel,
+                //    labelData: {title: "Data zakończenia głosowania", text: "Finał"},
+                //    tmpl: Template.dataGlKwestia
+                //},
                 {
                     key: 'status',
                     label: Template.listKwestiaAdminColumnLabel,
@@ -102,7 +102,8 @@ Template.archiwum.helpers({
             $or: [
                 {czyAktywny: false},
                 {$and: [{dataGlosowania: {$lt: moment().format()}}, {$where: function () {return this.wartoscPriorytetu <=0}}]},
-                {status:KWESTIA_STATUS.ARCHIWALNA}
+                {status:KWESTIA_STATUS.ARCHIWALNA},
+                {status: KWESTIA_STATUS.HIBERNOWANA}
             ]
         }).fetch();
     },
@@ -111,14 +112,15 @@ Template.archiwum.helpers({
             $or: [
                 {czyAktywny: false},
                 {$and: [{dataGlosowania: {$lt: moment().format()}}, {$where: function () {return this.wartoscPriorytetu <=0}}]},
-                {status:KWESTIA_STATUS.ARCHIWALNA}
+                {status:KWESTIA_STATUS.ARCHIWALNA},
+                {status: KWESTIA_STATUS.HIBERNOWANA}
             ]
         }).count();
         return count>0 ? true : false;
     },
-    kwestiaCount: function () {
-        return Kwestia.find({czyAktywny: false}).count();
-    },
+    //kwestiaCount: function () {
+    //    return Kwestia.find({czyAktywny: false}).count();
+    //},
     isAdminUser: function () {
         return IsAdminUser();
     },

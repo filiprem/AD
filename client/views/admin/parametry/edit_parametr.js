@@ -2,63 +2,71 @@ Template.editParametry.rendered = function () {
     $("#parametrFormEdit").validate({
         messages: {
             nazwaOrganizacji: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             terytorium: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             kontakty: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             regulamin: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             dodanieKwestii: {
                 min: negativeNumberMessage(),
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             dodanieKomentarza: {
                 min: negativeNumberMessage(),
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             dodanieOdniesienia: {
                 min: negativeNumberMessage(),
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             nadaniePriorytetu: {
                 min: negativeNumberMessage(),
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             awansKwestii: {
                 min: negativeNumberMessage(),
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             udzialWZespole: {
                 min: negativeNumberMessage(),
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             zlozenieRaportu: {
                 min: negativeNumberMessage(),
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             wyjscieZZespolu:{
-                max: positiveNumberMesssage(),
-                required: fieldEmptyMesssage()
+                max: positiveNumberMessage(),
+                required: fieldEmptyMessage()
             },
             wycofanieKwestiiDoKosza:{
-                max: positiveNumberMesssage(),
-                required: fieldEmptyMesssage()
+                max: positiveNumberMessage(),
+                required: fieldEmptyMessage()
             },
-            wycofanieKwestiiDoArchwium:{
-                max: positiveNumberMesssage(),
-                required: fieldEmptyMesssage()
+            wycofanieKwestiiDoArchiwum:{
+                max: positiveNumberMessage(),
+                required: fieldEmptyMessage()
             },
             brakUdzialuWGlosowaniu:{
-                max: positiveNumberMesssage(),
-                required: fieldEmptyMesssage()
+                max: positiveNumberMessage(),
+                required: fieldEmptyMessage()
+            },
+            rodzajCzasDyskusji:{
+                min: negativeNumberMessage(),
+                required: fieldEmptyMessage
+            },
+            rodzajCzasGlosowania:{
+                min: negativeNumberMessage(),
+                required: fieldEmptyMessage()
             },
             okresSledzeniaWatkuPrzenoszacego:{
-                required:fieldEmptyMesssage()
+                required:fieldEmptyMessage()
             }
         },
         highlight: function (element) {
@@ -124,7 +132,7 @@ Template.editParametry.events({
         if(zlozenieRap!=parameter.pktZlozenieRaportuRealizacyjnego){
             tab.push(setParamInfo("ZŁOŻENIE RAPORTU REALIZACYJNEGO",parameter.pktZlozenieRaportuRealizacyjnego,zlozenieRap));
         }
-        var wycofanieKwDoArch=$(e.target).find('[name=wycofanieKwestiiDoArchwium]').val();
+        var wycofanieKwDoArch=$(e.target).find('[name=wycofanieKwestiiDoArchiwum]').val();
         if(wycofanieKwDoArch!=parameter.pktWycofanieKwestiiDoArchiwum){
             tab.push(setParamInfo("WYCOFANIE KWESTII DO ARCHIWUM",parameter.pktWycofanieKwestiiDoArchiwum,wycofanieKwDoArch));
         }
@@ -139,6 +147,14 @@ Template.editParametry.events({
         var brakUdzWGlos=$(e.target).find('[name=brakUdzialuWGlosowaniu]').val();
         if(brakUdzWGlos!=parameter.pktBrakUdzialuWGlosowaniu){
             tab.push(setParamInfo("BRAK UDZIAŁU W GŁOSOWANIU",parameter.pktBrakUdzialuWGlosowaniu,brakUdzWGlos));
+        }
+        var rodzCzasDysk=$(e.target).find('[name=rodzajCzasDyskusji]').val();
+        if(rodzCzasDysk!=parameter.rodzajCzasDyskusji){
+            tab.push(setParamInfo("DOMYŚLNY CZAS DYSKUSJI",parameter.rodzajCzasDyskusji, rodzCzasDysk));
+        }
+        var rodzCzasGlos=$(e.target).find('[name=rodzajCzasGlosowania]').val();
+        if(rodzCzasDysk!=parameter.rodzajCzasGlosowania){
+            tab.push(setParamInfo("DOMYŚLNY CZAS GŁOSOWANIA",parameter.rodzajCzasGlosowania, rodzCzasGlos));
         }
         var okrSledzeniaWatku=$(e.target).find('[name=okresSledzeniaWatkuPrzenoszacego]').val();
         if(okrSledzeniaWatku!=parameter.okresSledzeniaWatkuPrzenoszacego){
@@ -164,6 +180,8 @@ Template.editParametry.events({
                 pktWycofanieKwestiiDoKosza: parseInt(wycofanieKwDoKosza),
                 pktWyjscieZZespoluRealizacyjnego: parseInt(wyjscieZZesp),
                 pktBrakUdzialuWGlosowaniu: parseInt(brakUdzWGlos),
+                rodzajCzasDyskusji: parseInt(rodzCzasDysk),
+                rodzajCzasGlosowania:parseInt(rodzCzasGlos),
                 okresSledzeniaWatkuPrzenoszacego:parseInt(okrSledzeniaWatku)
             }];
         if(tab.length>0) {
