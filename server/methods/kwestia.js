@@ -60,5 +60,13 @@ Meteor.methods({
                 glosujacy:  obj[0].glosujacy}
             }, {upsert: true});
         return id;
+    },
+    setGlosujacyTab: function (id, obj) {
+        var id = Kwestia.update(id,{$set: {glosujacy:  obj}}, {upsert: true});
+        return id;
+    },
+    updateWartoscPriorytetu: function (id, obj) {
+        var id = Kwestia.update(id,{$set: {wartoscPriorytetu:  obj}}, {upsert: true});
+        return id;
     }
 });

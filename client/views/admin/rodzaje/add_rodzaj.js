@@ -47,6 +47,8 @@ Template.addRodzajForm.helpers({
 
         'submit form': function (e) {
             e.preventDefault();
+
+            var idTemat = this._id;
             var czasD = $(e.target).find('[name=czasDyskusji]').val();
             if (czasD == '' || czasD == '0')
                 czasD = 7;
@@ -56,7 +58,7 @@ Template.addRodzajForm.helpers({
 
             var newRodzaj = [
                 {
-                    idTemat: $(e.target).find('[name=tematy]').val(),
+                    idTemat: idTemat,
                     nazwaRodzaj: $(e.target).find('[name=nazwaRodzaj]').val(),
                     czasDyskusji: czasD,
                     czasGlosowania: czasG
@@ -65,17 +67,15 @@ Template.addRodzajForm.helpers({
                 if (error) {
                     if (typeof Errors === "undefined")
                         Log.error('Error: ' + error.reason);
-                    else {
+                    else
                         throwError(error.reason);
-                    }
-                }
-                else {
-                    Router.go('listRodzaj');
+                } else {
+                    Router.go('listTemat');
                 }
             });
         },
         'reset form': function () {
-            Router.go('listRodzaj');
+            Router.go('listTemat');
         }
     });
 

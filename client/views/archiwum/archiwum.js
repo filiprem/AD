@@ -14,9 +14,41 @@ Template.archiwum.events({
     'click .glyphicon-info-sign': function (event, template) {
         Session.set('kwestiaInScope', this);
     },
-    'click #backToList': function (e) {
-        Router.go('home');
-    },
+    'click #kwestiaIdClick':function(){//nadajemy priorytet automatycznie po wejściu na kwestię + dajemy punkty
+        var kwestia=Kwestia.findOne({_id:this._id});
+        var tabGlosujacy=getAllUsersWhoVoted(kwestia._id);
+        if(!_.contains(tabGlosujacy,Meteor.userId())){//jeżeli użytkownik jeszcze nie głosował
+            var glosujacy = {
+                idUser: Meteor.userId(),
+                value: 0
+            };
+            var voters=kwestia.glosujacy.slice();
+            voters.push(glosujacy);
+            Meteor.call('setGlosujacyTab', kwestia._id, voters, function (error, ret) {
+                if (error) {
+                    if (typeof Errors === "undefined")
+                        Log.error('Error: ' + error.reason);
+                    else
+                        throwError(error.reason);
+                }
+            });
+            //dodanie pkt za głosowanie
+            var newValue = 0;
+            var pktAddPriorytet = Parametr.findOne({});
+            newValue = Number(pktAddPriorytet.pktNadaniePriorytetu) + getUserRadkingValue(Meteor.userId());
+
+            Meteor.call('updateUserRanking', Meteor.userId(), newValue, function (error) {
+                if (error) {
+                    if (typeof Errors === "undefined")
+                        Log.error('Error: ' + error.reason);
+                    else {
+                        throwError(error.reason);
+                    }
+                }
+            });
+        }
+
+    }
 });
 Template.archiwum.helpers({
     'settings': function () {
@@ -37,7 +69,7 @@ Template.archiwum.helpers({
                     key: 'kwestiaNazwa',
                     label: Template.listKwestiaAdminColumnLabel,
                     labelData: {title: "Kliknij, aby zobaczyć szczegóły", text: "Nazwa Kwestii"},
-                    tmpl: Template.nazwaKwestiArchiwumLink
+                    tmpl: Template.nazwaKwestiiArchiwumLink
                 },
                 {
                     key: 'sredniaPriorytet',
@@ -47,8 +79,8 @@ Template.archiwum.helpers({
                     sortOrder: 1,
                     sortDirection: 'descending'
                 },
-                {key: 'idTemat', label: "Temat", tmpl: Template.tematKwestia},
-                {key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestia},
+                {key: 'idTemat', label: "Temat", tmpl: Template.tematKwestiiArchiwum},
+                {key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestiiArchiwum},
                 {
                     key: 'dataGlosowania',
                     label: Template.listKwestiaAdminColumnLabel,
@@ -67,14 +99,22 @@ Template.archiwum.helpers({
     ArchiwumList: function () {
         //return Kwestia.find({$where:function(){return ((this.czyAktywny==false) || (moment(this.dataGlosowania) < moment()&& this.wartoscPriorytetu < this.pulapPriorytetu));}}).fetch();
         return Kwestia.find({
-            $or: [{czyAktywny: false}, {
-                $and: [{dataGlosowania: {$lt: moment().format()}}, {
-                    $where: function () {
-                        return this.wartoscPriorytetu < this.pulapPriorytetu
-                    }
-                }]
-            }]
+            $or: [
+                {czyAktywny: false},
+                {$and: [{dataGlosowania: {$lt: moment().format()}}, {$where: function () {return this.wartoscPriorytetu <=0}}]},
+                {status:KWESTIA_STATUS.ARCHIWALNA}
+            ]
         }).fetch();
+    },
+    'ArchiwumListCount':function(){
+        var count =  Kwestia.find({
+            $or: [
+                {czyAktywny: false},
+                {$and: [{dataGlosowania: {$lt: moment().format()}}, {$where: function () {return this.wartoscPriorytetu <=0}}]},
+                {status:KWESTIA_STATUS.ARCHIWALNA}
+            ]
+        }).count();
+        return count>0 ? true : false;
     },
     kwestiaCount: function () {
         return Kwestia.find({czyAktywny: false}).count();
@@ -87,12 +127,23 @@ Template.archiwum.helpers({
     },
     rodzajNazwa: function () {
         return Rodzaj.findOne({_id: this.idRodzaj});
-    },
-    getWymaganyPriorytet: function (id) {
-        return 50;
     }
 });
 
 Template.archiwum.rendered = function () {
     $('[data-toggle="tooltip"]').tooltip();
 }
+
+Template.tematKwestiiArchiwum.helpers({
+    'getTemat':function(id){
+        var item = Temat.findOne({_id:id});
+        return !!item && !!item.nazwaTemat ?item.nazwaTemat : id;
+    }
+});
+
+Template.rodzajKwestiiArchiwum.helpers({
+    'getRodzaj':function(id){
+        var item = Rodzaj.findOne({_id:id});
+        return !!item && !!item.nazwaRodzaj ?item.nazwaRodzaj : id;
+    }
+});

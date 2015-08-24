@@ -64,6 +64,9 @@ Template.editParametry.rendered = function () {
             rodzajCzasGlosowania:{
                 min: negativeNumberMessage(),
                 required: fieldEmptyMessage()
+            },
+            okresSledzeniaWatkuPrzenoszacego:{
+                required:fieldEmptyMesssage()
             }
         },
         highlight: function (element) {
@@ -145,7 +148,10 @@ Template.editParametry.events({
         if(brakUdzWGlos!=parameter.pktBrakUdzialuWGlosowaniu){
             tab.push(setParamInfo("BRAK UDZIAŁU W GŁOSOWANIU",parameter.pktBrakUdzialuWGlosowaniu,brakUdzWGlos));
         }
-
+        var okrSledzeniaWatku=$(e.target).find('[name=okresSledzeniaWatkuPrzenoszacego]').val();
+        if(okrSledzeniaWatku!=parameter.okresSledzeniaWatkuPrzenoszacego){
+            tab.push(setParamInfo("OKRES ŚLEDZENIA WĄTKU PRZENOSZĄCEGO",parameter.okresSledzeniaWatkuPrzenoszacego,okrSledzeniaWatku));
+        }
 
         var newParametr = [
             {
@@ -165,7 +171,8 @@ Template.editParametry.events({
                 pktWycofanieKwestiiDoArchiwum: parseInt(wycofanieKwDoArch),
                 pktWycofanieKwestiiDoKosza: parseInt(wycofanieKwDoKosza),
                 pktWyjscieZZespoluRealizacyjnego: parseInt(wyjscieZZesp),
-                pktBrakUdzialuWGlosowaniu: parseInt(brakUdzWGlos)
+                pktBrakUdzialuWGlosowaniu: parseInt(brakUdzWGlos),
+                okresSledzeniaWatkuPrzenoszacego:parseInt(okrSledzeniaWatku)
             }];
         if(tab.length>0) {
             Session.setPersistent("tablica", tab);

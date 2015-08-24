@@ -45,7 +45,7 @@
                                 <span class="glyphicon glyphicon-trash"></span> Do Kosza
                             </button>
                         </div>
-                        <button id="wyczyscPriorytety" type="button" class="btn btn-danger">Wyczyść priorytety</button>
+                        <button id="wyczyscPriorytety" type="button" class="btn btn-danger" {{isAvailable }}>Wyczyść moje priorytety</button>
                     {{/unless}}
                 </div>
             </div>
@@ -81,19 +81,19 @@
                                 <form>
                                     <div class="btn-group" role="group" aria-label="...">
                                         <button id="priorytetButton" name="{{idKwestia}}" type="button"
-                                                class="btn btn-xs btn-danger" value="-5">-5
+                                                class="btn btn-xs btn-danger" value="-5" {{isSelected -5}}>-5
                                         </button>
                                         <button id="priorytetButton" name="{{idKwestia}}" type="button"
-                                                class="btn btn-xs btn-danger" value="-4">-4
+                                                class="btn btn-xs btn-danger" value="-4" {{isSelected -4}}>-4
                                         </button>
                                         <button id="priorytetButton" name="{{idKwestia}}" type="button"
-                                                class="btn btn-xs btn-danger" value="-3">-3
+                                                class="btn btn-xs btn-danger" value="-3" {{isSelected -3}}>-3
                                         </button>
                                         <button id="priorytetButton" name="{{idKwestia}}" type="button"
-                                                class="btn btn-xs btn-danger" value="-2">-2
+                                                class="btn btn-xs btn-danger" value="-2" {{isSelected -2}}>-2
                                         </button>
                                         <button id="priorytetButton" name="{{idKwestia}}" type="button"
-                                                class="btn btn-xs btn-danger" value="-1">-1
+                                                class="btn btn-xs btn-danger" value="-1" {{isSelected -1}}>-1
                                         </button>
                                         <button id="priorytetButton" name="{{idKwestia}}" type="button"
                                                 class="btn btn-xs btn-default" value="0"
@@ -101,19 +101,19 @@
                                                 title="Oznacza wstrzymanie się od głosu">&nbsp;0
                                         </button>
                                         <button id="priorytetButton" name="{{idKwestia}}" type="button"
-                                                class="btn btn-xs btn-success" value="1">+1
+                                                class="btn btn-xs btn-success" value="1" {{isSelected 1}}>+1
                                         </button>
                                         <button id="priorytetButton" name="{{idKwestia}}" type="button"
-                                                class="btn btn-xs btn-success" value="2">+2
+                                                class="btn btn-xs btn-success" value="2" {{isSelected 2}}>+2
                                         </button>
                                         <button id="priorytetButton" name="{{idKwestia}}" type="button"
-                                                class="btn btn-xs btn-success" value="3">+3
+                                                class="btn btn-xs btn-success" value="3" {{isSelected 3}}>+3
                                         </button>
                                         <button id="priorytetButton" name="{{idKwestia}}" type="button"
-                                                class="btn btn-xs btn-success" value="4">+4
+                                                class="btn btn-xs btn-success" value="4" {{isSelected 4}}>+4
                                         </button>
                                         <button id="priorytetButton" name="{{idKwestia}}" type="button"
-                                                class="btn btn-xs btn-success" value="5">+5
+                                                class="btn btn-xs btn-success" value="5" {{isSelected 5}}>+5
                                         </button>
                                     </div>
                                 </form>

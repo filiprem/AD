@@ -34,6 +34,41 @@ Template.listKwestia.events({
         var en = new EmailNotifications();
         en.registerAddKwestiaNotification('AD', 'Organizacja DOM', users,
             'Kwestia w sprawie...', 'Uchwała', 'Opis Kwestii....', 'linkDK', 'linkLoginTo');
+    },
+    'click #kwestiaIdClick':function(){//nadajemy priorytet automatycznie po wejściu na kwestię + dajemy punkty
+        var kwestia=Kwestia.findOne({_id:this._id});
+        var tabGlosujacy=getAllUsersWhoVoted(kwestia._id);
+        if(!_.contains(tabGlosujacy,Meteor.userId())){//jeżeli użytkownik jeszcze nie głosował
+            var glosujacy = {
+                idUser: Meteor.userId(),
+                value: 0
+            };
+            var voters=kwestia.glosujacy.slice();
+            voters.push(glosujacy);
+            Meteor.call('setGlosujacyTab', kwestia._id, voters, function (error, ret) {
+                if (error) {
+                    if (typeof Errors === "undefined")
+                        Log.error('Error: ' + error.reason);
+                    else
+                        throwError(error.reason);
+                }
+            });
+            //dodanie pkt za głosowanie
+            var newValue = 0;
+            var pktAddPriorytet = Parametr.findOne({});
+            newValue = Number(pktAddPriorytet.pktNadaniePriorytetu) + getUserRadkingValue(Meteor.userId());
+
+            Meteor.call('updateUserRanking', Meteor.userId(), newValue, function (error) {
+                if (error) {
+                    if (typeof Errors === "undefined")
+                        Log.error('Error: ' + error.reason);
+                    else {
+                        throwError(error.reason);
+                    }
+                }
+            });
+        }
+
     }
 });
 Template.listKwestia.helpers({
@@ -82,7 +117,7 @@ Template.listKwestia.helpers({
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
                         title: "Data zakończenia głosowania",
-                        text: "Finał"
+                        text: "Kworum"
                     },
                     tmpl: Template.dataGlKwestia
                 }
@@ -97,22 +132,6 @@ Template.listKwestia.helpers({
     },
     KwestiaList: function () {
         return Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.DELIBEROWANA}).fetch();
-    },
-    priorytetsr: function () {
-        var i = 0;
-        var kwestia = Kwestia.findOne({_id: this._id});
-        if (kwestia) {
-            kwestia.glosujacy.forEach(function (item) {
-                i++;
-            });
-            if (kwestia.priorytet === 0) {
-                var srPriorytet = kwestia.priorytet;
-            }
-            else {
-                var srPriorytet = kwestia.priorytet / i;
-            }
-            return srPriorytet
-        }
     },
     kwestiaCount: function () {
         return Kwestia.find({czyAktywny: true}).count();

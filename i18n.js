@@ -15,7 +15,6 @@ if (Meteor.isClient) {
             var lang = getUserLanguage();
             TAPi18n.setLanguage(lang)
                 .done(function () {
-                    console.log("Załadowano język");
                 })
                 .fail(function (error_message) {
                     console.log(error_message);

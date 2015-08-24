@@ -9,7 +9,7 @@ Template.listLanguages.helpers({
             fields: [
                 {key: 'languageName', label: "Nazwa", tmpl: Template.nameLanguage},
                 {key: 'shortName', label: "Skrót", tmpl: Template.shortNameLanguage},
-                {key: '_id', label: "Opcje", tmpl: Template.languageOptions,headerClass:"col-md-2"}
+                {key: '_id', label: "Opcje", tmpl: Template.languageOptions,headerClass:"col-md-3"}
             ]
         };
     },
@@ -68,4 +68,12 @@ Template.languageOptions.events({
             }
         });
     }
-})
+});
+
+Template.listLanguages.rendered = function(){
+    $('[data-toggle="tooltip"]').tooltip();
+};
+
+Template.languageOptions.rendered = function(){
+    $('[data-toggle="tooltip"]').tooltip();
+};

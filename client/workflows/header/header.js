@@ -1,3 +1,16 @@
+Template.header.created = function(){
+    this.currentRouteNameRV = new ReactiveVar;
+}
+
+Template.header.rendered = function(){
+    var self = Template.instance();
+    this.autorun(function(){
+        var routeName = Router.current().route.getName();
+        self.currentRouteNameRV.set(routeName);
+        self.subscribe("pagesInfoByLang",self.currentRouteNameRV.get());
+    });
+}
+
 Template.header.helpers({
     'activeRouteClass': function(/* route names */) {
         var args = Array.prototype.slice.call(arguments, 0);
@@ -21,58 +34,81 @@ Template.header.helpers({
         }
         else return false;
     },
+    hasUserAccess:function(){
+        //if(IsAdminUser()==true)
+        //    return true;
+        //else {
+        //    var users = Users.find({
+        //        $where: function () {
+        //            return (this.roles == 'user');
+        //        }
+        //    });
+        //    if (users.count() > 4)
+        //        return true;
+        //    else return false;
+        //}
+        return true;
+    }
 });
 
 Template.language.events({
     'click .lang':function(e){
         var lang = e.target.textContent;
+        if(lang){
+            var newUser = {
+                profile:{
+                    language:lang
+                }
+            };
 
-        var newUser = {
-            profile:{
-                language:lang
-            }
-        };
-
-        Meteor.call('updateUserLanguage',Meteor.userId(), newUser, function (error) {
-            if (error) {
-                if (typeof Errors === "undefined")
-                    Log.error('Error: ' + error.reason);
-                else
-                    throwError(error.reason);
-            } else{
-                TAPi18n.setLanguage(lang)
-                    .done(function () {
-                        console.log("Załadowano język");
-                    })
-                    .fail(function (error_message) {
-                        console.log(error_message);
-                    });
-            }
-        });
+            Meteor.call('updateUserLanguage',Meteor.userId(), newUser, function (error) {
+                if (error) {
+                    if (typeof Errors === "undefined")
+                        Log.error('Error: ' + error.reason);
+                    else
+                        throwError(error.reason);
+                } else{
+                    TAPi18n.setLanguage(lang)
+                        .done(function () {
+                            console.log("Załadowano język");
+                        })
+                        .fail(function (error_message) {
+                            console.log(error_message);
+                        });
+                }
+            });
+        }
     },
     'click #showPageInfo':function(){
-        var pathArray = getUrlPathArray();
 
-        var strMessage = preparePageInfoString(pathArray,"message");
-        var strTitle = preparePageInfoString(pathArray,"title");
+        var defaultLang = LANGUAGES.DEFAULT_LANGUAGE;
+        var lang = Meteor.user().profile.language ? Meteor.user().profile.language : defaultLang;
+        var routeName = Router.current().route.getName();
+        var item = PagesInfo.findOne({shortLanguageName:lang,routeName:routeName});
+        var title = TAPi18n.__("pageInfo."+lang+"."+routeName)
         bootbox.dialog({
-            message: TAPi18n.__(strMessage),
-            title: TAPi18n.__(strTitle)
-        });
+                message: item.infoText ? item.infoText : "Brak opisu",
+                title: title
+            });
+    },
+    'click #organizationName':function(){
+        Router.go("home");
     }
 });
 
 Template.language.helpers({
     'getUserLang':function(){
-        if(Meteor.user())
-            return Meteor.user().profile.language;
+        if(Meteor.user()){
+            if(Meteor.user().profile.language){
+                return Meteor.user().profile.language;
+            }
+        }
     },
     'langs':function(){
-        var tab = [];
-        for(var lang in LANGUAGES){
-            tab.push(LANGUAGES[lang]);
+        var langs = Languages.find({isEnabled:true,czyAktywny:true});
+        if(langs){
+            return langs;
         }
-        return tab;
     },
     nazwaOrg: function(){
         var param = Parametr.findOne({});
