@@ -81,12 +81,12 @@ Template.archiwum.helpers({
                 },
                 {key: 'idTemat', label: "Temat", tmpl: Template.tematKwestiiArchiwum},
                 {key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestiiArchiwum},
-                {
-                    key: 'dataGlosowania',
-                    label: Template.listKwestiaAdminColumnLabel,
-                    labelData: {title: "Data zakończenia głosowania", text: "Finał"},
-                    tmpl: Template.dataGlKwestia
-                },
+                //{
+                //    key: 'dataGlosowania',
+                //    label: Template.listKwestiaAdminColumnLabel,
+                //    labelData: {title: "Data zakończenia głosowania", text: "Finał"},
+                //    tmpl: Template.dataGlKwestia
+                //},
                 {
                     key: 'status',
                     label: Template.listKwestiaAdminColumnLabel,

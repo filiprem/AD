@@ -253,7 +253,13 @@ Template.informacjeKwestia.helpers({
             var g = kwestia.glosujacy;
             for (var i = 0; i < g.length; i++) {
                 if (Meteor.userId() == g[i].idUser) {
-                    return g[i].value;
+                    if(g[i].value>0){
+                        g[i].value = "+"+g[i].value;
+                        return g[i].value;
+                    }
+                    else{
+                        return g[i].value;
+                    }
                 }
             }
         }
@@ -356,5 +362,17 @@ Template.informacjeKwestia.helpers({
             return "disabled";
         else
             return "";
+    },
+    priorytetZeZnakiem: function(){
+        var p = this.wartoscPriorytetu;
+        if(p){
+            if (p > 0) {
+                p = "+" + p;
+                return p;
+            }
+            else{
+                return p;
+            }
+        }
     }
 });

@@ -37,16 +37,16 @@ Template.realizacja.helpers({
                     sortDirection: 'descending'
                 },
                 {key: 'idTemat', label: "Temat", tmpl: Template.tematKwestia},
-                {key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestia},
-                {
-                    key: 'dataGlosowania',
-                    label: Template.listKwestiaColumnLabel,
-                    labelData: {
-                        title: "Data zakoñczenia g³osowania",
-                        text: "Fina³"
-                    },
-                    tmpl: Template.dataGlKwestia
-                }
+                {key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestia}
+                //{
+                //    key: 'dataGlosowania',
+                //    label: Template.listKwestiaColumnLabel,
+                //    labelData: {
+                //        title: "Data zakoñczenia g³osowania",
+                //        text: "Fina³"
+                //    },
+                //    tmpl: Template.dataGlKwestia
+                //}
             ]
         };
     },
