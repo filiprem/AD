@@ -152,6 +152,12 @@ Template.informacjeKwestiaArchiwum.events({
     }
 });
 Template.informacjeKwestiaArchiwum.helpers({
+    ifIsHibernowana: function(){
+        var k = this;
+        if(k.status == KWESTIA_STATUS.HIBERNOWANA)
+            return true;
+        return false;
+    },
     ifHasOpcje: function () {
         var kwestiaGlownaId = this._id;
         var k = Kwestia.find({idParent: kwestiaGlownaId, isOption: true}).fetch();
@@ -253,7 +259,10 @@ Template.informacjeKwestiaArchiwum.helpers({
     },
     isAvailable: function () {
         var i = 0;
-        var kwestie = Kwestia.find({'glosujacy.idUser': Meteor.userId(), idParent: Template.instance().data._id}).fetch();
+        var kwestie = Kwestia.find({
+            'glosujacy.idUser': Meteor.userId(),
+            idParent: Template.instance().data._id
+        }).fetch();
         var globalCounter = 0;
         kwestie.forEach(function (kwestia) {
             _.each(kwestia.glosujacy, function (item) {
