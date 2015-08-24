@@ -69,6 +69,13 @@ Template.discussionPostItem.helpers({
             if (p.postType == "kosz") return true;
             else return false;
         }
+    },
+    'isDoWK': function(){
+        var p = Posts.findOne({_id: this.idPost});
+        if(p){
+            if (p.postType == "deliberacja") return true;
+            else return false;
+        }
     }
 });
 

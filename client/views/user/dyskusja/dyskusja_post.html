@@ -1,7 +1,8 @@
 <template name="discussionPostItem">
     <div class="panel panel-default">
         {{#if isDoArchiwum}}
-            <div class="panel-heading doArchiwumClass" role="tab" id="heading{{idPost}}" style="background-color: #ffeeaa">
+            <div class="panel-heading doArchiwumClass" role="tab" id="heading{{idPost}}"
+                 style="background-color: #ffeeaa">
                 <h4 class="panel-title">
                     <div class="row">
                         <div class="col-md-12">
@@ -65,7 +66,8 @@
             </div>
         {{else}}
             {{#if isDoKosza}}
-                <div class="panel-heading doKoszaClass" role="tab" id="heading{{idPost}}" style="background-color: #ffcccc">
+                <div class="panel-heading doKoszaClass" role="tab" id="heading{{idPost}}"
+                     style="background-color: #ffcccc">
                     <h4 class="panel-title">
                         <div class="row">
                             <div class="col-md-12">
@@ -130,69 +132,138 @@
                     </div>
                 </div>
             {{else}}
-                <div class="panel-heading" role="tab" id="heading{{idPost}}">
-                    <h4 class="panel-title">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="pull-left">
-                                    {{> discussionRating
-                                    idPost=idPost}}
-                                    <h6><b>{{userFullName}}</b>, {{getSimpleDate addDate}}
-                                        <small>{{getFullHourDate addDate}}</small>
-                                    </h6>
-                                </div>
-                                <div class="pull-right">
-                                    <i class="label {{getLabelClass wartoscPriorytetu}}">{{wartoscPriorytetu}}</i>
+                {{#if isDoWK}}
+                    <div class="panel-heading doWKClass" role="tab" id="heading{{idPost}}"
+                         style="background-color: #95E495">
+                        <h4 class="panel-title">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="pull-left">
+                                        {{> discussionRating
+                                        idPost=idPost}}
+                                        <h6><b>{{userFullName}}</b>, {{getSimpleDate addDate}}
+                                            <small>{{getFullHourDate addDate}}</small>
+                                        </h6>
+                                    </div>
+                                    <div class="pull-right">
+                                        <i class="label {{getLabelClass wartoscPriorytetu}}">{{wartoscPriorytetu}}</i>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <p>
-                                    {{getText wiadomosc idPost}}
-                                    <br/>
-                                    {{#if textTooLong wiadomosc}}
-                                        <small class="pull-right">
-                                            {{#if isInTab idPost}}
-                                                [ <a id="zwinText" name="{{idPost}}">mniej</a> ]
-                                            {{else}}
-                                                [ <a id="rozwinText" name="{{idPost}}">więcej</a> ]
-                                            {{/if}}
-                                        </small>
-                                    {{/if}}
-                                </p>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p>
+                                        {{getText wiadomosc idPost}}
+                                        <br/>
+                                        {{#if textTooLong wiadomosc}}
+                                            <small class="pull-right">
+                                                {{#if isInTab idPost}}
+                                                    [ <a id="zwinText" name="{{idPost}}">mniej</a> ]
+                                                {{else}}
+                                                    [ <a id="rozwinText" name="{{idPost}}">więcej</a> ]
+                                                {{/if}}
+                                            </small>
+                                        {{/if}}
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="pull-right">
-                            <h6>
-                                <a class="btn btn-xs btn-default collapsed pull-right" role="button"
-                                   data-toggle="collapse"
-                                   data-parent="#accordion{{idPost}}" href="#{{idPost}}" aria-expanded="false"
-                                   aria-controls="{{idPost}}">
-                                    {{getAnswersCount idPost}} odniesień&nbsp; <i
-                                        class="glyphicon glyphicon-triangle-bottom"></i>
-                                </a>
-                            </h6>
-                        </div>
-                        <div class="clearfix"></div>
-                    </h4>
-                </div>
-                <div id="{{idPost}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading{{idPost}}">
-                    <div class="panel-body">
-                        {{#each getAnswers idPost}}
-                            {{> discussionAnswerItem
-                            wiadomosc = wiadomosc
-                            userFullName = userFullName
-                            wartoscPriorytetu = wartoscPriorytetu
-                            idPost = _id
-                            }}
-                        {{/each}}
-                        {{> discussionAnswerForm
-                        idKwestia=idKwestia
-                        idPost=idPost
-                        }}
+                            <div class="pull-right">
+                                <h6>
+                                    <a class="btn btn-xs btn-default pull-right" role="button"
+                                       data-toggle="collapse"
+                                       data-parent="#accordion{{idPost}}" href="#{{idPost}}" aria-expanded="true"
+                                       aria-controls="{{idPost}}">
+                                        {{getAnswersCount idPost}} odniesień&nbsp; <i
+                                            class="glyphicon glyphicon-triangle-bottom"></i>
+                                    </a>
+                                </h6>
+                            </div>
+                            <div class="clearfix"></div>
+                        </h4>
                     </div>
-                </div>
+                    <div id="{{idPost}}" class="panel-collapse collapse in" role="tabpanel"
+                         aria-labelledby="heading{{idPost}}">
+                        <div class="panel-body">
+                            {{#each getAnswers idPost}}
+                                {{> discussionAnswerItem
+                                wiadomosc = wiadomosc
+                                userFullName = userFullName
+                                wartoscPriorytetu = wartoscPriorytetu
+                                idPost = _id
+                                }}
+                            {{/each}}
+                            {{> discussionAnswerForm
+                            idKwestia=idKwestia
+                            idPost=idPost
+                            }}
+                        </div>
+                    </div>
+                {{else}}
+                    <div class="panel-heading" role="tab" id="heading{{idPost}}">
+                        <h4 class="panel-title">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="pull-left">
+                                        {{> discussionRating
+                                        idPost=idPost}}
+                                        <h6><b>{{userFullName}}</b>, {{getSimpleDate addDate}}
+                                            <small>{{getFullHourDate addDate}}</small>
+                                        </h6>
+                                    </div>
+                                    <div class="pull-right">
+                                        <i class="label {{getLabelClass wartoscPriorytetu}}">{{wartoscPriorytetu}}</i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p>
+                                        {{getText wiadomosc idPost}}
+                                        <br/>
+                                        {{#if textTooLong wiadomosc}}
+                                            <small class="pull-right">
+                                                {{#if isInTab idPost}}
+                                                    [ <a id="zwinText" name="{{idPost}}">mniej</a> ]
+                                                {{else}}
+                                                    [ <a id="rozwinText" name="{{idPost}}">więcej</a> ]
+                                                {{/if}}
+                                            </small>
+                                        {{/if}}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="pull-right">
+                                <h6>
+                                    <a class="btn btn-xs btn-default collapsed pull-right" role="button"
+                                       data-toggle="collapse"
+                                       data-parent="#accordion{{idPost}}" href="#{{idPost}}" aria-expanded="false"
+                                       aria-controls="{{idPost}}">
+                                        {{getAnswersCount idPost}} odniesień&nbsp; <i
+                                            class="glyphicon glyphicon-triangle-bottom"></i>
+                                    </a>
+                                </h6>
+                            </div>
+                            <div class="clearfix"></div>
+                        </h4>
+                    </div>
+                    <div id="{{idPost}}" class="panel-collapse collapse" role="tabpanel"
+                         aria-labelledby="heading{{idPost}}">
+                        <div class="panel-body">
+                            {{#each getAnswers idPost}}
+                                {{> discussionAnswerItem
+                                wiadomosc = wiadomosc
+                                userFullName = userFullName
+                                wartoscPriorytetu = wartoscPriorytetu
+                                idPost = _id
+                                }}
+                            {{/each}}
+                            {{> discussionAnswerForm
+                            idKwestia=idKwestia
+                            idPost=idPost
+                            }}
+                        </div>
+                    </div>
+                {{/if}}
             {{/if}}
         {{/if}}
     </div>

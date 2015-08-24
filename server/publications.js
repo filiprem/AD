@@ -9,8 +9,9 @@ Meteor.publish("allUserData", function () {
 Meteor.publish('users', function () {
     return Users.find({});
 });
+
 Meteor.publish('usersRoles', function(){
-    return Users.find({},{fields:{'roles':1}});
+    return Users.find({},{fields:{roles:1}});
 });
 
 Meteor.publish(null, function (){

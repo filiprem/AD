@@ -33,6 +33,10 @@
                             <button id="doKosza" class="btn btn-danger">
                                 <span class="glyphicon glyphicon-trash"></span> Do Kosza
                             </button>
+                            {{> uzasadnienieDeliberacjaModal}}
+                            <button id="doWK" class="btn btn-success">
+                                <i class="fa fa-file-o"></i> Do Deliberacji
+                            </button>
                         </div>
                         <button id="wyczyscPriorytety" type="button" class="btn btn-danger" {{isAvailable }}>Wyczyść moje priorytety</button>
                     {{/unless}}
