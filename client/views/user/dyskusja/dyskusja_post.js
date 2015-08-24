@@ -8,7 +8,7 @@ Template.discussionPostItem.rendered = function () {
     $("#dyskusjaAnswerForm").validate({
         messages: {
             answer_message: {
-                required: fieldEmptyMesssage(),
+                required: fieldEmptyMessage(),
             }
         },
         highlight: function (element) {

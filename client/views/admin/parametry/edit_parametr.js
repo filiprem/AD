@@ -2,60 +2,68 @@ Template.editParametry.rendered = function () {
     $("#parametrFormEdit").validate({
         messages: {
             nazwaOrganizacji: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             terytorium: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             kontakty: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             regulamin: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             dodanieKwestii: {
                 min: negativeNumberMessage(),
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             dodanieKomentarza: {
                 min: negativeNumberMessage(),
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             dodanieOdniesienia: {
                 min: negativeNumberMessage(),
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             nadaniePriorytetu: {
                 min: negativeNumberMessage(),
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             awansKwestii: {
                 min: negativeNumberMessage(),
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             udzialWZespole: {
                 min: negativeNumberMessage(),
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             zlozenieRaportu: {
                 min: negativeNumberMessage(),
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             wyjscieZZespolu:{
-                max: positiveNumberMesssage(),
-                required: fieldEmptyMesssage()
+                max: positiveNumberMessage(),
+                required: fieldEmptyMessage()
             },
             wycofanieKwestiiDoKosza:{
-                max: positiveNumberMesssage(),
-                required: fieldEmptyMesssage()
+                max: positiveNumberMessage(),
+                required: fieldEmptyMessage()
             },
-            wycofanieKwestiiDoArchwium:{
-                max: positiveNumberMesssage(),
-                required: fieldEmptyMesssage()
+            wycofanieKwestiiDoArchiwum:{
+                max: positiveNumberMessage(),
+                required: fieldEmptyMessage()
             },
             brakUdzialuWGlosowaniu:{
-                max: positiveNumberMesssage(),
-                required: fieldEmptyMesssage()
+                max: positiveNumberMessage(),
+                required: fieldEmptyMessage()
+            },
+            rodzajCzasDyskusji:{
+                min: negativeNumberMessage(),
+                required: fieldEmptyMessage
+            },
+            rodzajCzasGlosowania:{
+                min: negativeNumberMessage(),
+                required: fieldEmptyMessage()
             }
         },
         highlight: function (element) {
@@ -121,7 +129,7 @@ Template.editParametry.events({
         if(zlozenieRap!=parameter.pktZlozenieRaportuRealizacyjnego){
             tab.push(setParamInfo("ZŁOŻENIE RAPORTU REALIZACYJNEGO",parameter.pktZlozenieRaportuRealizacyjnego,zlozenieRap));
         }
-        var wycofanieKwDoArch=$(e.target).find('[name=wycofanieKwestiiDoArchwium]').val();
+        var wycofanieKwDoArch=$(e.target).find('[name=wycofanieKwestiiDoArchiwum]').val();
         if(wycofanieKwDoArch!=parameter.pktWycofanieKwestiiDoArchiwum){
             tab.push(setParamInfo("WYCOFANIE KWESTII DO ARCHIWUM",parameter.pktWycofanieKwestiiDoArchiwum,wycofanieKwDoArch));
         }

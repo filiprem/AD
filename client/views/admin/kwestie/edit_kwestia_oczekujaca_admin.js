@@ -6,10 +6,10 @@ Template.kwestiaOczekujaca.rendered = function () {
     $("#setTopicForm").validate({
         messages: {
             tematSelect: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             rodzajSelect: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             }
         },
         highlight: function (element) {

@@ -7,14 +7,14 @@ Template.profileEdit.rendered = function () {
         },
         messages: {
             email: {
-                required: fieldEmptyMesssage(),
+                required: fieldEmptyMessage(),
                 email: validEmailMessage()
             },
             name: {
-                required: fieldEmptyMesssage(),
+                required: fieldEmptyMessage(),
             },
             surname: {
-                required: fieldEmptyMesssage(),
+                required: fieldEmptyMessage(),
             }
         },
         highlight: function (element) {

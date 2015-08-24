@@ -14,14 +14,14 @@ Template.editUserForm.rendered = function () {
         },
         messages: {
             email: {
-                required: fieldEmptyMesssage(),
+                required: fieldEmptyMessage(),
                 email: validEmailMessage()
             },
             firstName: {
-                required: fieldEmptyMesssage(),
+                required: fieldEmptyMessage(),
             },
             lastName: {
-                required: fieldEmptyMesssage(),
+                required: fieldEmptyMessage(),
             }
         },
         highlight: function (element) {
