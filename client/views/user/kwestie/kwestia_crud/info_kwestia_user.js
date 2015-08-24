@@ -8,7 +8,7 @@ Template.informacjeKwestia.events({
         var currentKwestiaId = Session.get("idKwestia");
         var kwestie = Kwestia.find({'glosujacy.idUser': me,idParent:currentKwestiaId }).fetch()
         if(Kwestia.find({'glosujacy.idUser': me,idParent:currentKwestiaId }).count()==0){//zmienic,czy wszedzie są zero!
-            throwError("Nie nadałeś priorytetu tej kwestii, ani jej opcjom");
+            throwError("Nie nadałeś priorytetu tej Kwestii, ani jej opcjom");
             //sprawdzić czy sa zzero->jak zero,to tez nie updatujemy na darmo!
         }
         else {

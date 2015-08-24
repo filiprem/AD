@@ -9,11 +9,12 @@ Meteor.publish("allUserData", function () {
 Meteor.publish('users', function () {
     return Users.find({});
 });
-Meteor.publish('usersRoles', function(){
-    return Users.find({},{fields:{'roles':1}});
+
+Meteor.publish('usersRoles', function () {
+    return Users.find({}, {fields: {roles: 1}});
 });
 
-Meteor.publish(null, function (){
+Meteor.publish(null, function () {
     return Meteor.roles.find({})
 });
 
@@ -72,13 +73,13 @@ Meteor.publish('kwestieOczekujace', function (status) {
 });
 
 Meteor.publish('kwestieNazwa', function () {
-    return Kwestia.find({}, {fields: {'kwestiaNazwa': 1, czyAktywny: 1}});
+    return Kwestia.find({}, {fields: {kwestiaNazwa: 1, czyAktywny: 1}});
 });
 
 Meteor.publish('kwestieInfo', function () {
     return Kwestia.find({}, {
         fields: {
-            'kwestiaNazwa': 1,
+            kwestiaNazwa: 1,
             czyAktywny: 1,
             krotkaTresc: 1,
             szczegolowaTresc: 1,
@@ -103,7 +104,8 @@ Meteor.publish('kwestieArchiwum', function () {
                     }
                 }]
             },
-            {status: KWESTIA_STATUS.ARCHIWALNA}
+            {status: KWESTIA_STATUS.ARCHIWALNA},
+            {status: KWESTIA_STATUS.HIBERNOWANA}
         ]
     });
 });

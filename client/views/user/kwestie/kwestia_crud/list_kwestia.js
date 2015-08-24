@@ -103,7 +103,7 @@ Template.listKwestia.helpers({
                     key: 'wartoscPriorytetu',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        title: "Kliknij, aby zmienić swój priorytet dla tej Kwestii",
+                        title: "Priorytet nadany przez Ciebie oraz ogólna siła priorytetu",
                         text: "Priorytet"
                     },
                     tmpl: Template.priorytetKwestia,
@@ -116,10 +116,10 @@ Template.listKwestia.helpers({
                     key: 'dataGlosowania',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        title: "Data zakończenia głosowania",
+                        title: "Kworum",
                         text: "Kworum"
                     },
-                    tmpl: Template.dataGlKwestia
+                    tmpl: Template.kworumNumber
                 }
             ],
             rowClass: function (item) {
@@ -159,10 +159,31 @@ Template.rodzajKwestia.helpers({
     }
 });
 
-Template.dataGlKwestia.helpers({
+//Template.dataGlKwestia.helpers({
+//    date: function () {
+//        var d = this.dataGlosowania;
+//        if (d) return moment(d).format("DD-MM-YYYY");
+//    }
+//});
+
+Template.kworumNumber.helpers({//brani są tu użytkownicy,którzy zaglosowali,czy ktorzy są w systemie?
     date: function () {
-        var d = this.dataGlosowania;
-        if (d) return moment(d).format("DD-MM-YYYY");
+        var usersCount=this.glosujacy.length;
+       // var usersCount=Users.find().count();
+        if(usersCount){
+            var data;
+            var kworum=liczenieKworumZwykle(usersCount);
+            console.log(kworum);
+            if(kworum>= 3){
+
+                data=usersCount.toString()+"/"+kworum.toString();
+            }
+            else{
+                data=usersCount.toString()+"/3";
+            }
+            return data;
+        }
+
     }
 });
 
@@ -176,7 +197,23 @@ Template.dataUtwKwestia.helpers({
 Template.priorytetKwestia.helpers({
     priorytet: function () {
         var p = this.wartoscPriorytetu;
-        if(p) return p.toFixed(2);
+        var searchedId=this._id;
+        var kwe=Kwestia.findOne({_id:this._id});
+        var glosy=kwe.glosujacy.slice();
+        var myGlos;
+        _.each(glosy,function(glos){
+          if(glos.idUser==Meteor.userId()){
+              myGlos=glos.value;
+          }
+        });
+        if(p){
+            if(p>0) p="+"+p;
+            if(myGlos){
+                if(myGlos>0) myGlos="+"+myGlos;}
+            else
+                myGlos=0;
+            return myGlos+"/"+p;
+        }
         else return 0;
     }
 });
