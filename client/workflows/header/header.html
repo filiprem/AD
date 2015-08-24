@@ -5,7 +5,7 @@
         <div class="navbar-header">
         </div>
         <div id="navbar-collapse" class="navbar-collapse collapse">
-            {{#if currentUser}}
+            <!--{{#if currentUser}}-->
                 {{#if hasUserAccess}}
                 <ul class="nav navbar-nav">
                     <li class="{{activeRouteClass 'listKwestia'}}">
@@ -33,6 +33,7 @@
                             <i class="fa fa-users"></i> Użytkownicy
                         </a>
                     </li>
+                    {{#if currentUser}}
                     {{#unless isAdmin}}
                         <li class="{{activeRouteClass 'administracjaUserMain'}}">
                             <a href="{{pathFor 'administracjaUserMain'}}">
@@ -40,9 +41,26 @@
                             </a>
                         </li>
                     {{/unless}}
+                    {{/if}}
+
+                    {{#unless currentUser}}
+                        <ul class=" navbar-right">
+                        <li class="{{activeRouteClass 'login_form'}}">
+                            <a href="{{pathFor 'login_form'}}">
+                                <i class="fa fa-sign-in"></i> Zaloguj się
+                            </a>
+                        </li>
+                        <!--jezeli nie ma 5,to rejestracja,jezeli jest, to aplikacja-->
+                        <li class="{{activeRouteClass 'register_form'}}">
+                            <a href="{{pathFor 'register_form'}}">
+                                <i class="fa fa-registered"></i> Zarejestruj się
+                            </a>
+                        </li>
+                        </ul>
+                    {{/unless}}
                 </ul>
                 {{/if}}
-            {{/if}}
+            <!--{{/if}}-->
             <ul class="nav navbar-nav navbar-right">
                 {{#if currentUser}}
                     {{> loginButtons}}

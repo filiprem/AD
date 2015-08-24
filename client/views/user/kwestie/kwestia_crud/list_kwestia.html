@@ -1,20 +1,22 @@
 <template name="listKwestia">
-    {{#if currentUser}}
+    <!--{{#if currentUser}}-->
         <div class="main">
-            {{#unless isAdmin}}
-                <div class="row">
-                    <div class="col col-md-4">
-                          <span class="input-group-btn">
-                              <a id="addKwestiaButton" class="btn btn-primary"><span
-                                      class="glyphicon glyphicon-plus"></span>
-                                  Dodaj</a>
-                          </span>
-                        <!--<span class="input-group-btn">-->
-                              <!--<a id="clickMe" class="btn btn-primary">Click me :)</a>-->
-                          <!--</span>-->
-                    </div>
-                </div>
-            {{/unless}}
+                {{#if currentUser}}
+                    {{#unless isAdmin}}
+                        <div class="row">
+                            <div class="col col-md-4">
+                                  <span class="input-group-btn">
+                                      <a id="addKwestiaButton" class="btn btn-primary"><span
+                                              class="glyphicon glyphicon-plus"></span>
+                                          Dodaj</a>
+                                  </span>
+                                <!--<span class="input-group-btn">-->
+                                      <!--<a id="clickMe" class="btn btn-primary">Click me :)</a>-->
+                                  <!--</span>-->
+                            </div>
+                        </div>
+                    {{/unless}}
+                {{/if}}
             <div class="row">
                 <div class="col-md-12">
                     {{> reactiveTable
@@ -27,7 +29,7 @@
             </div>
         </div>
         {{> priorytetKwestiaModal}}
-    {{/if}}
+    <!--{{/if}}-->
 </template>
 
 <template name="tematKwestia">
@@ -39,6 +41,10 @@
 </template>
 
 <template name="dataGlKwestia">
+    {{date}}
+</template>
+
+<template name="kworumNumber">
     {{date}}
 </template>
 
