@@ -1,14 +1,14 @@
 //validation Messages
-fieldEmptyMesssage=function(){
+fieldEmptyMessage=function(){
     return 'Pole jest wymagane';
 },
-positiveNumberMesssage=function(){
+positiveNumberMessage=function(){
     return 'Podaj wartość większą od zera';
 },
 negativeNumberMessage=function(){
     return 'Nie można wprowadzać ujemnych wartości';
 },
-decimalNumberMesssage=function(){
+decimalNumberMessage=function(){
     return 'Podana wartość nie jest liczbą';
 },
 minLengthMessage=function(length) {

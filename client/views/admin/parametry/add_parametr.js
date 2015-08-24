@@ -2,16 +2,16 @@ Template.addParametrForm.rendered = function () {
     $("#parametrForm").validate({
         messages: {
             nazwaOrganizacji: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             terytorium: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             kontakty: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             regulamin: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             dodanieKwestii: {
                 min: negativeNumberMessage()
@@ -34,9 +34,18 @@ Template.addParametrForm.rendered = function () {
             zlozenieRaportu: {
                 min: negativeNumberMessage()
             },
-            nadaniePriorytetu: {
-                min: negativeNumberMessage()
+            wycofanieKwestiiDoArchiwum: {
+                max: positiveNumberMessage()
             },
+            wycofanieKwestiiDoKosza:{
+                max: positiveNumberMessage()
+            },
+            wyjscieZZespolu:{
+                max: positiveNumberMessage()
+            },
+            brakUdzialuWGlosowaniu:{
+                max: positiveNumberMessage()
+            }
         },
         highlight: function (element) {
             highlightFunction(element);
@@ -69,7 +78,7 @@ Template.addParametrForm.events({
                 pktUdzialWZespoleRealizacyjnym: setValueIfEmptyField($(e.target).find('[name=udzialWZespole]').val(), 10),
                 pktZlozenieRaportuRealizacyjnego: setValueIfEmptyField($(e.target).find('[name=zlozenieRaportu]').val(), 5),
                 //pktOtrzymaniePriorytetu//tego nie
-                pktWycofanieKwestiiDoArchiwum: setValueIfEmptyField($(e.target).find('[name=wycofanieKwestiiDoArchwium]').val(), -20),
+                pktWycofanieKwestiiDoArchiwum: setValueIfEmptyField($(e.target).find('[name=wycofanieKwestiiDoArchiwum]').val(), -20),
                 pktWycofanieKwestiiDoKosza: setValueIfEmptyField($(e.target).find('[name=wycofanieKwestiiDoKosza]').val(), -40),
                 pktWyjscieZZespoluRealizacyjnego: setValueIfEmptyField($(e.target).find('[name=wyjscieZZespolu]').val(), -30),
                 pktBrakUdzialuWGlosowaniu: setValueIfEmptyField($(e.target).find('[name=brakUdzialuWGlosowaniu]').val(), -30)

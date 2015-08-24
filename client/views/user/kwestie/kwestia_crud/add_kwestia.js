@@ -55,22 +55,22 @@ Template.addKwestiaForm.rendered = function () {
         },
         messages: {
             kwestiaNazwa: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             tematy: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             rodzaje: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             tresc: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             krotkaTresc: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             szczegolowaTresc: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             }
         },
         highlight: function (element) {

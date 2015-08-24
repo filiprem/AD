@@ -26,6 +26,8 @@ Template.previewParametr.events({
                 pktWycofanieKwestiiDoKosza: params.pktWycofanieKwestiiDoKosza,
                 pktWyjscieZZespoluRealizacyjnego: params.pktWyjscieZZespoluRealizacyjnego,
                 pktBrakUdzialuWGlosowaniu: params.pktBrakUdzialuWGlosowaniu,
+                rodzajCzasDyskusji: params.rodzajCzasDyskusji,
+                rodzajCzasGlosowania: params.rodzajCzasGlosowania,
                 okresSledzeniaWatkuPrzenoszacego:params.okresSledzeniaWatkuPrzenoszacego
             };
 

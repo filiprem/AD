@@ -34,6 +34,7 @@
                     <br />
                     <h3>Punktacja aktywności</h3>
                     <hr/>
+                    <div class="row">
                         <div class="col-xs-6">
                             <h4>Plusy za pozytywną aktywność </h4>
                             <div class="form-group">
@@ -85,7 +86,7 @@
                             <div class="form-group">
                                 <label class="control-label col-xs-6" for="inputWycofanieKwestiiDoArchiwum">Wycofanie Kwestii do archiwum:</label>
                                 <div class="col-xs-6">
-                                    <input name="wycofanieKwestiiDoArchwium" class="form-control"  id="wycofanieKwestiiDoArchwium" required  type="number" max="0"  value={{pktWycofanieKwestiiDoArchiwum}} >
+                                    <input name="wycofanieKwestiiDoArchiwum" class="form-control"  id="wycofanieKwestiiDoArchiwum" required  type="number" max="0"  value={{pktWycofanieKwestiiDoArchiwum}} >
                                 </div>
                             </div>
                             <div class="form-group">
@@ -107,6 +108,22 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <br />
+                    <h3>Parametry Rodzaju</h3>
+                    <hr/>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" for="inputRodzajCzasDyskusji">Rodzaj - czas dyskusji:</label>
+                        <div class="col-xs-3">
+                            <input name="rodzajCzasDyskusji" class="form-control" id="rodzajCzasDyskusji" min="0" required type="number" value={{rodzajCzasDyskusji}} >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" for="inputRodzajCzasGlosowania">Rodzaj - czas głosowania:</label>
+                        <div class="col-xs-3">
+                            <input name="rodzajCzasGlosowania" class="form-control" id="rodzajCzasGlosowania" min="0" required type="number" value={{rodzajCzasGlosowania}} >
+                        </div>
+                    </div>
                     <br/>
                     <h3 class="col-md-12">Parametry Kwestii</h3>
                     <hr/>

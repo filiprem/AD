@@ -11,17 +11,17 @@ Template.addRodzajForm.rendered = function () {
         },
         messages: {
             nazwaRodzaj: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             tematy: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             czasDyskusji: {
-                min: positiveNumberMesssage()
+                min: positiveNumberMessage()
             },
             czasGlosowania: {
-                min: positiveNumberMesssage(),
-                number: decimalNumberMesssage()
+                min: positiveNumberMessage(),
+                number: decimalNumberMessage()
             }
         },
         highlight: function (element) {
