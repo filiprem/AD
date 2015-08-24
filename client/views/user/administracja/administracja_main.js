@@ -15,6 +15,6 @@ Template.administracjaUserMain.helpers({
         };
     },
     listOfIssues: function(){
-        return Kwestia.find().fetch();
+        return Kwestia.find({}).fetch();
     }
 });
