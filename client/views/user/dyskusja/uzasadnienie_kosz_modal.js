@@ -1,5 +1,5 @@
 Template.uzasadnienieKoszModal.events({
-    'click #zatwierdzPrzeniesDoKosza': function(e){
+    'click #zatwierdzPrzeniesDoKosza': function (e) {
         e.preventDefault();
         var uzasadnienie = document.getElementById('uzasadnienieKosz').value;
         if (uzasadnienie) {
@@ -99,7 +99,7 @@ Template.uzasadnienieKoszModal.events({
             }
         }
     },
-    'click #anulujButton': function(e){
+    'click #anulujButton': function (e) {
         e.preventDefault();
         document.getElementById('uzasadnienieKosz').value = "";
         $("#uzasadnijWyborKosz").modal("hide");

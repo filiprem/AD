@@ -1,12 +1,12 @@
-liczenieKworumZwykle = function(liczbaUzytkownikow){
-    var potega = 7/9;
-    var liczba = 4/7;
-    var kworum = Math.pow(liczbaUzytkownikow,potega)*liczba;
+liczenieKworumZwykle = function (liczbaUzytkownikow) {
+    var potega = 7 / 9;
+    var liczba = 4 / 7;
+    var kworum = Math.pow(liczbaUzytkownikow, potega) * liczba;
     return Math.round(kworum);
 };
 
-liczenieKworumStatutowe = function(liczbaUzytkownikow){
-    var kworum = liczbaUzytkownikow/3*2;
+liczenieKworumStatutowe = function (liczbaUzytkownikow) {
+    var kworum = liczbaUzytkownikow / 3 * 2;
     return Math.round(kworum);
 };
 
@@ -29,10 +29,10 @@ replacePolishChars = function (_elem) {
 generateLogin = function (u_firstName, u_lastName) {
     var i = 1;
     do {
-        if (i<=u_firstName.length) {
+        if (i <= u_firstName.length) {
             var userName = replacePolishChars(u_firstName.slice(0, i).toLowerCase() + u_lastName.toLowerCase());
         } else {
-            var userName = replacePolishChars(u_firstName.slice(0, 1).toLowerCase() + u_lastName.toLowerCase() + (i-u_firstName.length));
+            var userName = replacePolishChars(u_firstName.slice(0, 1).toLowerCase() + u_lastName.toLowerCase() + (i - u_firstName.length));
         }
         var userExists = Users.findOne({username: userName});
         i++;
@@ -92,7 +92,7 @@ setValueIfEmptyField = function (field, value) {
 }
 getUserRadkingValue = function (idUser) {
     var user = Users.findOne({_id: idUser});
-    if(user){
+    if (user) {
         return Number(user.profile.rADking)
     }
 };
@@ -147,12 +147,12 @@ setParamInfo = function (paramName, initialValue, newValue) {
     return item;
 };
 
-getUpdateKwestiaRatingObject = function(ratingValue,object){
+getUpdateKwestiaRatingObject = function (ratingValue, object) {
     var glosujacyTab = object.glosujacy.slice();
     var wartoscPriorytetu = parseInt(object.wartoscPriorytetu);
 
-    _.each(object.glosujacy,function(item){
-        if(item.idUser === Meteor.userId()){
+    _.each(object.glosujacy, function (item) {
+        if (item.idUser === Meteor.userId()) {
             wartoscPriorytetu -= item.value;
             glosujacyTab[object.glosujacy.indexOf(item)].value = ratingValue;
             wartoscPriorytetu += ratingValue;
@@ -167,11 +167,11 @@ getUpdateKwestiaRatingObject = function(ratingValue,object){
     return kwestiaUpdate;
 };
 
-getOldValueOfUserVote = function(ratingValue,object){
+getOldValueOfUserVote = function (ratingValue, object) {
 
-    var oldValue=0;
-    _.each(object.glosujacy,function(item){
-        if(item.idUser === Meteor.userId())
+    var oldValue = 0;
+    _.each(object.glosujacy, function (item) {
+        if (item.idUser === Meteor.userId())
             oldValue = item.value;
     });
     return oldValue;

@@ -50,7 +50,7 @@ Template.doradcaForm.events({
                 zip: $(e.target).find('[name=zipCode]').val(),
                 gender: $(e.target).find('[name=genderRadios]:checked').val(),
                 role: 'admin',
-                userType:USERTYPE.DORADCA
+                userType: USERTYPE.DORADCA
             }];
         //-- generowanie loginu dla użytkownika
         newUser[0].login = generateLogin(newUser[0].firstName, newUser[0].lastName);
@@ -60,7 +60,7 @@ Template.doradcaForm.events({
         //utworzenie nowego usera
         //utworzenie nowej kwestii z idUser
         //poinformowanie użytkowników o pojawieniu się kwestii
-        Meteor.call('addUserDraft', newUser, function (error,ret) {
+        Meteor.call('addUserDraft', newUser, function (error, ret) {
             if (error) {
                 // optionally use a meteor errors package
                 if (typeof Errors === "undefined")
@@ -70,10 +70,10 @@ Template.doradcaForm.events({
                     throwError(error.reason);
                 }
             }
-            else{
+            else {
                 //to finish:
                 //idUser,idTemat,idRodzaj
-                var idUserDraft=ret;
+                var idUserDraft = ret;
                 var dataG = new Date();
                 var d = dataG.setDate(dataG.getDate() + 7);
                 var newKwestia = [
@@ -90,32 +90,32 @@ Template.doradcaForm.events({
                         krotkaTresc: '',
                         szczegolowaTresc: '',
                         isOption: false,
-                        status:KWESTIA_STATUS.OSOBOWA
+                        status: KWESTIA_STATUS.OSOBOWA
                     }];
-                    Meteor.call('addKwestia', newKwestia, function (error) {
-                        if (error) {
-                            // optionally use a meteor errors package
-                            if (typeof Errors === "undefined")
-                                Log.error('Error: ' + error.reason);
-                            else {
-                                //if(error.error === 409)
-                                throwError(error.reason);
-                            }
-                        }
+                Meteor.call('addKwestia', newKwestia, function (error) {
+                    if (error) {
+                        // optionally use a meteor errors package
+                        if (typeof Errors === "undefined")
+                            Log.error('Error: ' + error.reason);
                         else {
-                            Router.go("home");
-                            bootbox.dialog({
-                                message: "Twój wniosek został przyjęty. O wyniku zostaniesz poinformowany drogą mailową",
-                                title: "Uwaga",
-                                buttons: {
-                                    main: {
-                                        label: "Ok",
-                                        className: "btn-primary",
-                                    }
-                                }
-                            });
+                            //if(error.error === 409)
+                            throwError(error.reason);
                         }
-                    });
+                    }
+                    else {
+                        Router.go("home");
+                        bootbox.dialog({
+                            message: "Twój wniosek został przyjęty. O wyniku zostaniesz poinformowany drogą mailową",
+                            title: "Uwaga",
+                            buttons: {
+                                main: {
+                                    label: "Ok",
+                                    className: "btn-primary",
+                                }
+                            }
+                        });
+                    }
+                });
             }
         });
     },

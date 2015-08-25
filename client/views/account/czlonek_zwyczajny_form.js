@@ -33,20 +33,20 @@ Template.czlonekZwyczajnyForm.rendered = function () {
             lastName: {
                 required: fieldEmptyMesssage()
             },
-            profession:{
-                required:fieldEmptyMesssage()
+            profession: {
+                required: fieldEmptyMesssage()
             },
-            phone:{
-                required:fieldEmptyMesssage()
+            phone: {
+                required: fieldEmptyMesssage()
             },
-            dateOfBirth:{
-                required:fieldEmptyMesssage()
+            dateOfBirth: {
+                required: fieldEmptyMesssage()
             },
-            address:{
-                required:fieldEmptyMesssage()
+            address: {
+                required: fieldEmptyMesssage()
             },
-            zipCode:{
-                required:fieldEmptyMesssage()
+            zipCode: {
+                required: fieldEmptyMesssage()
             }
         },
         highlight: function (element) {
