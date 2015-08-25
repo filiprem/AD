@@ -29,5 +29,9 @@ Template.administracjaUserMain.helpers({
         if (k) {
             return k;
         }
+    },
+    listOfIssuesCount: function () {
+        var ile = Kwestia.find({}).count();
+        return ile > 0 ? true : false;
     }
 });
