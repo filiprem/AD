@@ -7,6 +7,7 @@ Meteor.startup(function () {
             {languageName: "angielski", shortName: "en", isEnabled: true, czyAktywny: true},
             {languageName: "niemiecki", shortName: "de", isEnabled: true, czyAktywny: true},
             {languageName: "szwedzki", shortName: "se", isEnabled: true, czyAktywny: true},
+            {languageName: "francuski", shortName: "fr", isEnabled: true, czyAktywny: true}
         ]
     }
 

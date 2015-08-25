@@ -49,6 +49,24 @@ Template.editRodzajForm.helpers({
             return true;
         else
             return false;
+    },
+    isSelectedZwykla: function (k) {
+        var item = this.kworum;
+        console.log(item)
+        if (item == k) {
+            return "selected";
+        }
+        else
+            return "";
+    },
+    isSelectedStatutowa: function (k) {
+        var item = this.kworum;
+        console.log(item)
+        if (item == k) {
+            return "selected";
+        }
+        else
+            return "";
     }
 });
 
@@ -68,8 +86,10 @@ Template.editRodzajForm.events({
             idTemat: $(e.target).find('[name=tematy]').val(),
             nazwaRodzaj: $(e.target).find('[name=nazwaRodzaj]').val(),
             czasDyskusji: czasD,
-            czasGlosowania: czasG
+            czasGlosowania: czasG,
+            kworum: $(e.target).find('[name=kworumSelect]').val()
         };
+        console.log(rodzaj)
         Meteor.call('updateRodzaj', idRodzaj, rodzaj, function (error) {
             if (error) {
                 if (typeof Errors === "undefined")

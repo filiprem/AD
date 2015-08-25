@@ -1,3 +1,16 @@
+/*
+ Po odesłaniu do Kosza Kwestii-Opcji powinna ona zniknąć z wykazu Kwestii-Opcji.
+ Trzeba ja trwale odłączyć od grupy, a miejsce zwolnione będzie dla ewentualnego dołożenia innej Opcji. ->
+ trzeba usunąć idParent z Kwestii-Opcji aby już nie była powiązana z Kwestią-Główna.
+ Automatycznie zwolni się miejsce dla kolejnej Opcji i przycisk "Dodaj Opcję" się pojawi.
+
+ Po odesłaniu do Archiwym odłączać i zwalniać miejsca nie należy.
+ Archiwalna Kwestia-Opcja nadal jest częścią grupy, a w wykazie "podglądowym" (pod szczegółami) powinna być wykazana
+ i jakoś inaczej oznaczona (może napisem "archiwalna"), a po kloknięciu w nią - oczywiście - prowadzić do niej (czyli do Archiwum).
+ -> Dodać mechanizm, który będzie dopisywał "ARCHIWALNA" do Kwestii-Opcji, która została przeniesiona do Archiwum.
+ * */
+
+
 Template.informacjeKwestia.rendered = function () {
 };
 Template.informacjeKwestia.created = function () {

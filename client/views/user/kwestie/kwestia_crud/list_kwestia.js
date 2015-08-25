@@ -187,10 +187,11 @@ Template.kworumNumber.helpers({//brani są tu użytkownicy,którzy zaglosowali,c
     // do glosowania uzytkownikow :)
     date: function () {
         var usersCount = this.glosujacy.length;
-        //var usersCount = Users.find({}).count();
+        var allUsers = Users.find({}).count();
         if (usersCount) {
             var data;
-            var kworum = liczenieKworumZwykle(usersCount);
+            var kworum = liczenieKworumZwykle(allUsers);
+            console.log(kworum)
             if (kworum >= 3) {
 
                 data = usersCount.toString() + " / " + kworum.toString();

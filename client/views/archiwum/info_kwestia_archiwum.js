@@ -1,3 +1,24 @@
+/*
+ Stąd można będzie wnioskować powrót Kwestii do deliberacji IDENTYCZNIE, jak się odsyła z innych paneli do Archiwum.
+ Przycisk [do Deliberacji] spowoduje powstanie specjalnego komentarza z dołączonym uzasadnieniem...
+  -> TO DO -> Zrobić mechanizm sprawdzający parametry potrzebne do przeniesienia Kwestii z archiwum do wykazu.
+
+ Przycisk  [do Deliberacji] nie może się pokazywać dla Kwestii o statusie "hibernowana" (GOTOWE),
+ który to status również (tylko Kwestie-Opcje) lokuje w Archiwum.
+ Zamiast tego przycisku proszę ulokować tam:  [Zobacz Realizację] (GOTOWE)
+ A więc z hibernowanych można będzie jedynie odsyłać do Realizacji Kwestii zwycięskiej w tej grupie Opcji.
+ Hibernowanych Kwestii  NIE MOŻNA PRIORYTETOWAĆ , ale można priorytetować ich komentarze oraz odniesienia,
+ jak też dodawać Komentarze i odniesienia... (GOTOWE)
+ Jedynie po degradacji ich "siostry" z Realizacji - automatycznie związane Opcje są uwalniane z hibernacji i
+ wskakują do Deliberacji (nadal jako grupa Opcji), a zdegradowana Kwestia-Opcja (zależnie od decyzji) - do Archiwum lub Kosza.
+  -> TO DO
+ Kwestię będącą w Archiwum NIE MOŻNA PRIORYTETOWAĆ (GOTOWE), natomiast jej dotychczasowy priorytet powinien być zachowany
+ (zamrożony na czas przebywania w Archiwum).
+ O jej powrocie do Deliberacji może zdecydować jedynie priorytetowanie specjalnego komentarza. (GOTOWE)
+ Zwykła dyskusja, komentarze i odniesienia mogą funkcjonować (a nawet powinny),
+ czyli w Archiwum można dyskutować, priorytetować komentarze i odniesienia.
+* */
+
 Template.informacjeKwestiaArchiwum.events({
     'click #wyczyscPriorytety': function () {
         var me = Meteor.userId();

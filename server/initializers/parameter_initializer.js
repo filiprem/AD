@@ -3,7 +3,7 @@ Meteor.startup(function () {
         {
             "nazwaOrganizacji": "Aktywna Demokracja",
             "terytorium": "Polska",
-            "kontakty": "Warszawa ul Miła",
+            "kontakty": "Warszawa ul. Miła",
             "regulamin": "brak regulaminu",
             "pktDodanieKwestii": 10,
             "pktDodanieKomentarza": 5,
