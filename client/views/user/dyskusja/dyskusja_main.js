@@ -1,9 +1,3 @@
-Template.discussionMain.helpers({
-    'getPosts': function (id) {
-        return Posts.find({idKwestia: id, isParent: true}, {sort: {wartoscPriorytetu: -1}});
-    }
-});
-
 Template.discussionPostForm.rendered = function () {
     $("#dyskusjaForm").validate({
         messages: {
@@ -143,5 +137,23 @@ Template.discussionRating.events({
             }
         });
 
+    }
+});
+
+Template.discussionMain.helpers({
+    'getPosts': function (id) {
+        return Posts.find({idKwestia: id, isParent: true}, {sort: {wartoscPriorytetu: -1}});
+    }
+});
+
+Template.discussionPostForm.helpers({
+    isUserLogged : function(){
+        return Meteor.userId() ? "" :"disabled";
+    }
+});
+
+Template.discussionRating.helpers({
+    isUserLogged : function(){
+        return Meteor.userId() ? "" :"disabled";
     }
 });

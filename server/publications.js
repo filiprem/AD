@@ -14,8 +14,15 @@ Meteor.publish('usersRoles', function () {
     return Users.find({}, {fields: {roles: 1}});
 });
 
+Meteor.publish('usersEmails', function () {
+    return Users.find({}, {fields: {emails: 1}});
+});
+
 Meteor.publish('usersDraft', function () {
     return Users.find({});
+});
+Meteor.publish('usersDraftEmails', function () {
+    return UsersDraft.find({}, {fields: {email: 1}});
 });
 
 Meteor.publish(null, function (){

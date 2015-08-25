@@ -13,7 +13,8 @@ Template.registerForm.rendered = function () {
                 number: true
             },
             email: {
-                email: true
+                email: true,
+                checkExistsEmail: true
             },
             confirmPassword: {
                 equalTo: "#inputPassword"

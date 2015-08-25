@@ -21,7 +21,9 @@ Meteor.methods({
                     phone: newUser[0].phone,
                     web: newUser[0].web,
                     language:newUser[0].language,
-                    userType:newUser[0].userType
+                    userType:newUser[0].userType,
+                    uwagi:newUser[0].uwagi,
+
                 }
             });
             return id;
