@@ -27,7 +27,7 @@
                         </button>
                         {{#if kwestiaOpcjaCount}}
                             {{#unless isAdmin}}
-                                <button id="addOptionButton" class="btn btn-primary">
+                                <button id="addOptionButton" class="btn btn-primary" {{isUserLogged}}>
                                     <span class="glyphicon glyphicon-plus"></span> Dodaj opcję
                                 </button>
                             {{/unless}}
@@ -38,10 +38,10 @@
                         {{> uzasadnienieKoszModal}}
                         <div class="btn-group" role="group" aria-label="...">
                             <!--<label class="btn btn-danger">Przeniesienie Kwestii</label>-->
-                            <button id="doArchiwum" class="btn btn-warning">
+                            <button id="doArchiwum" class="btn btn-warning" {{isUserLogged}}>
                                 <span class="glyphicon glyphicon-lock"></span> Do Archiwum
                             </button>
-                            <button id="doKosza" class="btn btn-danger">
+                            <button id="doKosza" class="btn btn-danger" {{isUserLogged}}>
                                 <span class="glyphicon glyphicon-trash"></span> Do Kosza
                             </button>
                         </div>
@@ -100,7 +100,7 @@
                                         <button id="priorytetButton" name="{{idKwestia}}" type="button"
                                                 class="btn btn-xs btn-default" value="0"
                                                 data-toggle="tooltip" data-placement="top"
-                                                title="Oznacza wstrzymanie się od głosu">&nbsp;0
+                                                title="Oznacza wstrzymanie się od głosu" {{isUserLogged}}>&nbsp;0
                                         </button>
                                         <button id="priorytetButton" name="{{idKwestia}}" type="button"
                                                 class="btn btn-xs btn-success" value="1" {{isSelected 1}}>+1
