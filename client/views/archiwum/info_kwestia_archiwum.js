@@ -152,9 +152,9 @@ Template.informacjeKwestiaArchiwum.events({
     }
 });
 Template.informacjeKwestiaArchiwum.helpers({
-    ifIsHibernowana: function(){
+    ifIsHibernowana: function () {
         var k = this;
-        if(k.status == KWESTIA_STATUS.HIBERNOWANA)
+        if (k.status == KWESTIA_STATUS.HIBERNOWANA)
             return true;
         return false;
     },

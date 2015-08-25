@@ -54,17 +54,17 @@ Template.discussionPostForm.events({
             glosujacy: glosujacy
         }];
 
-        if (isNotEmpty(post[0].idKwestia,'') && isNotEmpty(post[0].wiadomosc,'komentarz') && isNotEmpty(post[0].idUser,'') &&
-            isNotEmpty(post[0].addDate.toString(),'') && isNotEmpty(post[0].czyAktywny.toString(),'') &&
-            isNotEmpty(post[0].userFullName,'' && isNotEmpty(post[0].isParent.toString(),''))) {
+        if (isNotEmpty(post[0].idKwestia, '') && isNotEmpty(post[0].wiadomosc, 'komentarz') && isNotEmpty(post[0].idUser, '') &&
+            isNotEmpty(post[0].addDate.toString(), '') && isNotEmpty(post[0].czyAktywny.toString(), '') &&
+            isNotEmpty(post[0].userFullName, '' && isNotEmpty(post[0].isParent.toString(), ''))) {
 
-            Meteor.call('addPost', post, function (error,ret) {
+            Meteor.call('addPost', post, function (error, ret) {
                 if (error) {
                     if (typeof Errors === "undefined")
                         Log.error('Error: ' + error.reason);
                     else
                         throwError(error.reason);
-                }else{
+                } else {
                     document.getElementById("message").value = "";
 
                     var newValue = 0;
@@ -101,10 +101,10 @@ Template.discussionRating.events({
         }
         var flag = false;
 
-        for(var i=0; i < post.glosujacy.length; i++) {
-            if(post.glosujacy[i].idUser === Meteor.userId()) {
-                flag=false;
-                if(post.glosujacy[i].value === ratingValue) {
+        for (var i = 0; i < post.glosujacy.length; i++) {
+            if (post.glosujacy[i].idUser === Meteor.userId()) {
+                flag = false;
+                if (post.glosujacy[i].value === ratingValue) {
                     throwError("Nadałeś już priorytet o tej wadze w tym poście!");
                     return false;
                 } else {

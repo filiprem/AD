@@ -70,9 +70,7 @@ Template.doradcaForm.events({
                     throwError(error.reason);
                 }
             }
-            else{
-                //to finish:
-                //idUser,idTemat,idRodzaj
+            else {
                 var idUserDraft=ret;
                 var dataG = new Date();
                 var d = dataG.setDate(dataG.getDate() + 7);

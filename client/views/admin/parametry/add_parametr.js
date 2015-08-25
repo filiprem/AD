@@ -37,13 +37,13 @@ Template.addParametrForm.rendered = function () {
             wycofanieKwestiiDoArchiwum: {
                 max: positiveNumberMessage()
             },
-            wycofanieKwestiiDoKosza:{
+            wycofanieKwestiiDoKosza: {
                 max: positiveNumberMessage()
             },
-            wyjscieZZespolu:{
+            wyjscieZZespolu: {
                 max: positiveNumberMessage()
             },
-            brakUdzialuWGlosowaniu:{
+            brakUdzialuWGlosowaniu: {
                 max: positiveNumberMessage()
             }
         },
