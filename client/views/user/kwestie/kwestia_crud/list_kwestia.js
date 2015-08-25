@@ -117,7 +117,7 @@ Template.listKwestia.helpers({
                     key: 'dataGlosowania',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        title: "Kworum",
+                        title: "Aktualne kworum / wymagane kworum",
                         text: "Kworum"
                     },
                     tmpl: Template.kworumNumber
@@ -186,8 +186,8 @@ Template.kworumNumber.helpers({//brani są tu użytkownicy,którzy zaglosowali,c
     // Karolina: myślę, ze wszyscy uzytkownicy bo w funkcji z xml napisane jest, ze bierzemy wszystkich uprawnionych
     // do glosowania uzytkownikow :)
     date: function () {
-        //var usersCount = this.glosujacy.length;
-        var usersCount = Users.find({}).count();
+        var usersCount = this.glosujacy.length;
+        //var usersCount = Users.find({}).count();
         if (usersCount) {
             var data;
             var kworum = liczenieKworumZwykle(usersCount);
@@ -200,7 +200,6 @@ Template.kworumNumber.helpers({//brani są tu użytkownicy,którzy zaglosowali,c
             }
             return data;
         }
-
     }
 });
 
