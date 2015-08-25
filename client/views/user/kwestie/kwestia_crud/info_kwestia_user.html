@@ -25,13 +25,15 @@
                         <button id="backToList" class="btn btn-primary">
                             <span class="glyphicon glyphicon-arrow-left"></span> Powrót
                         </button>
-                        {{#if kwestiaOpcjaCount}}
-                            {{#unless isAdmin}}
-                                <button id="addOptionButton" class="btn btn-primary" {{isUserLogged}}>
-                                    <span class="glyphicon glyphicon-plus"></span> Dodaj opcję
-                                </button>
-                            {{/unless}}
-                        {{/if}}
+                        {{#unless czyOsobowa}}
+                            {{#if kwestiaOpcjaCount}}
+                                {{#unless isAdmin}}
+                                    <button id="addOptionButton" class="btn btn-primary" {{isUserLogged}}>
+                                        <span class="glyphicon glyphicon-plus"></span> Dodaj opcję
+                                    </button>
+                                {{/unless}}
+                            {{/if}}
+                        {{/unless}}
                     </div>
                     {{#unless isAdmin}}
                         {{> uzasadnienieArchiwumModal}}

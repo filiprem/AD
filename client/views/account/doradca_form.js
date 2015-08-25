@@ -83,14 +83,14 @@ Template.doradcaForm.events({
                     {
                         idUser: idUserDraft,
                         dataWprowadzenia: new Date(),
-                        kwestiaNazwa: 'Aplikacja- '+newUser[0].firstName+" "+newUser[0].lastName,
+                        kwestiaNazwa: 'Aplikacja - '+newUser[0].firstName+" "+newUser[0].lastName,
                         wartoscPriorytetu: 0,
                         sredniaPriorytet: 0,
                         idTemat: Temat.findOne({})._id,
                         idRodzaj: Rodzaj.findOne({})._id,
                         dataDyskusji: new Date(),
                         dataGlosowania: d,
-                        krotkaTresc: 'Aplikuję o przyjęcie do systemu jako '+newUser[0].userType,
+                        krotkaTresc: 'Aplikuję o przyjęcie do systemu jako '+newUser[0].userType+".",
                         szczegolowaTresc: daneAplikanta,
                         isOption: false,
                         status:KWESTIA_STATUS.OSOBOWA
@@ -108,7 +108,7 @@ Template.doradcaForm.events({
                         else {
                             Router.go("home");
                             bootbox.dialog({
-                                message: "Twój wniosek został przyjęty. O wyniku zostaniesz poinformowany drogą mailową",
+                                message: "Twój wniosek został przyjęty. O wyniku zostaniesz poinformowany drogą mailową.",
                                 title: "Uwaga",
                                 buttons: {
                                     main: {

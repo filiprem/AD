@@ -216,6 +216,22 @@ Template.informacjeKwestia.events({
     }
 });
 Template.informacjeKwestia.helpers({
+    thisKwestia: function () {
+        var kw = Kwestia.findOne({_id: this._id});
+        if (kw) {
+            if (kw.isOption)
+                Session.set("idKwestia", kw.idParent);
+            else
+                Session.set("idKwestia", this._id)
+        }
+    },
+    // OPCJE
+    czyOsobowa: function () {
+        if (this.status == KWESTIA_STATUS.OSOBOWA)
+            return true;
+        else
+            return false;
+    },
     kwestiaOpcjaCount: function () {
         var ile = Kwestia.find({idParent: this.idParent}).count();
         if (ile == 10)
@@ -231,17 +247,6 @@ Template.informacjeKwestia.helpers({
         else
             return false;
     },
-    isAdmin: function () {
-        if(Meteor.user()){
-            if (Meteor.user().roles) {
-                if (Meteor.user().roles == "admin")
-                    return true;
-                else
-                    return false;
-            }
-            else return false;
-        }
-    },
     opcje: function () {
         var kwestiaGlownaId = Session.get("idKwestia");
         var op = Kwestia.find({idParent: kwestiaGlownaId}).fetch();
@@ -250,15 +255,7 @@ Template.informacjeKwestia.helpers({
         else
             return false;
     },
-    thisKwestia: function () {
-        var kw = Kwestia.findOne({_id: this._id});
-        if(kw){
-            if (kw.isOption)
-                Session.set("idKwestia", kw.idParent);
-            else
-                Session.set("idKwestia", this._id)
-        }
-    },
+    //PRIORYTET
     mojPiorytet: function () {
         var currentKwestiaId = this._id;
         var kwestia = Kwestia.findOne(currentKwestiaId);
@@ -290,6 +287,17 @@ Template.informacjeKwestia.helpers({
             }
         }
     },
+    priorytetZeZnakiem: function () {
+        var p = this.wartoscPriorytetu;
+        if (p) {
+            if (p > 0) {
+                p = "+" + p;
+                return p;
+            }
+            else return p;
+        }
+        else return 0;
+    },
     glosujacyCount: function () {
         var currentKwestiaId = this._id;
         var tab = Kwestia.findOne(currentKwestiaId);
@@ -298,42 +306,8 @@ Template.informacjeKwestia.helpers({
             return liczba;
         }
     },
-    srednia: function () {
-        var s = this.sredniaPriorytet;
-        if (s) {
-            var ss = s.toFixed(2);
-            return ss;
-        }
-    },
-    tematNazwa: function () {
-        return Temat.findOne({_id: this.idTemat});
-    },
-    rodzajNazwa: function () {
-        return Rodzaj.findOne({_id: this.idRodzaj});
-    },
-    date: function () {
-        var d = this.dataWprowadzenia;
-        if (d) return moment(d).format("DD-MM-YYYY, HH:mm");
-    },
-    dateG: function () {
-        var d = this.dataGlosowania;
-        if (d) return moment(d).format("DD-MM-YYYY, HH:mm");
-    },
-    dataGlosowaniaObliczana: function () {
-        var dataG = this.dataGlosowania;
-        var rodzajId = this.idRodzaj;
-        var r = Rodzaj.findOne({_id: this.idRodzaj});
-        if (r) {
-            var czasGlRodzaj = r.czasGlosowania;
-            var k = moment(dataG).subtract(czasGlRodzaj, 'h').format("DD-MM-YYYY, HH:mm");
-            return k;
-        }
-    },
-    isUserLogged : function(){
-        return Meteor.userId() ? "" :"disabled";
-    },
     isSelected: function (number) {
-        if(!Meteor.userId())
+        if (!Meteor.userId())
             return "disabled";
         var flag = false;
         var currentKwestiaId = Session.get("idKwestia");
@@ -373,15 +347,45 @@ Template.informacjeKwestia.helpers({
         else
             return "";
     },
-    priorytetZeZnakiem: function () {
-        var p = this.wartoscPriorytetu;
-        if (p) {
-            if (p > 0) {
-                p = "+" + p;
-                return p;
-            }
-            else return p;
+    //TEMAT I RODZAJ
+    tematNazwa: function () {
+        return Temat.findOne({_id: this.idTemat});
+    },
+    rodzajNazwa: function () {
+        return Rodzaj.findOne({_id: this.idRodzaj});
+    },
+    //DATY
+    date: function () {
+        var d = this.dataWprowadzenia;
+        if (d) return moment(d).format("DD-MM-YYYY, HH:mm");
+    },
+    dateG: function () {
+        var d = this.dataGlosowania;
+        if (d) return moment(d).format("DD-MM-YYYY, HH:mm");
+    },
+    dataGlosowaniaObliczana: function () {
+        var dataG = this.dataGlosowania;
+        var rodzajId = this.idRodzaj;
+        var r = Rodzaj.findOne({_id: this.idRodzaj});
+        if (r) {
+            var czasGlRodzaj = r.czasGlosowania;
+            var k = moment(dataG).subtract(czasGlRodzaj, 'h').format("DD-MM-YYYY, HH:mm");
+            return k;
         }
-        else return 0;
+    },
+    //USERS
+    isAdmin: function () {
+        if (Meteor.user()) {
+            if (Meteor.user().roles) {
+                if (Meteor.user().roles == "admin")
+                    return true;
+                else
+                    return false;
+            }
+            else return false;
+        }
+    },
+    isUserLogged: function () {
+        return Meteor.userId() ? "" : "disabled";
     }
 });
