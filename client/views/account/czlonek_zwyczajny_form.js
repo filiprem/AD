@@ -21,32 +21,32 @@ Template.czlonekZwyczajnyForm.rendered = function () {
         },
         messages: {
             role: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             email: {
-                required: fieldEmptyMesssage(),
+                required: fieldEmptyMessage(),
                 email: validEmailMessage()
             },
             firstName: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             lastName: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             profession:{
-                required:fieldEmptyMesssage()
+                required:fieldEmptyMessage()
             },
             phone:{
-                required:fieldEmptyMesssage()
+                required:fieldEmptyMessage()
             },
             dateOfBirth:{
-                required:fieldEmptyMesssage()
+                required:fieldEmptyMessage()
             },
             address:{
-                required:fieldEmptyMesssage()
+                required:fieldEmptyMessage()
             },
             zipCode:{
-                required:fieldEmptyMesssage()
+                required:fieldEmptyMessage()
             }
         },
         highlight: function (element) {

@@ -36,39 +36,40 @@ Template.listKwestia.events({
             'Kwestia w sprawie...', 'Uchwała', 'Opis Kwestii....', 'linkDK', 'linkLoginTo');
     },
     'click #kwestiaIdClick': function () {//nadajemy priorytet automatycznie po wejściu na kwestię + dajemy punkty
-        var kwestia = Kwestia.findOne({_id: this._id});
-        var tabGlosujacy = getAllUsersWhoVoted(kwestia._id);
-        if (!_.contains(tabGlosujacy, Meteor.userId())) {//jeżeli użytkownik jeszcze nie głosował
-            var glosujacy = {
-                idUser: Meteor.userId(),
-                value: 0
-            };
-            var voters = kwestia.glosujacy.slice();
-            voters.push(glosujacy);
-            Meteor.call('setGlosujacyTab', kwestia._id, voters, function (error, ret) {
-                if (error) {
-                    if (typeof Errors === "undefined")
-                        Log.error('Error: ' + error.reason);
-                    else
-                        throwError(error.reason);
-                }
-            });
-            //dodanie pkt za głosowanie
-            var newValue = 0;
-            var pktAddPriorytet = Parametr.findOne({});
-            newValue = Number(pktAddPriorytet.pktNadaniePriorytetu) + getUserRadkingValue(Meteor.userId());
-
-            Meteor.call('updateUserRanking', Meteor.userId(), newValue, function (error) {
-                if (error) {
-                    if (typeof Errors === "undefined")
-                        Log.error('Error: ' + error.reason);
-                    else {
-                        throwError(error.reason);
+        if(Meteor.userId()!=null) {
+            var kwestia = Kwestia.findOne({_id: this._id});
+            var tabGlosujacy = getAllUsersWhoVoted(kwestia._id);
+            if (!_.contains(tabGlosujacy, Meteor.userId())) {//jeżeli użytkownik jeszcze nie głosował
+                var glosujacy = {
+                    idUser: Meteor.userId(),
+                    value: 0
+                };
+                var voters = kwestia.glosujacy.slice();
+                voters.push(glosujacy);
+                Meteor.call('setGlosujacyTab', kwestia._id, voters, function (error, ret) {
+                    if (error) {
+                        if (typeof Errors === "undefined")
+                            Log.error('Error: ' + error.reason);
+                        else
+                            throwError(error.reason);
                     }
-                }
-            });
-        }
+                });
+                //dodanie pkt za głosowanie
+                var newValue = 0;
+                var pktAddPriorytet = Parametr.findOne({});
+                newValue = Number(pktAddPriorytet.pktNadaniePriorytetu) + getUserRadkingValue(Meteor.userId());
 
+                Meteor.call('updateUserRanking', Meteor.userId(), newValue, function (error) {
+                    if (error) {
+                        if (typeof Errors === "undefined")
+                            Log.error('Error: ' + error.reason);
+                        else {
+                            throwError(error.reason);
+                        }
+                    }
+                });
+            }
+        }
     }
 });
 Template.listKwestia.helpers({
@@ -130,8 +131,16 @@ Template.listKwestia.helpers({
             }
         };
     },
-    KwestiaList: function () {
-        return Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.DELIBEROWANA}).fetch();
+    KwestiaList: function () {//Marzena:narazei wyswietlamy kwestie,ktore sa z"zaakceptowane" przez admina i osobowe. Czy osobowe tez powinny przejść przez admina?
+        //chyba nie,bo temat i rodzaj są nadane...
+        var kwestie = Kwestia.find({
+            $where: function () {
+                return ((this.czyAktywny == true) && ((this.status==KWESTIA_STATUS.DELIBEROWANA) ||(this.status==KWESTIA_STATUS.OSOBOWA)));
+            }
+        });
+        if(kwestie) return kwestie;
+        return null;
+        //return Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.DELIBEROWANA || KWESTIA_STATUS.OSOBOWA}).fetch();
     },
     kwestiaCount: function () {
         return Kwestia.find({czyAktywny: true}).count();
@@ -204,32 +213,27 @@ Template.dataUtwKwestia.helpers({
 
 Template.priorytetKwestia.helpers({
     priorytet: function () {
-        var p = this.wartoscPriorytetu;
-        if(p){
-            var searchedId = this._id;
-            var kwe = Kwestia.findOne({_id: this._id});
-            if(kwe){
-                var glosy = kwe.glosujacy.slice();
-                var myGlos;
-                _.each(glosy, function (glos) {
-                    if (glos.idUser == Meteor.userId()) {
-                        myGlos = glos.value;
-                    }
-                });
-                if (p) {
-                    if (p > 0) p = " +" + p;
-                    if (myGlos) {
-                        if (myGlos > 0) myGlos = " +" + myGlos;
-                    }
-                    else
-                        myGlos = 0;
-                    return myGlos + " / " + p;
+        var searchedId = this._id;
+        var kwe = Kwestia.findOne({_id: this._id});
+        if(kwe){
+            var glosy = kwe.glosujacy.slice();
+            var myGlos;
+            _.each(glosy, function (glos) {
+                if (glos.idUser == Meteor.userId()) {
+                    myGlos = glos.value;
                 }
-                else return 0;
+            });
+            var p = this.wartoscPriorytetu;
+            if (p) {
+                if (p > 0) p = " +" + p;
+                if (myGlos) {
+                    if (myGlos > 0) myGlos = " +" + myGlos;
+                }
+                else
+                    myGlos = 0;
+                return myGlos + " / " + p;
             }
-        }
-        else{
-            return 0;
+            else return 0+" / "+0;
         }
     }
 });

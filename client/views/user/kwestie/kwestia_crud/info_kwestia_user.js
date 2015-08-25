@@ -329,7 +329,12 @@ Template.informacjeKwestia.helpers({
             return k;
         }
     },
+    isUserLogged : function(){
+        return Meteor.userId() ? "" :"disabled";
+    },
     isSelected: function (number) {
+        if(!Meteor.userId())
+            return "disabled";
         var flag = false;
         var currentKwestiaId = Session.get("idKwestia");
         var kwestie = Kwestia.find({'glosujacy.idUser': Meteor.userId(), idParent: currentKwestiaId}).fetch();
@@ -342,13 +347,9 @@ Template.informacjeKwestia.helpers({
                         flag = true;
                     }
                 }
-
             }
         });
-        if (flag == true)
-            return "disabled";
-        else
-            return "";
+        return flag ? "disabled" : "";
     },
     isAvailable: function () {
         var i = 0;

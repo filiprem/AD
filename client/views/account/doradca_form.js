@@ -3,7 +3,7 @@ Template.doradcaForm.rendered = function () {
         sideBySide: true,
         format: 'DD/MM/YYYY'
     });
-    $("#userForm").validate({
+    $("#doradcaFormApp").validate({
         rules: {
             email: {
                 email: true
@@ -11,14 +11,14 @@ Template.doradcaForm.rendered = function () {
         },
         messages: {
             email: {
-                required: fieldEmptyMesssage(),
-                email: validEmailMessage()
+                required: fieldEmptyMessage(),
+                email:validEmailMessage()
             },
             firstName: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             lastName: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             }
         },
         highlight: function (element) {
@@ -49,7 +49,7 @@ Template.doradcaForm.events({
                 address: $(e.target).find('[name=address]').val(),
                 zip: $(e.target).find('[name=zipCode]').val(),
                 gender: $(e.target).find('[name=genderRadios]:checked').val(),
-                role: 'admin',
+                role: 'user',
                 userType:USERTYPE.DORADCA
             }];
         //-- generowanie loginu dla użytkownika
@@ -76,19 +76,24 @@ Template.doradcaForm.events({
                 var idUserDraft=ret;
                 var dataG = new Date();
                 var d = dataG.setDate(dataG.getDate() + 7);
+                var daneAplikanta="DANE APLIKANTA: \r\n " +
+                    newUser[0].firstName+", "+newUser[0].lastName+" \r\n "+
+                    newUser[0].email+", \r\n "+
+                    newUser[0].profession+", \r\n "+
+                    newUser[0].address
                 var newKwestia = [
                     {
                         idUser: idUserDraft,
                         dataWprowadzenia: new Date(),
-                        kwestiaNazwa: 'osobowa',
+                        kwestiaNazwa: 'Aplikacja- '+newUser[0].firstName+" "+newUser[0].lastName,
                         wartoscPriorytetu: 0,
                         sredniaPriorytet: 0,
-                        idTemat: $(e.target).find('[name=tematy]').val(),
-                        idRodzaj: $(e.target).find('[name=rodzaje]').val(),
+                        idTemat: Temat.findOne({})._id,
+                        idRodzaj: Rodzaj.findOne({})._id,
                         dataDyskusji: new Date(),
                         dataGlosowania: d,
-                        krotkaTresc: '',
-                        szczegolowaTresc: '',
+                        krotkaTresc: 'Aplikuję o przyjęcie do systemu jako '+newUser[0].userType,
+                        szczegolowaTresc: daneAplikanta,
                         isOption: false,
                         status:KWESTIA_STATUS.OSOBOWA
                     }];

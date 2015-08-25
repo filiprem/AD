@@ -2,7 +2,7 @@ Meteor.methods({
     // metody Kwestia GŁÓWNA
     addKwestia: function (newKwestia) {
         var id = Kwestia.insert({
-            idUser: Meteor.userId(),
+            idUser: newKwestia[0].idUser,
             dataWprowadzenia: newKwestia[0].dataWprowadzenia,
             kwestiaNazwa: newKwestia[0].kwestiaNazwa,
             wartoscPriorytetu: parseInt(newKwestia[0].wartoscPriorytetu),
