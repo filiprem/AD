@@ -209,3 +209,9 @@ Template.discussionAnswerItem.events({
         self.colTextAnswerRV.set(itemTab);
     }
 });
+
+Template.discussionAnswerForm.helpers({
+    isUserLogged: function () {
+        return Meteor.userId() ? "" : "disabled";
+    }
+});

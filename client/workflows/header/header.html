@@ -13,6 +13,7 @@
                             <i class="fa fa-file-o"></i> Wykaz Kwestii
                         </a>
                     </li>
+                    {{#if currentUser}}
                     <li class="{{activeRouteClass 'glosowanie'}}">
                         <a href="{{pathFor 'glosowanie'}}">
                             <i class="fa fa-file-text-o"></i> Głosowanie
@@ -33,7 +34,6 @@
                             <i class="fa fa-users"></i> Użytkownicy
                         </a>
                     </li>
-                    {{#if currentUser}}
                     {{#unless isAdmin}}
                         <li class="{{activeRouteClass 'administracjaUserMain'}}">
                             <a href="{{pathFor 'administracjaUserMain'}}">

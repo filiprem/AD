@@ -6,7 +6,9 @@ Template.doradcaForm.rendered = function () {
     $("#doradcaFormApp").validate({
         rules: {
             email: {
-                email: true
+                email: true,
+                checkExistsEmail: true,
+                checkExistsEmailDraft:true
             }
         },
         messages: {
@@ -50,7 +52,8 @@ Template.doradcaForm.events({
                 zip: $(e.target).find('[name=zipCode]').val(),
                 gender: $(e.target).find('[name=genderRadios]:checked').val(),
                 role: 'user',
-                userType:USERTYPE.DORADCA
+                userType:USERTYPE.DORADCA,
+                uwagi:$(e.target).find('[name=uwagi]').val()
             }];
         //-- generowanie loginu dla użytkownika
         newUser[0].login = generateLogin(newUser[0].firstName, newUser[0].lastName);
@@ -78,19 +81,21 @@ Template.doradcaForm.events({
                     newUser[0].firstName+", "+newUser[0].lastName+" \r\n "+
                     newUser[0].email+", \r\n "+
                     newUser[0].profession+", \r\n "+
-                    newUser[0].address
+                    newUser[0].address+ " "+
+                    newUser[0].zip+", \r\n "+
+                    newUser[0].uwagi
                 var newKwestia = [
                     {
                         idUser: idUserDraft,
                         dataWprowadzenia: new Date(),
-                        kwestiaNazwa: 'Aplikacja - '+newUser[0].firstName+" "+newUser[0].lastName,
+                        kwestiaNazwa: 'Aplikacja- '+newUser[0].firstName+" "+newUser[0].lastName,
                         wartoscPriorytetu: 0,
                         sredniaPriorytet: 0,
                         idTemat: Temat.findOne({})._id,
                         idRodzaj: Rodzaj.findOne({})._id,
                         dataDyskusji: new Date(),
                         dataGlosowania: d,
-                        krotkaTresc: 'Aplikuję o przyjęcie do systemu jako '+newUser[0].userType+".",
+                        krotkaTresc: 'Aplikuję o przyjęcie do systemu jako '+newUser[0].userType,
                         szczegolowaTresc: daneAplikanta,
                         isOption: false,
                         status:KWESTIA_STATUS.OSOBOWA
@@ -108,7 +113,7 @@ Template.doradcaForm.events({
                         else {
                             Router.go("home");
                             bootbox.dialog({
-                                message: "Twój wniosek został przyjęty. O wyniku zostaniesz poinformowany drogą mailową.",
+                                message: "Twój wniosek o przyjęcie do systemu jako "+newUser[0].userType+ " został przyjęty. O wyniku zostaniesz poinformowany drogą mailową",
                                 title: "Uwaga",
                                 buttons: {
                                     main: {

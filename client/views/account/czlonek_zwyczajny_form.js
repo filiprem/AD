@@ -5,15 +5,10 @@ Template.czlonekZwyczajnyForm.rendered = function () {
     });
     $("#userForm").validate({
         rules: {
-            password: {
-                minlength: 6
-            },
-            czasGlosowania: {
-                min: 0.01,
-                number: true
-            },
             email: {
-                email: true
+                email: true,
+                checkExistsEmail: true,
+                checkExistsEmailDraft:true
             },
             confirmPassword: {
                 equalTo: "#inputPassword"
@@ -66,13 +61,11 @@ Template.czlonekZwyczajnyForm.rendered = function () {
 Template.czlonekZwyczajnyForm.events({
     'submit form': function (e) {
         e.preventDefault();
-        // uzupe�nienie tymczasowej tablicy danymi z formularza
+        // uzupełnienie tymczasowej tablicy danymi z formularza
         var newUser = [
             {
                 email: $(e.target).find('[name=email]').val(),
                 login: "",
-                password: $(e.target).find('[name=password]').val(),
-                confirm_password: $(e.target).find('[name=confirmPassword]').val(),
                 firstName: $(e.target).find('[name=firstName]').val(),
                 lastName: $(e.target).find('[name=lastName]').val(),
                 profession: $(e.target).find('[name=profession]').val(),
@@ -82,46 +75,79 @@ Template.czlonekZwyczajnyForm.events({
                 zip: $(e.target).find('[name=zipCode]').val(),
                 web: $(e.target).find('[name=web]').val(),
                 gender: $(e.target).find('[name=genderRadios]:checked').val(),
-                role: 'admin',
-                roleDesc: $(e.target).find('[name=uwagiStatus]').val(),
-                rADking: 0,
-                //roleDesc: $(e.target).find('[name=uwagiStatus]').val(),
+                role: 'user',
+                userType:USERTYPE.CZLONEK,
+                uwagi:$(e.target).find('[name=uwagi]').val(),
                 language: $(e.target).find('[name=language]').val()
             }];
-        //-- generowanie loginu dla u�ytkownika
+        //-- generowanie loginu dla użytkownika
         newUser[0].login = generateLogin(newUser[0].firstName, newUser[0].lastName);
-        //Meteor.call('addUser', newUser, function (error) {
-        //    if (error) {
-        //        // optionally use a meteor errors package
-        //        if (typeof Errors === "undefined")
-        //            Log.error('Error: ' + error.reason);
-        //        else {
-        //            //if(error.error === 409)
-        //            throwError(error.reason);
-        //        }
-        //    }
-        //    else {//je�eli poprawne dane
-        //        Meteor.loginWithPassword(newUser[0].login, newUser[0].password, function(err) {
-        //            if (err) {
-        //                throwError('Niepoprawne dane logowania.');
-        //            } else {
-        //                if(Meteor.loggingIn()) {
-        //                    Router.go('home');
-        //                }
-        //                bootbox.dialog({
-        //                    message: "Tw�j login: "+newUser[0].login,
-        //                    title: "Witaj "+newUser[0].firstName,
-        //                    buttons: {
-        //                        main: {
-        //                            label: "Ok",
-        //                            className: "btn-primary"
-        //                        }
-        //                    }
-        //                });
-        //            }
-        //        });
-        //    }
-        //});
+
+        Meteor.call('addUserDraft', newUser, function (error,ret) {
+            if (error) {
+                // optionally use a meteor errors package
+                if (typeof Errors === "undefined")
+                    Log.error('Error: ' + error.reason);
+                else {
+                    //if(error.error === 409)
+                    throwError(error.reason);
+                }
+            }
+            else {
+                var idUserDraft=ret;
+                var dataG = new Date();
+                var d = dataG.setDate(dataG.getDate() + 7);
+                var daneAplikanta="DANE APLIKANTA: \r\n " +
+                    newUser[0].firstName+", "+newUser[0].lastName+" \r\n "+
+                    newUser[0].email+", \r\n "+
+                    newUser[0].profession+", \r\n "+
+                    newUser[0].address+
+                    newUser[0].zip+", \r\n "+
+                    newUser[0].phone+", \r\n "+
+                    newUser[0].dateOfBirth+", \r\n "+
+                    newUser[0].uwagi
+                var newKwestia = [
+                    {
+                        idUser: idUserDraft,
+                        dataWprowadzenia: new Date(),
+                        kwestiaNazwa: 'Aplikacja- '+newUser[0].firstName+" "+newUser[0].lastName,
+                        wartoscPriorytetu: 0,
+                        sredniaPriorytet: 0,
+                        idTemat: Temat.findOne({})._id,
+                        idRodzaj: Rodzaj.findOne({})._id,
+                        dataDyskusji: new Date(),
+                        dataGlosowania: d,
+                        krotkaTresc: 'Aplikuję o przyjęcie do systemu jako '+newUser[0].userType,
+                        szczegolowaTresc: daneAplikanta,
+                        isOption: false,
+                        status:KWESTIA_STATUS.OSOBOWA
+                    }];
+                Meteor.call('addKwestia', newKwestia, function (error) {
+                    if (error) {
+                        // optionally use a meteor errors package
+                        if (typeof Errors === "undefined")
+                            Log.error('Error: ' + error.reason);
+                        else {
+                            //if(error.error === 409)
+                            throwError(error.reason);
+                        }
+                    }
+                    else {
+                        Router.go("home");
+                        bootbox.dialog({
+                            message: "Twój wniosek o przyjęcie do systemu jako "+newUser[0].userType+ " został przyjęty. O wyniku zostaniesz poinformowany drogą mailową",
+                            title: "Uwaga",
+                            buttons: {
+                                main: {
+                                    label: "Ok",
+                                    className: "btn-primary",
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        });
     },
     'reset form': function () {
         Router.go('home');
