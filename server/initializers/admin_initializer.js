@@ -49,7 +49,8 @@ Meteor.startup(function () {
                     gender: user.gender,
                     phone: user.phone,
                     web: user.web,
-                    role: user.roles
+                    role: user.roles,
+                    rADking: 0
                 }
             });
 

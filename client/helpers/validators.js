@@ -1,106 +1,106 @@
 //validation Messages
 fieldEmptyMessage = function () {
     return 'Pole jest wymagane';
-},
-    positiveNumberMessage = function () {
-        return 'Podaj wartość większą od zera';
-    },
-    negativeNumberMessage = function () {
-        return 'Nie można wprowadzać ujemnych wartości';
-    },
-    decimalNumberMessage = function () {
-        return 'Podana wartość nie jest liczbą';
-    },
-    minLengthMessage = function (length) {
-        return 'Pole musi mieć minimum ' + length + ' znaków';
-    },
-    validEmailMessage = function () {
-        return 'Wprowadż poprawny adres email';
-    },
-    equalToMessage = function () {
-        return 'Wprowadź tę samą wartość ponownie';
-    },
+}
+positiveNumberMessage = function () {
+    return 'Podaj wartość większą od zera';
+}
+negativeNumberMessage = function () {
+    return 'Nie można wprowadzać ujemnych wartości';
+}
+decimalNumberMessage = function () {
+    return 'Podana wartość nie jest liczbą';
+}
+minLengthMessage = function (length) {
+    return 'Pole musi mieć minimum ' + length + ' znaków';
+}
+validEmailMessage = function () {
+    return 'Wprowadż poprawny adres email';
+}
+equalToMessage = function () {
+    return 'Wprowadź tę samą wartość ponownie';
+}
 //validation- highlight field
-    highlightFunction = function (element) {
-        var id_attr = "#" + $(element).attr("id") + "1";
-        $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-        $(id_attr).removeClass('glyphicon-ok').addClass('glyphicon-remove');
-    },
+highlightFunction = function (element) {
+    var id_attr = "#" + $(element).attr("id") + "1";
+    $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+    $(id_attr).removeClass('glyphicon-ok').addClass('glyphicon-remove');
+}
 //validation- unhighlight field
-    unhighlightFunction = function (element) {
-        var id_attr = "#" + $(element).attr("id") + "1";
-        $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
-        $(id_attr).removeClass('glyphicon-remove').addClass('glyphicon-ok');
-    },
+unhighlightFunction = function (element) {
+    var id_attr = "#" + $(element).attr("id") + "1";
+    $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+    $(id_attr).removeClass('glyphicon-remove').addClass('glyphicon-ok');
+}
 //validation - error
-    validationPlacementError = function (error, element) {
-        if (element.length) {
-            error.insertAfter(element);
-        } else {
-            error.insertAfter(element);
+validationPlacementError = function (error, element) {
+    if (element.length) {
+        error.insertAfter(element);
+    } else {
+        error.insertAfter(element);
+    }
+}
+jQuery.validator.addMethod("checkExistsNazwaKwestii", function (value, element) {
+    var kwestie = Kwestia.find({czyAktywny: true});
+    var found = null;
+    kwestie.forEach(function (item) {
+        if (_.isEqual(item.kwestiaNazwa.toLowerCase().trim(), value.toLowerCase().trim())) {
+            found = true;
         }
-    },
-    jQuery.validator.addMethod("checkExistsNazwaKwestii", function (value, element) {
-        var kwestie = Kwestia.find({czyAktywny: true});
-        var found = null;
-        kwestie.forEach(function (item) {
-            if (_.isEqual(item.kwestiaNazwa.toLowerCase().trim(), value.toLowerCase().trim())) {
+    });
+    return this.optional(element) || found == null;
+}, 'Ta Kwestia już istnieje!');
+
+jQuery.validator.addMethod("checkExistsEmail", function (value, element) {
+    var users = Users.find();
+    var found = null;
+    users.forEach(function (user) {
+        _.each(user.emails, function (email) {
+            if (_.isEqual(email.address.toLowerCase(), value.toLowerCase())) {
                 found = true;
             }
-        });
-        return this.optional(element) || found == null;
-    }, 'Ta Kwestia już istnieje!');
+        })
+    });
+    return this.optional(element) || found == null;
+}, 'Istnieje już w systemie użytkownik z podanym adresem email!');
 
-    jQuery.validator.addMethod("checkExistsEmail", function (value, element) {
-        var users=Users.find();
-        var found=null;
-        users.forEach(function(user){
-            _.each(user.emails,function(email){
-                if (_.isEqual(email.address.toLowerCase(), value.toLowerCase())) {
-                    found = true;
-                }
-            })
-        });
-        return this.optional(element) || found == null;
-    }, 'Istnieje już w systemie użytkownik z podanym adresem email!');
-
-    jQuery.validator.addMethod("checkExistsEmailDraft", function (value, element) {
-        var usersDraft = UsersDraft.find({
-            $where: function () {
-                return ((this.email==value) || (this.email.toLowerCase() == value.toLowerCase()));
-            }
-        });
-        var found=null;
-        if(usersDraft.count()>0) {
-            found=true;
+jQuery.validator.addMethod("checkExistsEmailDraft", function (value, element) {
+    var usersDraft = UsersDraft.find({
+        $where: function () {
+            return ((this.email == value) || (this.email.toLowerCase() == value.toLowerCase()));
         }
-        return this.optional(element) || found == null;
-    }, 'Został już złożony wniosek na podany adres email!');
+    });
+    var found = null;
+    if (usersDraft.count() > 0) {
+        found = true;
+    }
+    return this.optional(element) || found == null;
+}, 'Został już złożony wniosek na podany adres email!');
 
 //NOT USED!
 trimInput = function (value) {
     return value.replace(/^\s*|\s*$/g, '');
-},
-    /*
+}
+/*
 
-     @value- value to check either is empty or not
-     @statement- name of field,that will be displayed in messsage,if field is empty
-     @fieldName- name of field, that has to be highlighted or not depending of value content
-     */
-    isNotEmpty = function (value, statement, fieldName) {
-        value = value.replace(/\s+/g, '');
-        if (value !== '' && value !== '0') {
-            if (fieldName != null) {
-                document.getElementById(fieldName).classList.remove('has-error');
-            }
-            return true;
-        }
+ @value- value to check either is empty or not
+ @statement- name of field,that will be displayed in messsage,if field is empty
+ @fieldName- name of field, that has to be highlighted or not depending of value content
+ */
+isNotEmpty = function (value, statement, fieldName) {
+    value = value.replace(/\s+/g, '');
+    if (value !== '' && value !== '0') {
         if (fieldName != null) {
-            document.getElementById(fieldName).classList.add('has-error');
+            document.getElementById(fieldName).classList.remove('has-error');
         }
-        throwError('Uzupełnij pole ' + statement);
-        return false;
-    };
+        return true;
+    }
+    if (fieldName != null) {
+        document.getElementById(fieldName).classList.add('has-error');
+    }
+    throwError('Uzupełnij pole ' + statement);
+    return false;
+};
 
 
 isEmail = function (value) {
