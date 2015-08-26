@@ -36,39 +36,47 @@ Template.listKwestia.events({
             'Kwestia w sprawie...', 'Uchwała', 'Opis Kwestii....', 'linkDK', 'linkLoginTo');
     },
     'click #kwestiaIdClick': function () {//nadajemy priorytet automatycznie po wejściu na kwestię + dajemy punkty
-        if(Meteor.userId()!=null) {
-            var kwestia = Kwestia.findOne({_id: this._id});
-            var tabGlosujacy = getAllUsersWhoVoted(kwestia._id);
-            if (!_.contains(tabGlosujacy, Meteor.userId())) {//jeżeli użytkownik jeszcze nie głosował
-                var glosujacy = {
-                    idUser: Meteor.userId(),
-                    value: 0
-                };
-                var voters = kwestia.glosujacy.slice();
-                voters.push(glosujacy);
-                Meteor.call('setGlosujacyTab', kwestia._id, voters, function (error, ret) {
-                    if (error) {
-                        if (typeof Errors === "undefined")
-                            Log.error('Error: ' + error.reason);
-                        else
-                            throwError(error.reason);
-                    }
-                });
-                //dodanie pkt za głosowanie
-                var newValue = 0;
-                var pktAddPriorytet = Parametr.findOne({});
-                newValue = Number(pktAddPriorytet.pktNadaniePriorytetu) + getUserRadkingValue(Meteor.userId());
+        //za wyjątkiem ,gdy użytkownik nie jest zalogowany i nie jest doradcą
 
-                Meteor.call('updateUserRanking', Meteor.userId(), newValue, function (error) {
-                    if (error) {
-                        if (typeof Errors === "undefined")
-                            Log.error('Error: ' + error.reason);
-                        else {
-                            throwError(error.reason);
-                        }
+        if(Meteor.userId()==null)
+            return;
+        var me=Users.findOne({_id:Meteor.userId()});
+        if(me){
+            if(me.profile.userType=='doradca' || Meteor.user().roles == "admin")
+            return;
+        }
+
+        var kwestia = Kwestia.findOne({_id: this._id});
+        var tabGlosujacy = getAllUsersWhoVoted(kwestia._id);
+        if (!_.contains(tabGlosujacy, Meteor.userId())) {//jeżeli użytkownik jeszcze nie głosował
+            var glosujacy = {
+                idUser: Meteor.userId(),
+                value: 0
+            };
+            var voters = kwestia.glosujacy.slice();
+            voters.push(glosujacy);
+            Meteor.call('setGlosujacyTab', kwestia._id, voters, function (error, ret) {
+                if (error) {
+                    if (typeof Errors === "undefined")
+                        Log.error('Error: ' + error.reason);
+                    else
+                        throwError(error.reason);
+                }
+            });
+            //dodanie pkt za głosowanie
+            var newValue = 0;
+            var pktAddPriorytet = Parametr.findOne({});
+            newValue = Number(pktAddPriorytet.pktNadaniePriorytetu) + getUserRadkingValue(Meteor.userId());
+
+            Meteor.call('updateUserRanking', Meteor.userId(), newValue, function (error) {
+                if (error) {
+                    if (typeof Errors === "undefined")
+                        Log.error('Error: ' + error.reason);
+                    else {
+                        throwError(error.reason);
                     }
-                });
-            }
+                }
+            });
         }
     }
 });
@@ -240,4 +248,18 @@ Template.priorytetKwestia.helpers({
 
 Template.listKwestiaColumnLabel.rendered = function () {
     $('[data-toggle="tooltip"]').tooltip();
-}
+};
+
+Template.listKwestia.helpers({
+    isUserOrDoradcaLogged:function(){
+        if(!Meteor.roles=='admin')
+            return false;
+        else {
+            var user = Users.findOne({_id: Meteor.userId()});
+            if (user) {
+                return user.profile.userType == 'doradca' ? false : true;
+            }
+            return "";
+        }
+    }
+});

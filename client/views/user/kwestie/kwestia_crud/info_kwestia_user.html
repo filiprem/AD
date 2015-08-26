@@ -5,7 +5,7 @@
                 <legend>Informacje o Kwestii</legend>
                 <p class="bg-info padding-15">
                     Obecni: <b>{{glosujacyCount}}</b>
-                    {{#unless isAdmin}}
+                    {{#if isNotAdminOrDoradca}}
                         {{#if mojPriorytetZero}}
                             <br/>Wstrzymałeś się od głosu nadając tej Kwestii priorytet <b>0</b>
                         {{else}}
@@ -15,7 +15,7 @@
                                 <br/>Nie nadałeś jeszcze tej Kwestii priorytetu
                             {{/if}}
                         {{/if}}
-                    {{/unless}}
+                    {{/if}}
                 </p>
             </div>
             {{thisKwestia}}
@@ -102,7 +102,7 @@
                                         <button id="priorytetButton" name="{{idKwestia}}" type="button"
                                                 class="btn btn-xs btn-default" value="0"
                                                 data-toggle="tooltip" data-placement="top"
-                                                title="Oznacza wstrzymanie się od głosu" {{isUserLogged}}>&nbsp;0
+                                                title="Oznacza wstrzymanie się od głosu" {{isUserOrDoradcaLogged}}>&nbsp;0
                                         </button>
                                         <button id="priorytetButton" name="{{idKwestia}}" type="button"
                                                 class="btn btn-xs btn-success" value="1" {{isSelected 1}}>+1

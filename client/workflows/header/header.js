@@ -57,6 +57,23 @@ Template.header.helpers({
             return users.count()<5 ? true: false;
         }
         return null;
+    },
+    isDoradca:function(){
+        var user=Users.findOne({_id:Meteor.userId()});
+        if(user){
+            //return user.profile.userType=='doradca' ? true :false;
+            if(user.profile.userType=='doradca'){
+                //sprawdzam czy aplikowal już
+                var userDraf= UsersDraft.find({'profile.idUser':Meteor.userId()});
+                if(userDraf){
+                    console.log("Liczba: "+userDraf.count());
+                    return userDraf.count()>0 ? false : true;
+                }
+                return true;
+            }
+            return true;
+        }
+        return true;
     }
 });
 
@@ -131,4 +148,18 @@ Template.language.helpers({
             }
         }
     }
-})
+});
+//Template.header.events({
+//    'click #aplikujIdClick': function (e) {
+//        e.preventDefault();
+//        console.log("kliknąłem");
+//        var me=Users.findOne({_id:Meteor.userId()});
+//        var array=[];
+//        if(me.profile.firstName.trim()!=null)
+//            array.push("firstName");
+//        if(me.profile.lastName.trim()!=null)
+//            array.push("lastName");
+//        console.log(me);
+//        Router.go("czlonek_zwyczajny_form");
+//    }
+//});

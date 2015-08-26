@@ -50,20 +50,24 @@ fieldEmptyMessage = function () {
         });
         return this.optional(element) || found == null;
     }, 'Ta Kwestia już istnieje!');
-
+    //funkcja walidujaca, uzywana przy samorejestracji lub przy aplikacji na czlonka lub doradcę(tylko nowy user!!)
+    //waliduje tylko wtyedy,gdy uzytkownik niezalogowany,bo gdy zalogowany,to moze aplikwoac tylko z doradcy na członka
+    //a wówczas email będzie ten sam naturalnie
     jQuery.validator.addMethod("checkExistsEmail", function (value, element) {
-        var users=Users.find();
         var found=null;
-        users.forEach(function(user){
-            console.log(user);
-            _.each(user.emails,function(email){
-                console.log(user.emails);
-                if (_.isEqual(email.address.toLowerCase(), value.toLowerCase())) {
-                    console.log(email.address);
-                    found = true;
-                }
-            })
-        });
+        if(!Meteor.userId()) {
+            var users = Users.find();
+            users.forEach(function (user) {
+                //console.log(user);
+                _.each(user.emails, function (email) {
+                    //console.log(user.emails);
+                    if (_.isEqual(email.address.toLowerCase(), value.toLowerCase())) {
+                        console.log(email.address);
+                        found = true;
+                    }
+                })
+            });
+        }
         return this.optional(element) || found == null;
     }, 'Istnieje już w systemie użytkownik z podanym adresem email!');
 
@@ -76,7 +80,6 @@ fieldEmptyMessage = function () {
         var found=null;
         if(usersDraft.count()>0) {
             found=true;
-            console.log("Jst taki draft");
         }
         return this.optional(element) || found == null;
     }, 'Został już złożony wniosek na podany adres email!');
