@@ -47,6 +47,7 @@ Template.addRodzajForm.events({
     'change #kworumSelect': function (e) {
         e.preventDefault();
         var v = $(e.target).val();
+        console.log(v);
         Session.set("rodzajKworum", v);
     },
 

@@ -39,6 +39,12 @@ Template.editRodzajForm.rendered = function () {
 };
 
 Template.editRodzajForm.helpers({
+    kworumList: function(){
+        return [
+            {index: 0, value: "zwykla", name: "Kwestia zwykla"},
+            {index: 1, value: "statutowa", name: "Kwestia statutowa"}
+        ]
+    },
     tematToList: function () {
         return Temat.find({});
     },
@@ -50,23 +56,13 @@ Template.editRodzajForm.helpers({
         else
             return false;
     },
-    isSelectedZwykla: function (k) {
-        var item = this.kworum;
-        console.log(item)
-        if (item == k) {
-            return "selected";
-        }
+    isSelectedKworum: function (k) {
+        var item = Rodzaj.findOne({_id: Template.instance().data._id});
+        var kworum = item.kworum;
+        if(kworum == k)
+            return true;
         else
-            return "";
-    },
-    isSelectedStatutowa: function (k) {
-        var item = this.kworum;
-        console.log(item)
-        if (item == k) {
-            return "selected";
-        }
-        else
-            return "";
+            return false;
     }
 });
 
