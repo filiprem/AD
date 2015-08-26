@@ -6,7 +6,7 @@ Template.addUserForm.rendered = function () {
     $("#userForm").validate({
         rules: {
             password: {
-                minlength: 6
+                minlength: 1
             },
             czasGlosowania: {
                 min: 0.01,
