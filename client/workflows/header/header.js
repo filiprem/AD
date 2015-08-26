@@ -65,15 +65,15 @@ Template.header.helpers({
             if(user.profile.userType=='doradca'){
                 //sprawdzam czy aplikowal już
                 var userDraf= UsersDraft.find({'profile.idUser':Meteor.userId()});
+                console.log(UsersDraft.find({'profile.idUser':Meteor.userId()}));
                 if(userDraf){
-                    console.log("Liczba: "+userDraf.count());
                     return userDraf.count()>0 ? false : true;
                 }
                 return true;
             }
-            return true;
+            return false;
         }
-        return true;
+        return false;
     }
 });
 
