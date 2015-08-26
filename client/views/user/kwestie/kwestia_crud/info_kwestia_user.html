@@ -58,20 +58,9 @@
         <br/>
         <table class="table table-bordered manageTable">
             <tr>
-                <td><strong> Data wprowadzenia Kwestii</strong></td>
-                <td>{{date}}</td>
-            </tr>
-            <tr>
-                <td><strong> Data głosowania</strong></td>
-                <td>{{dataGlosowaniaObliczana}}</td>
-            </tr>
-            <tr>
-                <td><strong> Finał deliberacji i głosowania</strong></td>
-                <td>{{dateG}}</td>
-            </tr>
-            <tr>
                 <td><strong> Nazwa Kwestii</strong></td>
                 <td><b>{{kwestiaNazwa}}</b></td>
+                <td></td>
             </tr>
             <tr>
                 <td><strong> Priorytet</strong></td>
@@ -125,14 +114,20 @@
                         {{/unless}}
                     </div>
                 </td>
+                <td></td>
             </tr>
             <tr>
-                <td><strong> Temat</strong></td>
-                <td>{{tematNazwa.nazwaTemat}}</td>
+                <td><strong> Temat </strong>&nbsp; &nbsp; {{tematNazwa.nazwaTemat}}</td>
+                <td><strong> Rodzaj </strong>&nbsp; &nbsp; {{rodzajNazwa.nazwaRodzaj}}</td>
+                <td></td>
             </tr>
             <tr>
-                <td><strong> Rodzaj</strong></td>
-                <td>{{rodzajNazwa.nazwaRodzaj}}</td>
+                <td><strong> Data wprowadzenia Kwestii </strong>&nbsp; {{date}}</td>
+                <!---->
+                <td><strong> Data głosowania </strong>&nbsp; ---</td>
+                <!--{{dataGlosowaniaObliczana}}-->
+                <td><strong> Finał </strong>&nbsp; ---</td>
+                <!--{{dateG}}-->
             </tr>
         </table>
 

@@ -55,11 +55,8 @@ fieldEmptyMessage = function () {
         var users=Users.find();
         var found=null;
         users.forEach(function(user){
-            console.log(user);
             _.each(user.emails,function(email){
-                console.log(user.emails);
                 if (_.isEqual(email.address.toLowerCase(), value.toLowerCase())) {
-                    console.log(email.address);
                     found = true;
                 }
             })
@@ -76,7 +73,6 @@ fieldEmptyMessage = function () {
         var found=null;
         if(usersDraft.count()>0) {
             found=true;
-            console.log("Jst taki draft");
         }
         return this.optional(element) || found == null;
     }, 'Został już złożony wniosek na podany adres email!');

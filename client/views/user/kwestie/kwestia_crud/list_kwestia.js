@@ -191,7 +191,6 @@ Template.kworumNumber.helpers({//brani są tu użytkownicy,którzy zaglosowali,c
         if (usersCount) {
             var data;
             var kworum = liczenieKworumZwykle(allUsers);
-            console.log(kworum)
             if (kworum >= 3) {
 
                 data = usersCount.toString() + " / " + kworum.toString();

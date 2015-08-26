@@ -1,4 +1,21 @@
+Template.profileList.created = function(){
+    this.usersRV = new ReactiveVar();
+};
+
 Template.profileList.rendered = function () {
+    var self = Template.instance();
+    this.autorun(function () {
+        var users = Users.find({
+            $where: function () {
+                return (this._id == Meteor.userId());
+            }
+        });
+        var tab = [];
+        users.forEach(function (item) {
+            tab.push(item._id);
+        });
+        self.usersRV.set(tab);
+    })
 };
 
 Template.profileList.events({
@@ -17,6 +34,7 @@ Template.profileList.events({
 });
 Template.profileList.helpers({
     'settings': function () {
+        var self = Template.instance();
         return {
             rowsPerPage: 10,
             showFilter: true,
@@ -29,18 +47,27 @@ Template.profileList.helpers({
                 {key: 'username', label: "Nazwa użytkownika", tmpl: Template.usernameLink},
                 {key: 'email', label: "Email", tmpl: Template.userEmail},
                 {key: 'roles', label: "Rola"},
-                {key: 'profile.rADking', label: "Ranking"},
-            ]
+                {key: 'profile.rADking', label: "Ranking"}
+            ],
+            rowClass: function (item) {
+                var tab = self.usersRV.get();
+                if (_.contains(tab, item._id)) {
+                    return 'myselfClass';
+                }
+            }
         };
     },
     UserListAdmin: function () {
         return Users.find({
             $where: function () {
-                return ((this._id != Meteor.userId()) && (this.roles != 'admin'));
+                return (this.roles != 'admin');
             }
         }).fetch();
     },
     usersCount: function () {
         return Users.find().count() - 1;
+    },
+    myself: function (userId) {
+        return Meteor.userId() === userId;
     }
 });
