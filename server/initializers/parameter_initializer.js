@@ -15,9 +15,7 @@ Meteor.startup(function () {
             "pktWycofanieKwestiiDoArchiwum": -20,
             "pktWycofanieKwestiiDoKosza": -40,
             "pktWyjscieZZespoluRealizacyjnego": -30,
-            "pktBrakUdzialuWGlosowaniu": -30,
-            "rodzajCzasDyskusji": 7,
-            "rodzajCzasGlosowania": 48
+            "pktBrakUdzialuWGlosowaniu": -30
         }
     ];
     if (Parametr.find().count() == 0) {

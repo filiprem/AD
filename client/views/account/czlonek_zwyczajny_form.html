@@ -1,6 +1,12 @@
 <template name="czlonekZwyczajnyForm">
     <div class="main">
-        <legend>Aplikuj na członka zwyczajnego</legend>
+        <legend>Aplikacja na członka zwyczajnego</legend>
+        {{#if currentUser}}
+        <p class="col-md-12 bg-danger padding-15">
+            Uzupełnij brakujące pola we wniosku.
+        </p>
+            <br/>
+        {{/if}}
         <div class="row">
             <div class="col col-md-10">
                 <form class="form-horizontal" id="userForm">
@@ -8,16 +14,16 @@
                         <label class="control-label col-xs-3" for="inputEmail">Email: </label>
 
                         <div class="col-xs-9">
-                            <input name="email" type="email" class="form-control" id="inputEmail" placeholder="Email"
-                                   required>
+                            <input name="email" type="email" class="form-control" id="inputEmail" placeholder="Email" value={{email}}
+                                   required {{isNotEmpty}}>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-xs-3" for="firstName">Imię: </label>
 
                         <div class="col-xs-9">
-                            <input name="firstName" type="text" class="form-control" id="firstName" placeholder="Imię"
-                                   required>
+                            <input name="firstName" type="text" class="form-control" id="firstName" placeholder="Imię" value={{profile.firstName}}
+                                   required {{isNotEmpty}}>
                         </div>
                     </div>
                     <div class="form-group">
@@ -25,7 +31,7 @@
 
                         <div class="col-xs-9">
                             <input name="lastName" type="text" class="form-control" id="lastName"
-                                   placeholder="Nazwisko" required>
+                                   placeholder="Nazwisko" value={{profile.lastName}} required {{isNotEmpty}}>
                         </div>
                     </div>
                     <div class="form-group">
@@ -33,7 +39,7 @@
 
                         <div class="col-xs-9">
                             <input name="profession" type="text" class="form-control" id="profession"
-                                   placeholder="Stanowisko" required>
+                                   placeholder="Stanowisko"  value={{profile.profession}} required {{isNotEmpty}}>
                         </div>
                     </div>
                     <div class="form-group">
@@ -41,7 +47,7 @@
 
                         <div class="col-xs-9">
                             <input name="phone" type="tel" class="form-control" id="phoneNumber"
-                                   placeholder="Numer telefonu" required>
+                                   placeholder="Numer telefonu"  value={{profile.phone}} required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -50,7 +56,7 @@
                         <div class="col-xs-9">
                             <div class="input-group datetimepicker col-xs-5" id="dataUrodzeniaDatePicker">
                                 <span class="input-group-addon glyphicon glyphicon-calendar"></span>
-                                <input class="set-due-date form-control" type="text" name="dateOfBirth" required/>
+                                <input class="set-due-date form-control" type="text" name="dateOfBirth" value={{profile.dateOfBirth}} required/>
                             </div>
                         </div>
                     </div>
@@ -59,7 +65,7 @@
 
                         <div class="col-xs-9">
                             <textarea name="address" rows="3" class="form-control" id="postalAddress"
-                                      placeholder="Adres" required></textarea>
+                                      placeholder="Adres" value={{profile.address}} required {{isNotEmpty}}></textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -67,7 +73,7 @@
 
                         <div class="col-xs-9">
                             <input name="zipCode" type="text" class="form-control" id="ZipCode"
-                                   placeholder="Kod pocztowy" required>
+                                   placeholder="Kod pocztowy" value={{profile.zip}} required {{isNotEmpty}}>
                         </div>
                     </div>
                     <div class="form-group">
@@ -75,7 +81,7 @@
 
                         <div class="col-xs-9">
                             <input name="web" type="text" class="form-control" id="web"
-                                   placeholder="WWW">
+                                   placeholder="WWW" value={{profile.web}}>
                         </div>
                     </div>
                     <div class="form-group">
@@ -83,12 +89,12 @@
 
                         <div class="col-xs-2">
                             <label class="radio-inline">
-                                <input type="radio" name="genderRadios" value="mężczyzna"> Mężczyzna
+                                <input type="radio" name="genderRadios" value="mężczyzna" {{isSelected 'mężczyzna'}}> Mężczyzna
                             </label>
                         </div>
                         <div class="col-xs-2">
                             <label class="radio-inline">
-                                <input type="radio" name="genderRadios" value="kobieta"> Kobieta
+                                <input type="radio" name="genderRadios" value="kobieta" {{isSelected 'kobieta'}}> Kobieta
                             </label>
                         </div>
                     </div>
@@ -97,7 +103,7 @@
 
                         <div class="col-xs-9">
                             <textarea name="uwagi" rows="3" class="form-control" id="uwagiStatus"
-                                      placeholder="Uwagi"></textarea>
+                                      placeholder="Uwagi" value={{profile.uwagi}}></textarea>
                         </div>
                     </div>
                     <div class="form-group">

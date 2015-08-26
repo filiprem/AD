@@ -326,6 +326,11 @@ Template.informacjeKwestia.helpers({
     isSelected: function (number) {
         if (!Meteor.userId())
             return "disabled";
+        var user=Users.findOne({_id:Meteor.userId()});
+        if(user){
+            if(user.profile.userType=='doradca')
+                return "disabled";
+        }
         var flag = false;
         var currentKwestiaId = Session.get("idKwestia");
         var kwestie = Kwestia.find({'glosujacy.idUser': Meteor.userId(), idParent: currentKwestiaId}).fetch();
@@ -402,7 +407,33 @@ Template.informacjeKwestia.helpers({
             else return false;
         }
     },
+    isNotAdminOrDoradca: function () {//jezeli nie jest adminem ani doradcą
+        if (Meteor.user()) {
+            if (Meteor.user().roles) {
+                if(Meteor.user().roles == "admin")
+                    return false;
+                else
+                {
+                    var user=Users.findOne({_id:Meteor.userId()});
+                    if(user){
+                        return user.profile.userType=='doradca' ? false : true;
+                    }
+                    return true;
+                }
+            }
+        }
+        return false;
+    },
     isUserLogged: function () {
         return Meteor.userId() ? "" : "disabled";
+    },
+    isUserOrDoradcaLogged:function(){
+        if(!Meteor.userId())
+            return "disabled";
+        var user=Users.findOne({_id:Meteor.userId()});
+        if(user){
+            return user.profile.userType=='doradca' ? "disabled" : "";
+        }
+        return "";
     }
 });

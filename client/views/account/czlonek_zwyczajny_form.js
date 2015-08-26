@@ -61,7 +61,15 @@ Template.czlonekZwyczajnyForm.rendered = function () {
 Template.czlonekZwyczajnyForm.events({
     'submit form': function (e) {
         e.preventDefault();
-        // uzupełnienie tymczasowej tablicy danymi z formularza
+        //sprawdzam,czy jest meteor.user
+        //jeżeli jest,to znaczy,że : tworze nowego drafta,z akutanym userId.po akceptacji kwestii: jeżeli userId jest,to po tym userID przepisuję dane do usera,userDraft usuwam
+        // jeżeli nie ma,to znaczy,że nowy draft->i dane są przepisywane do usera, po akceptacji kwestii:stworzony nowy użytkownik,userDraftUsunięty
+        //kwestia ta sama z draftem zawsze!
+
+        var idUser=null;
+        if(Meteor.userId()){
+            idUser=Meteor.userId();
+        }
         var newUser = [
             {
                 email: $(e.target).find('[name=email]').val(),
@@ -78,7 +86,9 @@ Template.czlonekZwyczajnyForm.events({
                 role: 'user',
                 userType:USERTYPE.CZLONEK,
                 uwagi:$(e.target).find('[name=uwagi]').val(),
-                language: $(e.target).find('[name=language]').val()
+                language: $(e.target).find('[name=language]').val(),
+
+                idUser:idUser
             }];
         //-- generowanie loginu dla użytkownika
         newUser[0].login = generateLogin(newUser[0].firstName, newUser[0].lastName);
@@ -110,14 +120,14 @@ Template.czlonekZwyczajnyForm.events({
                     {
                         idUser: idUserDraft,
                         dataWprowadzenia: new Date(),
-                        kwestiaNazwa: 'Aplikacja- '+newUser[0].firstName+" "+newUser[0].lastName,
+                        kwestiaNazwa: 'Aplikowanie- '+newUser[0].firstName+" "+newUser[0].lastName,
                         wartoscPriorytetu: 0,
                         sredniaPriorytet: 0,
                         idTemat: Temat.findOne({})._id,
                         idRodzaj: Rodzaj.findOne({})._id,
                         dataDyskusji: new Date(),
                         dataGlosowania: d,
-                        krotkaTresc: 'Aplikuję o przyjęcie do systemu jako '+newUser[0].userType,
+                        krotkaTresc: 'Aplikacja o przyjęcie do systemu jako '+newUser[0].userType,
                         szczegolowaTresc: daneAplikanta,
                         isOption: false,
                         status:KWESTIA_STATUS.OSOBOWA
@@ -151,5 +161,24 @@ Template.czlonekZwyczajnyForm.events({
     },
     'reset form': function () {
         Router.go('home');
+    }
+});
+
+Template.czlonekZwyczajnyForm.helpers({
+   isSelected:function(gender){
+       var gen = this.profile.gender;
+       if(gen){
+       if (gen == gender)
+           return "checked";
+       else
+           return "";
+       }
+       return "";
+   },
+    email: function () {
+        return getEmail(this);
+    },
+    isNotEmpty:function(){
+        return Meteor.userId() ? "readonly" :"";
     }
 });

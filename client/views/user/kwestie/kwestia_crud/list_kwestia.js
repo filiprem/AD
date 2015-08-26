@@ -36,39 +36,47 @@ Template.listKwestia.events({
             'Kwestia w sprawie...', 'Uchwała', 'Opis Kwestii....', 'linkDK', 'linkLoginTo');
     },
     'click #kwestiaIdClick': function () {//nadajemy priorytet automatycznie po wejściu na kwestię + dajemy punkty
-        if (Meteor.userId() != null) {
-            var kwestia = Kwestia.findOne({_id: this._id});
-            var tabGlosujacy = getAllUsersWhoVoted(kwestia._id);
-            if (!_.contains(tabGlosujacy, Meteor.userId())) {//jeżeli użytkownik jeszcze nie głosował
-                var glosujacy = {
-                    idUser: Meteor.userId(),
-                    value: 0
-                };
-                var voters = kwestia.glosujacy.slice();
-                voters.push(glosujacy);
-                Meteor.call('setGlosujacyTab', kwestia._id, voters, function (error, ret) {
-                    if (error) {
-                        if (typeof Errors === "undefined")
-                            Log.error('Error: ' + error.reason);
-                        else
-                            throwError(error.reason);
-                    }
-                });
-                //dodanie pkt za głosowanie
-                var newValue = 0;
-                var pktAddPriorytet = Parametr.findOne({});
-                newValue = Number(pktAddPriorytet.pktNadaniePriorytetu) + getUserRadkingValue(Meteor.userId());
+        //za wyjątkiem ,gdy użytkownik nie jest zalogowany i nie jest doradcą
 
-                Meteor.call('updateUserRanking', Meteor.userId(), newValue, function (error) {
-                    if (error) {
-                        if (typeof Errors === "undefined")
-                            Log.error('Error: ' + error.reason);
-                        else {
-                            throwError(error.reason);
-                        }
+        if(Meteor.userId()==null)
+            return;
+        var me=Users.findOne({_id:Meteor.userId()});
+        if(me){
+            if(me.profile.userType=='doradca' || Meteor.user().roles == "admin")
+                return;
+        }
+
+        var kwestia = Kwestia.findOne({_id: this._id});
+        var tabGlosujacy = getAllUsersWhoVoted(kwestia._id);
+        if (!_.contains(tabGlosujacy, Meteor.userId())) {//jeżeli użytkownik jeszcze nie głosował
+            var glosujacy = {
+                idUser: Meteor.userId(),
+                value: 0
+            };
+            var voters = kwestia.glosujacy.slice();
+            voters.push(glosujacy);
+            Meteor.call('setGlosujacyTab', kwestia._id, voters, function (error, ret) {
+                if (error) {
+                    if (typeof Errors === "undefined")
+                        Log.error('Error: ' + error.reason);
+                    else
+                        throwError(error.reason);
+                }
+            });
+            //dodanie pkt za głosowanie
+            var newValue = 0;
+            var pktAddPriorytet = Parametr.findOne({});
+            newValue = Number(pktAddPriorytet.pktNadaniePriorytetu) + getUserRadkingValue(Meteor.userId());
+
+            Meteor.call('updateUserRanking', Meteor.userId(), newValue, function (error) {
+                if (error) {
+                    if (typeof Errors === "undefined")
+                        Log.error('Error: ' + error.reason);
+                    else {
+                        throwError(error.reason);
                     }
-                });
-            }
+                }
+            });
         }
     }
 });
@@ -135,10 +143,10 @@ Template.listKwestia.helpers({
         //chyba nie,bo temat i rodzaj są nadane...
         var kwestie = Kwestia.find({
             $where: function () {
-                return ((this.czyAktywny == true) && ((this.status == KWESTIA_STATUS.DELIBEROWANA) || (this.status == KWESTIA_STATUS.OSOBOWA)));
+                return ((this.czyAktywny == true) && ((this.status==KWESTIA_STATUS.DELIBEROWANA) ||(this.status==KWESTIA_STATUS.OSOBOWA)));
             }
         });
-        if (kwestie) return kwestie;
+        if(kwestie) return kwestie;
         return null;
         //return Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.DELIBEROWANA || KWESTIA_STATUS.OSOBOWA}).fetch();
     },
@@ -149,7 +157,7 @@ Template.listKwestia.helpers({
         return IsAdminUser();
     },
     isAdmin: function () {
-        if (Meteor.user()) {
+        if(Meteor.user()){
             if (Meteor.user().roles) {
                 if (Meteor.user().roles == "admin")
                     return true;
@@ -257,4 +265,18 @@ Template.priorytetKwestia.helpers({
 
 Template.listKwestiaColumnLabel.rendered = function () {
     $('[data-toggle="tooltip"]').tooltip();
-}
+};
+
+Template.listKwestia.helpers({
+    isUserOrDoradcaLogged:function(){
+        if(!Meteor.roles=='admin')
+            return false;
+        else {
+            var user = Users.findOne({_id: Meteor.userId()});
+            if (user) {
+                return user.profile.userType == 'doradca' ? false : true;
+            }
+            return "";
+        }
+    }
+});

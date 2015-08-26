@@ -19,8 +19,13 @@ Meteor.publish('usersEmails', function () {
 });
 
 Meteor.publish('usersDraft', function () {
-    return Users.find({});
+    return UsersDraft.find({});
 });
+
+Meteor.publish('userDraft', function (id) {
+    return UsersDraft.find({idUser: id});
+});
+
 Meteor.publish('usersDraftEmails', function () {
     return UsersDraft.find({}, {fields: {email: 1}});
 });
