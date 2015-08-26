@@ -2,21 +2,17 @@ Template.editTematForm.rendered = function () {
     $("#tematForm").validate({
         messages: {
             nazwaTemat: {
-                required: fieldEmptyMesssage(),
+                required: fieldEmptyMessage()
             },
             opis: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             }
         },
         highlight: function (element) {
-            var id_attr = "#" + $(element).attr("id") + "1";
-            $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-            $(id_attr).removeClass('glyphicon-ok').addClass('glyphicon-remove');
+            highlightFunction(element);
         },
         unhighlight: function (element) {
-            var id_attr = "#" + $(element).attr("id") + "1";
-            $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
-            $(id_attr).removeClass('glyphicon-remove').addClass('glyphicon-ok');
+            unhighlightFunction(element);
         },
         errorElement: 'span',
         errorClass: 'help-block',
@@ -29,28 +25,23 @@ Template.editTematForm.rendered = function () {
         }
     })
 };
-Template.editTematForm.helpers({
-    tematToEdit: function () {
-        return Session.get("tematInScope");
-    }
-});
 
 Template.editTematForm.events({
     'submit form': function (e) {
         e.preventDefault();
-        var t = Session.get("tematInScope");
+        var idTemat = this._id;
+
         var temat = {
             nazwaTemat: $(e.target).find('[name=nazwaTemat]').val(),
             opis: $(e.target).find('[name=opis]').val()
         };
-        Meteor.call('updateTemat', t._id, temat, function (error) {
+
+        Meteor.call('updateTemat', idTemat, temat, function (error) {
             if (error) {
-                // optionally use a meteor errors package
                 if (typeof Errors === "undefined")
                     Log.error('Error: ' + error.reason);
-                else {
+                else
                     throwError(error.reason);
-                }
             }
             else Router.go('listTemat');
         });

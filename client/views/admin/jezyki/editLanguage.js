@@ -1,12 +1,11 @@
-
 Template.editLanguage.rendered = function () {
     $("#languageEditForm").validate({
         messages: {
             languageName: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             languageShortName: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             }
         },
         highlight: function (element) {
@@ -30,13 +29,13 @@ Template.editLanguage.events({
     'submit form': function (e) {
         e.preventDefault();
 
-        var id  = this._id;
+        var id = this._id;
         var lang =
-            {
-                languageName: $(e.target).find('[name=languageName]').val(),
-                shortName: $(e.target).find('[name=languageShortName]').val()
-            };
-        Meteor.call('updateLanguage',id, lang, function (error) {
+        {
+            languageName: $(e.target).find('[name=languageName]').val(),
+            shortName: $(e.target).find('[name=languageShortName]').val()
+        };
+        Meteor.call('updateLanguage', id, lang, function (error) {
             if (error) {
                 if (typeof Errors === "undefined")
                     Log.error('Error: ' + error.reason);
@@ -55,7 +54,7 @@ Template.editLanguage.events({
 });
 
 Template.editLanguage.helpers({
-    'language':function(id){
-        return Languages.findOne({_id:id});
+    'language': function (id) {
+        return Languages.findOne({_id: id});
     }
 })

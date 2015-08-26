@@ -1,6 +1,6 @@
 <template name="profileInfo">
     <div class="main">
-        <h3>Profil użytkownika {{username}}</h3>
+        <legend>Profil użytkownika {{username}}</legend>
 
         <div class="clearfix"></div>
         <hr/>
@@ -37,6 +37,10 @@
             <tr>
                 <td><span class="glyphicon glyphicon-globe"></span><strong> WWW</strong></td>
                 <td><a href="{{profile.web}}" target="_blank">{{profile.web}}</a></td>
+            </tr>
+            <tr>
+                <td><span class="glyphicon glyphicon-star"></span><strong> Ranking</strong></td>
+                <td>{{profile.rADking}}</td>
             </tr>
         </table>
     </div>

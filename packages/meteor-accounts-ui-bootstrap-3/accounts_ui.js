@@ -9,7 +9,7 @@ if (!Accounts.ui._options) {
 }
 
 Accounts.ui.navigate = function (route, hash) {
-	// if router is iron-router
+	// if routerFiles is iron-routerFiles
 	if(window.Router && _.isFunction(Router.go)) {
 		Router.go(route, hash);
 	}

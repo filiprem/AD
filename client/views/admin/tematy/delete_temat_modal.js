@@ -1,3 +1,4 @@
+// TO DO czy potrzebne? Do usunięcia!!! widok też
 Template.deleteTematModalInner.helpers({
     tematInScope: function() {
         return Session.get('tematInScope');

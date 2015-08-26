@@ -22,8 +22,8 @@ Template.listKwestiaAdmin.helpers({
                 {
                     key: 'dataWprowadzenia',
                     label: Template.listKwestiaAdminColumnLabel,
-                    labelData: {title: "Data wprowadzenia Kwestii i rozpoczęcia jej deliberacji", text:"Data"},
-                    tmpl:Template.dataUtwKwestia,
+                    labelData: {title: "Data wprowadzenia Kwestii i rozpoczęcia jej deliberacji", text: "Data"},
+                    tmpl: Template.dataUtwKwestia,
                     cellClass: function () {
                         var css = 'tableCellsFont';
                         return css;
@@ -32,7 +32,7 @@ Template.listKwestiaAdmin.helpers({
                 {
                     key: 'kwestiaNazwa',
                     label: Template.listKwestiaAdminColumnLabel,
-                    labelData: {title: "Kliknij, aby zobaczyć szczegóły", text:"Nazwa kwestii"},
+                    labelData: {title: "Kliknij, aby zobaczyć szczegóły", text: "Nazwa kwestii"},
                     tmpl: Template.nazwaKwestiLink,
                     cellClass: function () {
                         var css = 'tableCellsFont';
@@ -72,7 +72,7 @@ Template.listKwestiaAdmin.helpers({
                 {
                     key: 'dataGlosowania',
                     label: Template.listKwestiaAdminColumnLabel,
-                    labelData: {title: "Data zakończenia głosowania", text:"Finał"},
+                    labelData: {title: "Data zakończenia głosowania", text: "Finał"},
                     tmpl: Template.dataGlKwestia,
                     cellClass: function () {
                         var css = 'tableCellsFont';
@@ -82,7 +82,7 @@ Template.listKwestiaAdmin.helpers({
                 {
                     key: 'status',
                     label: Template.listKwestiaAdminColumnLabel,
-                    labelData: {title: "Etap, na którym znajduje sie ta Kwestia", text:"Status"},
+                    labelData: {title: "Etap, na którym znajduje sie ta Kwestia", text: "Status"},
                     cellClass: function () {
                         var css = 'tableCellsFont';
                         return css;
@@ -102,18 +102,6 @@ Template.listKwestiaAdmin.helpers({
     },
     KwestiaListAdmin: function () {
         return Kwestia.find({}).fetch();
-    },
-    priorytetsr: function () {
-        var i = 0;
-        var kwestia = Kwestia.findOne({_id: this._id});
-        kwestia.glosujacy.forEach(function (item) {
-            i++;
-        });
-        if (kwestia.priorytet === 0)
-            var srPriorytet = kwestia.priorytet;
-        else
-            var srPriorytet = kwestia.priorytet / i;
-        return srPriorytet
     },
     kwestiaCount: function () {
         return Kwestia.find({czyAktywny: true}).count();

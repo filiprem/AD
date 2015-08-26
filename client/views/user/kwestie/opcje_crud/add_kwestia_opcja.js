@@ -7,13 +7,13 @@ Template.addKwestiaOpcjaForm.rendered = function () {
         },
         messages: {
             kwestiaNazwa: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             krotkaTresc: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             szczegolowaTresc: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             }
         },
         highlight: function (element) {

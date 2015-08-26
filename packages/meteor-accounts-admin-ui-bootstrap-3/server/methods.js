@@ -33,6 +33,9 @@ Meteor.methods({
 
 	removeUserRole: function(userId, role) {
 		var user = Meteor.user();
+		console.log(user);
+		console.log(userId);
+		console.log(role);
 		if (!user || !Roles.userIsInRole(user, ['admin']))
 			throw new Meteor.Error(401, "You need to be an admin to update a user.");
 

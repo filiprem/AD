@@ -11,7 +11,7 @@ Template.realizacja.helpers({
                     key: 'dataWprowadzenia',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        title: "Data wprowadzenia Kwestii i rozpoczêcia jej deliberacji",
+                        title: "Data wprowadzenia Kwestii i rozpoczÄ™cia jej deliberacji",
                         text: "Data"
                     },
                     tmpl: Template.dataUtwKwestia
@@ -20,7 +20,7 @@ Template.realizacja.helpers({
                     key: 'kwestiaNazwa',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        title: "Kliknij, aby zobaczyæ szczegó³y",
+                        title: "Kliknij, aby zobaczyÄ‡ szczegÃ³Å‚y",
                         text: "Nazwa Kwestii"
                     },
                     tmpl: Template.nazwaKwestiLink
@@ -29,7 +29,7 @@ Template.realizacja.helpers({
                     key: 'sredniaPriorytet',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        title: "Kliknij, aby zmieniæ swój priorytet dla tej Kwestii",
+                        title: "Kliknij, aby zmieniÄ‡ swÃ³j priorytet dla tej Kwestii",
                         text: "Priorytet"
                     },
                     tmpl: Template.priorytetKwestia,
@@ -37,20 +37,24 @@ Template.realizacja.helpers({
                     sortDirection: 'descending'
                 },
                 {key: 'idTemat', label: "Temat", tmpl: Template.tematKwestia},
-                {key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestia},
-                {
-                    key: 'dataGlosowania',
-                    label: Template.listKwestiaColumnLabel,
-                    labelData: {
-                        title: "Data zakoñczenia g³osowania",
-                        text: "Fina³"
-                    },
-                    tmpl: Template.dataGlKwestia
-                }
+                {key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestia}
+                //{
+                //    key: 'dataGlosowania',
+                //    label: Template.listKwestiaColumnLabel,
+                //    labelData: {
+                //        title: "Data zakoÅ„czenia gÅ‚osowania",
+                //        text: "FinaÅ‚"
+                //    },
+                //    tmpl: Template.dataGlKwestia
+                //}
             ]
         };
     },
     RealizacjaList: function () {
         return Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.REALIZOWANA}).fetch();
+    },
+    RealizacjaListCount: function () {
+        var ile = Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.REALIZOWANA}).count();
+        return ile > 0 ? true : false;
     }
 });

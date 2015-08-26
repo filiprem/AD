@@ -3,8 +3,8 @@ Template.uzasadnienieArchiwumModal.events({
         e.preventDefault();
         var uzasadnienie = document.getElementById('uzasadnienieArchiwum').value;
         if (uzasadnienie) {
-            var message = "Proponuję przenieść tę kwestię do Archiwum? Dyskusja i siła priorytetu w tym wątku o tym zdecyduje.";
-            var idKwestia = Session.get("idKwestia");
+            var message = "Proponuję przenieść tę Kwestię do Archiwum! Dyskusja i siła priorytetu w tym wątku o tym zdecyduje.";
+            var idKwestia = Session.get("idkwestiiArchiwum");
             var idUser = Meteor.userId();
             var addDate = new Date();
             var isParent = true;
@@ -43,7 +43,7 @@ Template.uzasadnienieArchiwumModal.events({
                     }
                     else {
                         var wiadomosc = uzasadnienie;
-                        var idKwestia = Session.get("idKwestia");
+                        var idKwestia = Session.get("idkwestiiArchiwum");
                         var idParent = ret;
                         var idUser = Meteor.userId();
                         var addDate = new Date();
@@ -90,6 +90,7 @@ Template.uzasadnienieArchiwumModal.events({
                         });
                         document.getElementById("message").value = "";
                         $("#uzasadnijWyborArchiwum").modal("hide");
+                        Session.set("idkwestiiArchiwum", null);
                         $('html, body').animate({
                             scrollTop: $(".doArchiwumClass").offset().top
                         }, 600);

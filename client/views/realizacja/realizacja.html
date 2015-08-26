@@ -1,16 +1,20 @@
 <template name="realizacja">
-    {{#if currentUser}}
-        <div class="main">
-            <div class="row">
-                <div class="col-md-12">
+<!--{{#if currentUser}}-->
+    <div class="main">
+        <div class="row">
+            <div class="col-md-12">
+                {{#if RealizacjaListCount}}
                     {{> reactiveTable
                     class = "table table-bordered table-hover"
                     fields = settings.fields
                     settings = settings
                     collection = RealizacjaList
                     }}
-                </div>
+                {{else}}
+                    <label>Brak Kwestii</label>
+                {{/if}}
             </div>
         </div>
-    {{/if}}
+    </div>
+        <!--{{/if}}-->
 </template>

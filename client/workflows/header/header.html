@@ -5,25 +5,74 @@
         <div class="navbar-header">
         </div>
         <div id="navbar-collapse" class="navbar-collapse collapse">
-            {{#if currentUser}}
+            <!--{{#if currentUser}}-->
+                {{#if hasUserAccess}}
                 <ul class="nav navbar-nav">
-                    <li class="{{activeRouteClass 'listKwestia'}}"><a href="{{pathFor 'listKwestia'}}"><span
-                            class="glyphicon glyphicon-list-alt"></span> Wykaz Kwestii</a></li>
-                    <li class="{{activeRouteClass 'glosowanie'}}"><a href="{{pathFor 'glosowanie'}}"><span
-                            class="glyphicon glyphicon-list-alt"></span> Głosowanie</a></li>
-                    <li class="{{activeRouteClass 'realizacja'}}"><a href="{{pathFor 'realizacja'}}"><span
-                            class="glyphicon glyphicon-list-alt"></span> Realizacja</a></li>
-                    <li class="{{activeRouteClass 'archiwum'}}"><a href="{{pathFor 'archiwum'}}"><span
-                            class="glyphicon glyphicon-lock"></span> Archiwum</a></li>
-                    <li class="{{activeRouteClass 'profile_list'}}"><a href="{{pathFor 'profile_list'}}"><span
-                            class="glyphicon glyphicon-heart"></span> Użytkownicy</a></li>
+                    <li class="{{activeRouteClass 'listKwestia'}}">
+                        <a href="{{pathFor 'listKwestia'}}">
+                            <i class="fa fa-file-o"></i> Wykaz Kwestii
+                        </a>
+                    </li>
+                    {{#if currentUser}}
+                    <li class="{{activeRouteClass 'glosowanie'}}">
+                        <a href="{{pathFor 'glosowanie'}}">
+                            <i class="fa fa-file-text-o"></i> Głosowanie
+                        </a>
+                    </li>
+                    <li class="{{activeRouteClass 'realizacja'}}">
+                        <a href="{{pathFor 'realizacja'}}">
+                            <i class="fa fa-file-text"></i> Realizacja
+                        </a>
+                    </li>
+                    <li class="{{activeRouteClass 'archiwum'}}">
+                        <a href="{{pathFor 'archiwum'}}">
+                            <span class="fa fa-file-archive-o"></span> Archiwum
+                        </a>
+                    </li>
+                    <li class="{{activeRouteClass 'profile_list'}}">
+                        <a href="{{pathFor 'profile_list'}}">
+                            <i class="fa fa-users"></i> Użytkownicy
+                        </a>
+                    </li>
                     {{#unless isAdmin}}
-                        <li class="{{activeRouteClass 'administracjaUserMain'}}"><a
-                                href="{{pathFor 'administracjaUserMain'}}"><span
-                                class="glyphicon glyphicon-duplicate"></span> Administracja</a></li>
+                        <li class="{{activeRouteClass 'administracjaUserMain'}}">
+                            <a href="{{pathFor 'administracjaUserMain'}}">
+                                <i class="fa fa-gears"></i> Administracja
+                            </a>
+                        </li>
                     {{/unless}}
+                    {{/if}}
                 </ul>
-            {{/if}}
+                    {{#unless currentUser}}
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="{{activeRouteClass 'login_form'}}">
+                                <a href="{{pathFor 'login_form'}}">
+                                    <i class="fa fa-sign-in"></i> Zaloguj się
+                                </a>
+                            </li>
+                            {{#if lessThanFiveUsers}}
+                                <li class="{{activeRouteClass 'register_form'}}">
+                                    <a href="{{pathFor 'register_form'}}">
+                                        <i class="fa fa-registered"></i> Zarejestruj się
+                                    </a>
+                                </li>
+                            {{else}}
+                                <li>
+                                    <a id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        <i class="fa fa-male"></i> Aplikuj
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                        <li><a href="{{pathFor 'czlonek_zwyczajny_form'}}">Członek zwyczajny</a></li>
+                                        <li><a href="{{pathFor 'doradca_form'}}">Doradca</a></li>
+                                    </ul>
+                                </li>
+                            {{/if}}
+                        </ul>
+                    {{/unless}}
+
+                {{/if}}
+            <!--{{/if}}-->
             <ul class="nav navbar-nav navbar-right">
                 {{#if currentUser}}
                     {{> loginButtons}}
@@ -37,7 +86,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="pull-left">
-                <a class="navbar-brand" href="{{pathFor 'home'}}"><strong>AD</strong> - <small>{{nazwaOrg}}</small></a>
+                <span class="navbar-brand clickable" id="organizationName"><strong>AD</strong> - <small>{{nazwaOrg}}</small></span>
             </div>
             <div class="pull-right">
                 <div class="btn-group">
@@ -50,7 +99,7 @@
                     </button>
                     <ul class="dropdown-menu dropdown-menu-right">
                         {{#each langs}}
-                            <li><a class="lang">{{this}}</a></li>
+                            <li><a class="lang">{{shortName}}</a></li>
                         {{/each}}
                     </ul>
                 </div>

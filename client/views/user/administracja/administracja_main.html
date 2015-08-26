@@ -1,17 +1,25 @@
 <template name="administracjaUserMain">
     {{#if currentUser}}
         <div class="main">
-            <legend>Twoje Kwestie</legend>
-            <div class="row">
-                <div class="col-md-12">
-                    {{> reactiveTable
-                    class = "table table-bordered table-hover"
-                    fields = settings.fields
-                    settings = settings
-                    collection = listOfIssues
-                    }}
+            {{#if listOfIssuesCount}}
+                <legend>Twoje Kwestie</legend>
+                <div class="row">
+                    <div class="col-md-12">
+                        {{> reactiveTable
+                        class = "table table-bordered table-hover"
+                        fields = settings.fields
+                        settings = settings
+                        collection = listOfIssues
+                        }}
+                    </div>
                 </div>
-            </div>
+            {{else}}
+                <div class="row">
+                    <div class="col-md-12">
+                        <label>Nie utworzyłeś jeszcze żadnej Kwestii.</label>
+                    </div>
+                </div>
+            {{/if}}
         </div>
     {{/if}}
 </template>

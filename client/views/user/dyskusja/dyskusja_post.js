@@ -8,7 +8,7 @@ Template.discussionPostItem.rendered = function () {
     $("#dyskusjaAnswerForm").validate({
         messages: {
             answer_message: {
-                required: fieldEmptyMesssage(),
+                required: fieldEmptyMessage(),
             }
         },
         highlight: function (element) {
@@ -58,15 +58,22 @@ Template.discussionPostItem.helpers({
     },
     'isDoArchiwum': function () {
         var p = Posts.findOne({_id: this.idPost});
-        if(p){
+        if (p) {
             if (p.postType == "archiwum") return true;
             else return false;
         }
     },
     'isDoKosza': function () {
         var p = Posts.findOne({_id: this.idPost});
-        if(p){
+        if (p) {
             if (p.postType == "kosz") return true;
+            else return false;
+        }
+    },
+    'isDoWK': function () {
+        var p = Posts.findOne({_id: this.idPost});
+        if (p) {
+            if (p.postType == "deliberacja") return true;
             else return false;
         }
     }
@@ -200,5 +207,11 @@ Template.discussionAnswerItem.events({
                 itemTab.splice(itemTab.indexOf(item), 1);
         });
         self.colTextAnswerRV.set(itemTab);
+    }
+});
+
+Template.discussionAnswerForm.helpers({
+    isUserLogged: function () {
+        return Meteor.userId() ? "" : "disabled";
     }
 });

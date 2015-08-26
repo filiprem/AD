@@ -6,10 +6,10 @@ Template.kwestiaOczekujaca.rendered = function () {
     $("#setTopicForm").validate({
         messages: {
             tematSelect: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             rodzajSelect: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             }
         },
         highlight: function (element) {
@@ -73,14 +73,13 @@ Template.kwestiaOczekujaca.events({
 
             } else {
                 Router.go('listaKwestiiOczekujacych');
-                var userKwestia= $(e.target).find('[id=idUser]').val();
-                var newValue=0;
-                var pktAddKwestia=Parametr.findOne({});
-                newValue=Number(pktAddKwestia.pktDodanieKwestii)+getUserRadkingValue(userKwestia);
+                var userKwestia = $(e.target).find('[id=idUser]').val();
+                var newValue = 0;
+                var pktAddKwestia = Parametr.findOne({});
+                newValue = Number(pktAddKwestia.pktDodanieKwestii) + getUserRadkingValue(userKwestia);
 
-                Meteor.call('updateUserRanking', userKwestia,newValue, function (error) {
-                    if (error)
-                    {
+                Meteor.call('updateUserRanking', userKwestia, newValue, function (error) {
+                    if (error) {
                         if (typeof Errors === "undefined")
                             Log.error('Error: ' + error.reason);
                         else {

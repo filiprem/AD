@@ -2,10 +2,10 @@ Template.addTematForm.rendered = function () {
     $("#tematForm").validate({
         messages: {
             nazwaTemat: {
-                required: fieldEmptyMesssage(),
+                required: fieldEmptyMessage(),
             },
             opis: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             }
         },
         highlight: function (element) {

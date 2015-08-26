@@ -9,7 +9,7 @@ Template.listLanguages.helpers({
             fields: [
                 {key: 'languageName', label: "Nazwa", tmpl: Template.nameLanguage},
                 {key: 'shortName', label: "Skrót", tmpl: Template.shortNameLanguage},
-                {key: '_id', label: "Opcje", tmpl: Template.languageOptions,headerClass:"col-md-2"}
+                {key: '_id', label: "Opcje", tmpl: Template.languageOptions, headerClass: "col-md-3"}
             ]
         };
     },
@@ -23,20 +23,20 @@ Template.listLanguages.helpers({
 
 
 Template.languageOptions.helpers({
-    'isLangEnabled':function(id){
-        var item = Languages.findOne({_id:id}).isEnabled;
+    'isLangEnabled': function (id) {
+        var item = Languages.findOne({_id: id}).isEnabled;
         return !!item ? item : false;
     }
 });
 
 Template.languageOptions.events({
-    'click #launchLang':function(e){
+    'click #launchLang': function (e) {
         var id = $(e.target).attr("name");
 
         var lang = {
             isEnabled: true
         }
-        Meteor.call('updateLanguageEnabled',id, lang, function (error) {
+        Meteor.call('updateLanguageEnabled', id, lang, function (error) {
             if (error) {
                 if (typeof Errors === "undefined")
                     Log.error('Error: ' + error.reason);
@@ -49,13 +49,13 @@ Template.languageOptions.events({
             }
         });
     },
-    'click #hideLang':function(e){
+    'click #hideLang': function (e) {
         var id = $(e.target).attr("name");
 
         var lang = {
             isEnabled: false
         }
-        Meteor.call('updateLanguageEnabled',id, lang, function (error) {
+        Meteor.call('updateLanguageEnabled', id, lang, function (error) {
             if (error) {
                 if (typeof Errors === "undefined")
                     Log.error('Error: ' + error.reason);
@@ -68,4 +68,12 @@ Template.languageOptions.events({
             }
         });
     }
-})
+});
+
+Template.listLanguages.rendered = function () {
+    $('[data-toggle="tooltip"]').tooltip();
+};
+
+Template.languageOptions.rendered = function () {
+    $('[data-toggle="tooltip"]').tooltip();
+};

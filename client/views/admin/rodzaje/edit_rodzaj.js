@@ -2,7 +2,7 @@ Template.editRodzajForm.rendered = function () {
     $("#rodzajForm").validate({
         rules: {
             czasDyskusji: {
-                min: 1,
+                min: 1
             },
             czasGlosowania: {
                 min: 0.01,
@@ -11,17 +11,17 @@ Template.editRodzajForm.rendered = function () {
         },
         messages: {
             nazwaRodzaj: {
-                required: fieldEmptyMesssage(),
+                required: fieldEmptyMessage(),
             },
             tematy: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             czasDyskusji: {
-                min: positiveNumberMesssage()
+                min: positiveNumberMessage()
             },
             czasGlosowania: {
-                min: positiveNumberMesssage(),
-                number: decimalNumberMesssage()
+                min: positiveNumberMessage(),
+                number: decimalNumberMessage()
             }
         },
         highlight: function (element) {
@@ -39,27 +39,42 @@ Template.editRodzajForm.rendered = function () {
 };
 
 Template.editRodzajForm.helpers({
-    rodzajToEdit: function () {
-        return Session.get("rodzajInScope");
-    },
     tematToList: function () {
         return Temat.find({});
     },
     isSelected: function (id) {
-        var r = Session.get("rodzajInScope");
-        var item = Temat.findOne({_id: r.idTemat});
-        if (item._id == id)
+        var self = Template.instance();
+        var item = Rodzaj.findOne({_id: self.data._id});
+        if (item.idTemat == id)
             return true;
         else
             return false;
+    },
+    isSelectedZwykla: function (k) {
+        var item = this.kworum;
+        console.log(item)
+        if (item == k) {
+            return "selected";
+        }
+        else
+            return "";
+    },
+    isSelectedStatutowa: function (k) {
+        var item = this.kworum;
+        console.log(item)
+        if (item == k) {
+            return "selected";
+        }
+        else
+            return "";
     }
 });
 
 Template.editRodzajForm.events({
     'submit form': function (e) {
         e.preventDefault();
-        var r = Session.get("rodzajInScope");
 
+        var idRodzaj = this._id;
         var czasD = $(e.target).find('[name=czasDyskusji]').val();
         if (czasD == '' || czasD == '0')
             czasD = 7;
@@ -71,23 +86,22 @@ Template.editRodzajForm.events({
             idTemat: $(e.target).find('[name=tematy]').val(),
             nazwaRodzaj: $(e.target).find('[name=nazwaRodzaj]').val(),
             czasDyskusji: czasD,
-            czasGlosowania: czasG
+            czasGlosowania: czasG,
+            kworum: $(e.target).find('[name=kworumSelect]').val()
         };
-        Meteor.call('updateRodzaj', r._id, rodzaj, function (error) {
+        console.log(rodzaj)
+        Meteor.call('updateRodzaj', idRodzaj, rodzaj, function (error) {
             if (error) {
-                // optionally use a meteor errors package
                 if (typeof Errors === "undefined")
                     Log.error('Error: ' + error.reason);
-                else {
+                else
                     throwError(error.reason);
-                }
-            }
-            else {
-                Router.go('listRodzaj');
+            } else {
+                Router.go('listTemat');
             }
         });
     },
     'reset form': function () {
-        Router.go('listRodzaj');
+        Router.go('listTemat');
     }
 });

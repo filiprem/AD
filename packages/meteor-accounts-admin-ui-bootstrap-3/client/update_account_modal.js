@@ -52,7 +52,6 @@ Template.updateAccountModalInner.events({
 	'click .remove-role' : function(event, template) {
 		var role = this.toString();
 		var userId = event.currentTarget.getAttribute('data-user-id');
-
 		Meteor.call('removeUserRole', userId, role, function(error) {
 			if (error) {
 				// optionally use a meteor errors package

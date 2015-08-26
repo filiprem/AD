@@ -21,20 +21,20 @@ Template.addUserForm.rendered = function () {
         },
         messages: {
             role: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             email: {
-                required: fieldEmptyMesssage(),
+                required: fieldEmptyMessage(),
                 email: validEmailMessage()
             },
             firstName: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             lastName: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             password: {
-                required: fieldEmptyMesssage(),
+                required: fieldEmptyMessage(),
                 minlength: minLengthMessage(6)
             },
             confirmPassword: {

@@ -1,19 +1,13 @@
 <template name="listRaport">
     {{#if currentUser}}
         <div class="main">
-            <h3>Lista raportów</h3>
-
-            <div class="pull-right">
-                <span>Liczba raportów: </span><span class="badge">{{raportCount}}</span>
-            </div>
-            <hr/>
+            <legend>Lista raportów</legend>
             <div class="row">
                 <div class="col col-md-6">
                     <div class="input-group">
-                  <span class="input-group-btn">
-                    <a href="{{pathFor 'addRaport'}}" class="btn btn-primary"><span
-                            class="glyphicon glyphicon-plus"></span> Dodaj</a>
-                      </span>
+                        <a href="{{pathFor 'addRaport'}}" class="btn btn-primary">
+                            <i class="fa fa-plus"></i> Dodaj
+                        </a>
                     </div>
                 </div>
             </div>

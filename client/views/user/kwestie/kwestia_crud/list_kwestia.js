@@ -29,11 +29,47 @@ Template.listKwestia.events({
             Session.set("kwestiaPreview", null);
         Router.go("addKwestia");
     },
-    'click #clickMe': function(){
+    'click #clickMe': function () {
         var users = Users.find({}).fetch();
         var en = new EmailNotifications();
         en.registerAddKwestiaNotification('AD', 'Organizacja DOM', users,
             'Kwestia w sprawie...', 'Uchwała', 'Opis Kwestii....', 'linkDK', 'linkLoginTo');
+    },
+    'click #kwestiaIdClick': function () {//nadajemy priorytet automatycznie po wejściu na kwestię + dajemy punkty
+        if(Meteor.userId()!=null) {
+            var kwestia = Kwestia.findOne({_id: this._id});
+            var tabGlosujacy = getAllUsersWhoVoted(kwestia._id);
+            if (!_.contains(tabGlosujacy, Meteor.userId())) {//jeżeli użytkownik jeszcze nie głosował
+                var glosujacy = {
+                    idUser: Meteor.userId(),
+                    value: 0
+                };
+                var voters = kwestia.glosujacy.slice();
+                voters.push(glosujacy);
+                Meteor.call('setGlosujacyTab', kwestia._id, voters, function (error, ret) {
+                    if (error) {
+                        if (typeof Errors === "undefined")
+                            Log.error('Error: ' + error.reason);
+                        else
+                            throwError(error.reason);
+                    }
+                });
+                //dodanie pkt za głosowanie
+                var newValue = 0;
+                var pktAddPriorytet = Parametr.findOne({});
+                newValue = Number(pktAddPriorytet.pktNadaniePriorytetu) + getUserRadkingValue(Meteor.userId());
+
+                Meteor.call('updateUserRanking', Meteor.userId(), newValue, function (error) {
+                    if (error) {
+                        if (typeof Errors === "undefined")
+                            Log.error('Error: ' + error.reason);
+                        else {
+                            throwError(error.reason);
+                        }
+                    }
+                });
+            }
+        }
     }
 });
 Template.listKwestia.helpers({
@@ -68,7 +104,7 @@ Template.listKwestia.helpers({
                     key: 'wartoscPriorytetu',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        title: "Kliknij, aby zmienić swój priorytet dla tej Kwestii",
+                        title: "Priorytet nadany przez Ciebie oraz ogólna siła priorytetu",
                         text: "Priorytet"
                     },
                     tmpl: Template.priorytetKwestia,
@@ -81,10 +117,10 @@ Template.listKwestia.helpers({
                     key: 'dataGlosowania',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        title: "Data zakończenia głosowania",
-                        text: "Finał"
+                        title: "Aktualne kworum / wymagane kworum",
+                        text: "Kworum"
                     },
-                    tmpl: Template.dataGlKwestia
+                    tmpl: Template.kworumNumber
                 }
             ],
             rowClass: function (item) {
@@ -95,24 +131,16 @@ Template.listKwestia.helpers({
             }
         };
     },
-    KwestiaList: function () {
-        return Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.DELIBEROWANA}).fetch();
-    },
-    priorytetsr: function () {
-        var i = 0;
-        var kwestia = Kwestia.findOne({_id: this._id});
-        if (kwestia) {
-            kwestia.glosujacy.forEach(function (item) {
-                i++;
-            });
-            if (kwestia.priorytet === 0) {
-                var srPriorytet = kwestia.priorytet;
+    KwestiaList: function () {//Marzena:narazei wyswietlamy kwestie,ktore sa z"zaakceptowane" przez admina i osobowe. Czy osobowe tez powinny przejść przez admina?
+        //chyba nie,bo temat i rodzaj są nadane...
+        var kwestie = Kwestia.find({
+            $where: function () {
+                return ((this.czyAktywny == true) && ((this.status==KWESTIA_STATUS.DELIBEROWANA) ||(this.status==KWESTIA_STATUS.OSOBOWA)));
             }
-            else {
-                var srPriorytet = kwestia.priorytet / i;
-            }
-            return srPriorytet
-        }
+        });
+        if(kwestie) return kwestie;
+        return null;
+        //return Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.DELIBEROWANA || KWESTIA_STATUS.OSOBOWA}).fetch();
     },
     kwestiaCount: function () {
         return Kwestia.find({czyAktywny: true}).count();
@@ -121,8 +149,15 @@ Template.listKwestia.helpers({
         return IsAdminUser();
     },
     isAdmin: function () {
-        if (Meteor.user().roles == "admin") return true;
-        else return false;
+        if(Meteor.user()){
+            if (Meteor.user().roles) {
+                if (Meteor.user().roles == "admin")
+                    return true;
+                else
+                    return false;
+            }
+            else return false;
+        }
     }
 });
 
@@ -140,10 +175,32 @@ Template.rodzajKwestia.helpers({
     }
 });
 
-Template.dataGlKwestia.helpers({
+//Template.dataGlKwestia.helpers({
+//    date: function () {
+//        var d = this.dataGlosowania;
+//        if (d) return moment(d).format("DD-MM-YYYY");
+//    }
+//});
+
+Template.kworumNumber.helpers({//brani są tu użytkownicy,którzy zaglosowali,czy ktorzy są w systemie?
+    // Karolina: myślę, ze wszyscy uzytkownicy bo w funkcji z xml napisane jest, ze bierzemy wszystkich uprawnionych
+    // do glosowania uzytkownikow :)
     date: function () {
-        var d = this.dataGlosowania;
-        if (d) return moment(d).format("DD-MM-YYYY");
+        var usersCount = this.glosujacy.length;
+        var allUsers = Users.find({}).count();
+        if (usersCount) {
+            var data;
+            var kworum = liczenieKworumZwykle(allUsers);
+            console.log(kworum)
+            if (kworum >= 3) {
+
+                data = usersCount.toString() + " / " + kworum.toString();
+            }
+            else {
+                data = usersCount.toString() + " / 3";
+            }
+            return data;
+        }
     }
 });
 
@@ -156,9 +213,28 @@ Template.dataUtwKwestia.helpers({
 
 Template.priorytetKwestia.helpers({
     priorytet: function () {
-        var p = this.wartoscPriorytetu;
-        if(p) return p.toFixed(2);
-        else return 0;
+        var searchedId = this._id;
+        var kwe = Kwestia.findOne({_id: this._id});
+        if(kwe){
+            var glosy = kwe.glosujacy.slice();
+            var myGlos;
+            _.each(glosy, function (glos) {
+                if (glos.idUser == Meteor.userId()) {
+                    myGlos = glos.value;
+                }
+            });
+            var p = this.wartoscPriorytetu;
+            if (p) {
+                if (p > 0) p = " +" + p;
+                if (myGlos) {
+                    if (myGlos > 0) myGlos = " +" + myGlos;
+                }
+                else
+                    myGlos = 0;
+                return myGlos + " / " + p;
+            }
+            else return 0+" / "+0;
+        }
     }
 });
 
