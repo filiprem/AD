@@ -51,7 +51,8 @@ Template.listTemat.helpers({
             showRowCount: true,
             fields: [
                 {key: 'nazwaRodzaj', label: "Nazwa rodzaju", tmpl: Template.nazwaRodzajuLink, headerClass: "col-md-2"},
-                {key: 'idTemat', label: "Temat", tmpl: Template.tematRodzaj, headerClass: "col-md-7"},
+                {key: 'idTemat', label: "Temat", tmpl: Template.tematRodzaj, headerClass: "col-md-5"},
+                {key: 'kworum', label: "Kwestia"},
                 {key: '_id', label: "Opcje", tmpl: Template.optionsColumnRodzaj, headerClass: "col-md-3"}
             ]
         };

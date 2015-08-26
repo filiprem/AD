@@ -10,6 +10,10 @@
  -> Dodać mechanizm, który będzie dopisywał "ARCHIWALNA" do Kwestii-Opcji, która została przeniesiona do Archiwum.
  * */
 
+/*
+    Dopóki Kwestia jest w Deliberacji, nie wyświetlamy jej dat GLOSOWANIA i FINALU.
+    Jak Kwestia przejdzie do panelu GLOSOWANIE to daty się pojawiaja.
+* */
 
 Template.informacjeKwestia.rendered = function () {
 };

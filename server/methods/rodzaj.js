@@ -5,7 +5,7 @@ Meteor.methods({
             nazwaRodzaj: newRodzaj[0].nazwaRodzaj,
             czasDyskusji: newRodzaj[0].czasDyskusji,
             czasGlosowania: newRodzaj[0].czasGlosowania,
-            kworum: newRodzaj[0]
+            kworum: newRodzaj[0].kworum
         });
     },
     updateRodzaj: function (idRodzaj, rodzaj) {

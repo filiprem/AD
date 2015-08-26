@@ -43,7 +43,7 @@ Template.listKwestia.events({
         var me=Users.findOne({_id:Meteor.userId()});
         if(me){
             if(me.profile.userType=='doradca' || Meteor.user().roles == "admin")
-            return;
+                return;
         }
 
         var kwestia = Kwestia.findOne({_id: this._id});
@@ -195,19 +195,36 @@ Template.kworumNumber.helpers({//brani są tu użytkownicy,którzy zaglosowali,c
     // do glosowania uzytkownikow :)
     date: function () {
         var usersCount = this.glosujacy.length;
-        var allUsers = Users.find({}).count();
-        if (usersCount) {
-            var data;
-            var kworum = liczenieKworumZwykle(allUsers);
-            console.log(kworum)
-            if (kworum >= 3) {
+        var allUsers = Users.find({}).count(); // <- tutaj bedzie zmiana, bo trzeba bedzie ograniczyc liczbe uzytkownikow
+        // bedziemy brac tylko czlonkow zwyklych !!!!!
+        var idrodzaj = this.idRodzaj;
+        var r = Rodzaj.findOne({_id: idrodzaj});
+        if (r) {
+            if (usersCount) {
+                var data;
+                if (r.kworum == "zwykla") {
+                    var kworum = liczenieKworumZwykle(allUsers);
+                    if (kworum >= 3) {
 
-                data = usersCount.toString() + " / " + kworum.toString();
+                        data = usersCount.toString() + " / " + kworum.toString();
+                    }
+                    else {
+                        data = usersCount.toString() + " / 3";
+                    }
+                    return data;
+                }
+                else if (r.kworum == "statutowa") {
+                    var kworum = liczenieKworumStatutowe(allUsers);
+                    if (kworum >= 3) {
+
+                        data = usersCount.toString() + " / " + kworum.toString();
+                    }
+                    else {
+                        data = usersCount.toString() + " / 3";
+                    }
+                    return data;
+                }
             }
-            else {
-                data = usersCount.toString() + " / 3";
-            }
-            return data;
         }
     }
 });
@@ -223,7 +240,7 @@ Template.priorytetKwestia.helpers({
     priorytet: function () {
         var searchedId = this._id;
         var kwe = Kwestia.findOne({_id: this._id});
-        if(kwe){
+        if (kwe) {
             var glosy = kwe.glosujacy.slice();
             var myGlos;
             _.each(glosy, function (glos) {
@@ -241,7 +258,7 @@ Template.priorytetKwestia.helpers({
                     myGlos = 0;
                 return myGlos + " / " + p;
             }
-            else return 0+" / "+0;
+            else return 0 + " / " + 0;
         }
     }
 });
