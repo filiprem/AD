@@ -53,6 +53,7 @@ Template.doradcaForm.events({
                 gender: $(e.target).find('[name=genderRadios]:checked').val(),
                 role: 'user',
                 userType:USERTYPE.DORADCA,
+                isExpectant:false,
                 uwagi:$(e.target).find('[name=uwagi]').val()
             }];
         //-- generowanie loginu dla użytkownika

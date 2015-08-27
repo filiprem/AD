@@ -87,7 +87,7 @@ Template.czlonekZwyczajnyForm.events({
                 userType:USERTYPE.CZLONEK,
                 uwagi:$(e.target).find('[name=uwagi]').val(),
                 language: $(e.target).find('[name=language]').val(),
-
+                isExpectant:false,
                 idUser:idUser
             }];
         //-- generowanie loginu dla użytkownika
