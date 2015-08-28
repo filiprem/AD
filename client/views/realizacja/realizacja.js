@@ -8,49 +8,91 @@ Template.realizacja.helpers({
             enableRegex: false,
             fields: [
                 {
-                    key: 'dataWprowadzenia',
-                    label: Template.listKwestiaColumnLabel,
+                    key: 'dataRealizacji',
+                    label: Template.listKwestiaRealzacjaColumnLabel,
                     labelData: {
-                        title: "Data wprowadzenia Kwestii i rozpoczêcia jej deliberacji",
+                        title: "Data rozpoczÄ™cia realizacji kwestii",
                         text: "Data"
                     },
-                    tmpl: Template.dataUtwKwestia
+                    tmpl: Template.dataRealizKwestia
+                },
+                {
+                    key: 'numerUchwaÅ‚y',
+                    label: Template.listKwestiaRealzacjaColumnLabel,
+                    labelData: {
+                        title: "Numer UchwaÅ‚y",
+                        text: "Nr. UchwaÅ‚y"
+                    },
+                    tmpl: Template.numerUchwKwestia
                 },
                 {
                     key: 'kwestiaNazwa',
-                    label: Template.listKwestiaColumnLabel,
+                    label: Template.listKwestiaRealzacjaColumnLabel,
                     labelData: {
-                        title: "Kliknij, aby zobaczyæ szczegó³y",
+                        title: "Kliknij, aby zobaczyÄ‡ szczegÃ³Å‚y",
                         text: "Nazwa Kwestii"
                     },
                     tmpl: Template.nazwaKwestiLink
                 },
                 {
-                    key: 'sredniaPriorytet',
-                    label: Template.listKwestiaColumnLabel,
-                    labelData: {
-                        title: "Kliknij, aby zmieniæ swój priorytet dla tej Kwestii",
-                        text: "Priorytet"
-                    },
-                    tmpl: Template.priorytetKwestia,
-                    sortOrder: 1,
-                    sortDirection: 'descending'
+                    key: 'idTemat',
+                    label: "Temat",
+                    tmpl: Template.tematKwestia
                 },
-                {key: 'idTemat', label: "Temat", tmpl: Template.tematKwestia},
-                {key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestia}
-                //{
-                //    key: 'dataGlosowania',
-                //    label: Template.listKwestiaColumnLabel,
-                //    labelData: {
-                //        title: "Data zakoñczenia g³osowania",
-                //        text: "Fina³"
-                //    },
-                //    tmpl: Template.dataGlKwestia
-                //}
+                {
+                    key: 'idRodzaj',
+                    label: "Rodzaj",
+                    tmpl: Template.rodzajKwestia
+                },
+                {
+                    key: 'options',
+                    label: "Opcje",
+                    tmpl: Template.editColumnRealization
+                }
             ]
         };
     },
     RealizacjaList: function () {
         return Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.REALIZOWANA}).fetch();
+    },
+    realizacjaCount: function () {
+        return Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.REALIZOWANA}).count();
     }
 });
+
+Template.realizacja.events({
+    'click #printResolution': function() {
+
+        var docDefinition = {
+            content: [
+                { text: "UchwaÅ‚a  Numer: " + this.numerUchwaÅ‚y.toString() + " z dnia " + moment(this.dataRealizacji).format("DD MMMM YYYY").toString(), style: 'uchwalaHeadline'},
+                { text: "\n\n" + this.szczegolowaTresc, style: 'contentStyle'}
+            ],
+            styles: {
+                uchwalaHeadline: {fontSize: 18, bold: true, alignment: 'center'},
+                contentStyle: {fontSize: 12, alignment: 'left'}
+            }
+
+        };
+
+        pdfMake.createPdf(docDefinition).open();
+    }
+});
+
+Template.dataRealizKwestia.helpers({
+    date: function () {
+        var d = this.dataRealizacji;
+        if (d) return moment(d).format("DD-MM-YYYY");
+    }
+});
+
+Template.numerUchwKwestia.helpers({
+    number: function () {
+        return this.numerUchwaÅ‚y;
+    }
+});
+
+Template.listKwestiaRealzacjaColumnLabel.rendered = function () {
+    $('[data-toggle="tooltip"]').tooltip();
+}
+

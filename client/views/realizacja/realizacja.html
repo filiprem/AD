@@ -1,6 +1,12 @@
 <template name="realizacja">
     <!--{{#if currentUser}}-->
         <div class="main">
+            <h3>Lista Kwestii realizowanych</h3>
+
+            <div class="pull-right">
+                <span>Liczba Kwestii realizowanych: </span><span class="badge">{{realizacjaCount}}</span>
+            </div>
+            <hr/>
             <div class="row">
                 <div class="col-md-12">
                     {{> reactiveTable
@@ -13,4 +19,25 @@
             </div>
         </div>
     <!--{{/if}}-->
+</template>
+
+<template name="editColumnRealization">
+    <a id="printResolution" data-toggle="tooltip" data-placement="top" title="Drukuj Uchwałę do pliku PDF">
+        <i class="glyphicon glyphicon-print clickable"></i>
+    </a>
+    <!--<a href="{{ pathFor 'getPDF'}}" id="printResolution" data-toggle="tooltip" data-placement="top" title="Drukuj Uchwałę do pliku PDF">-->
+        <!--<i class="glyphicon glyphicon-print clickable"></i>-->
+    <!--</a>-->
+</template>
+
+<template name="listKwestiaRealzacjaColumnLabel">
+    <span data-toggle="tooltip" title="{{title}}">{{text}}</span>
+</template>
+
+<template name="dataRealizKwestia">
+    {{date}}
+</template>
+
+<template name="numerUchwKwestia">
+    {{number}}
 </template>

@@ -11,6 +11,7 @@ Meteor.methods({
             idRodzaj: newKwestia[0].idRodzaj,
             dataDyskusji: newKwestia[0].dataDyskusji,
             dataGlosowania: moment(newKwestia[0].dataGlosowania).format(),
+            dataRealizacji: newKwestia[0].dataRealizacji,
             czyAktywny: newKwestia[0].czyAktywny = true,
             status: newKwestia[0].status,
             krotkaTresc: newKwestia[0].krotkaTresc,
@@ -18,7 +19,8 @@ Meteor.methods({
             glosujacy: [],
             isOption: false,
             sugerowanyTemat: newKwestia[0].sugerowanyTemat,
-            sugerowanyRodzaj: newKwestia[0].sugerowanyRodzaj
+            sugerowanyRodzaj: newKwestia[0].sugerowanyRodzaj,
+            numerUchwały: newKwestia[0].numerUchwały
         });
         Kwestia.update({_id: id}, {$set: {idParent: id}}, {upsert: true});
         return id;
@@ -43,13 +45,15 @@ Meteor.methods({
             idRodzaj: newKwestiaOpcja[0].idRodzaj,
             dataDyskusji: newKwestiaOpcja[0].dataDyskusji,
             dataGlosowania: moment(newKwestiaOpcja[0].dataGlosowania).format(),
+            dataRealizacji: newKwestiaOpcja[0].dataRealizacji,
             czyAktywny: newKwestiaOpcja.czyAktywny = true,
             status: newKwestiaOpcja.status = KWESTIA_STATUS.DELIBEROWANA,
             krotkaTresc: newKwestiaOpcja[0].krotkaTresc,
             szczegolowaTresc: newKwestiaOpcja[0].szczegolowaTresc,
             glosujacy: [],
             isOption: true,
-            idParent: newKwestiaOpcja[0].idParent
+            idParent: newKwestiaOpcja[0].idParent,
+            numerUchwały: newKwestiaOpcja[0].numerUchwały
         });
         return id;
     },
