@@ -5,7 +5,7 @@
                 <legend>Informacje o Kwestii</legend>
                 <p class="bg-info padding-15">
                     Obecni: <b>{{glosujacyCount}}</b>
-                    {{#unless isAdmin}}
+                    {{#if isNotAdminOrDoradca}}
                         {{#if mojPriorytetZero}}
                             <br/>Wstrzymałeś się od głosu nadając tej Kwestii priorytet <b>0</b>
                         {{else}}
@@ -15,7 +15,7 @@
                                 <br/>Nie nadałeś jeszcze tej Kwestii priorytetu
                             {{/if}}
                         {{/if}}
-                    {{/unless}}
+                    {{/if}}
                 </p>
             </div>
             {{thisKwestia}}
@@ -58,20 +58,9 @@
         <br/>
         <table class="table table-bordered manageTable">
             <tr>
-                <td><strong> Data wprowadzenia Kwestii</strong></td>
-                <td>{{date}}</td>
-            </tr>
-            <tr>
-                <td><strong> Data głosowania</strong></td>
-                <td>{{dataGlosowaniaObliczana}}</td>
-            </tr>
-            <tr>
-                <td><strong> Finał deliberacji i głosowania</strong></td>
-                <td>{{dateG}}</td>
-            </tr>
-            <tr>
                 <td><strong> Nazwa Kwestii</strong></td>
                 <td><b>{{kwestiaNazwa}}</b></td>
+                <td></td>
             </tr>
             <tr>
                 <td><strong> Priorytet</strong></td>
@@ -102,7 +91,8 @@
                                         <button id="priorytetButton" name="{{idKwestia}}" type="button"
                                                 class="btn btn-xs btn-default" value="0"
                                                 data-toggle="tooltip" data-placement="top"
-                                                title="Oznacza wstrzymanie się od głosu" {{isUserLogged}}>&nbsp;0
+                                                title="Oznacza wstrzymanie się od głosu" {{isUserOrDoradcaLogged}}>
+                                            &nbsp;0
                                         </button>
                                         <button id="priorytetButton" name="{{idKwestia}}" type="button"
                                                 class="btn btn-xs btn-success" value="1" {{isSelected 1}}>+1
@@ -125,14 +115,20 @@
                         {{/unless}}
                     </div>
                 </td>
+                <td></td>
             </tr>
             <tr>
-                <td><strong> Temat</strong></td>
-                <td>{{tematNazwa.nazwaTemat}}</td>
+                <td><strong> Temat </strong>&nbsp; &nbsp; {{tematNazwa.nazwaTemat}}</td>
+                <td><strong> Rodzaj </strong>&nbsp; &nbsp; {{rodzajNazwa.nazwaRodzaj}}</td>
+                <td></td>
             </tr>
             <tr>
-                <td><strong> Rodzaj</strong></td>
-                <td>{{rodzajNazwa.nazwaRodzaj}}</td>
+                <td><strong> Data wprowadzenia Kwestii </strong>&nbsp; {{date}}</td>
+                <!---->
+                <td><strong> Data głosowania </strong>&nbsp; ---</td>
+                <!--{{dataGlosowaniaObliczana}}-->
+                <td><strong> Finał </strong>&nbsp; ---</td>
+                <!--{{dateG}}-->
             </tr>
         </table>
 
@@ -150,6 +146,38 @@
             </tr>
         </table>
 
+        {{#if currentUser}}
+            <legend>Zgłoszenie do Zespołu Realizacyjnego</legend>
+            <table class="table manageTable">
+                <tr>
+                    <td><strong>Członek nr 1</strong> &nbsp; &nbsp;
+                        {{#unless pierwszyCzlonekFullName}}
+                            <button class="btn btn-success" id="czlonek1">Zgadzam się</button>
+                        {{else}}
+                            <button class="btn btn-success" id="czlonek1" disabled>{{pierwszyCzlonekFullName}}</button>
+                        {{/unless}}
+                    </td>
+                    <td><strong>Członek nr 2</strong> &nbsp; &nbsp;
+                        {{#unless drugiCzlonekFullName}}
+                            <button class="btn btn-success" id="czlonek2">Zgadzam się</button>
+                        {{else}}
+                            <button class="btn btn-success" id="czlonek2" disabled>{{drugiCzlonekFullName}}</button>
+                        {{/unless}}
+                    </td>
+                    <td><strong>Członek nr 3</strong> &nbsp; &nbsp;
+                        {{#unless trzeciCzlonekFullName}}
+                            <button class="btn btn-success" id="czlonek3">Zgadzam się</button>
+                        {{else}}
+                            <button class="btn btn-success" id="czlonek3" disabled>{{trzeciCzlonekFullName}}</button>
+                        {{/unless}}
+                    </td>
+                    <td>
+                        <button class="btn btn-primary">Sprawdź istniejące ZR</button>
+                    </td>
+                </tr>
+            </table>
+        {{/if}}
+
         {{#if ifHasOpcje}}
             <div class="row">
                 {{> opcjeList}}
@@ -166,4 +194,5 @@
             </div>
         {{/unless}}
     </div>
+    {{> notifications}}
 </template>

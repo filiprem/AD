@@ -5,7 +5,6 @@
         <div class="navbar-header">
         </div>
         <div id="navbar-collapse" class="navbar-collapse collapse">
-            <!--{{#if currentUser}}-->
                 {{#if hasUserAccess}}
                 <ul class="nav navbar-nav">
                     <li class="{{activeRouteClass 'listKwestia'}}">
@@ -13,7 +12,6 @@
                             <i class="fa fa-file-o"></i> Wykaz Kwestii
                         </a>
                     </li>
-                    {{#if currentUser}}
                     <li class="{{activeRouteClass 'glosowanie'}}">
                         <a href="{{pathFor 'glosowanie'}}">
                             <i class="fa fa-file-text-o"></i> Głosowanie
@@ -29,6 +27,7 @@
                             <span class="fa fa-file-archive-o"></span> Archiwum
                         </a>
                     </li>
+                    {{#if currentUser}}
                     <li class="{{activeRouteClass 'profile_list'}}">
                         <a href="{{pathFor 'profile_list'}}">
                             <i class="fa fa-users"></i> Użytkownicy
@@ -70,11 +69,16 @@
                             {{/if}}
                         </ul>
                     {{/unless}}
-
                 {{/if}}
-            <!--{{/if}}-->
             <ul class="nav navbar-nav navbar-right">
                 {{#if currentUser}}
+                    {{#if isDoradca}}
+                        <li class="{{activeRouteClass 'register_form'}} ">
+                            <a href="{{pathFor 'czlonek_zwyczajny_form'}}" id="aplikujIdClick">
+                                <i class="fa fa-male"></i> Aplikuj na członka zwyczajnego
+                            </a>
+                        </li>
+                    {{/if}}
                     {{> loginButtons}}
                 {{/if}}
             </ul>

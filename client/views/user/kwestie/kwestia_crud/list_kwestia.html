@@ -2,7 +2,7 @@
 <!--{{#if currentUser}}-->
     <div class="main">
         {{#if currentUser}}
-            {{#unless isAdmin}}
+            {{#if isUserOrDoradcaLogged}}
                 <div class="row">
                     <div class="col col-md-4">
                                   <span class="input-group-btn">
@@ -10,12 +10,9 @@
                                               class="glyphicon glyphicon-plus"></span>
                                           Dodaj</a>
                                   </span>
-                        <!--<span class="input-group-btn">-->
-                        <!--<a id="clickMe" class="btn btn-primary">Click me :)</a>-->
-                        <!--</span>-->
                     </div>
                 </div>
-            {{/unless}}
+            {{/if}}
         {{/if}}
         <div class="row">
             <div class="col-md-12">

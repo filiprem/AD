@@ -53,6 +53,7 @@ Template.doradcaForm.events({
                 gender: $(e.target).find('[name=genderRadios]:checked').val(),
                 role: 'user',
                 userType:USERTYPE.DORADCA,
+                isExpectant:false,
                 uwagi:$(e.target).find('[name=uwagi]').val()
             }];
         //-- generowanie loginu dla użytkownika
@@ -88,14 +89,14 @@ Template.doradcaForm.events({
                     {
                         idUser: idUserDraft,
                         dataWprowadzenia: new Date(),
-                        kwestiaNazwa: 'Aplikacja- '+newUser[0].firstName+" "+newUser[0].lastName,
+                        kwestiaNazwa: 'Aplikowanie- '+newUser[0].firstName+" "+newUser[0].lastName,
                         wartoscPriorytetu: 0,
                         sredniaPriorytet: 0,
                         idTemat: Temat.findOne({})._id,
                         idRodzaj: Rodzaj.findOne({})._id,
                         dataDyskusji: new Date(),
                         dataGlosowania: d,
-                        krotkaTresc: 'Aplikuję o przyjęcie do systemu jako '+newUser[0].userType,
+                        krotkaTresc: 'Aplikacja o przyjęcie do systemu jako '+newUser[0].userType,
                         szczegolowaTresc: daneAplikanta,
                         isOption: false,
                         status:KWESTIA_STATUS.OSOBOWA

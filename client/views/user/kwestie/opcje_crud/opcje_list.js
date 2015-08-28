@@ -1,8 +1,8 @@
 Template.opcjeList.helpers({
     OpcjeList: function () {
-        //var kwestiaGlownaId = Session.get("idKwestia");
         var parent = this.idParent;
-        var k = Kwestia.find({idParent: parent}).fetch();
+        var kwestia = Kwestia.findOne({_id: parent});
+        var k = Kwestia.find({_id: {$ne: this._id}, idParent: this.idParent}).fetch();
         if (k) return k;
         else return false;
     },

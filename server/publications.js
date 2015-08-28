@@ -19,8 +19,13 @@ Meteor.publish('usersEmails', function () {
 });
 
 Meteor.publish('usersDraft', function () {
-    return Users.find({});
+    return UsersDraft.find({});
 });
+
+Meteor.publish('userDraft', function (id) {
+    return UsersDraft.find({idUser: id});
+});
+
 Meteor.publish('usersDraftEmails', function () {
     return UsersDraft.find({}, {fields: {email: 1}});
 });
@@ -150,3 +155,7 @@ Meteor.publish('pagesInfo', function () {
 Meteor.publish('pagesInfoByLang', function (routeName) {
     return PagesInfo.find({routeName: routeName, czyAktywny: true});
 });
+
+Meteor.publish('zespolRealizacyjny', function(){
+    return ZespolRealizacyjny.find({});
+})

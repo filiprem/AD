@@ -57,8 +57,13 @@
                         <div class="col-xs-9">
                             <select id="kworumSelect" name="kworumSelect" class="form-control required">
                                 <option value="">Wybierz</option>
-                                <option value="zwykla" {{isSelectedZwykla 'zwykla'}}>Kwestia zwykła</option>
-                                <option value="statutowa" {{isSelectedStatutowa 'statutowa'}}>Kwestia statutowa</option>
+                                {{#each kworumList}}
+                                    {{#if isSelectedKworum value}}
+                                        <option id={{this.index}} value={{this.value}} selected>{{this.name}}</option>
+                                    {{else}}
+                                        <option id={{this.index}} value={{this.value}}>{{this.name}}</option>
+                                    {{/if}}
+                                {{/each}}
                             </select>
                         </div>
                     </div>

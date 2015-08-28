@@ -50,36 +50,39 @@ fieldEmptyMessage = function () {
         });
         return this.optional(element) || found == null;
     }, 'Ta Kwestia już istnieje!');
-
-    jQuery.validator.addMethod("checkExistsEmail", function (value, element) {
-        var users=Users.find();
-        var found=null;
-        users.forEach(function(user){
-            console.log(user);
-            _.each(user.emails,function(email){
-                console.log(user.emails);
+//funkcja walidujaca, uzywana przy samorejestracji lub przy aplikacji na czlonka lub doradcę(tylko nowy user!!)
+//waliduje tylko wtyedy,gdy uzytkownik niezalogowany,bo gdy zalogowany,to moze aplikwoac tylko z doradcy na członka
+//a wówczas email będzie ten sam naturalnie
+jQuery.validator.addMethod("checkExistsEmail", function (value, element) {
+    var found=null;
+    if(!Meteor.userId()) {
+        var users = Users.find();
+        users.forEach(function (user) {
+            //console.log(user);
+            _.each(user.emails, function (email) {
+                //console.log(user.emails);
                 if (_.isEqual(email.address.toLowerCase(), value.toLowerCase())) {
                     console.log(email.address);
                     found = true;
                 }
             })
         });
-        return this.optional(element) || found == null;
-    }, 'Istnieje już w systemie użytkownik z podanym adresem email!');
+    }
+    return this.optional(element) || found == null;
+}, 'Istnieje już w systemie użytkownik z podanym adresem email!');
 
-    jQuery.validator.addMethod("checkExistsEmailDraft", function (value, element) {
-        var usersDraft = UsersDraft.find({
-            $where: function () {
-                return ((this.email==value) || (this.email.toLowerCase() == value.toLowerCase()));
-            }
-        });
-        var found=null;
-        if(usersDraft.count()>0) {
-            found=true;
-            console.log("Jst taki draft");
+jQuery.validator.addMethod("checkExistsEmailDraft", function (value, element) {
+    var usersDraft = UsersDraft.find({
+        $where: function () {
+            return ((this.email==value) || (this.email.toLowerCase() == value.toLowerCase()));
         }
-        return this.optional(element) || found == null;
-    }, 'Został już złożony wniosek na podany adres email!');
+    });
+    var found=null;
+    if(usersDraft.count()>0) {
+        found=true;
+    }
+    return this.optional(element) || found == null;
+}, 'Został już złożony wniosek na podany adres email!');
 
 //NOT USED!
 trimInput = function (value) {

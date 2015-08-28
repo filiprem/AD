@@ -36,39 +36,47 @@ Template.listKwestia.events({
             'Kwestia w sprawie...', 'Uchwała', 'Opis Kwestii....', 'linkDK', 'linkLoginTo');
     },
     'click #kwestiaIdClick': function () {//nadajemy priorytet automatycznie po wejściu na kwestię + dajemy punkty
-        if(Meteor.userId()!=null) {
-            var kwestia = Kwestia.findOne({_id: this._id});
-            var tabGlosujacy = getAllUsersWhoVoted(kwestia._id);
-            if (!_.contains(tabGlosujacy, Meteor.userId())) {//jeżeli użytkownik jeszcze nie głosował
-                var glosujacy = {
-                    idUser: Meteor.userId(),
-                    value: 0
-                };
-                var voters = kwestia.glosujacy.slice();
-                voters.push(glosujacy);
-                Meteor.call('setGlosujacyTab', kwestia._id, voters, function (error, ret) {
-                    if (error) {
-                        if (typeof Errors === "undefined")
-                            Log.error('Error: ' + error.reason);
-                        else
-                            throwError(error.reason);
-                    }
-                });
-                //dodanie pkt za głosowanie
-                var newValue = 0;
-                var pktAddPriorytet = Parametr.findOne({});
-                newValue = Number(pktAddPriorytet.pktNadaniePriorytetu) + getUserRadkingValue(Meteor.userId());
+        //za wyjątkiem ,gdy użytkownik nie jest zalogowany i nie jest doradcą
 
-                Meteor.call('updateUserRanking', Meteor.userId(), newValue, function (error) {
-                    if (error) {
-                        if (typeof Errors === "undefined")
-                            Log.error('Error: ' + error.reason);
-                        else {
-                            throwError(error.reason);
-                        }
+        if(Meteor.userId()==null)
+            return;
+        var me=Users.findOne({_id:Meteor.userId()});
+        if(me){
+            if(me.profile.userType=='doradca' || Meteor.user().roles == "admin")
+                return;
+        }
+
+        var kwestia = Kwestia.findOne({_id: this._id});
+        var tabGlosujacy = getAllUsersWhoVoted(kwestia._id);
+        if (!_.contains(tabGlosujacy, Meteor.userId())) {//jeżeli użytkownik jeszcze nie głosował
+            var glosujacy = {
+                idUser: Meteor.userId(),
+                value: 0
+            };
+            var voters = kwestia.glosujacy.slice();
+            voters.push(glosujacy);
+            Meteor.call('setGlosujacyTab', kwestia._id, voters, function (error, ret) {
+                if (error) {
+                    if (typeof Errors === "undefined")
+                        Log.error('Error: ' + error.reason);
+                    else
+                        throwError(error.reason);
+                }
+            });
+            //dodanie pkt za głosowanie
+            var newValue = 0;
+            var pktAddPriorytet = Parametr.findOne({});
+            newValue = Number(pktAddPriorytet.pktNadaniePriorytetu) + getUserRadkingValue(Meteor.userId());
+
+            Meteor.call('updateUserRanking', Meteor.userId(), newValue, function (error) {
+                if (error) {
+                    if (typeof Errors === "undefined")
+                        Log.error('Error: ' + error.reason);
+                    else {
+                        throwError(error.reason);
                     }
-                });
-            }
+                }
+            });
         }
     }
 });
@@ -187,19 +195,36 @@ Template.kworumNumber.helpers({//brani są tu użytkownicy,którzy zaglosowali,c
     // do glosowania uzytkownikow :)
     date: function () {
         var usersCount = this.glosujacy.length;
-        var allUsers = Users.find({}).count();
-        if (usersCount) {
-            var data;
-            var kworum = liczenieKworumZwykle(allUsers);
-            console.log(kworum)
-            if (kworum >= 3) {
+        var allUsers = Users.find({}).count(); // <- tutaj bedzie zmiana, bo trzeba bedzie ograniczyc liczbe uzytkownikow
+        // bedziemy brac tylko czlonkow zwyklych !!!!!
+        var idrodzaj = this.idRodzaj;
+        var r = Rodzaj.findOne({_id: idrodzaj});
+        if (r) {
+            if (usersCount) {
+                var data;
+                if (r.kworum == "zwykla") {
+                    var kworum = liczenieKworumZwykle(allUsers);
+                    if (kworum >= 3) {
 
-                data = usersCount.toString() + " / " + kworum.toString();
+                        data = usersCount.toString() + " / " + kworum.toString();
+                    }
+                    else {
+                        data = usersCount.toString() + " / 3";
+                    }
+                    return data;
+                }
+                else if (r.kworum == "statutowa") {
+                    var kworum = liczenieKworumStatutowe(allUsers);
+                    if (kworum >= 3) {
+
+                        data = usersCount.toString() + " / " + kworum.toString();
+                    }
+                    else {
+                        data = usersCount.toString() + " / 3";
+                    }
+                    return data;
+                }
             }
-            else {
-                data = usersCount.toString() + " / 3";
-            }
-            return data;
         }
     }
 });
@@ -215,7 +240,7 @@ Template.priorytetKwestia.helpers({
     priorytet: function () {
         var searchedId = this._id;
         var kwe = Kwestia.findOne({_id: this._id});
-        if(kwe){
+        if (kwe) {
             var glosy = kwe.glosujacy.slice();
             var myGlos;
             _.each(glosy, function (glos) {
@@ -233,11 +258,25 @@ Template.priorytetKwestia.helpers({
                     myGlos = 0;
                 return myGlos + " / " + p;
             }
-            else return 0+" / "+0;
+            else return 0 + " / " + 0;
         }
     }
 });
 
 Template.listKwestiaColumnLabel.rendered = function () {
     $('[data-toggle="tooltip"]').tooltip();
-}
+};
+
+Template.listKwestia.helpers({
+    isUserOrDoradcaLogged:function(){
+        if(!Meteor.roles=='admin')
+            return false;
+        else {
+            var user = Users.findOne({_id: Meteor.userId()});
+            if (user) {
+                return user.profile.userType == 'doradca' ? false : true;
+            }
+            return "";
+        }
+    }
+});
