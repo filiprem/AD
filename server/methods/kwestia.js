@@ -21,6 +21,7 @@ Meteor.methods({
             sugerowanyRodzaj: newKwestia[0].sugerowanyRodzaj
         });
         Kwestia.update({_id: id}, {$set: {idParent: id}}, {upsert: true});
+        ZespolRealizacyjny.insert({idKwestia: id, nazwa: "", zespol: []})
         return id;
     },
     updateKwestia: function (id, kwestia) {
@@ -51,6 +52,7 @@ Meteor.methods({
             isOption: true,
             idParent: newKwestiaOpcja[0].idParent
         });
+        ZespolRealizacyjny.insert({idKwestia: id, nazwa: "", zespol: []})
         return id;
     },
     updateKwestiaRating: function (id, obj) {
@@ -69,6 +71,17 @@ Meteor.methods({
     },
     updateWartoscPriorytetu: function (id, obj) {
         var id = Kwestia.update(id, {$set: {wartoscPriorytetu: obj}}, {upsert: true});
+        return id;
+    },
+    updateZespolRealizacyjny: function(id, obj){
+        console.log(id);
+        console.log(obj)
+        var id = ZespolRealizacyjny.update(id,
+            {
+                $set: {
+                    zespol: obj
+                }
+        });
         return id;
     }
 });

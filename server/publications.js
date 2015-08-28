@@ -155,3 +155,7 @@ Meteor.publish('pagesInfo', function () {
 Meteor.publish('pagesInfoByLang', function (routeName) {
     return PagesInfo.find({routeName: routeName, czyAktywny: true});
 });
+
+Meteor.publish('zespolRealizacyjny', function(){
+    return ZespolRealizacyjny.find({});
+})

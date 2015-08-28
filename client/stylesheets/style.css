@@ -214,3 +214,7 @@ body {
 .float-right{
     float:right;
 }
+
+ul.notifications {
+    position: fixed;
+}
