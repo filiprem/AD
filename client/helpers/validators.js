@@ -62,7 +62,6 @@ jQuery.validator.addMethod("checkExistsEmail", function (value, element) {
             _.each(user.emails, function (email) {
                 //console.log(user.emails);
                 if (_.isEqual(email.address.toLowerCase(), value.toLowerCase())) {
-                    console.log(email.address);
                     found = true;
                 }
             })

@@ -156,6 +156,8 @@ Meteor.publish('pagesInfoByLang', function (routeName) {
     return PagesInfo.find({routeName: routeName, czyAktywny: true});
 });
 
+//ZESPOL REALIZACYJNY
+
 Meteor.publish('zespolRealizacyjny', function(){
     return ZespolRealizacyjny.find({});
 })

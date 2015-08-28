@@ -103,8 +103,6 @@ Meteor.methods({
         return id;
     },
     updateZespolRealizacyjny: function(id, obj){
-        console.log(id);
-        console.log(obj)
         var id = ZespolRealizacyjny.update(id,
             {
                 $set: {

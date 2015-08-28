@@ -128,7 +128,11 @@ Template.informacjeKwestia.events({
         zespolId = z._id;
         var zespolToUpdate = z.zespol.slice();
         if(z.zespol.length>0){
-            throwError("Jest już pierwszy członek ZR.")
+            GlobalNotification.error({
+                title: 'Błąd',
+                content: 'Jest już pierwszy członek ZR.',
+                duration: 3 // duration the notification should stay in seconds
+            });
             return false;
         }
         else{
@@ -143,13 +147,19 @@ Template.informacjeKwestia.events({
                     }
                 });
             if(id){
-                Notifications.success('Sukces', 'Zostałeś dodany do Zespołu Realizacyjnego. Potrzeba jeszcze 2 członków.');
-                var d = document.getElementById("czlonek1");
-                console.log(d);
-                d.setAttribute("disabled", true);
+                GlobalNotification.success({
+                    title: 'Sukces',
+                    content: 'Zostałeś dodany do Zespołu Realizacyjnego. Potrzeba jeszcze 2 członków.',
+                    duration: 3 // duration the notification should stay in seconds
+                });
+                //Notifications.success('Sukces', 'Zostałeś dodany do Zespołu Realizacyjnego. Potrzeba jeszcze 2 członków.');
             }
             else{
-                throwError("Wystąpił jakiś błąd");
+                GlobalNotification.error({
+                    title: 'Błąd',
+                    content: 'Wystąpił błąd.',
+                    duration: 3 // duration the notification should stay in seconds
+                });
             }
         }
     },
@@ -159,11 +169,19 @@ Template.informacjeKwestia.events({
         var zespolToUpdate = z.zespol.slice();
         for(var i=0;i< z.zespol.length;i++){
             if(z.zespol[i].idUser == Meteor.userId()){
-                throwError("Jesteś już w Zespole Realizacyjnym!");
+                GlobalNotification.error({
+                    title: 'Błąd',
+                    content: 'Jesteś już w ZR.',
+                    duration: 3 // duration the notification should stay in seconds
+                });
                 return false;
             }
             else if(z.zespol[1]){
-                throwError("Jest już drugi członek ZR.")
+                GlobalNotification.error({
+                    title: 'Błąd',
+                    content: 'Jest już 2 członek ZR.',
+                    duration: 3 // duration the notification should stay in seconds
+                });
                 return false
             }
         }
@@ -178,10 +196,19 @@ Template.informacjeKwestia.events({
                 }
             });
         if(id){
-            Notifications.success('Sukces', 'Zostałeś dodany do Zespołu Realizacyjnego. Potrzeba jeszcze 1 członka.');
+            GlobalNotification.success({
+                title: 'Sukces',
+                content: 'Zostałeś dodany do Zespołu Realizacyjnego. Potrzeba jeszcze 1 członka.',
+                duration: 3 // duration the notification should stay in seconds
+            });
+            //Notifications.success('Sukces', 'Zostałeś dodany do Zespołu Realizacyjnego. Potrzeba jeszcze 1 członka.');
         }
         else{
-            throwError("Wystąpił błąd...");
+            GlobalNotification.error({
+                title: 'Błąd',
+                content: 'Wystąpił błąd.',
+                duration: 3 // duration the notification should stay in seconds
+            });
         }
     },
     'click #czlonek3': function () {
@@ -190,12 +217,20 @@ Template.informacjeKwestia.events({
         var zespolToUpdate = z.zespol.slice();
         for(var i=0;i< z.zespol.length;i++){
             if(z.zespol[i].idUser == Meteor.userId()){
-                throwError("Jesteś już w Zespole Realizacyjnym!");
+                GlobalNotification.error({
+                    title: 'Błąd',
+                    content: 'Jesteś już w ZR.',
+                    duration: 3 // duration the notification should stay in seconds
+                });
                 return false;
             }
             else if(z.zespol[2]){
-                throwError("jest juz trzeci czlonek zespolu")
-                return false
+                GlobalNotification.error({
+                    title: 'Błąd',
+                    content: 'Jest już 3 członek ZR.',
+                    duration: 3 // duration the notification should stay in seconds
+                });
+                return false;
             }
         }
         var czlonek = {
@@ -209,11 +244,24 @@ Template.informacjeKwestia.events({
                 }
             });
         if(id){
-            Notifications.success('Sukces', 'Zostałeś dodany do Zespołu Realizacyjnego. Jest już 3 członków w ZR.');
+            GlobalNotification.success({
+                title: 'Sukces',
+                content: 'Zostałeś dodany do Zespołu Realizacyjnego. Jest już 3 członków w ZR.',
+                duration: 3 // duration the notification should stay in seconds
+            });
+            //Notifications.success('Sukces', 'Zostałeś dodany do Zespołu Realizacyjnego. Jest już 3 członków w ZR.');
+            $("#addNazwa").modal("show");
         }
         else{
-            throwError("Wystąpił błąd...");
+            GlobalNotification.warning({
+                title: 'Błąd',
+                content: 'Wystąpił błąd.',
+                duration: 3 // duration the notification should stay in seconds
+            });
         }
+    },
+    'click #listaZR': function(){
+        $("#listZespolRealizacyjny").modal("show");
     },
     'click #dyskusja': function (e) {
         var id = document.getElementById("dyskusja").name;

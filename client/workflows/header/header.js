@@ -64,7 +64,6 @@ Template.header.helpers({
             if(user.profile.userType=='doradca'){
                 //sprawdzam czy aplikowal już
                 var userDraf= UsersDraft.find({'profile.idUser':Meteor.userId()});
-                console.log(UsersDraft.find({'profile.idUser':Meteor.userId()}));
                 if(userDraf){
                     return userDraf.count()>0 ? false : true;
                 }
