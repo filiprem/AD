@@ -47,7 +47,6 @@ Template.addRodzajForm.events({
     'change #kworumSelect': function (e) {
         e.preventDefault();
         var v = $(e.target).val();
-        console.log(v);
         Session.set("rodzajKworum", v);
     },
 
@@ -70,7 +69,6 @@ Template.addRodzajForm.events({
                 czasGlosowania: czasG,
                 kworum: kw
             }];
-        console.log(newRodzaj);
         Meteor.call('addRodzaj', newRodzaj, function (error) {
             if (error) {
                 if (typeof Errors === "undefined")

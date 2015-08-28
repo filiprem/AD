@@ -85,7 +85,6 @@ Template.editRodzajForm.events({
             czasGlosowania: czasG,
             kworum: $(e.target).find('[name=kworumSelect]').val()
         };
-        console.log(rodzaj)
         Meteor.call('updateRodzaj', idRodzaj, rodzaj, function (error) {
             if (error) {
                 if (typeof Errors === "undefined")

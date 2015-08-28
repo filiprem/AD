@@ -99,7 +99,11 @@ Template.discussionRating.events({
             if (post.glosujacy[i].idUser === Meteor.userId()) {
                 flag = false;
                 if (post.glosujacy[i].value === ratingValue) {
-                    throwError("Nadałeś już priorytet o tej wadze w tym poście!");
+                    GlobalNotification.error({
+                        title: 'Błąd',
+                        content: 'Nadałeś już priorytet o tej wadze w tym poście!',
+                        duration: 3 // duration the notification should stay in seconds
+                    });
                     return false;
                 } else {
                     wartoscPriorytetu -= glosujacyTab[i].value;

@@ -91,7 +91,8 @@
                                         <button id="priorytetButton" name="{{idKwestia}}" type="button"
                                                 class="btn btn-xs btn-default" value="0"
                                                 data-toggle="tooltip" data-placement="top"
-                                                title="Oznacza wstrzymanie się od głosu" {{isUserOrDoradcaLogged}}>&nbsp;0
+                                                title="Oznacza wstrzymanie się od głosu" {{isUserOrDoradcaLogged}}>
+                                            &nbsp;0
                                         </button>
                                         <button id="priorytetButton" name="{{idKwestia}}" type="button"
                                                 class="btn btn-xs btn-success" value="1" {{isSelected 1}}>+1
@@ -145,6 +146,38 @@
             </tr>
         </table>
 
+        {{#if currentUser}}
+            <legend>Zgłoszenie do Zespołu Realizacyjnego</legend>
+            <table class="table manageTable">
+                <tr>
+                    <td><strong>Członek nr 1</strong> &nbsp; &nbsp;
+                        {{#unless pierwszyCzlonekFullName}}
+                            <button class="btn btn-success" id="czlonek1">Zgadzam się</button>
+                        {{else}}
+                            <button class="btn btn-success" id="czlonek1" disabled>{{pierwszyCzlonekFullName}}</button>
+                        {{/unless}}
+                    </td>
+                    <td><strong>Członek nr 2</strong> &nbsp; &nbsp;
+                        {{#unless drugiCzlonekFullName}}
+                            <button class="btn btn-success" id="czlonek2">Zgadzam się</button>
+                        {{else}}
+                            <button class="btn btn-success" id="czlonek2" disabled>{{drugiCzlonekFullName}}</button>
+                        {{/unless}}
+                    </td>
+                    <td><strong>Członek nr 3</strong> &nbsp; &nbsp;
+                        {{#unless trzeciCzlonekFullName}}
+                            <button class="btn btn-success" id="czlonek3">Zgadzam się</button>
+                        {{else}}
+                            <button class="btn btn-success" id="czlonek3" disabled>{{trzeciCzlonekFullName}}</button>
+                        {{/unless}}
+                    </td>
+                    <td>
+                        <button class="btn btn-primary" id="listaZR">Sprawdź istniejące ZR</button>
+                    </td>
+                </tr>
+            </table>
+        {{/if}}
+
         {{#if ifHasOpcje}}
             <div class="row">
                 {{> opcjeList}}
@@ -161,4 +194,10 @@
             </div>
         {{/unless}}
     </div>
+
+    {{> notifications}}
+    {{> listZespolRealizacyjnyModal}}
+    {{> addNazwaModal}}
+    {{> GlobalNotifications}}
+
 </template>

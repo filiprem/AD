@@ -78,9 +78,7 @@ Template.profileList.helpers({
 Template.optionsColumnProfile.events({
     'click #zglosNaHonorowegoClick':function(e){
         e.preventDefault();
-        console.log(this._id);
         var user=Users.findOne({_id:this._id});
-        console.log(user);
         if(user){
             bootbox.dialog({
                 title: "Dane aplikanta do zgłoszenia na stanowisko członka honorowego",

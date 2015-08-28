@@ -160,7 +160,15 @@ Meteor.publish('pagesInfoByLang', function (routeName) {
     return PagesInfo.find({routeName: routeName, czyAktywny: true});
 });
 
-//POWIADOMIENIA
+//ZESPOL REALIZACYJNY
+
+Meteor.publish('zespolRealizacyjny', function(){
+    return ZespolRealizacyjny.find({});
+});
+
+Meteor.publish('kwestieRealizacja', function () {
+    return Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.REALIZOWANA});
+});
 
 Meteor.publish('powiadomienia', function () {
     return Powiadomienie.find({});
