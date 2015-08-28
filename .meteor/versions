@@ -62,6 +62,7 @@ mizzao:bootboxjs@4.4.0
 mobile-status-bar@1.0.3
 momentjs:moment@2.10.6
 mongo@1.1.0
+nilsdannemann:pdfmake@1.0.38
 npm-bcrypt@0.7.8_2
 oauth@1.1.4
 oauth2@1.1.3
