@@ -22,6 +22,7 @@ Meteor.methods({
 
         });
         Kwestia.update({_id: id}, {$set: {idParent: id}}, {upsert: true});
+        var z = ZespolRealizacyjny.insert({idKwestia: id, nazwa: "", zespol: []});
         return id;
     },
     //ta metoda ma dodatkowo idZlgaszajacego,
@@ -49,7 +50,7 @@ Meteor.methods({
             idZgloszonego:newKwestia[0].idZgloszonego
         });
         Kwestia.update({_id: id}, {$set: {idParent: id}}, {upsert: true});
-        ZespolRealizacyjny.insert({idKwestia: id, nazwa: "", zespol: []})
+        var z = ZespolRealizacyjny.insert({idKwestia: id, nazwa: "", zespol: []});
         return id;
     },
     updateKwestia: function (id, kwestia) {
@@ -80,7 +81,7 @@ Meteor.methods({
             isOption: true,
             idParent: newKwestiaOpcja[0].idParent
         });
-        ZespolRealizacyjny.insert({idKwestia: id, nazwa: "", zespol: []})
+        var z = ZespolRealizacyjny.insert({idKwestia: id, nazwa: "", zespol: []});
         return id;
     },
     updateKwestiaRating: function (id, obj) {
