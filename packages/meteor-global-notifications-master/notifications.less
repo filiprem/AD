@@ -8,6 +8,8 @@
 @colorGreen: #449D44;
 @colorWhite: #fff;
 
+@font-family-sans-serif:  "Helvetica Neue", Helvetica, Arial, sans-serif;
+
 
 .global-notifications {
     z-index: 100;
@@ -29,17 +31,21 @@
         &.error {
             background-color: @colorRed;
             color: @colorWhite;
+            border-color: #2E6DA4;
         }
         &.warning {
             background-color: @colorYellow;
+            border-color: #985F0D;
         }
         &.info {
             background-color: @colorBlue;
             color: @colorWhite;
+            border-color: #122B40;
         }
         &.success {
             background-color: @colorGreen;
             color: @colorWhite;
+            border-color: #255625;
         }
 
         // ANIMATION
@@ -60,14 +66,17 @@
             margin: 0;
             margin-bottom: @margin;
             padding: 0;
+            font-family: @font-family-sans-serif;
         }
         h3 {
             margin: 0;
             margin-bottom: @margin;
             padding: 0;
+            font-family: @font-family-sans-serif;
         }
         p {
             margin: 0;
+            font-family: @font-family-sans-serif;
         }
         button.ok {
         }
