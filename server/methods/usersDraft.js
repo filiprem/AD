@@ -17,7 +17,8 @@ Meteor.methods({
                 language:newUser[0].language,
                 userType:newUser[0].userType,
                 uwagi:newUser[0].uwagi,
-                idUser:newUser[0].idUser
+                idUser:newUser[0].idUser,
+                isExpectant:newUser[0].isExpectant
             }
         });
         return id;

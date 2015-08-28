@@ -61,7 +61,6 @@ Template.header.helpers({
     isDoradca:function(){
         var user=Users.findOne({_id:Meteor.userId()});
         if(user){
-            //return user.profile.userType=='doradca' ? true :false;
             if(user.profile.userType=='doradca'){
                 //sprawdzam czy aplikowal już
                 var userDraf= UsersDraft.find({'profile.idUser':Meteor.userId()});
@@ -74,7 +73,19 @@ Template.header.helpers({
             return false;
         }
         return false;
-    }
+    },
+
+    //appliedForCzlonek:function(){
+    //    if(isDoradca()){
+    //        var userDraf= UsersDraft.find({'profile.idUser':Meteor.userId()});
+    //        console.log(UsersDraft.find({'profile.idUser':Meteor.userId()}));
+    //        if(userDraf){
+    //            return userDraf.count()>0 ? false : true;
+    //        }
+    //        return true;
+    //    }
+    //    return false;
+    //}
 });
 
 Template.language.events({
@@ -163,3 +174,13 @@ Template.language.helpers({
 //        Router.go("czlonek_zwyczajny_form");
 //    }
 //});
+//isDoradca=function(){
+//    var user=Users.findOne({_id:Meteor.userId()});
+//    if(user){
+//        if(user.profile.userType=='doradca'){
+//            return user;
+//        }
+//        return false;
+//    }
+//    return false;
+//};
