@@ -25,7 +25,11 @@ Template.informacjeKwestia.events({
         var currentKwestiaId = Session.get("idKwestia");
         var kwestie = Kwestia.find({'glosujacy.idUser': me, idParent: currentKwestiaId}).fetch()
         if (Kwestia.find({'glosujacy.idUser': me, idParent: currentKwestiaId}).count() == 0) {//zmienic,czy wszedzie są zero!
-            throwError("Nie nadałeś priorytetu tej Kwestii, ani jej opcjom");
+            GlobalNotification.error({
+                title: 'Błąd',
+                content: 'Nie nadałeś priorytetu tej Kwestii, ani jej opcjom!',
+                duration: 3 // duration the notification should stay in seconds
+            });
             //sprawdzić czy sa zzero->jak zero,to tez nie updatujemy na darmo!
         }
         else {
