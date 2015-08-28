@@ -139,16 +139,14 @@ Template.listKwestia.helpers({
             }
         };
     },
-    KwestiaList: function () {//Marzena:narazei wyswietlamy kwestie,ktore sa z"zaakceptowane" przez admina i osobowe. Czy osobowe tez powinny przejść przez admina?
-        //chyba nie,bo temat i rodzaj są nadane...
+    KwestiaList: function () {
         var kwestie = Kwestia.find({
             $where: function () {
-                return ((this.czyAktywny == true) && ((this.status==KWESTIA_STATUS.DELIBEROWANA) ||(this.status==KWESTIA_STATUS.OSOBOWA)));
+                return ((this.czyAktywny == true) && ((this.status==KWESTIA_STATUS.DELIBEROWANA) ||(this.status==KWESTIA_STATUS.OSOBOWA) || (this.status==KWESTIA_STATUS.STATUSOWA)));
             }
         });
         if(kwestie) return kwestie;
         return null;
-        //return Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.DELIBEROWANA || KWESTIA_STATUS.OSOBOWA}).fetch();
     },
     kwestiaCount: function () {
         return Kwestia.find({czyAktywny: true}).count();

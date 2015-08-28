@@ -118,7 +118,7 @@ Template.optionsColumnProfile.events({
                                     idUser:user._id,
                                     isExpectant:true
                                 }];
-
+                            //tu nie będzei tworzony draft!!!do usuniecia!!!!
                             Meteor.call('addUserDraft', newUserDraft, function (error,ret) {
                                 if (error) {
                                     // optionally use a meteor errors package
@@ -133,28 +133,28 @@ Template.optionsColumnProfile.events({
                                     var dataG = new Date();
                                     var d = dataG.setDate(dataG.getDate() + 7);
                                     var daneAplikanta = "DANE APLIKANTA: \r\n " +
-                                        newUserDraft[0].firstName + ", " + newUserDraft[0].lastName + " \r\n " +
-                                        newUserDraft[0].email + ", \r\n " +
-                                        newUserDraft[0].profession + ", \r\n " +
-                                        newUserDraft[0].address + " " +
-                                        newUserDraft[0].zip + ", \r\n " +
-                                        newUserDraft[0].uwagi
+                                        user[0].firstName + ", " + user[0].lastName + " \r\n " +
+                                        user[0].email + ", \r\n " +
+                                        user[0].profession + ", \r\n " +
+                                        user[0].address + " " +
+                                        user[0].zip + ", \r\n " +
+                                        user[0].uwagi
                                     var newKwestia = [
                                         {
                                             idUser: Meteor.userId(),
                                             dataWprowadzenia: new Date(),
-                                            kwestiaNazwa: 'Nadanie statusu- ' + newUserDraft[0].firstName + " " + newUserDraft[0].lastName,
+                                            kwestiaNazwa: 'Nadanie statusu- ' + user[0].firstName + " " + user[0].lastName,
                                             wartoscPriorytetu: 0,
                                             sredniaPriorytet: 0,
                                             idTemat: Temat.findOne({})._id,
                                             idRodzaj: Rodzaj.findOne({})._id,
                                             dataDyskusji: new Date(),
                                             dataGlosowania: d,
-                                            krotkaTresc: 'Kwestia o nadanie statusu ' + newUserDraft[0].userType,
+                                            krotkaTresc: 'Kwestia o nadanie statusu ' + user[0].userType,
                                             szczegolowaTresc: daneAplikanta,
                                             isOption: false,
                                             status: KWESTIA_STATUS.STATUSOWA,
-                                            idZgloszonego:idUserDraft
+                                            idZgloszonego:user._id
                                         }];
                                     Meteor.call('addKwestiaStatusowa', newKwestia, function (error) {
                                         if (error) {
@@ -206,7 +206,7 @@ Template.optionsColumnProfile.helpers({
             }
         }
         return false;
-    },
+    }
     //to finish
     //isZgloszony:function(){
     //    //var kwestia=Kwestia.findOne({idZgloszonego:this._id this.status=='statusowa'});

@@ -109,6 +109,10 @@ Meteor.publish('kwestieUser', function (id) {
     return Kwestia.find({idUser: id, czyAktywny: true})
 });
 
+Meteor.publish('kwestieGlosowane', function () {
+    return Kwestia.find({czyAktywny: true,status:KWESTIA_STATUS.GLOSOWANA})
+});
+
 Meteor.publish('kwestieArchiwum', function () {
     return Kwestia.find({
         $or: [
@@ -154,4 +158,10 @@ Meteor.publish('pagesInfo', function () {
 
 Meteor.publish('pagesInfoByLang', function (routeName) {
     return PagesInfo.find({routeName: routeName, czyAktywny: true});
+});
+
+//POWIADOMIENIA
+
+Meteor.publish('powiadomienia', function () {
+    return Powiadomienie.find({});
 });

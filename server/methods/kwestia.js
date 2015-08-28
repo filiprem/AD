@@ -98,5 +98,9 @@ Meteor.methods({
     updateWartoscPriorytetu: function (id, obj) {
         var id = Kwestia.update(id, {$set: {wartoscPriorytetu: obj}}, {upsert: true});
         return id;
+    },
+    updateStatusKwestii:function(id,status){
+        var id = Kwestia.update(id, {$set: {status: status}}, {upsert: true});
+        return id;
     }
 });
