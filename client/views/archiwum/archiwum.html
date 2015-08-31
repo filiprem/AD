@@ -1,28 +1,22 @@
 <template name="archiwum">
-    <!--{{#if currentUser}}-->
-        <div class="main">
-            <div class="row">
-                <div class="col-md-12">
-                    <h3 class="pull-lef">Archiwum</h3>
-                    <hr />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    {{#if ArchiwumListCount}}
-                        {{> reactiveTable
-                        class = "table table-bordered table-hover"
-                        fields = settings.fields
-                        settings = settings
-                        collection = ArchiwumList
-                        }}
-                    {{else}}
-                        <br /><label>Brak Kwestii</label>
-                    {{/if}}
-                </div>
+<!--{{#if currentUser}}-->
+    <div class="main">
+        <div class="row">
+            <div class="col-md-12">
+                {{#if ArchiwumListCount}}
+                    {{> reactiveTable
+                    class = "table table-bordered table-hover"
+                    fields = settings.fields
+                    settings = settings
+                    collection = ArchiwumList
+                    }}
+                {{else}}
+                    <label>Brak Kwestii</label>
+                {{/if}}
             </div>
         </div>
-    <!--{{/if}}-->
+    </div>
+        <!--{{/if}}-->
 </template>
 
 <template name="editColumnKwestiaArch">

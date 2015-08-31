@@ -11,7 +11,7 @@ Template.glosowanie.helpers({
                     key: 'dataWprowadzenia',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        title: "Data wprowadzenia Kwestii i rozpoczêcia jej deliberacji",
+                        title: "Data wprowadzenia Kwestii i rozpoczÄ™cia jej deliberacji",
                         text: "Data"
                     },
                     tmpl: Template.dataUtwKwestia
@@ -20,7 +20,7 @@ Template.glosowanie.helpers({
                     key: 'kwestiaNazwa',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        title: "Kliknij, aby zobaczyæ szczegó³y",
+                        title: "Kliknij, aby zobaczyÄ‡ szczegÃ³Å‚y",
                         text: "Nazwa Kwestii"
                     },
                     tmpl: Template.nazwaKwestiLink
@@ -29,7 +29,7 @@ Template.glosowanie.helpers({
                     key: 'sredniaPriorytet',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        title: "Kliknij, aby zmieniæ swój priorytet dla tej Kwestii",
+                        title: "Kliknij, aby zmieniÄ‡ swÃ³j priorytet dla tej Kwestii",
                         text: "Priorytet"
                     },
                     tmpl: Template.priorytetKwestia,
@@ -42,8 +42,8 @@ Template.glosowanie.helpers({
                 //    key: 'dataGlosowania',
                 //    label: Template.listKwestiaColumnLabel,
                 //    labelData: {
-                //        title: "Data zakoñczenia g³osowania",
-                //        text: "Fina³"
+                //        title: "Data zakoÅ„czenia gÅ‚osowania",
+                //        text: "FinaÅ‚"
                 //    },
                 //    tmpl: Template.dataGlKwestia
                 //}
@@ -52,5 +52,9 @@ Template.glosowanie.helpers({
     },
     GlosowanieList: function () {
         return Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.GLOSOWANA}).fetch();
+    },
+    GlosowanieListCount: function () {
+        var ile = Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.GLOSOWANA}).count();
+        return ile > 0 ? true : false;
     }
 });

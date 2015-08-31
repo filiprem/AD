@@ -1,12 +1,7 @@
 <template name="profileList">
     <!--{{#if currentUser}}-->
         <div class="main">
-            <h3>Lista użytkowników </h3>
-
-            <div class="pull-right">
-                <span>Liczba użytkowników: </span><span class="badge">{{usersCount}}</span>
-            </div>
-            <hr/>
+            <legend>Lista użytkowników </legend>
             <div class="row">
                 <div class="col-md-12">
                     {{> reactiveTable
@@ -27,4 +22,21 @@
 
 <template name="usernameLink">
     <a href="{{ pathFor 'profileInfo' this._id}}">{{this.username}}</a>
+</template>
+
+<template name="optionsColumnProfile">
+    <div class="pull-right">
+        {{#if statusHonorowy}}
+            <a class="btn btn-xs btn-default" data-toggle="tooltip" title="Edytuj" id="zglosNaHonorowegoClick">
+                <i class="fa fa-male"></i> Zgłoś na członka honorowego
+            </a>
+         <!--{{else}}-->
+            <!--&lt;!&ndash;to finish&ndash;&gt;-->
+            <!--{{#if isZgloszony}}-->
+            <!--<a class="btn btn-xs btn-default" data-toggle="tooltip" title="Edytuj" id="zglosNaHonorowegoClick">-->
+                <!--<i class="glyphicon glyphicon-info-sign"></i> Zgłoszony-->
+            <!--</a>-->
+            <!--{{/if}}-->
+        {{/if}}
+    </div>
 </template>

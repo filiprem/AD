@@ -14,8 +14,20 @@ Meteor.publish('usersRoles', function () {
     return Users.find({}, {fields: {roles: 1}});
 });
 
+Meteor.publish('usersEmails', function () {
+    return Users.find({}, {fields: {emails: 1}});
+});
+
 Meteor.publish('usersDraft', function () {
-    return Users.find({});
+    return UsersDraft.find({});
+});
+
+Meteor.publish('userDraft', function (id) {
+    return UsersDraft.find({idUser: id});
+});
+
+Meteor.publish('usersDraftEmails', function () {
+    return UsersDraft.find({}, {fields: {email: 1}});
 });
 
 Meteor.publish(null, function (){
@@ -146,4 +158,10 @@ Meteor.publish('pagesInfoByLang', function (routeName) {
 
 Meteor.publish('kwestieRealizacja', function () {
     return Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.REALIZOWANA});
+});
+
+//ZESPOL REALIZACYJNY
+
+Meteor.publish('zespolRealizacyjny', function(){
+    return ZespolRealizacyjny.find({});
 });

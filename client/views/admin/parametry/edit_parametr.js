@@ -41,32 +41,24 @@ Template.editParametry.rendered = function () {
                 min: negativeNumberMessage(),
                 required: fieldEmptyMessage()
             },
-            wyjscieZZespolu:{
+            wyjscieZZespolu: {
                 max: positiveNumberMessage(),
                 required: fieldEmptyMessage()
             },
-            wycofanieKwestiiDoKosza:{
+            wycofanieKwestiiDoKosza: {
                 max: positiveNumberMessage(),
                 required: fieldEmptyMessage()
             },
-            wycofanieKwestiiDoArchiwum:{
+            wycofanieKwestiiDoArchiwum: {
                 max: positiveNumberMessage(),
                 required: fieldEmptyMessage()
             },
-            brakUdzialuWGlosowaniu:{
+            brakUdzialuWGlosowaniu: {
                 max: positiveNumberMessage(),
                 required: fieldEmptyMessage()
             },
-            rodzajCzasDyskusji:{
-                min: negativeNumberMessage(),
-                required: fieldEmptyMessage
-            },
-            rodzajCzasGlosowania:{
-                min: negativeNumberMessage(),
+            okresSledzeniaWatkuPrzenoszacego: {
                 required: fieldEmptyMessage()
-            },
-            okresSledzeniaWatkuPrzenoszacego:{
-                required:fieldEmptyMessage()
             }
         },
         highlight: function (element) {
@@ -85,85 +77,77 @@ Template.editParametry.rendered = function () {
 Template.editParametry.events({
     'submit form': function (e) {
         e.preventDefault();
-        var tab=[];
-        var parameter=Parametr.findOne({id:this.id});
+        var tab = [];
+        var parameter = Parametr.findOne({id: this.id});
 
-        var nazwaO= $(e.target).find('[name=nazwaOrganizacji]').val();
-        if(nazwaO!=Parametr.findOne({}).nazwaOrganizacji) {
-            tab.push(setParamInfo("NAZWA ORGANIZACJI",parameter.nazwaOrganizacji,nazwaO));
+        var nazwaO = $(e.target).find('[name=nazwaOrganizacji]').val();
+        if (nazwaO != Parametr.findOne({}).nazwaOrganizacji) {
+            tab.push(setParamInfo("NAZWA ORGANIZACJI", parameter.nazwaOrganizacji, nazwaO));
         }
-        var ter=$(e.target).find('[name=terytorium]').val();
-        if(ter!=parameter.terytorium){
-            tab.push(setParamInfo("TERYTORIUM",parameter.terytorium,ter));
+        var ter = $(e.target).find('[name=terytorium]').val();
+        if (ter != parameter.terytorium) {
+            tab.push(setParamInfo("TERYTORIUM", parameter.terytorium, ter));
         }
-        var kont=$(e.target).find('[name=kontakty]').val();
-        if(kont!=parameter.kontakty){
-            tab.push(setParamInfo("KONTAKTY",parameter.kontakty,kont));
+        var kont = $(e.target).find('[name=kontakty]').val();
+        if (kont != parameter.kontakty) {
+            tab.push(setParamInfo("KONTAKTY", parameter.kontakty, kont));
         }
-        var reg=$(e.target).find('[name=regulamin]').val();
-        if(reg!=parameter.regulamin){
-            tab.push(setParamInfo("REGULAMIN",parameter.regulamin,reg));
+        var reg = $(e.target).find('[name=regulamin]').val();
+        if (reg != parameter.regulamin) {
+            tab.push(setParamInfo("REGULAMIN", parameter.regulamin, reg));
         }
-        var dodKwestii=$(e.target).find('[name=dodanieKwestii]').val();
-        if(dodKwestii!=parameter.pktDodanieKwestii){
-            tab.push(setParamInfo("DODANIE KWESTII",parameter.pktDodanieKwestii,dodKwestii));
+        var dodKwestii = $(e.target).find('[name=dodanieKwestii]').val();
+        if (dodKwestii != parameter.pktDodanieKwestii) {
+            tab.push(setParamInfo("DODANIE KWESTII", parameter.pktDodanieKwestii, dodKwestii));
         }
-        var dodKomentarza=$(e.target).find('[name=dodanieKomentarza]').val();
-        if(dodKomentarza!=parameter.pktDodanieKomentarza){
-            tab.push(setParamInfo("DODANIE KOMENTARZA",parameter.pktDodanieKomentarza,dodKomentarza));
+        var dodKomentarza = $(e.target).find('[name=dodanieKomentarza]').val();
+        if (dodKomentarza != parameter.pktDodanieKomentarza) {
+            tab.push(setParamInfo("DODANIE KOMENTARZA", parameter.pktDodanieKomentarza, dodKomentarza));
         }
-        var dodOdniesienia=$(e.target).find('[name=dodanieOdniesienia]').val();
-        if(dodOdniesienia!=parameter.pktDodanieOdniesienia){
-            tab.push(setParamInfo("DODANIE ODNIESIENIA",parameter.pktDodanieOdniesienia,dodOdniesienia));
+        var dodOdniesienia = $(e.target).find('[name=dodanieOdniesienia]').val();
+        if (dodOdniesienia != parameter.pktDodanieOdniesienia) {
+            tab.push(setParamInfo("DODANIE ODNIESIENIA", parameter.pktDodanieOdniesienia, dodOdniesienia));
         }
-        var nadaniePrior=$(e.target).find('[name=nadaniePriorytetu]').val();
-        if(nadaniePrior!=parameter.pktNadaniePriorytetu){
-            tab.push(setParamInfo("NADANIE PRIORYTETU",parameter.pktNadaniePriorytetu,nadaniePrior));
+        var nadaniePrior = $(e.target).find('[name=nadaniePriorytetu]').val();
+        if (nadaniePrior != parameter.pktNadaniePriorytetu) {
+            tab.push(setParamInfo("NADANIE PRIORYTETU", parameter.pktNadaniePriorytetu, nadaniePrior));
         }
-        var awansKwe=$(e.target).find('[name=awansKwestii]').val();
-        if(awansKwe!=parameter.pktAwansKwestii){
-            tab.push(setParamInfo("AWANS KWESTII DO REALIZACJI",parameter.pktAwansKwestii,awansKwe));
+        var awansKwe = $(e.target).find('[name=awansKwestii]').val();
+        if (awansKwe != parameter.pktAwansKwestii) {
+            tab.push(setParamInfo("AWANS KWESTII DO REALIZACJI", parameter.pktAwansKwestii, awansKwe));
         }
-        var udzialWZesp=$(e.target).find('[name=udzialWZespole]').val();
-        if(udzialWZesp!=parameter.pktUdzialWZespoleRealizacyjnym){
-            tab.push(setParamInfo("UDZIAŁ W ZESPOLE REALIZACYJNYM",parameter.pktUdzialWZespoleRealizacyjnym,udzialWZesp));
+        var udzialWZesp = $(e.target).find('[name=udzialWZespole]').val();
+        if (udzialWZesp != parameter.pktUdzialWZespoleRealizacyjnym) {
+            tab.push(setParamInfo("UDZIAŁ W ZESPOLE REALIZACYJNYM", parameter.pktUdzialWZespoleRealizacyjnym, udzialWZesp));
         }
-        var zlozenieRap=$(e.target).find('[name=zlozenieRaportu]').val();
-        if(zlozenieRap!=parameter.pktZlozenieRaportuRealizacyjnego){
-            tab.push(setParamInfo("ZŁOŻENIE RAPORTU REALIZACYJNEGO",parameter.pktZlozenieRaportuRealizacyjnego,zlozenieRap));
+        var zlozenieRap = $(e.target).find('[name=zlozenieRaportu]').val();
+        if (zlozenieRap != parameter.pktZlozenieRaportuRealizacyjnego) {
+            tab.push(setParamInfo("ZŁOŻENIE RAPORTU REALIZACYJNEGO", parameter.pktZlozenieRaportuRealizacyjnego, zlozenieRap));
         }
-        var wycofanieKwDoArch=$(e.target).find('[name=wycofanieKwestiiDoArchiwum]').val();
-        if(wycofanieKwDoArch!=parameter.pktWycofanieKwestiiDoArchiwum){
-            tab.push(setParamInfo("WYCOFANIE KWESTII DO ARCHIWUM",parameter.pktWycofanieKwestiiDoArchiwum,wycofanieKwDoArch));
+        var wycofanieKwDoArch = $(e.target).find('[name=wycofanieKwestiiDoArchiwum]').val();
+        if (wycofanieKwDoArch != parameter.pktWycofanieKwestiiDoArchiwum) {
+            tab.push(setParamInfo("WYCOFANIE KWESTII DO ARCHIWUM", parameter.pktWycofanieKwestiiDoArchiwum, wycofanieKwDoArch));
         }
-        var wycofanieKwDoKosza=$(e.target).find('[name=wycofanieKwestiiDoKosza]').val();
-        if(wycofanieKwDoKosza!=parameter.pktWycofanieKwestiiDoKosza){
-            tab.push(setParamInfo("WYCOFANIE KWESTII DO KOSZA",parameter.pktWycofanieKwestiiDoKosza,wycofanieKwDoKosza));
+        var wycofanieKwDoKosza = $(e.target).find('[name=wycofanieKwestiiDoKosza]').val();
+        if (wycofanieKwDoKosza != parameter.pktWycofanieKwestiiDoKosza) {
+            tab.push(setParamInfo("WYCOFANIE KWESTII DO KOSZA", parameter.pktWycofanieKwestiiDoKosza, wycofanieKwDoKosza));
         }
-        var wyjscieZZesp=$(e.target).find('[name=wyjscieZZespolu]').val();
-        if(wyjscieZZesp!=parameter.pktWyjscieZZespoluRealizacyjnego){
-            tab.push(setParamInfo("WYJŚCIE Z ZESPOŁU REALIZACYJNEGO",parameter.pktWyjscieZZespoluRealizacyjnego,wyjscieZZesp));
+        var wyjscieZZesp = $(e.target).find('[name=wyjscieZZespolu]').val();
+        if (wyjscieZZesp != parameter.pktWyjscieZZespoluRealizacyjnego) {
+            tab.push(setParamInfo("WYJŚCIE Z ZESPOŁU REALIZACYJNEGO", parameter.pktWyjscieZZespoluRealizacyjnego, wyjscieZZesp));
         }
-        var brakUdzWGlos=$(e.target).find('[name=brakUdzialuWGlosowaniu]').val();
-        if(brakUdzWGlos!=parameter.pktBrakUdzialuWGlosowaniu){
-            tab.push(setParamInfo("BRAK UDZIAŁU W GŁOSOWANIU",parameter.pktBrakUdzialuWGlosowaniu,brakUdzWGlos));
+        var brakUdzWGlos = $(e.target).find('[name=brakUdzialuWGlosowaniu]').val();
+        if (brakUdzWGlos != parameter.pktBrakUdzialuWGlosowaniu) {
+            tab.push(setParamInfo("BRAK UDZIAŁU W GŁOSOWANIU", parameter.pktBrakUdzialuWGlosowaniu, brakUdzWGlos));
         }
-        var rodzCzasDysk=$(e.target).find('[name=rodzajCzasDyskusji]').val();
-        if(rodzCzasDysk!=parameter.rodzajCzasDyskusji){
-            tab.push(setParamInfo("DOMYŚLNY CZAS DYSKUSJI",parameter.rodzajCzasDyskusji, rodzCzasDysk));
-        }
-        var rodzCzasGlos=$(e.target).find('[name=rodzajCzasGlosowania]').val();
-        if(rodzCzasDysk!=parameter.rodzajCzasGlosowania){
-            tab.push(setParamInfo("DOMYŚLNY CZAS GŁOSOWANIA",parameter.rodzajCzasGlosowania, rodzCzasGlos));
-        }
-        var okrSledzeniaWatku=$(e.target).find('[name=okresSledzeniaWatkuPrzenoszacego]').val();
-        if(okrSledzeniaWatku!=parameter.okresSledzeniaWatkuPrzenoszacego){
-            tab.push(setParamInfo("OKRES ŚLEDZENIA WĄTKU PRZENOSZĄCEGO",parameter.okresSledzeniaWatkuPrzenoszacego,okrSledzeniaWatku));
+        var okrSledzeniaWatku = $(e.target).find('[name=okresSledzeniaWatkuPrzenoszacego]').val();
+        if (okrSledzeniaWatku != parameter.okresSledzeniaWatkuPrzenoszacego) {
+            tab.push(setParamInfo("OKRES ŚLEDZENIA WĄTKU PRZENOSZĄCEGO", parameter.okresSledzeniaWatkuPrzenoszacego, okrSledzeniaWatku));
         }
 
         var newParametr = [
             {
-                _id:this._id,
+                _id: this._id,
                 nazwaOrganizacji: nazwaO,
                 terytorium: ter,
                 kontakty: kont,
@@ -180,16 +164,14 @@ Template.editParametry.events({
                 pktWycofanieKwestiiDoKosza: parseInt(wycofanieKwDoKosza),
                 pktWyjscieZZespoluRealizacyjnego: parseInt(wyjscieZZesp),
                 pktBrakUdzialuWGlosowaniu: parseInt(brakUdzWGlos),
-                rodzajCzasDyskusji: parseInt(rodzCzasDysk),
-                rodzajCzasGlosowania:parseInt(rodzCzasGlos),
-                okresSledzeniaWatkuPrzenoszacego:parseInt(okrSledzeniaWatku)
+                okresSledzeniaWatkuPrzenoszacego: parseInt(okrSledzeniaWatku)
             }];
-        if(tab.length>0) {
+        if (tab.length > 0) {
             Session.setPersistent("tablica", tab);
-            Session.set("parametryPreview",newParametr[0]);
+            Session.set("parametryPreview", newParametr[0]);
             Router.go("previewParametr");
         }
-        else{
+        else {
             throwError("Nie wprowadziłeś żadnych zmian");
         }
     },

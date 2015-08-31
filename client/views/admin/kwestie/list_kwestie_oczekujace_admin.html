@@ -1,8 +1,7 @@
 <template name="listaKwestiiOczekujacych">
     {{#if currentUser}}
         <div class="main">
-            <h3>Lista Kwestii oczekujących</h3>
-            <hr />
+            <legend>Lista Kwestii oczekujących</legend>
             <div class="row">
                 <div class="col-md-12">
                     {{> reactiveTable
@@ -19,7 +18,8 @@
 
 <template name="editTypeAndTopic">
     <div class="pull-right">
-        <a class="btn btn-xs btn-default" data-toggle="tooltip" title="Ustaw rodzaj oraz temat" href="{{pathFor "kwestiaOczekujaca" this._id}}">
+        <a class="btn btn-xs btn-default" data-toggle="tooltip" title="Ustaw rodzaj oraz temat"
+           href="{{pathFor "kwestiaOczekujaca" this._id}}">
             <i class="fa fa-edit clickable"></i> Kategoryzuj
         </a>
     </div>

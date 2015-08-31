@@ -14,15 +14,15 @@ Template.archiwum.events({
     'click .glyphicon-info-sign': function (event, template) {
         Session.set('kwestiaInScope', this);
     },
-    'click #kwestiaIdClick':function(){//nadajemy priorytet automatycznie po wejściu na kwestię + dajemy punkty
-        var kwestia=Kwestia.findOne({_id:this._id});
-        var tabGlosujacy=getAllUsersWhoVoted(kwestia._id);
-        if(!_.contains(tabGlosujacy,Meteor.userId())){//jeżeli użytkownik jeszcze nie głosował
+    'click #kwestiaIdClick': function () {//nadajemy priorytet automatycznie po wejściu na kwestię + dajemy punkty
+        var kwestia = Kwestia.findOne({_id: this._id});
+        var tabGlosujacy = getAllUsersWhoVoted(kwestia._id);
+        if (!_.contains(tabGlosujacy, Meteor.userId())) {//jeżeli użytkownik jeszcze nie głosował
             var glosujacy = {
                 idUser: Meteor.userId(),
                 value: 0
             };
-            var voters=kwestia.glosujacy.slice();
+            var voters = kwestia.glosujacy.slice();
             voters.push(glosujacy);
             Meteor.call('setGlosujacyTab', kwestia._id, voters, function (error, ret) {
                 if (error) {
@@ -101,22 +101,34 @@ Template.archiwum.helpers({
         return Kwestia.find({
             $or: [
                 {czyAktywny: false},
-                {$and: [{dataGlosowania: {$lt: moment().format()}}, {$where: function () {return this.wartoscPriorytetu <=0}}]},
-                {status:KWESTIA_STATUS.ARCHIWALNA},
+                {
+                    $and: [{dataGlosowania: {$lt: moment().format()}}, {
+                        $where: function () {
+                            return this.wartoscPriorytetu <= 0
+                        }
+                    }]
+                },
+                {status: KWESTIA_STATUS.ARCHIWALNA},
                 {status: KWESTIA_STATUS.HIBERNOWANA}
             ]
         }).fetch();
     },
-    'ArchiwumListCount':function(){
-        var count =  Kwestia.find({
+    'ArchiwumListCount': function () {
+        var count = Kwestia.find({
             $or: [
                 {czyAktywny: false},
-                {$and: [{dataGlosowania: {$lt: moment().format()}}, {$where: function () {return this.wartoscPriorytetu <=0}}]},
-                {status:KWESTIA_STATUS.ARCHIWALNA},
+                {
+                    $and: [{dataGlosowania: {$lt: moment().format()}}, {
+                        $where: function () {
+                            return this.wartoscPriorytetu <= 0
+                        }
+                    }]
+                },
+                {status: KWESTIA_STATUS.ARCHIWALNA},
                 {status: KWESTIA_STATUS.HIBERNOWANA}
             ]
         }).count();
-        return count>0 ? true : false;
+        return count > 0 ? true : false;
     },
     //kwestiaCount: function () {
     //    return Kwestia.find({czyAktywny: false}).count();
@@ -137,15 +149,15 @@ Template.archiwum.rendered = function () {
 }
 
 Template.tematKwestiiArchiwum.helpers({
-    'getTemat':function(id){
-        var item = Temat.findOne({_id:id});
-        return !!item && !!item.nazwaTemat ?item.nazwaTemat : id;
+    'getTemat': function (id) {
+        var item = Temat.findOne({_id: id});
+        return !!item && !!item.nazwaTemat ? item.nazwaTemat : id;
     }
 });
 
 Template.rodzajKwestiiArchiwum.helpers({
-    'getRodzaj':function(id){
-        var item = Rodzaj.findOne({_id:id});
-        return !!item && !!item.nazwaRodzaj ?item.nazwaRodzaj : id;
+    'getRodzaj': function (id) {
+        var item = Rodzaj.findOne({_id: id});
+        return !!item && !!item.nazwaRodzaj ? item.nazwaRodzaj : id;
     }
 });

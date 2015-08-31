@@ -36,6 +36,16 @@ Template.listKwestia.events({
             'Kwestia w sprawie...', 'Uchwała', 'Opis Kwestii....', 'linkDK', 'linkLoginTo');
     },
     'click #kwestiaIdClick': function () {//nadajemy priorytet automatycznie po wejściu na kwestię + dajemy punkty
+        //za wyjątkiem ,gdy użytkownik nie jest zalogowany i nie jest doradcą
+
+        if(Meteor.userId()==null)
+            return;
+        var me=Users.findOne({_id:Meteor.userId()});
+        if(me){
+            if(me.profile.userType=='doradca' || Meteor.user().roles == "admin")
+                return;
+        }
+
         var kwestia = Kwestia.findOne({_id: this._id});
         var tabGlosujacy = getAllUsersWhoVoted(kwestia._id);
         if (!_.contains(tabGlosujacy, Meteor.userId())) {//jeżeli użytkownik jeszcze nie głosował
@@ -68,7 +78,6 @@ Template.listKwestia.events({
                 }
             });
         }
-
     }
 });
 Template.listKwestia.helpers({
@@ -116,7 +125,7 @@ Template.listKwestia.helpers({
                     key: 'dataGlosowania',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        title: "Kworum",
+                        title: "Aktualne kworum / wymagane kworum",
                         text: "Kworum"
                     },
                     tmpl: Template.kworumNumber
@@ -130,8 +139,16 @@ Template.listKwestia.helpers({
             }
         };
     },
-    KwestiaList: function () {
-        return Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.DELIBEROWANA}).fetch();
+    KwestiaList: function () {//Marzena:narazei wyswietlamy kwestie,ktore sa z"zaakceptowane" przez admina i osobowe. Czy osobowe tez powinny przejść przez admina?
+        //chyba nie,bo temat i rodzaj są nadane...
+        var kwestie = Kwestia.find({
+            $where: function () {
+                return ((this.czyAktywny == true) && ((this.status==KWESTIA_STATUS.DELIBEROWANA) ||(this.status==KWESTIA_STATUS.OSOBOWA)));
+            }
+        });
+        if(kwestie) return kwestie;
+        return null;
+        //return Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.DELIBEROWANA || KWESTIA_STATUS.OSOBOWA}).fetch();
     },
     kwestiaCount: function () {
         return Kwestia.find({czyAktywny: true}).count();
@@ -177,21 +194,38 @@ Template.kworumNumber.helpers({//brani są tu użytkownicy,którzy zaglosowali,c
     // Karolina: myślę, ze wszyscy uzytkownicy bo w funkcji z xml napisane jest, ze bierzemy wszystkich uprawnionych
     // do glosowania uzytkownikow :)
     date: function () {
-        //var usersCount = this.glosujacy.length;
-        var usersCount = Users.find({}).count();
-        if (usersCount) {
-            var data;
-            var kworum = liczenieKworumZwykle(usersCount);
-            if (kworum >= 3) {
+        var usersCount = this.glosujacy.length;
+        var allUsers = Users.find({}).count(); // <- tutaj bedzie zmiana, bo trzeba bedzie ograniczyc liczbe uzytkownikow
+        // bedziemy brac tylko czlonkow zwyklych !!!!!
+        var idrodzaj = this.idRodzaj;
+        var r = Rodzaj.findOne({_id: idrodzaj});
+        if (r) {
+            if (usersCount) {
+                var data;
+                if (r.kworum == "zwykla") {
+                    var kworum = liczenieKworumZwykle(allUsers);
+                    if (kworum >= 3) {
 
-                data = usersCount.toString() + " / " + kworum.toString();
+                        data = usersCount.toString() + " / " + kworum.toString();
+                    }
+                    else {
+                        data = usersCount.toString() + " / 3";
+                    }
+                    return data;
+                }
+                else if (r.kworum == "statutowa") {
+                    var kworum = liczenieKworumStatutowe(allUsers);
+                    if (kworum >= 3) {
+
+                        data = usersCount.toString() + " / " + kworum.toString();
+                    }
+                    else {
+                        data = usersCount.toString() + " / 3";
+                    }
+                    return data;
+                }
             }
-            else {
-                data = usersCount.toString() + " / 3";
-            }
-            return data;
         }
-
     }
 });
 
@@ -204,36 +238,45 @@ Template.dataUtwKwestia.helpers({
 
 Template.priorytetKwestia.helpers({
     priorytet: function () {
-        var p = this.wartoscPriorytetu;
-        if(p){
-            var searchedId = this._id;
-            var kwe = Kwestia.findOne({_id: this._id});
-            if(kwe){
-                var glosy = kwe.glosujacy.slice();
-                var myGlos;
-                _.each(glosy, function (glos) {
-                    if (glos.idUser == Meteor.userId()) {
-                        myGlos = glos.value;
-                    }
-                });
-                if (p) {
-                    if (p > 0) p = " +" + p;
-                    if (myGlos) {
-                        if (myGlos > 0) myGlos = " +" + myGlos;
-                    }
-                    else
-                        myGlos = 0;
-                    return myGlos + " / " + p;
+        var searchedId = this._id;
+        var kwe = Kwestia.findOne({_id: this._id});
+        if (kwe) {
+            var glosy = kwe.glosujacy.slice();
+            var myGlos;
+            _.each(glosy, function (glos) {
+                if (glos.idUser == Meteor.userId()) {
+                    myGlos = glos.value;
                 }
-                else return 0;
+            });
+            var p = this.wartoscPriorytetu;
+            if (p) {
+                if (p > 0) p = " +" + p;
+                if (myGlos) {
+                    if (myGlos > 0) myGlos = " +" + myGlos;
+                }
+                else
+                    myGlos = 0;
+                return myGlos + " / " + p;
             }
-        }
-        else{
-            return 0;
+            else return 0 + " / " + 0;
         }
     }
 });
 
 Template.listKwestiaColumnLabel.rendered = function () {
     $('[data-toggle="tooltip"]').tooltip();
-}
+};
+
+Template.listKwestia.helpers({
+    isUserOrDoradcaLogged:function(){
+        if(!Meteor.roles=='admin')
+            return false;
+        else {
+            var user = Users.findOne({_id: Meteor.userId()});
+            if (user) {
+                return user.profile.userType == 'doradca' ? false : true;
+            }
+            return "";
+        }
+    }
+});

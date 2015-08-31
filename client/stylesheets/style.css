@@ -193,6 +193,10 @@ body {
     background-color: #dff0d8;
 }
 
+.myselfClass{
+    background-color: powderblue;
+}
+
 .navbar-collapse.in {
     padding-left:0px;
 }
@@ -210,3 +214,8 @@ body {
 .float-right{
     float:right;
 }
+
+ul.notifications {
+    position: fixed;
+}
+

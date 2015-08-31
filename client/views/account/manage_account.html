@@ -1,6 +1,6 @@
 <template name="manageAccount">
     <div class="main">
-        <h3>Twój profil</h3>
+        <legend>Twój profil</legend>
 
         <div class="pull-right">
             <a href="{{pathFor 'profile_edit'}}" class="btn btn-primary">
@@ -26,7 +26,16 @@
                 <td><span class="glyphicon glyphicon-heart"></span><strong> Płeć</strong></td>
                 <td>{{profile.gender}}</td>
             </tr>
-
+            <tr>
+                <td><span class="glyphicon glyphicon-book"></span><strong> Stanowisko w systemie</strong></td>
+                <td>{{profile.userType}}
+                {{#if zlozonyWniosek}}
+                    <button id="checkOutWniosek" type="button"
+                            class="btn btn-xs btn-danger" value="-5" {{isSelected -5}}>Złożony wniosek o status {{statusName}}
+                    </button>
+                {{/if}}
+                </td>
+            </tr>
             <tr>
                 <td><span class="glyphicon glyphicon-hdd"></span><strong> Stanowisko</strong></td>
                 <td>{{profile.profession}}</td>

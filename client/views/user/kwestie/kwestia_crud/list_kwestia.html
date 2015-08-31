@@ -1,35 +1,31 @@
 <template name="listKwestia">
-    <!--{{#if currentUser}}-->
-        <div class="main">
-                {{#if currentUser}}
-                    {{#unless isAdmin}}
-                        <div class="row">
-                            <div class="col col-md-4">
+<!--{{#if currentUser}}-->
+    <div class="main">
+        {{#if currentUser}}
+            {{#if isUserOrDoradcaLogged}}
+                <div class="row">
+                    <div class="col col-md-4">
                                   <span class="input-group-btn">
                                       <a id="addKwestiaButton" class="btn btn-primary"><span
                                               class="glyphicon glyphicon-plus"></span>
                                           Dodaj</a>
                                   </span>
-                                <!--<span class="input-group-btn">-->
-                                      <!--<a id="clickMe" class="btn btn-primary">Click me :)</a>-->
-                                  <!--</span>-->
-                            </div>
-                        </div>
-                    {{/unless}}
-                {{/if}}
-            <div class="row">
-                <div class="col-md-12">
-                    {{> reactiveTable
-                    class = "table table-bordered table-hover"
-                    fields = settings.fields
-                    settings = settings
-                    collection = KwestiaList
-                    }}
+                    </div>
                 </div>
+            {{/if}}
+        {{/if}}
+        <div class="row">
+            <div class="col-md-12">
+                {{> reactiveTable
+                class = "table table-bordered table-hover"
+                fields = settings.fields
+                settings = settings
+                collection = KwestiaList
+                }}
             </div>
         </div>
-        {{> priorytetKwestiaModal}}
-    <!--{{/if}}-->
+    </div>
+        <!--{{/if}}-->
 </template>
 
 <template name="tematKwestia">

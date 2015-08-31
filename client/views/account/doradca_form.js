@@ -3,22 +3,24 @@ Template.doradcaForm.rendered = function () {
         sideBySide: true,
         format: 'DD/MM/YYYY'
     });
-    $("#userForm").validate({
+    $("#doradcaFormApp").validate({
         rules: {
             email: {
-                email: true
+                email: true,
+                checkExistsEmail: true,
+                checkExistsEmailDraft:true
             }
         },
         messages: {
             email: {
-                required: fieldEmptyMesssage(),
-                email: validEmailMessage()
+                required: fieldEmptyMessage(),
+                email:validEmailMessage()
             },
             firstName: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             lastName: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             }
         },
         highlight: function (element) {
@@ -49,8 +51,10 @@ Template.doradcaForm.events({
                 address: $(e.target).find('[name=address]').val(),
                 zip: $(e.target).find('[name=zipCode]').val(),
                 gender: $(e.target).find('[name=genderRadios]:checked').val(),
-                role: 'admin',
-                userType:USERTYPE.DORADCA
+                role: 'user',
+                userType:USERTYPE.DORADCA,
+                isExpectant:false,
+                uwagi:$(e.target).find('[name=uwagi]').val()
             }];
         //-- generowanie loginu dla użytkownika
         newUser[0].login = generateLogin(newUser[0].firstName, newUser[0].lastName);
@@ -70,25 +74,30 @@ Template.doradcaForm.events({
                     throwError(error.reason);
                 }
             }
-            else{
-                //to finish:
-                //idUser,idTemat,idRodzaj
+            else {
                 var idUserDraft=ret;
                 var dataG = new Date();
                 var d = dataG.setDate(dataG.getDate() + 7);
+                var daneAplikanta="DANE APLIKANTA: \r\n " +
+                    newUser[0].firstName+", "+newUser[0].lastName+" \r\n "+
+                    newUser[0].email+", \r\n "+
+                    newUser[0].profession+", \r\n "+
+                    newUser[0].address+ " "+
+                    newUser[0].zip+", \r\n "+
+                    newUser[0].uwagi
                 var newKwestia = [
                     {
                         idUser: idUserDraft,
                         dataWprowadzenia: new Date(),
-                        kwestiaNazwa: 'osobowa',
+                        kwestiaNazwa: 'Aplikowanie- '+newUser[0].firstName+" "+newUser[0].lastName,
                         wartoscPriorytetu: 0,
                         sredniaPriorytet: 0,
-                        idTemat: $(e.target).find('[name=tematy]').val(),
-                        idRodzaj: $(e.target).find('[name=rodzaje]').val(),
+                        idTemat: Temat.findOne({})._id,
+                        idRodzaj: Rodzaj.findOne({})._id,
                         dataDyskusji: new Date(),
                         dataGlosowania: d,
-                        krotkaTresc: '',
-                        szczegolowaTresc: '',
+                        krotkaTresc: 'Aplikacja o przyjęcie do systemu jako '+newUser[0].userType,
+                        szczegolowaTresc: daneAplikanta,
                         isOption: false,
                         status:KWESTIA_STATUS.OSOBOWA
                     }];
@@ -105,7 +114,7 @@ Template.doradcaForm.events({
                         else {
                             Router.go("home");
                             bootbox.dialog({
-                                message: "Twój wniosek został przyjęty. O wyniku zostaniesz poinformowany drogą mailową",
+                                message: "Twój wniosek o przyjęcie do systemu jako "+newUser[0].userType+ " został przyjęty. O wyniku zostaniesz poinformowany drogą mailową",
                                 title: "Uwaga",
                                 buttons: {
                                     main: {

@@ -7,14 +7,31 @@ Template.administracjaUserMain.helpers({
             showColumnToggles: false,
             enableRegex: false,
             fields: [
-                {key: 'dataWprowadzenia', label: Template.listKwestiaAdminColumnLabel, labelData: {title: "Data wprowadzenia Kwestii i rozpoczęcia jej deliberacji", text:"Data"}, tmpl:Template.dataUtwKwestia},
-                {key: 'kwestiaNazwa', label: Template.listKwestiaAdminColumnLabel, labelData: {title: "Kliknij, aby zobaczyć szczegóły", text:"Nazwa Kwestii"}, tmpl: Template.nazwaKwestii},
-                {key: 'status', label: "Status",  tmpl: Template.statusKwestii},
+                {
+                    key: 'dataWprowadzenia',
+                    label: Template.listKwestiaAdminColumnLabel,
+                    labelData: {title: "Data wprowadzenia Kwestii i rozpoczęcia jej deliberacji", text: "Data"},
+                    tmpl: Template.dataUtwKwestia
+                },
+                {
+                    key: 'kwestiaNazwa',
+                    label: Template.listKwestiaAdminColumnLabel,
+                    labelData: {title: "Kliknij, aby zobaczyć szczegóły", text: "Nazwa Kwestii"},
+                    tmpl: Template.nazwaKwestii
+                },
+                {key: 'status', label: "Status", tmpl: Template.statusKwestii},
                 //{key: 'options', label: "Opcje", tmpl: Template.editTypeAndTopic }
             ]
         };
     },
-    listOfIssues: function(){
-        return Kwestia.find({}).fetch();
+    listOfIssues: function () {
+        var k = Kwestia.find({}).fetch();
+        if (k) {
+            return k;
+        }
+    },
+    listOfIssuesCount: function () {
+        var ile = Kwestia.find({}).count();
+        return ile > 0 ? true : false;
     }
 });

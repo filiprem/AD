@@ -32,7 +32,7 @@
         </div>
         <div class="form-group">
             <div class="col-xs-12">
-                <input type="submit" for="dyskusjaForm" class="btn btn-primary" value="Dodaj komentarz">
+                <input type="submit" for="dyskusjaForm" class="btn btn-primary" value="Dodaj komentarz" {{isUserLogged}}>
             </div>
         </div>
     </form>
@@ -42,27 +42,28 @@
     <div>
         <form>
             <div class="btn-group" role="group" aria-label="...">
-                <button id="ratingButton" name="{{idPost}}" type="button" class="btn btn-xs btn-danger" value="-5">-5
+                <button id="ratingButton" name="{{idPost}}" type="button" class="btn btn-xs btn-danger" value="-5" {{isUserLogged}}>-5
                 </button>
-                <button id="ratingButton" name="{{idPost}}" type="button" class="btn btn-xs btn-danger" value="-4">-4
+                <button id="ratingButton" name="{{idPost}}" type="button" class="btn btn-xs btn-danger" value="-4" {{isUserLogged}}>-4
                 </button>
-                <button id="ratingButton" name="{{idPost}}" type="button" class="btn btn-xs btn-danger" value="-3">-3
+                <button id="ratingButton" name="{{idPost}}" type="button" class="btn btn-xs btn-danger" value="-3" {{isUserLogged}}>-3
                 </button>
-                <button id="ratingButton" name="{{idPost}}" type="button" class="btn btn-xs btn-danger" value="-2">-2
+                <button id="ratingButton" name="{{idPost}}" type="button" class="btn btn-xs btn-danger" value="-2" {{isUserLogged}}>-2
                 </button>
-                <button id="ratingButton" name="{{idPost}}" type="button" class="btn btn-xs btn-danger" value="-1">-1
+                <button id="ratingButton" name="{{idPost}}" type="button" class="btn btn-xs btn-danger" value="-1" {{isUserLogged}}>-1
                 </button>
-                <button id="ratingButton" name="{{idPost}}" type="button" class="btn btn-xs btn-success" value="1">+1
+                <button id="ratingButton" name="{{idPost}}" type="button" class="btn btn-xs btn-success" value="1" {{isUserLogged}}>+1
                 </button>
-                <button id="ratingButton" name="{{idPost}}" type="button" class="btn btn-xs btn-success" value="2">+2
+                <button id="ratingButton" name="{{idPost}}" type="button" class="btn btn-xs btn-success" value="2" {{isUserLogged}}>+2
                 </button>
-                <button id="ratingButton" name="{{idPost}}" type="button" class="btn btn-xs btn-success" value="3">+3
+                <button id="ratingButton" name="{{idPost}}" type="button" class="btn btn-xs btn-success" value="3" {{isUserLogged}}>+3
                 </button>
-                <button id="ratingButton" name="{{idPost}}" type="button" class="btn btn-xs btn-success" value="4">+4
+                <button id="ratingButton" name="{{idPost}}" type="button" class="btn btn-xs btn-success" value="4" {{isUserLogged}}>+4
                 </button>
-                <button id="ratingButton" name="{{idPost}}" type="button" class="btn btn-xs btn-success" value="5">+5
+                <button id="ratingButton" name="{{idPost}}" type="button" class="btn btn-xs btn-success" value="5" {{isUserLogged}}>+5
                 </button>
             </div>
         </form>
     </div>
+    <!--{{> GlobalNotifications}}-->
 </template>

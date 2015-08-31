@@ -53,14 +53,38 @@ Template.header.helpers({
     },
     lessThanFiveUsers:function(){
         var users=Users.find();
-        console.log("liczba: "+users.count());
         if(users){
             return users.count()<5 ? true: false;
-            //if(users.count()<5) return true;
-            //else return false;
         }
         return null;
-    }
+    },
+    isDoradca:function(){
+        var user=Users.findOne({_id:Meteor.userId()});
+        if(user){
+            if(user.profile.userType=='doradca'){
+                //sprawdzam czy aplikowal już
+                var userDraf= UsersDraft.find({'profile.idUser':Meteor.userId()});
+                if(userDraf){
+                    return userDraf.count()>0 ? false : true;
+                }
+                return true;
+            }
+            return false;
+        }
+        return false;
+    },
+
+    //appliedForCzlonek:function(){
+    //    if(isDoradca()){
+    //        var userDraf= UsersDraft.find({'profile.idUser':Meteor.userId()});
+    //        console.log(UsersDraft.find({'profile.idUser':Meteor.userId()}));
+    //        if(userDraf){
+    //            return userDraf.count()>0 ? false : true;
+    //        }
+    //        return true;
+    //    }
+    //    return false;
+    //}
 });
 
 Template.language.events({
@@ -134,4 +158,28 @@ Template.language.helpers({
             }
         }
     }
-})
+});
+//Template.header.events({
+//    'click #aplikujIdClick': function (e) {
+//        e.preventDefault();
+//        console.log("kliknąłem");
+//        var me=Users.findOne({_id:Meteor.userId()});
+//        var array=[];
+//        if(me.profile.firstName.trim()!=null)
+//            array.push("firstName");
+//        if(me.profile.lastName.trim()!=null)
+//            array.push("lastName");
+//        console.log(me);
+//        Router.go("czlonek_zwyczajny_form");
+//    }
+//});
+//isDoradca=function(){
+//    var user=Users.findOne({_id:Meteor.userId()});
+//    if(user){
+//        if(user.profile.userType=='doradca'){
+//            return user;
+//        }
+//        return false;
+//    }
+//    return false;
+//};

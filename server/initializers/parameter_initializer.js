@@ -3,7 +3,7 @@ Meteor.startup(function () {
         {
             "nazwaOrganizacji": "Aktywna Demokracja",
             "terytorium": "Polska",
-            "kontakty": "Warszawa ul Miła",
+            "kontakty": "Warszawa ul. Miła",
             "regulamin": "brak regulaminu",
             "pktDodanieKwestii": 10,
             "pktDodanieKomentarza": 5,
@@ -15,9 +15,7 @@ Meteor.startup(function () {
             "pktWycofanieKwestiiDoArchiwum": -20,
             "pktWycofanieKwestiiDoKosza": -40,
             "pktWyjscieZZespoluRealizacyjnego": -30,
-            "pktBrakUdzialuWGlosowaniu": -30,
-            "rodzajCzasDyskusji": 7,
-            "rodzajCzasGlosowania": 48
+            "pktBrakUdzialuWGlosowaniu": -30
         }
     ];
     if (Parametr.find().count() == 0) {

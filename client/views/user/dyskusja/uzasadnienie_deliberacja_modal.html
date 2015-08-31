@@ -1,5 +1,5 @@
 <template name="uzasadnienieDeliberacjaModal">
-    <div id="uzasadnijWyborWK" class="modal fade" tabindex="-1" data-width="760" style="display:none;">
+    <div id="uzasadnijWyborWK" class="modal fade" data-keyboard="false" data-backdrop="static" tabindex="-1" data-width="760" style="display:none;">
         <div class="modal-dialog">
             <div class="modal-content">
                 {{> uzasadnienieDeliberacjaModalInner}}
@@ -17,11 +17,14 @@
         <div class="row">
             <div class="col-md-12">
                 <p>
-                    Zamierzasz wnioskować o skierowanie tej <b>Kwestii do Deliberacji</b>, gdzie przebywają Kwestie deliberowane.
+                    Zamierzasz wnioskować o skierowanie tej <b>Kwestii do Deliberacji</b>, gdzie przebywają Kwestie
+                    deliberowane.
                 </p>
+
                 <p>
                     Jeśli Twoja decyzja jest zgodna z takim zamiarem - podaj poniżej jej <b>uzasadnienie</b>.
                 </p>
+
                 <p>
                     W przeciwnym wypadku naciśnij <b>"Powrót"</b>.
                 </p>
@@ -31,7 +34,8 @@
 
         <div class="row">
             <div class="col-md-12">
-                <textarea class="form-control" rows="4" placeholder="Uzasadnienie" id="uzasadnienieWK" name="uzasadnienieWK"></textarea>
+                <textarea class="form-control" rows="4" placeholder="Uzasadnienie" id="uzasadnienieWK"
+                          name="uzasadnienieWK"></textarea>
             </div>
         </div>
     </div>

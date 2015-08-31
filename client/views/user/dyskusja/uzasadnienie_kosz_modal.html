@@ -1,5 +1,5 @@
 <template name="uzasadnienieKoszModal">
-    <div id="uzasadnijWyborKosz" class="modal fade" tabindex="-1" data-width="760" style="display:none;">
+    <div id="uzasadnijWyborKosz" class="modal fade" data-keyboard="false" data-backdrop="static" tabindex="-1" data-width="760" style="display:none;">
         <div class="modal-dialog">
             <div class="modal-content">
                 {{> uzasadnienieKoszModalInner}}
@@ -20,9 +20,11 @@
                     Zamierzasz wnioskować o skierowanie tej <b>Kwestii do Kosza</b>, gdzie odsyłane są Kwestie nieudane,
                     błędne, bez szans na wdrożenie. Zostaną one ostatecznie zarchiwizowane, bez możliwości wznowienia.
                 </p>
+
                 <p>
                     Jeśli Twoja decyzja jest zgodna z takim zamiarem - podaj poniżej jej <b>uzasadnienie</b>.
                 </p>
+
                 <p>
                     W przeciwnym wypadku naciśnij <b>"Powrót"</b>.
                 </p>
@@ -32,7 +34,8 @@
 
         <div class="row">
             <div class="col-md-12">
-                <textarea class="form-control" rows="4" placeholder="Uzasadnienie" id="uzasadnienieKosz" name="uzasadnienieKosz"></textarea>
+                <textarea class="form-control" rows="4" placeholder="Uzasadnienie" id="uzasadnienieKosz"
+                          name="uzasadnienieKosz"></textarea>
             </div>
         </div>
     </div>

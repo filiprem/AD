@@ -57,6 +57,10 @@ Template.realizacja.helpers({
     },
     realizacjaCount: function () {
         return Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.REALIZOWANA}).count();
+    },
+    RealizacjaListCount: function () {
+        var ile = Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.REALIZOWANA}).count();
+        return ile > 0 ? true : false;
     }
 });
 

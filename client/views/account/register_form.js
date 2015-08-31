@@ -13,7 +13,8 @@ Template.registerForm.rendered = function () {
                 number: true
             },
             email: {
-                email: true
+                email: true,
+                checkExistsEmail: true
             },
             confirmPassword: {
                 equalTo: "#inputPassword"
@@ -21,20 +22,20 @@ Template.registerForm.rendered = function () {
         },
         messages: {
             role: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             email: {
-                required: fieldEmptyMesssage(),
+                required: fieldEmptyMessage(),
                 email: validEmailMessage()
             },
             firstName: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             lastName: {
-                required: fieldEmptyMesssage()
+                required: fieldEmptyMessage()
             },
             password: {
-                required: fieldEmptyMesssage(),
+                required: fieldEmptyMessage(),
                 minlength: minLengthMessage(6)
             },
             confirmPassword: {
@@ -78,7 +79,7 @@ Template.registerForm.events({
                 roleDesc: $(e.target).find('[name=uwagiStatus]').val(),
                 rADking: 0,
                 language: $(e.target).find('[name=language]').val(),
-                userType:USERTYPE.CZLONEK
+                userType: USERTYPE.CZLONEK
             }];
         //-- generowanie loginu dla użytkownika
         newUser[0].login = generateLogin(newUser[0].firstName, newUser[0].lastName);
@@ -93,16 +94,16 @@ Template.registerForm.events({
                 }
             }
             else {//jeżeli poprawne dane
-                Meteor.loginWithPassword(newUser[0].login, newUser[0].password, function(err) {
+                Meteor.loginWithPassword(newUser[0].login, newUser[0].password, function (err) {
                     if (err) {
                         throwError('Niepoprawne dane logowania.');
                     } else {
-                        if(Meteor.loggingIn()) {
+                        if (Meteor.loggingIn()) {
                             Router.go('home');
                         }
                         bootbox.dialog({
-                            message: "Twój login: "+newUser[0].login,
-                            title: "Witaj "+newUser[0].firstName,
+                            message: "Twój login: " + newUser[0].login,
+                            title: "Witaj " + newUser[0].firstName,
                             buttons: {
                                 main: {
                                     label: "Ok",

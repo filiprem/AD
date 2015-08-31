@@ -25,7 +25,10 @@ email@1.0.6
 facebook@1.2.1
 fastclick@1.0.3
 fortawesome:fontawesome@4.4.0
+frozeman:animation-helper@0.2.6
+frozeman:global-notifications@0.1.4
 geojson-utils@1.0.3
+gfk:notifications@1.1.3
 handlebars@1.0.3
 html-tools@1.0.4
 htmljs@1.0.4
@@ -44,6 +47,7 @@ jeremy:selectize@0.12.1_3
 jquery@1.11.3_2
 json@1.0.3
 launch-screen@1.0.2
+less@1.0.14
 livedata@1.0.13
 localstorage@1.0.3
 logging@1.0.7

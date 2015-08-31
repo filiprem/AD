@@ -1,6 +1,6 @@
 <template name="profileInfo">
     <div class="main">
-        <h3>Profil użytkownika {{username}}</h3>
+        <legend>Profil użytkownika {{username}}</legend>
 
         <div class="clearfix"></div>
         <hr/>
@@ -20,6 +20,11 @@
             <tr>
                 <td><span class="glyphicon glyphicon-heart"></span><strong> Płeć</strong></td>
                 <td>{{profile.gender}}</td>
+            </tr>
+
+            <tr>
+                <td><span class="glyphicon glyphicon-book"></span><strong> Stanowisko w systemie</strong></td>
+                <td>{{profile.userType}}</td>
             </tr>
 
             <tr>
