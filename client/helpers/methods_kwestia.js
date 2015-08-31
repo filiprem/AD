@@ -26,15 +26,3 @@ getOldValueOfUserVote = function (ratingValue, object) {
     });
     return oldValue;
 };
-checkIfKwestiaCanBeVoted=function(){
-    var users=Users.find().count();
-    var kworum=liczenieKworumZwykle(users);
-
-    var kwestie= Kwestia.findOne({
-        $where:function(){
-           // (this.wartoscPriorytetu>0)&&
-           // (this.kwor)
-            //ZR
-        }
-    });
-}

@@ -8,7 +8,6 @@ Template.setPagesInfo.helpers({
             }
             tab.push(item);
         });
-        console.log(tab)
         return tab;
     },
     'getLabel': function (routeName) {

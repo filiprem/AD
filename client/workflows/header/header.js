@@ -64,7 +64,6 @@ Template.header.helpers({
             if(user.profile.userType=='doradca'){
                 //sprawdzam czy aplikowal już
                 var userDraf= UsersDraft.find({'profile.idUser':Meteor.userId()});
-                console.log(UsersDraft.find({'profile.idUser':Meteor.userId()}));
                 if(userDraf){
                     return userDraf.count()>0 ? false : true;
                 }
@@ -74,7 +73,12 @@ Template.header.helpers({
         }
         return false;
     },
-
+    liczbaNieprzeczytanych:function(){
+        console.log("Simieaa");
+        var powiad=Powiadomienie.find({idUser:Meteor.userId(),czyOdczytany:false});
+        console.log(powiad);
+        return powiad ? powiad.count() : null;
+    }
     //appliedForCzlonek:function(){
     //    if(isDoradca()){
     //        var userDraf= UsersDraft.find({'profile.idUser':Meteor.userId()});
