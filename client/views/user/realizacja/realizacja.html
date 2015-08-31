@@ -1,17 +1,28 @@
 <template name="realizacja">
-    <div class="main">
-        <legend>Lista Kwestii realizowanych</legend>
-        <div class="row">
-            <div class="col-md-12">
-                {{> reactiveTable
-                class = "table table-bordered table-hover"
-                fields = settings.fields
-                settings = settings
-                collection = RealizacjaList
-                }}
+    <!--{{#if currentUser}}-->
+        <div class="main">
+            <h3>Lista Kwestii realizowanych</h3>
+
+            <div class="pull-right">
+                <span>Liczba Kwestii realizowanych: </span><span class="badge">{{realizacjaCount}}</span>
+            </div>
+            <hr/>
+            <div class="row">
+                <div class="col-md-12">
+                {{#if RealizacjaListCount}}
+                    {{> reactiveTable
+                    class = "table table-bordered table-hover"
+                    fields = settings.fields
+                    settings = settings
+                    collection = RealizacjaList
+                    }}
+                {{else}}
+                    <label>Brak Kwestii</label>
+                {{/if}}
             </div>
         </div>
     </div>
+        <!--{{/if}}-->
 </template>
 
 <template name="editColumnRealization">

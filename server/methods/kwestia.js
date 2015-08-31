@@ -21,6 +21,7 @@ Meteor.methods({
             sugerowanyTemat: newKwestia[0].sugerowanyTemat,
             sugerowanyRodzaj: newKwestia[0].sugerowanyRodzaj,
             numerUchwały: newKwestia[0].numerUchwały
+
         });
         Kwestia.update({_id: id}, {$set: {idParent: id}}, {upsert: true});
         var z = ZespolRealizacyjny.insert({idKwestia: id, nazwa: "", zespol: []});
