@@ -114,5 +114,9 @@ Meteor.methods({
                 }
         });
         return id;
+    },
+    updateStatusKwestii:function(id,status){
+        var id = Kwestia.update(id, {$set: {status: status}}, {upsert: true});
+        return id;
     }
 });

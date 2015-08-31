@@ -69,7 +69,7 @@ Template.realizacja.events({
 
         var docDefinition = {
             content: [
-                { text: "Uchwała  Numer: " + this.numerUchwały.toString() + " z dnia " + moment(this.dataRealizacji).format("DD MMMM YYYY").toString(), style: 'uchwalaHeadline'},
+                { text: "Uchwała  Numer: " + this.numerUchwały.toString() + " z dnia " + moment(this.dataRealizacji).format("DD-MMMM-YYYY").toString(), style: 'uchwalaHeadline'},
                 { text: "\n\n" + this.szczegolowaTresc, style: 'contentStyle'}
             ],
             styles: {

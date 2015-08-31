@@ -73,7 +73,12 @@ Template.header.helpers({
         }
         return false;
     },
-
+    liczbaNieprzeczytanych:function(){
+        console.log("Simieaa");
+        var powiad=Powiadomienie.find({idUser:Meteor.userId(),czyOdczytany:false});
+        console.log(powiad);
+        return powiad ? powiad.count() : null;
+    }
     //appliedForCzlonek:function(){
     //    if(isDoradca()){
     //        var userDraf= UsersDraft.find({'profile.idUser':Meteor.userId()});
