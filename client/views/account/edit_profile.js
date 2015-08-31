@@ -57,7 +57,7 @@ Template.profileEdit.events({
         e.preventDefault();
 
         var currentUserId = this._id;
-        var userType=Users.findOne({_id:currentUserId}).profile.userType;
+        var userType = Users.findOne({_id: currentUserId}).profile.userType;
         if (isNotEmpty($(e.target).find('[name=name]').val(), 'imię') &&
             isNotEmpty($(e.target).find('[name=surname]').val(), 'nazwisko') &&
             isEmail($(e.target).find('[name=email]').val())) {
@@ -78,7 +78,7 @@ Template.profileEdit.events({
                     gender: $(e.target).find('[name=genderRadios]:checked').val(),
                     phone: $(e.target).find('[name=phone]').val(),
                     web: $(e.target).find('[name=website]').val(),
-                    userType:userType
+                    userType: userType
                 }
             };
             Meteor.call('updateUser', currentUserId, userProperties, function (error) {

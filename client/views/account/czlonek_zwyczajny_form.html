@@ -2,9 +2,9 @@
     <div class="main">
         <legend>Aplikacja na członka zwyczajnego</legend>
         {{#if currentUser}}
-        <p class="col-md-12 bg-danger padding-15">
-            Uzupełnij brakujące pola we wniosku.
-        </p>
+            <p class="col-md-12 bg-danger padding-15">
+                Uzupełnij brakujące pola we wniosku.
+            </p>
             <br/>
         {{/if}}
         <div class="row">
@@ -14,16 +14,18 @@
                         <label class="control-label col-xs-3" for="inputEmail">Email: </label>
 
                         <div class="col-xs-9">
-                            <input name="email" type="email" class="form-control" id="inputEmail" placeholder="Email" value={{email}}
-                                   required {{isNotEmpty}}>
+                            <input name="email" type="email" class="form-control" id="inputEmail" placeholder="Email"
+                                   value={{email}}
+                                           required {{isNotEmpty}}>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-xs-3" for="firstName">Imię: </label>
 
                         <div class="col-xs-9">
-                            <input name="firstName" type="text" class="form-control" id="firstName" placeholder="Imię" value={{profile.firstName}}
-                                   required {{isNotEmpty}}>
+                            <input name="firstName" type="text" class="form-control" id="firstName" placeholder="Imię"
+                                   value={{profile.firstName}}
+                                           required {{isNotEmpty}}>
                         </div>
                     </div>
                     <div class="form-group">
@@ -39,7 +41,7 @@
 
                         <div class="col-xs-9">
                             <input name="profession" type="text" class="form-control" id="profession"
-                                   placeholder="Stanowisko"  value={{profile.profession}} required {{isNotEmpty}}>
+                                   placeholder="Stanowisko" value={{profile.profession}} required {{isNotEmpty}}>
                         </div>
                     </div>
                     <div class="form-group">
@@ -47,7 +49,7 @@
 
                         <div class="col-xs-9">
                             <input name="phone" type="tel" class="form-control" id="phoneNumber"
-                                   placeholder="Numer telefonu"  value={{profile.phone}} required>
+                                   placeholder="Numer telefonu" value={{profile.phone}} required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -56,7 +58,8 @@
                         <div class="col-xs-9">
                             <div class="input-group datetimepicker col-xs-5" id="dataUrodzeniaDatePicker">
                                 <span class="input-group-addon glyphicon glyphicon-calendar"></span>
-                                <input class="set-due-date form-control" type="text" name="dateOfBirth" value={{profile.dateOfBirth}} required/>
+                                <input class="set-due-date form-control" type="text" name="dateOfBirth"
+                                       value={{profile.dateOfBirth}} required/>
                             </div>
                         </div>
                     </div>
@@ -89,12 +92,14 @@
 
                         <div class="col-xs-2">
                             <label class="radio-inline">
-                                <input type="radio" name="genderRadios" value="mężczyzna" {{isSelected 'mężczyzna'}}> Mężczyzna
+                                <input type="radio" name="genderRadios" value="mężczyzna" {{isSelected 'mężczyzna'}}>
+                                Mężczyzna
                             </label>
                         </div>
                         <div class="col-xs-2">
                             <label class="radio-inline">
-                                <input type="radio" name="genderRadios" value="kobieta" {{isSelected 'kobieta'}}> Kobieta
+                                <input type="radio" name="genderRadios" value="kobieta" {{isSelected 'kobieta'}}>
+                                Kobieta
                             </label>
                         </div>
                     </div>
