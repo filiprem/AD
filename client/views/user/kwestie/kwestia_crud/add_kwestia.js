@@ -50,12 +50,20 @@ Template.addKwestiaForm.rendered = function () {
     $("#kwestiaForm").validate({
         rules: {
             kwestiaNazwa: {
-                checkExistsNazwaKwestii: true
+                checkExistsNazwaKwestii: true,
+                maxlength: 50
+            },
+            krotkaTresc: {
+                maxlength: 400
+            },
+            szczegolowaTresc: {
+                maxlength: 1000
             }
         },
         messages: {
             kwestiaNazwa: {
-                required: fieldEmptyMessage()
+                required: fieldEmptyMessage(),
+                maxlenght: maxLengthMessage(50)
             },
             tematy: {
                 required: fieldEmptyMessage()
@@ -67,10 +75,12 @@ Template.addKwestiaForm.rendered = function () {
                 required: fieldEmptyMessage()
             },
             krotkaTresc: {
-                required: fieldEmptyMessage()
+                required: fieldEmptyMessage(),
+                maxlenght: maxLengthMessage(400)
             },
             szczegolowaTresc: {
-                required: fieldEmptyMessage()
+                required: fieldEmptyMessage(),
+                maxlenght: maxLengthMessage(1000)
             }
         },
         highlight: function (element) {
