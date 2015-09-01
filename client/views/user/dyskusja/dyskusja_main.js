@@ -151,13 +151,13 @@ Template.discussionMain.helpers({
 });
 
 Template.discussionPostForm.helpers({
-    isUserLogged : function(){
-        return Meteor.userId() ? "" :"disabled";
+    isUserLogged: function () {
+        return Meteor.userId() ? "" : "disabled";
     }
 });
 
 Template.discussionRating.helpers({
-    isUserLogged : function(){
-        return Meteor.userId() ? "" :"disabled";
+    isUserLogged: function () {
+        return Meteor.userId() ? "" : "disabled";
     }
 });

@@ -1,4 +1,4 @@
-Template.profileList.created = function(){
+Template.profileList.created = function () {
     this.usersRV = new ReactiveVar();
 };
 
@@ -63,7 +63,7 @@ Template.profileList.helpers({
     UserListAdmin: function () {
         return Users.find({
             $where: function () {
-                return ((this.roles != 'admin') && (this._id!=Meteor.userId()));
+                return ((this.roles != 'admin') && (this._id != Meteor.userId()));
             }
         }).fetch();
     },
@@ -76,30 +76,29 @@ Template.profileList.helpers({
 });
 
 Template.optionsColumnProfile.events({
-    'click #zglosNaHonorowegoClick':function(e){
+    'click #zglosNaHonorowegoClick': function (e) {
         e.preventDefault();
-        var user=Users.findOne({_id:this._id});
-        if(user){
+        var user = Users.findOne({_id: this._id});
+        if (user) {
             bootbox.dialog({
                 title: "Dane aplikanta do zgłoszenia na stanowisko członka honorowego",
-                message:
-                    '<div class="row">' +
-                     '<div class="col-md-12">'+user.profile.fullName+'</div>'+
-                     '<div class="col-md-12">'+user.profile.address+" "+user.profile.zip+'</div>'+
-                     '<div class="col-md-12">'+getEmail(this)+'</div>'+'<p></p>'+
+                message: '<div class="row">' +
+                '<div class="col-md-12"><strong>' + "Imię i nazwisko: " + '</strong>' + user.profile.fullName + '</div>' +
+                '<div class="col-md-12"><strong>' + "Adres: " + '</strong>' + user.profile.address + " " + user.profile.zip + '</div>' +
+                '<div class="col-md-12"><strong>' + "e-mail: " + '</strong>' + getEmail(this) + '<br /><br /></div>' + '<p></p>' +
 
-                    '<label class="col-md-12 control-label" for="uwagi">Uzasadnienie</label> ' +
-                    '<div class="col-md-12"> ' +
-                    '<textarea id="uwagi" name="uwagi" type="text" placeholder="Uzasadnienie" class="form-control"></textarea> ' +
-                    '</div> ' +
+                '<label class="col-md-12 control-label" for="uwagi">Uzasadnienie</label> ' +
+                '<div class="col-md-12"> ' +
+                '<textarea id="uwagi" name="uwagi" type="text" placeholder="Uzasadnienie" class="form-control"></textarea> ' +
+                '</div> ' +
 
-                    '</div>',
+                '</div>',
                 buttons: {
                     success: {
                         label: "Wyślij zgłoszenie",
                         className: "btn-success",
                         callback: function () {
-                            var uwagi=$('#uwagi').val();
+                            var uwagi = $('#uwagi').val();
                             var newUserDraft = [
                                 {
                                     email: user.profile.address,
@@ -111,13 +110,13 @@ Template.optionsColumnProfile.events({
                                     zip: user.profile.zip,
                                     gender: user.profile.gender,
                                     role: user.role,
-                                    userType:USERTYPE.HONOROWY,
-                                    uwagi:uwagi,
-                                    idUser:user._id,
-                                    isExpectant:true
+                                    userType: USERTYPE.HONOROWY,
+                                    uwagi: uwagi,
+                                    idUser: user._id,
+                                    isExpectant: true
                                 }];
                             //tu nie będzei tworzony draft!!!do usuniecia!!!!
-                            Meteor.call('addUserDraft', newUserDraft, function (error,ret) {
+                            Meteor.call('addUserDraft', newUserDraft, function (error, ret) {
                                 if (error) {
                                     // optionally use a meteor errors package
                                     if (typeof Errors === "undefined")
@@ -152,7 +151,7 @@ Template.optionsColumnProfile.events({
                                             szczegolowaTresc: daneAplikanta,
                                             isOption: false,
                                             status: KWESTIA_STATUS.STATUSOWA,
-                                            idZgloszonego:user._id
+                                            idZgloszonego: user._id
                                         }];
                                     Meteor.call('addKwestiaStatusowa', newKwestia, function (error) {
                                         if (error) {
@@ -181,20 +180,20 @@ Template.optionsColumnProfile.events({
 
 Template.optionsColumnProfile.helpers({
     //pełnoprawny może zgłosić doradcę na honorowego,jeśli ten nie złożył żadnego innego wnioksu tj. wniosku o status członka zwyczjengo
-    statusHonorowy:function(){
-        var me=Users.findOne({_id:Meteor.userId()});
-        if(me){
-            if(!me.profile.userType=='członek')//jesli nie jestem czlonkiem,nie moge zarzadzac ich kontami
+    statusHonorowy: function () {
+        var me = Users.findOne({_id: Meteor.userId()});
+        if (me) {
+            if (!me.profile.userType == 'członek')//jesli nie jestem czlonkiem,nie moge zarzadzac ich kontami
                 return false;
-            else{
-                var user=Users.findOne({_id:this._id});
-                if(user){
-                    if(user.profile.userType=='członek')
+            else {
+                var user = Users.findOne({_id: this._id});
+                if (user) {
+                    if (user.profile.userType == 'członek')
                         return false;
-                    else{
+                    else {
                         //sprawdzam czy przypadkiem juz nie aplikowal
-                        var userDraft= UsersDraft.findOne({'profile.idUser':user._id});
-                        if(userDraft){
+                        var userDraft = UsersDraft.findOne({'profile.idUser': user._id});
+                        if (userDraft) {
                             return false;
                         }
                         else return true;
