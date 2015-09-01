@@ -80,6 +80,7 @@
                         </li>
                     {{/if}}
                     <li class="{{activeRouteClass 'notification_list'}} ">
+                        <!--dodac subskrypcje dla pwoiadomien z Meteor.userId w routerze w kazdym!-->
                         <a href="{{pathFor 'notification_list'}}">Powiadomienia<span class="badge red">{{liczbaNieprzeczytanych}}</span></a>
                     </li>
                     {{> loginButtons}}
