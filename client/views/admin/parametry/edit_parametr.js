@@ -172,7 +172,12 @@ Template.editParametry.events({
             Router.go("previewParametr");
         }
         else {
-            throwError("Nie wprowadziłeś żadnych zmian");
+            GlobalNotification.error({
+                title: 'Błąd',
+                content: 'Nie wprowadziłeś żadnych zmian!',
+                duration: 3 // duration the notification should stay in seconds
+            });
+            //throwError("Nie wprowadziłeś żadnych zmian");
         }
     },
     'reset form': function () {

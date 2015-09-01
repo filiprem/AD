@@ -8,13 +8,13 @@ Template.doradcaForm.rendered = function () {
             email: {
                 email: true,
                 checkExistsEmail: true,
-                checkExistsEmailDraft:true
+                checkExistsEmailDraft: true
             }
         },
         messages: {
             email: {
                 required: fieldEmptyMessage(),
-                email:validEmailMessage()
+                email: validEmailMessage()
             },
             firstName: {
                 required: fieldEmptyMessage()
@@ -52,9 +52,9 @@ Template.doradcaForm.events({
                 zip: $(e.target).find('[name=zipCode]').val(),
                 gender: $(e.target).find('[name=genderRadios]:checked').val(),
                 role: 'user',
-                userType:USERTYPE.DORADCA,
-                isExpectant:false,
-                uwagi:$(e.target).find('[name=uwagi]').val()
+                userType: USERTYPE.DORADCA,
+                isExpectant: false,
+                uwagi: $(e.target).find('[name=uwagi]').val()
             }];
         //-- generowanie loginu dla użytkownika
         newUser[0].login = generateLogin(newUser[0].firstName, newUser[0].lastName);
@@ -64,7 +64,7 @@ Template.doradcaForm.events({
         //utworzenie nowego usera
         //utworzenie nowej kwestii z idUser
         //poinformowanie użytkowników o pojawieniu się kwestii
-        Meteor.call('addUserDraft', newUser, function (error,ret) {
+        Meteor.call('addUserDraft', newUser, function (error, ret) {
             if (error) {
                 // optionally use a meteor errors package
                 if (typeof Errors === "undefined")
@@ -75,56 +75,56 @@ Template.doradcaForm.events({
                 }
             }
             else {
-                var idUserDraft=ret;
+                var idUserDraft = ret;
                 var dataG = new Date();
                 var d = dataG.setDate(dataG.getDate() + 7);
-                var daneAplikanta="DANE APLIKANTA: \r\n " +
-                    newUser[0].firstName+", "+newUser[0].lastName+" \r\n "+
-                    newUser[0].email+", \r\n "+
-                    newUser[0].profession+", \r\n "+
-                    newUser[0].address+ " "+
-                    newUser[0].zip+", \r\n "+
+                var daneAplikanta = "DANE APLIKANTA: \r\n " +
+                    newUser[0].firstName + ", " + newUser[0].lastName + " \r\n " +
+                    newUser[0].email + ", \r\n " +
+                    newUser[0].profession + ", \r\n " +
+                    newUser[0].address + " " +
+                    newUser[0].zip + ", \r\n " +
                     newUser[0].uwagi
                 var newKwestia = [
                     {
                         idUser: idUserDraft,
                         dataWprowadzenia: new Date(),
-                        kwestiaNazwa: 'Aplikowanie- '+newUser[0].firstName+" "+newUser[0].lastName,
+                        kwestiaNazwa: 'Aplikowanie- ' + newUser[0].firstName + " " + newUser[0].lastName,
                         wartoscPriorytetu: 0,
                         sredniaPriorytet: 0,
                         idTemat: Temat.findOne({})._id,
                         idRodzaj: Rodzaj.findOne({})._id,
                         dataDyskusji: new Date(),
                         dataGlosowania: d,
-                        krotkaTresc: 'Aplikacja o przyjęcie do systemu jako '+newUser[0].userType,
+                        krotkaTresc: 'Aplikacja o przyjęcie do systemu jako ' + newUser[0].userType,
                         szczegolowaTresc: daneAplikanta,
                         isOption: false,
-                        status:KWESTIA_STATUS.OSOBOWA
+                        status: KWESTIA_STATUS.OSOBOWA
                     }];
-                    Meteor.call('addKwestia', newKwestia, function (error) {
-                        if (error) {
-                            // optionally use a meteor errors package
-                            if (typeof Errors === "undefined")
-                                Log.error('Error: ' + error.reason);
-                            else {
-                                //if(error.error === 409)
-                                throwError(error.reason);
-                            }
-                        }
+                Meteor.call('addKwestia', newKwestia, function (error) {
+                    if (error) {
+                        // optionally use a meteor errors package
+                        if (typeof Errors === "undefined")
+                            Log.error('Error: ' + error.reason);
                         else {
-                            Router.go("home");
-                            bootbox.dialog({
-                                message: "Twój wniosek o przyjęcie do systemu jako "+newUser[0].userType+ " został przyjęty. O wyniku zostaniesz poinformowany drogą mailową",
-                                title: "Uwaga",
-                                buttons: {
-                                    main: {
-                                        label: "Ok",
-                                        className: "btn-primary",
-                                    }
-                                }
-                            });
+                            //if(error.error === 409)
+                            throwError(error.reason);
                         }
-                    });
+                    }
+                    else {
+                        Router.go("home");
+                        bootbox.dialog({
+                            message: "Twój wniosek o przyjęcie do systemu jako " + newUser[0].userType + " został przyjęty. O wyniku zostaniesz poinformowany drogą mailową",
+                            title: "Uwaga",
+                            buttons: {
+                                main: {
+                                    label: "Ok",
+                                    className: "btn-primary",
+                                }
+                            }
+                        });
+                    }
+                });
             }
         });
     },

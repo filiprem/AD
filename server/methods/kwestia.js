@@ -49,7 +49,7 @@ Meteor.methods({
             isOption: false,
             sugerowanyTemat: newKwestia[0].sugerowanyTemat,
             sugerowanyRodzaj: newKwestia[0].sugerowanyRodzaj,
-            idZgloszonego:newKwestia[0].idZgloszonego
+            idZgloszonego: newKwestia[0].idZgloszonego
         });
         Kwestia.update({_id: id}, {$set: {idParent: id}}, {upsert: true});
         var z = ZespolRealizacyjny.insert({idKwestia: id, nazwa: "", zespol: []});
@@ -106,16 +106,16 @@ Meteor.methods({
         var id = Kwestia.update(id, {$set: {wartoscPriorytetu: obj}}, {upsert: true});
         return id;
     },
-    updateZespolRealizacyjny: function(id, obj){
+    updateZespolRealizacyjny: function (id, obj) {
         var id = ZespolRealizacyjny.update(id,
             {
                 $set: {
                     zespol: obj
                 }
-        });
+            });
         return id;
     },
-    updateStatusKwestii:function(id,status){
+    updateStatusKwestii: function (id, status) {
         var id = Kwestia.update(id, {$set: {status: status}}, {upsert: true});
         return id;
     }
