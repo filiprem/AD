@@ -27,8 +27,7 @@ Meteor.methods({
             //Marzena
             idZespolRealizacyjny: z
         });
-        //var z = ZespolRealizacyjny.insert({idKwestia: id, nazwa: "", zespol: []});
-
+        Kwestia.update({_id: id}, {$set: {idParent: id}}, {upsert: true});
         return id;
     },
     //ta metoda ma dodatkowo idZlgaszajacego,
@@ -131,6 +130,25 @@ Meteor.methods({
     },
     updateStatusKwestii: function (id, status) {
         var id = Kwestia.update(id, {$set: {status: status}}, {upsert: true});
+        return id;
+    },
+    updateStatNrUchwDtRealKwestii: function (id, status, numerUchwaly, dataRealizacji) {
+        var id = Kwestia.update(id, {
+            $set: {
+                status: status,
+                numerUchwaly: numerUchwaly,
+                dataRealizacji: dataRealizacji
+            }
+        }, {upsert: true});
+        return id;
+    },
+    updateStatusDataGlosowaniaKwestii: function (id, status, dataGlosowania) {
+        var id = Kwestia.update(id, {
+            $set: {
+                status: status,
+                dataGlosowania: dataGlosowania
+            }
+        }, {upsert: true});
         return id;
     },
     updateIdZespolu: function (id, idZespol) {
