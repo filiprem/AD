@@ -1,17 +1,3 @@
-liczenieKworumZwykle = function () {
-    var liczbaUzytkownikow = Users.find({'profile.userType': USERTYPE.CZLONEK }).count();
-    var potega = 7 / 9;
-    var liczba = 4 / 7;
-    var kworum = Math.pow(liczbaUzytkownikow, potega) * liczba;
-    return Math.round(kworum);
-};
-
-liczenieKworumStatutowe = function () {
-    var liczbaUzytkownikow = Users.find({'profile.userType': USERTYPE.CZLONEK }).count();
-    var kworum = liczbaUzytkownikow / 3 * 2;
-    return Math.round(kworum);
-};
-
 generateLogin = function (u_firstName, u_lastName) {
     var i = 1;
     do {

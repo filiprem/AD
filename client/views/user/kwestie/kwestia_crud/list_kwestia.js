@@ -200,24 +200,14 @@ Template.kworumNumber.helpers({//brani są tu użytkownicy,którzy zaglosowali,c
                 var data;
                 if (r.kworum == "zwykla") {
                     var kworum = liczenieKworumZwykle();
-                    if (kworum >= 3) {
+                    data = usersCount.toString() + " / " + kworum.toString();
 
-                        data = usersCount.toString() + " / " + kworum.toString();
-                    }
-                    else {
-                        data = usersCount.toString() + " / 3";
-                    }
                     return data;
                 }
                 else if (r.kworum == "statutowa") {
                     var kworum = liczenieKworumStatutowe();
-                    if (kworum >= 3) {
+                    data = usersCount.toString() + " / " + kworum.toString();
 
-                        data = usersCount.toString() + " / " + kworum.toString();
-                    }
-                    else {
-                        data = usersCount.toString() + " / 3";
-                    }
                     return data;
                 }
             }

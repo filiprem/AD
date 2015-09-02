@@ -93,7 +93,7 @@ Template.dataRealizKwestia.helpers({
 
 Template.numerUchwKwestia.helpers({
     number: function () {
-        return this.numerUchwały;
+        return this.numerUchwaly;
     }
 });
 

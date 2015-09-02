@@ -95,8 +95,8 @@ Template.addKwestiaForm.events({
     'submit form': function (e) {
         e.preventDefault();
 
-        var dataG = new Date();
-        var d = dataG.setDate(dataG.getDate() + 7);
+        //var dataG = new Date();
+        //var d = dataG.setDate(dataG.getDate() + 7);
 
         var newKwestia = [
             {
@@ -108,7 +108,7 @@ Template.addKwestiaForm.events({
                 idTemat: $(e.target).find('[name=tematy]').val(),
                 idRodzaj: $(e.target).find('[name=rodzaje]').val(),
                 dataDyskusji: new Date(),
-                dataGlosowania: d,
+                //dataGlosowania: d,
                 krotkaTresc: $(e.target).find('[name=krotkaTresc]').val(),
                 szczegolowaTresc: $(e.target).find('[name=szczegolowaTresc]').val(),
                 isOption: false,

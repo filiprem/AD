@@ -35,13 +35,14 @@ Meteor.startup(function(){
 
                 if(newKwestia.status == KWESTIA_STATUS.DELIBEROWANA){
 
-                    Meteor.call('updateStatusKwestii', newKwestia._id, KWESTIA_STATUS.GLOSOWANA);
+                    var czasGlosowania = Rodzaj.find({_id: newKwestia.idRodzaj}).czasGlosowania;
+                    newKwestia.dataGlosowania = new Date().addHours(czasGlosowania);
+                    Meteor.call('updateStatusDataGlosowaniaKwestii', newKwestia._id, KWESTIA_STATUS.GLOSOWANA, newKwestia.dataGlosowania);
                 }
-                else if (newKwestia.status == KWESTIA_STATUS.GLOSOWANA){
+                else if (newKwestia.status == KWESTIA_STATUS.GLOSOWANA && new Date() > newKwestia.dataGlosowania){
 
                     newKwestia.dataRealizacji = new Date();
                     newKwestia.numerUchwaly = nadawanieNumeruUchwaly(newKwestia.dataRealizacji);
-
                     Meteor.call('updateStatNrUchwDtRealKwestii', newKwestia._id, KWESTIA_STATUS.REALIZOWANA, newKwestia.numerUchwaly, newKwestia.dataRealizacji);
                 }
                 else if (newKwestia.status == KWESTIA_STATUS.STATUSOWA){

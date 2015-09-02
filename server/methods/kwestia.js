@@ -128,5 +128,14 @@ Meteor.methods({
             }
         }, {upsert: true});
         return id;
+    },
+    updateStatusDataGlosowaniaKwestii: function (id, status, dataGlosowania) {
+        var id = Kwestia.update(id, {
+            $set: {
+                status: status,
+                dataGlosowania: dataGlosowania
+            }
+        }, {upsert: true});
+        return id;
     }
 });
