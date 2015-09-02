@@ -219,3 +219,9 @@ ul.notifications {
     position: fixed;
 }
 
+body #listZespolRealizacyjnyDouble .modal-dialog{
+    /* new custom width */
+    width: 700px;
+
+}
+

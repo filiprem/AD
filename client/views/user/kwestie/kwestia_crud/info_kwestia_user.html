@@ -148,6 +148,7 @@
 
         {{#if currentUser}}
             <legend>Zgłoszenie do Zespołu Realizacyjnego</legend>
+             <p><strong>{{getZRName}} </strong></p>
             <table class="table manageTable">
                 <tr>
                     <td><strong>Członek nr 1</strong> &nbsp; &nbsp;
@@ -172,7 +173,7 @@
                         {{/unless}}
                     </td>
                     <td>
-                        <button class="btn btn-primary" id="listaZR" {{unlessNiepelnySkladZR}}>Sprawdź istniejące ZR</button>
+                        <button class="btn btn-primary" id="listaZR" {{unlessGlosowana}}>Sprawdź istniejące ZR</button>
                     </td>
                 </tr>
             </table>
@@ -198,6 +199,7 @@
     {{> notifications}}
     {{> listZespolRealizacyjnyModal}}
     {{> addNazwaModal}}
+    {{>listZespolRealizacyjnyDoubleModal}}
     {{> GlobalNotifications}}
 
 </template>

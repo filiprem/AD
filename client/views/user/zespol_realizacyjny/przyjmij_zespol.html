@@ -1,0 +1,41 @@
+<template name="listZespolRealizacyjnyDoubleModal">
+    <div id="listZespolRealizacyjnyDouble" class="modal fade" tabindex="-1" data-width="2960"  style="display:none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                {{> listZespolRealizacyjnyDoubleModalInner}}
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="listZespolRealizacyjnyDoubleModalInner">
+    <div class="modal-header">
+        <h4>Istnieje już Zespół Realizacyjny o o podanym składzie!</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                {{> reactiveTable
+                class = "table table-bordered table-hover"
+                fields = settings.fields
+                settings = settings
+                collection = ZRDoubleList}}
+            </div>
+        </div>
+        <br/>
+    </div>
+    <div class="modal-footer">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-6">
+                <input type="submit" data-dismiss="modal" class="btn btn-success" id="istniejacyZRButton" value="Chcę zobowiązać do realizacji istniejący ZR"/></div>
+                <div class="col-md-6">
+                <input type="submit" data-dismiss="modal" class="btn btn-success" id="nowyZRButton" value="Chcę utworzyć kolejny ZR w tym składzie"/></div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="zespolDoubleTemplate">
+    {{zespolR}}
+</template>

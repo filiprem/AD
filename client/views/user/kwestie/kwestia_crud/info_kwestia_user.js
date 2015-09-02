@@ -128,8 +128,14 @@ Template.informacjeKwestia.events({
         }
     },
     'click #czlonek1': function () {
-        var z = ZespolRealizacyjny.findOne({idKwestia: this._id});
-        zespolId = z._id;
+        //var z = ZespolRealizacyjny.findOne({idKwestia: this._id});
+        //zespolId = z._id;
+
+        //Marzena::
+        zespolId=this.idZespolRealizacyjny;
+        var z=ZespolRealizacyjny.findOne({_id: zespolId});
+        console.log("Jeden");
+
         var zespolToUpdate = z.zespol.slice();
         if(z.zespol.length>0){
             GlobalNotification.error({
@@ -141,22 +147,27 @@ Template.informacjeKwestia.events({
         }
         else{
 
-            if(addCzlonekToZespolRealizacyjnyNotification(Meteor.userId(),zespolToUpdate,2)==false){
+            if(addCzlonekToZespolRealizacyjnyNotification(Meteor.userId(),zespolToUpdate,2,zespolId)==false){
                 bladNotification();
             }
 
         }
     },
     'click #czlonek2': function () {//jezeli juz jestes
-        var z = ZespolRealizacyjny.findOne({idKwestia: this._id});
-        zespolId = z._id;
+        //var z = ZespolRealizacyjny.findOne({idKwestia: this._id});
+        //zespolId = z._id;
+        //Marzena::
+        zespolId=this.idZespolRealizacyjny;
+        var z=ZespolRealizacyjny.findOne({_id: zespolId});
+        console.log("dwa");
+
         var zespolToUpdate = z.zespol.slice();
         var liczba= 3-z.zespol.length-1;
 
         if(isUserInZespolRealizacyjnyNotification(Meteor.userId(),zespolToUpdate)==false){//jeżeli nie jest w zespole
             if(isUserCountInZespolRealizacyjnyNotification(Meteor.userId(),zespolToUpdate,2)==false){//jeżeli jest drugi
 
-                if(addCzlonekToZespolRealizacyjnyNotification(Meteor.userId(),zespolToUpdate,liczba)==false){
+                if(addCzlonekToZespolRealizacyjnyNotification(Meteor.userId(),zespolToUpdate,liczba,zespolId)==false){
                     bladNotification();
                 }
             }
@@ -164,22 +175,27 @@ Template.informacjeKwestia.events({
 
     },
     'click #czlonek3': function () {
-        var z = ZespolRealizacyjny.findOne({idKwestia: this._id});
-        zespolId = z._id;
+        //var z = ZespolRealizacyjny.findOne({idKwestia: this._id});
+        //zespolId = z._id;
+
+        //Marzena::
+        zespolId=this.idZespolRealizacyjny;
+        var z=ZespolRealizacyjny.findOne({_id: zespolId});
+        console.log("trzy");
+
         var zespolToUpdate = z.zespol.slice();
         var liczba= 3-z.zespol.length-1;
 
         if(isUserInZespolRealizacyjnyNotification(Meteor.userId(),zespolToUpdate)==false){//jeżeli nie jest w zespole
             if(isUserCountInZespolRealizacyjnyNotification(Meteor.userId(),zespolToUpdate,2)==false){
 
-                if(addCzlonekToZespolRealizacyjnyNotification(Meteor.userId(),zespolToUpdate,liczba)==false){
+                if(addCzlonekToZespolRealizacyjnyNotification(Meteor.userId(),zespolToUpdate,liczba,zespolId)==false){
                     bladNotification();
                 }
             }
         }
     },
     'click #listaZR': function(){
-        Session.setPersistent('idKwestiaModalShow', this._id);
         $("#listZespolRealizacyjny").modal("show");
     },
     'click #dyskusja': function (e) {
@@ -292,13 +308,15 @@ Template.informacjeKwestia.events({
 });
 Template.informacjeKwestia.helpers({
     pierwszyCzlonekFullName: function(){
-        return getCzlonekFullName(0,this._id);
+        return getCzlonekFullName(0,this.idZespolRealizacyjny);
     },
     drugiCzlonekFullName: function(){
-        return getCzlonekFullName(1,this._id);
+        //return getCzlonekFullName(1,this._id);
+        return getCzlonekFullName(1,this.idZespolRealizacyjny);
     },
     trzeciCzlonekFullName: function(){
-        return getCzlonekFullName(2,this._id);
+        //return getCzlonekFullName(2,this._id);
+        return getCzlonekFullName(2,this.idZespolRealizacyjny);
     },
     thisKwestia: function () {
         var kw = Kwestia.findOne({_id: this._id});
@@ -502,28 +520,36 @@ Template.informacjeKwestia.helpers({
         }
         return "";
     },
-    unlessNiepelnySkladZR:function(){
-        var zespolR=ZespolRealizacyjny.findOne({idKwestia:this._id});
-        if (zespolR){
-            return zespolR.zespol.slice().length==3 ? "disabled" :"";
-        }
+    unlessGlosowana:function(){
+
+        console.log(this.status);
+       return this.status==KWESTIA_STATUS.GLOSOWANA ? "disabled" :"";
+
         //var tablica=zespolR.zespol.slice();
         //var tablicaZ= _.pluck(tablica,'idUser');
         //return _.contains(tablicaZ,Meteor.userId()) ? "disabled" :"";
+    },
+    getZRName:function(){
+        var kwestia=Kwestia.findOne({_id:this._id});
+        if(kwestia){
+            var zespolR= ZespolRealizacyjny.findOne({_id:kwestia.idZespolRealizacyjny});
+            console.log(zespolR);
+            if (zespolR){
+                return zespolR.zespol.slice().length==3 ? zespolR.nazwa :null;
+            }
+        }
     }
 });
-getCzlonekFullName=function(number,idKwestia){
-    var z = ZespolRealizacyjny.findOne({idKwestia: idKwestia});
+getCzlonekFullName=function(number,idZR){
+    //var z = ZespolRealizacyjny.findOne({idKwestia: idKwestia});
+    var z = ZespolRealizacyjny.findOne({_id: idZR});
     if(z){
         zespolId = z._id;
         var zespol = z.zespol;
-        console.log("Ten zespół:");
-        console.log(zespol[number]);
         if(zespol){
             var id = zespol[number];
             if(id){
                 var user = Users.findOne({_id: id});
-                console.log(user);
                 return user.profile.fullName;
             }
         }
