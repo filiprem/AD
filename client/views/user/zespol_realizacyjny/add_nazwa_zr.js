@@ -34,7 +34,7 @@ Template.addNazwaModal.events({
         var nazwa = document.getElementById('nazwaZR').value;
         var zespoly = ZespolRealizacyjny.find({}).fetch();
         var z = "Zespół Realizacyjny ds. ";
-        if ((nazwa.toLowerCase().trim() == z.toLowerCase().trim()) || nazwa == "") {
+        if (nazwa.toLowerCase().trim() =="") {
             GlobalNotification.error({
                 title: 'Błąd',
                 content: 'Uzupełnij nazwę ZR!',
@@ -42,15 +42,31 @@ Template.addNazwaModal.events({
             });
         }
         else {
-            var z = ZespolRealizacyjny.findOne({idKwestia: this._id});
-            var zespolId = z._id;
-            ZespolRealizacyjny.update(zespolId,
-                {
-                    $set: {
-                        nazwa: nazwa
-                    }
+            var found=false;
+            var text="Zespół realizacyjny ds. "+nazwa;
+            zespoly.forEach(function(zespol){
+                if (_.isEqual(zespol.nazwa.toLowerCase().trim(), text.toLowerCase().trim()))
+                    found = true;
+            });
+            if(found==true){
+                GlobalNotification.error({
+                    title: 'Błąd',
+                    content: 'Istnieje już ZR o podanej nazwie!',
+                    duration: 3 // duration the notification should stay in seconds
                 });
-            $("#addNazwa").modal("hide");
+            }
+            else {
+                var z = ZespolRealizacyjny.findOne({idKwestia: this._id});
+                var text="Zespół realizacyjny ds.";
+                var zespolId = z._id;
+                ZespolRealizacyjny.update(zespolId,
+                    {
+                        $set: {
+                            nazwa: text+nazwa
+                        }
+                    });
+                $("#addNazwa").modal("hide");
+            }
         }
     }
-})
+});
