@@ -57,6 +57,10 @@ Template.realizacja.helpers({
     },
     realizacjaCount: function () {
         return Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.REALIZOWANA}).count();
+    },
+    RealizacjaListCount: function () {
+        var ile = Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.REALIZOWANA}).count();
+        return ile > 0 ? true : false;
     }
 });
 
@@ -65,14 +69,15 @@ Template.realizacja.events({
 
         var docDefinition = {
             content: [
-                { text: "Uchwała  Numer: " + this.numerUchwały.toString() + " z dnia " + moment(this.dataRealizacji).format("DD-MMMM-YYYY").toString(), style: 'uchwalaHeadline'},
-                { text: "\n\n" + this.szczegolowaTresc, style: 'contentStyle'}
+                { text: "dn. " + moment(this.dataRealizacji).format("DD.MM.YYYY").toString() + "r.", style: 'uchwalaTop'},
+                { text: "Uchwała  Numer: " + this.numerUchwały.toString() + "\nDotyczy: " + this.kwestiaNazwa , style: 'uchwalaHeadline'},
+                { text: "\n\t\t\t\t\t\t" + this.szczegolowaTresc, style: 'contentStyle'}
             ],
             styles: {
-                uchwalaHeadline: {fontSize: 18, bold: true, alignment: 'center'},
-                contentStyle: {fontSize: 12, alignment: 'left'}
+                uchwalaTop: {fontSize: 12, alignment: 'right'},
+                uchwalaHeadline: {fontSize: 16, bold: true, alignment: 'center', margin: [0,50,0,50]},
+                contentStyle: {fontSize: 12, alignment: 'justify'}
             }
-
         };
 
         pdfMake.createPdf(docDefinition).open();
