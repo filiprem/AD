@@ -20,7 +20,7 @@ Meteor.methods({
             isOption: false,
             sugerowanyTemat: newKwestia[0].sugerowanyTemat,
             sugerowanyRodzaj: newKwestia[0].sugerowanyRodzaj,
-            numerUchwały: newKwestia[0].numerUchwały
+            numerUchwaly: newKwestia[0].numerUchwaly
 
         });
         Kwestia.update({_id: id}, {$set: {idParent: id}}, {upsert: true});
@@ -83,7 +83,7 @@ Meteor.methods({
             glosujacy: [],
             isOption: true,
             idParent: newKwestiaOpcja[0].idParent,
-            numerUchwały: newKwestiaOpcja[0].numerUchwały
+            numerUchwaly: newKwestiaOpcja[0].numerUchwaly
         });
         var z = ZespolRealizacyjny.insert({idKwestia: id, nazwa: "", zespol: []});
         return id;
@@ -117,6 +117,16 @@ Meteor.methods({
     },
     updateStatusKwestii: function (id, status) {
         var id = Kwestia.update(id, {$set: {status: status}}, {upsert: true});
+        return id;
+    },
+    updateStatNrUchwDtRealKwestii: function (id, status, numerUchwaly, dataRealizacji) {
+        var id = Kwestia.update(id, {
+            $set: {
+                status: status,
+                numerUchwaly: numerUchwaly,
+                dataRealizacji: dataRealizacji
+            }
+        }, {upsert: true});
         return id;
     }
 });
