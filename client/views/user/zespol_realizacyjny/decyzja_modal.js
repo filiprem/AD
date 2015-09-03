@@ -17,8 +17,6 @@ Template.decyzjaModalInner.helpers({
     },
     ZRDoubleList: function(){
         var val=Session.get("zespolRealizacyjnyDouble");
-        console.log("bum____________________________________________");
-        console.log(val);
 
         return ZespolRealizacyjny.find({
             _id: {$in:val}});
