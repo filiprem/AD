@@ -20,16 +20,16 @@ Meteor.startup(function(){
         }
     });
     var postyPodKwestiami = Posts.find({czyAktywny: true, postType: "deliberacja"});
+    var zespoly = ZespolRealizacyjny.find({czyAktywny: true});
 
     kwestie.observe({
         changedAt: function(newKwestia, oldKwestia, atIndex) {
 
             var kworum = liczenieKworumZwykle();
             var usersCount = newKwestia.glosujacy.length;
-            //Trzeba bêdzie wzi¹æ jeszcze pod uwagê zespó³ realizacyjny ale Marzena go teraz modernizuje wiêc do zrobienia!!!
-            //var zespolyRealizacyjne = ZespolRealizacyjny.find({idKwestia: newKwestia._id})
+            var zespolCount = ZespolRealizacyjny.findOne({_id: newKwestia.idZespolRealizacyjny}).zespol.length;
 
-            if(newKwestia.wartoscPriorytetu > 0 && usersCount >= kworum){
+            if(newKwestia.wartoscPriorytetu > 0 && usersCount >= kworum && zespolCount >= 3){
 
                 if(newKwestia.status == KWESTIA_STATUS.DELIBEROWANA){
 
@@ -42,7 +42,6 @@ Meteor.startup(function(){
                     Meteor.call('updateStatusKwestii', newKwestia._id, KWESTIA_STATUS.OCZEKUJACA);
                 }
             }
-
         }
     });
 
@@ -58,6 +57,28 @@ Meteor.startup(function(){
                Meteor.call('updateStatusDataGlosowaniaKwestii', newPost.idKwestia, KWESTIA_STATUS.DELIBEROWANA, null);
            }
        }
+    });
+
+    zespoly.observe({
+        changedAt: function(newZespol, oldZespol, atIndex) {
+
+            var kworum = liczenieKworumZwykle();
+            var kwestia = Kwestia.findOne({idZespolRealizacyjny: newZespol._id});
+
+            if(kwestia.wartoscPriorytetu > 0 && kwestia.glosujacy.length >= kworum && newZespol.zespol.length >= 3) {
+
+                if (kwestia.status == KWESTIA_STATUS.DELIBEROWANA) {
+
+                    var czasGlosowania = Rodzaj.findOne({_id: kwestia.idRodzaj}).czasGlosowania;
+                    kwestia.dataGlosowania = new Date().addHours(czasGlosowania);
+                    Meteor.call('updateStatusDataGlosowaniaKwestii', kwestia._id, KWESTIA_STATUS.GLOSOWANA, kwestia.dataGlosowania);
+                }
+                else if (kwestia.status == KWESTIA_STATUS.STATUSOWA){
+
+                    Meteor.call('updateStatusKwestii', kwestia._id, KWESTIA_STATUS.OCZEKUJACA);
+                }
+            }
+        }
     });
 });
 
@@ -78,8 +99,8 @@ SyncedCron.add({
 nadawanieNumeruUchwaly = function(dataRealizacji) {
 
     var numerUchw = 1;
-
     var kwestieRealizowane = Kwestia.find({numerUchwaly: !null});
+
     kwestieRealizowane.forEach(function (kwestiaRealizowana) {
 
         if(kwestiaRealizowana.dataRealizacji.toDateString() == dataRealizacji.toDateString())
@@ -97,7 +118,7 @@ sprawdzanieDatyGlosowania = function() {
     kwestie.forEach(function (kwestia) {
 
         if(kwestia.status == KWESTIA_STATUS.GLOSOWANA) {
-            console.log(actualDate + " >= " + kwestia.dataGlosowania);
+
             if(actualDate >= kwestia.dataGlosowania){
                 if(kwestia.wartoscPriorytetu>0) {
 
@@ -109,7 +130,6 @@ sprawdzanieDatyGlosowania = function() {
 
                     Meteor.call('updateStatusKwestii', kwestia._id, KWESTIA_STATUS.ARCHIWALNA);
                 }
-
             }
         }
         else if(kwestia.status == KWESTIA_STATUS.OCZEKUJACA){ //DO ZROBIENIA!!!!!
@@ -118,8 +138,5 @@ sprawdzanieDatyGlosowania = function() {
             newKwestia.numerUchwaly = nadawanieNumeruUchwaly(newKwestia.dataRealizacji);
             Meteor.call('updateStatNrUchwDtRealKwestii', newKwestia._id, KWESTIA_STATUS.REALIZOWANA, newKwestia.numerUchwaly, newKwestia.dataRealizacji);
         }
-
     });
-
-
 };
