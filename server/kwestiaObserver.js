@@ -15,48 +15,33 @@ Meteor.startup(function(){
         status: {
             $in: [
                 KWESTIA_STATUS.DELIBEROWANA,
-                KWESTIA_STATUS.GLOSOWANA,
-                KWESTIA_STATUS.STATUSOWA,
-                KWESTIA_STATUS.OCZEKUJACA
+                KWESTIA_STATUS.STATUSOWA
             ]
         }
     });
     var postyPodKwestiami = Posts.find({czyAktywny: true, postType: "deliberacja"});
+    var zespoly = ZespolRealizacyjny.find({czyAktywny: true});
 
     kwestie.observe({
         changedAt: function(newKwestia, oldKwestia, atIndex) {
 
             var kworum = liczenieKworumZwykle();
             var usersCount = newKwestia.glosujacy.length;
-            //Trzeba bêdzie wzi¹æ jeszcze pod uwagê zespó³ realizacyjny ale Marzena go teraz modernizuje wiêc do zrobienia!!!
-            //var zespolyRealizacyjne = ZespolRealizacyjny.find({idKwestia: newKwestia._id})
+            var zespolCount = ZespolRealizacyjny.findOne({_id: newKwestia.idZespolRealizacyjny}).zespol.length;
 
-            if(newKwestia.wartoscPriorytetu > 0 && usersCount >= kworum){
+            if(newKwestia.wartoscPriorytetu > 0 && usersCount >= kworum && zespolCount >= 3){
 
                 if(newKwestia.status == KWESTIA_STATUS.DELIBEROWANA){
 
-                    var czasGlosowania = Rodzaj.find({_id: newKwestia.idRodzaj}).czasGlosowania;
+                    var czasGlosowania = Rodzaj.findOne({_id: newKwestia.idRodzaj}).czasGlosowania;
                     newKwestia.dataGlosowania = new Date().addHours(czasGlosowania);
                     Meteor.call('updateStatusDataGlosowaniaKwestii', newKwestia._id, KWESTIA_STATUS.GLOSOWANA, newKwestia.dataGlosowania);
-                }
-                else if (newKwestia.status == KWESTIA_STATUS.GLOSOWANA && new Date() > newKwestia.dataGlosowania){
-
-                    newKwestia.dataRealizacji = new Date();
-                    newKwestia.numerUchwaly = nadawanieNumeruUchwaly(newKwestia.dataRealizacji);
-                    Meteor.call('updateStatNrUchwDtRealKwestii', newKwestia._id, KWESTIA_STATUS.REALIZOWANA, newKwestia.numerUchwaly, newKwestia.dataRealizacji);
                 }
                 else if (newKwestia.status == KWESTIA_STATUS.STATUSOWA){
 
                     Meteor.call('updateStatusKwestii', newKwestia._id, KWESTIA_STATUS.OCZEKUJACA);
                 }
-                else if (newKwestia.status == KWESTIA_STATUS.OCZEKUJACA){
-
-                    newKwestia.dataRealizacji = new Date();
-                    newKwestia.numerUchwaly = nadawanieNumeruUchwaly(newKwestia.dataRealizacji);
-                    Meteor.call('updateStatNrUchwDtRealKwestii', newKwestia._id, KWESTIA_STATUS.REALIZOWANA, newKwestia.numerUchwaly, newKwestia.dataRealizacji);
-                }
             }
-
         }
     });
 
@@ -65,21 +50,57 @@ Meteor.startup(function(){
 
            var kworum = liczenieKworumZwykle();
            var usersCount = newPost.glosujacy.length;
-           var kwestiaArchiwalna = Kwestia.find({_id: newPost.idKwestia});
+           var kwestiaArchiwalna = Kwestia.findOne({_id: newPost.idKwestia});
 
            if(newPost.wartoscPriorytetu > 0 && usersCount >= kworum && kwestiaArchiwalna.status == KWESTIA_STATUS.ARCHIWALNA) {
 
-               Meteor.call('updateStatusKwestii', newPost.idKwestia, KWESTIA_STATUS.DELIBEROWANA);
+               Meteor.call('updateStatusDataGlosowaniaKwestii', newPost.idKwestia, KWESTIA_STATUS.DELIBEROWANA, null);
            }
        }
     });
+
+    zespoly.observe({
+        changedAt: function(newZespol, oldZespol, atIndex) {
+
+            var kworum = liczenieKworumZwykle();
+            var kwestia = Kwestia.findOne({idZespolRealizacyjny: newZespol._id});
+
+            if(kwestia.wartoscPriorytetu > 0 && kwestia.glosujacy.length >= kworum && newZespol.zespol.length >= 3) {
+
+                if (kwestia.status == KWESTIA_STATUS.DELIBEROWANA) {
+
+                    var czasGlosowania = Rodzaj.findOne({_id: kwestia.idRodzaj}).czasGlosowania;
+                    kwestia.dataGlosowania = new Date().addHours(czasGlosowania);
+                    Meteor.call('updateStatusDataGlosowaniaKwestii', kwestia._id, KWESTIA_STATUS.GLOSOWANA, kwestia.dataGlosowania);
+                }
+                else if (kwestia.status == KWESTIA_STATUS.STATUSOWA){
+
+                    Meteor.call('updateStatusKwestii', kwestia._id, KWESTIA_STATUS.OCZEKUJACA);
+                }
+            }
+        }
+    });
+});
+
+SyncedCron.start();
+
+SyncedCron.add({
+    name: 'checking dates crone',
+    schedule: function(parser) {
+        // parser is a later.parse object
+        return parser.text('every 1 minute');
+    },
+    job: function() {
+        var sprawdzanieDaty = sprawdzanieDatyGlosowania();
+        return sprawdzanieDaty;
+    }
 });
 
 nadawanieNumeruUchwaly = function(dataRealizacji) {
 
     var numerUchw = 1;
-
     var kwestieRealizowane = Kwestia.find({numerUchwaly: !null});
+
     kwestieRealizowane.forEach(function (kwestiaRealizowana) {
 
         if(kwestiaRealizowana.dataRealizacji.toDateString() == dataRealizacji.toDateString())
@@ -87,4 +108,35 @@ nadawanieNumeruUchwaly = function(dataRealizacji) {
     });
 
     return numerUchw;
+};
+
+sprawdzanieDatyGlosowania = function() {
+
+    var actualDate = new Date();
+    var kwestie = Kwestia.find({czyAktywny: true, status: {$in: [KWESTIA_STATUS.GLOSOWANA, KWESTIA_STATUS.OCZEKUJACA]}});
+
+    kwestie.forEach(function (kwestia) {
+
+        if(kwestia.status == KWESTIA_STATUS.GLOSOWANA) {
+
+            if(actualDate >= kwestia.dataGlosowania){
+                if(kwestia.wartoscPriorytetu>0) {
+
+                    kwestia.dataRealizacji = new Date();
+                    kwestia.numerUchwaly = nadawanieNumeruUchwaly(kwestia.dataRealizacji);
+                    Meteor.call('updateStatNrUchwDtRealKwestii', kwestia._id, KWESTIA_STATUS.REALIZOWANA, kwestia.numerUchwaly, kwestia.dataRealizacji);
+                }
+                else{
+
+                    Meteor.call('updateStatusKwestii', kwestia._id, KWESTIA_STATUS.ARCHIWALNA);
+                }
+            }
+        }
+        else if(kwestia.status == KWESTIA_STATUS.OCZEKUJACA){ //DO ZROBIENIA!!!!!
+
+            newKwestia.dataRealizacji = new Date();
+            newKwestia.numerUchwaly = nadawanieNumeruUchwaly(newKwestia.dataRealizacji);
+            Meteor.call('updateStatNrUchwDtRealKwestii', newKwestia._id, KWESTIA_STATUS.REALIZOWANA, newKwestia.numerUchwaly, newKwestia.dataRealizacji);
+        }
+    });
 };
