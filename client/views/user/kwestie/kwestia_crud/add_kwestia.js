@@ -50,27 +50,28 @@ Template.addKwestiaForm.rendered = function () {
     $("#kwestiaForm").validate({
         rules: {
             kwestiaNazwa: {
-                checkExistsNazwaKwestii: true
+                checkExistsNazwaKwestii: true,
+                maxlength: 80
+            },
+            krotkaTresc: {
+                maxlength: 400
+            },
+            szczegolowaTresc: {
+                maxlength: 1000
             }
         },
         messages: {
             kwestiaNazwa: {
-                required: fieldEmptyMessage()
-            },
-            tematy: {
-                required: fieldEmptyMessage()
-            },
-            rodzaje: {
-                required: fieldEmptyMessage()
-            },
-            tresc: {
-                required: fieldEmptyMessage()
+                required: fieldEmptyMessage(),
+                maxlength: maxLengthMessage(80)
             },
             krotkaTresc: {
-                required: fieldEmptyMessage()
+                required: fieldEmptyMessage(),
+                maxlength: maxLengthMessage(400)
             },
             szczegolowaTresc: {
-                required: fieldEmptyMessage()
+                required: fieldEmptyMessage(),
+                maxlength: maxLengthMessage(1000)
             }
         },
         highlight: function (element) {
@@ -82,11 +83,7 @@ Template.addKwestiaForm.rendered = function () {
         errorElement: 'span',
         errorClass: 'help-block',
         errorPlacement: function (error, element) {
-            if (element.length) {
-                error.insertAfter(element);
-            } else {
-                error.insertAfter(element);
-            }
+            validationPlacementError(error, element);
         }
     })
 };

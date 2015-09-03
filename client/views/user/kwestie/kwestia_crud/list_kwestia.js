@@ -255,7 +255,7 @@ Template.listKwestiaColumnLabel.rendered = function () {
 
 Template.listKwestia.helpers({
     isUserOrDoradcaLogged:function(){
-        if(!Meteor.roles=='admin')
+        if(IsAdminUser())
             return false;
         else {
             var user = Users.findOne({_id: Meteor.userId()});

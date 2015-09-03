@@ -4,7 +4,15 @@ Template.previewKwestia.helpers({
     },
     getRodzajName: function (id) {
         return Rodzaj.findOne({_id: id}).nazwaRodzaj;
-    }
+    },
+    szczegolowaTresc: function(){
+        var Tresc = Session.get("kwestiaPreview").szczegolowaTresc;
+        return Tresc.length > 30 ? Tresc.substring(0,30)+"..." : Tresc;
+    },
+    krotkaTresc: function(){
+        var Tresc = Session.get("kwestiaPreview").krotkaTresc;
+        return Tresc.length > 30 ? Tresc.substring(0,30)+"..." : Tresc
+    }    
 });
 
 Template.previewKwestia.events({

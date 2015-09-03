@@ -16,6 +16,7 @@ Template.addUserForm.rendered = function () {
                 email: true
             },
             confirmPassword: {
+                required: true,
                 equalTo: "#inputPassword"
             }
         },
@@ -38,6 +39,7 @@ Template.addUserForm.rendered = function () {
                 minlength: minLengthMessage(6)
             },
             confirmPassword: {
+                required: fieldEmptyMessage(),
                 equalTo: equalToMessage()
             }
         },
