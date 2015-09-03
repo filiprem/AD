@@ -16,14 +16,21 @@ Template.listZespolRealizacyjnyModalInner.helpers({
             ]
         };
     },
-    ZRList: function(){//i tam,gdzie status==glosowana!!!bo w innym wypadku,moze się zmienić!!!
-        console.log("TUUUUUU: "+this._id);
-        Session.setPersistent("IdKwestiaModal",this._id);
-        var idZRKwestia=Kwestia.findOne({_id:this._id}).idZespolRealizacyjny;
+    ZRList: function(){//tutaj lista wszystkich zespołow juz zatweirdzonych
+        var kwestie = Kwestia.find({
+            $where: function () {
+                return (this.status==KWESTIA_STATUS.GLOSOWANA);
+            }
+        });
+        var arrayZespol=[];
+        console.log(kwestie.count());
+        kwestie.forEach(function(kwestia){
+            arrayZespol.push(kwestia.idZespolRealizacyjny);
+        });
+
         return ZespolRealizacyjny.find({
-            $where:function(){
-            return ((this._id!=idZRKwestia)&&(this.zespol.slice().length>=3))
-        }});
+            _id:{$in: arrayZespol}
+            });
     }
 });
 
@@ -52,45 +59,45 @@ Template.listZespolRealizacyjnyModalInner.events({
     },
     'click #powolajZR': function () {
         //jezeli jest w zepsole,powolaj
-        if(isUserInZRNotification(this._id)==false){
-            //to niżej
-            //mamy idZespolu
-            //to suwamy ten zespół i pobieramy id tamtego
-            console.log(Session.get("IdKwestiaModal"));
-            var newZR=this._id;
-
-            ///usuniecie starego zespołu
-            var kwestia=Kwestia.findOne({_id:Session.get("IdKwestiaModal")});
-            if(kwestia){
-                var zespol=ZespolRealizacyjny.findOne({_id:kwestia.idZespolRealizacyjny});
-                if(zespol) {
-                    Meteor.call('removeZespolRealizacyjny', zespol, function (error, ret) {
-                        if (error) {
-                            if (typeof Errors === "undefined")
-                                Log.error('Error: ' + error.reason);
-                            else {
-                                throwError(error.reason);
-                            }
-                        }
-                        else{
-                            Meteor.call('updateIdZespolu',kwestia._id, newZR, function (error, ret) {
-                                if (error) {
-                                    if (typeof Errors === "undefined")
-                                        Log.error('Error: ' + error.reason);
-                                    else {
-                                        throwError(error.reason);
-                                    }
-                                }
-                                else{
-                                    $("#listZespolRealizacyjny").modal("hide");
-                                    //Session.setPersistent("IdKwestiaModal",null);
-                                }
-                            });
-                        }
-                    });
-                }
-            }
+        if(isUserInZRNotification(this._id)==false) {//jezeli jestem w  takowym zespole
+            powolajZRFunction(Session.get("idKwestia"),this._id);
         }
+        //if(isUserInZRNotification(this._id)==false){
+        //    console.log(Session.get("IdKwestia"));
+        //    var newZR=this._id;
+        //
+        //    ///usuniecie starego zespołu
+        //    var kwestia=Kwestia.findOne({_id:Session.get("IdKwestia")});
+        //    if(kwestia){
+        //        var zespol=ZespolRealizacyjny.findOne({_id:kwestia.idZespolRealizacyjny});
+        //        if(zespol) {
+        //            Meteor.call('removeZespolRealizacyjny', zespol, function (error, ret) {
+        //                if (error) {
+        //                    if (typeof Errors === "undefined")
+        //                        Log.error('Error: ' + error.reason);
+        //                    else {
+        //                        throwError(error.reason);
+        //                    }
+        //                }
+        //                else{
+        //                    Meteor.call('updateIdZespolu',kwestia._id, newZR, function (error, ret) {
+        //                        if (error) {
+        //                            if (typeof Errors === "undefined")
+        //                                Log.error('Error: ' + error.reason);
+        //                            else {
+        //                                throwError(error.reason);
+        //                            }
+        //                        }
+        //                        else{
+        //                            $("#listZespolRealizacyjny").modal("hide");
+        //                            //Session.setPersistent("IdKwestiaModal",null);
+        //                        }
+        //                    });
+        //                }
+        //            });
+        //        }
+        //    }
+        //}
 
         //badam wybrany zespól.jeżeli ten co go wybral,nie jest w wybranym zespole->alert
 

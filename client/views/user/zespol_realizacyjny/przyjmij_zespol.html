@@ -10,9 +10,10 @@
 
 <template name="listZespolRealizacyjnyDoubleModalInner">
     <div class="modal-header">
-        <h4>Istnieje już Zespół Realizacyjny o o podanym składzie!</h4>
+        <h4>Wybierz Zespół Realizacyjny</h4>
     </div>
-    <div class="modal-body">
+
+    <div class="modal-body" id="modalBody">
         <div class="row">
             <div class="col-md-12">
                 {{> reactiveTable
@@ -27,10 +28,8 @@
     <div class="modal-footer">
         <div class="row">
             <div class="col-md-12">
-                <div class="col-md-6">
-                <input type="submit" data-dismiss="modal" class="btn btn-success" id="istniejacyZRButton" value="Chcę zobowiązać do realizacji istniejący ZR"/></div>
-                <div class="col-md-6">
-                <input type="submit" data-dismiss="modal" class="btn btn-success" id="nowyZRButton" value="Chcę utworzyć kolejny ZR w tym składzie"/></div>
+                <input type="submit" data-dismiss="modal" class="btn btn-default" id="powrotButton" value="Powrót"/>
+                <input type="submit" data-dismiss="modal" class="btn btn-default" id="anulujButton" value="Rezygnuj"/>
             </div>
         </div>
     </div>
@@ -38,4 +37,8 @@
 
 <template name="zespolDoubleTemplate">
     {{zespolR}}
+</template>
+
+<template name="zespolDoubleTemplateOptions">
+    <button class="btn btn-success" id="powolajZR">Powołaj ZR</button>
 </template>

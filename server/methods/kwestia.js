@@ -12,7 +12,7 @@ Meteor.methods({
             idTemat: newKwestia[0].idTemat,
             idRodzaj: newKwestia[0].idRodzaj,
             dataDyskusji: newKwestia[0].dataDyskusji,
-            dataGlosowania: moment(newKwestia[0].dataGlosowania).format(),
+            dataGlosowania: newKwestia[0].dataGlosowania,
             dataRealizacji: newKwestia[0].dataRealizacji,
             czyAktywny: newKwestia[0].czyAktywny = true,
             status: newKwestia[0].status,
@@ -45,7 +45,7 @@ Meteor.methods({
             idTemat: newKwestia[0].idTemat,
             idRodzaj: newKwestia[0].idRodzaj,
             dataDyskusji: newKwestia[0].dataDyskusji,
-            dataGlosowania: moment(newKwestia[0].dataGlosowania).format(),
+            dataGlosowania: newKwestia[0].dataGlosowania,
             czyAktywny: newKwestia[0].czyAktywny = true,
             status: newKwestia[0].status,
             krotkaTresc: newKwestia[0].krotkaTresc,
@@ -84,7 +84,7 @@ Meteor.methods({
             idTemat: newKwestiaOpcja[0].idTemat,
             idRodzaj: newKwestiaOpcja[0].idRodzaj,
             dataDyskusji: newKwestiaOpcja[0].dataDyskusji,
-            dataGlosowania: moment(newKwestiaOpcja[0].dataGlosowania).format(),
+            dataGlosowania: newKwestiaOpcja[0].dataGlosowania,
             dataRealizacji: newKwestiaOpcja[0].dataRealizacji,
             czyAktywny: newKwestiaOpcja.czyAktywny = true,
             status: newKwestiaOpcja.status = KWESTIA_STATUS.DELIBEROWANA,
@@ -161,5 +161,13 @@ Meteor.methods({
     },
     removeZespolRealizacyjny:function(object){
         ZespolRealizacyjny.remove(object);
-    }
+    },
+    updateZespolRealizacyjny:function(id,data){
+        var id = ZespolRealizacyjny.update(id, {$set: data}, {upsert: true});
+        return id;
+    },
+    updateCzlonkowieZR: function (id, czlonkowie) {
+        var id = ZespolRealizacyjny.update(id, {$set: {zespol: czlonkowie}}, {upsert: true});
+        return id;
+    },
 });
