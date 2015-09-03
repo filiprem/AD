@@ -1,14 +1,14 @@
 <template name="addKwestiaForm">
     <div class="main">
-        <legend>{{_ "addKwestiaForm.addKwestiaH3"}}</legend>
         <div class="row">
             <div class="col col-md-10">
                 <form class="form-horizontal" id="kwestiaForm">
+                    <legend>Dodaj kwestie</legend>
                     <div class="form-group" id="kwestiaNazwaGroup">
                         <label class="control-label col-xs-3" for="inputEmail">Nazwa Kwestii:</label>
 
                         <div class="col-xs-9">
-                            <input class="form-control" name="kwestiaNazwa" maxlength="100" id="kwestiaNazwa"
+                            <input class="form-control" name="kwestiaNazwa" maxlength="85" id="kwestiaNazwa"
                                    placeholder="Nazwa Kwestii" value="{{kwestiaNazwa}}" required>
                         </div>
                     </div>
@@ -33,7 +33,7 @@
                         <label class="control-label col-xs-3" for="tresc">Krótka treść:</label>
 
                         <div class="col-xs-9">
-                            <textarea class="form-control" rows="3" name="krotkaTresc" maxlength="500" id="krotkaTresc"
+                            <textarea class="form-control" rows="3" name="krotkaTresc" maxlength="410" id="krotkaTresc"
                                       placeholder="Krótka treść" required>{{krotkaTresc}}</textarea>
                         </div>
                     </div>
@@ -41,7 +41,7 @@
                         <label class="control-label col-xs-3" for="inputEmail">Opis z uzasadnieniem:</label>
 
                         <div class="col-xs-9">
-                            <textarea class="form-control" rows="6" name="szczegolowaTresc" maxlength="1500" id="szczegolowaTresc"
+                            <textarea class="form-control" rows="6" name="szczegolowaTresc" maxlength="1010" id="szczegolowaTresc"
                                       placeholder="Opis z uzasadnieniem" required>{{szczegolowaTresc}}</textarea>
                         </div>
                     </div>

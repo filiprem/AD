@@ -15,18 +15,18 @@ Template.previewParametr.events({
             kontakty: params.kontakty,
             regulamin: params.regulamin,
 
-            pktDodanieKwestii: params.pktDodanieKwestii,
-            pktDodanieKomentarza: params.pktDodanieKomentarza,
-            pktDodanieOdniesienia: params.pktDodanieOdniesienia,
-            pktNadaniePriorytetu: params.pktNadaniePriorytetu,
-            pktAwansKwestii: params.pktAwansKwestii,
-            pktUdzialWZespoleRealizacyjnym: params.pktUdzialWZespoleRealizacyjnym,
-            pktZlozenieRaportuRealizacyjnego: params.pktZlozenieRaportuRealizacyjnego,
-            pktWycofanieKwestiiDoArchiwum: params.pktWycofanieKwestiiDoArchiwum,
-            pktWycofanieKwestiiDoKosza: params.pktWycofanieKwestiiDoKosza,
-            pktWyjscieZZespoluRealizacyjnego: params.pktWyjscieZZespoluRealizacyjnego,
-            pktBrakUdzialuWGlosowaniu: params.pktBrakUdzialuWGlosowaniu,
-            okresSledzeniaWatkuPrzenoszacego: params.okresSledzeniaWatkuPrzenoszacego
+            // pktDodanieKwestii: params.pktDodanieKwestii,
+            // pktDodanieKomentarza: params.pktDodanieKomentarza,
+            // pktDodanieOdniesienia: params.pktDodanieOdniesienia,
+            // pktNadaniePriorytetu: params.pktNadaniePriorytetu,
+            // pktAwansKwestii: params.pktAwansKwestii,
+            // pktUdzialWZespoleRealizacyjnym: params.pktUdzialWZespoleRealizacyjnym,
+            // pktZlozenieRaportuRealizacyjnego: params.pktZlozenieRaportuRealizacyjnego,
+            // pktWycofanieKwestiiDoArchiwum: params.pktWycofanieKwestiiDoArchiwum,
+            // pktWycofanieKwestiiDoKosza: params.pktWycofanieKwestiiDoKosza,
+            // pktWyjscieZZespoluRealizacyjnego: params.pktWyjscieZZespoluRealizacyjnego,
+            // pktBrakUdzialuWGlosowaniu: params.pktBrakUdzialuWGlosowaniu,
+            // okresSledzeniaWatkuPrzenoszacego: params.okresSledzeniaWatkuPrzenoszacego
         };
 
         Meteor.call('updateParametr', params._id, updateParam, function (error) {

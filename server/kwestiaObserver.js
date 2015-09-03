@@ -4,6 +4,7 @@
 Badanie zmian kwestii w celu sprawdzenia czy kwestia powinna zmieniæ status z:
 deliberowana na glosowana
 glosowana na realizowana
+glosowana na archiwalna
 statusowa na oczekuj¹ca
 oczekuj¹ca na realizowana
 archiwalna na deliberowana
@@ -20,7 +21,7 @@ Meteor.startup(function(){
         }
     });
     var postyPodKwestiami = Posts.find({czyAktywny: true, postType: "deliberacja"});
-    var zespoly = ZespolRealizacyjny.find({czyAktywny: true});
+    var zespoly = ZespolRealizacyjny.find({});
 
     kwestie.observe({
         changedAt: function(newKwestia, oldKwestia, atIndex) {
@@ -82,8 +83,10 @@ Meteor.startup(function(){
     });
 });
 
+//START CRONA
 SyncedCron.start();
 
+//USTAWIENIA CRONA
 SyncedCron.add({
     name: 'checking dates crone',
     schedule: function(parser) {
@@ -91,11 +94,12 @@ SyncedCron.add({
         return parser.text('every 1 minute');
     },
     job: function() {
-        var sprawdzanieDaty = sprawdzanieDatyGlosowania();
+        var sprawdzanieDaty = sprawdzanieDat();
         return sprawdzanieDaty;
     }
 });
 
+//Nadawanie numeru uchwa³y - dla kwesti które przechodz¹ do realizacji, ka¿dego dnia numery id¹ od 1
 nadawanieNumeruUchwaly = function(dataRealizacji) {
 
     var numerUchw = 1;
@@ -110,7 +114,11 @@ nadawanieNumeruUchwaly = function(dataRealizacji) {
     return numerUchw;
 };
 
-sprawdzanieDatyGlosowania = function() {
+//Wywo³anie tej metody jest w Cronie
+//Sprawdzanie dat dla g³osowania oraz dla kwestii oczekuj¹cych
+//oczekuj¹ce do zrobienia - potrzebne dodanie do bazy jakiejœ daty kiedy kwestia przesz³a na oczekuj¹c¹
+//i wtedy dodawaæ 30 dni (taki jest termin) lub odrazu zapisywaæ termin wygaœniecia kwesti oczekuj¹cej.
+sprawdzanieDat = function() {
 
     var actualDate = new Date();
     var kwestie = Kwestia.find({czyAktywny: true, status: {$in: [KWESTIA_STATUS.GLOSOWANA, KWESTIA_STATUS.OCZEKUJACA]}});

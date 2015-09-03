@@ -14,6 +14,9 @@ decimalNumberMessage = function () {
 minLengthMessage = function (length) {
     return 'Pole musi mieć minimum ' + length + ' znaków';
 };
+maxLengthMessage = function (length) {
+    return 'Pole musi mieć maksimum ' + length + ' znaków';
+};
 validEmailMessage = function () {
     return 'Wprowadż poprawny adres email';
 };

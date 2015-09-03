@@ -198,16 +198,17 @@
                 {{> opcjeList}}
             </div>
         {{/if}}
-
-        {{#unless isAdmin}}
-            <legend id="dyskusja">Dyskusja Kwestii</legend>
-            <div class="row">
-                <div class="col-md-12">
-                    {{> discussionMain
-                    _id =_id}}
+        {{#if currentUser}}
+            {{#unless isAdmin}}
+                <legend id="dyskusja">Dyskusja Kwestii</legend>
+                <div class="row">
+                    <div class="col-md-12">
+                        {{> discussionMain
+                        _id =_id}}
+                    </div>
                 </div>
-            </div>
-        {{/unless}}
+            {{/unless}}
+        {{/if}}
     </div>
 
     {{> notifications}}
