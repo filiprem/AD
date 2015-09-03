@@ -1,6 +1,8 @@
 Meteor.methods({
     // metody Kwestia GŁÓWNA
     addKwestia: function (newKwestia) {
+        var z = ZespolRealizacyjny.insert({nazwa: "", zespol: []});
+
         var id = Kwestia.insert({
             idUser: newKwestia[0].idUser,
             dataWprowadzenia: newKwestia[0].dataWprowadzenia,
@@ -20,17 +22,20 @@ Meteor.methods({
             isOption: false,
             sugerowanyTemat: newKwestia[0].sugerowanyTemat,
             sugerowanyRodzaj: newKwestia[0].sugerowanyRodzaj,
-            numerUchwaly: newKwestia[0].numerUchwaly
+            numerUchwały: newKwestia[0].numerUchwały,
 
+            //Marzena
+            idZespolRealizacyjny: z
         });
         Kwestia.update({_id: id}, {$set: {idParent: id}}, {upsert: true});
-        var z = ZespolRealizacyjny.insert({idKwestia: id, nazwa: "", zespol: []});
         return id;
     },
     //ta metoda ma dodatkowo idZlgaszajacego,
     //gdy tworzymy kwestię statusową, idUser: to osoba zgłaszajaca doradcę na honorowego
     //idZglaszającego- osoba zgłaszana
     addKwestiaStatusowa: function (newKwestia) {
+        var z = ZespolRealizacyjny.insert({idKwestia: id, nazwa: "", zespol: []});
+
         var id = Kwestia.insert({
             idUser: newKwestia[0].idUser,
             dataWprowadzenia: newKwestia[0].dataWprowadzenia,
@@ -49,10 +54,13 @@ Meteor.methods({
             isOption: false,
             sugerowanyTemat: newKwestia[0].sugerowanyTemat,
             sugerowanyRodzaj: newKwestia[0].sugerowanyRodzaj,
-            idZgloszonego: newKwestia[0].idZgloszonego
+            idZgloszonego: newKwestia[0].idZgloszonego,
+
+            //Marzena
+            idZespolRealizacyjny: z
         });
         Kwestia.update({_id: id}, {$set: {idParent: id}}, {upsert: true});
-        var z = ZespolRealizacyjny.insert({idKwestia: id, nazwa: "", zespol: []});
+        //var z = ZespolRealizacyjny.insert({idKwestia: id, nazwa: "", zespol: []});
         return id;
     },
     updateKwestia: function (id, kwestia) {
@@ -65,6 +73,8 @@ Meteor.methods({
 
     //metody Kwestia OPCJA
     addKwestiaOpcja: function (newKwestiaOpcja) {
+        var z = ZespolRealizacyjny.insert({idKwestia: id, nazwa: "", zespol: []});
+
         var id = Kwestia.insert({
             idUser: Meteor.userId(),
             dataWprowadzenia: newKwestiaOpcja[0].dataWprowadzenia,
@@ -83,9 +93,12 @@ Meteor.methods({
             glosujacy: [],
             isOption: true,
             idParent: newKwestiaOpcja[0].idParent,
-            numerUchwaly: newKwestiaOpcja[0].numerUchwaly
+            numerUchwały: newKwestiaOpcja[0].numerUchwały,
+
+            //Marzena
+            idZespolRealizacyjny: z
         });
-        var z = ZespolRealizacyjny.insert({idKwestia: id, nazwa: "", zespol: []});
+        //var z = ZespolRealizacyjny.insert({idKwestia: id, nazwa: "", zespol: []});
         return id;
     },
     updateKwestiaRating: function (id, obj) {
@@ -137,5 +150,16 @@ Meteor.methods({
             }
         }, {upsert: true});
         return id;
+    },
+    updateIdZespolu: function (id, idZespol) {
+        var id = Kwestia.update(id, {$set: {idZespolRealizacyjny: idZespol}}, {upsert: true});
+        return id;
+    },
+    updateNazwaZR: function (id, nazwaZespolu) {
+        var id = ZespolRealizacyjny.update(id, {$set: {nazwa: nazwaZespolu}}, {upsert: true});
+        return id;
+    },
+    removeZespolRealizacyjny:function(object){
+        ZespolRealizacyjny.remove(object);
     }
 });

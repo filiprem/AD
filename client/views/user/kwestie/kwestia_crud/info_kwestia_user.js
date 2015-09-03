@@ -128,8 +128,14 @@ Template.informacjeKwestia.events({
         }
     },
     'click #czlonek1': function () {
-        var z = ZespolRealizacyjny.findOne({idKwestia: this._id});
-        zespolId = z._id;
+        //var z = ZespolRealizacyjny.findOne({idKwestia: this._id});
+        //zespolId = z._id;
+
+        //Marzena::
+        zespolId=this.idZespolRealizacyjny;
+        var z=ZespolRealizacyjny.findOne({_id: zespolId});
+        console.log("Jeden");
+
         var zespolToUpdate = z.zespol.slice();
         if(z.zespol.length>0){
             GlobalNotification.error({
@@ -140,128 +146,53 @@ Template.informacjeKwestia.events({
             return false;
         }
         else{
-            var czlonek = {
-                idUser: Meteor.userId()
-            };
-            zespolToUpdate.push(czlonek);
-            var id = ZespolRealizacyjny.update(zespolId,
-                {
-                    $set: {
-                        zespol: zespolToUpdate
-                    }
-                });
-            if(id){
-                GlobalNotification.success({
-                    title: 'Sukces',
-                    content: 'Zostałeś dodany do Zespołu Realizacyjnego. Potrzeba jeszcze 2 członków.',
-                    duration: 3 // duration the notification should stay in seconds
-                });
-                //Notifications.success('Sukces', 'Zostałeś dodany do Zespołu Realizacyjnego. Potrzeba jeszcze 2 członków.');
+
+            if(addCzlonekToZespolRealizacyjnyNotification(Meteor.userId(),zespolToUpdate,2,zespolId)==false){
+                bladNotification();
             }
-            else{
-                GlobalNotification.error({
-                    title: 'Błąd',
-                    content: 'Wystąpił błąd.',
-                    duration: 3 // duration the notification should stay in seconds
-                });
-            }
+
         }
     },
-    'click #czlonek2': function () {
-        var z = ZespolRealizacyjny.findOne({idKwestia: this._id});
-        zespolId = z._id;
+    'click #czlonek2': function () {//jezeli juz jestes
+        //var z = ZespolRealizacyjny.findOne({idKwestia: this._id});
+        //zespolId = z._id;
+        //Marzena::
+        zespolId=this.idZespolRealizacyjny;
+        var z=ZespolRealizacyjny.findOne({_id: zespolId});
+        console.log("dwa");
+
         var zespolToUpdate = z.zespol.slice();
-        for(var i=0;i< z.zespol.length;i++){
-            if(z.zespol[i].idUser == Meteor.userId()){
-                GlobalNotification.error({
-                    title: 'Błąd',
-                    content: 'Jesteś już w ZR.',
-                    duration: 3 // duration the notification should stay in seconds
-                });
-                return false;
-            }
-            else if(z.zespol[1]){
-                GlobalNotification.error({
-                    title: 'Błąd',
-                    content: 'Jest już 2 członek ZR.',
-                    duration: 3 // duration the notification should stay in seconds
-                });
-                return false
-            }
-        }
-        var czlonek = {
-            idUser: Meteor.userId()
-        }
-        zespolToUpdate.push(czlonek);
-        var id = ZespolRealizacyjny.update(zespolId,
-            {
-                $set: {
-                    zespol: zespolToUpdate
+        var liczba= 3-z.zespol.length-1;
+
+        if(isUserInZespolRealizacyjnyNotification(Meteor.userId(),zespolToUpdate)==false){//jeżeli nie jest w zespole
+            if(isUserCountInZespolRealizacyjnyNotification(Meteor.userId(),zespolToUpdate,2)==false){//jeżeli jest drugi
+
+                if(addCzlonekToZespolRealizacyjnyNotification(Meteor.userId(),zespolToUpdate,liczba,zespolId)==false){
+                    bladNotification();
                 }
-            });
-        if(id){
-            GlobalNotification.success({
-                title: 'Sukces',
-                content: 'Zostałeś dodany do Zespołu Realizacyjnego. Potrzeba jeszcze 1 członka.',
-                duration: 3 // duration the notification should stay in seconds
-            });
-            //Notifications.success('Sukces', 'Zostałeś dodany do Zespołu Realizacyjnego. Potrzeba jeszcze 1 członka.');
+            }
         }
-        else{
-            GlobalNotification.error({
-                title: 'Błąd',
-                content: 'Wystąpił błąd.',
-                duration: 3 // duration the notification should stay in seconds
-            });
-        }
+
     },
     'click #czlonek3': function () {
-        var z = ZespolRealizacyjny.findOne({idKwestia: this._id});
-        zespolId = z._id;
+        //var z = ZespolRealizacyjny.findOne({idKwestia: this._id});
+        //zespolId = z._id;
+
+        //Marzena::
+        zespolId=this.idZespolRealizacyjny;
+        var z=ZespolRealizacyjny.findOne({_id: zespolId});
+        console.log("trzy");
+
         var zespolToUpdate = z.zespol.slice();
-        for(var i=0;i< z.zespol.length;i++){
-            if(z.zespol[i].idUser == Meteor.userId()){
-                GlobalNotification.error({
-                    title: 'Błąd',
-                    content: 'Jesteś już w ZR.',
-                    duration: 3 // duration the notification should stay in seconds
-                });
-                return false;
-            }
-            else if(z.zespol[2]){
-                GlobalNotification.error({
-                    title: 'Błąd',
-                    content: 'Jest już 3 członek ZR.',
-                    duration: 3 // duration the notification should stay in seconds
-                });
-                return false;
-            }
-        }
-        var czlonek = {
-            idUser: Meteor.userId()
-        }
-        zespolToUpdate.push(czlonek);
-        var id = ZespolRealizacyjny.update(zespolId,
-            {
-                $set: {
-                    zespol: zespolToUpdate
+        var liczba= 3-z.zespol.length-1;
+
+        if(isUserInZespolRealizacyjnyNotification(Meteor.userId(),zespolToUpdate)==false){//jeżeli nie jest w zespole
+            if(isUserCountInZespolRealizacyjnyNotification(Meteor.userId(),zespolToUpdate,2)==false){
+
+                if(addCzlonekToZespolRealizacyjnyNotification(Meteor.userId(),zespolToUpdate,liczba,zespolId)==false){
+                    bladNotification();
                 }
-            });
-        if(id){
-            GlobalNotification.success({
-                title: 'Sukces',
-                content: 'Zostałeś dodany do Zespołu Realizacyjnego. Jest już 3 członków w ZR.',
-                duration: 3 // duration the notification should stay in seconds
-            });
-            //Notifications.success('Sukces', 'Zostałeś dodany do Zespołu Realizacyjnego. Jest już 3 członków w ZR.');
-            $("#addNazwa").modal("show");
-        }
-        else{
-            GlobalNotification.warning({
-                title: 'Błąd',
-                content: 'Wystąpił błąd.',
-                duration: 3 // duration the notification should stay in seconds
-            });
+            }
         }
     },
     'click #listaZR': function(){
@@ -377,46 +308,15 @@ Template.informacjeKwestia.events({
 });
 Template.informacjeKwestia.helpers({
     pierwszyCzlonekFullName: function(){
-        var z = ZespolRealizacyjny.findOne({idKwestia: this._id});
-        if(z){
-            zespolId = z._id;
-            var zespol = z.zespol;
-            if(zespol){
-                var id = zespol[0];
-                if(id){
-                    var user = Users.findOne({_id: id.idUser});
-                    return user.profile.fullName;
-                }
-            }
-        }
+        return getCzlonekFullName(0,this.idZespolRealizacyjny);
     },
     drugiCzlonekFullName: function(){
-        var z = ZespolRealizacyjny.findOne({idKwestia: this._id});
-        if(z){
-            zespolId = z._id;
-            var zespol = z.zespol;
-            if(zespol){
-                var id = zespol[1];
-                if(id){
-                    var user = Users.findOne({_id: id.idUser});
-                    return user.profile.fullName;
-                }
-            }
-        }
+        //return getCzlonekFullName(1,this._id);
+        return getCzlonekFullName(1,this.idZespolRealizacyjny);
     },
     trzeciCzlonekFullName: function(){
-        var z = ZespolRealizacyjny.findOne({idKwestia: this._id});
-        if(z){
-            zespolId = z._id;
-            var zespol = z.zespol;
-            if(zespol){
-                var id = zespol[2];
-                if(id){
-                    var user = Users.findOne({_id: id.idUser});
-                    return user.profile.fullName;
-                }
-            }
-        }
+        //return getCzlonekFullName(2,this._id);
+        return getCzlonekFullName(2,this.idZespolRealizacyjny);
     },
     thisKwestia: function () {
         var kw = Kwestia.findOne({_id: this._id});
@@ -619,5 +519,39 @@ Template.informacjeKwestia.helpers({
             return user.profile.userType == 'doradca' ? "disabled" : "";
         }
         return "";
+    },
+    unlessGlosowana:function(){
+
+        console.log(this.status);
+       return this.status==KWESTIA_STATUS.GLOSOWANA ? "disabled" :"";
+
+        //var tablica=zespolR.zespol.slice();
+        //var tablicaZ= _.pluck(tablica,'idUser');
+        //return _.contains(tablicaZ,Meteor.userId()) ? "disabled" :"";
+    },
+    getZRName:function(){
+        var kwestia=Kwestia.findOne({_id:this._id});
+        if(kwestia){
+            var zespolR= ZespolRealizacyjny.findOne({_id:kwestia.idZespolRealizacyjny});
+            console.log(zespolR);
+            if (zespolR){
+                return zespolR.zespol.slice().length==3 ? zespolR.nazwa :null;
+            }
+        }
     }
 });
+getCzlonekFullName=function(number,idZR){
+    //var z = ZespolRealizacyjny.findOne({idKwestia: idKwestia});
+    var z = ZespolRealizacyjny.findOne({_id: idZR});
+    if(z){
+        zespolId = z._id;
+        var zespol = z.zespol;
+        if(zespol){
+            var id = zespol[number];
+            if(id){
+                var user = Users.findOne({_id: id});
+                return user.profile.fullName;
+            }
+        }
+    }
+};
