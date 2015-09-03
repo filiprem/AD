@@ -17,7 +17,7 @@ Template.realizacja.helpers({
                     tmpl: Template.dataRealizKwestia
                 },
                 {
-                    key: 'numerUchwały',
+                    key: 'numerUchwaly',
                     label: Template.listKwestiaRealzacjaColumnLabel,
                     labelData: {
                         title: "Numer Uchwały",
@@ -70,7 +70,7 @@ Template.realizacja.events({
         var docDefinition = {
             content: [
                 { text: "dn. " + moment(this.dataRealizacji).format("DD.MM.YYYY").toString() + "r.", style: 'uchwalaTop'},
-                { text: "Uchwała  Numer: " + this.numerUchwały.toString() + "\nDotyczy: " + this.kwestiaNazwa , style: 'uchwalaHeadline'},
+                { text: "Uchwała  Numer: " + this.numerUchwaly.toString() + "\nDotyczy: " + this.kwestiaNazwa , style: 'uchwalaHeadline'},
                 { text: "\n\t\t\t\t\t\t" + this.szczegolowaTresc, style: 'contentStyle'}
             ],
             styles: {
@@ -93,7 +93,7 @@ Template.dataRealizKwestia.helpers({
 
 Template.numerUchwKwestia.helpers({
     number: function () {
-        return this.numerUchwały;
+        return this.numerUchwaly;
     }
 });
 

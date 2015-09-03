@@ -193,33 +193,21 @@ Template.kworumNumber.helpers({//brani są tu użytkownicy,którzy zaglosowali,c
     // do glosowania uzytkownikow :)
     date: function () {
         var usersCount = this.glosujacy.length;
-        var allUsers = Users.find({}).count(); // <- tutaj bedzie zmiana, bo trzeba bedzie ograniczyc liczbe uzytkownikow
-        // bedziemy brac tylko czlonkow zwyklych !!!!!
         var idrodzaj = this.idRodzaj;
         var r = Rodzaj.findOne({_id: idrodzaj});
         if (r) {
             if (usersCount) {
                 var data;
                 if (r.kworum == "zwykla") {
-                    var kworum = liczenieKworumZwykle(allUsers);
-                    if (kworum >= 3) {
+                    var kworum = liczenieKworumZwykle();
+                    data = usersCount.toString() + " / " + kworum.toString();
 
-                        data = usersCount.toString() + " / " + kworum.toString();
-                    }
-                    else {
-                        data = usersCount.toString() + " / 3";
-                    }
                     return data;
                 }
                 else if (r.kworum == "statutowa") {
-                    var kworum = liczenieKworumStatutowe(allUsers);
-                    if (kworum >= 3) {
+                    var kworum = liczenieKworumStatutowe();
+                    data = usersCount.toString() + " / " + kworum.toString();
 
-                        data = usersCount.toString() + " / " + kworum.toString();
-                    }
-                    else {
-                        data = usersCount.toString() + " / 3";
-                    }
                     return data;
                 }
             }

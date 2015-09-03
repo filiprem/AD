@@ -1,5 +1,6 @@
 <template name="realizacja">
         <div class="main">
+            {{#if RealizacjaListCount}}
             <h3>Lista Kwestii realizowanych</h3>
 
             <div class="pull-right">
@@ -8,19 +9,20 @@
             <hr/>
             <div class="row">
                 <div class="col-md-12">
-                {{#if RealizacjaListCount}}
+
                     {{> reactiveTable
                     class = "table table-bordered table-hover"
                     fields = settings.fields
                     settings = settings
                     collection = RealizacjaList
                     }}
-                {{else}}
-                    <label>Brak Kwestii</label>
-                {{/if}}
+
+                </div>
             </div>
+            {{else}}
+                <label>Brak Kwestii</label>
+            {{/if}}
         </div>
-    </div>
 </template>
 
 <template name="editColumnRealization">
