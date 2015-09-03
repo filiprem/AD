@@ -719,37 +719,6 @@ addCzlonekToZespolRealizacyjnyNotification=function(idUser,zespolToUpdate,number
             //to na dole będzie później!!
            // $("#listZespolRealizacyjnyDouble").modal("show");
         }
-        //////i tu dalej szloby do elsa jeśli zglosil sie dopiero uzytkownik pierwszy lub drugi,lub jak nie ma takiego zep
-        //console.log(zespoly.count());
-        //var flag = false;
-        //var foundZespolId = false;
-        //
-        //zespoly.forEach(function (zespol) {//dla każdego zespołu z bazy
-        //    console.log(zespol);
-        //    var i = -1;
-        //    _.each(zespolToUpdate, function (zespolListItem) {//dla kazdej aktualnego item z aktualnego zepsolu
-        //        console.log("zespół to update");
-        //        console.log(zespolListItem);
-        //
-        //        if (_.contains(zespol.zespol, zespolListItem)) {//jezeli z bazy tablica zawiera ten z zespołu
-        //            i++;
-        //            console.log("Jest już nr: " + i);
-        //            console.log(zespol);
-        //        }
-        //    });
-        //    if (i = zespol.zespol.length) {
-        //        console.log("Mamy taki zespół!");
-        //        console.log(zespol);
-        //        foundZespolId = zespol._id;
-        //        flag = true;
-        //        //moze sie zdarzyc,ze bd kilka zespołów o tych samym składzie,więc dajmy je do tablicy!
-        //    }
-        //});
-        //if (flag == true) {
-        //    //zrób modala z istniejącą nazwą
-        //    Session.setPersistent("zespolRealizacyjnyDouble", foundZespolId);
-        //    $("#listZespolRealizacyjnyDouble").modal("show");
-        //}
 
         else {//to znaczy,ze normalnie mnie dodają do bazy
             var text = null;
@@ -787,12 +756,25 @@ addCzlonekToZespolRealizacyjnyNotification=function(idUser,zespolToUpdate,number
         else
             komunikat = 'Zostałeś dodany do Zespołu Realizacyjnego. Potrzeba jeszcze ' + numberOfCzlonkowie + text;
 
-        GlobalNotification.success({
-            title: 'Sukces',
-            content: komunikat,
-            duration: 3 // duration the notification should stay in seconds
+        zespolToUpdate.push(idUser);
+        Meteor.call('updateCzlonkowieZR', zespolId, zespolToUpdate, function (error) {
+            if (error) {
+                if (typeof Errors === "undefined")
+                    Log.error('Error: ' + error.reason);
+                else {
+                    throwError(error.reason);
+                }
+            }
+            else{
+                GlobalNotification.success({
+                    title: 'Sukces',
+                    content: komunikat,
+                    duration: 3 // duration the notification should stay in seconds
+                });
+                return true;
+            }
         });
-        return true;
+
     }
 
 
