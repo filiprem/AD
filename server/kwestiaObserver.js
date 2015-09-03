@@ -4,6 +4,7 @@
 Badanie zmian kwestii w celu sprawdzenia czy kwestia powinna zmieniæ status z:
 deliberowana na glosowana
 glosowana na realizowana
+glosowana na archiwalna
 statusowa na oczekuj¹ca
 oczekuj¹ca na realizowana
 archiwalna na deliberowana
