@@ -2,14 +2,12 @@
     {{#if currentUser}}
         <ul class="nav nav-tabs">
             {{#if isAdminUser}}
-                <li class="{{activeRouteClass 'listUsers'}}"><a href="{{pathFor 'listUsers'}}">Użytkownicy</a></li>
+                <!-- <li class="{{activeRouteClass 'listUsers'}}"><a href="{{pathFor 'listUsers'}}">Użytkownicy</a></li> -->
                 <li class="{{activeRouteClass 'listParametr'}}"><a href="{{pathFor 'listParametr'}}">Parametry globalne</a></li>
-                <!--<li class="{{activeRouteClass 'listRaport'}}"><a href="{{pathFor 'listRaport'}}">Raporty</a></li>-->
+                <!-- <li class="{{activeRouteClass 'listRaport'}}"><a href="{{pathFor 'listRaport'}}">Raporty</a></li> -->
                 <li class="{{activeRouteClass 'listLanguages'}}"><a href="{{pathFor 'listLanguages'}}">Języki</a></li>
-                <li class="{{activeRouteClass 'listTemat'}}"><a href="{{pathFor 'listTemat'}}">Kategoryzacja</a></li>
-                <li class="{{activeRouteClass 'listaKwestiiOczekujacych'}}"><a href="{{pathFor 'listaKwestiiOczekujacych'}}">Kwestie oczekujące</a></li>
-            {{else}}
-
+                <!-- <li class="{{activeRouteClass 'listTemat'}}"><a href="{{pathFor 'listTemat'}}">Kategoryzacja</a></li> -->
+                <!-- <li class="{{activeRouteClass 'listaKwestiiOczekujacych'}}"><a href="{{pathFor 'listaKwestiiOczekujacych'}}">Kwestie oczekujące</a></li> -->
             {{/if}}
         </ul>
     {{/if}}

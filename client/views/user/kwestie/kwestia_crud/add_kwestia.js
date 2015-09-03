@@ -51,7 +51,7 @@ Template.addKwestiaForm.rendered = function () {
         rules: {
             kwestiaNazwa: {
                 checkExistsNazwaKwestii: true,
-                maxlength: 50
+                maxlength: 80
             },
             krotkaTresc: {
                 maxlength: 400
@@ -63,24 +63,15 @@ Template.addKwestiaForm.rendered = function () {
         messages: {
             kwestiaNazwa: {
                 required: fieldEmptyMessage(),
-                maxlenght: maxLengthMessage(50)
-            },
-            tematy: {
-                required: fieldEmptyMessage()
-            },
-            rodzaje: {
-                required: fieldEmptyMessage()
-            },
-            tresc: {
-                required: fieldEmptyMessage()
+                maxlength: maxLengthMessage(80)
             },
             krotkaTresc: {
                 required: fieldEmptyMessage(),
-                maxlenght: maxLengthMessage(400)
+                maxlength: maxLengthMessage(400)
             },
             szczegolowaTresc: {
                 required: fieldEmptyMessage(),
-                maxlenght: maxLengthMessage(1000)
+                maxlength: maxLengthMessage(1000)
             }
         },
         highlight: function (element) {
@@ -92,11 +83,7 @@ Template.addKwestiaForm.rendered = function () {
         errorElement: 'span',
         errorClass: 'help-block',
         errorPlacement: function (error, element) {
-            if (element.length) {
-                error.insertAfter(element);
-            } else {
-                error.insertAfter(element);
-            }
+            validationPlacementError(error, element);
         }
     })
 };

@@ -6,42 +6,42 @@
         </div>
         <div id="navbar-collapse" class="navbar-collapse collapse">
                 {{#if hasUserAccess}}
-                <ul class="nav navbar-nav">
-                    <li class="{{activeRouteClass 'listKwestia'}}">
-                        <a href="{{pathFor 'listKwestia'}}">
-                            <i class="fa fa-file-o"></i> Wykaz Kwestii
-                        </a>
-                    </li>
-                    <li class="{{activeRouteClass 'glosowanie'}}">
-                        <a href="{{pathFor 'glosowanie'}}">
-                            <i class="fa fa-file-text-o"></i> Głosowanie
-                        </a>
-                    </li>
-                    <li class="{{activeRouteClass 'realizacja'}}">
-                        <a href="{{pathFor 'realizacja'}}">
-                            <i class="fa fa-file-text"></i> Realizacja
-                        </a>
-                    </li>
-                    <li class="{{activeRouteClass 'archiwum'}}">
-                        <a href="{{pathFor 'archiwum'}}">
-                            <span class="fa fa-file-archive-o"></span> Archiwum
-                        </a>
-                    </li>
-                    {{#if currentUser}}
-                    <li class="{{activeRouteClass 'profile_list'}}">
-                        <a href="{{pathFor 'profile_list'}}">
-                            <i class="fa fa-users"></i> Użytkownicy
-                        </a>
-                    </li>
                     {{#unless isAdmin}}
-                        <li class="{{activeRouteClass 'administracjaUserMain'}}">
-                            <a href="{{pathFor 'administracjaUserMain'}}">
-                                <i class="fa fa-gears"></i> Administracja
+                    <ul class="nav navbar-nav">
+                        <li class="{{activeRouteClass 'listKwestia'}}">
+                            <a href="{{pathFor 'listKwestia'}}">
+                                <i class="fa fa-file-o"></i> Kwestie
                             </a>
                         </li>
+                        <li class="{{activeRouteClass 'glosowanie'}}">
+                            <a href="{{pathFor 'glosowanie'}}">
+                                <i class="fa fa-file-text-o"></i> Głosowanie
+                            </a>
+                        </li>
+                        <li class="{{activeRouteClass 'realizacja'}}">
+                            <a href="{{pathFor 'realizacja'}}">
+                                <i class="fa fa-file-text"></i> Realizacja
+                            </a>
+                        </li>
+                        <li class="{{activeRouteClass 'archiwum'}}">
+                            <a href="{{pathFor 'archiwum'}}">
+                                <span class="fa fa-file-archive-o"></span> Archiwum
+                            </a>
+                        </li>
+                        {{#if currentUser}}
+                        <li class="{{activeRouteClass 'profile_list'}}">
+                            <a href="{{pathFor 'profile_list'}}">
+                                <i class="fa fa-users"></i> Użytkownicy
+                            </a>
+                        </li>
+                            <li class="{{activeRouteClass 'administracjaUserMain'}}">
+                                <a href="{{pathFor 'administracjaUserMain'}}">
+                                    <i class="fa fa-gears"></i> Administracja
+                                </a>
+                            </li>
+                        {{/if}}
+                    </ul>
                     {{/unless}}
-                    {{/if}}
-                </ul>
                     {{#unless currentUser}}
                         <ul class="nav navbar-nav navbar-right">
                             <li class="{{activeRouteClass 'login_form'}}">
