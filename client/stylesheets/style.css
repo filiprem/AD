@@ -219,9 +219,14 @@ ul.notifications {
     position: fixed;
 }
 
+body #decyzjaModalId .modal-dialog{
+    /* new custom width */
+    width: 750px;
+
+}
+
 body #listZespolRealizacyjnyDouble .modal-dialog{
     /* new custom width */
-    width: 700px;
-
+    width: 750px;
 }
 

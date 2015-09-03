@@ -62,34 +62,29 @@ Template.addNazwaModal.events({
                 var text="Zespół realizacyjny ds."+nazwa;
                 var kwestia=Kwestia.findOne({_id:idKwestia});
                 if(kwestia) {
-                    Meteor.call('updateNazwaZR', kwestia.idZespolRealizacyjny, text, function (error, ret) {
-                        if (error) {
-                            if (typeof Errors === "undefined")
-                                Log.error('Error: ' + error.reason);
+                    var zespol=ZespolRealizacyjny.findOne({_id:kwestia.idZespolRealizacyjny});
+                    if(zespol) {
+                        var tablicaZR = zespol.zespol.slice();
+                        tablicaZR.push(Meteor.userId());
+                        console.log("tablica ZRRRR");
+                        console.log(tablicaZR);
+                        var newZespol={
+                            nazwa:text,
+                            zespol:tablicaZR
+                        };
+                        Meteor.call('updateZespolRealizacyjny', kwestia.idZespolRealizacyjny, newZespol, function (error, ret) {
+                            if (error) {
+                                if (typeof Errors === "undefined")
+                                    Log.error('Error: ' + error.reason);
+                                else {
+                                    throwError(error.reason);
+                                }
+                            }
                             else {
-                                throwError(error.reason);
+                                $("#addNazwa").modal("hide");
                             }
-                        }
-                        else {
-                            $("#addNazwa").modal("hide");
-                            var zespol=ZespolRealizacyjny.findOne({_id:kwestia.idZespolRealizacyjny});
-                            if(zespol) {
-                                var tablicaZR=zespol.zespol.slice();
-                                tablicaZR.push(Meteor.userId());
-                                console.log("tablica ZRRRR");
-                                console.log(tablicaZR);
-                                Meteor.call('updateZespolRealizacyjny', zespol._id, tablicaZR, function (error, ret) {
-                                    if (error) {
-                                        if (typeof Errors === "undefined")
-                                            Log.error('Error: ' + error.reason);
-                                        else {
-                                            throwError(error.reason);
-                                        }
-                                    }
-                                });
-                            }
-                        }
-                    });
+                        });
+                    }
                 }
             }
         }

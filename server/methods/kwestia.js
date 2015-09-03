@@ -161,5 +161,13 @@ Meteor.methods({
     },
     removeZespolRealizacyjny:function(object){
         ZespolRealizacyjny.remove(object);
-    }
+    },
+    updateZespolRealizacyjny:function(id,data){
+        var id = ZespolRealizacyjny.update(id, {$set: data}, {upsert: true});
+        return id;
+    },
+    updateCzlonkowieZR: function (id, czlonkowie) {
+        var id = ZespolRealizacyjny.update(id, {$set: {zespol: czlonkowie}}, {upsert: true});
+        return id;
+    },
 });
