@@ -18,6 +18,7 @@
 Template.informacjeKwestia.rendered = function () {
 };
 Template.informacjeKwestia.created = function () {
+    this.listaCzlonkow = new ReactiveVar();
 };
 Template.informacjeKwestia.events({
     'click #wyczyscPriorytety': function () {
@@ -128,69 +129,78 @@ Template.informacjeKwestia.events({
         }
     },
     'click #czlonek1': function () {
-        //var z = ZespolRealizacyjny.findOne({idKwestia: this._id});
-        //zespolId = z._id;
 
-        //Marzena::
         zespolId=this.idZespolRealizacyjny;
-        var z=ZespolRealizacyjny.findOne({_id: zespolId});
-        console.log("Jeden");
-
-        var zespolToUpdate = z.zespol.slice();
-        if(z.zespol.length>0){
-            GlobalNotification.error({
-                title: 'Błąd',
-                content: 'Jest już pierwszy członek ZR.',
-                duration: 3 // duration the notification should stay in seconds
-            });
-            return false;
+        var idUser=getZRData(0,this.idZespolRealizacyjny);
+        if(idUser==Meteor.userId()){
+            rezygnujZRAlert(getZRData(0,zespolId),this._id);
         }
-        else{
+        else {
+            var z = ZespolRealizacyjny.findOne({_id: zespolId});
 
-            if(addCzlonekToZespolRealizacyjnyNotification(Meteor.userId(),zespolToUpdate,2,zespolId)==false){
-                bladNotification();
+            var zespolToUpdate = z.zespol.slice();
+            if (z.zespol.length > 0) {
+                GlobalNotification.error({
+                    title: 'Błąd',
+                    content: 'Jest już pierwszy członek ZR.',
+                    duration: 3 // duration the notification should stay in seconds
+                });
+                return false;
             }
+            else {
 
-        }
-    },
-    'click #czlonek2': function () {//jezeli juz jestes
-        //var z = ZespolRealizacyjny.findOne({idKwestia: this._id});
-        //zespolId = z._id;
-        //Marzena::
-        zespolId=this.idZespolRealizacyjny;
-        var z=ZespolRealizacyjny.findOne({_id: zespolId});
-        console.log("dwa");
-
-        var zespolToUpdate = z.zespol.slice();
-        var liczba= 3-z.zespol.length-1;
-
-        if(isUserInZespolRealizacyjnyNotification(Meteor.userId(),zespolToUpdate)==false){//jeżeli nie jest w zespole
-            if(isUserCountInZespolRealizacyjnyNotification(Meteor.userId(),zespolToUpdate,2)==false){//jeżeli jest drugi
-
-                if(addCzlonekToZespolRealizacyjnyNotification(Meteor.userId(),zespolToUpdate,liczba,zespolId)==false){
+                if (addCzlonekToZespolRealizacyjnyNotification(Meteor.userId(), zespolToUpdate, 2, zespolId) == false) {
                     bladNotification();
+                }
+
+            }
+        }
+
+
+    },
+    'click #czlonek2': function () {
+
+        zespolId=this.idZespolRealizacyjny;
+        var idUser=getZRData(1,zespolId);
+        if(idUser==Meteor.userId()) {//to znaczy,że już jestem w zespole i mogę zrezygnować
+            rezygnujZRAlert(getZRData(1,zespolId),this._id);
+        }
+        else {
+            var z = ZespolRealizacyjny.findOne({_id: zespolId});
+
+            var zespolToUpdate = z.zespol.slice();
+            var liczba = 3 - z.zespol.length - 1;
+
+            if (isUserInZespolRealizacyjnyNotification(Meteor.userId(), zespolToUpdate) == false) {//jeżeli nie jest w zespole
+                if (isUserCountInZespolRealizacyjnyNotification(Meteor.userId(), zespolToUpdate, 2) == false) {//jeżeli jest drugi
+
+                    if (addCzlonekToZespolRealizacyjnyNotification(Meteor.userId(), zespolToUpdate, liczba, zespolId) == false) {
+                        bladNotification();
+                    }
                 }
             }
         }
 
     },
     'click #czlonek3': function () {
-        //var z = ZespolRealizacyjny.findOne({idKwestia: this._id});
-        //zespolId = z._id;
 
-        //Marzena::
         zespolId=this.idZespolRealizacyjny;
-        var z=ZespolRealizacyjny.findOne({_id: zespolId});
-        console.log("trzy");
+        var idUser=getZRData(2,this.idZespolRealizacyjny);
+        if(idUser==Meteor.userId()) {
+            rezygnujZRAlert(getZRData(1, zespolId), this._id);
+        }
+        else {
+            var z = ZespolRealizacyjny.findOne({_id: zespolId});
 
-        var zespolToUpdate = z.zespol.slice();
-        var liczba= 3-z.zespol.length-1;
+            var zespolToUpdate = z.zespol.slice();
+            var liczba = 3 - z.zespol.length - 1;
 
-        if(isUserInZespolRealizacyjnyNotification(Meteor.userId(),zespolToUpdate)==false){//jeżeli nie jest w zespole
-            if(isUserCountInZespolRealizacyjnyNotification(Meteor.userId(),zespolToUpdate,2)==false){
+            if (isUserInZespolRealizacyjnyNotification(Meteor.userId(), zespolToUpdate) == false) {//jeżeli nie jest w zespole
+                if (isUserCountInZespolRealizacyjnyNotification(Meteor.userId(), zespolToUpdate, 2) == false) {
 
-                if(addCzlonekToZespolRealizacyjnyNotification(Meteor.userId(),zespolToUpdate,liczba,zespolId)==false){
-                    bladNotification();
+                    if (addCzlonekToZespolRealizacyjnyNotification(Meteor.userId(), zespolToUpdate, liczba, zespolId) == false) {
+                        bladNotification();
+                    }
                 }
             }
         }
@@ -538,20 +548,277 @@ Template.informacjeKwestia.helpers({
                 return zespolR.zespol.slice().length==3 ? zespolR.nazwa :null;
             }
         }
+    },
+    isActualUser:function(index){
+        console.log("index:");
+        console.log(index);
+        var userID=getZRData(index,this.idZespolRealizacyjny);
+        console.log(userID);
+        if(userID){
+            if(userID!=Meteor.userId())
+                return "disabled";
+            return this.status=KWESTIA_STATUS.GLOSOWANA ? "disbaled" :"";
+        }
     }
 });
+
+//FUNKCJE
 getCzlonekFullName=function(number,idZR){
-    //var z = ZespolRealizacyjny.findOne({idKwestia: idKwestia});
+
+    var userID=getZRData(number,idZR);
+    if(userID){
+        var user = Users.findOne({_id: userID});
+        return user.profile.fullName;
+    }
+    //to było stare!
+    //var z = ZespolRealizacyjny.findOne({_id: idZR});
+    //if(z){
+    //    zespolId = z._id;
+    //    var zespol = z.zespol;
+    //    if(zespol){
+    //        var id = zespol[number];
+    //        if(id){
+    //            var user = Users.findOne({_id: id});
+    //            return user.profile.fullName;
+    //        }
+    //    }
+    //}
+};
+getZRData=function(number,idZR){
     var z = ZespolRealizacyjny.findOne({_id: idZR});
     if(z){
         zespolId = z._id;
         var zespol = z.zespol;
         if(zespol){
             var id = zespol[number];
-            if(id){
-                var user = Users.findOne({_id: id});
-                return user.profile.fullName;
-            }
+            return id ? id :null;
         }
     }
 };
+rezygnujZRAlert=function(idUserZR,idKwestia){
+    bootbox.dialog({
+        message:"Czy chcesz zrezygnować z udziału w Zespole Realizacyjnym?",
+        title: "Uwaga!",
+        buttons: {
+            success: {
+                label: "Rezygnuję",
+                className: "btn-success",
+                callback: function() {
+                    rezygnujZRFunction(idUserZR,idKwestia);
+                }
+            },
+            main: {
+                label: "Nie",
+                className: "btn-primary"
+            }
+        }
+    });
+};
+rezygnujZRFunction=function(idUserZR,idKwestia){
+
+    var kwestia=Kwestia.findOne({_id:idKwestia});
+    if(kwestia) {
+        var zespol=ZespolRealizacyjny.findOne({_id:kwestia.idZespolRealizacyjny});
+        if(zespol) {
+            var zespolR = zespol.zespol.slice();
+            zespolR= _.without(zespolR,Meteor.userId());;
+
+            Meteor.call('updateCzlonkowieZR', zespol._id, zespolR, function (error) {
+                if (error) {
+                    if (typeof Errors === "undefined")
+                        Log.error('Error: ' + error.reason);
+                    else {
+                        throwError(error.reason);
+                    }
+                }
+            });
+        }
+    }
+};
+//////////////////////////////////////////////////////////////////////////
+isUserInZespolRealizacyjnyNotification=function(id,zespolTab){
+    console.log("tablica");
+    console.log(zespolTab);
+
+    //var tab= _.pluck(zespolTab,'idUser');
+    //console.log(tab);
+    if(_.contains(zespolTab,id)){
+        //if(_.contains(tab,id)){
+        GlobalNotification.error({
+            title: 'Błąd',
+            content: 'Jesteś już w ZR.',
+            duration: 3 // duration the notification should stay in seconds
+        });
+        return true;
+    }
+    else
+        return false;
+};
+isUserCountInZespolRealizacyjnyNotification=function(id,zespolTab,numberOfCzlonkowie){
+    if(zespolTab.length==3) {
+        var komunikat='Jest już '+numberOfCzlonkowie+' członków ZR';
+        GlobalNotification.error({
+            title: 'Błąd',
+            content: komunikat,
+            duration: 3 // duration the notification should stay in seconds
+        });
+        return true;
+    }
+    return false;
+};
+addCzlonekToZespolRealizacyjnyNotification=function(idUser,zespolToUpdate,numberOfCzlonkowie,zespolId){
+
+    if(zespolToUpdate.length==2) {
+        //sprawdzam czy mamy taki zespol z idącym kolejnym członkiem
+        zespolToUpdate.push(idUser);
+
+        //var zespoly = ZespolRealizacyjny.find({//zespoly wszystkie
+        //    $where: function () {
+        //        return (this.nazwa.trim() != null && this.zespol.length >= 3)
+        //    }
+        //});
+
+        ///////wszystkie kwestie glosowane,czyli ZR się nie zmieni.jezeli jest glosowana,to wiadome,że ZR będzie ==3, a mojej nie bedzie,bo nie jest głosowana!
+        var kwestie = Kwestia.find({
+            $where: function () {
+                return (this.status==KWESTIA_STATUS.GLOSOWANA);
+            }
+        });
+        console.log("to są te kwestiee!!");
+        console.log(kwestie.count());
+        var flag=false;
+        var arrayZespolyDouble=[];
+        kwestie.forEach(function(kwestia){//odnajdujemy zespoly
+            var zespol=ZespolRealizacyjny.findOne({_id:kwestia.idZespolRealizacyjny});
+            if(zespol){
+                var i=-1;
+                _.each(zespolToUpdate, function (zespolListItem) {//dla kazdej aktualnego item z aktualnego zepsolu
+                    console.log("zespół to update");
+                    console.log(zespolListItem);
+
+                    if (_.contains(zespol.zespol, zespolListItem)) {//jezeli z bazy tablica zawiera ten z zespołu
+                        i++;
+                        console.log("Jest już nr: " + i);
+                        console.log(zespol);
+                    }
+                });
+                if (i = zespol.zespol.length) {
+                    console.log("Mamy taki zespół!");
+                    console.log(zespol);
+                    arrayZespolyDouble.push(zespol._id);
+                    flag = true;
+                    //moze sie zdarzyc,ze bd kilka zespołów o tych samym składzie,więc dajmy je do tablicy!
+                }
+            }
+        });
+        if(flag==true){//jeżeli jest choć jeden zespół!!!!!!!!!!!!!!!!!!!!!
+            //zrób modala z istniejącą nazwą
+
+            Session.setPersistent("zespolRealizacyjnyDouble", arrayZespolyDouble);
+            $("#decyzjaModalId").modal("show");
+            //to na dole będzie później!!
+           // $("#listZespolRealizacyjnyDouble").modal("show");
+        }
+        //////i tu dalej szloby do elsa jeśli zglosil sie dopiero uzytkownik pierwszy lub drugi,lub jak nie ma takiego zep
+        //console.log(zespoly.count());
+        //var flag = false;
+        //var foundZespolId = false;
+        //
+        //zespoly.forEach(function (zespol) {//dla każdego zespołu z bazy
+        //    console.log(zespol);
+        //    var i = -1;
+        //    _.each(zespolToUpdate, function (zespolListItem) {//dla kazdej aktualnego item z aktualnego zepsolu
+        //        console.log("zespół to update");
+        //        console.log(zespolListItem);
+        //
+        //        if (_.contains(zespol.zespol, zespolListItem)) {//jezeli z bazy tablica zawiera ten z zespołu
+        //            i++;
+        //            console.log("Jest już nr: " + i);
+        //            console.log(zespol);
+        //        }
+        //    });
+        //    if (i = zespol.zespol.length) {
+        //        console.log("Mamy taki zespół!");
+        //        console.log(zespol);
+        //        foundZespolId = zespol._id;
+        //        flag = true;
+        //        //moze sie zdarzyc,ze bd kilka zespołów o tych samym składzie,więc dajmy je do tablicy!
+        //    }
+        //});
+        //if (flag == true) {
+        //    //zrób modala z istniejącą nazwą
+        //    Session.setPersistent("zespolRealizacyjnyDouble", foundZespolId);
+        //    $("#listZespolRealizacyjnyDouble").modal("show");
+        //}
+
+        else {//to znaczy,ze normalnie mnie dodają do bazy
+            var text = null;
+            if (numberOfCzlonkowie == 2 || numberOfCzlonkowie == 0)
+                text = ' członków';
+            else
+                text = ' członka';
+            var komunikat = null;
+            if (numberOfCzlonkowie == 0) {
+                komunikat = 'Zostałeś dodany do Zespołu Realizacyjnego.Mamy już komplet';
+                $("#addNazwa").modal("show");
+            }
+            else
+                komunikat = 'Zostałeś dodany do Zespołu Realizacyjnego. Potrzeba jeszcze ' + numberOfCzlonkowie + text;
+
+            GlobalNotification.success({
+                title: 'Sukces',
+                content: komunikat,
+                duration: 3 // duration the notification should stay in seconds
+            });
+            return true;
+        }
+    }
+    else{
+        var text = null;
+        if (numberOfCzlonkowie == 2 || numberOfCzlonkowie == 0)
+            text = ' członków';
+        else
+            text = ' członka';
+        var komunikat = null;
+        if (numberOfCzlonkowie == 0) {
+            komunikat = 'Zostałeś dodany do Zespołu Realizacyjnego.Mamy już komplet';
+            $("#addNazwa").modal("show");
+        }
+        else
+            komunikat = 'Zostałeś dodany do Zespołu Realizacyjnego. Potrzeba jeszcze ' + numberOfCzlonkowie + text;
+
+        GlobalNotification.success({
+            title: 'Sukces',
+            content: komunikat,
+            duration: 3 // duration the notification should stay in seconds
+        });
+        return true;
+    }
+
+
+};
+bladNotification=function(){
+    GlobalNotification.error({
+        title: 'Błąd',
+        content: 'Wystąpił błąd.',
+        duration: 3 // duration the notification should stay in seconds
+    });
+};
+
+isUserInZRNotification=function(idZespolu){
+    var zespol=ZespolRealizacyjny.findOne({_id:idZespolu});
+    console.log(zespol._id);
+    if(zespol) {
+        if (!_.contains(zespol.zespol, Meteor.userId())) {
+            GlobalNotification.error({
+                title: 'Uwaga',
+                content: 'Niestety, decyzję o realizowaniu tej Kwestii może podjąć jedynie członek zespołu. Poproś jednego z nich, aby przyjął realizację, wybierz inny Zespół, lub stwórz nowy. ',
+                duration: 5 // duration the notification should stay in seconds
+            });
+            return true;
+        }
+        else return false;
+    }
+    return false;
+};
+

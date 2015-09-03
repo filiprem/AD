@@ -155,21 +155,21 @@
                         {{#unless pierwszyCzlonekFullName}}
                             <button class="btn btn-success" id="czlonek1">Zgadzam się</button>
                         {{else}}
-                            <button class="btn btn-success" id="czlonek1" disabled>{{pierwszyCzlonekFullName}}</button>
+                            <button class="btn btn-success" id="czlonek1" {{isActualUser 0}}>{{pierwszyCzlonekFullName}}</button>
                         {{/unless}}
                     </td>
                     <td><strong>Członek nr 2</strong> &nbsp; &nbsp;
                         {{#unless drugiCzlonekFullName}}
                             <button class="btn btn-success" id="czlonek2">Zgadzam się</button>
                         {{else}}
-                            <button class="btn btn-success" id="czlonek2" disabled>{{drugiCzlonekFullName}}</button>
+                            <button class="btn btn-success" id="czlonek2" {{isActualUser 1}}>{{drugiCzlonekFullName}}</button>
                         {{/unless}}
                     </td>
                     <td><strong>Członek nr 3</strong> &nbsp; &nbsp;
                         {{#unless trzeciCzlonekFullName}}
                             <button class="btn btn-success" id="czlonek3">Zgadzam się</button>
                         {{else}}
-                            <button class="btn btn-success" id="czlonek3" disabled>{{trzeciCzlonekFullName}}</button>
+                            <button class="btn btn-success" id="czlonek3" {{isActualUser 2}}>{{trzeciCzlonekFullName}}</button>
                         {{/unless}}
                     </td>
                     <td>
@@ -199,6 +199,7 @@
     {{> notifications}}
     {{> listZespolRealizacyjnyModal}}
     {{> addNazwaModal}}
+    {{>decyzjaModal}}
     {{>listZespolRealizacyjnyDoubleModal}}
     {{> GlobalNotifications}}
 
