@@ -21,7 +21,7 @@ Meteor.startup(function(){
         }
     });
     var postyPodKwestiami = Posts.find({czyAktywny: true, postType: "deliberacja"});
-    var zespoly = ZespolRealizacyjny.find({czyAktywny: true});
+    var zespoly = ZespolRealizacyjny.find({});
 
     kwestie.observe({
         changedAt: function(newKwestia, oldKwestia, atIndex) {
