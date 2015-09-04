@@ -167,7 +167,7 @@ awansUzytkownika = function(idZespoluRealiz, pktZaUdzialWZesp) {
     var zespol = ZespolRealizacyjny.findOne({_id: idZespoluRealiz}).zespol;
 
     zespol.forEach(function (idUzytkownikaZespolu){
-        var uzytkownikAwansujacy = users.findOne({_id: idUzytkownikaZespolu});
+        var uzytkownikAwansujacy = Users.findOne({_id: idUzytkownikaZespolu});
         uzytkownikAwansujacy.profile.rADking += pktZaUdzialWZesp;
         Meteor.call('updateUserRanking',idUzytkownikaZespolu, uzytkownikAwansujacy.profile.rADking);
     });
