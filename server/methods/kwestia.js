@@ -119,15 +119,6 @@ Meteor.methods({
         var id = Kwestia.update(id, {$set: {wartoscPriorytetu: obj}}, {upsert: true});
         return id;
     },
-    updateZespolRealizacyjny: function (id, obj) {
-        var id = ZespolRealizacyjny.update(id,
-            {
-                $set: {
-                    zespol: obj
-                }
-            });
-        return id;
-    },
     updateStatusKwestii: function (id, status) {
         var id = Kwestia.update(id, {$set: {status: status}}, {upsert: true});
         return id;
@@ -150,24 +141,5 @@ Meteor.methods({
             }
         }, {upsert: true});
         return id;
-    },
-    updateIdZespolu: function (id, idZespol) {
-        var id = Kwestia.update(id, {$set: {idZespolRealizacyjny: idZespol}}, {upsert: true});
-        return id;
-    },
-    updateNazwaZR: function (id, nazwaZespolu) {
-        var id = ZespolRealizacyjny.update(id, {$set: {nazwa: nazwaZespolu}}, {upsert: true});
-        return id;
-    },
-    removeZespolRealizacyjny:function(object){
-        ZespolRealizacyjny.remove(object);
-    },
-    updateZespolRealizacyjny:function(id,data){
-        var id = ZespolRealizacyjny.update(id, {$set: data}, {upsert: true});
-        return id;
-    },
-    updateCzlonkowieZR: function (id, czlonkowie) {
-        var id = ZespolRealizacyjny.update(id, {$set: {zespol: czlonkowie}}, {upsert: true});
-        return id;
-    },
+    }
 });

@@ -19,7 +19,7 @@ Template.listZespolRealizacyjnyModalInner.helpers({
     ZRList: function(){//tutaj lista wszystkich zespołow juz zatweirdzonych
         var kwestie = Kwestia.find({
             $where: function () {
-                return (this.status==KWESTIA_STATUS.GLOSOWANA);
+                return (this.status==KWESTIA_STATUS.GLOSOWANA || this.status==KWESTIA_STATUS.REALIZOWANA);
             }
         });
         var arrayZespol=[];
@@ -62,51 +62,5 @@ Template.listZespolRealizacyjnyModalInner.events({
         if(isUserInZRNotification(this._id)==false) {//jezeli jestem w  takowym zespole
             powolajZRFunction(Session.get("idKwestia"),this._id);
         }
-        //if(isUserInZRNotification(this._id)==false){
-        //    console.log(Session.get("IdKwestia"));
-        //    var newZR=this._id;
-        //
-        //    ///usuniecie starego zespołu
-        //    var kwestia=Kwestia.findOne({_id:Session.get("IdKwestia")});
-        //    if(kwestia){
-        //        var zespol=ZespolRealizacyjny.findOne({_id:kwestia.idZespolRealizacyjny});
-        //        if(zespol) {
-        //            Meteor.call('removeZespolRealizacyjny', zespol, function (error, ret) {
-        //                if (error) {
-        //                    if (typeof Errors === "undefined")
-        //                        Log.error('Error: ' + error.reason);
-        //                    else {
-        //                        throwError(error.reason);
-        //                    }
-        //                }
-        //                else{
-        //                    Meteor.call('updateIdZespolu',kwestia._id, newZR, function (error, ret) {
-        //                        if (error) {
-        //                            if (typeof Errors === "undefined")
-        //                                Log.error('Error: ' + error.reason);
-        //                            else {
-        //                                throwError(error.reason);
-        //                            }
-        //                        }
-        //                        else{
-        //                            $("#listZespolRealizacyjny").modal("hide");
-        //                            //Session.setPersistent("IdKwestiaModal",null);
-        //                        }
-        //                    });
-        //                }
-        //            });
-        //        }
-        //    }
-        //}
-
-        //badam wybrany zespól.jeżeli ten co go wybral,nie jest w wybranym zespole->alert
-
-       // $("#listZespolRealizacyjny").modal("hide");
-
-        //modal sie zamknie
-        //pojaw sie nowy bootbox,
-        //wpiszemy nazwę zespołu, beda wypisani członkowie.ok,ok
-        //zupdetują sie wyświetleni,nadpiszemy aktualny zespół realizacyjny? i do widzenia
-
     }
 });

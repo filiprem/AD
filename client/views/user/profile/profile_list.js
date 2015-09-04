@@ -63,7 +63,7 @@ Template.profileList.helpers({
     UserListAdmin: function () {
         return Users.find({
             $where: function () {
-                return ((this.roles != 'admin') && (this._id != Meteor.userId()));
+                return (this.roles != 'admin');
             }
         }).fetch();
     },
@@ -188,7 +188,7 @@ Template.optionsColumnProfile.helpers({
             else {
                 var user = Users.findOne({_id: this._id});
                 if (user) {
-                    if (user.profile.userType == 'członek')
+                    if (user.profile.userType == 'członek' || user._id==Meteor.userId())
                         return false;
                     else {
                         //sprawdzam czy przypadkiem juz nie aplikowal

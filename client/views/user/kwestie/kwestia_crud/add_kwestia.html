@@ -15,17 +15,25 @@
                     <div class="form-group" id="tematyGroup">
                         <label class="control-label col-xs-3" for="inputEmail">Temat:</label>
 
-                        <div class="col-xs-9">
-                            <input class="form-control" type="text" value="(kategoryzowane)" name="tematy" id="tematy"
-                                   disabled/>
+                        <div class="col-xs-8">
+                            <input class="form-control" type="text"  name="tematy" id="tematy" value="{{tematChosen}}"/>
+                        </div>
+                        <div class="col-xs-1">
+                            <button type="button" class="btn btn-default" aria-label="Left Align" data-toggle="tooltip" title="Wybierz z listy" id="wybierzTematClick">
+                                <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+                            </button>
                         </div>
                     </div>
                     <div class="form-group" id="rodzajeGroup">
                         <label class="control-label col-xs-3" for="inputEmail">Rodzaj:</label>
 
-                        <div class="col-xs-9">
-                            <input class="form-control" type="text" value="(kategoryzowane)" name="rodzaje" id="rodzaje"
-                                   disabled/>
+                        <div class="col-xs-8">
+                            <input class="form-control" type="text" name="rodzaje" id="rodzaje"/>
+                        </div>
+                        <div class="col-xs-1">
+                            <button type="button" class="btn btn-default" aria-label="Left Align" data-toggle="tooltip" title="Wybierz z listy" id="wybierzRodzajClick">
+                                <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+                            </button>
                         </div>
                     </div>
                     <legend>Treść Kwestii</legend>
@@ -45,26 +53,7 @@
                                       placeholder="Opis z uzasadnieniem" required>{{szczegolowaTresc}}</textarea>
                         </div>
                     </div>
-                    <legend>Opcje dodatkowe</legend>
-                    <input type="hidden" value="{{sugerowanyRodzaj}}" id="rodzajHidden"/>
-                    <input type="hidden" value="{{sugerowanyTemat}}" id="tematHidden"/>
 
-                    <div class="form-group">
-                        <label class="control-label col-xs-3" for="sugerowanyTemat">Sugerowany temat:</label>
-
-                        <div class="col-xs-9">
-                            <input type="text" placeholder="Sugerowny temat" name="sugerowanyTemat"
-                                   id="sugerowanyTemat"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-xs-3" for="sugerowanyRodzaj">Sugerowany rodzaj:</label>
-
-                        <div class="col-xs-9">
-                            <input type="text" placeholder="Sugerowany rodzaj" name="sugerowanyRodzaj"
-                                   id="sugerowanyRodzaj"/>
-                        </div>
-                    </div>
                     <div class="form-group">
                         <div class="col-xs-offset-3 col-xs-9">
                             <input type="submit" class="btn btn-primary" value="Dodaj">
@@ -75,4 +64,6 @@
             </div>
         </div>
     </div>
+    {{>choseTematModal}}
+    {{>choseRodzajModal}}
 </template>

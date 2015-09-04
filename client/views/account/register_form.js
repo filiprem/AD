@@ -83,7 +83,7 @@ Template.registerForm.events({
             }];
         //-- generowanie loginu dla użytkownika
         newUser[0].login = generateLogin(newUser[0].firstName, newUser[0].lastName);
-        Meteor.call('addUser', newUser, function (error) {
+        Meteor.call('addUser', newUser, function (error,ret) {
             if (error) {
                 // optionally use a meteor errors package
                 if (typeof Errors === "undefined")
@@ -94,10 +94,29 @@ Template.registerForm.events({
                 }
             }
             else {//jeżeli poprawne dane
+                var addedUser=ret;
                 Meteor.loginWithPassword(newUser[0].login, newUser[0].password, function (err) {
                     if (err) {
                         throwError('Niepoprawne dane logowania.');
                     } else {
+                        var zespol=ZespolRealizacyjny.findOne();
+                        if(zespol) {
+                            if(zespol.zespol.length<3) {
+                                var ZR=zespol.zespol.slice();
+                                ZR.push(addedUser);
+                                Meteor.call('updateCzlonkowieZR', zespol._id,ZR, function (error, ret) {
+                                    if (error) {
+                                        // optionally use a meteor errors package
+                                        if (typeof Errors === "undefined")
+                                            Log.error('Error: ' + error.reason);
+                                        else {
+                                            //if(error.error === 409)
+                                            throwError(error.reason);
+                                        }
+                                    }
+                                });
+                            }
+                        }
                         if (Meteor.loggingIn()) {
                             Router.go('home');
                         }
@@ -113,6 +132,7 @@ Template.registerForm.events({
                         });
                     }
                 });
+
             }
         });
     },
