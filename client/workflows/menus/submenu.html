@@ -1,8 +1,7 @@
 <template name="subMenu">
     {{#if currentUser}}
         <ul class="nav nav-tabs">
-            {{#unless isAdminUser}}    
-                <li class="{{activeRouteClass 'listUsers'}}"><a href="{{pathFor 'listUsers'}}">Użytkownicy</a></li>
+            {{#unless isAdminUser}}
                 <li class="{{activeRouteClass 'listParametr'}}"><a href="{{pathFor 'listParametr'}}">Parametry globalne</a></li>
                 <!-- <li class="{{activeRouteClass 'listRaport'}}"><a href="{{pathFor 'listRaport'}}">Raporty</a></li> -->
             {{/unless}}
