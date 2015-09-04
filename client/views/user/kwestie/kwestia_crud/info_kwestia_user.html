@@ -147,50 +147,52 @@
         </table>
 
         {{#if currentUser}}
-            {{#unless unlessGlosowana}}
-            <legend>Zgłoszenie do Zespołu Realizacyjnego</legend>
-             <!--<p><strong>{{getZRName}} </strong></p>-->
-            <table class="table manageTable">
-                <tr>
-                    <td><strong>Członek nr 1</strong> &nbsp; &nbsp;
-                        {{#unless pierwszyCzlonekFullName}}
-                            <button class="btn btn-success" id="czlonek1">Zgadzam się</button>
-                        {{else}}
-                            <button class="btn btn-success" id="czlonek1" {{isActualUser 0}}>{{pierwszyCzlonekFullName}}</button>
-                        {{/unless}}
-                    </td>
-                    <td><strong>Członek nr 2</strong> &nbsp; &nbsp;
-                        {{#unless drugiCzlonekFullName}}
-                            <button class="btn btn-success" id="czlonek2">Zgadzam się</button>
-                        {{else}}
-                            <button class="btn btn-success" id="czlonek2" {{isActualUser 1}}>{{drugiCzlonekFullName}}</button>
-                        {{/unless}}
-                    </td>
-                    <td><strong>Członek nr 3</strong> &nbsp; &nbsp;
-                        {{#unless trzeciCzlonekFullName}}
-                            <button class="btn btn-success" id="czlonek3">Zgadzam się</button>
-                        {{else}}
-                            <button class="btn btn-success" id="czlonek3" {{isActualUser 2}}>{{trzeciCzlonekFullName}}</button>
-                        {{/unless}}
-                    </td>
-                    <td>
-                        <button class="btn btn-primary" id="listaZR">Sprawdź istniejące ZR</button>
-                    </td>
-                </tr>
-            </table>
-            {{else}}
-            <legend>Zespół realizacyjny</legend>
-            <table class="table table-bordered manageTable">
-                <tr>
-                    <td><strong> Nazwa Zespołu</strong></td>
-                    <td>{{getZRName}}
-                        <a id="printResolution" data-toggle="tooltip" data-placement="top" title={{getZRCzlonkowie}}>
-                            <i class="fa fa-male fa-lg"></i>
-                        </a>
-                    </td>
-                </tr>
-            </table>
-            {{/unless}}
+            {{#if czyAdministrowana}}
+                {{#unless unlessGlosowana}}
+                <legend>Zgłoszenie do Zespołu Realizacyjnego</legend>
+                 <!--<p><strong>{{getZRName}} </strong></p>-->
+                <table class="table manageTable">
+                    <tr>
+                        <td><strong>Członek nr 1</strong> &nbsp; &nbsp;
+                            {{#unless pierwszyCzlonekFullName}}
+                                <button class="btn btn-success" id="czlonek1">Zgadzam się</button>
+                            {{else}}
+                                <button class="btn btn-success" id="czlonek1" {{isActualUser 0}}>{{pierwszyCzlonekFullName}}</button>
+                            {{/unless}}
+                        </td>
+                        <td><strong>Członek nr 2</strong> &nbsp; &nbsp;
+                            {{#unless drugiCzlonekFullName}}
+                                <button class="btn btn-success" id="czlonek2">Zgadzam się</button>
+                            {{else}}
+                                <button class="btn btn-success" id="czlonek2" {{isActualUser 1}}>{{drugiCzlonekFullName}}</button>
+                            {{/unless}}
+                        </td>
+                        <td><strong>Członek nr 3</strong> &nbsp; &nbsp;
+                            {{#unless trzeciCzlonekFullName}}
+                                <button class="btn btn-success" id="czlonek3">Zgadzam się</button>
+                            {{else}}
+                                <button class="btn btn-success" id="czlonek3" {{isActualUser 2}}>{{trzeciCzlonekFullName}}</button>
+                            {{/unless}}
+                        </td>
+                        <td>
+                            <button class="btn btn-primary" id="listaZR">Sprawdź istniejące ZR</button>
+                        </td>
+                    </tr>
+                </table>
+                {{else}}
+                <legend>Zespół realizacyjny</legend>
+                <table class="table table-bordered manageTable">
+                    <tr>
+                        <td><strong> Nazwa Zespołu</strong></td>
+                        <td>{{getZRName}}
+                            <a id="printResolution" data-toggle="tooltip" data-placement="top" title={{getZRCzlonkowie}}>
+                                <i class="fa fa-male fa-lg"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+                {{/unless}}
+            {{/if}}
         {{/if}}
 
         {{#if ifHasOpcje}}

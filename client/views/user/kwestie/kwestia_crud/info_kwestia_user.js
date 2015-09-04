@@ -314,6 +314,16 @@ Template.informacjeKwestia.events({
     }
 });
 Template.informacjeKwestia.helpers({
+
+    czyAdministrowana: function(){
+        var a = Kwestia.findOne({_id: this._id});
+        if(a.status == "administrowana"){
+            return false;
+        }
+        else{
+            return true;
+        }
+    },
     pierwszyCzlonekFullName: function(){
         return getCzlonekFullName(0,this.idZespolRealizacyjny);
     },
