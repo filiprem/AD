@@ -147,6 +147,7 @@
         </table>
 
         {{#if currentUser}}
+           {{#if CzyAdministrowana}}
             <legend>Zgłoszenie do Zespołu Realizacyjnego</legend>
             <table class="table manageTable">
                 <tr>
@@ -176,6 +177,7 @@
                     </td>
                 </tr>
             </table>
+            {{/if}}
         {{/if}}
 
         {{#if ifHasOpcje}}

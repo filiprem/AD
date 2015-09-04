@@ -13,7 +13,7 @@ Template.editParametry.rendered = function () {
             regulamin: {
                 required: fieldEmptyMessage()
             },
-            dodanieKwestii: {
+       /*     dodanieKwestii: {
                 min: negativeNumberMessage(),
                 required: fieldEmptyMessage()
             },
@@ -59,7 +59,7 @@ Template.editParametry.rendered = function () {
             },
             okresSledzeniaWatkuPrzenoszacego: {
                 required: fieldEmptyMessage()
-            }
+            }*/
         },
         highlight: function (element) {
             highlightFunction(element);
@@ -96,7 +96,7 @@ Template.editParametry.events({
         if (reg != parameter.regulamin) {
             tab.push(setParamInfo("REGULAMIN", parameter.regulamin, reg));
         }
-        var dodKwestii = $(e.target).find('[name=dodanieKwestii]').val();
+      /*  var dodKwestii = $(e.target).find('[name=dodanieKwestii]').val();
         if (dodKwestii != parameter.pktDodanieKwestii) {
             tab.push(setParamInfo("DODANIE KWESTII", parameter.pktDodanieKwestii, dodKwestii));
         }
@@ -144,7 +144,7 @@ Template.editParametry.events({
         if (okrSledzeniaWatku != parameter.okresSledzeniaWatkuPrzenoszacego) {
             tab.push(setParamInfo("OKRES ŚLEDZENIA WĄTKU PRZENOSZĄCEGO", parameter.okresSledzeniaWatkuPrzenoszacego, okrSledzeniaWatku));
         }
-
+*/
         var newParametr = [
             {
                 _id: this._id,
@@ -153,7 +153,7 @@ Template.editParametry.events({
                 kontakty: kont,
                 regulamin: reg,
 
-                pktDodanieKwestii: parseInt(dodKwestii),
+             /*   pktDodanieKwestii: parseInt(dodKwestii),
                 pktDodanieKomentarza: parseInt(dodKomentarza),
                 pktDodanieOdniesienia: parseInt(dodOdniesienia),
                 pktNadaniePriorytetu: parseInt(nadaniePrior),
@@ -164,7 +164,7 @@ Template.editParametry.events({
                 pktWycofanieKwestiiDoKosza: parseInt(wycofanieKwDoKosza),
                 pktWyjscieZZespoluRealizacyjnego: parseInt(wyjscieZZesp),
                 pktBrakUdzialuWGlosowaniu: parseInt(brakUdzWGlos),
-                okresSledzeniaWatkuPrzenoszacego: parseInt(okrSledzeniaWatku)
+                okresSledzeniaWatkuPrzenoszacego: parseInt(okrSledzeniaWatku)*/
             }];
         if (tab.length > 0) {
             Session.setPersistent("tablica", tab);
@@ -172,12 +172,7 @@ Template.editParametry.events({
             Router.go("previewParametr");
         }
         else {
-            GlobalNotification.error({
-                title: 'Błąd',
-                content: 'Nie wprowadziłeś żadnych zmian!',
-                duration: 3 // duration the notification should stay in seconds
-            });
-            //throwError("Nie wprowadziłeś żadnych zmian");
+            throwError("Nie wprowadziłeś żadnych zmian");
         }
     },
     'reset form': function () {

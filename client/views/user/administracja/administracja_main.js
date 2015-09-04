@@ -15,9 +15,12 @@ Template.administracjaUserMain.helpers({
                 },
                 {
                     key: 'kwestiaNazwa',
-                    label: Template.listKwestiaAdminColumnLabel,
-                    labelData: {title: "Kliknij, aby zobaczyć szczegóły", text: "Nazwa Kwestii"},
-                    tmpl: Template.nazwaKwestii
+                    label: Template.listKwestiaColumnLabel,
+                    labelData: {
+                        title: "Kliknij, aby zobaczyć szczegóły",
+                        text: "Nazwa Kwestii"
+                    },
+                    tmpl: Template.nazwaKwestiLink
                 },
                 {key: 'status', label: "Status", tmpl: Template.statusKwestii},
                 //{key: 'options', label: "Opcje", tmpl: Template.editTypeAndTopic }
@@ -25,10 +28,17 @@ Template.administracjaUserMain.helpers({
         };
     },
     listOfIssues: function () {
-        var k = Kwestia.find({}).fetch();
+     /*   var k = Kwestia.find({}).fetch();
         if (k) {
             return k;
-        }
+        }*/
+         var kwestie = Kwestia.find({
+            $where: function () {
+                return ((this.czyAktywny == true) && ((this.status==KWESTIA_STATUS.ADMINISTROWANA) ||(this.status==KWESTIA_STATUS.OSOBOWA) || (this.idUser==Meteor.idUser())));
+            }
+        });
+        if(kwestie) return kwestie;
+        return null;
     },
     listOfIssuesCount: function () {
         var ile = Kwestia.find({}).count();

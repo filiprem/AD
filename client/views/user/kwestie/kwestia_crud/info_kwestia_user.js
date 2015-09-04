@@ -376,6 +376,17 @@ Template.informacjeKwestia.events({
     }
 });
 Template.informacjeKwestia.helpers({
+
+    CzyAdministrowana : function()
+    {
+        var a = Kwestia.findOne({idKwestia: this._id});
+        if(a.status.equals("administrowana")){
+          return false ;
+        }
+        else{
+          return true ;
+        }
+    },
     pierwszyCzlonekFullName: function(){
         var z = ZespolRealizacyjny.findOne({idKwestia: this._id});
         if(z){
