@@ -100,7 +100,7 @@ Template.archiwum.helpers({
         //return Kwestia.find({$where:function(){return ((this.czyAktywny==false) || (moment(this.dataGlosowania) < moment()&& this.wartoscPriorytetu < this.pulapPriorytetu));}}).fetch();
         return Kwestia.find({
             $or: [
-                {czyAktywny: false},
+                {czyAktywny: true},
                 {
                     $and: [{dataGlosowania: {$lt: moment().format()}}, {
                         $where: function () {
@@ -116,7 +116,7 @@ Template.archiwum.helpers({
     'ArchiwumListCount': function () {
         var count = Kwestia.find({
             $or: [
-                {czyAktywny: false},
+                {czyAktywny: true},
                 {
                     $and: [{dataGlosowania: {$lt: moment().format()}}, {
                         $where: function () {

@@ -24,8 +24,8 @@ Template.informacjeKwestia.events({
     'click #wyczyscPriorytety': function () {
         var me = Meteor.userId();
         var currentKwestiaId = Session.get("idKwestia");
-        var kwestie = Kwestia.find({'glosujacy.idUser': me, idParent: currentKwestiaId}).fetch()
-        if (Kwestia.find({'glosujacy.idUser': me, idParent: currentKwestiaId}).count() == 0) {//zmienic,czy wszedzie są zero!
+        var kwestie = Kwestia.find({czyAktywny: true, 'glosujacy.idUser': me, idParent: currentKwestiaId}).fetch()
+        if (Kwestia.find({czyAktywny: true, 'glosujacy.idUser': me, idParent: currentKwestiaId}).count() == 0) {//zmienic,czy wszedzie są zero!
             GlobalNotification.error({
                 title: 'Błąd',
                 content: 'Nie nadałeś priorytetu tej Kwestii, ani jej opcjom!',
@@ -256,7 +256,7 @@ Template.informacjeKwestia.events({
         var ratingKwestiaId = this._id;
         var kwestia = Kwestia.findOne({_id: ratingKwestiaId});
         var parent = this.idParent;
-        var kwestieOpcje = Kwestia.find({idParent: parent}).fetch();
+        var kwestieOpcje = Kwestia.find({czyAktywny: true, idParent: parent}).fetch();
         var glosujacy = [];
         var glosujacy = kwestia.glosujacy;
         var glosujacyTab = kwestia.glosujacy.slice();
@@ -345,7 +345,7 @@ Template.informacjeKwestia.helpers({
             return false;
     },
     kwestiaOpcjaCount: function () {
-        var ile = Kwestia.find({idParent: this.idParent}).count();
+        var ile = Kwestia.find({czyAktywny: true, idParent: this.idParent}).count();
         if (ile == 10)
             return false;
         else
@@ -353,7 +353,7 @@ Template.informacjeKwestia.helpers({
     },
     ifHasOpcje: function () {
         var kwestiaGlownaId = this._id;
-        var k = Kwestia.find({idParent: kwestiaGlownaId, isOption: true}).fetch();
+        var k = Kwestia.find({czyAktywny: true, idParent: kwestiaGlownaId, isOption: true}).fetch();
         if (k)
             return true;
         else
@@ -361,7 +361,7 @@ Template.informacjeKwestia.helpers({
     },
     opcje: function () {
         var kwestiaGlownaId = Session.get("idKwestia");
-        var op = Kwestia.find({idParent: kwestiaGlownaId}).fetch();
+        var op = Kwestia.find({czyAktywny: true, idParent: kwestiaGlownaId}).fetch();
         if (op)
             return true;
         else
@@ -428,7 +428,7 @@ Template.informacjeKwestia.helpers({
         }
         var flag = false;
         var currentKwestiaId = Session.get("idKwestia");
-        var kwestie = Kwestia.find({'glosujacy.idUser': Meteor.userId(), idParent: currentKwestiaId}).fetch();
+        var kwestie = Kwestia.find({czyAktywny: true, 'glosujacy.idUser': Meteor.userId(), idParent: currentKwestiaId}).fetch();
         kwestie.forEach(function (kwestia) {
             var array = [];
             var tabGlosujacych = kwestia.glosujacy;
@@ -445,7 +445,7 @@ Template.informacjeKwestia.helpers({
     isAvailable: function () {
         var i = 0;
         var currentKwestiaId = Session.get("idKwestia");
-        var kwestie = Kwestia.find({'glosujacy.idUser': Meteor.userId(), idParent: currentKwestiaId}).fetch();
+        var kwestie = Kwestia.find({czyAktywny: true, 'glosujacy.idUser': Meteor.userId(), idParent: currentKwestiaId}).fetch();
         var globalCounter = 0;
         kwestie.forEach(function (kwestia) {
             var array = [];

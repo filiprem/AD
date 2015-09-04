@@ -116,7 +116,7 @@ Meteor.publish('kwestieGlosowane', function () {
 Meteor.publish('kwestieArchiwum', function () {
     return Kwestia.find({
         $or: [
-            {czyAktywny: false},
+            {czyAktywny: true},
             {
                 $and: [{dataGlosowania: {$lt: moment().format()}}, {
                     $where: function () {

@@ -15,7 +15,7 @@ Template.adminTemplate.helpers({
         return Raport.find().count();
     },
     kwestieCount: function () {
-        return Kwestia.find().count();
+        return Kwestia.find({czyAktywny: true}).count();
     }
 });
 
@@ -81,7 +81,7 @@ function builtColumn() {
             },
             {
                 name: 'Kwestie',
-                data: [Kwestia.find().count()]
+                data: [Kwestia.find({czyAktywny: true}).count()]
             }
         ]
     });

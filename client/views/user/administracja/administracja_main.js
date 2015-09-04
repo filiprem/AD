@@ -25,13 +25,13 @@ Template.administracjaUserMain.helpers({
         };
     },
     listOfIssues: function () {
-        var k = Kwestia.find({}).fetch();
+        var k = Kwestia.find({czyAktywny: true}).fetch();
         if (k) {
             return k;
         }
     },
     listOfIssuesCount: function () {
-        var ile = Kwestia.find({}).count();
+        var ile = Kwestia.find({czyAktywny: true}).count();
         return ile > 0 ? true : false;
     }
 });

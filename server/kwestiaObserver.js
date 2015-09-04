@@ -1,13 +1,13 @@
 /**
  * Created by Bart³omiej Szewczyk on 2015-08-31.
 
-Badanie zmian kwestii w celu sprawdzenia czy kwestia powinna zmieniæ status z:
-deliberowana na glosowana
-glosowana na realizowana
-glosowana na archiwalna
-statusowa na oczekuj¹ca
-oczekuj¹ca na realizowana
-archiwalna na deliberowana
+Badanie zmian w postach, zespo³ach i kwestii w celu sprawdzenia czy kwestia powinna zmieniæ status z:
+ deliberowana na glosowana
+ glosowana na realizowana
+ glosowana na archiwalna
+ statusowa na oczekuj¹ca
+ oczekuj¹ca na realizowana
+ archiwalna na deliberowana
  */
 
 Meteor.startup(function(){
@@ -20,7 +20,7 @@ Meteor.startup(function(){
             ]
         }
     });
-    var postyPodKwestiami = Posts.find({czyAktywny: true, postType: "deliberacja"});
+    var postyPodKwestiami = Posts.find({czyAktywny: true});
     var zespoly = ZespolRealizacyjny.find({});
 
     kwestie.observe({
@@ -51,11 +51,20 @@ Meteor.startup(function(){
 
            var kworum = liczenieKworumZwykle();
            var usersCount = newPost.glosujacy.length;
-           var kwestiaArchiwalna = Kwestia.findOne({_id: newPost.idKwestia});
 
-           if(newPost.wartoscPriorytetu > 0 && usersCount >= kworum && kwestiaArchiwalna.status == KWESTIA_STATUS.ARCHIWALNA) {
+           if(newPost.wartoscPriorytetu > 0 && usersCount >= kworum) {
+               if (newPost.postType == POSTS_TYPES.DELIBERACJA) {
 
-               Meteor.call('updateStatusDataGlosowaniaKwestii', newPost.idKwestia, KWESTIA_STATUS.DELIBEROWANA, null);
+                   Meteor.call('updateStatusDataGlosowaniaKwestii', newPost.idKwestia, KWESTIA_STATUS.DELIBEROWANA, null);
+               }
+               else if (newPost.postType == POSTS_TYPES.KOSZ) {
+
+                   Meteor.call('removeKwestia', newPost.idKwestia);
+               }
+               else if (newPost.postType == POSTS_TYPES.ARCHIWUM) {
+
+                   Meteor.call('updateStatusDataGlosowaniaKwestii', newPost.idKwestia, KWESTIA_STATUS.DELIBEROWANA, null);
+               }
            }
        }
     });
@@ -64,7 +73,7 @@ Meteor.startup(function(){
         changedAt: function(newZespol, oldZespol, atIndex) {
 
             var kworum = liczenieKworumZwykle();
-            var kwestia = Kwestia.findOne({idZespolRealizacyjny: newZespol._id});
+            var kwestia = Kwestia.findOne({czyAktywny: true, idZespolRealizacyjny: newZespol._id});
 
             if(kwestia.wartoscPriorytetu > 0 && kwestia.glosujacy.length >= kworum && newZespol.zespol.length >= 3) {
 
@@ -103,7 +112,7 @@ SyncedCron.add({
 nadawanieNumeruUchwaly = function(dataRealizacji) {
 
     var numerUchw = 1;
-    var kwestieRealizowane = Kwestia.find({numerUchwaly: !null});
+    var kwestieRealizowane = Kwestia.find({czyAktywny: true, numerUchwaly: !null});
 
     kwestieRealizowane.forEach(function (kwestiaRealizowana) {
 
@@ -122,14 +131,17 @@ sprawdzanieDat = function() {
 
     var actualDate = new Date();
     var kwestie = Kwestia.find({czyAktywny: true, status: {$in: [KWESTIA_STATUS.GLOSOWANA, KWESTIA_STATUS.OCZEKUJACA]}});
+    var pktZaUdzialWZesp = Parametr.findOne({}).pktUdzialWZespoleRealizacyjnym;
 
     kwestie.forEach(function (kwestia) {
+
 
         if(kwestia.status == KWESTIA_STATUS.GLOSOWANA) {
 
             if(actualDate >= kwestia.dataGlosowania){
                 if(kwestia.wartoscPriorytetu>0) {
 
+                    awansUzytkownika(kwestia.idZespolRealizacyjny, pktZaUdzialWZesp);
                     kwestia.dataRealizacji = new Date();
                     kwestia.numerUchwaly = nadawanieNumeruUchwaly(kwestia.dataRealizacji);
                     Meteor.call('updateStatNrUchwDtRealKwestii', kwestia._id, KWESTIA_STATUS.REALIZOWANA, kwestia.numerUchwaly, kwestia.dataRealizacji);
@@ -142,9 +154,21 @@ sprawdzanieDat = function() {
         }
         else if(kwestia.status == KWESTIA_STATUS.OCZEKUJACA){ //DO ZROBIENIA!!!!!
 
-            newKwestia.dataRealizacji = new Date();
-            newKwestia.numerUchwaly = nadawanieNumeruUchwaly(newKwestia.dataRealizacji);
-            Meteor.call('updateStatNrUchwDtRealKwestii', newKwestia._id, KWESTIA_STATUS.REALIZOWANA, newKwestia.numerUchwaly, newKwestia.dataRealizacji);
+            awansUzytkownika(kwestia.idZespolRealizacyjny, pktZaUdzialWZesp);
+            kwestia.dataRealizacji = new Date();
+            kwestia.numerUchwaly = nadawanieNumeruUchwaly(kwestia.dataRealizacji);
+            Meteor.call('updateStatNrUchwDtRealKwestii', kwestia._id, KWESTIA_STATUS.REALIZOWANA, kwestia.numerUchwaly, kwestia.dataRealizacji);
         }
+    });
+};
+
+awansUzytkownika = function(idZespoluRealiz, pktZaUdzialWZesp) {
+
+    var zespol = ZespolRealizacyjny.findOne({_id: idZespoluRealiz}).zespol;
+
+    zespol.forEach(function (idUzytkownikaZespolu){
+        var uzytkownikAwansujacy = users.findOne({_id: idUzytkownikaZespolu});
+        uzytkownikAwansujacy.profile.rADking += pktZaUdzialWZesp;
+        Meteor.call('updateUserRanking',idUzytkownikaZespolu, uzytkownikAwansujacy.profile.rADking);
     });
 };

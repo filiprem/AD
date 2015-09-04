@@ -101,7 +101,7 @@ Template.listKwestiaAdmin.helpers({
         };
     },
     KwestiaListAdmin: function () {
-        return Kwestia.find({}).fetch();
+        return Kwestia.find({czyAktywny: true}).fetch();
     },
     kwestiaCount: function () {
         return Kwestia.find({czyAktywny: true}).count();

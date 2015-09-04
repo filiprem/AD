@@ -170,4 +170,7 @@ Meteor.methods({
         var id = ZespolRealizacyjny.update(id, {$set: {zespol: czlonkowie}}, {upsert: true});
         return id;
     },
+    removeKwestia: function(id){
+        Kwestia.update(id,{$set: {czyAktywny: false}}, {upsert: true});
+    }
 });
