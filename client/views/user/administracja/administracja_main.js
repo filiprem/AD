@@ -28,11 +28,7 @@ Template.administracjaUserMain.helpers({
         };
     },
     listOfIssues: function () {
-     /*   var k = Kwestia.find({}).fetch();
-        if (k) {
-            return k;
-        }*/
-         var kwestie = Kwestia.find({
+        var kwestie = Kwestia.find({
             $where: function () {
                 return ((this.czyAktywny == true) && ((this.status==KWESTIA_STATUS.ADMINISTROWANA) ||(this.status==KWESTIA_STATUS.OSOBOWA) || (this.idUser==Meteor.userId())));
             }
@@ -41,7 +37,7 @@ Template.administracjaUserMain.helpers({
         return null;
     },
     listOfIssuesCount: function () {
-        var ile = Kwestia.find({}).count();
+        var ile = Kwestia.find({czyAktywny: true}).count();
         return ile > 0 ? true : false;
     }
 });

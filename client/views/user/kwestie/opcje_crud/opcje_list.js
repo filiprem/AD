@@ -2,7 +2,7 @@ Template.opcjeList.helpers({
     OpcjeList: function () {
         var parent = this.idParent;
         var kwestia = Kwestia.findOne({_id: parent});
-        var k = Kwestia.find({_id: {$ne: this._id}, idParent: this.idParent, status: {$ne: KWESTIA_STATUS.KOSZ}}).fetch();
+        var k = Kwestia.find({czyAktywny: true, _id: {$ne: this._id}, idParent: this.idParent, status: {$ne: KWESTIA_STATUS.KOSZ}}).fetch();
         if (k) return k;
         else return false;
     },

@@ -173,5 +173,8 @@ Meteor.methods({
             }
         }, {upsert: true});
         return id;
+    },
+    removeKwestia: function(id){
+        Kwestia.update(id,{$set: {czyAktywny: false}}, {upsert: true});
     }
 });
