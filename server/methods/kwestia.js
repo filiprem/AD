@@ -70,7 +70,39 @@ Meteor.methods({
     updateKwestiaNoUpsert: function (id, kwestia) {
         Kwestia.update(id, {$set: kwestia}, {upsert: false});
     },
+//// metoda Kwestia ADMINISTROWANA
+ addKwestiaADMINISTROWANA: function (newKwestia) {
+        var id = Kwestia.insert({
+            idUser: newKwestia[0].idUser,
+            dataWprowadzenia: newKwestia[0].dataWprowadzenia,
+            kwestiaNazwa: newKwestia[0].kwestiaNazwa,
+            wartoscPriorytetu: parseInt(newKwestia[0].wartoscPriorytetu),
+            sredniaPriorytet: parseFloat(newKwestia[0].sredniaPriorytet),
+            idTemat: newKwestia[0].idTemat,
+            idRodzaj: newKwestia[0].idRodzaj,
+            dataDyskusji: newKwestia[0].dataDyskusji,
+            dataGlosowania: moment(newKwestia[0].dataGlosowania).format(),
+            czyAktywny: newKwestia[0].czyAktywny = true,
+            status: newKwestia[0].status,
+            krotkaTresc: newKwestia[0].krotkaTresc,
+            szczegolowaTresc: newKwestia[0].szczegolowaTresc,
+            glosujacy: [],
+            isOption: false,
+            idParametru : newKwestia[0].idParametru,
+            
+           
+        });
+        Kwestia.update({_id: id}, {$set: {idParent: id}}, {upsert: true});
+        var z = ZespolRealizacyjny.insert({idKwestia: id, nazwa: "", zespol: []});
+        return id;
+    },
+  /*  updateKwestia: function (id, kwestia) {
+        Kwestia.update(id, {$set: kwestia}, {upsert: true});
+    },
 
+    updateKwestiaNoUpsert: function (id, kwestia) {
+        Kwestia.update(id, {$set: kwestia}, {upsert: false});
+    },*/
     //metody Kwestia OPCJA
     addKwestiaOpcja: function (newKwestiaOpcja) {
         var z = ZespolRealizacyjny.insert({idKwestia: id, nazwa: "", zespol: []});
