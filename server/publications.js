@@ -162,8 +162,12 @@ Meteor.publish('pagesInfoByLang', function (routeName) {
 
 //ZESPOL REALIZACYJNY
 
-Meteor.publish('zespolRealizacyjny', function(){
+Meteor.publish('zespolyRealizacyjne', function(){
     return ZespolRealizacyjny.find({});
+});
+
+Meteor.publish('zespolRealizacyjny', function(){
+    return ZespolRealizacyjny.findOne({});
 });
 
 Meteor.publish('kwestieRealizacja', function () {

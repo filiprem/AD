@@ -1,13 +1,12 @@
 Meteor.startup(function(){
-    var temat =
+    var ZR =[
     {
-        "_id": "3TBYqrgpJiQQSDEbt",
-        "nazwaTemat": "Organizacyjne",
-        "opis": "Organizacyjne"
-    };
+        "nazwa": "Zespół Realizacyjny ds. Osób",
+        "zespol": []
+    }];
 
-    if(Temat.find().count() == 0){
-        Meteor.call('addTemat', temat, function (error, ret) {
+    if(ZespolRealizacyjny.find().count() == 0){
+        Meteor.call('addZespolRealizacyjny', ZR, function (error, ret) {
             if (error) {
                 if (typeof Errors === "undefined")
                     Log.error('Error: ' + error.reason);

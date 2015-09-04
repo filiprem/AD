@@ -15,11 +15,9 @@ Template.decyzjaModalInner.helpers({
             ]
         };
     },
-    ZRDoubleList: function(){
+    ZRDoubleList: function(){//tutaj lista wwszystkich zespołów zatweirdzonych.,które mają taki sam zespół jak mój!
         var val=Session.get("zespolRealizacyjnyDouble");
-        console.log("bum____________________________________________");
         console.log(val);
-
         return ZespolRealizacyjny.find({
             _id: {$in:val}});
 

@@ -2,7 +2,7 @@ Template.opcjeList.helpers({
     OpcjeList: function () {
         var parent = this.idParent;
         var kwestia = Kwestia.findOne({_id: parent});
-        var k = Kwestia.find({czyAktywny: true, _id: {$ne: this._id}, idParent: this.idParent}).fetch();
+        var k = Kwestia.find({czyAktywny: true, _id: {$ne: this._id}, idParent: this.idParent, status: {$ne: KWESTIA_STATUS.KOSZ}}).fetch();
         if (k) return k;
         else return false;
     },
@@ -44,8 +44,19 @@ Template.opcjeList.helpers({
                     sortDirection: 'descending'
                 },
                 {key: 'idTemat', label: "Temat", tmpl: Template.tematKwestia},
-                {key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestia}
-            ]
+                {key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestia},
+                {key: 'status', label: "Status", tmpl: Template.statusKwestia}
+            ],
+            rowClass: function (item) {
+                if (item.status==KWESTIA_STATUS.ARCHIWALNA) {
+                    return 'danger';
+                }
+            }
         };
     }
-})
+});
+Template.nazwaKwestiLink.helpers({
+    isArchiwalna:function(){
+        return this.status==KWESTIA_STATUS.ARCHIWALNA ? true :false;
+    }
+});

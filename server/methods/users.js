@@ -26,6 +26,7 @@ Meteor.methods({
         });
 
         Roles.addUsersToRoles(uID, "user");
+        return uID;
     },
 
     updateUser: function(currentUserId,currentUser) {

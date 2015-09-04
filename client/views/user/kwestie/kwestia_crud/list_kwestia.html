@@ -49,7 +49,11 @@
 </template>
 
 <template name="nazwaKwestiLink">
-    <a href="{{ pathFor 'informacjeKwestia'}}" id="kwestiaIdClick" class="kwestiaId">{{this.kwestiaNazwa}}</a>
+    {{#if isArchiwalna}}
+        <a href="{{ pathFor 'informacjeKwestiaArchiwum'}}" class="kwestiaId">{{this.kwestiaNazwa}}</a>
+     {{else}}
+        <a href="{{ pathFor 'informacjeKwestia'}}" id="kwestiaIdClick" class="kwestiaId">{{this.kwestiaNazwa}}</a>
+    {{/if}}
 </template>
 
 <template name="nazwaKwestii">

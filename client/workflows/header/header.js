@@ -53,8 +53,9 @@ Template.header.helpers({
     },
     lessThanFiveUsers: function () {
         var users = Users.find();
+        console.log("Liczba:"+Users.find().count());
         if (users) {
-            return users.count() < 5 ? true : false;
+            return users.count() <= 4 ? true : false;
         }
         return null;
     },

@@ -18,9 +18,6 @@ Template.listZespolRealizacyjnyDoubleModalInner.helpers({
     },
     ZRDoubleList: function(){
         var val=Session.get("zespolRealizacyjnyDouble");
-        console.log("bum____________________________________________");
-        console.log(val);
-
         return ZespolRealizacyjny.find({
             _id: {$in:val}
         });
@@ -57,34 +54,6 @@ Template.listZespolRealizacyjnyDoubleModalInner.events({
         console.log(this._id);
         if(isUserInZRNotification(this._id)==false) {//jezeli jestem w  takowym zespole
             powolajZRFunction(Session.get("idKwestia"),this._id);
-            //console.log(Session.get("idKwestia"));
-            //var kwestia=Kwestia.findOne({_id:Session.get("idKwestia")});
-            //if(kwestia){
-            //    var zespolWybrany=ZespolRealizacyjny.findOne({_id:this._id});
-            //    if(zespolWybrany) {
-            //        var myZR=ZespolRealizacyjny.findOne({_id:kwestia.idZespolRealizacyjny});
-            //        if(myZR) {
-            //            var myNewZR = {
-            //                nazwa: zespolWybrany.nazwa,
-            //                zespol: zespolWybrany.zespol
-            //            };
-            //
-            //            Meteor.call('updateZespolRealizacyjny',myZR._id, myNewZR, function (error, ret) {
-            //                if (error) {
-            //                    if (typeof Errors === "undefined")
-            //                        Log.error('Error: ' + error.reason);
-            //                    else {
-            //                        throwError(error.reason);
-            //                    }
-            //                }
-            //                else{
-            //                    $("#listZespolRealizacyjnyDouble").modal("hide");
-            //                }
-            //            });
-            //        }
-            //
-            //    }
-            //}
         }
         //Session.setPersistent("zespolRealizacyjnyDouble",null);
     }
