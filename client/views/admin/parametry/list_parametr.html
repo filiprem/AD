@@ -1,6 +1,4 @@
 <template name="listParametr">
-    <div class="main">
-        <legend>Lista parametrów globalnych</legend>
         <div class="row">
             <div class="col col-md-6">
                 <div class="input-group">
@@ -13,11 +11,9 @@
         <br/>
 
         <div class="row">
-
             <div class="col col-md-10">
                 <form class="form-horizontal" id="parametrForm">
-                    <h3>Dane organizacji</h3>
-                    <hr/>
+                    <legend>Dane organizacji</legend>
                     <div class="form-group">
                         <label class="control-label col-xs-3" for="inputEmail">Nazwa organizacji:</label>
 
@@ -50,133 +46,7 @@
                                       value={{regulamin}}></textarea>
                         </div>
                     </div>
-                    <br/>
-<!-- 
-                    <h3>Punktacja aktywności</h3>
-                    <hr/>
-                    <div class="col-xs-6">
-                        <h4>Plusy za pozytywną aktywność </h4>
-
-                        <div class="form-group">
-                            <label class="control-label col-xs-6" for="inputKwestia">Dodanie Kwestii:</label>
-
-                            <div class="col-xs-6">
-                                <input name="dodanieKwestii" class="form-control" id="dodanieKwestii" readonly
-                                       type="number" value={{pktDodanieKwestii}}>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-xs-6" for="inputKomentarz">Dodanie komentarza:</label>
-
-                            <div class="col-xs-6">
-                                <input name="dodanieKomentarza" class="form-control" id="dodanieKomentarza" readonly
-                                       type="number" value={{pktDodanieKomentarza}}>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-xs-6" for="inputOdniesienie">Dodanie odniesienia:</label>
-
-                            <div class="col-xs-6">
-                                <input name="dodanieOdniesienia" class="form-control" id="dodanieOdniesienia" readonly
-                                       type="number" value={{pktDodanieOdniesienia}}>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-xs-6" for="inputPriorytet">Nadanie priorytetu:</label>
-
-                            <div class="col-xs-6">
-                                <input name="nadaniePriorytetu" class="form-control" id="nadaniePriorytetu" readonly
-                                       type="number" value={{pktNadaniePriorytetu}}>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-xs-6" for="inputAwansKwestii">Awans Kwestii do
-                                realizacji:</label>
-
-                            <div class="col-xs-6">
-                                <input name="awansKwestii" class="form-control" id="awansKwestii" readonly type="number"
-                                       value={{pktAwansKwestii}}>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-xs-6" for="inputUdzialWZespole">Udział w zespole
-                                realizacyjnym:</label>
-
-                            <div class="col-xs-6">
-                                <input name="udzialWZespole" class="form-control" id="udzialWZespole" readonly
-                                       type="number" value={{pktUdzialWZespoleRealizacyjnym}}>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-xs-6" for="inputZlozenieRaportu">Złożenie raportu
-                                realizacyjnego:</label>
-
-                            <div class="col-xs-6">
-                                <input name="zlozenieRaportu" class="form-control" id="zlozenieRaportu" readonly
-                                       type="number" value={{pktZlozenieRaportuRealizacyjnego}}>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xs-6">
-                        <h4>Minusy za negatywną aktywność </h4>
-
-                        <div class="form-group">
-                            <label class="control-label col-xs-6" for="inputWycofanieKwestiiDoArchiwum">Wycofanie
-                                Kwestii do archiwum:</label>
-
-                            <div class="col-xs-6">
-                                <input name="wycofanieKwestiiDoArchiwum" class="form-control"
-                                       id="wycofanieKwestiiDoArchiwum" readonly type="number"
-                                       value={{pktWycofanieKwestiiDoArchiwum}}>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-xs-6" for="inputWycofanieKwestiiDoKosza">Wycofanie Kwestii
-                                do kosza:</label>
-
-                            <div class="col-xs-6">
-                                <input name="wycofanieKwestiiDoKosza" class="form-control" id="wycofanieKwestiiDoKosza"
-                                       readonly type="number" value={{pktWycofanieKwestiiDoKosza}}>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-xs-6" for="inputWyjscieZZespolu">Wyjście z zespołu
-                                realizacyjnego:</label>
-
-                            <div class="col-xs-6">
-                                <input name="wyjscieZZespolu" class="form-control" id="wyjscieZZespolu" readonly
-                                       type="number" value={{pktWyjscieZZespoluRealizacyjnego}}>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-xs-6" for="inputBrakUdzialuWGlosowaniu">Brak udziału w
-                                głosowaniu:</label>
-
-                            <div class="col-xs-6">
-                                <input name="brakUdzialuWGlosowaniu" class="form-control" id="brakUdzialuWGlosowaniu"
-                                       readonly type="number" value={{pktBrakUdzialuWGlosowaniu}}>
-                            </div>
-                        </div>
-                    </div>
-                    <br/>
-
-
-                    <h3 class="col-md-12">Parametry Kwestii</h3>
-                    <hr/>
-                    <div class="form-group">
-                        <label class="control-label col-xs-3" for="okresSledzeniaWatkuPrzenoszacego">Okres śledzenia
-                            wątku przenoszącego:</label>
-
-                        <div class="col-xs-9">
-                            <input name="okresSledzeniaWatkuPrzenoszacego" type="number" class="form-control"
-                                   id="okresSledzeniaWatkuPrzenoszacego" readonly
-                                   value={{okresSledzeniaWatkuPrzenoszacego}}>
-                        </div>
-                    </div>
-                    <br/> -->
                 </form>
             </div>
         </div>
-    </div>
 </template>
