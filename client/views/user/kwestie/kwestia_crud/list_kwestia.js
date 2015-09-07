@@ -65,8 +65,8 @@ Template.listKwestia.events({
             });
             //dodanie pkt za głosowanie
             var newValue = 0;
-            var pktAddPriorytet = Parametr.findOne({});
-            newValue = Number(pktAddPriorytet.pktNadaniePriorytetu) + getUserRadkingValue(Meteor.userId());
+            
+            newValue = Number(RADKING.NADANIE_PRIORYTETU) + getUserRadkingValue(Meteor.userId());
 
             Meteor.call('updateUserRanking', Meteor.userId(), newValue, function (error) {
                 if (error) {
