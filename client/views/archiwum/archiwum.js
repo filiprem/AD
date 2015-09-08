@@ -94,7 +94,7 @@ Template.archiwum.helpers({
             ]
         };
     },
-    ArchiwumList: function () {
+    ArchiwumList: function () {//do Bartka:
         //return Kwestia.find({$where:function(){return ((this.czyAktywny==false) || (moment(this.dataGlosowania) < moment()&& this.wartoscPriorytetu < this.pulapPriorytetu));}}).fetch();
         return Kwestia.find({
             $or: [
