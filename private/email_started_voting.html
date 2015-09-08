@@ -1,24 +1,24 @@
-{nazwa_systemu}
-{ogranizacja}
+Aktywna Demokracja
+{{ogranizacja}}
 
-Szanowna/y {uzytkownik}!
+Szanowna/y {{username}}!
 
-Informujemy o trwającej procedurze głosowania Kwestii: {nazwa_kwestii}
-Temat: {temat}, Rodzaj: {rodzaj}
-dotyczącej: {szczegoly_kwestii}
+Informujemy o trwającej procedurze głosowania Kwestii: {{nazwaKwestii}}
+Temat: {{temat}}, Rodzaj: {{rodzaj}}
+dotyczącej: {{szczegolyKwestii}}
 
-Zakończenie głosowania: {final}
+Zakończenie głosowania: {{dataGlosowania}}
 
-{if nadano_priorytet}
+{{#if nadanoPriorytet idKwestii idUser}}
 Dziękujemy za głosowanie!
-Nadany priorytet: {nadany_prior}
+Nadany priorytet: {{nadanoPriorytet idKwestii idUser}}
 Możesz jeszcze zmienić jego wielkość zanim zakończy się głosowanie.
-{else}
-Nie zagłosowałaś/eś jeszcze w tej Kwestii, zapraszamy: {link_dk}
-{endif}
-Aktualna siła priorytetu: {sila_prior}
-Wymagane kworum: {kworum} osób / aktualna obecność: {obecnych}
+{{else}}
+Nie zagłosowałaś/eś jeszcze w tej Kwestii, zapraszamy: <a href="ad-test2.meteor.com/issue_info/{{idKwestii}}">Link do Kwestii</a>
+{{/if}}
+Aktualna siła priorytetu: {{wartoscPriorytetu}}
+Wymagane kworum: {{kworum}} osób / aktualna obecność: {{glosujacy}}
 
-Jest to automatyczna informacja z systemu AD {organizacja}
+Jest to automatyczna informacja z systemu AD {{organizacja}}
 Nie odpowiadaj na nią.
-Logowanie do systemu: {link_logowania}
+Logowanie do systemu: <a href="ad-test2.meteor.com/account/login">Zaloguj</a>

@@ -4,6 +4,23 @@ SSR.compileTemplate('email_added_issue',Assets.getText('email_added_issue.html')
 SSR.compileTemplate('email_lobbing_issue',Assets.getText('email_lobbing_issue.html'));
 SSR.compileTemplate('email_started_voting',Assets.getText('email_started_voting.html'));
 
+Template.email_started_voting.nadanoPriorytet= function (kwestiaId,userId) {
+    var kwestia = Kwestia.findOne(kwestiaId);
+    if (kwestia) {
+        var g = kwestia.glosujacy;
+        for (var i = 0; i < g.length; i++) {
+            if (userId == g[i].idUser) {
+                if (g[i].value > 0) {
+                    g[i].value = "+" + g[i].value;
+                    return g[i].value;
+                }
+                else
+                    return g[i].value;
+            }
+        }
+    }
+}
+
 Meteor.methods({
     registerAddKwestiaNotification: function(prop){
         if(!prop.users){
@@ -36,17 +53,112 @@ Meteor.methods({
         this.unblock();
         var parametr = Parametr.findOne({});
         var kwestiaItem = Kwestia.findOne({_id:idKwestia});
+        var rodzaj = Rodzaj.findOne({_id:kwestiaItem.idRodzaj});
+        var temat = Temat.findOne({_id:kwestiaItem.idTemat});
         Users.find({}).forEach(function(item) {
             if (!Roles.userIsInRole(item, ['admin'])) {
                 var html = SSR.render('email_added_issue',{
                     username:item.username,
                     organizacja: parametr.nazwaOrganizacji,
-                    szczegolyKwestii: kwestiaItem.szczegolowaTresc
+                    szczegolyKwestii: kwestiaItem.szczegolowaTresc,
+                    nazwaKwestii: kwestiaItem.kwestiaNazwa,
+                    idKwestii:kwestiaItem._id,
+                    idUser: item._id,
+                    rodzaj: rodzaj.nazwaRodzaj,
+                    temat: temat.nazwaTemat
                 });
                 Email.send({
                     to: item.emails[0].address,
                     from: "admin AD",
                     subject: "Dodano nową kwestię",
+                    html: html
+                });
+            }
+        });
+    },
+    sendEmailAct: function (idKwestia) {
+        this.unblock();
+        var parametr = Parametr.findOne({});
+        var kwestiaItem = Kwestia.findOne({_id:idKwestia});
+        var rodzaj = Rodzaj.findOne({_id:kwestiaItem.idRodzaj});
+        var temat = Temat.findOne({_id:kwestiaItem.idTemat});
+        Users.find({}).forEach(function(item) {
+            if (!Roles.userIsInRole(item, ['admin'])) {
+                var html = SSR.render('email_act',{
+                    username:item.username,
+                    organizacja: parametr.nazwaOrganizacji,
+                    szczegolyKwestii: kwestiaItem.szczegolowaTresc,
+                    nazwaKwestii: kwestiaItem.kwestiaNazwa,
+                    idKwestii:kwestiaItem._id,
+                    rodzaj: rodzaj.nazwaRodzaj,
+                    temat: temat.nazwaTemat,
+                    userType: item.profile.userType
+                });
+                Email.send({
+                    to: item.emails[0].address,
+                    from: "admin AD",
+                    subject: "Podjęto uchwałę",
+                    html: html
+                });
+            }
+        });
+    },
+    sendEmailLobbingIssue: function (idKwestia,uzasadnienie) {
+        this.unblock();
+        var parametr = Parametr.findOne({});
+        var kwestiaItem = Kwestia.findOne({_id:idKwestia});
+        var rodzaj = Rodzaj.findOne({_id:kwestiaItem.idRodzaj});
+        var temat = Temat.findOne({_id:kwestiaItem.idTemat});
+        Users.find({}).forEach(function(item) {
+            if (!Roles.userIsInRole(item, ['admin'])) {
+                var html = SSR.render('email_lobbing_issue',{
+                    username:item.username,
+                    organizacja: parametr.nazwaOrganizacji,
+                    szczegolyKwestii: kwestiaItem.szczegolowaTresc,
+                    nazwaKwestii: kwestiaItem.kwestiaNazwa,
+                    idKwestii:kwestiaItem._id,
+                    rodzaj: rodzaj.nazwaRodzaj,
+                    temat: temat.nazwaTemat,
+                    userType: item.profile.userType,
+                    uzasadnienie: uzasadnienie,
+                    email: item.emails[0].address,
+                    imie: item.profile.firstName,
+                    nazwisko: item.profile.lastName
+                });
+                Email.send({
+                    to: item.emails[0].address,
+                    from: "admin AD",
+                    subject: "Lobbowanie Kwestii",
+                    html: html
+                });
+            }
+        });
+    },
+    sendEmailStartedVoting: function (idKwestia) {
+        this.unblock();
+        var parametr = Parametr.findOne({});
+        var kwestiaItem = Kwestia.findOne({_id:idKwestia});
+        var rodzaj = Rodzaj.findOne({_id:kwestiaItem.idRodzaj});
+        var temat = Temat.findOne({_id:kwestiaItem.idTemat});
+        Users.find({}).forEach(function(item) {
+            if (!Roles.userIsInRole(item, ['admin'])) {
+                var html = SSR.render('email_started_voting',{
+                    username:item.username,
+                    organizacja: parametr.nazwaOrganizacji,
+                    szczegolyKwestii: kwestiaItem.szczegolowaTresc,
+                    nazwaKwestii: kwestiaItem.kwestiaNazwa,
+                    idKwestii:kwestiaItem._id,
+                    dataGlosowania:kwestiaItem.dataGlosowania,
+                    rodzaj: rodzaj.nazwaRodzaj,
+                    temat: temat.nazwaTemat,
+                    wartoscPriorytetu:kwestiaItem.wartoscPriorytetu,
+                    glosujacy:kwestiaItem.glosujacy.length,
+                    kworum: liczenieKworumZwykle()
+                });
+                Email.send({
+                    to: item.emails[0].address,
+                    from: "admin AD",
+                    subject: "Rozpoczęto głosowanie Kwestii",
                     html: html
                 });
             }
