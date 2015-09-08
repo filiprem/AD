@@ -62,15 +62,13 @@ Template.discussionPostForm.events({
                     document.getElementById("message").value = "";
 
                     var newValue = 0;
-                    var pktAddKwestia = Parametr.findOne({});
-                    newValue = Number(pktAddKwestia.pktDodanieKomentarza) + getUserRadkingValue(Meteor.userId());
+                    newValue = Number(RADKING.DODANIE_KOMENTARZA) + getUserRadkingValue(Meteor.userId());
                     Meteor.call('updateUserRanking', Meteor.userId(), newValue, function (error) {
                         if (error) {
                             if (typeof Errors === "undefined")
                                 Log.error('Error: ' + error.reason);
-                            else {
+                            else
                                 throwError(error.reason);
-                            }
                         }
                     });
                 }

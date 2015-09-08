@@ -81,7 +81,7 @@ setValue=function(temat,rodzaj,isOption,kwestia){
             return;
         }
     });
-    //je¿eli nie ma tematu,dodaj nowy,to rodzaju te¿ nie mo¿e byæ,dodaj rodzaj!
+    //jeï¿½eli nie ma tematu,dodaj nowy,to rodzaju teï¿½ nie moï¿½e byï¿½,dodaj rodzaj!
 
     if(foundIdTemat==null) {
         temat=firstLetterToUpperCase(temat);
@@ -200,8 +200,8 @@ addKwestia=function(idTemat,idRodzaj,isOption,kwestia){
             }
         }
         else {
-           // Meteor.call("sendEmailForAll", "admin AD", "Dodano", text);
             Session.set("kwestiaPreview", null);
+            Meteor.call("sendEmailAddedIssue", ret);
             Router.go('administracjaUserMain');
         }
     });

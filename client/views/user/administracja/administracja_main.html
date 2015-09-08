@@ -1,25 +1,40 @@
 <template name="administracjaUserMain">
     {{#if currentUser}}
         <div class="main">
-            {{#if listOfIssuesCount}}
-                <legend>Twoje Kwestie</legend>
-                <div class="row">
-                    <div class="col-md-12">
-                        {{> reactiveTable
-                        class = "table table-bordered table-hover"
-                        fields = settings.fields
-                        settings = settings
-                        collection = listOfIssues
-                        }}
+            <div>
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#twojeKwestie" aria-controls="twojeKwestie" role="tab" data-toggle="tab">Twoje kwestie</a></li>
+                    <li role="presentation"><a href="#parametry" aria-controls="parametry" role="tab" data-toggle="tab">Parametry globalne</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="twojeKwestie">
+                        <br />
+                        {{#if listOfIssuesCount}}
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {{> reactiveTable
+                                    class = "table table-bordered table-hover"
+                                    fields = settings.fields
+                                    settings = settings
+                                    collection = listOfIssues
+                                    }}
+                                </div>
+                            </div>
+                        {{else}}
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>Nie utworzyłeś jeszcze żadnej Kwestii.</label>
+                                </div>
+                            </div>
+                        {{/if}}
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="parametry">
+                        <br />
+                        {{> listParametr}}
                     </div>
                 </div>
-            {{else}}
-                <div class="row">
-                    <div class="col-md-12">
-                        <label>Nie utworzyłeś jeszcze żadnej Kwestii.</label>
-                    </div>
-                </div>
-            {{/if}}
+            </div>
         </div>
     {{/if}}
 </template>

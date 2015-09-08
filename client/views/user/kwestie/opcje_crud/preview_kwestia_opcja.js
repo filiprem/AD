@@ -44,8 +44,8 @@ Template.previewKwestiaOpcja.events({
             else {
                 var userKwestia= Meteor.userId();
                 var newValue=0;
-                var pktAddKwestia=Parametr.findOne({});
-                newValue=Number(pktAddKwestia.pktDodanieKwestii)+getUserRadkingValue(userKwestia);
+
+                newValue=Number(RADKING.DODANIE_KWESTII)+getUserRadkingValue(userKwestia);
 
                 Meteor.call('updateUserRanking', userKwestia,newValue, function (error) {
                     if (error)
