@@ -12,28 +12,18 @@
                                    placeholder="Nazwa Kwestii" value="{{kwestiaNazwa}}" required>
                         </div>
                     </div>
-                    <div class="form-group" id="tematyGroup">
-                        <label class="control-label col-xs-3" for="inputEmail">Temat:</label>
-
-                        <div class="col-xs-8">
-                            <input class="form-control" type="text"  name="tematy" id="tematy" value="{{tematChosen}}"/>
-                        </div>
-                        <div class="col-xs-1">
-                            <button type="button" class="btn btn-default" aria-label="Left Align" data-toggle="tooltip" title="Wybierz z listy" id="wybierzTematClick">
-                                <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
-                            </button>
+                    <input type="hidden" value="{{sugerowanyRodzaj}}" id="rodzajHidden"/>
+                    <input type="hidden" value="{{sugerowanyTemat}}" id="tematHidden"/>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" for="sugerowanyTemat">Temat:</label>
+                        <div class="col-xs-9">
+                            <input type="text"  name="sugerowanyTemat" id="sugerowanyTemat" required/>
                         </div>
                     </div>
-                    <div class="form-group" id="rodzajeGroup">
-                        <label class="control-label col-xs-3" for="inputEmail">Rodzaj:</label>
-
-                        <div class="col-xs-8">
-                            <input class="form-control" type="text" name="rodzaje" id="rodzaje"/>
-                        </div>
-                        <div class="col-xs-1">
-                            <button type="button" class="btn btn-default" aria-label="Left Align" data-toggle="tooltip" title="Wybierz z listy" id="wybierzRodzajClick">
-                                <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
-                            </button>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" for="sugerowanyRodzaj">Rodzaj:</label>
+                        <div class="col-xs-9">
+                            <input type="text" name="sugerowanyRodzaj" id="sugerowanyRodzaj" required/>
                         </div>
                     </div>
                     <legend>Treść Kwestii</legend>

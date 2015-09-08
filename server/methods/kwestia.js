@@ -20,8 +20,6 @@ Meteor.methods({
             szczegolowaTresc: newKwestia[0].szczegolowaTresc,
             glosujacy: [],
             isOption: false,
-            sugerowanyTemat: newKwestia[0].sugerowanyTemat,
-            sugerowanyRodzaj: newKwestia[0].sugerowanyRodzaj,
             numerUchwały: newKwestia[0].numerUchwały,
 
             //Marzena
@@ -52,8 +50,6 @@ Meteor.methods({
             szczegolowaTresc: newKwestia[0].szczegolowaTresc,
             glosujacy: [],
             isOption: false,
-            sugerowanyTemat: newKwestia[0].sugerowanyTemat,
-            sugerowanyRodzaj: newKwestia[0].sugerowanyRodzaj,
             idZgloszonego: newKwestia[0].idZgloszonego,
 
             //Marzena
