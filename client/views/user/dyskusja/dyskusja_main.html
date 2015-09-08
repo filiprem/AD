@@ -33,7 +33,7 @@
         <div class="form-group">
             <div class="col-xs-12">
                 <input type="submit" for="dyskusjaForm" class="btn btn-primary"
-                       value="Dodaj komentarz" {{isUserLogged}}>
+                       value="Dodaj komentarz" {{HasUserRights}}>
             </div>
         </div>
     </form>
@@ -42,6 +42,8 @@
 <template name="discussionRating">
     <div>
         <form>
+            <i class=" label {{getLabelClass wartoscPriorytetu}}">{{wartoscPriorytetu}}</i>
+
             <div class="btn-group" role="group" aria-label="...">
                 <button id="ratingButton" name="{{idPost}}" type="button" class="btn btn-xs btn-danger"
                         value="-5" {{isUserLogged}}>-5
@@ -74,6 +76,10 @@
                         value="5" {{isUserLogged}}>+5
                 </button>
             </div>
+
+            <b class="fontSize">{{userFullName}},</b>
+            <small>{{getSimpleDate addDate}}</small>
+            <small class="fontSizeSmall">{{getFullHourDate addDate}}</small>
         </form>
     </div>
     <!--{{> GlobalNotifications}}-->
