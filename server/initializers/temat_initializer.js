@@ -7,14 +7,11 @@ Meteor.startup(function(){
     };
 
     if(Temat.find().count() == 0){
-        Meteor.call('addTemat', temat, function (error, ret) {
-            if (error) {
-                if (typeof Errors === "undefined")
-                    Log.error('Error: ' + error.reason);
-                else {
-                    throwError(error.reason);
-                }
-            }
+
+        Temat.insert({
+            _id:temat._id,
+            nazwaTemat: temat.nazwaTemat,
+            opis: temat.opis
         });
     }
 });

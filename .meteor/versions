@@ -55,6 +55,7 @@ maazalik:highcharts@0.4.0
 meteor@1.1.6
 meteor-accounts-admin-ui-bootstrap-3@0.2.7
 meteor-platform@1.2.2
+meteorhacks:ssr@2.1.2
 meteorspark:util@0.2.0
 minifiers@1.1.5
 minimongo@1.0.8

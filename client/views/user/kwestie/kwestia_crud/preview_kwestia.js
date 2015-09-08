@@ -1,3 +1,12 @@
+String.prototype.format = function() {
+    var formatted = this;
+    for (var i = 0; i < arguments.length; i++) {
+        var regexp = new RegExp('\\{'+i+'\\}', 'gi');
+        formatted = formatted.replace(regexp, arguments[i]);
+    }
+    return formatted;
+};
+
 Template.previewKwestia.helpers({
     getTematName: function (id) {
         return Temat.findOne({_id: id}).nazwaTemat;
@@ -83,6 +92,7 @@ Template.previewKwestia.events({
                 }
                 else {
                     Session.set("kwestiaPreview", null);
+                    Meteor.call("sendEmailAddedIssue", ret);
                     Router.go('administracjaUserMain');
                 }
             });

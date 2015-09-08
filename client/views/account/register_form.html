@@ -1,7 +1,8 @@
 <template name="registerForm">
     <div class="main">
         <legend>Utwórz konto</legend>
-        <div class="row">
+        {{#if  lessThanFiveUsers}}
+            <div class="row">
             <div class="col col-md-10">
                 <form class="form-horizontal" id="userForm">
                     <div class="form-group">
@@ -137,5 +138,8 @@
                 </form>
             </div>
         </div>
+        {{else}}
+            Rejestracja nie możliwa z powodu osiągnięcia limitu osób, które mogą się zarejestrować samodzielnie. Aby aplikować kliknij dołącz.
+        {{/if}}
     </div>
 </template>

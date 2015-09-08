@@ -8,14 +8,13 @@ Meteor.startup(function () {
     }
 
     if (Rodzaj.find().count() == 0) {
-        Meteor.call('addRodzaj', rodzaj, function (error, ret) {
-            if (error) {
-                if (typeof Errors === "undefined")
-                    Log.error('Error: ' + error.reason);
-                else {
-                    throwError(error.reason);
-                }
-            }
+
+        Rodzaj.insert({
+            _id:rodzaj._id,
+            idTemat: rodzaj.idTemat,
+            nazwaRodzaj: rodzaj.nazwaRodzaj,
+            czasDyskusji: rodzaj.czasDyskusji,
+            czasGlosowania: rodzaj.czasGlosowania
         });
     }
 });
