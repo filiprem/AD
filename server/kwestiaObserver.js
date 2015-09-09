@@ -287,3 +287,4 @@ awansUzytkownika = function(idZespoluRealiz, pktZaUdzialWZesp) {
         Meteor.call('updateUserRanking',idUzytkownikaZespolu, uzytkownikAwansujacy.profile.rADking);
     });
 };
+
