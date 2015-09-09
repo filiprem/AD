@@ -16,7 +16,8 @@ Meteor.startup(function(){
         status: {
             $in: [
                 KWESTIA_STATUS.DELIBEROWANA,
-                KWESTIA_STATUS.STATUSOWA
+                KWESTIA_STATUS.STATUSOWA,
+                KWESTIA_STATUS.REALIZOWANA
             ]
         }
     });
@@ -28,7 +29,7 @@ Meteor.startup(function(){
 
             var kworum = liczenieKworumZwykle();
             var usersCount = newKwestia.glosujacy.length;
-            var zespolCount = ZespolRealizacyjny.findOne({_id: newKwestia.idZespolRealizacyjny}).zespol.length;
+            var zespolCount = ZespolRealizacyjnyDraft.findOne({_id: newKwestia.idZespolRealizacyjny}).zespol.length;
 
             if(newKwestia.wartoscPriorytetu > 0 && usersCount >= kworum && zespolCount >= 3){
 
@@ -41,6 +42,24 @@ Meteor.startup(function(){
                 else if (newKwestia.status == KWESTIA_STATUS.STATUSOWA){
 
                     Meteor.call('updateStatusKwestii', newKwestia._id, KWESTIA_STATUS.OCZEKUJACA);
+                }
+            }
+
+            // Hibernowane - aby z powrotem si� (automatycznie) uaktywni� w przypadku degradacji tamtej z Realizacji
+            if(oldKwestia.status != newKwestia.status){
+                if(oldKwestia.status == KWESTIA_STATUS.REALIZOWANA
+                    && (newKwestia.status != KWESTIA_STATUS.ZREALIZOWANA)){
+                    if(newKwestia.idParent!=newKwestia._id) {
+
+                        kwestieOpcje = Kwestia.find({czyAktywny: true, idParent: kwestia.idParent, status: KWESTIA_STATUS.HIBERNOWANA});
+                        kwestieOpcje.forEach(function (kwestiaOpcja){
+
+                            if(kwestiaOpcja.idParent!=kwestiaOpcja._id && kwestiaOpcja._id!=newKwestia._id){
+
+                                Meteor.call('updateStatusKwestii', kwestiaOpcja._id, KWESTIA_STATUS.DELIBEROWANA);
+                            }
+                        });
+                    }
                 }
             }
         }
@@ -144,11 +163,107 @@ sprawdzanieDat = function() {
                     awansUzytkownika(kwestia.idZespolRealizacyjny, pktZaUdzialWZesp);
                     kwestia.dataRealizacji = new Date();
                     kwestia.numerUchwaly = nadawanieNumeruUchwaly(kwestia.dataRealizacji);
-                    Meteor.call('updateStatNrUchwDtRealKwestii', kwestia._id, KWESTIA_STATUS.REALIZOWANA, kwestia.numerUchwaly, kwestia.dataRealizacji);
+
+                    //Marzena:
+                    var zrDraft=ZespolRealizacyjnyDraft.findOne({_id:kwestia.idZespolRealizacyjny});
+                    if(zrDraft.idZR!=null){//jezeli draft ma id ZR( kopiuje od istniejącego ZR), to dopisz do kisty ZR tego drafta
+                        var ZR=ZespolRealizacyjny.findOne({id:zrDraft.idZR});
+                        var listKwestii=ZR.kwestie.slice();
+                        listKwestii.push(kwestia._id);
+                        Meteor.call('updateListKwesti', ZR._id, listKwestii,function(error){
+                            if (error) {
+                                if (typeof Errors === "undefined")
+                                    Log.error('Error: ' + error.reason);
+                                else
+                                    throwError(error.reason);
+
+                            }
+                            else {//zaktualizuj idZespoluRealizacyjnego w tej kwestii
+                                Meteor.call('updateStatNrUchwDtRealIdZespolKwestii', kwestia._id, KWESTIA_STATUS.REALIZOWANA, kwestia.numerUchwaly, kwestia.dataRealizacji,ZR._id);
+                            }
+                        });
+                    }
+                    else{//w innym przypadku robimy nowy zespół Realizacyjny
+                        var arrayKwestie=[];
+                        arrayKwestie.push(kwestia._id);
+                        var newZR={
+                          nazwa: zrDraft.nazwa,
+                          zespol:zrDraft.zespol,
+                          kwestie :arrayKwestie,
+                          czyAktywny:true
+                        };
+                        Meteor.call('addZespolRealizacyjny',newZR,function(error,ret){
+                            if (error) {
+                                if (typeof Errors === "undefined")
+                                    Log.error('Error: ' + error.reason);
+                                else
+                                    throwError(error.reason);
+
+                            }
+                            else {//zaktualizuj idZespoluRealizacyjnego w tej kwestii
+                                var idZR=ret;
+                                Meteor.call('updateStatNrUchwDtRealIdZespolKwestii', kwestia._id, KWESTIA_STATUS.REALIZOWANA, kwestia.numerUchwaly, kwestia.dataRealizacji,idZR);
+                            }
+                        });
+                    }//usuń niepotrzebnego drafta
+                    Meteor.call('removeZespolRealizacyjnyDraft', kwestia.idZR);
+                    //end Marzena
+
+                    //W przypadku przej�cia Kwestii-Opcji do Realizacji - pozosta�e Opcje przechodz� na status HIBERNOWANA
+                    if(kwestia.idParent!=kwestia._id) {
+
+                        kwestieOpcje = Kwestia.find({czyAktywny: true, idParent: kwestia.idParent});
+                        kwestieOpcje.forEach(function (kwestiaOpcja){
+
+                            if(kwestiaOpcja.idParent!=kwestiaOpcja._id && kwestiaOpcja._id!=kwestia._id){
+
+                                Meteor.call('updateStatusKwestii', kwestiaOpcja._id, KWESTIA_STATUS.HIBERNOWANA);
+                            }
+                        });
+                    }
+
+                    //Meteor.call('updateStatNrUchwDtRealIdZespolKwestii', kwestia._id, KWESTIA_STATUS.REALIZOWANA, kwestia.numerUchwaly, kwestia.dataRealizacji,ZR._id);
                 }
                 else{
+                //Marzena:{
+                    //tworze ZR draft z danych ZR,do tkorego kwestia nalezy i go dodaje
+                    var ZR=ZespolRealizacyjny.findOne({_id:kwestia._id});
+                    var newZRDraft={
+                        nazwa:ZR.nazwa,
+                        zespol:ZR.zespol,
+                        idZR:ZR._id
+                    };
+                    Meteor.call('addZespolRealizacyjnyDraft',newZRDraft,function(error,ret){
+                        if (error) {
+                            if (typeof Errors === "undefined")
+                                Log.error('Error: ' + error.reason);
+                            else
+                                throwError(error.reason);
 
-                    Meteor.call('updateStatusKwestii', kwestia._id, KWESTIA_STATUS.ARCHIWALNA);
+                        }
+                        else {//zaktualizuj idZespoluRealizacyjnego w tej kwestii
+                            var idZRDraft=ret;
+                            Meteor.call('updateStatIdZespolu', kwestia._id, KWESTIA_STATUS.ARCHIWALNA, idZRDraft,function(error){
+                                if (error) {
+                                    if (typeof Errors === "undefined")
+                                        Log.error('Error: ' + error.reason);
+                                    else
+                                        throwError(error.reason);
+                                }
+                                else {//usun z ZR tą kwestię
+                                    var ZRKwestietoUpdate=ZR.kwestie.slice();
+                                    ZRKwestietoUpdate= _.without(ZRKwestietoUpdate,kwestia._id);
+                                    Meteor.call('updateKwestieZR', kwestia._id, ZRKwestietoUpdate,function(error){
+                                        if (error) {
+                                            if (typeof Errors === "undefined")
+                                                Log.error('Error: ' + error.reason);
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+                    //Meteor.call('updateStatusKwestii', kwestia._id, KWESTIA_STATUS.ARCHIWALNA);
                 }
             }
         }

@@ -209,7 +209,9 @@ Template.discussionAnswerItem.events({
 });
 
 Template.discussionAnswerForm.helpers({
-    isUserLogged: function () {
-        return Meteor.userId() ? "" : "disabled";
+    HasUserRights: function () {
+        if(!Meteor.userId())
+            return "disabled";
+        return isKwestiaGlosowana(Session.get("idKwestia"));
     }
 });

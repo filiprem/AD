@@ -28,7 +28,7 @@
                         {{#unless czyOsobowa}}
                             {{#if kwestiaOpcjaCount}}
                                 {{#unless isAdmin}}
-                                    <button id="addOptionButton" class="btn btn-primary" {{isUserLogged}}>
+                                    <button id="addOptionButton" class="btn btn-primary" {{HasUserRights}}>
                                         <span class="fa fa-plus"></span> Dodaj opcję
                                     </button>
                                 {{/unless}}
@@ -40,10 +40,10 @@
                         {{> uzasadnienieKoszModal}}
                         <div class="btn-group" role="group" aria-label="...">
                             <!--<label class="btn btn-danger">Przeniesienie Kwestii</label>-->
-                            <button id="doArchiwum" class="btn btn-warning" {{isUserLogged}}>
-                                <span class="fa fa-archive"></span> Do Archiwum
+                            <button id="doArchiwum" class="btn btn-warning" {{HasUserRights}}>
+                                <span class="fa fa-lock"></span> Do Archiwum
                             </button>
-                            <button id="doKosza" class="btn btn-danger" {{isUserLogged}}>
+                            <button id="doKosza" class="btn btn-danger" {{HasUserRights}}>
                                 <span class="fa fa-trash"></span> Do Kosza
                             </button>
                         </div>

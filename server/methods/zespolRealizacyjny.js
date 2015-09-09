@@ -3,8 +3,14 @@ Meteor.methods({
 
         var id = ZespolRealizacyjny.insert({
             nazwa: newZespol[0].nazwa,
-            zespol:newZespol[0].zespol
+            zespol:newZespol[0].zespol,
+            kwestie:newZespol[0].kwestie,
+            czyAktywny:newZespol[0].czyAktywny
         });
+        return id;
+    },
+    updateListKwesti:function (id, listKwestii) {
+        var id = ZespolRealizacyjny.update(id, {$set: {kwestie: listKwestii}}, {upsert: true});
         return id;
     },
     //updateZespolRealizacyjny: function (id, obj) {
@@ -34,5 +40,9 @@ Meteor.methods({
     updateCzlonkowieZR: function (id, czlonkowie) {
         var id = ZespolRealizacyjny.update(id, {$set: {zespol: czlonkowie}}, {upsert: true});
         return id;
-    }
+    },
+    updateKwestieZR:function (id, kwestie) {
+        var id = ZespolRealizacyjny.update(id, {$set: {kwestie: kwestie}}, {upsert: true});
+        return id;
+    },
 });

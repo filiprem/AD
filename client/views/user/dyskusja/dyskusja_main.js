@@ -149,13 +149,24 @@ Template.discussionMain.helpers({
 });
 
 Template.discussionPostForm.helpers({
-    isUserLogged: function () {
-        return Meteor.userId() ? "" : "disabled";
+    HasUserRights: function () {
+        if(!Meteor.userId())
+            return "disabled";
+        return isKwestiaGlosowana(Session.get("idKwestia"));
     }
 });
 
 Template.discussionRating.helpers({
     isUserLogged: function () {
         return Meteor.userId() ? "" : "disabled";
+    },
+    'getLabelClass': function (value) {
+        return value >= 0 ? "label-success" : "label-danger";
+    },
+    'getSimpleDate':function(date){
+        return moment(date).format("YYYY-MM-DD");
+    },
+    'getFullHourDate': function (date) {
+        return moment(date).format("HH:mm:ss");
     }
 });

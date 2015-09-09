@@ -170,6 +170,10 @@ Meteor.publish('zespolRealizacyjny', function(){
     return ZespolRealizacyjny.findOne({});
 });
 
+Meteor.publish('zespolyRealizacyjneDraft', function(){
+    return ZespolRealizacyjnyDraft.find({});
+});
+
 Meteor.publish('kwestieRealizacja', function () {
     return Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.REALIZOWANA});
 });
