@@ -17,20 +17,21 @@ Template.listZespolRealizacyjnyModalInner.helpers({
         };
     },
     ZRList: function(){//tutaj lista wszystkich zespołow juz zatweirdzonych
-        var kwestie = Kwestia.find({
-            $where: function () {
-                return (this.status==KWESTIA_STATUS.GLOSOWANA || this.status==KWESTIA_STATUS.REALIZOWANA);
-            }
-        });
-        var arrayZespol=[];
-        console.log(kwestie.count());
-        kwestie.forEach(function(kwestia){
-            arrayZespol.push(kwestia.idZespolRealizacyjny);
-        });
-
-        return ZespolRealizacyjny.find({
-            _id:{$in: arrayZespol}
-            });
+        //var kwestie = Kwestia.find({
+        //    $where: function () {
+        //        return (this.status==KWESTIA_STATUS.GLOSOWANA || this.status==KWESTIA_STATUS.REALIZOWANA);
+        //    }
+        //});
+        //var arrayZespol=[];
+        //console.log(kwestie.count());
+        //kwestie.forEach(function(kwestia){
+        //    arrayZespol.push(kwestia.idZespolRealizacyjny);
+        //});
+        //
+        //return ZespolRealizacyjny.find({
+        //    _id:{$in: arrayZespol}
+        //    });
+        return ZespolRealizacyjny.find({czyAktywny:true});
     }
 });
 

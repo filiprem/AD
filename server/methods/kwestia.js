@@ -1,7 +1,7 @@
 Meteor.methods({
     // metody Kwestia GŁÓWNA
     addKwestia: function (newKwestia) {
-        var z = ZespolRealizacyjny.insert({nazwa: "", zespol: []});
+        var z = ZespolRealizacyjnyDraft.insert({nazwa: "", zespol: []});
 
         var id = Kwestia.insert({
             idUser: newKwestia[0].idUser,
@@ -32,7 +32,7 @@ Meteor.methods({
     //gdy tworzymy kwestię statusową, idUser: to osoba zgłaszajaca doradcę na honorowego
     //idZglaszającego- osoba zgłaszana
     addKwestiaStatusowa: function (newKwestia) {
-        var z = ZespolRealizacyjny.insert({idKwestia: id, nazwa: "", zespol: []});
+        var z = ZespolRealizacyjnyDraft.insert({idKwestia: id, nazwa: "", zespol: []});
 
         var id = Kwestia.insert({
             idUser: newKwestia[0].idUser,
@@ -89,7 +89,7 @@ Meteor.methods({
            
         });
         Kwestia.update({_id: id}, {$set: {idParent: id}}, {upsert: true});
-        var z = ZespolRealizacyjny.insert({idKwestia: id, nazwa: "", zespol: []});
+        var z = ZespolRealizacyjnyDraft.insert({idKwestia: id, nazwa: "", zespol: []});
         return id;
     },
   /*  updateKwestia: function (id, kwestia) {
@@ -101,7 +101,7 @@ Meteor.methods({
     },*/
     //metody Kwestia OPCJA
     addKwestiaOpcja: function (newKwestiaOpcja) {
-        var z = ZespolRealizacyjny.insert({idKwestia: id, nazwa: "", zespol: []});
+        var z = ZespolRealizacyjnyDraft.insert({idKwestia: id, nazwa: "", zespol: []});
 
         var id = Kwestia.insert({
             idUser: Meteor.userId(),

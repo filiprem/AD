@@ -129,15 +129,19 @@ Template.informacjeKwestia.events({
         }
     },
     'click #czlonek1': function () {
+        //zmiana!
+
 
         zespolId=this.idZespolRealizacyjny;
         var idUser=getZRData(0,this.idZespolRealizacyjny);
-        if(idUser==Meteor.userId()){
+        if(idUser==Meteor.userId()){//jezeli jest juz w zespole
             rezygnujZRAlert(getZRData(0,zespolId),this._id);
         }
-        else {
-            var z = ZespolRealizacyjny.findOne({_id: zespolId});
-
+        else {//nie ma go w zespole
+            console.log("tutaj wejdzie");
+            var z = ZespolRealizacyjnyDraft.findOne({_id: zespolId});
+            console.log("ten zespół");
+            console.log(z);
             var zespolToUpdate = z.zespol.slice();
             if (z.zespol.length > 0) {
                 GlobalNotification.error({
@@ -148,8 +152,8 @@ Template.informacjeKwestia.events({
                 return false;
             }
             else {
-
-                if (addCzlonekToZespolRealizacyjnyNotification(Meteor.userId(), zespolToUpdate, 2, zespolId) == false) {
+                console.log("next step hiere");
+                if (addCzlonekToZespolRealizacyjnyNotificationNew(Meteor.userId(), zespolToUpdate, 2, zespolId) == false) {
                     bladNotification();
                 }
             }
@@ -163,7 +167,7 @@ Template.informacjeKwestia.events({
             rezygnujZRAlert(getZRData(1,zespolId),this._id);
         }
         else {
-            var z = ZespolRealizacyjny.findOne({_id: zespolId});
+            var z = ZespolRealizacyjnyDraft.findOne({_id: zespolId});
 
             var zespolToUpdate = z.zespol.slice();
             var liczba = 3 - z.zespol.length - 1;
@@ -171,7 +175,7 @@ Template.informacjeKwestia.events({
             if (isUserInZespolRealizacyjnyNotification(Meteor.userId(), zespolToUpdate) == false) {//jeżeli nie jest w zespole
                 if (isUserCountInZespolRealizacyjnyNotification(Meteor.userId(), zespolToUpdate, 2) == false) {//jeżeli jest drugi
 
-                    if (addCzlonekToZespolRealizacyjnyNotification(Meteor.userId(), zespolToUpdate, liczba, zespolId) == false) {
+                    if (addCzlonekToZespolRealizacyjnyNotificationNew(Meteor.userId(), zespolToUpdate, liczba, zespolId) == false) {
                         bladNotification();
                     }
                 }
@@ -187,7 +191,7 @@ Template.informacjeKwestia.events({
             rezygnujZRAlert(getZRData(1, zespolId), this._id);
         }
         else {
-            var z = ZespolRealizacyjny.findOne({_id: zespolId});
+            var z = ZespolRealizacyjnyDraft.findOne({_id: zespolId});
 
             var zespolToUpdate = z.zespol.slice();
             var liczba = 3 - z.zespol.length - 1;
@@ -195,7 +199,7 @@ Template.informacjeKwestia.events({
             if (isUserInZespolRealizacyjnyNotification(Meteor.userId(), zespolToUpdate) == false) {//jeżeli nie jest w zespole
                 if (isUserCountInZespolRealizacyjnyNotification(Meteor.userId(), zespolToUpdate, 2) == false) {
 
-                    if (addCzlonekToZespolRealizacyjnyNotification(Meteor.userId(), zespolToUpdate, liczba, zespolId) == false) {
+                    if (addCzlonekToZespolRealizacyjnyNotificationNew(Meteor.userId(), zespolToUpdate, liczba, zespolId) == false) {
                         bladNotification();
                     }
                 }
@@ -581,7 +585,7 @@ Template.informacjeKwestia.helpers({
         if(zespol){
             for(var i=0;i<zespol.zespol.length;i++){
                 data+=getCzlonekFullName(i,zespol._id)+",";
-            };
+            }
         }
         return data;
     }
@@ -597,7 +601,7 @@ getCzlonekFullName=function(number,idZR){
     }
 };
 getZRData=function(number,idZR){
-    var z = ZespolRealizacyjny.findOne({_id: idZR});
+    var z = ZespolRealizacyjnyDraft.findOne({_id: idZR});
     if(z){
         zespolId = z._id;
         var zespol = z.zespol;
@@ -630,12 +634,18 @@ rezygnujZRFunction=function(idUserZR,idKwestia){
 
     var kwestia=Kwestia.findOne({_id:idKwestia});
     if(kwestia) {
-        var zespol=ZespolRealizacyjny.findOne({_id:kwestia.idZespolRealizacyjny});
+        var zespol=ZespolRealizacyjnyDraft.findOne({_id:kwestia.idZespolRealizacyjny});
         if(zespol) {
             var zespolR = zespol.zespol.slice();
-            zespolR= _.without(zespolR,Meteor.userId());;
-
-            Meteor.call('updateCzlonkowieZR', zespol._id, zespolR, function (error) {
+            zespolR= _.without(zespolR,Meteor.userId());
+            var ZRDraft= {
+                nazwa: "",
+                "zespol": zespolR,
+                "idZR": null
+            };
+            console.log("ten zespół");
+            console.log();
+            Meteor.call('updateZespolRealizacyjnyDraft', zespol._id, ZRDraft, function (error) {
                 if (error) {
                     if (typeof Errors === "undefined")
                         Log.error('Error: ' + error.reason);

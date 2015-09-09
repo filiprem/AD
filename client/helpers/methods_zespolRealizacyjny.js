@@ -7,8 +7,8 @@ isUserInZespolRealizacyjnyNotification=function(id,zespolTab){
     if(_.contains(zespolTab,id)){
         //if(_.contains(tab,id)){
         GlobalNotification.error({
-            title: 'B≥πd',
-            content: 'Jesteú juø w ZR.',
+            title: 'B≈ÇƒÖd',
+            content: 'Jeste≈õ ju≈º w ZR.',
             duration: 3 // duration the notification should stay in seconds
         });
         return true;
@@ -18,9 +18,9 @@ isUserInZespolRealizacyjnyNotification=function(id,zespolTab){
 };
 isUserCountInZespolRealizacyjnyNotification=function(id,zespolTab,numberOfCzlonkowie){
     if(zespolTab.length==3) {
-        var komunikat='Jest juø '+numberOfCzlonkowie+' cz≥onkÛw ZR';
+        var komunikat='Jest ju≈º '+numberOfCzlonkowie+' cz≈Çonk√≥w ZR';
         GlobalNotification.error({
-            title: 'B≥πd',
+            title: 'B≈ÇƒÖd',
             content: komunikat,
             duration: 3 // duration the notification should stay in seconds
         });
@@ -31,12 +31,12 @@ isUserCountInZespolRealizacyjnyNotification=function(id,zespolTab,numberOfCzlonk
 addCzlonekToZespolRealizacyjnyNotification=function(idUser,zespolToUpdate,numberOfCzlonkowie,zespolId){
 
     if(zespolToUpdate.length==2) {
-        //sprawdzam czy mamy taki zespol z idπcym kolejnym cz≥onkiem
+        //sprawdzam czy mamy taki zespol z idƒÖcym kolejnym cz≈Çonkiem
         zespolToUpdate.push(idUser);
-        ///////wszystkie kwestie glosowane,czyli ZR siÍ nie zmieni.jezeli jest glosowana,to wiadome,øe ZR bÍdzie ==3, a mojej nie bedzie,bo nie jest g≥osowana!
+        ///////wszystkie kwestie glosowane,czyli ZR siƒô nie zmieni.jezeli jest glosowana,to wiadome,≈ºe ZR bƒôdzie ==3, a mojej nie bedzie,bo nie jest g≈Çosowana!
         var kwestie = Kwestia.find({
             $where: function () {
-                return (this.status==KWESTIA_STATUS.GLOSOWANA || this.status==KWESTIA_STATUS.REALIZOWANA);
+                return (this.status==KWESTIA_STATUS.GLOSOWANA || this.status==KWESTIA_STATUS.ARCHIWALNA);
             }
         });
         console.log(kwestie.count());
@@ -50,18 +50,18 @@ addCzlonekToZespolRealizacyjnyNotification=function(idUser,zespolToUpdate,number
                     console.log("czlonek zespolu");
                     console.log(zespolItem);
 
-                    if (_.contains(zespolToUpdate, zespolItem)) {//jezeli z bazy tablica zawiera ten z zespo≥u
+                    if (_.contains(zespolToUpdate, zespolItem)) {//jezeli z bazy tablica zawiera ten z zespo≈Çu
                         i++;
-                        console.log("Jest juø nr: " + i);
+                        console.log("Jest ju≈º nr: " + i);
                         console.log(zespol);
                     }
                 });
                 if (i == zespol.zespol.length) {
-                    console.log("Mamy taki zespÛ≥!");
+                    console.log("Mamy taki zesp√≥≈Ç!");
                     console.log(zespol.zespol.length);
                     arrayZespolyDouble.push(zespol._id);
                     flag = true;
-                    //moze sie zdarzyc,ze bd kilka zespo≥Ûw o tych samym sk≥adzie,wiÍc dajmy je do tablicy!
+                    //moze sie zdarzyc,ze bd kilka zespo≈Ç√≥w o tych samym sk≈Çadzie,wiƒôc dajmy je do tablicy!
                 }
             }
         });
@@ -70,8 +70,8 @@ addCzlonekToZespolRealizacyjnyNotification=function(idUser,zespolToUpdate,number
             $("#decyzjaModalId").modal("show");
         }
 
-        else {//to znaczy,ze normalnie mnie dodajπ do bazy
-            //komunikat = 'Zosta≥eú dodany do Zespo≥u Realizacyjnego.Mamy juø komplet';
+        else {//to znaczy,ze normalnie mnie dodajƒÖ do bazy
+            //komunikat = 'Zosta≈Çe≈õ dodany do Zespo≈Çu Realizacyjnego.Mamy ju≈º komplet';
             $("#addNazwa").modal("show");
 
             GlobalNotification.success({
@@ -85,10 +85,10 @@ addCzlonekToZespolRealizacyjnyNotification=function(idUser,zespolToUpdate,number
     else{
         var text = null;
         if (numberOfCzlonkowie == 0)
-            text = ' cz≥onkÛw';
+            text = ' cz≈Çonk√≥w';
         else
-            text = ' cz≥onka';
-        var komunikat = 'Zosta≥eú dodany do Zespo≥u Realizacyjnego. Potrzeba jeszcze ' + numberOfCzlonkowie + text;
+            text = ' cz≈Çonka';
+        var komunikat = 'Zosta≈Çe≈õ dodany do Zespo≈Çu Realizacyjnego. Potrzeba jeszcze ' + numberOfCzlonkowie + text;
 
         zespolToUpdate.push(idUser);
         Meteor.call('updateCzlonkowieZR', zespolId, zespolToUpdate, function (error) {
@@ -115,8 +115,8 @@ addCzlonekToZespolRealizacyjnyNotification=function(idUser,zespolToUpdate,number
 };
 bladNotification=function(){
     GlobalNotification.error({
-        title: 'B≥πd',
-        content: 'Wystπpi≥ b≥πd.',
+        title: 'B≈ÇƒÖd',
+        content: 'WystƒÖpi≈Ç b≈ÇƒÖd.',
         duration: 3 // duration the notification should stay in seconds
     });
 };
@@ -128,7 +128,7 @@ isUserInZRNotification=function(idZespolu){
         if (!_.contains(zespol.zespol, Meteor.userId())) {
             GlobalNotification.error({
                 title: 'Uwaga',
-                content: 'Niestety, decyzjÍ o realizowaniu tej Kwestii moøe podjπÊ jedynie cz≥onek zespo≥u. Poproú jednego z nich, aby przyjπ≥ realizacjÍ, wybierz inny ZespÛ≥, lub stwÛrz nowy. ',
+                content: 'Niestety, decyzjƒô o realizowaniu tej Kwestii mo≈ºe podjƒÖƒá jedynie cz≈Çonek zespo≈Çu. Popro≈õ jednego z nich, aby przyjƒÖ≈Ç realizacjƒô, wybierz inny Zesp√≥≈Ç, lub stw√≥rz nowy. ',
                 duration: 5 // duration the notification should stay in seconds
             });
             return true;
@@ -138,3 +138,83 @@ isUserInZRNotification=function(idZespolu){
     return false;
 };
 
+addCzlonekToZespolRealizacyjnyNotificationNew=function(idUser,zespolToUpdate,numberOfCzlonkowie,zespolId){
+
+    if(zespolToUpdate.length==2) {
+        //sprawdzam czy mamy taki zespol z idƒÖcym kolejnym cz≈Çonkiem,szukamy w ZR
+        zespolToUpdate.push(idUser);
+
+        var flag=false;
+        var arrayZespolyDouble=[];
+        var zespoly=ZespolRealizacyjny.find({czyAktywny:true});
+        if(zespoly){
+            zespoly.forEach(function(zespol) {
+                var i = 0;
+                _.each(zespol.zespol, function (zespolItem) {//dla kazdej aktualnego item z aktualnego zepsolu
+                    console.log("czlonek zespolu");
+                    console.log(zespolItem);
+
+                    if (_.contains(zespolToUpdate, zespolItem)) {//jezeli z bazy tablica zawiera ten z zespo≈Çu
+                        i++;
+                        console.log("Jest ju≈º nr: " + i);
+                        console.log(zespol);
+                    }
+                });
+                if (i == zespol.zespol.length) {
+                    console.log("Mamy taki zesp√≥≈Ç!");
+                    console.log(zespol.zespol.length);
+                    arrayZespolyDouble.push(zespol._id);
+                    flag = true;
+                    //moze sie zdarzyc,ze bd kilka zespo≈Ç√≥w o tych samym sk≈Çadzie,wiƒôc dajmy je do tablicy!
+                }
+            });
+        }
+
+        if(flag==true){//sƒÖ takowe, wiƒôc wy≈õwitlamy
+            Session.setPersistent("zespolRealizacyjnyDouble", arrayZespolyDouble);
+            $("#decyzjaModalId").modal("show");
+        }
+        //nie ma tekiego w bazie,wiƒôc sobie uzupelniamy drafta.to finish
+        else {
+            //komunikat = 'Zosta≈Çe≈õ dodany do Zespo≈Çu Realizacyjnego.Mamy ju≈º komplet';
+            $("#addNazwa").modal("show");
+
+            GlobalNotification.success({
+                title: 'Sukces',
+                content: komunikat,
+                duration: 3 // duration the notification should stay in seconds
+            });
+            return true;
+        }
+    }
+    else{
+        var text = null;
+        if (numberOfCzlonkowie == 0 || numberOfCzlonkowie==2)
+            text = ' cz≈Çonk√≥w';
+        else
+            text = ' cz≈Çonka';
+        var komunikat = 'Zosta≈Çe≈õ dodany do Zespo≈Çu Realizacyjnego. Potrzeba jeszcze ' + numberOfCzlonkowie + text;
+
+        zespolToUpdate.push(idUser);
+        Meteor.call('updateCzlonkowieZRDraft', zespolId, zespolToUpdate, function (error) {
+            if (error) {
+                if (typeof Errors === "undefined")
+                    Log.error('Error: ' + error.reason);
+                else {
+                    throwError(error.reason);
+                }
+            }
+            else{
+                GlobalNotification.success({
+                    title: 'Sukces',
+                    content: komunikat,
+                    duration: 3 // duration the notification should stay in seconds
+                });
+                return true;
+            }
+        });
+
+    }
+
+
+};
