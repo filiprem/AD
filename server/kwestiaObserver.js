@@ -1,12 +1,12 @@
 /**
- * Created by Bart�omiej Szewczyk on 2015-08-31.
+ * Created by Bartďż˝omiej Szewczyk on 2015-08-31.
 
-Badanie zmian w postach, zespo�ach i kwestii w celu sprawdzenia czy kwestia powinna zmieni� status z:
+Badanie zmian w postach, zespoďż˝ach i kwestii w celu sprawdzenia czy kwestia powinna zmieniďż˝ status z:
  deliberowana na glosowana
  glosowana na realizowana
  glosowana na archiwalna
- statusowa na oczekuj�ca
- oczekuj�ca na realizowana
+ statusowa na oczekująca
+ oczekujďż˝ca na realizowana
  archiwalna na deliberowana
  */
 
@@ -31,7 +31,7 @@ Meteor.startup(function(){
             var usersCount = newKwestia.glosujacy.length;
             var zespolCount = ZespolRealizacyjnyDraft.findOne({_id: newKwestia.idZespolRealizacyjny}).zespol.length;
 
-            if(newKwestia.wartoscPriorytetu > 0 && usersCount >= kworum && zespolCount >= 3){
+            if(newKwestia.wartoscPriorytetu > 0 && usersCount >= kworum && zespolCount >= 3 && newKwestia.status != KWESTIA_STATUS.REALIZOWANA){
 
                 if(newKwestia.status == KWESTIA_STATUS.DELIBEROWANA){
 
@@ -45,7 +45,12 @@ Meteor.startup(function(){
                 }
             }
 
-            // Hibernowane - aby z powrotem si� (automatycznie) uaktywni� w przypadku degradacji tamtej z Realizacji
+            if(newKwestia.status == KWESTIA_STATUS.REALIZOWANA && newKwestia.wartoscPriorytetuWRealizacji < (-newKwestia.wartoscPriorytetu)){
+
+                Meteor.call('removeKwestia', newKwestia._id);
+            }
+
+            // uaktywnienie z hibernacji w przypadku degradacji innej kwesti-opcji z Realizacji
             if(oldKwestia.status != newKwestia.status){
                 if(oldKwestia.status == KWESTIA_STATUS.REALIZOWANA
                     && (newKwestia.status != KWESTIA_STATUS.ZREALIZOWANA)){
@@ -70,19 +75,67 @@ Meteor.startup(function(){
 
            var kworum = liczenieKworumZwykle();
            var usersCount = newPost.glosujacy.length;
-
            if(newPost.wartoscPriorytetu > 0 && usersCount >= kworum) {
-               if (newPost.postType == POSTS_TYPES.DELIBERACJA) {
+               switch(newPost.postType){
 
-                   Meteor.call('updateStatusDataGlosowaniaKwestii', newPost.idKwestia, KWESTIA_STATUS.DELIBEROWANA, null);
-               }
-               else if (newPost.postType == POSTS_TYPES.KOSZ) {
+                   case POSTS_TYPES.DELIBERACJA:
+                       Meteor.call('updateStatusDataGlosowaniaKwestii', newPost.idKwestia, KWESTIA_STATUS.DELIBEROWANA, null);
+                       break;
 
-                   Meteor.call('removeKwestia', newPost.idKwestia);
-               }
-               else if (newPost.postType == POSTS_TYPES.ARCHIWUM) {
+                   case POSTS_TYPES.KOSZ:
+                       Meteor.call('removeKwestia', newPost.idKwestia);
+                       break;
 
-                   Meteor.call('updateStatusDataGlosowaniaKwestii', newPost.idKwestia, KWESTIA_STATUS.DELIBEROWANA, null);
+                   case POSTS_TYPES.ARCHIWUM:
+                       var kwestia = Kwestia.findOne({czyAktywny: true, _id: newPost.idKwestia});
+                       if(kwestia.status == KWESTIA_STATUS.REALIZOWANA) {
+                           //Marzena:{
+                           //tworze ZR draft z danych ZR,do tkorego kwestia nalezy i go dodaje
+                           var ZR=ZespolRealizacyjny.findOne({_id:kwestia._id});
+                           var newZRDraft={
+                               nazwa:ZR.nazwa,
+                               zespol:ZR.zespol,
+                               idZR:ZR._id
+                           };
+                           Meteor.call('addZespolRealizacyjnyDraft',newZRDraft,function(error,ret){
+                               if (error) {
+                                   if (typeof Errors === "undefined")
+                                       Log.error('Error: ' + error.reason);
+                                   else
+                                       throwError(error.reason);
+
+                               }
+                               else {//zaktualizuj idZespoluRealizacyjnego w tej kwestii
+                                   var idZRDraft=ret;
+                                   Meteor.call('updateStatIdZespolu', kwestia._id, KWESTIA_STATUS.ARCHIWALNA, idZRDraft,function(error){
+                                       if (error) {
+                                           if (typeof Errors === "undefined")
+                                               Log.error('Error: ' + error.reason);
+                                           else
+                                               throwError(error.reason);
+                                       }
+                                       else {//usun z ZR tÄ… kwestiÄ™
+                                           var ZRKwestietoUpdate=ZR.kwestie.slice();
+                                           ZRKwestietoUpdate= _.without(ZRKwestietoUpdate,kwestia._id);
+                                           Meteor.call('updateKwestieZR', kwestia._id, ZRKwestietoUpdate,function(error){
+                                               if (error) {
+                                                   if (typeof Errors === "undefined")
+                                                       Log.error('Error: ' + error.reason);
+                                               }
+                                           });
+                                       }
+                                   });
+                               }
+                           });
+                       }
+                       else {
+                           Meteor.call('updateStatusKwestii', newPost.idKwestia, KWESTIA_STATUS.ARCHIWALNA);
+                       }
+                       break;
+
+                   case POSTS_TYPES.ZREALIZOWANA:
+                       Meteor.call('updateStatusKwestii', newPost.idKwestia, KWESTIA_STATUS.ZREALIZOWANA);
+                       break;
                }
            }
        }
@@ -114,7 +167,7 @@ Meteor.startup(function(){
 //START CRONA
 SyncedCron.start();
 
-//USTAWIENIA CRONA
+//USTAWIENIA CRONA do sprawdzania głosowanych kwestii - co minute
 SyncedCron.add({
     name: 'checking dates crone',
     schedule: function(parser) {
@@ -127,7 +180,20 @@ SyncedCron.add({
     }
 });
 
-//Nadawanie numeru uchwa�y - dla kwesti kt�re przechodz� do realizacji, ka�dego dnia numery id� od 1
+//USTAWIENIA CRONA do sprawdzania czy kwestie mają przejść do głosowania - raz na 7 dni
+SyncedCron.add({
+    name: 'checking issues to vote crone',
+    schedule: function(parser) {
+        // parser is a later.parse object
+        return parser.text('every 7 day');
+    },
+    job: function() {
+        var checkIssTVote = checkingIssuesToVote();
+        return checkIssTVote;
+    }
+});
+
+//Nadawanie numeru uchwaďż˝y - dla kwesti ktďż˝re przechodzďż˝ do realizacji, kaďż˝dego dnia numery idďż˝ od 1
 nadawanieNumeruUchwaly = function(dataRealizacji) {
 
     var numerUchw = 1;
@@ -142,10 +208,10 @@ nadawanieNumeruUchwaly = function(dataRealizacji) {
     return numerUchw;
 };
 
-//Wywo�anie tej metody jest w Cronie
-//Sprawdzanie dat dla g�osowania oraz dla kwestii oczekuj�cych
-//oczekuj�ce do zrobienia - potrzebne dodanie do bazy jakiej� daty kiedy kwestia przesz�a na oczekuj�c�
-//i wtedy dodawa� 30 dni (taki jest termin) lub odrazu zapisywa� termin wyga�niecia kwesti oczekuj�cej.
+//Wywoďż˝anie tej metody jest w Cronie
+//Sprawdzanie dat dla gďż˝osowania oraz dla kwestii oczekujďż˝cych
+//oczekujďż˝ce do zrobienia - potrzebne dodanie do bazy jakiejďż˝ daty kiedy kwestia przeszďż˝a na oczekujďż˝cďż˝
+//i wtedy dodawaďż˝ 30 dni (taki jest termin) lub odrazu zapisywaďż˝ termin wygaďż˝niecia kwesti oczekujďż˝cej.
 sprawdzanieDat = function() {
 
     var actualDate = new Date();
@@ -153,7 +219,6 @@ sprawdzanieDat = function() {
     var pktZaUdzialWZesp = RADKING.UDZIAL_W_ZESPOLE_REALIZACYJNYM;
 
     kwestie.forEach(function (kwestia) {
-
 
         if(kwestia.status == KWESTIA_STATUS.GLOSOWANA) {
 
@@ -166,7 +231,7 @@ sprawdzanieDat = function() {
 
                     //Marzena:
                     var zrDraft=ZespolRealizacyjnyDraft.findOne({_id:kwestia.idZespolRealizacyjny});
-                    if(zrDraft.idZR!=null){//jezeli draft ma id ZR( kopiuje od istniejącego ZR), to dopisz do kisty ZR tego drafta
+                    if(zrDraft.idZR!=null){//jezeli draft ma id ZR( kopiuje od istniejÄ…cego ZR), to dopisz do kisty ZR tego drafta
                         var ZR=ZespolRealizacyjny.findOne({id:zrDraft.idZR});
                         var listKwestii=ZR.kwestie.slice();
                         listKwestii.push(kwestia._id);
@@ -183,7 +248,7 @@ sprawdzanieDat = function() {
                             }
                         });
                     }
-                    else{//w innym przypadku robimy nowy zespół Realizacyjny
+                    else{//w innym przypadku robimy nowy zespĂłĹ‚ Realizacyjny
                         var arrayKwestie=[];
                         arrayKwestie.push(kwestia._id);
                         var newZR={
@@ -205,11 +270,11 @@ sprawdzanieDat = function() {
                                 Meteor.call('updateStatNrUchwDtRealIdZespolKwestii', kwestia._id, KWESTIA_STATUS.REALIZOWANA, kwestia.numerUchwaly, kwestia.dataRealizacji,idZR);
                             }
                         });
-                    }//usuń niepotrzebnego drafta
+                    }//usuĹ„ niepotrzebnego drafta
                     Meteor.call('removeZespolRealizacyjnyDraft', kwestia.idZR);
                     //end Marzena
 
-                    //W przypadku przej�cia Kwestii-Opcji do Realizacji - pozosta�e Opcje przechodz� na status HIBERNOWANA
+                    //W przypadku przejďż˝cia Kwestii-Opcji do Realizacji - pozostaďż˝e Opcje przechodzďż˝ na status HIBERNOWANA
                     if(kwestia.idParent!=kwestia._id) {
 
                         kwestieOpcje = Kwestia.find({czyAktywny: true, idParent: kwestia.idParent});
@@ -225,45 +290,7 @@ sprawdzanieDat = function() {
                     //Meteor.call('updateStatNrUchwDtRealIdZespolKwestii', kwestia._id, KWESTIA_STATUS.REALIZOWANA, kwestia.numerUchwaly, kwestia.dataRealizacji,ZR._id);
                 }
                 else{
-                //Marzena:{
-                    //tworze ZR draft z danych ZR,do tkorego kwestia nalezy i go dodaje
-                    var ZR=ZespolRealizacyjny.findOne({_id:kwestia._id});
-                    var newZRDraft={
-                        nazwa:ZR.nazwa,
-                        zespol:ZR.zespol,
-                        idZR:ZR._id
-                    };
-                    Meteor.call('addZespolRealizacyjnyDraft',newZRDraft,function(error,ret){
-                        if (error) {
-                            if (typeof Errors === "undefined")
-                                Log.error('Error: ' + error.reason);
-                            else
-                                throwError(error.reason);
-
-                        }
-                        else {//zaktualizuj idZespoluRealizacyjnego w tej kwestii
-                            var idZRDraft=ret;
-                            Meteor.call('updateStatIdZespolu', kwestia._id, KWESTIA_STATUS.ARCHIWALNA, idZRDraft,function(error){
-                                if (error) {
-                                    if (typeof Errors === "undefined")
-                                        Log.error('Error: ' + error.reason);
-                                    else
-                                        throwError(error.reason);
-                                }
-                                else {//usun z ZR tą kwestię
-                                    var ZRKwestietoUpdate=ZR.kwestie.slice();
-                                    ZRKwestietoUpdate= _.without(ZRKwestietoUpdate,kwestia._id);
-                                    Meteor.call('updateKwestieZR', kwestia._id, ZRKwestietoUpdate,function(error){
-                                        if (error) {
-                                            if (typeof Errors === "undefined")
-                                                Log.error('Error: ' + error.reason);
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                    });
-                    //Meteor.call('updateStatusKwestii', kwestia._id, KWESTIA_STATUS.ARCHIWALNA);
+                    Meteor.call('updateStatusKwestii', kwestia._id, KWESTIA_STATUS.ARCHIWALNA);
                 }
             }
         }
@@ -286,4 +313,10 @@ awansUzytkownika = function(idZespoluRealiz, pktZaUdzialWZesp) {
         uzytkownikAwansujacy.profile.rADking += pktZaUdzialWZesp;
         Meteor.call('updateUserRanking',idUzytkownikaZespolu, uzytkownikAwansujacy.profile.rADking);
     });
+};
+
+checkingIssuesToVote = function () {
+    //DO ZROBIENIA
+    //RAZ NA 7 DNI 3 NAJWYŻEJ OCENIANE KWESTIE PRZECHODZĄ DO GŁOSOWANIA
+    // 7 i 3 mają być wczytywane z parametru z tym że 7 jest ustawiane w cronie
 };
