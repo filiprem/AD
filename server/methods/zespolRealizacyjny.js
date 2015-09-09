@@ -9,6 +9,10 @@ Meteor.methods({
         });
         return id;
     },
+    updateListKwesti:function (id, listKwestii) {
+        var id = ZespolRealizacyjny.update(id, {$set: {kwestie: listKwestii}}, {upsert: true});
+        return id;
+    },
     //updateZespolRealizacyjny: function (id, obj) {
     //    var id = ZespolRealizacyjny.update(id,
     //        {

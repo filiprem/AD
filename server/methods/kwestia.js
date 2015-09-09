@@ -151,12 +151,13 @@ Meteor.methods({
         var id = Kwestia.update(id, {$set: {status: status}}, {upsert: true});
         return id;
     },
-    updateStatNrUchwDtRealKwestii: function (id, status, numerUchwaly, dataRealizacji) {
+    updateStatNrUchwDtRealIdZespolKwestii: function (id, status, numerUchwaly, dataRealizacji,idZR) {
         var id = Kwestia.update(id, {
             $set: {
                 status: status,
                 numerUchwaly: numerUchwaly,
-                dataRealizacji: dataRealizacji
+                dataRealizacji: dataRealizacji,
+                idZespolRealizacyjny:idZR
             }
         }, {upsert: true});
         return id;
@@ -172,5 +173,14 @@ Meteor.methods({
     },
     removeKwestia: function(id){
         Kwestia.update(id,{$set: {czyAktywny: false}}, {upsert: true});
+    },
+    updateStatIdZespolu:function(id,status,idZR){
+        var id = Kwestia.update(id, {
+            $set: {
+                status: status,
+                idZespolRealizacyjny:idZR
+            }
+        }, {upsert: true});
+        return id;
     }
 });
