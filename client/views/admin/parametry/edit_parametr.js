@@ -181,6 +181,6 @@ Template.editParametry.events({
         }
     },
     'reset form': function () {
-        Router.go('listParametr');
+        Router.go('administracjaUserMain');
     }
 });

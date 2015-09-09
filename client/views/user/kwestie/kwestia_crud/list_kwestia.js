@@ -266,3 +266,9 @@ Template.listKwestia.helpers({
         }
     }
 });
+
+Template.kworumNumber.helpers({
+    'getKworum':function(){
+        return liczenieKworumZwykle();
+    }
+})

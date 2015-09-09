@@ -1,5 +1,4 @@
 <template name="archiwum">
-<!--{{#if currentUser}}-->
     <div class="main">
         <div class="row">
             <div class="col-md-12">
@@ -16,19 +15,10 @@
             </div>
         </div>
     </div>
-        <!--{{/if}}-->
-</template>
-
-<template name="editColumnKwestiaArch">
-    <div class="pull-right">
-        <a href="#" class="btn btn-xs btn-default" data-toggle="tooltip" title="Procedura przywracania Kwestii">
-            <i class="fa fa-refresh"></i> Przywróć
-        </a>
-    </div>
 </template>
 
 <template name="nazwaKwestiiArchiwumLink">
-    <a href="{{ pathFor 'informacjeKwestiaArchiwum'}}" id="kwestiaIdClick" class="kwestiaId">{{this.kwestiaNazwa}}</a>
+    <a href="{{ pathFor 'informacjeKwestiaArchiwum'}}">{{this.kwestiaNazwa}}</a>
 </template>
 
 <template name="tematKwestiiArchiwum">
