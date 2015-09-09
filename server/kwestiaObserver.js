@@ -1,12 +1,12 @@
 /**
- * Created by Bart³omiej Szewczyk on 2015-08-31.
+ * Created by Bartï¿½omiej Szewczyk on 2015-08-31.
 
-Badanie zmian w postach, zespo³ach i kwestii w celu sprawdzenia czy kwestia powinna zmieniæ status z:
+Badanie zmian w postach, zespoï¿½ach i kwestii w celu sprawdzenia czy kwestia powinna zmieniï¿½ status z:
  deliberowana na glosowana
  glosowana na realizowana
  glosowana na archiwalna
- statusowa na oczekuj¹ca
- oczekuj¹ca na realizowana
+ statusowa na oczekujï¿½ca
+ oczekujï¿½ca na realizowana
  archiwalna na deliberowana
  */
 
@@ -127,7 +127,7 @@ SyncedCron.add({
     }
 });
 
-//Nadawanie numeru uchwa³y - dla kwesti które przechodz¹ do realizacji, ka¿dego dnia numery id¹ od 1
+//Nadawanie numeru uchwaï¿½y - dla kwesti ktï¿½re przechodzï¿½ do realizacji, kaï¿½dego dnia numery idï¿½ od 1
 nadawanieNumeruUchwaly = function(dataRealizacji) {
 
     var numerUchw = 1;
@@ -142,15 +142,15 @@ nadawanieNumeruUchwaly = function(dataRealizacji) {
     return numerUchw;
 };
 
-//Wywo³anie tej metody jest w Cronie
-//Sprawdzanie dat dla g³osowania oraz dla kwestii oczekuj¹cych
-//oczekuj¹ce do zrobienia - potrzebne dodanie do bazy jakiejœ daty kiedy kwestia przesz³a na oczekuj¹c¹
-//i wtedy dodawaæ 30 dni (taki jest termin) lub odrazu zapisywaæ termin wygaœniecia kwesti oczekuj¹cej.
+//Wywoï¿½anie tej metody jest w Cronie
+//Sprawdzanie dat dla gï¿½osowania oraz dla kwestii oczekujï¿½cych
+//oczekujï¿½ce do zrobienia - potrzebne dodanie do bazy jakiejï¿½ daty kiedy kwestia przeszï¿½a na oczekujï¿½cï¿½
+//i wtedy dodawaï¿½ 30 dni (taki jest termin) lub odrazu zapisywaï¿½ termin wygaï¿½niecia kwesti oczekujï¿½cej.
 sprawdzanieDat = function() {
 
     var actualDate = new Date();
     var kwestie = Kwestia.find({czyAktywny: true, status: {$in: [KWESTIA_STATUS.GLOSOWANA, KWESTIA_STATUS.OCZEKUJACA]}});
-    var pktZaUdzialWZesp = Parametr.findOne({}).pktUdzialWZespoleRealizacyjnym;
+    var pktZaUdzialWZesp = RADKING.UDZIAL_W_ZESPOLE_REALIZACYJNYM;
 
     kwestie.forEach(function (kwestia) {
 

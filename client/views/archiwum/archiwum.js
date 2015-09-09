@@ -32,18 +32,16 @@ Template.archiwum.events({
                         throwError(error.reason);
                 }
             });
-            //dodanie pkt za głosowanie
+
             var newValue = 0;
-            var pktAddPriorytet = Parametr.findOne({});
-            newValue = Number(pktAddPriorytet.pktNadaniePriorytetu) + getUserRadkingValue(Meteor.userId());
+            newValue = Number(RADKING.NADANIE_PRIORYTETU) + getUserRadkingValue(Meteor.userId());
 
             Meteor.call('updateUserRanking', Meteor.userId(), newValue, function (error) {
                 if (error) {
                     if (typeof Errors === "undefined")
                         Log.error('Error: ' + error.reason);
-                    else {
+                    else
                         throwError(error.reason);
-                    }
                 }
             });
         }
@@ -96,7 +94,7 @@ Template.archiwum.helpers({
             ]
         };
     },
-    ArchiwumList: function () {
+    ArchiwumList: function () {//do Bartka:
         //return Kwestia.find({$where:function(){return ((this.czyAktywny==false) || (moment(this.dataGlosowania) < moment()&& this.wartoscPriorytetu < this.pulapPriorytetu));}}).fetch();
         return Kwestia.find({
             $or: [

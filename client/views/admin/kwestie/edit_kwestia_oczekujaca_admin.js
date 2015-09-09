@@ -75,8 +75,7 @@ Template.kwestiaOczekujaca.events({
                 Router.go('listaKwestiiOczekujacych');
                 var userKwestia = $(e.target).find('[id=idUser]').val();
                 var newValue = 0;
-                var pktAddKwestia = Parametr.findOne({});
-                newValue = Number(pktAddKwestia.pktDodanieKwestii) + getUserRadkingValue(userKwestia);
+                newValue = Number(RADKING.DODANIE_KWESTII) + getUserRadkingValue(userKwestia);
 
                 Meteor.call('updateUserRanking', userKwestia, newValue, function (error) {
                     if (error) {

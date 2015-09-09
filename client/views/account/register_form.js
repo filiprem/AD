@@ -140,3 +140,10 @@ Template.registerForm.events({
         Router.go('listUsers');
     }
 });
+
+Template.registerForm.helpers({
+    'lessThanFiveUsers': function () {
+        var users = Users.find();
+        return !!users && users.count() <= 4 ? true : false;
+    }
+})

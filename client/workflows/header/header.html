@@ -6,6 +6,15 @@
         </div>
         <div id="navbar-collapse" class="navbar-collapse collapse">
                 {{#if hasUserAccess}}
+                    {{#if isAdmin}}
+                        <ul class="nav navbar-nav">
+                            <li class="{{activeRouteClass 'listLanguages'}}">
+                                <a href="{{pathFor 'listLanguages'}}">
+                                    <i class="fa fa-language"></i> Języki
+                                </a>
+                            </li>
+                        </ul>
+                    {{/if}}
                     {{#unless isAdmin}}
                     <ul class="nav navbar-nav">
                         <li class="{{activeRouteClass 'listKwestia'}}">
@@ -57,7 +66,7 @@
                                 </li>
                             {{else}}
                                 <li>
-                                    <a id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <a class="cursor-pointer" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                         <i class="fa fa-male"></i> Dołącz
                                         <span class="caret"></span>
                                     </a>
@@ -80,7 +89,7 @@
                         </li>
                     {{/if}}
                     <li class="{{activeRouteClass 'notification_list'}} ">
-                        <a href="{{pathFor 'notification_list'}}">Powiadomienia<span class="badge red">{{liczbaNieprzeczytanych}}</span></a>
+                        <a href="{{pathFor 'notification_list'}}">Powiadomienia <span class="badge red">{{liczbaNieprzeczytanych}}</span></a>
                     </li>
                     {{> loginButtons}}
                 {{/if}}
