@@ -23,13 +23,13 @@
                 <div class="btn-toolbar pull-right" role="toolbar" aria-label="...">
                     <div class="btn-group" role="group" aria-label="...">
                         <button id="backToList" class="btn btn-primary">
-                            <span class="glyphicon glyphicon-arrow-left"></span> Powrót
+                            <span class="fa fa-arrow-left"></span> Powrót
                         </button>
                         {{#unless czyOsobowa}}
                             {{#if kwestiaOpcjaCount}}
                                 {{#unless isAdmin}}
                                     <button id="addOptionButton" class="btn btn-primary" {{isUserLogged}}>
-                                        <span class="glyphicon glyphicon-plus"></span> Dodaj opcję
+                                        <span class="fa fa-plus"></span> Dodaj opcję
                                     </button>
                                 {{/unless}}
                             {{/if}}
@@ -41,14 +41,14 @@
                         <div class="btn-group" role="group" aria-label="...">
                             <!--<label class="btn btn-danger">Przeniesienie Kwestii</label>-->
                             <button id="doArchiwum" class="btn btn-warning" {{isUserLogged}}>
-                                <span class="glyphicon glyphicon-lock"></span> Do Archiwum
+                                <span class="fa fa-archive"></span> Do Archiwum
                             </button>
                             <button id="doKosza" class="btn btn-danger" {{isUserLogged}}>
-                                <span class="glyphicon glyphicon-trash"></span> Do Kosza
+                                <span class="fa fa-trash"></span> Do Kosza
                             </button>
                         </div>
-                        <button id="wyczyscPriorytety" type="button" class="btn btn-danger" {{isAvailable }}>Wyczyść
-                            moje priorytety
+                        <button id="wyczyscPriorytety" type="button" class="btn btn-danger" {{isAvailable }}>
+                            Wyczyść moje priorytety
                         </button>
                     {{/unless}}
                 </div>
