@@ -220,13 +220,27 @@ ul.notifications {
 }
 
 body #decyzjaModalId .modal-dialog{
-    /* new custom width */
     width: 750px;
 
 }
 
 body #listZespolRealizacyjnyDouble .modal-dialog{
-    /* new custom width */
     width: 750px;
+}
+
+.panel .noborder{
+    border:none;
+    box-shadow: none;
+}
+.panel.noborder > .panel-heading {
+    border: 1px solid #dddddd;
+    border-radius: 0;
+    padding:5px;
+}
+.fontSize{
+    font-size:12px;
+}
+.fontSizeSmall{
+    font-size:9px;
 }
 

@@ -35,7 +35,7 @@ Template.addNazwaModal.events({
         var idKwestia=this._id;
         e.preventDefault();
         var nazwa = document.getElementById('nazwaZR').value;
-        var zespoly = ZespolRealizacyjny.find({}).fetch();
+        var zespoly = ZespolRealizacyjny.find({czyAktywny:true});
         var z = "Zespół Realizacyjny ds. ";
         if (nazwa.toLowerCase().trim() =="") {
             GlobalNotification.error({
@@ -62,7 +62,7 @@ Template.addNazwaModal.events({
                 var text="Zespół realizacyjny ds."+nazwa;
                 var kwestia=Kwestia.findOne({_id:idKwestia});
                 if(kwestia) {
-                    var zespol=ZespolRealizacyjny.findOne({_id:kwestia.idZespolRealizacyjny});
+                    var zespol=ZespolRealizacyjnyDraft.findOne({_id:kwestia.idZespolRealizacyjny});
                     if(zespol) {
                         var tablicaZR = zespol.zespol.slice();
                         tablicaZR.push(Meteor.userId());
@@ -72,7 +72,7 @@ Template.addNazwaModal.events({
                             nazwa:text,
                             zespol:tablicaZR
                         };
-                        Meteor.call('updateZespolRealizacyjny', kwestia.idZespolRealizacyjny, newZespol, function (error, ret) {
+                        Meteor.call('updateZespolRealizacyjnyDraft', kwestia.idZespolRealizacyjny, newZespol, function (error, ret) {
                             if (error) {
                                 if (typeof Errors === "undefined")
                                     Log.error('Error: ' + error.reason);

@@ -1,7 +1,7 @@
 Meteor.methods({
     // metody Kwestia GŁÓWNA
     addKwestia: function (newKwestia) {
-        var z = ZespolRealizacyjny.insert({nazwa: "", zespol: []});
+        var z = ZespolRealizacyjnyDraft.insert({nazwa: "", zespol: []});
 
         var id = Kwestia.insert({
             idUser: newKwestia[0].idUser,
@@ -32,7 +32,7 @@ Meteor.methods({
     //gdy tworzymy kwestię statusową, idUser: to osoba zgłaszajaca doradcę na honorowego
     //idZglaszającego- osoba zgłaszana
     addKwestiaStatusowa: function (newKwestia) {
-        var z = ZespolRealizacyjny.insert({idKwestia: id, nazwa: "", zespol: []});
+        var z = ZespolRealizacyjnyDraft.insert({idKwestia: id, nazwa: "", zespol: []});
 
         var id = Kwestia.insert({
             idUser: newKwestia[0].idUser,
@@ -89,7 +89,7 @@ Meteor.methods({
            
         });
         Kwestia.update({_id: id}, {$set: {idParent: id}}, {upsert: true});
-        var z = ZespolRealizacyjny.insert({idKwestia: id, nazwa: "", zespol: []});
+        var z = ZespolRealizacyjnyDraft.insert({idKwestia: id, nazwa: "", zespol: []});
         return id;
     },
   /*  updateKwestia: function (id, kwestia) {
@@ -101,7 +101,7 @@ Meteor.methods({
     },*/
     //metody Kwestia OPCJA
     addKwestiaOpcja: function (newKwestiaOpcja) {
-        var z = ZespolRealizacyjny.insert({idKwestia: id, nazwa: "", zespol: []});
+        var z = ZespolRealizacyjnyDraft.insert({idKwestia: id, nazwa: "", zespol: []});
 
         var id = Kwestia.insert({
             idUser: Meteor.userId(),
@@ -151,12 +151,13 @@ Meteor.methods({
         var id = Kwestia.update(id, {$set: {status: status}}, {upsert: true});
         return id;
     },
-    updateStatNrUchwDtRealKwestii: function (id, status, numerUchwaly, dataRealizacji) {
+    updateStatNrUchwDtRealIdZespolKwestii: function (id, status, numerUchwaly, dataRealizacji,idZR) {
         var id = Kwestia.update(id, {
             $set: {
                 status: status,
                 numerUchwaly: numerUchwaly,
-                dataRealizacji: dataRealizacji
+                dataRealizacji: dataRealizacji,
+                idZespolRealizacyjny:idZR
             }
         }, {upsert: true});
         return id;
@@ -172,5 +173,14 @@ Meteor.methods({
     },
     removeKwestia: function(id){
         Kwestia.update(id,{$set: {czyAktywny: false}}, {upsert: true});
+    },
+    updateStatIdZespolu:function(id,status,idZR){
+        var id = Kwestia.update(id, {
+            $set: {
+                status: status,
+                idZespolRealizacyjny:idZR
+            }
+        }, {upsert: true});
+        return id;
     }
 });

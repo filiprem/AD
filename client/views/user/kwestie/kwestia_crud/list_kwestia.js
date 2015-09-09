@@ -103,7 +103,7 @@ Template.listKwestia.helpers({
                     key: 'kwestiaNazwa',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        title: "Kliknij, aby zobaczyć szczegóły",
+                        title: "Kliknij w nazwę, aby zobaczyć szczegóły Kwestii",
                         text: "Nazwa Kwestii"
                     },
                     tmpl: Template.nazwaKwestiLink

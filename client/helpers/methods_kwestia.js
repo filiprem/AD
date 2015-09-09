@@ -31,13 +31,14 @@ powolajZRFunction=function(idKwestia,idAktualnyZR) {
     if (kwestia) {
         var zespolWybrany = ZespolRealizacyjny.findOne({_id: idAktualnyZR});
         if (zespolWybrany) {
-            var myZR = ZespolRealizacyjny.findOne({_id: kwestia.idZespolRealizacyjny});
+            var myZR = ZespolRealizacyjnyDraft.findOne({_id: kwestia.idZespolRealizacyjny});
             if (myZR) {
                 var myNewZR = {
                     nazwa: zespolWybrany.nazwa,
-                    zespol: zespolWybrany.zespol
+                    zespol: zespolWybrany.zespol,
+                    idZR:idAktualnyZR
                 };
-                Meteor.call('updateZespolRealizacyjny', myZR._id, myNewZR, function (error, ret) {
+                Meteor.call('updateZespolRealizacyjnyDraft', myZR._id, myNewZR, function (error, ret) {
                     if (error) {
                         if (typeof Errors === "undefined")
                             Log.error('Error: ' + error.reason);
@@ -54,5 +55,13 @@ powolajZRFunction=function(idKwestia,idAktualnyZR) {
 
         }
     }
+};
+isKwestiaGlosowana=function(idKwestia){
+    var kwestia= Kwestia.findOne({_id:idKwestia});
+    console.log(kwestia);
+    if(kwestia){
+        return kwestia.status==KWESTIA_STATUS.GLOSOWANA ? "disabled" :"";
+    }
+    return "";
 };
 

@@ -2,7 +2,9 @@ Meteor.startup(function(){
     var ZR =[
     {
         "nazwa": "Zespół Realizacyjny ds. Osób",
-        "zespol": []
+        "zespol": [],
+        "kwestie":[],
+        "czyAktywny":true
     }];
 
     if(ZespolRealizacyjny.find().count() == 0){
