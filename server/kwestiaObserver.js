@@ -16,7 +16,8 @@ Meteor.startup(function(){
         status: {
             $in: [
                 KWESTIA_STATUS.DELIBEROWANA,
-                KWESTIA_STATUS.STATUSOWA
+                KWESTIA_STATUS.STATUSOWA,
+                KWESTIA_STATUS.REALIZOWANA
             ]
         }
     });
@@ -41,6 +42,24 @@ Meteor.startup(function(){
                 else if (newKwestia.status == KWESTIA_STATUS.STATUSOWA){
 
                     Meteor.call('updateStatusKwestii', newKwestia._id, KWESTIA_STATUS.OCZEKUJACA);
+                }
+            }
+
+            // Hibernowane - aby z powrotem siê (automatycznie) uaktywniæ w przypadku degradacji tamtej z Realizacji
+            if(oldKwestia.status != newKwestia.status){
+                if(oldKwestia.status == KWESTIA_STATUS.REALIZOWANA
+                    && (newKwestia.status != KWESTIA_STATUS.ZREALIZOWANA)){
+                    if(newKwestia.idParent!=newKwestia._id) {
+
+                        kwestieOpcje = Kwestia.find({czyAktywny: true, idParent: kwestia.idParent, status: KWESTIA_STATUS.HIBERNOWANA});
+                        kwestieOpcje.forEach(function (kwestiaOpcja){
+
+                            if(kwestiaOpcja.idParent!=kwestiaOpcja._id && kwestiaOpcja._id!=newKwestia._id){
+
+                                Meteor.call('updateStatusKwestii', kwestiaOpcja._id, KWESTIA_STATUS.DELIBEROWANA);
+                            }
+                        });
+                    }
                 }
             }
         }
@@ -144,6 +163,20 @@ sprawdzanieDat = function() {
                     awansUzytkownika(kwestia.idZespolRealizacyjny, pktZaUdzialWZesp);
                     kwestia.dataRealizacji = new Date();
                     kwestia.numerUchwaly = nadawanieNumeruUchwaly(kwestia.dataRealizacji);
+
+                    //W przypadku przejœcia Kwestii-Opcji do Realizacji - pozosta³e Opcje przechodz¹ na status HIBERNOWANA
+                    if(kwestia.idParent!=kwestia._id) {
+
+                        kwestieOpcje = Kwestia.find({czyAktywny: true, idParent: kwestia.idParent});
+                        kwestieOpcje.forEach(function (kwestiaOpcja){
+
+                            if(kwestiaOpcja.idParent!=kwestiaOpcja._id && kwestiaOpcja._id!=kwestia._id){
+
+                                Meteor.call('updateStatusKwestii', kwestiaOpcja._id, KWESTIA_STATUS.HIBERNOWANA);
+                            }
+                        });
+                    }
+
                     Meteor.call('updateStatNrUchwDtRealKwestii', kwestia._id, KWESTIA_STATUS.REALIZOWANA, kwestia.numerUchwaly, kwestia.dataRealizacji);
                 }
                 else{
