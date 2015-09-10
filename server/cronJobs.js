@@ -94,7 +94,7 @@ checkingEndOfVote = function() {
                             }
                         });
                     }
-                    else{//w innym przypadku robimy nowy zespĂłĹ‚ Realizacyjny
+                    else{//w innym przypadku robimy nowy zespół‚ Realizacyjny
                         var arrayKwestie=[];
                         arrayKwestie.push(kwestia._id);
                         var newZR={
@@ -120,7 +120,7 @@ checkingEndOfVote = function() {
                     Meteor.call('removeZespolRealizacyjnyDraft', kwestia.idZR);
                     //end Marzena
 
-                    //W przypadku przejďż˝cia Kwestii-Opcji do Realizacji - pozostaďż˝e Opcje przechodzďż˝ na status HIBERNOWANA
+                    //W przypadku przejścia Kwestii-Opcji do Realizacji - pozostałe Opcje przechodzą na status HIBERNOWANA
                     if(kwestia.idParent!=kwestia._id) {
 
                         kwestieOpcje = Kwestia.find({czyAktywny: true, idParent: kwestia.idParent});

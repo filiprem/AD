@@ -1,12 +1,12 @@
 /**
- * Created by Bartďż˝omiej Szewczyk on 2015-08-31.
+ * Created by Bartłomiej Szewczyk on 2015-08-31.
 
-Badanie zmian w postach, zespoďż˝ach i kwestii w celu sprawdzenia czy kwestia powinna zmieniďż˝ status z:
+Badanie zmian w postach, zespołach i kwestii w celu sprawdzenia czy kwestia powinna zmienić status z:
  deliberowana na glosowana
  glosowana na realizowana
  glosowana na archiwalna
  statusowa na oczekująca
- oczekujďż˝ca na realizowana
+ oczekująca na realizowana
  archiwalna na deliberowana
  */
 
@@ -114,7 +114,7 @@ Meteor.startup(function(){
                                            else
                                                throwError(error.reason);
                                        }
-                                       else {//usun z ZR tÄ… kwestiÄ™
+                                       else {//usun z ZR tą kwestię
                                            var ZRKwestietoUpdate=ZR.kwestie.slice();
                                            ZRKwestietoUpdate= _.without(ZRKwestietoUpdate,kwestia._id);
                                            Meteor.call('updateKwestieZR', kwestia._id, ZRKwestietoUpdate,function(error){
