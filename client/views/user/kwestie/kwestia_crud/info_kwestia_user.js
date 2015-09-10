@@ -564,7 +564,7 @@ Template.informacjeKwestia.helpers({
     getZRName:function(){
         var kwestia=Kwestia.findOne({_id:this._id});
         if(kwestia){
-            var zespolR= ZespolRealizacyjny.findOne({_id:kwestia.idZespolRealizacyjny});
+            var zespolR= ZespolRealizacyjnyDraft.findOne({_id:kwestia.idZespolRealizacyjny});
             console.log(zespolR);
             if (zespolR){
                 return zespolR.zespol.slice().length==3 ? zespolR.nazwa :null;

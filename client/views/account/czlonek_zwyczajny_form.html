@@ -41,15 +41,15 @@
 
                         <div class="col-xs-9">
                             <input name="identityCard" type="text" class="form-control" id="profession"
-                                   placeholder="Numer Dowodu Osobistego" value={{profile.identityCard}} required {{isNotEmpty}}>
+                                   placeholder="Numer Dowodu Osobistego" value={{profile.identityCard}} required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-xs-3" for="phoneNumber">PESEL: </label>
 
                         <div class="col-xs-9">
-                            <input name="pesel" type="number" class="form-control" id="pesel"
-                                   placeholder="PESEL" value={{profile.pesel}} required >
+                            <input name="pesel" type="text" class="form-control" id="pesel"
+                                   placeholder="PESEL" value={{profile.pesel}} required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -68,7 +68,7 @@
 
                         <div class="col-xs-9">
                             <textarea name="address" rows="3" class="form-control" id="postalAddress"
-                                      placeholder="Adres" value={{profile.address}} required {{isNotEmpty}}></textarea>
+                                      placeholder="Adres" value={{profile.address}} required></textarea>
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -77,13 +77,13 @@
 
                             <div class="col-xs-3">
                                 <input name="zipCode" type="text" class="form-control" id="ZipCode"
-                                       placeholder="Kod pocztowy" value={{profile.zip}} required {{isNotEmpty}}>
+                                       placeholder="Kod pocztowy" value={{profile.zip}} required>
                              </div>
                          </div>
                          <div class="form-group">
                             <div class="col-xs-3">
                                 <input name="city" type="text" class="form-control" id="city"
-                                       placeholder="Miasto" value={{profile.city}} required {{isNotEmpty}}>
+                                       placeholder="Miasto" value={{profile.city}} required >
                             </div>
                         </div>
                     </div>
@@ -92,7 +92,7 @@
 
                         <div class="col-xs-9">
                             <input name="phone" type="text" class="form-control" id="phone"
-                                   placeholder="Numer telefonu" value={{profile.phone}} required>
+                                   placeholder="Numer telefonu" value={{profile.phone}} required {{isNotEmpty}}>
                         </div>
                     </div>
                     <div class="form-group">
@@ -124,7 +124,7 @@
 
                         <div class="col-xs-9">
                             <textarea name="uwagi" rows="3" class="form-control" id="uwagiStatus"
-                                      placeholder="Napisz parę słów do nas, o Sobie i powodach Twojego wniosku..." value={{profile.uwagi}}></textarea>
+                                      placeholder="Napisz parę słów do nas, o Sobie i powodach Twojego wniosku..."></textarea>
                         </div>
                     </div>
                     <div class="form-group">

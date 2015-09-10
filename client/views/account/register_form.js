@@ -8,16 +8,23 @@ Template.registerForm.rendered = function () {
             password: {
                 minlength: 6
             },
-            czasGlosowania: {
-                min: 0.01,
-                number: true
-            },
             email: {
                 email: true,
                 checkExistsEmail: true
             },
             confirmPassword: {
                 equalTo: "#inputPassword"
+            },
+            pesel:{
+                exactlength: 11,
+                peselValidation:true
+            },
+            identityCard:{
+                exactlength:9,
+                identityCardValidation:true
+            },
+            zipCode:{
+                kodPocztowyValidation:true
             }
         },
         messages: {
@@ -40,6 +47,30 @@ Template.registerForm.rendered = function () {
             },
             confirmPassword: {
                 equalTo: equalToMessage()
+            },
+            phone: {
+                required: fieldEmptyMessage()
+            },
+            dateOfBirth: {
+                required: fieldEmptyMessage()
+            },
+            address: {
+                required: fieldEmptyMessage()
+            },
+            zipCode: {
+                required: fieldEmptyMessage()
+            },
+            identityCard:{
+                required:fieldEmptyMessage()
+            },
+            pesel:{
+                required:fieldEmptyMessage()
+            },
+            city:{
+                required:fieldEmptyMessage()
+            },
+            statutConfirmation:{
+                required:fieldEmptyMessage()
             }
         },
         highlight: function (element) {
@@ -64,10 +95,10 @@ Template.registerForm.events({
             {
                 email: $(e.target).find('[name=email]').val(),
                 login: "",
-                password: $(e.target).find('[name=password]').val(),
-                confirm_password: $(e.target).find('[name=confirmPassword]').val(),
                 firstName: $(e.target).find('[name=firstName]').val(),
                 lastName: $(e.target).find('[name=lastName]').val(),
+                password: $(e.target).find('[name=password]').val(),
+                confirm_password: $(e.target).find('[name=confirmPassword]').val(),
                 profession: $(e.target).find('[name=profession]').val(),
                 phone: $(e.target).find('[name=phone]').val(),
                 dateOfBirth: $(e.target).find('[name=dateOfBirth]').val(),
@@ -75,14 +106,22 @@ Template.registerForm.events({
                 zip: $(e.target).find('[name=zipCode]').val(),
                 web: $(e.target).find('[name=web]').val(),
                 gender: $(e.target).find('[name=genderRadios]:checked').val(),
-                role: 'admin',
-                roleDesc: $(e.target).find('[name=uwagiStatus]').val(),
-                rADking: 0,
+                role: 'user',
+                userType: USERTYPE.CZLONEK,
+                uwagi: $(e.target).find('[name=uwagi]').val(),
                 language: $(e.target).find('[name=language]').val(),
-                userType: USERTYPE.CZLONEK
+                city:$(e.target).find('[name=city]').val(),
+                identityCard:$(e.target).find('[name=identityCard]').val(),
+                pesel:$(e.target).find('[name=pesel]').val(),
+                rADking:0
+
             }];
         //-- generowanie loginu dla użytkownika
         newUser[0].login = generateLogin(newUser[0].firstName, newUser[0].lastName);
+        newUser[0].fullName=newUser[0].firstName+" "+newUser[0].lastName;
+
+        console.log("ten user");
+        console.log(newUser[0]);
         Meteor.call('addUser', newUser, function (error,ret) {
             if (error) {
                 // optionally use a meteor errors package
@@ -138,6 +177,18 @@ Template.registerForm.events({
     },
     'reset form': function () {
         Router.go('listUsers');
+    },
+    'click #statutBootbox':function(){
+        bootbox.dialog({
+            message: getRegulamin(),
+            title: "Statut organizacji "+getNazwaOrganizacji(),
+            buttons: {
+                main: {
+                    label: "Ok",
+                    className: "btn-primary"
+                }
+            }
+        });
     }
 });
 

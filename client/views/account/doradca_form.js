@@ -7,7 +7,8 @@ Template.doradcaForm.rendered = function () {
         rules: {
             email: {
                 email: true,
-                checkExistsEmail: true,
+                checkExistsEmail: USERTYPE.DORADCA,//czy juz nie ma mnie jako doradca w systemie
+                checkExistsEmail2: USERTYPE.CZLONEK,//czy nie jestem wyzej
                 checkExistsEmailDraft: true
             }
         },
@@ -76,16 +77,22 @@ Template.doradcaForm.events({
                 }
             }
             else {
+                var web="";
+                if(newUser[0].web!=null)
+                web=newUser[0].web;
+                var uwagi="";
+                if(newUser[0].uwagi!=null)
+                uwagi=newUser[0].uwagi;
+
                 var idUserDraft = ret;
                 var dataG = new Date();
                 var d = dataG.setDate(dataG.getDate() + 7);
                 var daneAplikanta = "DANE APLIKANTA: \r\n " +
                     newUser[0].firstName + ", " + newUser[0].lastName + " \r\n " +
                     newUser[0].email + ", \r\n " +
-                    newUser[0].profession + ", \r\n " +
-                    newUser[0].address + " " +
-                    newUser[0].zip + ", \r\n " +
-                    newUser[0].uwagi
+                    newUser[0].phone + ", \r\n " +
+                    web +  ",  \r\n " +
+                    uwagi;
                 var newKwestia = [
                     {
                         idUser: idUserDraft,
@@ -102,7 +109,7 @@ Template.doradcaForm.events({
                         isOption: false,
                         status: KWESTIA_STATUS.OSOBOWA
                     }];
-                Meteor.call('addKwestia', newKwestia, function (error) {
+                Meteor.call('addKwestia', newKwestia, function (error,ret) {
                     if (error) {
                         // optionally use a meteor errors package
                         if (typeof Errors === "undefined")
@@ -112,23 +119,28 @@ Template.doradcaForm.events({
                             throwError(error.reason);
                         }
                     }
-                    else {
-                        var nazwa=null;
-                        var param=Parametr.findOne();
-                        if(param)
-                            nazwa=param.nazwaOrganizacji;
-                        Router.go("home");
-                        bootbox.dialog({
-                            message: "Twój wniosek aplikacyjny będzie oczekiwał (maksymalnie 1 tydzień) na akceptację ogółu członków organizacji "+ nazwa+
-                            ". Po pozytywnym rozpatrzeniu otrzymasz informację w wiadomości na"+ newUser[0].email+", w której otrzymasz link aktywujący Twoje doradztwo dla nas.",
-                            title: "Uwaga",
-                            buttons: {
-                                main: {
-                                    label: "Ok",
-                                    className: "btn-primary"
-                                }
+                    else {//update jej ZR
+                        var zr=ZespolRealizacyjny.findOne({});
+                        var kwestia=Kwestia.findOne({_id:ret});
+                        var myZRDraft=ZespolRealizacyjnyDraft.findOne({_id:kwestia.idZespolRealizacyjny});
+                        var ZRdataToUpdate={
+                          nazwa:zr.nazwa,
+                          zespol:zr.zespol
+                        };
+                        Meteor.call('updateZespolRealizacyjnyDraft', myZRDraft._id,ZRdataToUpdate, function (error,ret) {
+                            if (error) {
+                                // optionally use a meteor errors package
+                                if (typeof Errors === "undefined")
+                                    Log.error('Error: ' + error.reason);
+                                else
+                                    throwError(error.reason);
+                            }
+                            else {
+                                Router.go("home");
+                                przyjecieWnioskuConfirmation(newUser[0].email,"doradztwo");
                             }
                         });
+
                     }
                 });
             }

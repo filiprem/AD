@@ -67,3 +67,42 @@ getEmail = function (_this) {
     }
     return "";
 };
+//używane do walidacji na aplikacje na czlonka ,doradcę i przy confiramcji w nich
+checkExistsUser=function(searchedEmail,userType1,userType2){
+    var found = null;
+    var userType=null;
+    var users = Users.find();
+    users.forEach(function (user) {
+        console.log(user);
+        _.each(user.emails, function (email) {
+            if (_.isEqual(email.address.toLowerCase(), searchedEmail.toLowerCase())) {
+                userType=user.profile.userType;
+                console.log("User type: "+userType);
+                if(userType2==null) {
+                    if (userType == userType1) {
+                        found = true;
+                    }
+                }
+                else{
+                    if (userType == userType1 ||userType==userType2) {
+                        found = true;
+                    }
+                }
+            }
+        });
+    });
+    return found;
+};
+przyjecieWnioskuConfirmation=function(email,userTypeText){
+    bootbox.dialog({
+        message: "Twój wniosek aplikacyjny będzie oczekiwał (maksymalnie 1 tydzień) na akceptację ogółu członków organizacji "+ getNazwaOrganizacji()+
+        ". Po pozytywnym rozpatrzeniu otrzymasz informację w wiadomości na "+ email+", w której otrzymasz link aktywujący Twoje "+ userTypeText+ " dla nas.",
+        title: "Uwaga",
+        buttons: {
+            main: {
+                label: "Ok",
+                className: "btn-primary"
+            }
+        }
+    });
+}

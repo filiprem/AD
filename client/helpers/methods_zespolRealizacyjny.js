@@ -71,13 +71,13 @@ addCzlonekToZespolRealizacyjnyNotification=function(idUser,zespolToUpdate,number
         }
 
         else {//to znaczy,ze normalnie mnie dodają do bazy
-            //komunikat = 'Zostałeś dodany do Zespołu Realizacyjnego.Mamy już komplet';
+            komunikat = 'Zostałeś dodany do Zespołu Realizacyjnego.Mamy już komplet';
             $("#addNazwa").modal("show");
 
             GlobalNotification.success({
                 title: 'Sukces',
                 content: komunikat,
-                duration: 3 // duration the notification should stay in seconds
+                duration: 5 // duration the notification should stay in seconds
             });
             return true;
         }
@@ -103,7 +103,7 @@ addCzlonekToZespolRealizacyjnyNotification=function(idUser,zespolToUpdate,number
                 GlobalNotification.success({
                     title: 'Sukces',
                     content: komunikat,
-                    duration: 3 // duration the notification should stay in seconds
+                    duration: 5 // duration the notification should stay in seconds
                 });
                 return true;
             }
