@@ -21,7 +21,10 @@ Meteor.methods({
                 language:newUser[0].language,
                 //roleDesc:  newUser[0].roleDesc,
                 rADking:newUser[0].rADking,
-                userType:newUser[0].userType
+                userType:newUser[0].userType,
+                city:newUser[0].city,
+                identityCard:newUser[0].identityCard,
+                pesel:newUser[0].pesel
             }
         });
 

@@ -18,7 +18,10 @@ Meteor.methods({
                 userType:newUser[0].userType,
                 uwagi:newUser[0].uwagi,
                 idUser:newUser[0].idUser,
-                isExpectant:newUser[0].isExpectant
+                isExpectant:newUser[0].isExpectant,
+                city:newUser[0].city,
+                identityCard:newUser[0].identityCard,
+                pesel:newUser[0].pesel
             }
         });
         return id;

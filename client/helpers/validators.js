@@ -17,6 +17,9 @@ minLengthMessage = function (length) {
 maxLengthMessage = function (length) {
     return 'Pole musi mieć maksimum ' + length + ' znaków';
 };
+properLengthMessage = function (length) {
+    return 'Pole musi mieć ' + length + ' znaków';
+};
 validEmailMessage = function () {
     return 'Wprowadż poprawny adres email';
 };
@@ -99,6 +102,13 @@ jQuery.validator.addMethod("checkExistsEmailDraft", function (value, element) {
     return this.optional(element) || found == null;
 }, 'Został już złożony wniosek na podany adres email!');
 
+jQuery.validator.addMethod("exactlength", function(value, element,param) {
+    return this.optional(element) || value.length == param;
+}, "Wprowadź dokładnie {0} znaków.");
+
+jQuery.validator.addMethod("identityCardValidation", function(value, element) {
+    //to finish
+}, "Niepoprawny numer dowodu.");
 //NOT USED!
 trimInput = function (value) {
     return value.replace(/^\s*|\s*$/g, '');

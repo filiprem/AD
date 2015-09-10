@@ -12,6 +12,12 @@ Template.czlonekZwyczajnyForm.rendered = function () {
             },
             confirmPassword: {
                 equalTo: "#inputPassword"
+            },
+            pesel:{
+                exactlength: 11
+            },
+            identityCard:{
+                exactlength:9
             }
         },
         messages: {
@@ -42,6 +48,18 @@ Template.czlonekZwyczajnyForm.rendered = function () {
             },
             zipCode: {
                 required: fieldEmptyMessage()
+            },
+            identityCard:{
+                required:fieldEmptyMessage()
+            },
+            pesel:{
+                required:fieldEmptyMessage()
+            },
+            city:{
+                required:fieldEmptyMessage()
+            },
+            statutConfirmation:{
+                required:fieldEmptyMessage()
             }
         },
         highlight: function (element) {
@@ -88,11 +106,16 @@ Template.czlonekZwyczajnyForm.events({
                 uwagi: $(e.target).find('[name=uwagi]').val(),
                 language: $(e.target).find('[name=language]').val(),
                 isExpectant: false,
-                idUser: idUser
+                idUser: idUser,
+                city:$(e.target).find('[name=city]').val(),
+                identityCard:$(e.target).find('[name=identityCard]').val(),
+                pesel:$(e.target).find('[name=pesel]').val()
             }];
         //-- generowanie loginu dla użytkownika
         newUser[0].login = generateLogin(newUser[0].firstName, newUser[0].lastName);
 
+        console.log("Dodany członek: ");
+        console.log(newUser[0]);
         Meteor.call('addUserDraft', newUser, function (error, ret) {
             if (error) {
                 // optionally use a meteor errors package
@@ -161,6 +184,18 @@ Template.czlonekZwyczajnyForm.events({
     },
     'reset form': function () {
         Router.go('home');
+    },
+    'click #statutBootbox':function(){
+        bootbox.dialog({
+            message: getRegulamin(),
+            title: "Statut organizacji "+getNazwaOrganizacji(),
+            buttons: {
+                main: {
+                    label: "Ok",
+                    className: "btn-primary"
+                }
+            }
+        });
     }
 });
 
@@ -180,5 +215,14 @@ Template.czlonekZwyczajnyForm.helpers({
     },
     isNotEmpty: function () {
         return Meteor.userId() ? "readonly" : "";
+    },
+    nazwaOrganizacji:function(){
+        return Parametr.findOne() ? Parametr.findOne().nazwaOrganizacji :"Aktywna Demokraca";
     }
 });
+getNazwaOrganizacji=function(){
+    return Parametr.findOne() ? Parametr.findOne().nazwaOrganizacji :"Aktywna Demokracja";
+};
+getRegulamin=function(){
+    return Parametr.findOne() ? Parametr.findOne().regulamin :"";
+};

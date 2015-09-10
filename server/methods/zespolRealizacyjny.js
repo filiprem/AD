@@ -13,26 +13,17 @@ Meteor.methods({
         var id = ZespolRealizacyjny.update(id, {$set: {kwestie: listKwestii}}, {upsert: true});
         return id;
     },
-    //updateZespolRealizacyjny: function (id, obj) {
-    //    var id = ZespolRealizacyjny.update(id,
-    //        {
-    //            $set: {
-    //                zespol: obj
-    //            }
-    //        });
+    //updateIdZespolu: function (id, idZespol) {
+    //    var id = Kwestia.update(id, {$set: {idZespolRealizacyjny: idZespol}}, {upsert: true});
     //    return id;
     //},
-    updateIdZespolu: function (id, idZespol) {
-        var id = Kwestia.update(id, {$set: {idZespolRealizacyjny: idZespol}}, {upsert: true});
-        return id;
-    },
-    updateNazwaZR: function (id, nazwaZespolu) {
-        var id = ZespolRealizacyjny.update(id, {$set: {nazwa: nazwaZespolu}}, {upsert: true});
-        return id;
-    },
-    removeZespolRealizacyjny:function(object){
-        ZespolRealizacyjny.remove(object);
-    },
+    //updateNazwaZR: function (id, nazwaZespolu) {
+    //    var id = ZespolRealizacyjny.update(id, {$set: {nazwa: nazwaZespolu}}, {upsert: true});
+    //    return id;
+    //},
+    //removeZespolRealizacyjny:function(object){
+    //    ZespolRealizacyjny.remove(object);
+    //},
     updateZespolRealizacyjny:function(id,data){
         var id = ZespolRealizacyjny.update(id, {$set: data}, {upsert: true});
         return id;
@@ -45,4 +36,8 @@ Meteor.methods({
         var id = ZespolRealizacyjny.update(id, {$set: {kwestie: kwestie}}, {upsert: true});
         return id;
     },
+    removeZespolRealizacyjny:function(id){
+        var id = ZespolRealizacyjny.update(id, {$set: {czyAktywny: false}}, {upsert: true});
+        return id;
+    }
 });

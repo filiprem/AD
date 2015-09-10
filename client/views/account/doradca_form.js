@@ -21,6 +21,9 @@ Template.doradcaForm.rendered = function () {
             },
             lastName: {
                 required: fieldEmptyMessage()
+            },
+            phone:{
+                required:fieldEmptyMessage()
             }
         },
         highlight: function (element) {
@@ -47,10 +50,8 @@ Template.doradcaForm.events({
                 login: "",
                 firstName: $(e.target).find('[name=firstName]').val(),
                 lastName: $(e.target).find('[name=lastName]').val(),
-                profession: $(e.target).find('[name=profession]').val(),
-                address: $(e.target).find('[name=address]').val(),
-                zip: $(e.target).find('[name=zipCode]').val(),
-                gender: $(e.target).find('[name=genderRadios]:checked').val(),
+                phone: $(e.target).find('[name=phone]').val(),
+                web: $(e.target).find('[name=www]').val(),
                 role: 'user',
                 userType: USERTYPE.DORADCA,
                 isExpectant: false,
@@ -112,14 +113,19 @@ Template.doradcaForm.events({
                         }
                     }
                     else {
+                        var nazwa=null;
+                        var param=Parametr.findOne();
+                        if(param)
+                            nazwa=param.nazwaOrganizacji;
                         Router.go("home");
                         bootbox.dialog({
-                            message: "Twój wniosek o przyjęcie do systemu jako " + newUser[0].userType + " został przyjęty. O wyniku zostaniesz poinformowany drogą mailową",
+                            message: "Twój wniosek aplikacyjny będzie oczekiwał (maksymalnie 1 tydzień) na akceptację ogółu członków organizacji "+ nazwa+
+                            ". Po pozytywnym rozpatrzeniu otrzymasz informację w wiadomości na"+ newUser[0].email+", w której otrzymasz link aktywujący Twoje doradztwo dla nas.",
                             title: "Uwaga",
                             buttons: {
                                 main: {
                                     label: "Ok",
-                                    className: "btn-primary",
+                                    className: "btn-primary"
                                 }
                             }
                         });
@@ -130,5 +136,10 @@ Template.doradcaForm.events({
     },
     'reset form': function () {
         Router.go('home');
+    }
+});
+Template.doradcaForm.helpers({
+    nazwaOrganizacji:function(){
+        return Parametr.findOne() ? Parametr.findOne().nazwaOrganizacji :"Aktywna Demokracja";
     }
 });

@@ -217,7 +217,7 @@ Template.informacjeKwestia.events({
         Session.set('kwestiaInScope', this);
     },
     'click #backToList': function (e) {
-        Router.go('listKwestia');
+        window.history.back();
     },
     'click #addOptionButton': function () {
         Router.go("addKwestiaOpcja");
@@ -312,6 +312,9 @@ Template.informacjeKwestia.events({
                         else {
                             throwError(error.reason);
                         }
+                    }else{
+                        var komunikat= "Nadanie priorytetu "+ratingValue;
+                        Notifications.success("",komunikat, {timeout:3000});
                     }
                 });
             }

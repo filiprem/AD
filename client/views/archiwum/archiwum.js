@@ -1,6 +1,3 @@
-Template.archiwum.rendered = function () {
-};
-
 Template.archiwum.events({
     'click .glyphicon-trash': function (event, template) {
         Session.set('kwestiaInScope', this);
@@ -13,39 +10,6 @@ Template.archiwum.events({
     },
     'click .glyphicon-info-sign': function (event, template) {
         Session.set('kwestiaInScope', this);
-    },
-    'click #kwestiaIdClick': function () {//nadajemy priorytet automatycznie po wejściu na kwestię + dajemy punkty
-        var kwestia = Kwestia.findOne({_id: this._id});
-        var tabGlosujacy = getAllUsersWhoVoted(kwestia._id);
-        if (!_.contains(tabGlosujacy, Meteor.userId())) {//jeżeli użytkownik jeszcze nie głosował
-            var glosujacy = {
-                idUser: Meteor.userId(),
-                value: 0
-            };
-            var voters = kwestia.glosujacy.slice();
-            voters.push(glosujacy);
-            Meteor.call('setGlosujacyTab', kwestia._id, voters, function (error, ret) {
-                if (error) {
-                    if (typeof Errors === "undefined")
-                        Log.error('Error: ' + error.reason);
-                    else
-                        throwError(error.reason);
-                }
-            });
-
-            var newValue = 0;
-            newValue = Number(RADKING.NADANIE_PRIORYTETU) + getUserRadkingValue(Meteor.userId());
-
-            Meteor.call('updateUserRanking', Meteor.userId(), newValue, function (error) {
-                if (error) {
-                    if (typeof Errors === "undefined")
-                        Log.error('Error: ' + error.reason);
-                    else
-                        throwError(error.reason);
-                }
-            });
-        }
-
     }
 });
 Template.archiwum.helpers({
@@ -79,18 +43,11 @@ Template.archiwum.helpers({
                 },
                 {key: 'idTemat', label: "Temat", tmpl: Template.tematKwestiiArchiwum},
                 {key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestiiArchiwum},
-                //{
-                //    key: 'dataGlosowania',
-                //    label: Template.listKwestiaAdminColumnLabel,
-                //    labelData: {title: "Data zakończenia głosowania", text: "Finał"},
-                //    tmpl: Template.dataGlKwestia
-                //},
                 {
                     key: 'status',
                     label: Template.listKwestiaAdminColumnLabel,
                     labelData: {title: "Etap, na którym znajduje sie ta Kwestia", text: "Status"}
-                },
-                {key: 'options', label: "Opcje", tmpl: Template.editColumnKwestiaArch}
+                }
             ]
         };
     },
@@ -118,16 +75,13 @@ Template.archiwum.helpers({
         }).count();
         return count > 0 ? true : false;
     },
-    //kwestiaCount: function () {
-    //    return Kwestia.find({czyAktywny: false}).count();
-    //},
-    isAdminUser: function () {
+    'isAdminUser': function () {
         return IsAdminUser();
     },
-    tematNazwa: function () {
+    'tematNazwa': function () {
         return Temat.findOne({_id: this.idTemat});
     },
-    rodzajNazwa: function () {
+    'rodzajNazwa': function () {
         return Rodzaj.findOne({_id: this.idRodzaj});
     }
 });

@@ -1,6 +1,10 @@
 <template name="doradcaForm">
     <div class="main">
-        <legend>Aplikacja na doradcę</legend>
+        <legend>Aplikowanie na doradcę w organizacji {{nazwaOrganizacji}}</legend>
+        <!--<p class="col-md-12 bg-warning padding-15">-->
+            <!--Twój wniosek aplikacyjny będzie oczekiwał (maksymalnie 1 tydzień) na akceptację ogółu członków organizacji {{nazwaOrganizacji}}.-->
+            <!--Po pozytywnym rozpatrzeniu otrzymasz informację na podany przez Ciebie email, w którym otrzymasz link aktywujący o Twoje doradztwo dla nas.-->
+        <!--</p>-->
         <div class="row">
             <div class="col col-md-10">
                 <form class="form-horizontal" id="doradcaFormApp">
@@ -29,42 +33,34 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-xs-3" for="profession">Stanowisko: </label>
+                        <label class="control-label col-xs-3" for="profession">Telefon: </label>
 
                         <div class="col-xs-9">
-                            <input name="profession" type="text" class="form-control" id="profession"
-                                   placeholder="Stanowisko">
+                            <input name="phone" type="text" class="form-control" id="phone"
+                                   placeholder="Nr telefonu" required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-xs-3" for="postalAddress">Adres: </label>
+                        <label class="control-label col-xs-3" for="ZipCode">WWW: </label>
 
                         <div class="col-xs-9">
-                            <textarea name="address" rows="3" class="form-control" id="postalAddress"
-                                      placeholder="Adres"></textarea>
+                            <input name="www" type="text" class="form-control" id="www"
+                                   placeholder="Strona www">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-xs-3" for="ZipCode">Kod pocztowy: </label>
-
-                        <div class="col-xs-9">
-                            <input name="zipCode" type="text" class="form-control" id="ZipCode"
-                                   placeholder="Kod pocztowy">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-xs-3" for="uwagiStatus">Uwagi: </label>
+                        <label class="control-label col-xs-3" for="uwagiStatus">Dodatkowe: </label>
 
                         <div class="col-xs-9">
                             <textarea name="uwagi" rows="3" class="form-control" id="uwagiStatus"
-                                      placeholder="Uwagi"></textarea>
+                                      placeholder="Napisz parę słów do nas, o Sobie i powodach Twojego wniosku..."></textarea>
                         </div>
                     </div>
                     <br/>
 
                     <div class="form-group">
                         <div class="col-xs-offset-3 col-xs-9">
-                            <input type="submit" class="btn btn-primary" value="Aplikuj">
+                            <input type="submit" class="btn btn-primary" value="Aplikuję do doradztwa">
                             <input type="reset" class="btn btn-default" value="Anuluj">
                         </div>
                     </div>
