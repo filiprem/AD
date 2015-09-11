@@ -3,6 +3,7 @@ SSR.compileTemplate('email_act',Assets.getText('email_act.html'));
 SSR.compileTemplate('email_added_issue',Assets.getText('email_added_issue.html'));
 SSR.compileTemplate('email_lobbing_issue',Assets.getText('email_lobbing_issue.html'));
 SSR.compileTemplate('email_started_voting',Assets.getText('email_started_voting.html'));
+SSR.compileTemplate('email_honorowy_invitation',Assets.getText('email_honorowy_invitation.html'));
 
 Template.email_started_voting.nadanoPriorytet= function (kwestiaId,userId) {
     var kwestia = Kwestia.findOne(kwestiaId);
@@ -47,6 +48,29 @@ Meteor.methods({
                 subject: subject,
                 text: text
             });
+        });
+    },
+    sendEmailHonorowyInvitation:function(idUser){
+        var user=null;
+        console.log(idUser);
+        var userDraft=UsersDraft.findOne({_id:idUser});
+        if(userDraft.profile.idUser!=null){//to znaczy,ze zaproszono uzytkownika już mającego konto w systemie i stamtad pobieramy dane
+            userDraft=Users.findOne({_id:userDraft.idUser});
+        }
+        //else//to znaczy,ze to jest nowy uztykownik,nie ma go w systemie,wiec dane bierzemy z drafta
+        console.log("ten user!");
+        console.log(userDraft);
+        var parametr = Parametr.findOne({});
+
+        var html = SSR.render('email_honorowy_invitation',{
+            username:userDraft.profile.fullName,
+            organizacja: parametr.nazwaOrganizacji
+        });
+        Email.send({
+            to: userDraft.emails[0].address,
+            from: "AD "+parametr.nazwaOrganizacji,
+            subject: "Zaproszenie do systemu AD "+parametr.nazwaOrganizacji,
+            html: html
         });
     },
     sendEmailAddedIssue: function (idKwestia) {

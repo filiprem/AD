@@ -41,8 +41,8 @@ Template.archiwum.helpers({
                     sortOrder: 1,
                     sortDirection: 'descending'
                 },
-                {key: 'idTemat', label: "Temat", tmpl: Template.tematKwestiiArchiwum},
-                {key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestiiArchiwum},
+                {key: '', label: "Temat", tmpl: Template.tematKwestiiArchiwum},
+                {key: '', label: "Rodzaj", tmpl: Template.rodzajKwestiiArchiwum},
                 {
                     key: 'status',
                     label: Template.listKwestiaAdminColumnLabel,

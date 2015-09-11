@@ -28,9 +28,17 @@ Template.administracjaUserMain.helpers({
         };
     },
     listOfIssues: function () {
+        var userDraft=UsersDraft.findOne({'profile.idUser':Meteor.userId()});
+        var userId=null;
+        if(userDraft){
+            userId=userDraft._id;
+        }
         var kwestie = Kwestia.find({
             $where: function () {
-                return ((this.czyAktywny == true) && ((this.status==KWESTIA_STATUS.ADMINISTROWANA) ||(this.status==KWESTIA_STATUS.OSOBOWA) || (this.idUser==Meteor.userId())));
+                if(userId!=null)
+                    return ((this.czyAktywny == true) && ((this.status==KWESTIA_STATUS.ADMINISTROWANA)  || (this.idUser==Meteor.userId()) || (this.idUser==userId)));
+                else
+                    return ((this.czyAktywny == true) && ((this.status==KWESTIA_STATUS.ADMINISTROWANA) || (this.idUser==Meteor.userId())));
             }
         });
         if(kwestie) return kwestie;

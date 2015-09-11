@@ -73,3 +73,7 @@ renderTmpForBootbox = function (template, data) {
     UI.renderWithData(template, data, node);
     return node;
 };
+
+getNazwaOrganizacji=function(){
+    return Parametr.findOne() ? Parametr.findOne().nazwaOrganizacji :"Aktywna Demokracjaa";
+};

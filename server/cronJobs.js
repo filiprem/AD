@@ -23,7 +23,7 @@ SyncedCron.add({
     schedule: function(parser) {
         // parser is a later.parse object
         var voteFreq = Parametr.findOne({}).voteFrequency;
-        return parser.text('every '+ voteFreq + ' day');
+        return parser.text('every '+ voteFreq + ' minute');
     },
     job: function() {
         return checkingIssuesToVote();
@@ -42,7 +42,7 @@ Meteor.startup(function (){
                     name: 'checking issues to vote crone',
                     schedule: function(parser) {
                         // parser is a later.parse object
-                        return parser.text('every '+ newParametr.voteFrequency + ' day');
+                        return parser.text('every '+ newParametr.voteFrequency + ' minute');
                     },
                     job: function() {
                         return checkingIssuesToVote();

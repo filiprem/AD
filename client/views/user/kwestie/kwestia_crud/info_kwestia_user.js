@@ -325,11 +325,13 @@ Template.informacjeKwestia.helpers({
 
     czyAdministrowana: function(){
         var a = Kwestia.findOne({_id: this._id});
-        if(a.status == "administrowana"){
-            return false;
-        }
-        else{
-            return true;
+        if(a) {
+            if (a.status == KWESTIA_STATUS.ADMINISTROWANA) {
+                return false;
+            }
+            else {
+                return true;
+            }
         }
     },
     pierwszyCzlonekFullName: function(){
@@ -564,7 +566,7 @@ Template.informacjeKwestia.helpers({
     getZRName:function(){
         var kwestia=Kwestia.findOne({_id:this._id});
         if(kwestia){
-            var zespolR= ZespolRealizacyjny.findOne({_id:kwestia.idZespolRealizacyjny});
+            var zespolR= ZespolRealizacyjnyDraft.findOne({_id:kwestia.idZespolRealizacyjny});
             console.log(zespolR);
             if (zespolR){
                 return zespolR.zespol.slice().length==3 ? zespolR.nazwa :null;

@@ -41,25 +41,25 @@
 
                         <div class="col-xs-9">
                             <input name="identityCard" type="text" class="form-control" id="profession"
-                                   placeholder="Numer Dowodu Osobistego" value={{profile.identityCard}} required {{isNotEmpty}}>
+                                   placeholder="Numer Dowodu Osobistego" value={{profile.identityCard}} required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-xs-3" for="phoneNumber">PESEL: </label>
 
                         <div class="col-xs-9">
-                            <input name="pesel" type="number" class="form-control" id="pesel"
-                                   placeholder="PESEL" value={{profile.pesel}} required >
+                            <input name="pesel" type="text" class="form-control" id="pesel"
+                                   placeholder="PESEL" value={{profile.pesel}} required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-xs-3">Data urodzenia: </label>
 
                         <div class="col-xs-9">
-                            <div class="input-group datetimepicker col-xs-5" id="dataUrodzeniaDatePicker">
+                            <div class="input-group datetimepicker" id="dataUrodzeniaDatePicker">
                                 <span class="input-group-addon glyphicon glyphicon-calendar"></span>
                                 <input class="set-due-date form-control" type="text" name="dateOfBirth"
-                                       value={{profile.dateOfBirth}} required/>
+                                       required/>
                             </div>
                         </div>
                     </div>
@@ -68,23 +68,19 @@
 
                         <div class="col-xs-9">
                             <textarea name="address" rows="3" class="form-control" id="postalAddress"
-                                      placeholder="Adres" value={{profile.address}} required {{isNotEmpty}}></textarea>
+                                      placeholder="Adres" value={{profile.address}} required></textarea>
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label class="control-label col-xs-3" for="ZipCode">Kod pocztowy: </label>
-
-                            <div class="col-xs-3">
-                                <input name="zipCode" type="text" class="form-control" id="ZipCode"
-                                       placeholder="Kod pocztowy" value={{profile.zip}} required {{isNotEmpty}}>
-                             </div>
-                         </div>
-                         <div class="form-group">
-                            <div class="col-xs-3">
-                                <input name="city" type="text" class="form-control" id="city"
-                                       placeholder="Miasto" value={{profile.city}} required {{isNotEmpty}}>
-                            </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3">Kod pocztowy: </label>
+                        <div class="col-xs-9">
+                            <input class="form-control" type="text" name="ZipCode" id="ZipCode" placeholder="Kod pocztowy" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3">Miasto: </label>
+                        <div class="col-xs-9">
+                            <input name="city" type="text" class="form-control" id="city" placeholder="Miasto"  required >
                         </div>
                     </div>
                     <div class="form-group">
@@ -92,7 +88,7 @@
 
                         <div class="col-xs-9">
                             <input name="phone" type="text" class="form-control" id="phone"
-                                   placeholder="Numer telefonu" value={{profile.phone}} required>
+                                   placeholder="Numer telefonu" value={{profile.phone}} required {{isNotEmpty}}>
                         </div>
                     </div>
                     <div class="form-group">
@@ -104,19 +100,20 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-xs-3">Płeć: </label>
-
-                        <div class="col-xs-2">
-                            <label class="radio-inline">
-                                <input type="radio" name="genderRadios" value="mężczyzna" {{isSelected 'mężczyzna'}}>
-                                Mężczyzna
-                            </label>
-                        </div>
-                        <div class="col-xs-2">
-                            <label class="radio-inline">
-                                <input type="radio" name="genderRadios" value="kobieta" {{isSelected 'kobieta'}}>
-                                Kobieta
-                            </label>
+                        <label for="genderRadios" class="control-label col-xs-3">Płeć: </label>
+                        <div class="col-xs-9">
+                            <div class="radio">
+                                <label class="radio-inline" id="manRadio">
+                                    <input type="radio" name="genderRadios" value="mężczyzna" >
+                                    Mężczyzna
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label class="radio-inline" id="womanRadio">
+                                    <input type="radio" name="genderRadios" value="kobieta">
+                                    Kobieta
+                                </label>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -124,28 +121,29 @@
 
                         <div class="col-xs-9">
                             <textarea name="uwagi" rows="3" class="form-control" id="uwagiStatus"
-                                      placeholder="Napisz parę słów do nas, o Sobie i powodach Twojego wniosku..." value={{profile.uwagi}}></textarea>
+                                      placeholder="Napisz parę słów do nas, o sobie i powodach Twojego wniosku..."></textarea>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-xs-3">Język użytkownika: </label>
 
-                        <div class="col-xs-3">
+                        <div class="col-xs-9">
                             <select name="language" id="language" class="form-control" required>
-                                <option value="pl">polski</option>
-                                <option value="en">angielski</option>
+                                <option value="0">Wybierz język</option>
+                                {{#each getLanguages}}
+                                    <option value="{{shortName}}">{{languageName}}</option>
+                                {{/each}}
                             </select>
                         </div>
                     </div>
-                    <div class="form-group col-md-12">
-                        <div class="col-md-1">
-                            <!--<input type="checkbox" name="statutConfirmation"  {{isSelected 'kobieta'}}>-->
+                    <div class="form-group">
+                        <div class="col-xs-offset-3 col-xs-9">
+                            <div class="input-group">
+                                <input type="checkbox" name="statutConfirmation"  {{isSelected 'kobieta'}} required/>
+                                <span id="statutConfirmationSpan">Potwierdzam znajomość <a id="statutBootbox">Statutu</a> </span>
+                            </div>
                         </div>
-                        <input type="checkbox" name="statutConfirmation"  {{isSelected 'kobieta'}} required/>
-                        <label class="control-label col-xs-6">Potwierdzam znajomość <a id="statutBootbox">Statutu</a> </label>
                     </div>
-                    <br/>
-
                     <div class="form-group">
                         <div class="col-xs-offset-3 col-xs-9">
                             <input type="submit" class="btn btn-primary" value="Aplikuję o przyjęcie">
