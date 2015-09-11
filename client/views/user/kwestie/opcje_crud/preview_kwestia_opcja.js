@@ -15,7 +15,7 @@ Template.previewKwestiaOpcja.events({
     },
     'click #save': function(e){
         e.preventDefault();
-
+        var status = KWESTIA_STATUS.DELIBEROWANA;
         var kwestia = Session.get("kwestiaPreviewOpcja");
         var idParentKwestii = Session.get("idKwestia");
         var newKwestiaOpcja = [{
@@ -23,11 +23,15 @@ Template.previewKwestiaOpcja.events({
             dataWprowadzenia: new Date(),
             kwestiaNazwa: kwestia.kwestiaNazwa,
             wartoscPriorytetu: 0,
+            wartoscPriorytetuWRealizacji: 0,
             sredniaPriorytet: 0,
             idTemat: kwestia.idTemat,
             idRodzaj: kwestia.idRodzaj,
             dataDyskusji: kwestia.dataDyskusji,
             dataGlosowania: kwestia.dataGlosowania,
+            dataRealizacji: null,
+            czyAktywny: true,
+            status: status,
             krotkaTresc: kwestia.krotkaTresc,
             szczegolowaTresc: kwestia.szczegolowaTresc,
             idParent: idParentKwestii,
