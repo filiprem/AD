@@ -22,8 +22,14 @@ Template.czlonekZwyczajnyForm.rendered = function () {
                 exactlength:9,
                 identityCardValidation:true
             },
-            zipCode:{
+            ZipCode:{
                 kodPocztowyValidation:true
+            },
+            language:{
+                isNotEmptyValue:true
+            },
+            genderRadios:{
+                required:true
             }
         },
         messages: {
@@ -49,7 +55,7 @@ Template.czlonekZwyczajnyForm.rendered = function () {
             address: {
                 required: fieldEmptyMessage()
             },
-            zipCode: {
+            ZipCode: {
                 required: fieldEmptyMessage()
             },
             identityCard:{
@@ -63,6 +69,12 @@ Template.czlonekZwyczajnyForm.rendered = function () {
             },
             statutConfirmation:{
                 required:fieldEmptyMessage()
+            },
+            language:{
+                required:fieldEmptyMessage()
+            },
+            genderRadios:{
+                required:fieldEmptyMessage()
             }
         },
         highlight: function (element) {
@@ -74,7 +86,14 @@ Template.czlonekZwyczajnyForm.rendered = function () {
         errorElement: 'span',
         errorClass: 'help-block',
         errorPlacement: function (error, element) {
-            validationPlacementError(error, element);
+            if(element.attr("type") == "radio")
+                error.insertAfter(document.getElementById("womanRadio"));
+            else if(element.attr("name") == "dateOfBirth")
+                error.insertAfter(document.getElementById("dataUrodzeniaDatePicker"));
+            else if(element.attr("name") == "statutConfirmation")
+                error.insertAfter(document.getElementById("statutConfirmationSpan"));
+            else
+                validationPlacementError(error, element);
         }
     })
 };
@@ -144,6 +163,9 @@ Template.czlonekZwyczajnyForm.events({
 });
 
 Template.czlonekZwyczajnyForm.helpers({
+    'getLanguages':function(){
+        return Languages.find({});
+    },
     isSelected: function (gender) {
         var gen = this.profile.gender;
         if (gen) {
