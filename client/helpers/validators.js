@@ -121,6 +121,10 @@ jQuery.validator.addMethod("kodPocztowyValidation", function(value, element) {
     return this.optional(element) || filter.test(value);
 }, "Niepoprawny format.");
 
+jQuery.validator.addMethod("isNotEmptyValue", function(value, element) {
+    return value==0 || value=="" ? false : true;
+}, "Pole jest wymagane");
+
 //NOT USED!
 trimInput = function (value) {
     return value.replace(/^\s*|\s*$/g, '');

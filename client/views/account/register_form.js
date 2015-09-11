@@ -23,8 +23,14 @@ Template.registerForm.rendered = function () {
                 exactlength:9,
                 identityCardValidation:true
             },
-            zipCode:{
+            ZipCode:{
                 kodPocztowyValidation:true
+            },
+            language:{
+                isNotEmptyValue:true
+            },
+            genderRadios:{
+                required:true
             }
         },
         messages: {
@@ -57,7 +63,7 @@ Template.registerForm.rendered = function () {
             address: {
                 required: fieldEmptyMessage()
             },
-            zipCode: {
+            ZipCode: {
                 required: fieldEmptyMessage()
             },
             identityCard:{
@@ -69,7 +75,13 @@ Template.registerForm.rendered = function () {
             city:{
                 required:fieldEmptyMessage()
             },
+            language:{
+                required:fieldEmptyMessage()
+            },
             statutConfirmation:{
+                required:fieldEmptyMessage()
+            },
+            genderRadios:{
                 required:fieldEmptyMessage()
             }
         },
@@ -82,7 +94,14 @@ Template.registerForm.rendered = function () {
         errorElement: 'span',
         errorClass: 'help-block',
         errorPlacement: function (error, element) {
-            validationPlacementError(error, element);
+            if(element.attr("type") == "radio")
+                error.insertAfter(document.getElementById("womanRadio"));
+            else if(element.attr("name") == "dateOfBirth")
+                error.insertAfter(document.getElementById("dataUrodzeniaDatePicker"));
+            else if(element.attr("name") == "statutConfirmation")
+                error.insertAfter(document.getElementById("statutConfirmationSpan"));
+            else
+                validationPlacementError(error, element);
         }
     })
 };
@@ -196,5 +215,8 @@ Template.registerForm.helpers({
     'lessThanFiveUsers': function () {
         var users = Users.find();
         return !!users && users.count() <= 4 ? true : false;
+    },
+    'getLanguages':function(){
+        return Languages.find({});
     }
 })
