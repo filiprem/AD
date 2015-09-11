@@ -10,9 +10,16 @@
 
 <template name="listDoradcyModalInner">
     <div class="modal-header">
-        <h4>Wybierz użytkownika, którego cchesz powołać na stanowisko honorowego</h4>
+        <h4>Wybierz użytkownika, którego chesz powołać na stanowisko honorowego</h4>
     </div>
     <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                <button class="btn  btn-info" data-toggle="tooltip" title="Zaproś inną osobę na stanowisko honorowego uzupełniając formularz" id="zglosNaHonorowegoNowegoClick">
+                    Zaproś nowego
+                </button>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-12">
                 {{> reactiveTable
@@ -33,6 +40,6 @@
     </div>
 </template>
 
-<template name="doradcyTemplate">
-    {{zespolR}}
+<template name="nazwaHonorowegoLinkTemplate">
+    <a id="zglosNaHonorowegoZListyClick" class="kwestiaId">{{this.profile.fullName}}</a>
 </template>

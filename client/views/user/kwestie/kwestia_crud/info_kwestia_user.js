@@ -325,7 +325,7 @@ Template.informacjeKwestia.helpers({
 
     czyAdministrowana: function(){
         var a = Kwestia.findOne({_id: this._id});
-        if(a.status == "administrowana"){
+        if(a.status == KWESTIA_STATUS.ADMINISTROWANA){
             return false;
         }
         else{

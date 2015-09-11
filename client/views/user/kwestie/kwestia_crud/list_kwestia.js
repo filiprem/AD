@@ -188,9 +188,7 @@ Template.rodzajKwestia.helpers({
 //    }
 //});
 
-Template.kworumNumber.helpers({//brani są tu użytkownicy,którzy zaglosowali,czy ktorzy są w systemie?
-    // Karolina: myślę, ze wszyscy uzytkownicy bo w funkcji z xml napisane jest, ze bierzemy wszystkich uprawnionych
-    // do glosowania uzytkownikow :)
+Template.kworumNumber.helpers({
     date: function () {
         var usersCount = this.glosujacy.length;
         var idrodzaj = this.idRodzaj;
@@ -271,4 +269,4 @@ Template.kworumNumber.helpers({
     'getKworum':function(){
         return liczenieKworumZwykle();
     }
-})
+});

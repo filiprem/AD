@@ -29,7 +29,6 @@ Template.administracjaUserMain.helpers({
     },
     listOfIssues: function () {
         var userDraft=UsersDraft.findOne({'profile.idUser':Meteor.userId()});
-        console.log(userDraft);
         var userId=null;
         if(userDraft){
             userId=userDraft._id;
