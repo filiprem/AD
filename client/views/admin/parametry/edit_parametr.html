@@ -36,136 +36,23 @@
                                       rows="3" required value={{regulamin}}></textarea>
                         </div>
                     </div>
-                    <br/>
-<!-- 
-                    <h3>Punktacja aktywno�ci</h3>
-                    <hr/>
-                    <div class="row">
-                        <div class="col-xs-6">
-                            <h4>Plusy za pozytywn� aktywno�� </h4>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" for="inputEmail">Częstotliwość przechodzenia kwestii do głosowania (w dniach):</label>
 
-                            <div class="form-group">
-                                <label class="control-label col-xs-6" for="inputKwestia">Dodanie Kwestii:</label>
-
-                                <div class="col-xs-6">
-                                    <input name="dodanieKwestii" class="form-control" id="dodanieKwestii" required
-                                           type="number" min="0" value={{pktDodanieKwestii}}>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-xs-6" for="inputKomentarz">Dodanie komentarza:</label>
-
-                                <div class="col-xs-6">
-                                    <input name="dodanieKomentarza" class="form-control" id="dodanieKomentarza" required
-                                           type="number" min="0" value={{pktDodanieKomentarza}}>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-xs-6" for="inputOdniesienie">Dodanie
-                                    odniesienia:</label>
-
-                                <div class="col-xs-6">
-                                    <input name="dodanieOdniesienia" class="form-control" id="dodanieOdniesienia"
-                                           required type="number" min="0" value={{pktDodanieOdniesienia}}>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-xs-6" for="inputPriorytet">Nadanie priorytetu:</label>
-
-                                <div class="col-xs-6">
-                                    <input name="nadaniePriorytetu" class="form-control" id="nadaniePriorytetu" required
-                                           type="number" min="0" value={{pktNadaniePriorytetu}}>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-xs-6" for="inputAwansKwestii">Awans Kwestii do
-                                    realizacji:</label>
-
-                                <div class="col-xs-6">
-                                    <input name="awansKwestii" class="form-control" id="awansKwestii" required
-                                           type="number" min="0" value={{pktAwansKwestii}}>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-xs-6" for="inputUdzialWZespole">Udzia� w zespole
-                                    realizacyjnym:</label>
-
-                                <div class="col-xs-6">
-                                    <input name="udzialWZespole" class="form-control" id="udzialWZespole" required
-                                           type="number" min="0" value={{pktUdzialWZespoleRealizacyjnym}}>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-xs-6" for="inputZlozenieRaportu">Z�o�enie raportu
-                                    realizacyjnego:</label>
-
-                                <div class="col-xs-6">
-                                    <input name="zlozenieRaportu" class="form-control" id="zlozenieRaportu" required
-                                           type="number" min="0" value={{pktZlozenieRaportuRealizacyjnego}}>
-                                </div>
-                            </div>
+                        <div class="col-xs-9">
+                            <input name="voteFrequency" type="text" class="form-control" id="voteFrequency" placeholder="Kontakty"
+                                   required value={{voteFrequency}}>
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" for="inputEmail">Ilość kwesti przechodzących do głosowania:</label>
 
-                        <div class="col-xs-6">
-                            <h4>Minusy za negatywn� aktywno�� </h4>
-
-                            <div class="form-group">
-                                <label class="control-label col-xs-6" for="inputWycofanieKwestiiDoArchiwum">Wycofanie
-                                    Kwestii do archiwum:</label>
-
-                                <div class="col-xs-6">
-                                    <input name="wycofanieKwestiiDoArchiwum" class="form-control"
-                                           id="wycofanieKwestiiDoArchiwum" required type="number" max="0"
-                                           value={{pktWycofanieKwestiiDoArchiwum}}>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-xs-6" for="inputWycofanieKwestiiDoKosza">Wycofanie
-                                    Kwestii do kosza:</label>
-
-                                <div class="col-xs-6">
-                                    <input name="wycofanieKwestiiDoKosza" class="form-control"
-                                           id="wycofanieKwestiiDoKosza" required type="number" max="0"
-                                           value={{pktWycofanieKwestiiDoKosza}}>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-xs-6" for="inputWyjscieZZespolu">Wyj�cie z zespo�u
-                                    realizacyjnego:</label>
-
-                                <div class="col-xs-6">
-                                    <input name="wyjscieZZespolu" class="form-control" id="wyjscieZZespolu" required
-                                           type="number" max="0" value={{pktWyjscieZZespoluRealizacyjnego}}>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-xs-6" for="inputBrakUdzialuWGlosowaniu">Brak udzia�u w
-                                    g�osowaniu:</label>
-
-                                <div class="col-xs-6">
-                                    <input name="brakUdzialuWGlosowaniu" class="form-control"
-                                           id="brakUdzialuWGlosowaniu" max="0" required type="number"
-                                           value={{pktBrakUdzialuWGlosowaniu}}>
-                                </div>
-                            </div>
+                        <div class="col-xs-9">
+                            <input name="voteQuantity" type="text" class="form-control" id="voteQuantity" placeholder="Kontakty"
+                                   required value={{voteQuantity}}>
                         </div>
                     </div>
                     <br/>
-
-                    <h3 class="col-md-12">Parametry Kwestii</h3>
-                    <hr/>
-                    <div class="form-group">
-                        <label class="control-label col-xs-3" for="inputEmail">Okres �ledzenia w�tku
-                            przenosz�cego:</label>
-
-                        <div class="col-xs-9">
-                            <input name="okresSledzeniaWatkuPrzenoszacego" class="form-control"
-                                   id="okresSledzeniaWatkuPrzenoszacego" required type="number"
-                                   value={{okresSledzeniaWatkuPrzenoszacego}}>
-                        </div>
-                    </div> 
-                    <br/>-->
-
                     <div class="form-group">
                         <div class="col-xs-offset-3 col-xs-9">
                             <input type="submit" class="btn btn-primary" value="Zapisz" {{dataChanged}}>

@@ -88,9 +88,7 @@ Meteor.methods({
             szczegolowaTresc: newKwestia[0].szczegolowaTresc,
             glosujacy: [],
             isOption: false,
-            idParametru : newKwestia[0].idParametru,
-            
-           
+            idParametru : newKwestia[0].idParametru
         });
         Kwestia.update({_id: id}, {$set: {idParent: id}}, {upsert: true});
         var z = ZespolRealizacyjnyDraft.insert({idKwestia: id, nazwa: "", zespol: []});
@@ -127,8 +125,6 @@ Meteor.methods({
             isOption: true,
             idParent: newKwestiaOpcja[0].idParent,
             numerUchwały: newKwestiaOpcja[0].numerUchwały,
-
-            //Marzena
             idZespolRealizacyjny: z
         });
         //var z = ZespolRealizacyjny.insert({idKwestia: id, nazwa: "", zespol: []});

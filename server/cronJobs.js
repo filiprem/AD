@@ -77,7 +77,7 @@ checkingEndOfVote = function() {
 
                     //Marzena:
                     var zrDraft=ZespolRealizacyjnyDraft.findOne({_id:kwestia.idZespolRealizacyjny});
-                    if(zrDraft.idZR!=null){//jezeli draft ma id ZR( kopiuje od istniejÄ…cego ZR), to dopisz do kisty ZR tego drafta
+                    if(zrDraft.idZR!=null){//jezeli draft ma id ZR( kopiuje od istniejącego ZR), to dopisz do kisty ZR tego drafta
                         var ZR=ZespolRealizacyjny.findOne({_id:zrDraft.idZR});
                         var listKwestii=ZR.kwestie.slice();
                         listKwestii.push(kwestia._id);
@@ -94,7 +94,7 @@ checkingEndOfVote = function() {
                             }
                         });
                     }
-                    else{//w innym przypadku robimy nowy zespĂłĹ‚ Realizacyjny
+                    else{//w innym przypadku robimy nowy zespół‚ Realizacyjny
                         var arrayKwestie=[];
                         arrayKwestie.push(kwestia._id);
                         var newZR={
@@ -120,7 +120,7 @@ checkingEndOfVote = function() {
                     Meteor.call('removeZespolRealizacyjnyDraft', kwestia.idZR);
                     //end Marzena
 
-                    //W przypadku przejďż˝cia Kwestii-Opcji do Realizacji - pozostaďż˝e Opcje przechodzďż˝ na status HIBERNOWANA
+                    //W przypadku przejścia Kwestii-Opcji do Realizacji - pozostałe Opcje przechodzą na status HIBERNOWANA
                     if(kwestia.idParent!=kwestia._id) {
 
                         kwestieOpcje = Kwestia.find({czyAktywny: true, idParent: kwestia.idParent});
@@ -140,7 +140,7 @@ checkingEndOfVote = function() {
                 }
             }
         }
-        else if(kwestia.status == KWESTIA_STATUS.OCZEKUJACA){ //DO ZROBIENIA!!!!!
+        else if(kwestia.status == KWESTIA_STATUS.OCZEKUJACA){ //DO ZROBIENIA!!!!! po miesiącu idzie do kosza
 
             awansUzytkownika(kwestia.idZespolRealizacyjny, pktZaUdzialWZesp);
             kwestia.dataRealizacji = new Date();
@@ -191,8 +191,8 @@ checkingIssuesToVote = function () {
 //=========================================== metody pomocnicze ===============================================//
 
 awansUzytkownika = function(idZespoluRealiz, pktZaUdzialWZesp) {
-
-    var zespol = ZespolRealizacyjny.findOne({_id: idZespoluRealiz}).zespol;
+    console.log(ZespolRealizacyjnyDraft.findOne({_id: idZespoluRealiz}));
+    var zespol = ZespolRealizacyjnyDraft.findOne({_id: idZespoluRealiz}).zespol;
 
     zespol.forEach(function (idUzytkownikaZespolu){
         var uzytkownikAwansujacy = Users.findOne({_id: idUzytkownikaZespolu});
