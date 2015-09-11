@@ -1,32 +1,52 @@
 <template name="listKwestia">
-<!--{{#if currentUser}}-->
     <div class="main">
-        {{#if currentUser}}
-            {{#if isUserOrDoradcaLogged}}
-                <div class="row">
-                    <div class="col col-md-12">
-                         <div class="btn-group">
-                             <a id="addKwestiaButton" class="btn btn-primary">
-                                 <i class="fa fa-plus"></i>
-                                 Dodaj
-                             </a>
-                         </div>
-                    </div>
+        <div class="row">
+                <div class="col-md-4">
+                    {{#if currentUser}}
+                        {{#if isUserOrDoradcaLogged}}
+                            <div class="btn-group">
+                                <a id="addKwestiaButton" class="btn btn-primary">
+                                    <i class="fa fa-plus"></i>
+                                    Dodaj
+                                </a>
+                            </div>
+                        {{/if}}
+                    {{/if}}
                 </div>
-            {{/if}}
-        {{/if}}
+                <div class="pull-right col-md-4">
+                    {{> reactiveTableFilter
+                    id="customFilter"
+                    label="Filter"
+                    fields=getFilterFields}}
+                </div>
+                <div class="pull-right col-md-4">
+                    <select class="form-control" id="customFilterSelect">
+                        <option value="0">Pokaż najsilniejsze</option>
+                        <option value="1">Pokaż najnowsze</option>
+                    </select>
+                </div>
+            </div>
+        <br />
         <div class="row">
             <div class="col-md-12">
-                {{> reactiveTable
-                class = "table table-bordered table-hover"
-                fields = settings.fields
-                settings = settings
-                collection = KwestiaList
+                {{#if isDataSortEnabled}}
+                    {{> reactiveTable
+                    class = "table table-bordered table-hover"
+                    fields = settings2.fields
+                    settings = settings2
+                    collection = KwestiaList
                 }}
+                {{else}}
+                    {{> reactiveTable
+                    class = "table table-bordered table-hover"
+                    fields = settings.fields
+                    settings = settings
+                    collection = KwestiaList
+                    }}
+                {{/if}}
             </div>
         </div>
     </div>
-        <!--{{/if}}-->
 </template>
 
 <template name="tematKwestia">
@@ -84,4 +104,10 @@
 
 <template name="statusKwestii">
     {{status}}
+</template>
+
+<template name="noData">
+    <div class="">
+        Brak danych do wyświetlania...
+    </div>
 </template>

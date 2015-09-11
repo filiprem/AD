@@ -11,19 +11,15 @@ Template.listKwestia.rendered = function () {
             tab.push(item._id);
         });
         self.liczbaKwestiRV.set(tab);
-    })
-
+    });
 };
 Template.listKwestia.created = function () {
     this.liczbaKwestiRV = new ReactiveVar();
+    this.choosenSortRV = new ReactiveVar();
+    this.choosenSortRV.set(0);
 };
 
 Template.listKwestia.events({
-    //edycja kwestii
-    'click .glyphicon-pencil': function (event, template) {
-        Session.set('kwestiaInScope', this);
-        Router.go("editKwestia");
-    },
     'click #addKwestiaButton': function () {
         if (!!Session.get("kwestiaPreview"))
             Session.set("kwestiaPreview", null);
@@ -78,17 +74,97 @@ Template.listKwestia.events({
                 }
             });
         }
+    },
+    "change #customFilterSelect": function (event, template) {
+        var input = $(event.target).val();
+        var self = Template.instance();
+        if (!!input && input==0)
+            self.choosenSortRV.set(0);
+         else
+            self.choosenSortRV.set(1);
     }
 });
 Template.listKwestia.helpers({
+    'isDataSortEnabled':function(){
+        var self = Template.instance();
+        var sort = self.choosenSortRV.get();
+        return sort==0 ? true : false;
+    },
+    'getFilterFields':function(){
+        return ['kwestiaNazwa'];
+    },
     'settings': function () {
         var self = Template.instance();
+        var sort = self.choosenSortRV.get();
         return {
             rowsPerPage: 10,
-            showFilter: true,
+            //showFilter: true,
             showNavigation: 'always',
             showColumnToggles: false,
             enableRegex: false,
+            noDataTemplate:Template.noData,
+            filters:['customFilter'],
+            fields: [
+                {
+                    key: 'dataWprowadzenia',
+                    label: Template.listKwestiaColumnLabel,
+                    labelData: {
+                        title: "Data wprowadzenia Kwestii i rozpoczęcia jej deliberacji",
+                        text: "Data"
+                    },
+                    tmpl: Template.dataUtwKwestia,
+                    sortOrder: 1,
+                    sortDirection: "descending"
+                },
+                {
+                    key: 'kwestiaNazwa',
+                    label: Template.listKwestiaColumnLabel,
+                    labelData: {
+                        title: "Kliknij w nazwę, aby zobaczyć szczegóły Kwestii",
+                        text: "Nazwa Kwestii"
+                    },
+                    tmpl: Template.nazwaKwestiLink
+                },
+                {
+                    key: 'wartoscPriorytetu',
+                    label: Template.listKwestiaColumnLabel,
+                    labelData: {
+                        title: "Priorytet nadany przez Ciebie oraz ogólna siła priorytetu",
+                        text: "Priorytet"
+                    },
+                    tmpl: Template.priorytetKwestia
+                },
+                {key: 'idTemat', label: "Temat", tmpl: Template.tematKwestia},
+                {key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestia},
+                {
+                    key: 'dataGlosowania',
+                    label: Template.listKwestiaColumnLabel,
+                    labelData: {
+                        title: "Aktualne kworum / wymagane kworum",
+                        text: "Kworum"
+                    },
+                    tmpl: Template.kworumNumber
+                }
+            ],
+            rowClass: function (item) {
+                tab = self.liczbaKwestiRV.get();
+                if (_.contains(tab, item._id)) {
+                    return 'priorityClass';
+                }
+            }
+        };
+    },
+    'settings2': function () {
+        var self = Template.instance();
+        var sort = self.choosenSortRV.get();
+        return {
+            rowsPerPage: 10,
+            //showFilter: true,
+            showNavigation: 'always',
+            showColumnToggles: false,
+            enableRegex: false,
+            noDataTemplate:Template.noData,
+            filters:['customFilter'],
             fields: [
                 {
                     key: 'dataWprowadzenia',
@@ -117,7 +193,7 @@ Template.listKwestia.helpers({
                     },
                     tmpl: Template.priorytetKwestia,
                     sortOrder: 1,
-                    sortDirection: 'descending'
+                    sortDirection: "descending"
                 },
                 {key: 'idTemat', label: "Temat", tmpl: Template.tematKwestia},
                 {key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestia},
@@ -145,8 +221,11 @@ Template.listKwestia.helpers({
                 return ((this.czyAktywny == true) && ((this.status==KWESTIA_STATUS.DELIBEROWANA)  || (this.status==KWESTIA_STATUS.STATUSOWA)));
             }
         });
-        if(kwestie) return kwestie;
-        return null;
+
+        if(kwestie)
+            return kwestie;
+        else
+            return null;
     },
     kwestiaCount: function () {
         return Kwestia.find({czyAktywny: true}).count();
@@ -180,13 +259,6 @@ Template.rodzajKwestia.helpers({
         if (r) return r.nazwaRodzaj;
     }
 });
-
-//Template.dataGlKwestia.helpers({
-//    date: function () {
-//        var d = this.dataGlosowania;
-//        if (d) return moment(d).format("DD-MM-YYYY");
-//    }
-//});
 
 Template.kworumNumber.helpers({//brani są tu użytkownicy,którzy zaglosowali,czy ktorzy są w systemie?
     // Karolina: myślę, ze wszyscy uzytkownicy bo w funkcji z xml napisane jest, ze bierzemy wszystkich uprawnionych
@@ -272,3 +344,4 @@ Template.kworumNumber.helpers({
         return liczenieKworumZwykle();
     }
 })
+
