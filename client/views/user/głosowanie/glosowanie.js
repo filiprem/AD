@@ -8,13 +8,13 @@ Template.glosowanie.helpers({
             enableRegex: false,
             fields: [
                 {
-                    key: 'dataWprowadzenia',
+                    key: 'dataGlosowania',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        title: "Data wprowadzenia Kwestii i rozpoczęcia jej deliberacji",
+                        title: "Termin głosowania Kwestii",
                         text: "Data"
                     },
-                    tmpl: Template.dataUtwKwestia
+                    tmpl: Template.dataGlosowaniaKwestia
                 },
                 {
                     key: 'kwestiaNazwa',
@@ -56,5 +56,12 @@ Template.glosowanie.helpers({
     GlosowanieListCount: function () {
         var ile = Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.GLOSOWANA}).count();
         return ile > 0 ? true : false;
+    }
+});
+
+Template.dataGlosowaniaKwestia.helpers({
+    date: function () {
+        var d = this.dataGlosowania;
+        if (d) return moment(d).format("DD-MM-YYYY HH:mm");
     }
 });
