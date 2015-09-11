@@ -23,7 +23,7 @@ SyncedCron.add({
     schedule: function(parser) {
         // parser is a later.parse object
         var voteFreq = Parametr.findOne({}).voteFrequency;
-        return parser.text('every '+ voteFreq + ' day');
+        return parser.text('every '+ voteFreq + ' minute');
     },
     job: function() {
         return checkingIssuesToVote();
@@ -42,7 +42,7 @@ Meteor.startup(function (){
                     name: 'checking issues to vote crone',
                     schedule: function(parser) {
                         // parser is a later.parse object
-                        return parser.text('every '+ newParametr.voteFrequency + ' day');
+                        return parser.text('every '+ newParametr.voteFrequency + ' minute');
                     },
                     job: function() {
                         return checkingIssuesToVote();
@@ -78,7 +78,7 @@ checkingEndOfVote = function() {
                     //Marzena:
                     var zrDraft=ZespolRealizacyjnyDraft.findOne({_id:kwestia.idZespolRealizacyjny});
                     if(zrDraft.idZR!=null){//jezeli draft ma id ZR( kopiuje od istniejÄ…cego ZR), to dopisz do kisty ZR tego drafta
-                        var ZR=ZespolRealizacyjny.findOne({id:zrDraft.idZR});
+                        var ZR=ZespolRealizacyjny.findOne({_id:zrDraft.idZR});
                         var listKwestii=ZR.kwestie.slice();
                         listKwestii.push(kwestia._id);
                         Meteor.call('updateListKwesti', ZR._id, listKwestii,function(error){

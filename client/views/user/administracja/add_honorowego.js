@@ -51,7 +51,7 @@ zglosNaHonorowegoForm=function(user){
         '<div class="col-md-12"><strong>' + "Imię i nazwisko: " + '</strong>' + user.profile.fullName + '</div>' +
         '<div class="col-md-12"><strong>' + "Stanowisko: " + '</strong>' + user.profile.userType + '</div>' +
         '<div class="col-md-12"><strong>' + "Telefon: " + '</strong>' + user.profile.phone + '</div>' +
-        '<div class="col-md-12"><strong>' + "e-mail: " + '</strong>' + getEmail(this) + '<br /><br /></div>' + '<p></p>' +
+        '<div class="col-md-12"><strong>' + "e-mail: " + '</strong>' + user.emails[0].address + '<br /><br /></div>' + '<p></p>' +
 
         '<label class="col-md-12 control-label" for="uwagi">Uzasadnienie</label> ' +
         '<div class="col-md-12"> ' +
@@ -100,7 +100,7 @@ addKwestiaUserHonorowy=function(user,uwagi,idUserDraft){
     var d = dataG.setDate(dataG.getDate() + 7);
     var daneAplikanta = "DANE APLIKANTA: \r\n " +
         user.profile.firstName + ", " + user.profile.lastName + " \r\n " +
-        user.emails + ", \r\n " +
+        user.emails[0].address + ", \r\n " +
         user.profile.phone + ", \r\n " +
         uwagi;
     var newKwestia = [

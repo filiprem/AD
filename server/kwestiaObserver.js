@@ -22,7 +22,7 @@ Meteor.startup(function(){
         }
     });
     var postyPodKwestiami = Posts.find({czyAktywny: true});
-    var zespoly = ZespolRealizacyjny.find({});
+    var zespoly = ZespolRealizacyjnyDraft.find({});
 
     kwestie.observe({
         changedAt: function(newKwestia, oldKwestia, atIndex) {
@@ -41,7 +41,10 @@ Meteor.startup(function(){
                 }
                 else if (newKwestia.status == KWESTIA_STATUS.STATUSOWA){
 
-                    Meteor.call('updateStatusKwestii', newKwestia._id, KWESTIA_STATUS.OCZEKUJACA);
+                    //Meteor.call('updateStatusKwestii', newKwestia._id, KWESTIA_STATUS.OCZEKUJACA);
+                    Meteor.call('updateStatusDataOczekwianiaKwestii', newKwestia._id, KWESTIA_STATUS.OCZEKUJACA,new Date());
+
+                    Meteor.call("sendEmailHonorowyInvitation", newKwestia.idZgloszonego);
                 }
             }
 
@@ -158,7 +161,10 @@ Meteor.startup(function(){
                     }
                     else if (kwestia.status == KWESTIA_STATUS.STATUSOWA){
 
-                        Meteor.call('updateStatusKwestii', kwestia._id, KWESTIA_STATUS.OCZEKUJACA);
+                       //Meteor.call('updateStatusKwestii', kwestia._id, KWESTIA_STATUS.OCZEKUJACA);
+                        Meteor.call('updateStatusDataOczekwianiaKwestii', kwestia._id, KWESTIA_STATUS.OCZEKUJACA,new Date());
+
+                        Meteor.call("sendEmailHonorowyInvitation", kwestia.idZgloszonego);
                     }
                 }
             }
