@@ -51,37 +51,27 @@ Template.archiwum.helpers({
             ]
         };
     },
-    'ArchiwumList': function () {//do Bartka:
-        //return Kwestia.find({$where:function(){return ((this.czyAktywny==false) || (moment(this.dataGlosowania) < moment()&& this.wartoscPriorytetu < this.pulapPriorytetu));}}).fetch();
+    ArchiwumList: function () {
+
         return Kwestia.find({
-            $or: [
-                {czyAktywny: true},
-                {
-                    $and: [{dataGlosowania: {$lt: moment().format()}}, {
-                        $where: function () {
-                            return this.wartoscPriorytetu <= 0
-                        }
-                    }]
-                },
-                {status: KWESTIA_STATUS.ARCHIWALNA},
-                {status: KWESTIA_STATUS.HIBERNOWANA}
-            ]
-        }).fetch();
+            czyAktywny: true,
+            status: {
+                $in: [
+                    KWESTIA_STATUS.ARCHIWALNA,
+                    KWESTIA_STATUS.HIBERNOWANA
+                ]
+            }
+        });
     },
     'ArchiwumListCount': function () {
         var count = Kwestia.find({
-            $or: [
-                {czyAktywny: true},
-                {
-                    $and: [{dataGlosowania: {$lt: moment().format()}}, {
-                        $where: function () {
-                            return this.wartoscPriorytetu <= 0
-                        }
-                    }]
-                },
-                {status: KWESTIA_STATUS.ARCHIWALNA},
-                {status: KWESTIA_STATUS.HIBERNOWANA}
-            ]
+            czyAktywny: true,
+            status: {
+                $in: [
+                    KWESTIA_STATUS.ARCHIWALNA,
+                    KWESTIA_STATUS.HIBERNOWANA
+                ]
+            }
         }).count();
         return count > 0 ? true : false;
     },

@@ -4,7 +4,9 @@ Meteor.methods({
             nazwaOrganizacji: newParametr[0].nazwaOrganizacji,
             terytorium: newParametr[0].terytorium,
             kontakty: newParametr[0].kontakty,
-            regulamin: newParametr[0].regulamin
+            regulamin: newParametr[0].regulamin,
+            voteFrequency: newParametr[0].voteFrequency,
+            voteQuantity: newParametr[0].voteQuantity
         });
     },
     updateParametr: function(id, parametr){

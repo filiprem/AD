@@ -6,19 +6,25 @@
             <div class="col col-md-10">
                 <form class="form-horizontal" id="userForm">
                     <div class="form-group">
-                        <label class="control-label col-xs-3" for="uwagiStatus">Uwagi do roli: </label>
-
-                        <div class="col-xs-9">
-                            <textarea name="uwagiStatus" rows="3" class="form-control" id="uwagiStatus"
-                                      placeholder="Uwagi do roli"></textarea>
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label class="control-label col-xs-3" for="inputEmail">Email: </label>
 
                         <div class="col-xs-9">
-                            <input name="email" type="email" class="form-control" id="inputEmail" placeholder="Email"
-                                   required>
+                            <input name="email" type="email" class="form-control" id="inputEmail" placeholder="Email" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" for="firstName">Imię: </label>
+
+                        <div class="col-xs-9">
+                            <input name="firstName" type="text" class="form-control" id="firstName" placeholder="Imię" required >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" for="lastName">Nazwisko: </label>
+
+                        <div class="col-xs-9">
+                            <input name="lastName" type="text" class="form-control" id="lastName"
+                                   placeholder="Nazwisko"  required >
                         </div>
                     </div>
                     <div class="form-group">
@@ -37,36 +43,21 @@
                                    placeholder="Potwierdź hasło">
                         </div>
                     </div>
+
                     <div class="form-group">
-                        <label class="control-label col-xs-3" for="firstName">Imię: </label>
+                        <label class="control-label col-xs-3" for="identityCard">Nr Dowodu Osobistego: </label>
 
                         <div class="col-xs-9">
-                            <input name="firstName" type="text" class="form-control" id="firstName" placeholder="Imię"
-                                   required>
+                            <input name="identityCard" type="text" class="form-control" id="profession"
+                                   placeholder="Numer Dowodu Osobistego"  required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-xs-3" for="lastName">Nazwisko: </label>
+                        <label class="control-label col-xs-3" for="phoneNumber">PESEL: </label>
 
                         <div class="col-xs-9">
-                            <input name="lastName" type="text" class="form-control" id="lastName"
-                                   placeholder="Nazwisko" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-xs-3" for="profession">Stanowisko: </label>
-
-                        <div class="col-xs-9">
-                            <input name="profession" type="text" class="form-control" id="profession"
-                                   placeholder="Stanowisko">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-xs-3" for="phoneNumber">Numer tel: </label>
-
-                        <div class="col-xs-9">
-                            <input name="phone" type="tel" class="form-control" id="phoneNumber"
-                                   placeholder="Numer telefonu">
+                            <input name="pesel" type="text" class="form-control" id="pesel"
+                                   placeholder="PESEL"  required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -75,7 +66,8 @@
                         <div class="col-xs-9">
                             <div class="input-group datetimepicker col-xs-5" id="dataUrodzeniaDatePicker">
                                 <span class="input-group-addon glyphicon glyphicon-calendar"></span>
-                                <input class="set-due-date form-control" type="text" name="dateOfBirth"/>
+                                <input class="set-due-date form-control" type="text" name="dateOfBirth"
+                                        required/>
                             </div>
                         </div>
                     </div>
@@ -84,15 +76,31 @@
 
                         <div class="col-xs-9">
                             <textarea name="address" rows="3" class="form-control" id="postalAddress"
-                                      placeholder="Adres"></textarea>
+                                      placeholder="Adres"  required></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="control-label col-xs-3" for="ZipCode">Kod pocztowy: </label>
+
+                            <div class="col-xs-3">
+                                <input name="zipCode" type="text" class="form-control" id="ZipCode"
+                                       placeholder="Kod pocztowy"  required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-3">
+                                <input name="city" type="text" class="form-control" id="city"
+                                       placeholder="Miasto"  required >
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-xs-3" for="ZipCode">Kod pocztowy: </label>
+                        <label class="control-label col-xs-3" for="web">Telefon: </label>
 
                         <div class="col-xs-9">
-                            <input name="zipCode" type="text" class="form-control" id="ZipCode"
-                                   placeholder="Kod pocztowy">
+                            <input name="phone" type="text" class="form-control" id="phone"
+                                   placeholder="Numer telefonu"  required >
                         </div>
                     </div>
                     <div class="form-group">
@@ -100,7 +108,7 @@
 
                         <div class="col-xs-9">
                             <input name="web" type="text" class="form-control" id="web"
-                                   placeholder="WWW">
+                                   placeholder="WWW" >
                         </div>
                     </div>
                     <div class="form-group">
@@ -108,13 +116,23 @@
 
                         <div class="col-xs-2">
                             <label class="radio-inline">
-                                <input type="radio" name="genderRadios" value="mężczyzna"> Mężczyzna
+                                <input type="radio" name="genderRadios" value="mężczyzna" >
+                                Mężczyzna
                             </label>
                         </div>
                         <div class="col-xs-2">
                             <label class="radio-inline">
-                                <input type="radio" name="genderRadios" value="kobieta"> Kobieta
+                                <input type="radio" name="genderRadios" value="kobieta">
+                                Kobieta
                             </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" for="uwagiStatus">Dodatkowe: </label>
+
+                        <div class="col-xs-9">
+                            <textarea name="uwagi" rows="3" class="form-control" id="uwagiStatus"
+                                      placeholder="UWagi..."></textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -126,6 +144,13 @@
                                 <option value="en">angielski</option>
                             </select>
                         </div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <div class="col-md-1">
+                            <!--<input type="checkbox" name="statutConfirmation"  {{isSelected 'kobieta'}}>-->
+                        </div>
+                        <input type="checkbox" name="statutConfirmation"  {{isSelected 'kobieta'}} required/>
+                        <label class="control-label col-xs-6">Potwierdzam znajomość <a id="statutBootbox">Statutu</a> </label>
                     </div>
                     <br/>
 

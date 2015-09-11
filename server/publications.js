@@ -18,6 +18,10 @@ Meteor.publish('usersEmails', function () {
     return Users.find({}, {fields: {emails: 1}});
 });
 
+Meteor.publish('usersType', function () {
+    return Users.find({}, {fields: {'profile.userType': 1}});
+});
+
 Meteor.publish('usersDraft', function () {
     return UsersDraft.find({});
 });

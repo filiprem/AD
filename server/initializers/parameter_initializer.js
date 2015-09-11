@@ -4,7 +4,9 @@ Meteor.startup(function () {
             "nazwaOrganizacji": "Aktywna Demokracja",
             "terytorium": "Polska",
             "kontakty": "Warszawa ul. Miła",
-            "regulamin": "brak regulaminu"
+            "regulamin": "brak regulaminu",
+            "voteFrequency": 7,
+            "voteQuantity": 3
         }
     ];
     if (Parametr.find().count() == 0) {

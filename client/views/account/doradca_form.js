@@ -7,7 +7,8 @@ Template.doradcaForm.rendered = function () {
         rules: {
             email: {
                 email: true,
-                checkExistsEmail: true,
+                checkExistsEmail: USERTYPE.DORADCA,//czy juz nie ma mnie jako doradca w systemie
+                checkExistsEmail2: USERTYPE.CZLONEK,//czy nie jestem wyzej
                 checkExistsEmailDraft: true
             }
         },
@@ -21,6 +22,9 @@ Template.doradcaForm.rendered = function () {
             },
             lastName: {
                 required: fieldEmptyMessage()
+            },
+            phone:{
+                required:fieldEmptyMessage()
             }
         },
         highlight: function (element) {
@@ -47,10 +51,8 @@ Template.doradcaForm.events({
                 login: "",
                 firstName: $(e.target).find('[name=firstName]').val(),
                 lastName: $(e.target).find('[name=lastName]').val(),
-                profession: $(e.target).find('[name=profession]').val(),
-                address: $(e.target).find('[name=address]').val(),
-                zip: $(e.target).find('[name=zipCode]').val(),
-                gender: $(e.target).find('[name=genderRadios]:checked').val(),
+                phone: $(e.target).find('[name=phone]').val(),
+                web: $(e.target).find('[name=www]').val(),
                 role: 'user',
                 userType: USERTYPE.DORADCA,
                 isExpectant: false,
@@ -75,16 +77,22 @@ Template.doradcaForm.events({
                 }
             }
             else {
+                var web="";
+                if(newUser[0].web!=null)
+                web=newUser[0].web;
+                var uwagi="";
+                if(newUser[0].uwagi!=null)
+                uwagi=newUser[0].uwagi;
+
                 var idUserDraft = ret;
                 var dataG = new Date();
                 var d = dataG.setDate(dataG.getDate() + 7);
                 var daneAplikanta = "DANE APLIKANTA: \r\n " +
                     newUser[0].firstName + ", " + newUser[0].lastName + " \r\n " +
                     newUser[0].email + ", \r\n " +
-                    newUser[0].profession + ", \r\n " +
-                    newUser[0].address + " " +
-                    newUser[0].zip + ", \r\n " +
-                    newUser[0].uwagi
+                    newUser[0].phone + ", \r\n " +
+                    web +  ",  \r\n " +
+                    uwagi;
                 var newKwestia = [
                     {
                         idUser: idUserDraft,
@@ -101,7 +109,7 @@ Template.doradcaForm.events({
                         isOption: false,
                         status: KWESTIA_STATUS.OSOBOWA
                     }];
-                Meteor.call('addKwestia', newKwestia, function (error) {
+                Meteor.call('addKwestia', newKwestia, function (error,ret) {
                     if (error) {
                         // optionally use a meteor errors package
                         if (typeof Errors === "undefined")
@@ -111,18 +119,28 @@ Template.doradcaForm.events({
                             throwError(error.reason);
                         }
                     }
-                    else {
-                        Router.go("home");
-                        bootbox.dialog({
-                            message: "Twój wniosek o przyjęcie do systemu jako " + newUser[0].userType + " został przyjęty. O wyniku zostaniesz poinformowany drogą mailową",
-                            title: "Uwaga",
-                            buttons: {
-                                main: {
-                                    label: "Ok",
-                                    className: "btn-primary",
-                                }
+                    else {//update jej ZR
+                        var zr=ZespolRealizacyjny.findOne({});
+                        var kwestia=Kwestia.findOne({_id:ret});
+                        var myZRDraft=ZespolRealizacyjnyDraft.findOne({_id:kwestia.idZespolRealizacyjny});
+                        var ZRdataToUpdate={
+                          nazwa:zr.nazwa,
+                          zespol:zr.zespol
+                        };
+                        Meteor.call('updateZespolRealizacyjnyDraft', myZRDraft._id,ZRdataToUpdate, function (error,ret) {
+                            if (error) {
+                                // optionally use a meteor errors package
+                                if (typeof Errors === "undefined")
+                                    Log.error('Error: ' + error.reason);
+                                else
+                                    throwError(error.reason);
+                            }
+                            else {
+                                Router.go("home");
+                                przyjecieWnioskuConfirmation(newUser[0].email,"doradztwo");
                             }
                         });
+
                     }
                 });
             }
@@ -130,5 +148,10 @@ Template.doradcaForm.events({
     },
     'reset form': function () {
         Router.go('home');
+    }
+});
+Template.doradcaForm.helpers({
+    nazwaOrganizacji:function(){
+        return Parametr.findOne() ? Parametr.findOne().nazwaOrganizacji :"Aktywna Demokracja";
     }
 });

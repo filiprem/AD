@@ -218,7 +218,7 @@ Template.listKwestia.helpers({
     KwestiaList: function () {
         var kwestie = Kwestia.find({
             $where: function () {
-                return ((this.czyAktywny == true) && ((this.status==KWESTIA_STATUS.DELIBEROWANA)  || (this.status==KWESTIA_STATUS.STATUSOWA)));
+                return ((this.czyAktywny == true) && ((this.status==KWESTIA_STATUS.DELIBEROWANA)  || (this.status==KWESTIA_STATUS.STATUSOWA) || (this.status==KWESTIA_STATUS.OSOBOWA)));
             }
         });
 
