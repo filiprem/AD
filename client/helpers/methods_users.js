@@ -76,16 +76,22 @@ checkExistsUser=function(searchedEmail,userType1,userType2){
         console.log(user);
         _.each(user.emails, function (email) {
             if (_.isEqual(email.address.toLowerCase(), searchedEmail.toLowerCase())) {
-                userType=user.profile.userType;
-                console.log("User type: "+userType);
-                if(userType2==null) {
-                    if (userType == userType1) {
-                        found = true;
+
+                if(userType1 ==null && userType2==null)//dla przeszukania czy wgl jest taki user w systemie
+                    found=true;
+                else {
+                    console.log("tu nie powinno wejść");
+                    userType=user.profile.userType;
+                    console.log("User type: "+userType);
+                    if (userType2 == null) {
+                        if (userType == userType1) {//dla przeszukania czy doradca/czlonek jest w systemie
+                            found = true;
+                        }
                     }
-                }
-                else{
-                    if (userType == userType1 ||userType==userType2) {
-                        found = true;
+                    else {
+                        if (userType == userType1 || userType == userType2) {//dla przeszukania czy owy jest przynajmniej czlonkiem lub doradca
+                            found = true;
+                        }
                     }
                 }
             }

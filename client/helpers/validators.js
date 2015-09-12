@@ -72,6 +72,14 @@ jQuery.validator.addMethod("checkExistsNazwaZespoluRealizacyjnego", function (va
 //funkcja walidujaca, uzywana przy samorejestracji lub przy aplikacji na czlonka lub doradcę(tylko nowy user!!)
 //waliduje tylko wtyedy,gdy uzytkownik niezalogowany,bo gdy zalogowany,to moze aplikwoac tylko z doradcy na członka
 //a wówczas email będzie ten sam naturalnie
+jQuery.validator.addMethod("checkExistsAnyEmail", function (value, element) {
+    var found = null;
+    if (!Meteor.userId()) {
+        found=checkExistsUser(value,null,null);
+    }
+    return this.optional(element) || found == null;
+}, 'Istnieje już w systemie użytkownik o podanym adresie email!');
+
 jQuery.validator.addMethod("checkExistsEmail", function (value, element,param) {
     var found = null;
     if (!Meteor.userId()) {

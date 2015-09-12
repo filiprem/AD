@@ -22,6 +22,10 @@ Meteor.publish('usersType', function () {
     return Users.find({}, {fields: {'profile.userType': 1}});
 });
 
+Meteor.publish('usersUsernames', function () {
+    return Users.find({}, {fields: {username: 1}});
+});
+
 Meteor.publish('usersDraft', function () {
     return UsersDraft.find({});
 });
@@ -33,6 +37,7 @@ Meteor.publish('userDraft', function (id) {
 Meteor.publish('usersDraftEmails', function () {
     return UsersDraft.find({}, {fields: {email: 1}});
 });
+
 
 Meteor.publish(null, function (){
     return Meteor.roles.find({})
