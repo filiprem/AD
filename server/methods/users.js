@@ -12,10 +12,6 @@ Meteor.methods({
                 profession: newUser[0].profession,
                 address: newUser[0].address,
                 zip: newUser[0].zip,
-                dateOfBirth: newUser[0].dateOfBirth,
-                gender: newUser[0].gender,
-                phone: newUser[0].phone,
-                web: newUser[0].web,
                 // role: newUser[0].role,
                 roleDesc:  newUser[0].roleDesc,
                 language:newUser[0].language,
@@ -23,7 +19,6 @@ Meteor.methods({
                 rADking:newUser[0].rADking,
                 userType:newUser[0].userType,
                 city:newUser[0].city,
-                identityCard:newUser[0].identityCard,
                 pesel:newUser[0].pesel
             }
         });
@@ -48,5 +43,15 @@ Meteor.methods({
     },
     updateUserLanguage: function(id,user) {
         Users.update({_id:id},{$set:{'profile.language':user.profile.language}});
+    },
+    sendMessageToUser: function(newEmail) {
+        var id=Message.insert({
+            idSender: newEmail[0].idSender,
+            idReceiver: newEmail[0].idReceiver,
+            createdAt: newEmail[0].createdAt,
+            subject: newEmail[0].subject,
+            content: newEmail[0].content
+        });
+        return id;
     }
 });

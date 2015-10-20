@@ -1,8 +1,4 @@
 Template.czlonekZwyczajnyForm.rendered = function () {
-    $('#dataUrodzeniaDatePicker').datetimepicker({
-        sideBySide: true,
-        format: 'DD/MM/YYYY'
-    });
     $("#userForm").validate({
         rules: {
             email: {
@@ -18,18 +14,11 @@ Template.czlonekZwyczajnyForm.rendered = function () {
                 exactlength: 11,
                 peselValidation:true
             },
-            identityCard:{
-                exactlength:9,
-                identityCardValidation:true
-            },
             ZipCode:{
                 kodPocztowyValidation:true
             },
             language:{
                 isNotEmptyValue:true
-            },
-            genderRadios:{
-                required:true
             }
         },
         messages: {
@@ -46,20 +35,11 @@ Template.czlonekZwyczajnyForm.rendered = function () {
             lastName: {
                 required: fieldEmptyMessage()
             },
-            phone: {
-                required: fieldEmptyMessage()
-            },
-            dateOfBirth: {
-                required: fieldEmptyMessage()
-            },
             address: {
                 required: fieldEmptyMessage()
             },
             ZipCode: {
                 required: fieldEmptyMessage()
-            },
-            identityCard:{
-                required:fieldEmptyMessage()
             },
             pesel:{
                 required:fieldEmptyMessage()
@@ -72,9 +52,6 @@ Template.czlonekZwyczajnyForm.rendered = function () {
             },
             language:{
                 required:fieldEmptyMessage()
-            },
-            genderRadios:{
-                required:fieldEmptyMessage()
             }
         },
         highlight: function (element) {
@@ -86,11 +63,7 @@ Template.czlonekZwyczajnyForm.rendered = function () {
         errorElement: 'span',
         errorClass: 'help-block',
         errorPlacement: function (error, element) {
-            if(element.attr("type") == "radio")
-                error.insertAfter(document.getElementById("womanRadio"));
-            else if(element.attr("name") == "dateOfBirth")
-                error.insertAfter(document.getElementById("dataUrodzeniaDatePicker"));
-            else if(element.attr("name") == "statutConfirmation")
+            if(element.attr("name") == "statutConfirmation")
                 error.insertAfter(document.getElementById("statutConfirmationSpan"));
             else
                 validationPlacementError(error, element);
@@ -117,12 +90,8 @@ Template.czlonekZwyczajnyForm.events({
                 firstName: $(e.target).find('[name=firstName]').val(),
                 lastName: $(e.target).find('[name=lastName]').val(),
                 profession: $(e.target).find('[name=profession]').val(),
-                phone: $(e.target).find('[name=phone]').val(),
-                dateOfBirth: $(e.target).find('[name=dateOfBirth]').val(),
                 address: $(e.target).find('[name=address]').val(),
                 zip: $(e.target).find('[name=zipCode]').val(),
-                web: $(e.target).find('[name=web]').val(),
-                gender: $(e.target).find('[name=genderRadios]:checked').val(),
                 role: 'user',
                 userType: USERTYPE.CZLONEK,
                 uwagi: $(e.target).find('[name=uwagi]').val(),
@@ -130,7 +99,6 @@ Template.czlonekZwyczajnyForm.events({
                 isExpectant: false,
                 idUser: idUser,
                 city:$(e.target).find('[name=city]').val(),
-                identityCard:$(e.target).find('[name=identityCard]').val(),
                 pesel:$(e.target).find('[name=pesel]').val()
             }];
         //-- generowanie loginu dla użytkownika
@@ -166,22 +134,10 @@ Template.czlonekZwyczajnyForm.helpers({
     'getLanguages':function(){
         return Languages.find({});
     },
-    isSelected: function (gender) {
-        var gen = this.profile.gender;
-        if (gen) {
-            if (gen == gender)
-                return "checked";
-            else
-                return "";
-        }
-        return "";
-    },
     email: function () {
         return getEmail(this);
     },
     isNotEmpty: function () {
-        console.log(this._id);
-
         return Meteor.userId() ? "readonly" : "";
     },
     nazwaOrganizacji:function(){

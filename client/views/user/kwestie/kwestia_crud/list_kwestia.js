@@ -97,7 +97,7 @@ Template.listKwestia.helpers({
         var self = Template.instance();
         var sort = self.choosenSortRV.get();
         return {
-            rowsPerPage: 10,
+            rowsPerPage: 15,
             //showFilter: true,
             showNavigation: 'always',
             showColumnToggles: false,
@@ -158,7 +158,7 @@ Template.listKwestia.helpers({
         var self = Template.instance();
         var sort = self.choosenSortRV.get();
         return {
-            rowsPerPage: 10,
+            rowsPerPage: 15,
             //showFilter: true,
             showNavigation: 'always',
             showColumnToggles: false,

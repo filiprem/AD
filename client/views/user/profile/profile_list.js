@@ -44,11 +44,12 @@ Template.profileList.helpers({
             fields: [
                 {key: 'profile.firstName', label: "Imię"},
                 {key: 'profile.lastName', label: "Nazwisko"},
-                {key: 'username', label: "Nazwa użytkownika", tmpl: Template.usernameLink},
-                {key: 'email', label: "Email", tmpl: Template.userEmail},
-                {key: 'roles', label: "Rola"},
-                {key: 'profile.userType', label: "Stanowisko w systemie"},
-                {key: 'profile.rADking', label: "Ranking"},
+                //{key: 'username', label: "Nazwa użytkownika", tmpl: Template.usernameLink},
+                {key: 'Kontakt', label: "Kontakt", tmpl: Template.userEmailContact},
+                {key: 'profile.city', label: "Miasto"}
+                //{key: 'roles', label: "Rola"},
+                //{key: 'profile.userType', label: "Stanowisko w systemie"},
+                //{key: 'profile.rADking', label: "Ranking"},
             ],
             rowClass: function (item) {
                 var tab = self.usersRV.get();
@@ -72,7 +73,21 @@ Template.profileList.helpers({
         return Meteor.userId() === userId;
     }
 });
-
+Template.userEmailContact.helpers({
+    myProfile:function(id){
+        return id==Meteor.userId() ? true :false;
+    },
+    email:function(){
+        return this.emails[0].address;
+    }
+});
+Template.userEmailContact.events({
+   //'click #sendMessage':function(e){
+   //    e.preventDefault();
+   //    console.log("hiere");
+   //    console.log(this._id);
+   //}
+});
 //Template.optionsColumnProfile.events({
 //    'click #zglosNaHonorowegoClick': function (e) {
 //        e.preventDefault();

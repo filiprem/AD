@@ -20,23 +20,11 @@
     <!--{{/if}}-->
 </template>
 
-<template name="usernameLink">
-    <a href="{{ pathFor 'profileInfo' this._id}}">{{this.username}}</a>
+<template name="userEmailContact">
+    {{#if myProfile this._id}}
+        {{email}}
+    {{else}}
+        <a href="{{ pathFor 'sendMessage' this._id}}" id="sendMessage">Napisz</a>
+    {{/if}}
 </template>
 
-<!--<template name="optionsColumnProfile">-->
-    <!--<div class="pull-right">-->
-        <!--{{#if statusHonorowy}}-->
-            <!--<a class="btn btn-xs btn-default" data-toggle="tooltip" title="Edytuj" id="zglosNaHonorowegoClick">-->
-                <!--<i class="fa fa-male"></i> Zgłoś na członka honorowego-->
-            <!--</a>-->
-         <!--&lt;!&ndash;{{else}}&ndash;&gt;-->
-            <!--&lt;!&ndash;&lt;!&ndash;to finish&ndash;&gt;&ndash;&gt;-->
-            <!--&lt;!&ndash;{{#if isZgloszony}}&ndash;&gt;-->
-            <!--&lt;!&ndash;<a class="btn btn-xs btn-default" data-toggle="tooltip" title="Edytuj" id="zglosNaHonorowegoClick">&ndash;&gt;-->
-                <!--&lt;!&ndash;<i class="glyphicon glyphicon-info-sign"></i> Zgłoszony&ndash;&gt;-->
-            <!--&lt;!&ndash;</a>&ndash;&gt;-->
-            <!--&lt;!&ndash;{{/if}}&ndash;&gt;-->
-        <!--{{/if}}-->
-    <!--</div>-->
-<!--</template>-->

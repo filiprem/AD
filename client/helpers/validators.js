@@ -114,10 +114,10 @@ jQuery.validator.addMethod("exactlength", function(value, element,param) {
     return this.optional(element) || value.length == param;
 }, "Wprowadź dokładnie {0} znaków.");
 
-jQuery.validator.addMethod("identityCardValidation", function(value, element) {
-    var filter =/^[A-Z]{3}[0-9]{6}$/;
-    return this.optional(element) || filter.test(value);
-}, "Niepoprawny format numer Dowodu Osobistego.");
+//jQuery.validator.addMethod("identityCardValidation", function(value, element) {
+//    var filter =/^[A-Z]{3}[0-9]{6}$/;
+//    return this.optional(element) || filter.test(value);
+//}, "Niepoprawny format numer Dowodu Osobistego.");
 
 jQuery.validator.addMethod("peselValidation", function(value, element) {
     var filter =/^[0-9]{11}$/;

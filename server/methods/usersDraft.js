@@ -10,17 +10,12 @@ Meteor.methods({
                 profession: newUser[0].profession,
                 address: newUser[0].address,
                 zip: newUser[0].zip,
-                dateOfBirth: newUser[0].dateOfBirth,
-                gender: newUser[0].gender,
-                phone: newUser[0].phone,
-                web: newUser[0].web,
                 language:newUser[0].language,
                 userType:newUser[0].userType,
                 uwagi:newUser[0].uwagi,
                 idUser:newUser[0].idUser,
                 isExpectant:newUser[0].isExpectant,
                 city:newUser[0].city,
-                identityCard:newUser[0].identityCard,
                 pesel:newUser[0].pesel
             }
         });

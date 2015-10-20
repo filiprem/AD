@@ -99,7 +99,7 @@ Template.discussionRating.events({
                 if (post.glosujacy[i].value === ratingValue) {
                     GlobalNotification.error({
                         title: 'Błąd',
-                        content: 'Nadałeś już priorytet o tej wadze w tym poście!',
+                        content: 'Nadałeś już priorytet o tej wadze w tym komentarzu!',
                         duration: 3 // duration the notification should stay in seconds
                     });
                     return false;

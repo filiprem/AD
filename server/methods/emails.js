@@ -31,6 +31,7 @@ Meteor.methods({
     },
     sendEmail: function (to, from, subject, text) {
         this.unblock();
+        console.log(from);
         Email.send({
             to: to,
             from: from,

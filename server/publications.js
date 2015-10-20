@@ -10,6 +10,10 @@ Meteor.publish('users', function () {
     return Users.find({});
 });
 
+Meteor.publish('user', function (id) {
+    return Users.find({_id:id});
+});
+
 Meteor.publish('usersRoles', function () {
     return Users.find({}, {fields: {roles: 1}});
 });
