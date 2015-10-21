@@ -4,7 +4,7 @@ Template.uzasadnienieArchiwumModal.events({
         var uzasadnienie = document.getElementById('uzasadnienieArchiwum').value;
         if (uzasadnienie) {
             var message = "Proponuję przenieść tę Kwestię do Archiwum! Dyskusja i siła priorytetu w tym wątku o tym zdecyduje.";
-            var idKwestia = Session.get("idkwestiiArchiwum");
+            var idKwestia = this.idKwestia;
             var idUser = Meteor.userId();
             var addDate = new Date();
             var isParent = true;
@@ -28,11 +28,7 @@ Template.uzasadnienieArchiwumModal.events({
                 wartoscPriorytetu: ratingValue,
                 glosujacy: glosujacy,
                 postType: postType
-            }]
-            if (isNotEmpty(post[0].idKwestia, '') && isNotEmpty(post[0].wiadomosc, 'komentarz') && isNotEmpty(post[0].idUser, '') &&
-                isNotEmpty(post[0].addDate.toString(), '') && isNotEmpty(post[0].czyAktywny.toString(), '') &&
-                isNotEmpty(post[0].userFullName, '' && isNotEmpty(post[0].isParent.toString(), ''))) {
-
+            }];
                 Meteor.call('addPost', post, function (error, ret) {
                     if (error) {
                         if (typeof Errors === "undefined")
@@ -43,7 +39,7 @@ Template.uzasadnienieArchiwumModal.events({
                     }
                     else {
                         var wiadomosc = uzasadnienie;
-                        var idKwestia = Session.get("idkwestiiArchiwum");
+                       // var idKwestia = ret.idKwestia;
                         var idParent = ret;
                         var idUser = Meteor.userId();
                         var addDate = new Date();
@@ -88,13 +84,11 @@ Template.uzasadnienieArchiwumModal.events({
                         });
                         document.getElementById("message").value = "";
                         $("#uzasadnijWyborArchiwum").modal("hide");
-                        Session.set("idkwestiiArchiwum", null);
                         $('html, body').animate({
                             scrollTop: $(".doArchiwumClass").offset().top
                         }, 600);
                     }
                 });
-            }
         }
     },
     'click #anulujButton': function (e) {

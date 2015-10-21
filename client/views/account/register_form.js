@@ -134,17 +134,33 @@ Template.registerForm.events({
                             if(zespol.zespol.length<3) {
                                 var ZR=zespol.zespol.slice();
                                 ZR.push(addedUser);
-                                Meteor.call('updateCzlonkowieZR', zespol._id,ZR, function (error, ret) {
-                                    if (error) {
-                                        // optionally use a meteor errors package
-                                        if (typeof Errors === "undefined")
-                                            Log.error('Error: ' + error.reason);
-                                        else {
-                                            //if(error.error === 409)
-                                            throwError(error.reason);
+
+                                if(zespol.zespol.length==0){
+                                    Meteor.call('updateCzlonkowieZRProtector', zespol._id, ZR, addedUser, function (error, ret) {
+                                        if (error) {
+                                            // optionally use a meteor errors package
+                                            if (typeof Errors === "undefined")
+                                                Log.error('Error: ' + error.reason);
+                                            else {
+                                                //if(error.error === 409)
+                                                throwError(error.reason);
+                                            }
                                         }
-                                    }
-                                });
+                                    });
+                                }
+                                else {
+                                    Meteor.call('updateCzlonkowieZR', zespol._id, ZR, function (error, ret) {
+                                        if (error) {
+                                            // optionally use a meteor errors package
+                                            if (typeof Errors === "undefined")
+                                                Log.error('Error: ' + error.reason);
+                                            else {
+                                                //if(error.error === 409)
+                                                throwError(error.reason);
+                                            }
+                                        }
+                                    });
+                                }
                             }
                         }
                         if (Meteor.loggingIn()) {

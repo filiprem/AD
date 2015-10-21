@@ -1,0 +1,46 @@
+<template name="ZRTemplate">
+    {{#if statusGlosowanaOsobowa status}}
+        <legend>Zespół realizacyjny</legend>
+        <table class="table table-bordered manageTable">
+            <tr>
+                <td><strong> Nazwa Zespołu</strong></td>
+                <td>{{getZRName idZR status}}
+                    <a id="printResolution" data-toggle="tooltip" data-placement="top" title={{getZRCzlonkowie idZR}}>
+                        <i class="fa fa-male fa-lg"></i>
+                    </a>
+                </td>
+            </tr>
+        </table>
+    {{else}}
+        <legend>Zgłoszenie do Zespołu Realizacyjnego</legend>
+        <p><strong>{{getZRName idZR status}} </strong></p>
+        <table class="table manageTable">
+            <tr>
+                <td><strong>Członek nr 1</strong> &nbsp; &nbsp;
+                    {{#unless pierwszyCzlonekFullName idZR}}
+                        <button class="btn btn-success" id="czlonek1">Zgadzam się</button>
+                    {{else}}
+                        <button class="btn btn-success" id="czlonek1" {{isActualUser 0}}>{{pierwszyCzlonekFullName idZR}}</button>
+                    {{/unless}}
+                </td>
+                <td><strong>Członek nr 2</strong> &nbsp; &nbsp;
+                    {{#unless drugiCzlonekFullName idZR}}
+                        <button class="btn btn-success" id="czlonek2">Zgadzam się</button>
+                    {{else}}
+                        <button class="btn btn-success" id="czlonek2" {{isActualUser 1}}>{{drugiCzlonekFullName idZR}}</button>
+                    {{/unless}}
+                </td>
+                <td><strong>Członek nr 3</strong> &nbsp; &nbsp;
+                    {{#unless trzeciCzlonekFullName idZR}}
+                        <button class="btn btn-success" id="czlonek3">Zgadzam się</button>
+                    {{else}}
+                        <button class="btn btn-success" id="czlonek3" {{isActualUser 2}}>{{trzeciCzlonekFullName idZR}}</button>
+                    {{/unless}}
+                </td>
+                <td>
+                    <button class="btn btn-primary" id="listaZR">Sprawdź istniejące ZR</button>
+                </td>
+            </tr>
+        </table>
+    {{/if}}
+</template>

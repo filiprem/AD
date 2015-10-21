@@ -17,11 +17,13 @@ Template.decyzjaModalInner.helpers({
     },
     ZRDoubleList: function(){//tutaj lista wwszystkich zespołów zatweirdzonych.,które mają taki sam zespół jak mój!
         var val=Session.get("zespolRealizacyjnyDouble");
-        console.log(val);
-        return ZespolRealizacyjny.find({
-            _id: {$in:val}});
+        if(val) {
+            return ZespolRealizacyjny.find({
+                _id: {$in: val}
+            });
 
-        Session.setPersistent('zespolRealizacyjnyDouble', null);
+            Session.setPersistent('zespolRealizacyjnyDouble', null);
+        }
     }
 });
 

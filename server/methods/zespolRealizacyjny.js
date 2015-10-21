@@ -32,6 +32,10 @@ Meteor.methods({
         var id = ZespolRealizacyjny.update(id, {$set: {zespol: czlonkowie}}, {upsert: true});
         return id;
     },
+    updateCzlonkowieZRProtector: function (id, czlonkowie,protector) {
+        var id = ZespolRealizacyjny.update(id, {$set: {zespol: czlonkowie,protector:protector}}, {upsert: true});
+        return id;
+    },
     updateKwestieZR:function (id, kwestie) {
         var id = ZespolRealizacyjny.update(id, {$set: {kwestie: kwestie}}, {upsert: true});
         return id;

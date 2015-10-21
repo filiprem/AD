@@ -19,40 +19,11 @@
                 </p>
             </div>
             {{thisKwestia}}
-            <div class="col-md-12">
-                <div class="btn-toolbar pull-right" role="toolbar" aria-label="...">
-                    <div class="btn-group" role="group" aria-label="...">
-                        <button id="backToList" class="btn btn-primary">
-                            <span class="fa fa-arrow-left"></span> Powrót
-                        </button>
-                        {{#unless czyOsobowa}}
-                            {{#if kwestiaOpcjaCount}}
-                                {{#unless isAdmin}}
-                                    <button id="addOptionButton" class="btn btn-primary" {{HasUserRights}}>
-                                        <span class="fa fa-plus"></span> Dodaj opcję
-                                    </button>
-                                {{/unless}}
-                            {{/if}}
-                        {{/unless}}
-                    </div>
-                    {{#unless isAdmin}}
-                        {{> uzasadnienieArchiwumModal}}
-                        {{> uzasadnienieKoszModal}}
-                        <div class="btn-group" role="group" aria-label="...">
-                            <!--<label class="btn btn-danger">Przeniesienie Kwestii</label>-->
-                            <button id="doArchiwum" class="btn btn-warning" {{HasUserRights}}>
-                                <span class="fa fa-lock"></span> Do Archiwum
-                            </button>
-                            <button id="doKosza" class="btn btn-danger" {{HasUserRights}}>
-                                <span class="fa fa-trash"></span> Do Kosza
-                            </button>
-                        </div>
-                        <button id="wyczyscPriorytety" type="button" class="btn btn-danger" {{isAvailable }}>
-                            Wyczyść moje priorytety
-                        </button>
-                    {{/unless}}
-                </div>
-            </div>
+            {{> kwestiaTopButtons
+                status=status
+                idParent=idParent
+                idKwestia=_id
+            }}
         </div>
 
         <br/>
@@ -63,59 +34,11 @@
                 <td></td>
             </tr>
             <tr>
-                <td><strong> Priorytet</strong></td>
-                <td>
-                    <div class="row">
-                        <div class="col-md-1">
-                            <b>{{priorytetZeZnakiem}}</b>
-                        </div>
-                        {{#unless isAdmin}}
-                            <div class="col-md-11">
-                                <form>
-                                    <div class="btn-group" role="group" aria-label="...">
-                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
-                                                class="btn btn-xs btn-danger" value="-5" {{isSelected -5}}>-5
-                                        </button>
-                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
-                                                class="btn btn-xs btn-danger" value="-4" {{isSelected -4}}>-4
-                                        </button>
-                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
-                                                class="btn btn-xs btn-danger" value="-3" {{isSelected -3}}>-3
-                                        </button>
-                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
-                                                class="btn btn-xs btn-danger" value="-2" {{isSelected -2}}>-2
-                                        </button>
-                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
-                                                class="btn btn-xs btn-danger" value="-1" {{isSelected -1}}>-1
-                                        </button>
-                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
-                                                class="btn btn-xs btn-default" value="0"
-                                                data-toggle="tooltip" data-placement="top"
-                                                title="Oznacza wstrzymanie się od głosu" {{isUserOrDoradcaLogged}}>
-                                            &nbsp;0
-                                        </button>
-                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
-                                                class="btn btn-xs btn-success" value="1" {{isSelected 1}}>+1
-                                        </button>
-                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
-                                                class="btn btn-xs btn-success" value="2" {{isSelected 2}}>+2
-                                        </button>
-                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
-                                                class="btn btn-xs btn-success" value="3" {{isSelected 3}}>+3
-                                        </button>
-                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
-                                                class="btn btn-xs btn-success" value="4" {{isSelected 4}}>+4
-                                        </button>
-                                        <button id="priorytetButton" name="{{idKwestia}}" type="button"
-                                                class="btn btn-xs btn-success" value="5" {{isSelected 5}}>+5
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        {{/unless}}
-                    </div>
-                </td>
-                <td></td>
+                {{>managePriorities
+                    priorytet=wartoscPriorytetu
+                    idKwestia=_id
+                    glosujacy=glosujacy
+                }}
             </tr>
             <tr>
                 <td><strong> Temat </strong>&nbsp; &nbsp; {{tematNazwa.nazwaTemat}}</td>
@@ -124,92 +47,39 @@
             </tr>
             <tr>
                 <td><strong> Data wprowadzenia Kwestii </strong>&nbsp; {{date}}</td>
-                <!---->
                 <td><strong> Data głosowania </strong>&nbsp; ---</td>
                 <!--{{dataGlosowaniaObliczana}}-->
                 <td><strong> Finał </strong>&nbsp; ---</td>
                 <!--{{dateG}}-->
             </tr>
         </table>
-
-        <legend>Treść Kwestii</legend>
-
-        <div class="clearfix"></div>
-        <table class="table table-bordered manageTable">
-            <tr>
-                <td><strong> Krótka treść</strong></td>
-                <td>{{krotkaTresc}}</td>
-            </tr>
-            <tr>
-                <td><strong> Opis z uzasadnieniem</strong></td>
-                <td>{{szczegolowaTresc}}</td>
-            </tr>
-        </table>
-
+        {{>kwestiaDetails
+            krotkaTresc=krotkaTresc
+            szczegolowaTresc=szczegolowaTresc
+            status=status
+        }}
         {{#if currentUser}}
-            {{#if czyAdministrowana}}
-                {{#unless unlessGlosowana}}
-                <legend>Zgłoszenie do Zespołu Realizacyjnego</legend>
-                 <p><strong>{{getZRName}} </strong></p>
-                <table class="table manageTable">
-                    <tr>
-                        <td><strong>Członek nr 1</strong> &nbsp; &nbsp;
-                            {{#unless pierwszyCzlonekFullName}}
-                                <button class="btn btn-success" id="czlonek1">Zgadzam się</button>
-                            {{else}}
-                                <button class="btn btn-success" id="czlonek1" {{isActualUser 0}}>{{pierwszyCzlonekFullName}}</button>
-                            {{/unless}}
-                        </td>
-                        <td><strong>Członek nr 2</strong> &nbsp; &nbsp;
-                            {{#unless drugiCzlonekFullName}}
-                                <button class="btn btn-success" id="czlonek2">Zgadzam się</button>
-                            {{else}}
-                                <button class="btn btn-success" id="czlonek2" {{isActualUser 1}}>{{drugiCzlonekFullName}}</button>
-                            {{/unless}}
-                        </td>
-                        <td><strong>Członek nr 3</strong> &nbsp; &nbsp;
-                            {{#unless trzeciCzlonekFullName}}
-                                <button class="btn btn-success" id="czlonek3">Zgadzam się</button>
-                            {{else}}
-                                <button class="btn btn-success" id="czlonek3" {{isActualUser 2}}>{{trzeciCzlonekFullName}}</button>
-                            {{/unless}}
-                        </td>
-                        <td>
-                            <button class="btn btn-primary" id="listaZR">Sprawdź istniejące ZR</button>
-                        </td>
-                    </tr>
-                </table>
-                {{else}}
-                <legend>Zespół realizacyjny</legend>
-                <table class="table table-bordered manageTable">
-                    <tr>
-                        <td><strong> Nazwa Zespołu</strong></td>
-                        <td>{{getZRName}}
-                            <a id="printResolution" data-toggle="tooltip" data-placement="top" title={{getZRCzlonkowie}}>
-                                <i class="fa fa-male fa-lg"></i>
-                            </a>
-                        </td>
-                    </tr>
-                </table>
-                {{/unless}}
-            {{/if}}
+            {{#unless isAdministrowana}}
+                {{>ZRTemplate
+                    idZR=idZespolRealizacyjny
+                    status=status
+                    idKwestia=_id
+                }}
+            {{/unless}}
         {{/if}}
-
         {{#if ifHasOpcje}}
             <div class="row">
                 {{> opcjeList}}
             </div>
         {{/if}}
         {{#if currentUser}}
-            {{#unless isAdmin}}
-                <legend id="dyskusja">Dyskusja Kwestii</legend>
-                <div class="row">
-                    <div class="col-md-12">
-                        {{> discussionMain
-                        _id =_id}}
-                    </div>
+            <legend id="dyskusja">Dyskusja Kwestii</legend>
+            <div class="row">
+                <div class="col-md-12">
+                    {{> discussionMain
+                    _id =_id}}
                 </div>
-            {{/unless}}
+            </div>
         {{/if}}
     </div>
 
@@ -221,3 +91,6 @@
     {{> GlobalNotifications}}
 
 </template>
+
+
+

@@ -4,7 +4,7 @@ Template.uzasadnienieKoszModal.events({
         var uzasadnienie = document.getElementById('uzasadnienieKosz').value;
         if (uzasadnienie) {
             var message = "Proponuję przenieść tę Kwestię do Kosza! Dyskusja i siła priorytetu w tym wątku o tym zdecyduje.";
-            var idKwestia = Session.get("idkwestiiKosz");
+            var idKwestia = this.idKwestia;
             var idUser = Meteor.userId();
             var addDate = new Date();
             var isParent = true;
@@ -28,7 +28,7 @@ Template.uzasadnienieKoszModal.events({
                 wartoscPriorytetu: ratingValue,
                 glosujacy: glosujacy,
                 postType: postType
-            }]
+            }];
             if (isNotEmpty(post[0].idKwestia, '') && isNotEmpty(post[0].wiadomosc, 'komentarz') && isNotEmpty(post[0].idUser, '') &&
                 isNotEmpty(post[0].addDate.toString(), '') && isNotEmpty(post[0].czyAktywny.toString(), '') &&
                 isNotEmpty(post[0].userFullName, '' && isNotEmpty(post[0].isParent.toString(), ''))) {
@@ -43,7 +43,6 @@ Template.uzasadnienieKoszModal.events({
                     }
                     else {
                         var wiadomosc = uzasadnienie;
-                        var idKwestia = Session.get("idkwestiiKosz");
                         var idParent = ret;
                         var idUser = Meteor.userId();
                         var addDate = new Date();
@@ -88,7 +87,6 @@ Template.uzasadnienieKoszModal.events({
                         });
                         document.getElementById("message").value = "";
                         $("#uzasadnijWyborKosz").modal("hide");
-                        Session.set("idkwestiiKosz", null);
                         $('html, body').animate({
                             scrollTop: $(".doKoszaClass").offset().top
                         }, 600);

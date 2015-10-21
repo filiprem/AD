@@ -58,10 +58,11 @@ powolajZRFunction=function(idKwestia,idAktualnyZR) {
 };
 isKwestiaGlosowana=function(idKwestia){
     var kwestia= Kwestia.findOne({_id:idKwestia});
-    console.log(kwestia);
     if(kwestia){
         return kwestia.status==KWESTIA_STATUS.GLOSOWANA ? "disabled" :"";
     }
     return "";
 };
+
+
 
