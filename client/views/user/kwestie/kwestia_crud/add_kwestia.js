@@ -122,7 +122,8 @@ Template.addKwestiaForm.events({
                 //dataGlosowania: d,
                 krotkaTresc: $(e.target).find('[name=krotkaTresc]').val(),
                 szczegolowaTresc: $(e.target).find('[name=szczegolowaTresc]').val(),
-                isOption: false
+                isOption: false,
+                typ:KWESTIA_TYPE.BASIC
             }];
 
         Session.setPersistent("kwestiaPreview", newKwestia[0]);

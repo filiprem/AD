@@ -42,15 +42,55 @@
                                       placeholder="Krótka treść" value={{krotkaTresc}} required></textarea>
                         </div>
                     </div>
-                    <div class="form-group" id="szczegolowaTrescGroup">
-                        <label class="control-label col-xs-3" for="inputEmail">Opis z uzasadnieniem:</label>
+                    {{#if isKwestiaOsobowa}}
+                        <div class="form-group" id="daneAplikanta">
+                            <label class="control-label col-xs-3" for="daneAplikantaGroup">Dane aplikanta:</label>
 
-                        <div class="col-xs-9">
-                            <textarea class="form-control" name="szczegolowaTresc" maxlength="1500"
-                                      value={{szczegolowaTresc}} id="szczegolowaTresc"
-                                      placeholder="Opis z uzasadnieniem" required></textarea>
+                            <div class="col-xs-9" rows="10">
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <td><strong>Imię i Nazwisko: </strong></td><td>{{szczegolowaTresc.fullName}}</td>
+                                    </tr>
+                                    {{#if protectorZR}}
+                                        <tr>
+                                            <td><strong>Email: </strong></td><td>{{szczegolowaTresc.email}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Pesel: </strong></td><td>{{szczegolowaTresc.pesel}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Adres: </strong></td><td>{{szczegolowaTresc.address}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Kod pocztowy: </strong></td><td>{{szczegolowaTresc.zip}}</td>
+                                        </tr>
+                                    {{/if}}
+                                        <tr>
+                                            <td><strong>Miasto: </strong></td><td>{{szczegolowaTresc.city}}</td>
+                                        </tr>
+                                </table>
+                            </div>
                         </div>
-                    </div>
+                        <div class="form-group" id="szczegolowaTrescGroup">
+                            <label class="control-label col-xs-3" for="inputEmail">Opis z uzasadnieniem:</label>
+
+                            <div class="col-xs-9">
+                                <textarea class="form-control" name="szczegolowaTrescUwagi" maxlength="1500"
+                                          value={{szczegolowaTresc.uwagi}} id="szczegolowaTrescUwagi"
+                                          placeholder="Opis z uzasadnieniem" required></textarea>
+                            </div>
+                        </div>
+                    {{else}}
+                        <div class="form-group" id="szczegolowaTrescGroup">
+                            <label class="control-label col-xs-3" for="inputEmail">Opis z uzasadnieniem:</label>
+
+                            <div class="col-xs-9">
+                                <textarea class="form-control" name="szczegolowaTresc" maxlength="1500"
+                                          value={{szczegolowaTresc}} id="szczegolowaTresc"
+                                          placeholder="Opis z uzasadnieniem" required></textarea>
+                            </div>
+                        </div>
+                    {{/if}}
                     <div class="form-group">
                         <div class="col-xs-offset-3 col-xs-9">
                             <input type="submit" class="btn btn-primary" value="Zapisz">

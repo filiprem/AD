@@ -18,37 +18,37 @@ SyncedCron.add({
 });
 
 //USTAWIENIA CRONA do sprawdzania czy kwestie mają przejść do głosowania - raz na 7 dni
-SyncedCron.add({
-    name: 'checking issues to vote crone',
-    schedule: function(parser) {
-        // parser is a later.parse object
-        var voteFreq = Parametr.findOne({}).voteFrequency;
-        return parser.text('every '+ voteFreq + ' minute');
-    },
-    job: function() {
-        return checkingIssuesToVote();
-    }
-});
+//SyncedCron.add({
+//    name: 'checking issues to vote crone',
+//    schedule: function(parser) {
+//        // parser is a later.parse object
+//        //var voteFreq = Parametr.findOne({}).voteFrequency;
+//        //return parser.text('every '+ voteFreq + ' minute');
+//    },
+//    job: function() {
+//        return checkingIssuesToVote();
+//    }
+//});
 
 //Observe dla parametru który ustawia częstotliwość w cronie "checking issues to vote crone"
 Meteor.startup(function (){
     var parametr = Parametr.find({});
     parametr.observe({
         changedAt: function(newParametr, oldParametr, atIndex){
-            if(oldParametr.voteFrequency!=newParametr.voteFrequency){
-                //console.log("było:"+oldParametr.voteFrequency+" jest:"+newParametr.voteFrequency);
-                SyncedCron.remove('checking issues to vote crone');
-                SyncedCron.add({
-                    name: 'checking issues to vote crone',
-                    schedule: function(parser) {
-                        // parser is a later.parse object
-                        return parser.text('every '+ newParametr.voteFrequency + ' minute');
-                    },
-                    job: function() {
-                        return checkingIssuesToVote();
-                    }
-                });
-            }
+            //if(oldParametr.voteFrequency!=newParametr.voteFrequency){
+            //    //console.log("było:"+oldParametr.voteFrequency+" jest:"+newParametr.voteFrequency);
+            //    SyncedCron.remove('checking issues to vote crone');
+            //    SyncedCron.add({
+            //        name: 'checking issues to vote crone',
+            //        schedule: function(parser) {
+            //            // parser is a later.parse object
+            //            return parser.text('every '+ newParametr.voteFrequency + ' minute');
+            //        },
+            //        job: function() {
+            //            return checkingIssuesToVote();
+            //        }
+            //    });
+            //}
         }
     });
 });

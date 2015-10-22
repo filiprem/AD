@@ -179,8 +179,8 @@ Meteor.publish('zespolyRealizacyjne', function(){
     return ZespolRealizacyjny.find({});
 });
 
-Meteor.publish('zespolRealizacyjny', function(){
-    return ZespolRealizacyjny.findOne({});
+Meteor.publish('zespolRealizacyjny', function(id){
+    return ZespolRealizacyjny.find({_id:id});
 });
 
 Meteor.publish('zespolyRealizacyjneDraft', function(){

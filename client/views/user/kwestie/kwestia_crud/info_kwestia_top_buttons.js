@@ -1,9 +1,4 @@
 Template.kwestiaTopButtons.helpers({
-    kwestiaOpcjaCount: function (idParent) {
-        var ile = Kwestia.find({czyAktywny: true, idParent: this.idParent}).count();
-        console.log(ile);
-        return ile==10 ? false : true;
-    },
     hasUserRights: function (idKwestia) {
         if(!Meteor.userId())
             return "disabled";
@@ -15,6 +10,14 @@ Template.kwestiaTopButtons.helpers({
             }
         }
         return isKwestiaGlosowana(idKwestia);
+    },
+    isKwestiaBasicOrChangeParams:function(typ){
+        return typ==KWESTIA_TYPE.ACCESS_HONOROWY ||
+            typ==KWESTIA_TYPE.ACCESS_ZWYCZAJNY ||
+            typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE ? true : false;
+    },
+    isKwestiaChangeParams:function(typ){
+        return typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE ? true : false;
     }
 });
 Template.kwestiaTopButtons.events({
@@ -22,6 +25,7 @@ Template.kwestiaTopButtons.events({
         window.history.back();
     },
     'click #addOptionButton': function () {
+        Session.setPersistent("actualKwestia", Kwestia.findOne({_id: this.idKwestia}));
         Router.go("addKwestiaOpcja");
     },
     'click #doArchiwum': function (e) {

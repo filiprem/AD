@@ -5,7 +5,7 @@ Meteor.methods({
             terytorium: newParametr[0].terytorium,
             kontakty: newParametr[0].kontakty,
             regulamin: newParametr[0].regulamin,
-            voteFrequency: newParametr[0].voteFrequency,
+            voteDuration: newParametr[0].voteDuration,
             voteQuantity: newParametr[0].voteQuantity
         });
     },

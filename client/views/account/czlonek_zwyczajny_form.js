@@ -146,26 +146,6 @@ Template.czlonekZwyczajnyForm.helpers({
 getRegulamin=function(){
     return Parametr.findOne() ? Parametr.findOne().regulamin :"";
 };
-aplikujConfirmation=function(userType,user){
-    bootbox.dialog({
-        message: "Czy na pewno chcesz być "+userType+" ?",
-        title: "Uwaga",
-        buttons: {
-            success: {
-                label: "Ok",
-                className: "btn-success",
-                callback: function () {
-                    //dodaj usera
-                    addUserDraft(user);
-                }
-            },
-            danger: {
-                label: "Nie, rezygnuję",
-                className: "btn-danger"
-            }
-        }
-    });
-};
 addUserDraft=function(newUser){
     console.log("add user draft");
     console.log(newUser);
@@ -213,11 +193,12 @@ addKwestiaOsobowa=function(idUserDraft,newUser){
             krotkaTresc: 'Aplikacja o przyjęcie do systemu jako ' + newUser[0].userType,
             szczegolowaTresc: daneAplikanta,
             isOption: false,
-            status: KWESTIA_STATUS.OSOBOWA
+            status: KWESTIA_STATUS.OSOBOWA,
+            typ:KWESTIA_TYPE.ACCESS_ZWYCZAJNY
         }];
     console.log("add kwestia");
     console.log(newKwestia);
-    Meteor.call('addKwestia', newKwestia, function (error,ret) {
+    Meteor.call('addKwestiaOsobowa', newKwestia, function (error,ret) {
         if (error) {
             // optionally use a meteor errors package
             if (typeof Errors === "undefined")
@@ -232,7 +213,7 @@ addKwestiaOsobowa=function(idUserDraft,newUser){
                 Router.go("administracjaUserMain");
             else
                 Router.go("home");
-            przyjecieWnioskuConfirmation(daneAplikanta.email,"doradztwo");
+            przyjecieWnioskuConfirmation(daneAplikanta.email,"członkowstwo");
             //addZR(ret,newUser[0].email);
         }
     });

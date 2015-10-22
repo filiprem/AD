@@ -1,11 +1,24 @@
 <template name="listParametr">
         <div class="row">
+            {{#unless noKwestiaParameters}}
+                <p class="col-md-12 bg-warning padding-15 color-red">
+                    Instnieje kwestia administrowana dotycząca zmiany parametrów globalnych.
+                </p>
+            {{/unless}}
             <div class="col col-md-6">
                 <div class="input-group">
                     <div class="btn-group">
-                        <a href="{{pathFor 'editParametry'}}" class="btn btn-primary">
-                            <i class="fa fa-edit"></i> Edytuj
-                        </a>
+                        {{#if isUserCzlonek}}
+                            {{#if noKwestiaParameters}}
+                                <a href="{{pathFor 'editParametry'}}" class="btn btn-primary">
+                                    <i class="fa fa-edit"></i> Edytuj
+                                </a>
+                             {{else}}
+                                <a href="{{pathFor 'listKwestia'}}" class="btn btn-primary">
+                                    <i class="fa fa-edit"></i> Zobacz kwestię
+                                </a>
+                            {{/if}}
+                        {{/if}}
                     </div>
                 </div>
             </div>
@@ -49,11 +62,11 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-xs-3" for="inputEmail">Częstotliwość przechodzenia kwestii do głosowania (w dniach):</label>
+                        <label class="control-label col-xs-3" for="inputEmail">Czas głosowania(w dniach):</label>
 
                         <div class="col-xs-9">
-                            <input name="CzestotliwoscGlosowania" class="form-control" id="CzestotliwoscGlosowania" readonly
-                                      value={{voteFrequency}}>
+                            <input name="CzasGlosowania" class="form-control" id="CzasGlosowania" readonly
+                                      value={{voteDuration}}>
                         </div>
                     </div>
                     <div class="form-group">

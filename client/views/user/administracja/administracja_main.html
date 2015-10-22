@@ -6,6 +6,7 @@
                     <li role="presentation" class="active"><a href="#twojeKwestie" aria-controls="twojeKwestie" role="tab" data-toggle="tab">Twoje kwestie</a></li>
                     <li role="presentation"><a href="#parametry" aria-controls="parametry" role="tab" data-toggle="tab">Parametry globalne</a></li>
                     <li role="presentation"><a href="#ustawienia" aria-controls="ustawienia" role="tab" data-toggle="tab">Ustawienia</a></li>
+                    <li role="presentation"><a href="#uzytkownicy" aria-controls="uzytkownicy" role="tab" data-toggle="tab">Użytkownicy</a></li>
                 </ul>
 
                 <div class="tab-content">
@@ -37,6 +38,10 @@
                     <div role="tabpanel" class="tab-pane" id="ustawienia">
                         <br />
                         {{> ustawienia}}
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="uzytkownicy">
+                        <br />
+                        {{> profileList}}
                     </div>
                 </div>
             </div>

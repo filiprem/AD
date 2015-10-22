@@ -1,7 +1,7 @@
 Template.editParametry.rendered = function () {
     $("#parametrFormEdit").validate({
         rules:{
-            voteFrequency: {
+            voteDuration: {
                 min: 0,
                 number: true
             },
@@ -23,7 +23,7 @@ Template.editParametry.rendered = function () {
             regulamin: {
                 required: fieldEmptyMessage()
             },
-            voteFrequency: {
+            voteDuration: {
                 required: fieldEmptyMessage(),
                 min: positiveNumberMessage()
             },
@@ -67,9 +67,9 @@ Template.editParametry.events({
         if (reg != parameter.regulamin) {
             tab.push(setParamInfo("REGULAMIN", parameter.regulamin, reg));
         }
-        var voteFreq = $(e.target).find('[name=voteFrequency]').val();
-        if(voteFreq != parameter.voteFrequency) {
-            tab.push(setParamInfo("CZESTOTLIWOSC GLOSOWANIA", parameter.voteFrequency, voteFreq));
+        var voteDur = $(e.target).find('[name=voteDuration]').val();
+        if(voteDur != parameter.voteDuration) {
+            tab.push(setParamInfo("CZAS GLOSOWANIA", parameter.voteDuration, voteDur));
         }
         var voteQuant = $(e.target).find('[name=voteQuantity]').val();
         if(voteQuant != parameter.voteQuantity) {
@@ -83,7 +83,7 @@ Template.editParametry.events({
                 terytorium: ter,
                 kontakty: kont,
                 regulamin: reg,
-                voteFrequency: voteFreq,
+                voteDuration: voteDur,
                 voteQuantity: voteQuant
             }];
         if (tab.length > 0) {

@@ -45,15 +45,17 @@ Template.doradcaForm.events({
     'submit form': function (e) {
         e.preventDefault();
         // uzupełnienie tymczasowej tablicy danymi z formularza
+        var idUser = null;
+        if (Meteor.userId())
+            idUser = Meteor.userId();
         var newUser = [
             {
                 email: $(e.target).find('[name=email]').val(),
                 login: "",
                 firstName: $(e.target).find('[name=firstName]').val(),
                 lastName: $(e.target).find('[name=lastName]').val(),
-                phone: $(e.target).find('[name=phone]').val(),
-                web: $(e.target).find('[name=www]').val(),
                 role: 'user',
+                city:$(e.target).find('[name=city]').val(),
                 userType: USERTYPE.DORADCA,
                 isExpectant: false,
                 uwagi: $(e.target).find('[name=uwagi]').val()
@@ -66,90 +68,159 @@ Template.doradcaForm.events({
         //utworzenie nowego usera
         //utworzenie nowej kwestii z idUser
         //poinformowanie użytkowników o pojawieniu się kwestii
-        Meteor.call('addUserDraft', newUser, function (error, ret) {
-            if (error) {
-                // optionally use a meteor errors package
-                if (typeof Errors === "undefined")
-                    Log.error('Error: ' + error.reason);
-                else {
-                    //if(error.error === 409)
-                    throwError(error.reason);
-                }
-            }
-            else {
-                var web="";
-                if(newUser[0].web!=null)
-                web=newUser[0].web;
-                var uwagi="";
-                if(newUser[0].uwagi!=null)
-                uwagi=newUser[0].uwagi;
 
-                var idUserDraft = ret;
-                var dataG = new Date();
-                var d = dataG.setDate(dataG.getDate() + 7);
-                var daneAplikanta = "DANE APLIKANTA: \r\n " +
-                    newUser[0].firstName + ", " + newUser[0].lastName + " \r\n " +
-                    newUser[0].email + ", \r\n " +
-                    newUser[0].phone + ", \r\n " +
-                    web +  ",  \r\n " +
-                    uwagi;
-                var newKwestia = [
-                    {
-                        idUser: idUserDraft,
-                        dataWprowadzenia: new Date(),
-                        kwestiaNazwa: 'Aplikowanie- ' + newUser[0].firstName + " " + newUser[0].lastName,
-                        wartoscPriorytetu: 0,
-                        sredniaPriorytet: 0,
-                        idTemat: Temat.findOne({})._id,
-                        idRodzaj: Rodzaj.findOne({})._id,
-                        dataDyskusji: new Date(),
-                        dataGlosowania: d,
-                        krotkaTresc: 'Aplikacja o przyjęcie do systemu jako ' + newUser[0].userType,
-                        szczegolowaTresc: daneAplikanta,
-                        isOption: false,
-                        status: KWESTIA_STATUS.OSOBOWA
-                    }];
-                Meteor.call('addKwestia', newKwestia, function (error,ret) {
-                    if (error) {
-                        // optionally use a meteor errors package
-                        if (typeof Errors === "undefined")
-                            Log.error('Error: ' + error.reason);
-                        else {
-                            //if(error.error === 409)
-                            throwError(error.reason);
-                        }
-                    }
-                    else {//update jej ZR
-                        var zr=ZespolRealizacyjny.findOne({});
-                        var kwestia=Kwestia.findOne({_id:ret});
-                        var myZRDraft=ZespolRealizacyjnyDraft.findOne({_id:kwestia.idZespolRealizacyjny});
-                        var ZRdataToUpdate={
-                          nazwa:zr.nazwa,
-                          zespol:zr.zespol
-                        };
-                        Meteor.call('updateZespolRealizacyjnyDraft', myZRDraft._id,ZRdataToUpdate, function (error,ret) {
-                            if (error) {
-                                // optionally use a meteor errors package
-                                if (typeof Errors === "undefined")
-                                    Log.error('Error: ' + error.reason);
-                                else
-                                    throwError(error.reason);
-                            }
-                            else {
-                                Router.go("home");
-                                przyjecieWnioskuConfirmation(newUser[0].email,"doradztwo");
-                            }
-                        });
+        addUserDraftDoradca(newUser);
 
-                    }
-                });
-            }
-        });
+        //Meteor.call('addUserDraft', newUser, function (error, ret) {
+        //    if (error) {
+        //        // optionally use a meteor errors package
+        //        if (typeof Errors === "undefined")
+        //            Log.error('Error: ' + error.reason);
+        //        else {
+        //            //if(error.error === 409)
+        //            throwError(error.reason);
+        //        }
+        //    }
+        //    else {
+        //        var uwagi="";
+        //        if(newUser[0].uwagi!=null)
+        //        uwagi=newUser[0].uwagi;
+        //
+        //        var idUserDraft = ret;
+        //        var dataG = new Date();
+        //        var d = dataG.setDate(dataG.getDate() + 7);
+        //        var daneAplikanta = "DANE APLIKANTA: \r\n " +
+        //            newUser[0].firstName + ", " + newUser[0].lastName + " \r\n " +
+        //            newUser[0].email + ", \r\n " +
+        //            newUser[0].phone + ", \r\n " +
+        //            web +  ",  \r\n " +
+        //            uwagi;
+        //        var newKwestia = [
+        //            {
+        //                idUser: idUserDraft,
+        //                dataWprowadzenia: new Date(),
+        //                kwestiaNazwa: 'Aplikowanie- ' + newUser[0].firstName + " " + newUser[0].lastName,
+        //                wartoscPriorytetu: 0,
+        //                sredniaPriorytet: 0,
+        //                idTemat: Temat.findOne({})._id,
+        //                idRodzaj: Rodzaj.findOne({})._id,
+        //                dataDyskusji: new Date(),
+        //                dataGlosowania: d,
+        //                krotkaTresc: 'Aplikacja o przyjęcie do systemu jako ' + newUser[0].userType,
+        //                szczegolowaTresc: daneAplikanta,
+        //                isOption: false,
+        //                status: KWESTIA_STATUS.OSOBOWA
+        //            }];
+        //        Meteor.call('addKwestia', newKwestia, function (error,ret) {
+        //            if (error) {
+        //                // optionally use a meteor errors package
+        //                if (typeof Errors === "undefined")
+        //                    Log.error('Error: ' + error.reason);
+        //                else {
+        //                    //if(error.error === 409)
+        //                    throwError(error.reason);
+        //                }
+        //            }
+        //            else {//update jej ZR
+        //                var zr=ZespolRealizacyjny.findOne({});
+        //                var kwestia=Kwestia.findOne({_id:ret});
+        //                var myZRDraft=ZespolRealizacyjnyDraft.findOne({_id:kwestia.idZespolRealizacyjny});
+        //                var ZRdataToUpdate={
+        //                  nazwa:zr.nazwa,
+        //                  zespol:zr.zespol
+        //                };
+        //                Meteor.call('updateZespolRealizacyjnyDraft', myZRDraft._id,ZRdataToUpdate, function (error,ret) {
+        //                    if (error) {
+        //                        // optionally use a meteor errors package
+        //                        if (typeof Errors === "undefined")
+        //                            Log.error('Error: ' + error.reason);
+        //                        else
+        //                            throwError(error.reason);
+        //                    }
+        //                    else {
+        //                        Router.go("home");
+        //                        przyjecieWnioskuConfirmation(newUser[0].email,"doradztwo");
+        //                    }
+        //                });
+        //
+        //            }
+        //        });
+        //    }
+        //});
     },
     'reset form': function () {
         Router.go('home');
     }
 });
+addUserDraftDoradca=function(newUser){
+    console.log("add user draft");
+    console.log(newUser);
+    Meteor.call('addUserDraft', newUser, function (error, ret) {
+        if (error) {
+            // optionally use a meteor errors package
+            if (typeof Errors === "undefined")
+                Log.error('Error: ' + error.reason);
+            else
+                throwError(error.reason);
+        }
+        else
+            addKwestiaOsobowaDoradca(ret,newUser);
+    });
+};
+addKwestiaOsobowaDoradca=function(idUserDraft,newUser){
+    var dataG = new Date();
+    var d = dataG.setDate(dataG.getDate() + 7);
+    var uwagi="";
+    if(newUser[0].uwagi!=null)
+        uwagi=newUser[0].uwagi;
+
+    var daneAplikanta={
+        fullName:newUser[0].firstName + " " + newUser[0].lastName,
+        email:newUser[0].email,
+        city:newUser[0].city,
+        uwagi:uwagi
+    };
+    var newKwestia = [
+        {
+            idUser: idUserDraft,
+            dataWprowadzenia: new Date(),
+            kwestiaNazwa: 'Aplikowanie- ' + newUser[0].firstName + " " + newUser[0].lastName,
+            wartoscPriorytetu: 0,
+            wartoscPriorytetuWRealizacji:0,
+            sredniaPriorytet: 0,
+            idTemat: Temat.findOne({})._id,
+            idRodzaj: Rodzaj.findOne({})._id,
+            idZespolRealizacyjny:ZespolRealizacyjny.findOne()._id,
+            dataDyskusji: new Date(),
+            dataGlosowania: d,
+            krotkaTresc: 'Aplikacja o przyjęcie do systemu jako ' + newUser[0].userType,
+            szczegolowaTresc: daneAplikanta,
+            isOption: false,
+            status: KWESTIA_STATUS.OSOBOWA,
+            typ:KWESTIA_TYPE.ACCESS_HONOROWY
+        }];
+    console.log("add kwestia");
+    console.log(newKwestia);
+    Meteor.call('addKwestiaOsobowa', newKwestia, function (error,ret) {
+        if (error) {
+            // optionally use a meteor errors package
+            if (typeof Errors === "undefined")
+                Log.error('Error: ' + error.reason);
+            else {
+                //if(error.error === 409)
+                throwError(error.reason);
+            }
+        }
+        else {
+            if(Meteor.userId())
+                Router.go("administracjaUserMain");
+            else
+                Router.go("home");
+            przyjecieWnioskuConfirmation(daneAplikanta.email,"doradztwo");
+            //addZR(ret,newUser[0].email);
+        }
+    });
+};
 Template.doradcaForm.helpers({
     nazwaOrganizacji:function(){
         return Parametr.findOne() ? Parametr.findOne().nazwaOrganizacji :"Aktywna Demokracja";

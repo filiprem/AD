@@ -264,32 +264,6 @@ Template.rodzajKwestia.helpers({
     }
 });
 
-Template.kworumNumber.helpers({
-
-    date: function () {
-        var usersCount = this.glosujacy.length;
-        var idrodzaj = this.idRodzaj;
-        var r = Rodzaj.findOne({_id: idrodzaj});
-        if (r) {
-            if (usersCount) {
-                var data;
-                if (r.kworum == "zwykla") {
-                    var kworum = liczenieKworumZwykle();
-                    data = usersCount.toString() + " / " + kworum.toString();
-
-                    return data;
-                }
-                else if (r.kworum == "statutowa") {
-                    var kworum = liczenieKworumStatutowe();
-                    data = usersCount.toString() + " / " + kworum.toString();
-
-                    return data;
-                }
-            }
-        }
-    }
-});
-
 Template.dataUtwKwestia.helpers({
     date: function () {
         var d = this.dataWprowadzenia;
@@ -344,7 +318,8 @@ Template.listKwestia.helpers({
 
 Template.kworumNumber.helpers({
     'getKworum':function(){
-        return liczenieKworumZwykle();
+        var usersCount = this.glosujacy.length;
+        return usersCount.toString() + " / " +liczenieKworumZwykle();
     }
-})
+});
 

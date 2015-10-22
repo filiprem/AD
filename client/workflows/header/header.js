@@ -153,8 +153,9 @@ Template.language.helpers({
         var param = Parametr.findOne({});
         if (param) {
             var nazwa = param.nazwaOrganizacji;
+            var users=Users.find({'profile.userType':USERTYPE.CZLONEK}).count();
             if (nazwa) {
-                return nazwa;
+                return nazwa+" ["+users+"]";
             }
             else {
                 return "AD";

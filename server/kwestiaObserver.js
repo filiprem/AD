@@ -17,7 +17,8 @@ Meteor.startup(function(){
             $in: [
                 KWESTIA_STATUS.DELIBEROWANA,
                 KWESTIA_STATUS.STATUSOWA,
-                KWESTIA_STATUS.REALIZOWANA
+                KWESTIA_STATUS.REALIZOWANA,
+                KWESTIA_STATUS.ADMINISTROWANA
             ]
         }
     });
@@ -45,6 +46,10 @@ Meteor.startup(function(){
                     Meteor.call('updateStatusDataOczekwianiaKwestii', newKwestia._id, KWESTIA_STATUS.OCZEKUJACA,new Date());
 
                     Meteor.call("sendEmailHonorowyInvitation", newKwestia.idZgloszonego);
+                }
+                else if (newKwestia.status == KWESTIA_STATUS.ADMINISTROWANA){//to finish
+                    newKwestia.dataGlosowania = new Date().addHours(24);
+                    Meteor.call('updateStatusDataGlosowaniaKwestii', newKwestia._id, KWESTIA_STATUS.GLOSOWANA, newKwestia.dataGlosowania);
                 }
             }
 

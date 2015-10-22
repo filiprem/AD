@@ -22,9 +22,36 @@ Meteor.methods({
             glosujacy: [],
             isOption: false,
             numerUchwały: newKwestia[0].numerUchwały,
+            typ:newKwestia[0].typ,
 
             //Marzena
             idZespolRealizacyjny: z
+        });
+        Kwestia.update({_id: id}, {$set: {idParent: id}}, {upsert: true});
+        return id;
+    },
+    addKwestiaOsobowa: function (newKwestia) {
+        var id = Kwestia.insert({
+            idUser: newKwestia[0].idUser,
+            dataWprowadzenia: newKwestia[0].dataWprowadzenia,
+            kwestiaNazwa: newKwestia[0].kwestiaNazwa,
+            wartoscPriorytetu: parseInt(newKwestia[0].wartoscPriorytetu),
+            wartoscPriorytetuWRealizacji: parseInt(newKwestia[0].wartoscPriorytetuWRealizacji),
+            sredniaPriorytet: parseFloat(newKwestia[0].sredniaPriorytet),
+            idTemat: newKwestia[0].idTemat,
+            idRodzaj: newKwestia[0].idRodzaj,
+            dataDyskusji: newKwestia[0].dataDyskusji,
+            dataGlosowania: newKwestia[0].dataGlosowania,
+            dataRealizacji: newKwestia[0].dataRealizacji,
+            czyAktywny: newKwestia[0].czyAktywny = true,
+            status: newKwestia[0].status,
+            krotkaTresc: newKwestia[0].krotkaTresc,
+            szczegolowaTresc: newKwestia[0].szczegolowaTresc,
+            glosujacy: [],
+            isOption: false,
+            numerUchwały: newKwestia[0].numerUchwały,
+            idZespolRealizacyjny: newKwestia[0].idZespolRealizacyjny,
+            typ:newKwestia[0].typ
         });
         Kwestia.update({_id: id}, {$set: {idParent: id}}, {upsert: true});
         return id;
@@ -55,7 +82,7 @@ Meteor.methods({
             idZgloszonego: newKwestia[0].idZgloszonego,
             isAnswerPositive:newKwestia[0].isAnswerPositive,
             dataRozpoczeciaOczekiwania:newKwestia[0].dataRozpoczeciaOczekiwania,
-
+            typ:newKwestia[0].typ,
             idZespolRealizacyjny: z
         });
         Kwestia.update({_id: id}, {$set: {idParent: id}}, {upsert: true});
@@ -88,7 +115,8 @@ Meteor.methods({
             szczegolowaTresc: newKwestia[0].szczegolowaTresc,
             glosujacy: [],
             isOption: false,
-            idParametru : newKwestia[0].idParametru
+            idParametru : newKwestia[0].idParametr,
+            typ:newKwestia[0].typ
         });
         Kwestia.update({_id: id}, {$set: {idParent: id}}, {upsert: true});
         var z = ZespolRealizacyjnyDraft.insert({idKwestia: id, nazwa: "", zespol: []});
@@ -110,7 +138,7 @@ Meteor.methods({
             dataWprowadzenia: newKwestiaOpcja[0].dataWprowadzenia,
             kwestiaNazwa: newKwestiaOpcja[0].kwestiaNazwa,
             wartoscPriorytetu: parseInt(newKwestiaOpcja[0].wartoscPriorytetu),
-            wartoscPriorytetuWRealizacji: parseInt(newKwestia[0].wartoscPriorytetuWRealizacji),
+            wartoscPriorytetuWRealizacji: parseInt(newKwestiaOpcja[0].wartoscPriorytetuWRealizacji),
             sredniaPriorytet: parseFloat(newKwestiaOpcja[0].sredniaPriorytet),
             idTemat: newKwestiaOpcja[0].idTemat,
             idRodzaj: newKwestiaOpcja[0].idRodzaj,
@@ -125,10 +153,38 @@ Meteor.methods({
             isOption: true,
             idParent: newKwestiaOpcja[0].idParent,
             numerUchwały: newKwestiaOpcja[0].numerUchwały,
-            idZespolRealizacyjny: z
+            idZespolRealizacyjny: z,
+            typ:newKwestiaOpcja[0].typ
         });
         //var z = ZespolRealizacyjny.insert({idKwestia: id, nazwa: "", zespol: []});
         return id;
+    },
+    addKwestiaOsobowaOpcja: function (newKwestia) {
+        console.log(newKwestia);
+
+        var id = Kwestia.insert({
+            idUser: newKwestia[0].idUser,
+            dataWprowadzenia: newKwestia[0].dataWprowadzenia,
+            kwestiaNazwa: newKwestia[0].kwestiaNazwa,
+            wartoscPriorytetu: parseInt(newKwestia[0].wartoscPriorytetu),
+            wartoscPriorytetuWRealizacji: parseInt(newKwestia[0].wartoscPriorytetuWRealizacji),
+            sredniaPriorytet: parseFloat(newKwestia[0].sredniaPriorytet),
+            idTemat: newKwestia[0].idTemat,
+            idRodzaj: newKwestia[0].idRodzaj,
+            dataDyskusji: newKwestia[0].dataDyskusji,
+            dataGlosowania: newKwestia[0].dataGlosowania,
+            dataRealizacji: newKwestia[0].dataRealizacji,
+            czyAktywny: newKwestia[0].czyAktywny = true,
+            status: newKwestia[0].status,
+            krotkaTresc: newKwestia[0].krotkaTresc,
+            szczegolowaTresc: newKwestia[0].szczegolowaTresc,
+            glosujacy: [],
+            isOption: true,
+            numerUchwały: newKwestia[0].numerUchwały,
+            idZespolRealizacyjny: newKwestia[0].idZespolRealizacyjny,
+            idParent: newKwestia[0].idParent,
+            typ:newKwestia[0].typ
+        });
     },
     updateKwestiaRating: function (id, obj) {
         var id = Kwestia.update(id,

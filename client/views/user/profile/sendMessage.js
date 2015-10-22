@@ -37,7 +37,7 @@ Template.sendMessage.events({
 
     },
     'reset form': function () {
-        Router.go('profile_list');
+        Router.go('administracjaUserMain');
     }
 });
 
@@ -56,7 +56,7 @@ sendMessage=function(newEmail){
             if(user)
                 to=user.emails[0].address;
             Meteor.call("sendEmail", to, from, newEmail[0].subject, newEmail[0].content);
-            Router.go('profile_list');
+            Router.go('administracjaUserMain');
         }
     });
 };

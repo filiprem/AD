@@ -4,20 +4,33 @@ Template.previewKwestiaOpcja.helpers({
     },
     getRodzajName:function(id){
         return Rodzaj.findOne({_id:id}).nazwaRodzaj;
+    },
+    isKwestiaOsobowa:function(){
+        return this.status==KWESTIA_STATUS.OSOBOWA ? true :false;
+    },
+    protectorZR:function(){
+        if(!Meteor.userId()) return false;
+        var zr=ZespolRealizacyjny.findOne();
+        if(zr){
+            if(zr.protector)
+                return zr.protector==Meteor.userId() ? true : false;
+        }
     }
 });
 
 Template.previewKwestiaOpcja.events({
     'click #cancel':function(){
-        Session.set("kwestiaPreviewOpcja",null);
-        Session.set("actualKwestiaId",null);
+        //Session.set("kwestiaPreviewOpcja",null);
+        Session.set("actualKwestia",null);
         Router.go("listKwestia");
     },
     'click #save': function(e){
         e.preventDefault();
-        var status = KWESTIA_STATUS.DELIBEROWANA;
-        var kwestia = Session.get("kwestiaPreviewOpcja");
-        var idParentKwestii = Session.get("idKwestia");
+        console.log("bêdzie zapis");
+        var kwestia = Session.get("actualKwestia");
+        console.log(kwestia);
+        console.log(kwestia.status);
+        //var idParentKwestii = Session.get("idKwestia");
         var newKwestiaOpcja = [{
             idUser: Meteor.userId(),
             dataWprowadzenia: new Date(),
@@ -31,13 +44,19 @@ Template.previewKwestiaOpcja.events({
             dataGlosowania: kwestia.dataGlosowania,
             dataRealizacji: null,
             czyAktywny: true,
-            status: status,
+            status: kwestia.status,
             krotkaTresc: kwestia.krotkaTresc,
             szczegolowaTresc: kwestia.szczegolowaTresc,
-            idParent: idParentKwestii,
-            isOption: true
+            idParent: kwestia.idParent,
+            isOption: true,
+            idZespolRealizacyjny:kwestia.idZespolRealizacyjny
         }];
-        Meteor.call('addKwestiaOpcja', newKwestiaOpcja, function (error, ret) {
+        console.log(newKwestiaOpcja[0]);
+        var methodToCall=null;
+        if(kwestia.status==KWESTIA_STATUS.OSOBOWA)
+            methodToCall="addKwestiaOsobowaOpcja";
+        else methodToCall="addKwestiaOpcja";
+        Meteor.call(methodToCall, newKwestiaOpcja, function (error, ret) {
             if (error) {
                 if (typeof Errors === "undefined")
                     Log.error('Error: ' + error.reason);

@@ -60,15 +60,14 @@ Template.previewParametr.events({
                         kwestiaNazwa: 'Propozycja zmiany parametrów globalnych  przez ' +Meteor.user().profile.firstName +"  "+ Meteor.user().profile.lastName ,
                         wartoscPriorytetu: 0,
                         sredniaPriorytet: 0,
-                        //idTemat: Temat.findOne({})._id,
-                        //idRodzaj: Rodzaj.findOne({})._id,
                         dataDyskusji: new Date(),
                         dataGlosowania: d,
                         krotkaTresc: 'Propozycja zmiany parametrów globalnych' ,
                         szczegolowaTresc: dane,
                         isOption: false,
                         status: KWESTIA_STATUS.ADMINISTROWANA,
-                        idParametru : id
+                        idParametru : id,
+                        typ:KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE
                     }];
             var idKwesti = Meteor.call('addKwestiaADMINISTROWANA', newKwestia, function (error) {
                   
@@ -84,12 +83,12 @@ Template.previewParametr.events({
                     }
                     else { 
       
-                        Router.go("home");
+                        Router.go("administracjaUserMain");
                       
                     }
                 }); 
                 Session.set("tablica", null);
-                Router.go('listParametr');
+                Router.go('administracjaUserMain');
             }
            
            
