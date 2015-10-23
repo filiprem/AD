@@ -54,9 +54,11 @@ Template.ZRTemplate.events({
         console.log("czlonek 1");
         console.log(this.idZR);
         zespolId=this.idZR;
-        var idUser=getZRData(0,this.idZR,"ZRDraft");
+        //var idUser=getZRData(0,this.idZR,"ZRDraft");
+        var idUser=checkIfInZR(zespolId,Meteor.userId());
         if(idUser==Meteor.userId()){//jezeli jest juz w zespole
-            rezygnujZRAlert(getZRData(0,zespolId,"ZRDraft"),this.idKwestia);
+            //rezygnujZRAlert(getZRData(0,zespolId,"ZRDraft"),this.idKwestia);
+            rezygnujZRAlert(checkIfInZR(zespolId,Meteor.userId()),this.idKwestia);
         }
         else {//nie ma go w zespole
             console.log("tutaj wejdzie");
@@ -83,9 +85,11 @@ Template.ZRTemplate.events({
     'click #czlonek2': function () {
 
         zespolId=this.idZR;
-        var idUser=getZRData(1,zespolId);
+        //var idUser=getZRData(1,zespolId);
+        var idUser=checkIfInZR(zespolId,Meteor.userId());
         if(idUser==Meteor.userId()) {//to znaczy,że już jestem w zespole i mogę zrezygnować
-            rezygnujZRAlert(getZRData(1,zespolId,"ZRDraft"),this.idKwestia);
+            //rezygnujZRAlert(getZRData(1,zespolId,"ZRDraft"),this.idKwestia);
+            rezygnujZRAlert(checkIfInZR(zespolId,Meteor.userId()),this.idKwestia);
         }
         else {
             var z = ZespolRealizacyjnyDraft.findOne({_id: zespolId});
@@ -106,12 +110,15 @@ Template.ZRTemplate.events({
     },
     'click #czlonek3': function () {
 
-        zespolId=this.idZespolRealizacyjny;
-        var idUser=getZRData(2,this.idZR,"ZRDraft");
+        zespolId=this.idZR;
+        //var idUser=getZRData(2,this.idZR,"ZRDraft");
+        var idUser=checkIfInZR(zespolId,Meteor.userId());
         if(idUser==Meteor.userId()) {
-            rezygnujZRAlert(getZRData(1, zespolId,"ZRDraft"), this.idKwestia);
+            //rezygnujZRAlert(getZRData(1, zespolId,"ZRDraft"), this.idKwestia);
+            rezygnujZRAlert(checkIfInZR(zespolId,Meteor.userId()),this.idKwestia);
         }
         else {
+            console.log("xxxxx");
             var z = ZespolRealizacyjnyDraft.findOne({_id: zespolId});
 
             var zespolToUpdate = z.zespol.slice();

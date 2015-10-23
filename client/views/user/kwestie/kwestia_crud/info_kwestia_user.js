@@ -16,6 +16,56 @@
  * */
 
 Template.informacjeKwestia.rendered = function () {
+    console.log("render!");
+    //nadajemy priorytet automatycznie po wejściu na kwestię + dajemy punkty
+    //za wyjątkiem ,gdy użytkownik nie jest zalogowany lub jest kims innym niz czlonek
+    if(Meteor.userId()==null)
+        return;
+    var me=Users.findOne({_id:Meteor.userId()});
+    if(me){
+        if(me.profile.userType!=USERTYPE.CZLONEK || Meteor.user().roles == "admin")
+            return;
+    }
+    var idKwestia=Template.instance().data._id;
+    console.log(Template.instance().data._id);
+    var kwestia = Kwestia.findOne({_id: idKwestia});
+    console.log("moja kwestia");
+    console.log(kwestia);
+    console.log("tablicaaa");
+    console.log(_.pluck(kwestia.glosujacy.slice(),"idUser"));
+    //var tabGlosujacy = getAllUsersWhoVoted(kwestia._id);
+    if (!_.contains(_.pluck(kwestia.glosujacy.slice(),'idUser'), Meteor.userId())) {//jeżeli użytkownik jeszcze nie głosował
+        console.log("Użyt jeszcze nie głosował");
+        var glosujacy = {
+            idUser: Meteor.userId(),
+            value: 0
+        };
+        var voters = kwestia.glosujacy.slice();
+        voters.push(glosujacy);
+        Meteor.call('setGlosujacyTab', kwestia._id, voters, function (error, ret) {
+            if (error) {
+                if (typeof Errors === "undefined")
+                    Log.error('Error: ' + error.reason);
+                else {
+                    throwError(error.reason);
+                }
+            }
+        });
+        //dodanie pkt za głosowanie
+        var newValue = 0;
+
+        newValue = Number(RADKING.NADANIE_PRIORYTETU) + getUserRadkingValue(Meteor.userId());
+
+        Meteor.call('updateUserRanking', Meteor.userId(), newValue, function (error) {
+            if (error) {
+                if (typeof Errors === "undefined")
+                    Log.error('Error: ' + error.reason);
+                else {
+                    throwError(error.reason);
+                }
+            }
+        });
+    }
 };
 Template.informacjeKwestia.created = function () {
     this.listaCzlonkow = new ReactiveVar();

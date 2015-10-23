@@ -243,6 +243,12 @@ getZRData=function(number,idZR,ZRType){
         }
     }
 };
+checkIfInZR=function(idZR,idMember){
+    var z = ZespolRealizacyjnyDraft.findOne({_id: idZR});
+    if(z){
+        return _.contains(z.zespol,idMember) ? idMember :null;
+    }
+},
 rezygnujZRAlert=function(idUserZR,idKwestia){
     bootbox.dialog({
         message:"Czy chcesz zrezygnować z udziału w Zespole Realizacyjnym?",

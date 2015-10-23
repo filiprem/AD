@@ -62,6 +62,7 @@ Template.managePriorities.events({
         };
         var flag = false;
         for (var i = 0; i < kwestieOpcje.length; i++) {//dla kwestii opcji- z trgo chyba juz nie korzystamy!!
+            console.log("dla opcjii");
             for (var j = 0; j < kwestieOpcje[i].glosujacy.length; j++) {//przechodizmy po kazdych użytkownikach,ktory zagloswoali
                 var user = kwestieOpcje[i].glosujacy[j].idUser;
                 var oddanyGlos = kwestieOpcje[i].glosujacy[j].value;
@@ -73,15 +74,28 @@ Template.managePriorities.events({
             }
         }
         var oldValue = 0;
-        for (var i = 0; i < kwestia.glosujacy.length; i++) {
-            if (kwestia.glosujacy[i].idUser === Meteor.userId()) {
-                flag = false;
-                oldValue = glosujacyTab[i].value;
-                wartoscPriorytetu -= glosujacyTab[i].value;
-                glosujacyTab[i].value = ratingValue;
-                wartoscPriorytetu += glosujacyTab[i].value;
+        //if(kwestia.glosujacy.length==0){
+        //    console.log("pierwsz raz");
+        //    wartoscPriorytetu += ratingValue;
+        //    glosujacyTab.push(object);
+        //}
+        //else {
+            for (var i = 0; i < kwestia.glosujacy.length; i++) {
+                if (kwestia.glosujacy[i].idUser === Meteor.userId()) {
+                    console.log("juz głosowałem");
+                    flag = false;
+                    oldValue = glosujacyTab[i].value;
+                    wartoscPriorytetu -= glosujacyTab[i].value;
+                    glosujacyTab[i].value = ratingValue;
+                    wartoscPriorytetu += glosujacyTab[i].value;
+                }
+                //else {//dodane!gdy jeszcze nie głosowałem
+                //    console.log("moje dodane");
+                //    wartoscPriorytetu += ratingValue;
+                //    glosujacyTab.push(object);
+                //}
             }
-        }
+       // }
 
         var kwestiaUpdate = [{
             wartoscPriorytetu: wartoscPriorytetu,

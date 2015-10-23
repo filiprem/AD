@@ -30,15 +30,46 @@ Meteor.startup(function(){
 
             var kworum = liczenieKworumZwykle();
             var usersCount = newKwestia.glosujacy.length;
-            var zespolCount = ZespolRealizacyjnyDraft.findOne({_id: newKwestia.idZespolRealizacyjny}).zespol.length;
+            var ZRDraft=ZespolRealizacyjnyDraft.findOne({_id:newKwestia.idZespolRealizacyjny});
+            var zespolCount =ZRDraft.zespol.length;
 
             if(newKwestia.wartoscPriorytetu > 0 && usersCount >= kworum && zespolCount >= 3 && newKwestia.status != KWESTIA_STATUS.REALIZOWANA){
 
                 if(newKwestia.status == KWESTIA_STATUS.DELIBEROWANA){
 
-                    var czasGlosowania = Rodzaj.findOne({_id: newKwestia.idRodzaj}).czasGlosowania;
+                    var czasGlosowania = Parametr.findOne({}).voteDuration;
                     newKwestia.dataGlosowania = new Date().addHours(czasGlosowania);
                     Meteor.call('updateStatusDataGlosowaniaKwestii', newKwestia._id, KWESTIA_STATUS.GLOSOWANA, newKwestia.dataGlosowania);
+                    //przepisz zespoly
+                    var idZR=ZRDraft.idZR;
+                    if(idZR){
+                        if(idZR!=null){
+                            var zr=ZespolRealizacyjny.findOne({_id:idZR});
+                            if(zr){
+                                var kwestie=zr.kwestie.slice();
+                                kwestie.push(newKwestia._id);
+                                Meteor.call("updateListKwesti",zr._id,kwestie,function (error, ret) {
+                                    if(!error)
+                                        Meteor.call("removeZespolRealizacyjnyDraft",ZRDraft);
+                                });
+                            }
+                        }
+                        else{//to nowy zespoł
+                            var kwestie=[];
+                            kwestie.push(newKwestia._id);
+                            var zr={
+                                nazwa: ZRDraft.nazwa,
+                                zespol:ZRDraft.zespol,
+                                kwestie:kwestie,
+                                czyAktywny:true
+                            };
+                            Meteor.call("addZespolRealizacyjny",zr,function (error, ret) {
+                                if(!error)
+                                    Meteor.call("removeZespolRealizacyjnyDraft",ZRDraft);
+                            });
+
+                        }
+                    }
                 }
                 else if (newKwestia.status == KWESTIA_STATUS.STATUSOWA){
 
