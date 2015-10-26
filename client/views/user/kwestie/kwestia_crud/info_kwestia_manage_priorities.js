@@ -17,8 +17,22 @@ Template.managePriorities.helpers({
             if (user.profile.userType != USERTYPE.CZLONEK)
                 return "disabled";
         }
+        var kwestia=Kwestia.findOne({_id:idKwestia});
+        if(kwestia.status==KWESTIA_STATUS.ZREALIZOWANA)
+            return "disabled";
         var flag = false;
-        var kwestie = Kwestia.find({czyAktywny: true, 'glosujacy.idUser': Meteor.userId(), idParent: idKwestia}).fetch();
+        if(kwestia.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE)//for GLobalPARAM->No KWESTIA OPCJE
+            var kwestie = Kwestia.find({
+                czyAktywny: true,
+                'glosujacy.idUser': Meteor.userId()
+            }).fetch();
+        else
+            var kwestie = Kwestia.find({
+                czyAktywny: true,
+                'glosujacy.idUser': Meteor.userId(),
+                idParent: idKwestia
+            }).fetch();
+
         kwestie.forEach(function (kwestia) {
             var array = [];
             var tabGlosujacych = glosujacy;
@@ -82,18 +96,12 @@ Template.managePriorities.events({
         //else {
             for (var i = 0; i < kwestia.glosujacy.length; i++) {
                 if (kwestia.glosujacy[i].idUser === Meteor.userId()) {
-                    console.log("juz głosowałem");
                     flag = false;
                     oldValue = glosujacyTab[i].value;
                     wartoscPriorytetu -= glosujacyTab[i].value;
                     glosujacyTab[i].value = ratingValue;
                     wartoscPriorytetu += glosujacyTab[i].value;
                 }
-                //else {//dodane!gdy jeszcze nie głosowałem
-                //    console.log("moje dodane");
-                //    wartoscPriorytetu += ratingValue;
-                //    glosujacyTab.push(object);
-                //}
             }
        // }
 

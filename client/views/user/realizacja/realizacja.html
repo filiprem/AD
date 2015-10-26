@@ -1,10 +1,15 @@
 <template name="realizacja">
         <div class="main">
             {{#if RealizacjaListCount}}
-            <h3>Lista Kwestii realizowanych</h3>
+            <h3>Lista Kwestii realizowanych i zrealizowanych</h3>
 
             <div class="pull-right">
                 <span>Liczba Kwestii realizowanych: </span><span class="badge">{{realizacjaCount}}</span>
+            </div>
+            <br>
+            &nbsp;
+            <div class="pull-right">
+                <span>Liczba Kwestii zrealizowanych: </span><span class="badge">{{zrealizowaneCount}}</span>
             </div>
             <hr/>
             <div class="row">

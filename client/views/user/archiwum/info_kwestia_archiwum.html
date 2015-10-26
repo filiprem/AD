@@ -26,6 +26,7 @@
                             <span class="fa fa-arrow-left"></span> Powrót
                         </a>
                     </div>
+                    {{#unless kwestiaTypParamChange}}
                     {{#unless isAdmin}}
                         <div class="btn-group" role="group" aria-label="...">
                             <label class="btn btn-danger">Przeniesienie Kwestii</label>
@@ -44,9 +45,7 @@
                                 </button>
                             {{/unless}}
                         </div>
-                        <button id="wyczyscPriorytety" type="button" class="btn btn-danger" {{isAvailable }}>
-                            Wyczyść moje priorytety
-                        </button>
+                    {{/unless}}
                     {{/unless}}
                 </div>
             </div>
@@ -60,11 +59,11 @@
             </tr>
             <tr>
                 <td><strong> Data głosowania</strong></td>
-                <td>{{dataGlosowaniaObliczana}}</td>
+                <td>{{dateStartVote}}</td>
             </tr>
             <tr>
                 <td><strong> Finał deliberacji i głosowania</strong></td>
-                <td>{{dateG}}</td>
+                <td>{{dateFinishVote}}</td>
             </tr>
             <tr>
                 <td><strong> Nazwa Kwestii</strong></td>

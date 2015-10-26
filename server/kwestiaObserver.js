@@ -27,16 +27,29 @@ Meteor.startup(function(){
 
     kwestie.observe({
         changedAt: function(newKwestia, oldKwestia, atIndex) {
-
             var kworum = liczenieKworumZwykle();
             var usersCount = newKwestia.glosujacy.length;
-            var ZRDraft=ZespolRealizacyjnyDraft.findOne({_id:newKwestia.idZespolRealizacyjny});
-            var zespolCount =ZRDraft.zespol.length;
+            var ZRDraft=null;
+            var zespolCount=null;
+            if(newKwestia.idZespolRealizacyjny) {
+                ZRDraft = ZespolRealizacyjnyDraft.findOne({_id: newKwestia.idZespolRealizacyjny});
+                zespolCount = ZRDraft.zespol.length;
+            }
+            //for global parameters(deliberowana->glosowanie) 2 conditions:wartoscPriorytetu>0,liczbaUsers>kworum
+            if(newKwestia.wartoscPriorytetu > 0 && usersCount >= kworum && newKwestia.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE) {
+                var globalParam=Parametr.findOne();
+                var czasGlosowania = globalParam.voteDuration;
+                var final = moment(new Date()).add(1,"hours").format();
+                var start=new Date();
+                console.log(start);
+                console.log(final);
+                Meteor.call("updateStatusDataGlosowaniaKwestiiFinal",newKwestia._id,KWESTIA_STATUS.GLOSOWANA,final,start);
+            }
 
             if(newKwestia.wartoscPriorytetu > 0 && usersCount >= kworum && zespolCount >= 3 && newKwestia.status != KWESTIA_STATUS.REALIZOWANA){
 
                 if(newKwestia.status == KWESTIA_STATUS.DELIBEROWANA){
-
+                    console.log("zmiana na glosowana");
                     var czasGlosowania = Parametr.findOne({}).voteDuration;
                     newKwestia.dataGlosowania = new Date().addHours(czasGlosowania);
                     Meteor.call('updateStatusDataGlosowaniaKwestii', newKwestia._id, KWESTIA_STATUS.GLOSOWANA, newKwestia.dataGlosowania);
@@ -78,10 +91,10 @@ Meteor.startup(function(){
 
                     Meteor.call("sendEmailHonorowyInvitation", newKwestia.idZgloszonego);
                 }
-                else if (newKwestia.status == KWESTIA_STATUS.ADMINISTROWANA){//to finish
-                    newKwestia.dataGlosowania = new Date().addHours(24);
-                    Meteor.call('updateStatusDataGlosowaniaKwestii', newKwestia._id, KWESTIA_STATUS.GLOSOWANA, newKwestia.dataGlosowania);
-                }
+                //else if (newKwestia.status == KWESTIA_STATUS.ADMINISTROWANA){//to finish
+                //    newKwestia.dataGlosowania = new Date().addHours(24);
+                //    Meteor.call('updateStatusDataGlosowaniaKwestii', newKwestia._id, KWESTIA_STATUS.GLOSOWANA, newKwestia.dataGlosowania);
+                //}
             }
 
             if(newKwestia.status == KWESTIA_STATUS.REALIZOWANA && newKwestia.wartoscPriorytetuWRealizacji < (-newKwestia.wartoscPriorytetu)){

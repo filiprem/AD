@@ -48,10 +48,8 @@
             </tr>
             <tr>
                 <td><strong> Data wprowadzenia Kwestii </strong>&nbsp; {{date}}</td>
-                <td><strong> Data głosowania </strong>&nbsp; ---</td>
-                <!--{{dataGlosowaniaObliczana}}-->
-                <td><strong> Finał </strong>&nbsp; ---</td>
-                <!--{{dateG}}-->
+                <td><strong> Start głosowania </strong>&nbsp; {{dateVoteStart}}</td>
+                <td><strong> Finał </strong>&nbsp; {{dateVoteFinish}}</td>
             </tr>
         </table>
         {{>kwestiaDetails
@@ -60,12 +58,14 @@
             status=status
         }}
         {{#if currentUser}}
-            {{#unless isAdministrowana}}
+            {{#unless isGlobalParamChange}}
+            {{#unless isGlosowana}}
                 {{>ZRTemplate
                     idZR=idZespolRealizacyjny
                     status=status
                     idKwestia=_id
                 }}
+            {{/unless}}
             {{/unless}}
         {{/if}}
         {{#if ifHasOpcje}}
@@ -78,7 +78,8 @@
             <div class="row">
                 <div class="col-md-12">
                     {{> discussionMain
-                    _id =_id}}
+                    _id =_id
+                    status=status}}
                 </div>
             </div>
         {{/if}}

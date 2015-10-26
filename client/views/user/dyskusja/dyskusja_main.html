@@ -1,7 +1,7 @@
 <template name="discussionMain">
     <div class="row">
         <label class="control-label col-xs-12">{{title}}</label>
-
+        <input id="status" name="status" type="hidden" value="{{status}}">
         <div class="col-xs-12">
             {{#each getPosts _id}}
                 {{> discussionPostItem
@@ -17,24 +17,29 @@
         </div>
     </div>
     {{> discussionPostForm
-    idKwestia=_id
+        status=status
+        idKwestia=_id
     }}
 </template>
 
 <template name="discussionPostForm">
     <form id="dyskusjaForm" class="form-horizontal">
         <div class="form-group">
-            <div class="col-xs-12">
-                <textarea id="message" name="message" type="text" class="form-control" required
-                          placeholder="Komentarz"></textarea>
-            </div>
+            {{#if HasUserRights status}}
+                <div class="col-xs-12">
+                    <textarea id="message" name="message" type="text" class="form-control" required
+                              placeholder="Komentarz"></textarea>
+                </div>
+            {{/if}}
             <input id="idKwestia" name="idKwestia" type="hidden" value="{{idKwestia}}">
         </div>
         <div class="form-group">
-            <div class="col-xs-12">
-                <input type="submit" for="dyskusjaForm" class="btn btn-primary"
-                       value="Dodaj komentarz" {{HasUserRights}}>
-            </div>
+            {{#if HasUserRights status}}
+                <div class="col-xs-12">
+                    <input type="submit" for="dyskusjaForm" class="btn btn-primary"
+                           value="Dodaj komentarz">
+                </div>
+            {{/if}}
         </div>
     </form>
 </template>

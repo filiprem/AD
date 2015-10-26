@@ -11,13 +11,23 @@ Template.kwestiaTopButtons.helpers({
         }
         return isKwestiaGlosowana(idKwestia);
     },
-    isKwestiaBasicOrChangeParams:function(typ){
+    isZrealizowanaChangeParamsGlosowana:function(typ,status){
+        if(Meteor.userId())
+            return true;
+        return status==KWESTIA_STATUS.ZREALIZOWANA || typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE ? true :false;
+    },
+    isKwestiaAccessOrChangeParams:function(typ){
         return typ==KWESTIA_TYPE.ACCESS_HONOROWY ||
             typ==KWESTIA_TYPE.ACCESS_ZWYCZAJNY ||
             typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE ? true : false;
     },
     isKwestiaChangeParams:function(typ){
+        console.log("typ");console.log(typ);
         return typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE ? true : false;
+    },
+    isKwestiaZrealizowana:function(status){
+        console.log("uwagaaa"+ status);
+        return status==KWESTIA_STATUS.ZREALIZOWANA ? true : false;
     }
 });
 Template.kwestiaTopButtons.events({

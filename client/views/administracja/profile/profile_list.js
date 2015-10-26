@@ -84,7 +84,6 @@ Template.userEmailContact.helpers({
 Template.userEmailContact.events({
    //'click #sendMessage':function(e){
    //    e.preventDefault();
-   //    console.log("hiere");
    //    console.log(this._id);
    //}
 });

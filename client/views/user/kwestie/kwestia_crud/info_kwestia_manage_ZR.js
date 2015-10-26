@@ -75,7 +75,6 @@ Template.ZRTemplate.events({
                 return false;
             }
             else {
-                console.log("next step hiere");
                 if (addCzlonekToZespolRealizacyjnyNotificationNew(Meteor.userId(), zespolToUpdate, 2, zespolId) == false) {
                     bladNotification();
                 }

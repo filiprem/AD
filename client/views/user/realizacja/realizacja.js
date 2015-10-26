@@ -53,13 +53,16 @@ Template.realizacja.helpers({
         };
     },
     RealizacjaList: function () {
-        return Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.REALIZOWANA}).fetch();
+        return Kwestia.find({czyAktywny: true, status: {$in:[KWESTIA_STATUS.REALIZOWANA,KWESTIA_STATUS.ZREALIZOWANA]}}).fetch();
     },
     realizacjaCount: function () {
         return Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.REALIZOWANA}).count();
     },
+    zrealizowaneCount: function () {
+        return Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.ZREALIZOWANA}).count();
+    },
     RealizacjaListCount: function () {
-        var ile = Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.REALIZOWANA}).count();
+        var ile = Kwestia.find({czyAktywny: true, status: {$in:[KWESTIA_STATUS.REALIZOWANA,KWESTIA_STATUS.ZREALIZOWANA]}}).count();
         return ile > 0 ? true : false;
     }
 });

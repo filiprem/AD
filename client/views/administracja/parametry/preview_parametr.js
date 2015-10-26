@@ -14,19 +14,8 @@ Template.previewParametr.events({
             terytorium: params.terytorium,
             kontakty: params.kontakty,
             regulamin: params.regulamin,
-
-          /*  pktDodanieKwestii: params.pktDodanieKwestii,
-            pktDodanieKomentarza: params.pktDodanieKomentarza,
-            pktDodanieOdniesienia: params.pktDodanieOdniesienia,
-            pktNadaniePriorytetu: params.pktNadaniePriorytetu,
-            pktAwansKwestii: params.pktAwansKwestii,
-            pktUdzialWZespoleRealizacyjnym: params.pktUdzialWZespoleRealizacyjnym,
-            pktZlozenieRaportuRealizacyjnego: params.pktZlozenieRaportuRealizacyjnego,
-            pktWycofanieKwestiiDoArchiwum: params.pktWycofanieKwestiiDoArchiwum,
-            pktWycofanieKwestiiDoKosza: params.pktWycofanieKwestiiDoKosza,
-            pktWyjscieZZespoluRealizacyjnego: params.pktWyjscieZZespoluRealizacyjnego,
-            pktBrakUdzialuWGlosowaniu: params.pktBrakUdzialuWGlosowaniu,
-            okresSledzeniaWatkuPrzenoszacego: params.okresSledzeniaWatkuPrzenoszacego*/
+            voteDuration:params.voteDuration,
+            voteQuantity:params.voteQuantity
         };
 
         Meteor.call('addParametrDraft', addParamDraft, function (error,ret) {
@@ -40,33 +29,27 @@ Template.previewParametr.events({
             } else {
                   var id = ret ;
                   var danezfor = Session.get("tablica");
-                 
-                 /* var dane = "ZMIANY parametrów : " + "Z : " + danezfor. + " NA : " +
-                    addParamDraft.nazwaOrganizacji + " \r\n " +
-                    addParamDraft.terytorium + ", \r\n " +
-                    addParamDraft.kontakty + ", \r\n " +
-                    addParamDraft.regulamin*/
+
                     var dane = "";
                    
-                        danezfor.forEach(function(i){ dane = dane + i.paramName + "  zostanie zmieniony z : "+ i.initialValue + " na : "+i.newValue+ " \r\n "})
+                    danezfor.forEach(function(i){
+                        dane = dane + i.paramName + "  zostanie zmieniony z : "+
+                            i.initialValue + " na : "+i.newValue+ " \r\n "});
                     
                      console.log(dane);
-                        var dataG = new Date();
-         var d = dataG.setDate(dataG.getDate() + 7);
-         var newKwestia = [
+
+                     var newKwestia = [
                     {
                         idUser: Meteor.userId(),
                         dataWprowadzenia: new Date(),
                         kwestiaNazwa: 'Propozycja zmiany parametrów globalnych  przez ' +Meteor.user().profile.firstName +"  "+ Meteor.user().profile.lastName ,
                         wartoscPriorytetu: 0,
-                        sredniaPriorytet: 0,
-                        dataDyskusji: new Date(),
-                        dataGlosowania: d,
+                        dataGlosowania: null,
                         krotkaTresc: 'Propozycja zmiany parametrów globalnych' ,
                         szczegolowaTresc: dane,
                         isOption: false,
                         status: KWESTIA_STATUS.ADMINISTROWANA,
-                        idParametru : id,
+                        idParametr : id,
                         typ:KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE
                     }];
             var idKwesti = Meteor.call('addKwestiaADMINISTROWANA', newKwestia, function (error) {

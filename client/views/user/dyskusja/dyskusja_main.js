@@ -149,10 +149,11 @@ Template.discussionMain.helpers({
 });
 
 Template.discussionPostForm.helpers({
-    HasUserRights: function () {
+    HasUserRights: function (status) {
+
         if(!Meteor.userId())
-            return "disabled";
-        return isKwestiaGlosowana(Session.get("idKwestia"));
+            return false;
+        return status==KWESTIA_STATUS.GLOSOWANA || status==KWESTIA_STATUS.ZREALIZOWANA ? false : true;
     }
 });
 

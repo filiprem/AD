@@ -58,8 +58,8 @@
                         }}
                     {{/each}}
                     {{> discussionAnswerForm
-                    idKwestia=idKwestia
-                    idPost=idPost
+                        idKwestia=idKwestia
+                        idPost=idPost
                     }}
                 </div>
             </div>
@@ -246,8 +246,8 @@
                                 }}
                             {{/each}}
                             {{> discussionAnswerForm
-                            idKwestia=idKwestia
-                            idPost=idPost
+                                idKwestia=idKwestia
+                                idPost=idPost
                             }}
                         </div>
                     </div>
@@ -260,19 +260,23 @@
 <template name="discussionAnswerForm">
     <form id="dyskusjaAnswerForm" class="form-horizontal">
         <div class="form-group">
-            <div class="col-xs-12">
-                <textarea id="answer_message" name="answer_message{{idPost}}" type="text" class="form-control"
-                          placeholder="Odniesienie" required></textarea>
-            </div>
+            {{#if hasUserRights}}
+                <div class="col-xs-12">
+                    <textarea id="answer_message" name="answer_message{{idPost}}" type="text" class="form-control"
+                              placeholder="Odniesienie" required></textarea>
+                </div>
+            {{/if}}
             <input id="idKwestiaAnswer" name="idKwestiaAnswer" type="hidden" value="{{idKwestia}}">
             <input id="idPost" name="idPost" type="hidden" value="{{idPost}}">
         </div>
-        <div class="form-group">
-            <div class="col-xs-12">
-                <input type="submit" for="dyskusjaAnswerForm" class="btn btn-sm btn-default"
-                       value="Dodaj odniesienie" {{isUserLogged}}>
+        {{#if hasUserRights}}
+            <div class="form-group">
+                <div class="col-xs-12">
+                    <input type="submit" for="dyskusjaAnswerForm" class="btn btn-sm btn-default"
+                           value="Dodaj odniesienie">
+                </div>
             </div>
-        </div>
+        {{/if}}
     </form>
 </template>
 

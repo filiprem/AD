@@ -192,7 +192,8 @@ addKwestia=function(idTemat,idRodzaj,isOption,kwestia){
         szczegolowaTresc: kwestia.szczegolowaTresc,
         isOption: false,
         sugerowanyTemat: kwestia.sugerowanyTemat,
-        sugerowanyRodzaj: kwestia.sugerowanyRodzaj
+        sugerowanyRodzaj: kwestia.sugerowanyRodzaj,
+        typ:kwestia.typ
     }];
     Meteor.call('addKwestia', newKwestia, function (error, ret) {
         if (error) {

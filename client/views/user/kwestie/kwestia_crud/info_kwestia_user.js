@@ -81,11 +81,11 @@ Template.informacjeKwestia.events({
 });
 
 Template.informacjeKwestia.helpers({
-    isAdministrowana: function(){
-        var kw = Kwestia.findOne({_id: this._id});
-        if(kw) {
-            return kw.status == KWESTIA_STATUS.ADMINISTROWANA ? true : false;
-        }
+    isGlobalParamChange: function(){
+        return this.typ=KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE ? true : false;
+    },
+    isGlosowana:function(){
+        return this.status==KWESTIA_STATUS.GLOSOWANA ? true :false;
     },
     thisKwestia: function () {
         var kw = Kwestia.findOne({_id: this._id});
@@ -128,13 +128,15 @@ Template.informacjeKwestia.helpers({
         var currentKwestiaId = this._id;
         var kwestia = Kwestia.findOne(currentKwestiaId);
         if (kwestia) {
+            //console.log(_.pluck(kwestia.glosujacy,"idUser"));
+            //return _.contains(_.pluck(kwestia.glosujacy,"idUser"),Meteor.userId()) ? false :true;
             var g = kwestia.glosujacy;
+            var flag=false;
             for (var i = 0; i < g.length; i++) {
                 if (Meteor.userId() == g[i].idUser && g[i].value == 0)
-                    return true;
-                else
-                    return false;
+                    flag=true;
             }
+            return flag==true ? true : false;
         }
     },
     glosujacyCount: function () {
@@ -157,9 +159,13 @@ Template.informacjeKwestia.helpers({
         var d = this.dataWprowadzenia;
         if (d) return moment(d).format("DD-MM-YYYY, HH:mm");
     },
-    dateG: function () {
+    dateVoteStart:function(){
+        var d = this.startGlosowania;
+        return (d) ? moment(d).format("DD-MM-YYYY, HH:mm") : "---";
+    },
+    dateVoteFinish: function () {
         var d = this.dataGlosowania;
-        if (d) return moment(d).format("DD-MM-YYYY, HH:mm");
+        return (d) ? moment(d).format("DD-MM-YYYY, HH:mm") : "---";
     },
     dataGlosowaniaObliczana: function () {
         var dataG = this.dataGlosowania;

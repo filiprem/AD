@@ -191,6 +191,14 @@ Meteor.publish('kwestieRealizacja', function () {
     return Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.REALIZOWANA});
 });
 
+Meteor.publish('kwestieZrealizowana', function () {
+    return Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.ZREALIZOWANA});
+});
+
+Meteor.publish('kwestieArrayStatus', function (array) {
+    return Kwestia.find({czyAktywny: true, status: {$in:array}});
+});
+
 Meteor.publish('powiadomienia', function () {
     return Powiadomienie.find({});
 });

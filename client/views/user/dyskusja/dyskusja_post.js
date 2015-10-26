@@ -209,9 +209,11 @@ Template.discussionAnswerItem.events({
 });
 
 Template.discussionAnswerForm.helpers({
-    HasUserRights: function () {
-        if(!Meteor.userId())
-            return "disabled";
-        return isKwestiaGlosowana(Session.get("idKwestia"));
+    hasUserRights: function () {
+        if (!Meteor.userId())
+            return false;
+        var kwestia=Kwestia.findOne({_id:this.idKwestia});
+        if(kwestia)
+            return kwestia.status == KWESTIA_STATUS.GLOSOWANA || kwestia.status == KWESTIA_STATUS.ZREALIZOWANA ? false : true;
     }
 });

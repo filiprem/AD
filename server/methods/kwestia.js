@@ -103,23 +103,18 @@ Meteor.methods({
             dataWprowadzenia: newKwestia[0].dataWprowadzenia,
             kwestiaNazwa: newKwestia[0].kwestiaNazwa,
             wartoscPriorytetu: parseInt(newKwestia[0].wartoscPriorytetu),
-            wartoscPriorytetuWRealizacji: parseInt(newKwestia[0].wartoscPriorytetuWRealizacji),
-            sredniaPriorytet: parseFloat(newKwestia[0].sredniaPriorytet),
             idTemat: newKwestia[0].idTemat,
             idRodzaj: newKwestia[0].idRodzaj,
-            dataDyskusji: newKwestia[0].dataDyskusji,
-            dataGlosowania: moment(newKwestia[0].dataGlosowania).format(),
+            startGlosowania:newKwestia[0].startGlosowania,
+            dataGlosowania: null,
             czyAktywny: newKwestia[0].czyAktywny = true,
             status: newKwestia[0].status,
             krotkaTresc: newKwestia[0].krotkaTresc,
             szczegolowaTresc: newKwestia[0].szczegolowaTresc,
             glosujacy: [],
-            isOption: false,
-            idParametru : newKwestia[0].idParametr,
+            idParametr : newKwestia[0].idParametr,
             typ:newKwestia[0].typ
         });
-        Kwestia.update({_id: id}, {$set: {idParent: id}}, {upsert: true});
-        var z = ZespolRealizacyjnyDraft.insert({idKwestia: id, nazwa: "", zespol: []});
         return id;
     },
   /*  updateKwestia: function (id, kwestia) {
@@ -224,6 +219,16 @@ Meteor.methods({
             $set: {
                 status: status,
                 dataGlosowania: dataGlosowania
+            }
+        }, {upsert: true});
+        return id;
+    },
+    updateStatusDataGlosowaniaKwestiiFinal: function (id, status, dataGlosowania,start) {
+        var id = Kwestia.update(id, {
+            $set: {
+                status: status,
+                dataGlosowania: dataGlosowania,
+                startGlosowania:start
             }
         }, {upsert: true});
         return id;
