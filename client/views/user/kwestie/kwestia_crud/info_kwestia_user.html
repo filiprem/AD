@@ -2,7 +2,7 @@
     <div class="main">
         <div class="row">
             <div class="col-md-12">
-                <legend>Informacje o Kwestii</legend>
+                <legend>Informacje o Kwestii: {{kwestiaNazwa}}</legend>
                 <p class="bg-info padding-15">
                     Obecni: <b>{{glosujacyCount}}</b>
                     {{#if isNotAdminOrDoradca}}
@@ -30,8 +30,8 @@
         <br/>
         <table class="table table-bordered manageTable">
             <tr>
-                <td><strong> Nazwa Kwestii</strong></td>
-                <td><b>{{kwestiaNazwa}}</b></td>
+                <td><strong> Status</strong></td>
+                <td><b>{{status}}</b></td>
                 <td></td>
             </tr>
             <tr>

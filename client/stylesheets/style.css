@@ -244,3 +244,14 @@ body #listZespolRealizacyjnyDouble .modal-dialog{
     font-size:9px;
 }
 
+.postNegativePriority{
+    background-color: #555555;
+    border-style: solid;
+    border-color: #737373;
+}
+
+.postPositivePriority{
+    background-color: #afafaf;
+    border-style: solid;
+    border-color: #737373;
+}
