@@ -82,7 +82,7 @@ Template.informacjeKwestia.events({
 
 Template.informacjeKwestia.helpers({
     isGlobalParamChange: function(){
-        return this.typ=KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE ? true : false;
+        return this.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE ? true : false;
     },
     isGlosowana:function(){
         return this.status==KWESTIA_STATUS.GLOSOWANA ? true :false;
@@ -99,11 +99,15 @@ Template.informacjeKwestia.helpers({
     // OPCJE
     ifHasOpcje: function () {
         var kwestiaGlownaId = this._id;
-        var k = Kwestia.find({czyAktywny: true, idParent: kwestiaGlownaId, isOption: true}).fetch();
-        if (k)
-            return true;
-        else
-            return false;
+        console.log("ifHasOpcej");
+        console.log(this._id);
+        var k = Kwestia.find({czyAktywny: true, idParent: kwestiaGlownaId, isOption: true});
+        if (k) {
+            if(k.count()>0)
+                return true;
+            else
+                return false;
+        }
     },
     //PRIORYTET
     mojPiorytet: function () {

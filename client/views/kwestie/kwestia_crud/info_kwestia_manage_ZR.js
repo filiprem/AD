@@ -12,6 +12,8 @@ Template.ZRTemplate.helpers({
         }
     },
     statusGlosowanaOsobowa:function(status){
+        console.log("status");
+        console.log(status);
         return status==KWESTIA_STATUS.GLOSOWANA || status==KWESTIA_STATUS.OSOBOWA ? true : false;
     },
     pierwszyCzlonekFullName: function(idZR){

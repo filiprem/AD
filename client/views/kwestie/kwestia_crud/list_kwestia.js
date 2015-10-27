@@ -1,11 +1,42 @@
 Template.listKwestia.rendered = function () {
     var self = Template.instance();
     this.autorun(function () {
+        console.log("kworum");
+        console.log(liczenieKworumStatutowe());
+        console.log(liczenieKworumZwykle());
+        //a co z kwestiami, które nie pojda do glosowania???
+        //{status:{$in:[KWESTIA_STATUS.DELIBEROWANA,KWESTIA_STATUS.ADMINISTROWANA]}},
         var kwestie = Kwestia.find({
             $where: function () {
-                return ((this.czyAktywny == true) && (this.wartoscPriorytetu > 0));
+                var typKworum=liczenieKworumZwykle();
+                if(this.idRodzaj){
+                    var rodzaj=Rodzaj.findOne({_id:this.idRodzaj});
+                    if(rodzaj) {
+                        console.log(rodzaj.nazwaRodzaj);
+                        if (rodzaj.nazwaRodzaj.trim() == "Statutowe")
+                            typKworum = liczenieKworumStatutowe();
+                    }
+                }
+                var zrCondition=true;
+                if(this.idZespolRealizacyjny){
+                    var zrDraft=ZespolRealizacyjnyDraft.findOne({_id:this.idZespolRealizacyjny});
+                    if(zrDraft){
+                        if(zrDraft.zespol.length>=3)
+                            zrCondition=true;
+                        else
+                            zrCondition=false;
+                    }
+                    else
+                        zrCondition=false;
+                }
+                console.log(this._id);
+                console.log(zrCondition);
+                return ((this.czyAktywny == true) &&
+                (this.wartoscPriorytetu > 0) &&
+                (this.glosujacy.length>=typKworum) && zrCondition==true);
+                //this.status==KWESTIA_STATUS.DELIBEROWANA || this.status==KWESTIA_STATUS.ADMINISTROWANA);
             }
-        }, {sort: {wartoscPriorytetu: -1}, limit: 3});
+        }, {sort: {wartoscPriorytetu: -1,dataWprowadzenia:1}, limit: 3});
         var tab = [];
         kwestie.forEach(function (item) {
             tab.push(item._id);
@@ -132,7 +163,9 @@ Template.listKwestia.helpers({
                         title: "Data wprowadzenia Kwestii i rozpoczęcia jej deliberacji",
                         text: "Data"
                     },
-                    tmpl: Template.dataUtwKwestia
+                    tmpl: Template.dataUtwKwestia,
+                    sortOrder: 1,
+                    sortDirection: "ascending"
                 },
                 {
                     key: 'kwestiaNazwa',
@@ -151,7 +184,7 @@ Template.listKwestia.helpers({
                         text: "Priorytet"
                     },
                     tmpl: Template.priorytetKwestia,
-                    sortOrder: 1,
+                    sortOrder: 0,
                     sortDirection: "descending"
                 },
                 {key: 'idTemat', label: "Temat", tmpl: Template.tematKwestia},

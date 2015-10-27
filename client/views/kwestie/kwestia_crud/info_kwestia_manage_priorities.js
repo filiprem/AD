@@ -65,7 +65,7 @@ Template.managePriorities.events({
         var ratingKwestiaId = e.target.name;
         var kwestia = Kwestia.findOne({_id: ratingKwestiaId});
         var parent = this.idParent;
-        var kwestieOpcje = Kwestia.find({czyAktywny: true, idParent: parent}).fetch();
+        var kwestieOpcje = Kwestia.find({czyAktywny: true, idParent: parent});
         var glosujacy = [];
         var glosujacy = kwestia.glosujacy;
         var glosujacyTab = kwestia.glosujacy.slice();
@@ -75,14 +75,16 @@ Template.managePriorities.events({
             value: ratingValue
         };
         var flag = false;
-        for (var i = 0; i < kwestieOpcje.length; i++) {//dla kwestii opcji- z trgo chyba juz nie korzystamy!!
-            console.log("dla opcjii");
-            for (var j = 0; j < kwestieOpcje[i].glosujacy.length; j++) {//przechodizmy po kazdych użytkownikach,ktory zagloswoali
-                var user = kwestieOpcje[i].glosujacy[j].idUser;
-                var oddanyGlos = kwestieOpcje[i].glosujacy[j].value;
-                if (user == Meteor.userId()) {
-                    if (oddanyGlos == ratingValue) {
-                        return false;
+        if(kwestieOpcje.count()>0) {
+            for (var i = 0; i < kwestieOpcje.length; i++) {//dla kwestii opcji- z trgo chyba juz nie korzystamy!!
+                console.log("dla opcjii");
+                for (var j = 0; j < kwestieOpcje[i].glosujacy.length; j++) {//przechodizmy po kazdych użytkownikach,ktory zagloswoali
+                    var user = kwestieOpcje[i].glosujacy[j].idUser;
+                    var oddanyGlos = kwestieOpcje[i].glosujacy[j].value;
+                    if (user == Meteor.userId()) {
+                        if (oddanyGlos == ratingValue) {
+                            return false;
+                        }
                     }
                 }
             }
