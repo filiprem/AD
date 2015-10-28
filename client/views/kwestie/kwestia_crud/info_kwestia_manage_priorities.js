@@ -54,6 +54,9 @@ Template.managePriorities.helpers({
             return user.profile.userType!= USERTYPE.CZLONEK ? "disabled" : "";
         }
         return "";
+    },
+    koszZrealizowanaArchiwum:function(czyAktywny,status){
+        return czyAktywny==false || status==KWESTIA_STATUS.ZREALIZOWANA || status==KWESTIA_STATUS.ARCHIWALNA ? true: false;
     }
 });
 

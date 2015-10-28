@@ -31,16 +31,21 @@ Template.listKwestia.rendered = function () {
                 }
                 console.log(this._id);
                 console.log(zrCondition);
+                console.log(typKworum);
+                console.log(this.wartoscPriorytetu);
                 return ((this.czyAktywny == true) &&
                 (this.wartoscPriorytetu > 0) &&
-                (this.glosujacy.length>=typKworum) && zrCondition==true);
-                //this.status==KWESTIA_STATUS.DELIBEROWANA || this.status==KWESTIA_STATUS.ADMINISTROWANA);
+                (this.glosujacy.length>=typKworum) && zrCondition==true
+                &&(this.status==KWESTIA_STATUS.DELIBEROWANA || this.status==KWESTIA_STATUS.ADMINISTROWANA));
+                //tutaj trzeba uwazac! dac tylko statusy,ktore maja byc w "kwestie",bo inaczej nie bd widoczne...
             }
         }, {sort: {wartoscPriorytetu: -1,dataWprowadzenia:1}, limit: 3});
         var tab = [];
         kwestie.forEach(function (item) {
             tab.push(item._id);
         });
+        console.log("tab");
+        console.log(tab);
         self.liczbaKwestiRV.set(tab);
     });
 };
@@ -157,6 +162,15 @@ Template.listKwestia.helpers({
             filters: ['customFilter'],
             fields: [
                 {
+                    key: 'id',
+                    label: Template.listKwestiaColumnLabel,
+                    labelData: {
+                        title: "id",
+                        text: "Id"
+                    },
+                    tmpl: Template.id
+                },
+                {
                     key: 'dataWprowadzenia',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
@@ -260,6 +274,11 @@ Template.dataUtwKwestia.helpers({
     date: function () {
         var d = this.dataWprowadzenia;
         if (d) return moment(d).format("DD-MM-YYYY");
+    }
+});
+Template.id.helpers({
+    id: function () {
+        return this._id;
     }
 });
 

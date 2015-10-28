@@ -199,6 +199,10 @@ Meteor.publish('kwestieArrayStatus', function (array) {
     return Kwestia.find({czyAktywny: true, status: {$in:array}});
 });
 
+Meteor.publish('kwestieActivity', function (activity) {
+    return Kwestia.find({czyAktywny: activity});
+});
+
 Meteor.publish('powiadomienia', function () {
     return Powiadomienie.find({});
 });

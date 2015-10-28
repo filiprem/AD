@@ -1,12 +1,14 @@
 Meteor.methods({
     addZespolRealizacyjny: function (newZespol) {
-
+        console.log("method call");
+        console.log(newZespol);
         var id = ZespolRealizacyjny.insert({
             nazwa: newZespol[0].nazwa,
             zespol:newZespol[0].zespol,
             kwestie:newZespol[0].kwestie,
             czyAktywny:newZespol[0].czyAktywny
         });
+        console.log(id);
         return id;
     },
     updateListKwesti:function (id, listKwestii) {

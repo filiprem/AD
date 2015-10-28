@@ -1,4 +1,4 @@
-Template.glosowanie.helpers({
+Template.kosz.helpers({
     'settings': function () {
         return {
             rowsPerPage: 10,
@@ -20,10 +20,10 @@ Template.glosowanie.helpers({
                     key: 'dataGlosowania',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        title: "Koniec gÅ‚osowania Kwestii",
+                        title: "Koniec g³osowania Kwestii",
                         text: "Data"
                     },
-                    tmpl: Template.dataGlosowaniaKwestia,
+                    tmpl: Template.dataKoniecKwestia,
                     sortOrder: 0,
                     sortDirection: 'ascending'
                 },
@@ -31,7 +31,7 @@ Template.glosowanie.helpers({
                     key: 'kwestiaNazwa',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        title: "Kliknij, aby zobaczyÄ‡ szczegÃ³Å‚y",
+                        title: "Kliknij, aby zobaczyæ szczegó³y",
                         text: "Nazwa Kwestii"
                     },
                     tmpl: Template.nazwaKwestiLink
@@ -40,7 +40,7 @@ Template.glosowanie.helpers({
                     key: 'sredniaPriorytet',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        title: "Kliknij, aby zmieniÄ‡ swÃ³j priorytet dla tej Kwestii",
+                        title: "Kliknij, aby zmieniæ swój priorytet dla tej Kwestii",
                         text: "Priorytet"
                     },
                     tmpl: Template.priorytetKwestia,
@@ -53,24 +53,24 @@ Template.glosowanie.helpers({
                 //    key: 'dataGlosowania',
                 //    label: Template.listKwestiaColumnLabel,
                 //    labelData: {
-                //        title: "Data zakoÅ„czenia gÅ‚osowania",
-                //        text: "FinaÅ‚"
+                //        title: "Data zakoñczenia g³osowania",
+                //        text: "Fina³"
                 //    },
                 //    tmpl: Template.dataGlKwestia
                 //}
             ]
         };
     },
-    GlosowanieList: function () {
-        return Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.GLOSOWANA}).fetch();
+    KoszList: function () {
+        return Kwestia.find({czyAktywny: false});
     },
-    GlosowanieListCount: function () {
-        var ile = Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.GLOSOWANA}).count();
+    KoszListCount: function () {
+        var ile = Kwestia.find({czyAktywny: false}).count();
         return ile > 0 ? true : false;
     }
 });
 
-Template.dataGlosowaniaKwestia.helpers({
+Template.dataKoniecKwestia.helpers({
     date: function () {
         var d = this.dataGlosowania;
         if (d) return moment(d).format("DD-MM-YYYY HH:mm");

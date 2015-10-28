@@ -36,6 +36,11 @@
                                 <span class="fa fa-file-archive-o"></span> Archiwum
                             </a>
                         </li>
+                        <li class="{{activeRouteClass 'kosz'}}">
+                            <a href="{{pathFor 'kosz'}}">
+                                <span class="fa fa-trash-o"></span> Kosz
+                            </a>
+                        </li>
                         {{#if currentUser}}
                             <li class="{{activeRouteClass 'administracjaUserMain'}}">
                                 <a href="{{pathFor 'administracjaUserMain'}}">

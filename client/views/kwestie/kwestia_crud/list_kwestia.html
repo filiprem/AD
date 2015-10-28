@@ -68,7 +68,9 @@
 <template name="dataUtwKwestia">
     {{date}}
 </template>
-
+<template name="id">
+    {{id}}
+</template>
 <template name="nazwaKwestiLink">
     {{#if isArchiwalna}}
         <a href="{{ pathFor 'informacjeKwestiaArchiwum'}}" class="kwestiaId">{{this.kwestiaNazwa}}</a>
