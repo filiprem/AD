@@ -1,0 +1,30 @@
+<template name="answerInvitation">
+    {{#if userAnswered}}
+        {{#if answerPositive}}
+            <p>Ju¿ potwierdzi³eœ chêæ aplikowania do naszej organizacji {{organizationName}}</p>
+            <p>Aby zobaczyæ szczegó³y kwestii kliknij <a href="#">tutaj</a> </p>
+            {{else}}
+            <p>Przepraszamy!</p>
+            <p>Odrzuci³eœ zaproszenie do aplikowania na stanowisko {{position}} w naszej organizacji {{organizationName}}</p>
+        {{/if}}
+    {{else}}
+        {{#if timeExpired}}
+            <p>Przepraszamy, czas przyjêcia zaproszenia na stanowisko {{psition}} w naszej organizacji {{organizationName}} min¹³.</p>
+        {{else}}
+            <div class="main">
+                <p>Witaj {{fullName}}</p>
+                <br>
+                <p>
+                    Zosta³eœ zaproszony do aplikowania na stanowisko {{postion}} w naszej organizacji {{organizationName}}
+                </p>
+                <br>
+                <p>Czy chcesz aplikowaæ na powy¿sze stanowisko?</p>
+                <br>
+                <div class="col-xs-offset-3 col-xs-9">
+                    <input type="submit" class="btn btn-primary" value="Chcê aplikowaæ">
+                    <input type="reset" class="btn btn-default" value="Nie, dziêkujê">
+                </div>
+            </div>
+        {{/if}}
+    {{/if}}
+</template>
