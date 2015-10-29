@@ -1,9 +1,9 @@
 Template.listKwestia.rendered = function () {
     var self = Template.instance();
     this.autorun(function () {
-        console.log("kworum");
-        console.log(liczenieKworumStatutowe());
-        console.log(liczenieKworumZwykle());
+        //console.log("kworum");
+        //console.log(liczenieKworumStatutowe());
+        //console.log(liczenieKworumZwykle());
         //a co z kwestiami, które nie pojda do glosowania???
         //{status:{$in:[KWESTIA_STATUS.DELIBEROWANA,KWESTIA_STATUS.ADMINISTROWANA]}},
         var kwestie = Kwestia.find({
@@ -12,7 +12,7 @@ Template.listKwestia.rendered = function () {
                 if(this.idRodzaj){
                     var rodzaj=Rodzaj.findOne({_id:this.idRodzaj});
                     if(rodzaj) {
-                        console.log(rodzaj.nazwaRodzaj);
+                        //console.log(rodzaj.nazwaRodzaj);
                         if (rodzaj.nazwaRodzaj.trim() == "Statutowe")
                             typKworum = liczenieKworumStatutowe();
                     }
@@ -29,21 +29,67 @@ Template.listKwestia.rendered = function () {
                     else
                         zrCondition=false;
                 }
-                console.log(this._id);
-                console.log(zrCondition);
-                console.log(typKworum);
-                console.log(this.wartoscPriorytetu);
+                //console.log(this._id);
+               // console.log(zrCondition);
+                //console.log(typKworum);
+                //console.log(this.wartoscPriorytetu);
                 return ((this.czyAktywny == true) &&
                 (this.wartoscPriorytetu > 0) &&
                 (this.glosujacy.length>=typKworum) && zrCondition==true
                 &&(this.status==KWESTIA_STATUS.DELIBEROWANA || this.status==KWESTIA_STATUS.ADMINISTROWANA));
                 //tutaj trzeba uwazac! dac tylko statusy,ktore maja byc w "kwestie",bo inaczej nie bd widoczne...
             }
-        }, {sort: {wartoscPriorytetu: -1,dataWprowadzenia:1}, limit: 3});
+        }, {sort: {wartoscPriorytetu: -1,dataWprowadzenia:1}});//, limit: 3});
         var tab = [];
+
+        var tabKwestie=[];
         kwestie.forEach(function (item) {
-            tab.push(item._id);
+            tabKwestie.push(item);
         });
+        console.log("array with the same priority");
+        var arrayTheSameWartoscPrior = _.where(tabKwestie, {'wartoscPriorytetu': tabKwestie[0].wartoscPriorytetu});
+        console.log(arrayTheSameWartoscPrior.length);
+        if(arrayTheSameWartoscPrior.length>=3){
+            console.log("tu weszło");
+            var tabKwestieSort = _.sortBy(arrayTheSameWartoscPrior, "dataWprowadzenia");
+            tab.push(tabKwestieSort[0]._id);
+            tab.push(tabKwestieSort[1]._id);
+            tab.push(tabKwestieSort[2]._id);
+        }
+        else if(arrayTheSameWartoscPrior.length==2){
+            console.log("tu weszło 2");
+            var tabKwestieSort = _.sortBy(arrayTheSameWartoscPrior, "dataWprowadzenia");
+            tab.push(tabKwestieSort[0]._id);
+            tab.push(tabKwestieSort[1]._id);
+            //znajdz kolejny nizszy priorytet:usun z tablicy o tamtym priorytecie i posortuj na nowo
+            var pastValues=_.where(tabKwestie, {'wartoscPriorytetu': tabKwestieSort[0].wartoscPriorytetu});
+            tabKwestie=_.without(pastValues);
+            console.log(tabKwestie);
+            tabKwestie= _.sortBy(tabKwestie, "wartoscPriorytetu");
+            console.log(tabKwestie);
+            arrayTheSameWartoscPrior = _.where(tabKwestie, {'wartoscPriorytetu': tabKwestie[0].wartoscPriorytetu});
+            if(arrayTheSameWartoscPrior>=2){
+                tabKwestieSort = _.sortBy(arrayTheSameWartoscPrior, "dataWprowadzenia");
+                tab.push(tabKwestieSort[0]._id);
+                tab.push(tabKwestieSort[1]._id);
+            }
+            else{
+                tab.push(tabKwestie[0]._id);
+                tab.push(tabKwestie[1]._id);
+            }
+        }
+        else{//nie powtarzaja sie
+            tab.push(tabKwestie[0]._id);
+            arrayTheSameWartoscPrior = _.where(tabKwestie, {'wartoscPriorytetu': tabKwestie[1].wartoscPriorytetu});
+            if(arrayTheSameWartoscPrior>=2){
+
+            }
+        }
+
+        //kwestie.forEach(function (item) {
+        //    //var arrayTheSameWartoscPrior = _.where(kwestie, {'wartoscPriorytetu': kwestie.findOne().wartoscPriorytetu});
+        //    tab.push(item._id);
+        //});
         console.log("tab");
         console.log(tab);
         self.liczbaKwestiRV.set(tab);

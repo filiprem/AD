@@ -94,14 +94,17 @@ Meteor.startup(function(){
                     console.log("hiere reakcja,bo zmiana glosowana-> realizowana");
                     console.log("hiere reakcja,bo zmiana glosowana-> zrealizowana");
 
-                    var kwestie=Kwestia.find({status:
-                    {$in:[
-                        KWESTIA_STATUS.DELIBEROWANA,
-                        KWESTIA_STATUS.ADMINISTROWANA
-                    ]}},
-                    {wartoscPriorytetu:{$gt:0}},
-                    {'glosujacy.length':{$gte:liczenieKworumZwykle()}},
-                    {sort: {wartoscPriorytetu: -1}});
+                    var kwestie = Kwestia.find(
+                        {   status: {
+                            $in: [
+                                KWESTIA_STATUS.DELIBEROWANA,
+                                KWESTIA_STATUS.ADMINISTROWANA
+                            ]
+                        }
+                        },
+                        {wartoscPriorytetu: {$gt: 0}},
+                        {'glosujacy.length': {$gte: liczenieKworumZwykle()}},
+                        {sort: {wartoscPriorytetu: -1}});
 
                     var arrayKwestie=[];
                     console.log("te kwestie");
@@ -121,28 +124,39 @@ Meteor.startup(function(){
                             arrayKwestie.push(kwestia);
                     });
 
-                    if(arrayKwestie.length>0){
+                    if(arrayKwestie.length>0) {
                         arrayKwestie = _.sortBy(arrayKwestie, "wartoscPriorytetu");
                         arrayKwestie.reverse();
                         console.log(arrayKwestie);
-                        if(!idParent) {
+                        console.log("sprawdzamy czy jest wiecej o tym prior");
+                        //sprawdzamy czy jest wiecej kwestii o tym samym priorytecie,jesli tak, to przepisz do tablicy
+                        //kwestii chetnych do glosowania tylko te,ktore maja taki sam priorytet
+                        //i posortuj po dacie.wez pierwsza,czyli z najstarsza data
+                        var arrayTheSameWartoscPrior = _.where(arrayKwestie, {'wartoscPriorytetu': arrayKwestie[0].wartoscPriorytetu});
+                        if (arrayTheSameWartoscPrior > 0) {
+                            console.log('jest wiecej o tym samym priorytecie');
+                            console.log(arrayTheSameWartoscPrior.count());
+                            arrayKwestie = _.sortBy(arrayTheSameWartoscPrior, "dataWprowadzenia");
+                            console.log(arrayKwestie[0]);
+                        }
+                        //if (!idParent) {
                             if (arrayKwestie[0].typ == KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE)
                                 globalParamChangeVote(arrayKwestie[0]);
                             else {
                                 var zr = ZespolRealizacyjnyDraft.findOne({_id: arrayKwestie[0].idZespolRealizacyjny});
                                 deliberowanaVote(arrayKwestie[0], zr);
                             }
-                        }
-                        else{
-                            //is it needed?
-                            var arrayWithIdParent= _.where(arrayKwestie,{'idParent':idParent});
-                            console.log("tablica z idParent");
-                            console.log(arrayWithIdParent);
-                            //arrayKwestie.pop();
-                            //arrayKwestie.pop()
-                        }
+                        //}
+                        //else {
+                        //    console.log("jest id parent");
+                        //    //is it needed?
+                        //    var arrayWithIdParent = _.where(arrayKwestie, {'idParent': idParent});
+                        //    console.log("tablica z idParent");
+                        //    console.log(arrayWithIdParent);
+                        //    //arrayKwestie.pop();
+                        //    //arrayKwestie.pop()
+                        //}
                     }
-
                 }
             }
         }

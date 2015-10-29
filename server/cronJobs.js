@@ -291,6 +291,7 @@ hibernateKwestieOpcje=function(kwestia){
     console.log("kwestie opcje");
     console.log(kwestieOpcje);
     kwestieOpcje.forEach(function (kwestiaOpcja) {
+        console.log("update kwestii opcjii");
         Meteor.call('updateStatusKwestii', kwestiaOpcja._id, KWESTIA_STATUS.HIBERNOWANA);
     });
 };
