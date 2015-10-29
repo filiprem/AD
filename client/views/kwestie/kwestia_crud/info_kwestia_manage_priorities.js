@@ -25,26 +25,40 @@ Template.managePriorities.helpers({
             var kwestie = Kwestia.find({
                 czyAktywny: true,
                 'glosujacy.idUser': Meteor.userId()
-            }).fetch();
+            });
         else
             var kwestie = Kwestia.find({
                 czyAktywny: true,
                 'glosujacy.idUser': Meteor.userId(),
                 idParent: idKwestia
-            }).fetch();
-
-        kwestie.forEach(function (kwestia) {
+            });
+        console.log("te kwestie");
+        console.log(kwestie.count());
+        console.log(glosujacy);
+        kwestie.forEach(function (kwestiaItem) {
             var array = [];
             var tabGlosujacych = glosujacy;
-            for (var j = 0; j < tabGlosujacych.length; j++) {
-                if (tabGlosujacych[j].idUser == Meteor.userId()) {
-                    if (tabGlosujacych[j].value == number) {
+            for (var j = 0; j < kwestiaItem.glosujacy.length; j++) {
+                if (kwestiaItem.glosujacy[j].idUser == Meteor.userId()) {
+                    if (kwestiaItem.glosujacy[j].value == number) {
                         flag = true;
                     }
                 }
             }
+            //for (var j = 0; j < tabGlosujacych.length; j++) {
+            //    if (tabGlosujacych[j].idUser == Meteor.userId()) {
+            //        if (tabGlosujacych[j].value == number) {
+            //            flag = true;
+            //        }
+            //    }
+            //}
+            //var me= _.findWhere(kwestiaItem.glosujacy, {'idUser': Meteor.userId()});
+            //if(me) {
+            //    console.log("znalezione!");
+            //    console.log(me);
+            //}
         });
-        return flag ? "disabled" : "";
+        return flag==true ? "disabled" : "";
     },
     isUserOrDoradcaLogged: function () {
         if (!Meteor.userId())

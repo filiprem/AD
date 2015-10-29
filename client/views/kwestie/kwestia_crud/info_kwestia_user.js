@@ -98,7 +98,7 @@ Template.informacjeKwestia.helpers({
     },
     // OPCJE
     ifHasOpcje: function () {
-        var kwestiaGlownaId = this._id;
+        var kwestiaGlownaId = this.idParent;
         console.log("ifHasOpcej");
         console.log(this._id);
         var k = Kwestia.find({czyAktywny: true, idParent: kwestiaGlownaId, isOption: true});
