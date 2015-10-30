@@ -11,6 +11,11 @@ Template.ZRTemplate.helpers({
             return zespolR.zespol.slice().length==3 ? zespolR.nazwa :null;
         }
     },
+    isInKosz:function(czyAktywny){
+        console.log("czyaktywny");
+        console.log(czyAktywny);
+        return czyAktywny==false ? true :false;
+    },
     statusGlosowanaOsobowaRealizowana:function(status){
         console.log("status");
         console.log(status);
@@ -46,6 +51,13 @@ Template.ZRTemplate.helpers({
                 data+=getCzlonekFullName(i,zespol._id,"ZR")+",";
             }
         }
+        return data;
+    },
+    getZRCzlonkowieKosz:function(zespol){
+        var data="";
+        _.each(zespol,function(czlonek){
+           data+=czlonek+",";
+        });
         return data;
     }
 });

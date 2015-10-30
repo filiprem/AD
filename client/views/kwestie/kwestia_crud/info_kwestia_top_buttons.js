@@ -19,12 +19,13 @@ Template.kwestiaTopButtons.helpers({
             return true;
         return status==KWESTIA_STATUS.ZREALIZOWANA || typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE ? true :false;
     },
-    isKwestiaAccessOrChangeParams:function(typ,status){
+    isKwestiaAccessOrChangeParams:function(typ,status,czyAktywny){
         return typ==KWESTIA_TYPE.ACCESS_HONOROWY ||
             typ==KWESTIA_TYPE.ACCESS_ZWYCZAJNY ||
             typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE ||
             status==KWESTIA_STATUS.GLOSOWANA ||
-            status==KWESTIA_STATUS.ZREALIZOWANA ? true : false;
+            status==KWESTIA_STATUS.ZREALIZOWANA ||
+            czyAktywny==false ? true : false;
     },
     isKwestiaChangeParams:function(typ){
         console.log("typ");console.log(typ);

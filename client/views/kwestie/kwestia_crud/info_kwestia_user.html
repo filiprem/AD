@@ -24,6 +24,7 @@
                 typ=typ
                 idParent=idParent
                 idKwestia=_id
+                czyAktywny=czyAktywny
             }}
         </div>
 
@@ -34,8 +35,11 @@
                 <td><b>{{status}}</b></td>
                 <td></td>
             </tr>
-            <tr>ajddi
-                {{_id}}
+            {{#if isRealizowana}}
+                <td><strong>Priorytet w deliberacji i głosowaniu</strong></td>
+                <td><b>{{wartoscPriorytetuG}}</b></td>
+            {{/if}}
+            <tr>
                 {{>managePriorities
                     priorytet=wartoscPriorytetu
                     priorytetRealizacja=wartoscPriorytetuWRealizacji
@@ -69,6 +73,7 @@
                     idZR=idZespolRealizacyjny
                     status=status
                     idKwestia=_id
+                    czyAktywny=czyAktywny
                 }}
             {{/unless}}
             {{/unless}}

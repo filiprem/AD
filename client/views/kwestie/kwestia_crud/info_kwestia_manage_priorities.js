@@ -32,23 +32,13 @@ Template.managePriorities.helpers({
                 'glosujacy.idUser': Meteor.userId(),
                 idParent: idParent
             });
-        console.log("te kwestie");
-        console.log(kwestie.count());
-        console.log(glosujacy);
         if(status==KWESTIA_STATUS.REALIZOWANA){//nie ma odznaczania kwestii opcji
-            console.log("kwestia realizowana");
             var kwestia=Kwestia.findOne({_id:idKwestia});
             if(kwestia) {
-                console.log(kwestia);
                 //var glosujacyId = _.pluck(kwestia.glosujacyWRealizacji, 'idUser');
                 var glosujacyUser = _.findWhere(kwestia.glosujacyWRealizacji, {'idUser': Meteor.userId()});
                 if (glosujacyUser) {
-                    console.log("jest takowy!");
-                    console.log(glosujacyUser);
-                    console.log(number);
-                    console.log(glosujacyUser.value);
                     if (glosujacyUser.value == number) {
-                        console.log("równa się");
                         flag = true;
                     }
                     else flag = false;
@@ -58,7 +48,6 @@ Template.managePriorities.helpers({
             }
         }
         else {
-            console.log("kwestia inna!");
             kwestie.forEach(function (kwestiaItem) {
                 var array = [];
                 var tabGlosujacych = glosujacy;
@@ -86,8 +75,6 @@ Template.managePriorities.helpers({
         return czyAktywny==false || status==KWESTIA_STATUS.ZREALIZOWANA || status==KWESTIA_STATUS.ARCHIWALNA ? true: false;
     },
     isRealizowana:function(status){
-        console.log("is realiz");
-        console.log(status);
         return status==KWESTIA_STATUS.REALIZOWANA ? true: false;
     }
 });
@@ -120,7 +107,6 @@ managePriorityKwestiaRealizowana=function(ratingKwestiaId,kwestia,object,ratingV
     var myGlos= _.findWhere(glosujacyWRealizacji,{'idUser':Meteor.userId()});
 
     if(myGlos){
-        console.log("oddalem glos");
         wartoscPriorytetuWRealizacji-=myGlos.value;
         wartoscPriorytetuWRealizacji+=ratingValue;
         var newGlosujacyWRealiz=_.reject(glosujacyWRealizacji,function(el){return el.idUser==Meteor.userId()});
@@ -131,7 +117,6 @@ managePriorityKwestiaRealizowana=function(ratingKwestiaId,kwestia,object,ratingV
     else{
         wartoscPriorytetuWRealizacji+=ratingValue;
         glosujacyWRealizacji.push(object);
-        console.log("nie oddałem głosu");
     }
     var kwestiaUpdate = [{
         wartoscPriorytetuWRealizacji: wartoscPriorytetuWRealizacji,
@@ -181,7 +166,6 @@ managePriorityKwestiaDelibGlosowana=function(ratingKwestiaId,kwestia,object,rati
         wartoscPriorytetu: wartoscPriorytetu,
         glosujacy: glosujacyTab
     }];
-    console.log(kwestiaUpdate);
     Meteor.call('updateKwestiaRating', ratingKwestiaId, kwestiaUpdate, function (error, ret) {
         if (error) {
             if (typeof Errors === "undefined")

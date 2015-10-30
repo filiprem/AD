@@ -16,7 +16,6 @@
  * */
 
 Template.informacjeKwestia.rendered = function () {
-    console.log("render!");
     //nadajemy priorytet automatycznie po wejściu na kwestię + dajemy punkty
     //za wyjątkiem ,gdy użytkownik nie jest zalogowany lub jest kims innym niz czlonek
     if(Meteor.userId()==null)
@@ -28,14 +27,9 @@ Template.informacjeKwestia.rendered = function () {
     }
     var idKwestia=Template.instance().data._id;
     var kwestia = Kwestia.findOne({_id: idKwestia});
-    console.log("weszlooooo");
-    console.log(kwestia._id);
     if(kwestia.status!=KWESTIA_STATUS.REALIZOWANA) {
-        console.log(kwestia);
-        console.log(_.pluck(kwestia.glosujacy.slice(), "idUser"));
         //var tabGlosujacy = getAllUsersWhoVoted(kwestia._id);
         if (!_.contains(_.pluck(kwestia.glosujacy.slice(), 'idUser'), Meteor.userId())) {//jeżeli użytkownik jeszcze nie głosował
-            console.log("Użyt jeszcze nie głosował");
             var glosujacy = {
                 idUser: Meteor.userId(),
                 value: 0
@@ -88,6 +82,14 @@ Template.informacjeKwestia.helpers({
     isGlosowana:function(){
         return this.status==KWESTIA_STATUS.GLOSOWANA ? true :false;
     },
+    isRealizowana:function(){
+        return this.status==KWESTIA_STATUS.REALIZOWANA ? true :false;
+    },
+    wartoscPriorytetuG:function(){
+        if(this.wartoscPriorytetu>0)
+            return "+"+this.wartoscPriorytetu;
+        else return this.wartoscPriorytetu;
+    },
     thisKwestia: function () {
         var kw = Kwestia.findOne({_id: this._id});
         if (kw) {
@@ -100,8 +102,6 @@ Template.informacjeKwestia.helpers({
     // OPCJE
     ifHasOpcje: function () {
         var kwestiaGlownaId = this.idParent;
-        console.log("ifHasOpcej");
-        console.log(this._id);
         var k = Kwestia.find({czyAktywny: true, idParent: kwestiaGlownaId, isOption: true});
         if (k) {
             if(k.count()>0)
@@ -133,8 +133,6 @@ Template.informacjeKwestia.helpers({
         }
     },
     mojPriorytetZero: function () {
-        console.log("KWESTYJAA");
-        console.log(Kwestia.findOne({_id:this._id}));
         var kwestia = Kwestia.findOne({_id:this._id});
         if (kwestia) {
             var g=null;
@@ -155,7 +153,7 @@ Template.informacjeKwestia.helpers({
         var tab = Kwestia.findOne({_id:this._id});
         if (tab) {
             var liczba=null;
-            if(tab.status=KWESTIA_STATUS.REALIZOWANA)
+            if(tab.status==KWESTIA_STATUS.REALIZOWANA)
                 liczba = tab.glosujacyWRealizacji.length;
             else
                 liczba = tab.glosujacy.length;

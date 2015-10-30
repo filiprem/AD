@@ -5,9 +5,15 @@
             <tr>
                 <td><strong> Nazwa Zespołu</strong></td>
                 <td>{{getZRName idZR status}}
-                    <a id="printResolution" data-toggle="tooltip" data-placement="top" title={{getZRCzlonkowie idZR}}>
-                        <i class="fa fa-male fa-lg"></i>
-                    </a>
+                    {{#if isInKosz czyAktywny}}
+                        <a id="printResolution" data-toggle="tooltip" data-placement="top" title={{getZRCzlonkowieKosz zespol}}>
+                            <i class="fa fa-male fa-lg"></i>
+                        </a>
+                    {{else}}
+                        <a id="printResolution" data-toggle="tooltip" data-placement="top" title={{getZRCzlonkowie idZR}}>
+                            <i class="fa fa-male fa-lg"></i>
+                        </a>
+                    {{/if}}
                 </td>
             </tr>
         </table>

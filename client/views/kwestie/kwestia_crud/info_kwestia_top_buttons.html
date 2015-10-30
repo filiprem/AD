@@ -5,7 +5,7 @@
                 <button id="backToList" class="btn btn-primary">
                     <span class="fa fa-arrow-left"></span> Powrót
                 </button>
-                {{#unless isKwestiaAccessOrChangeParams typ status}}
+                {{#unless isKwestiaAccessOrChangeParams typ status czyAktywny}}
                    {{#unless isRealizowana status}}
                         <button id="addOptionButton" class="btn btn-primary" {{hasUserRights idKwestia}}>
                             <span class="fa fa-plus"></span> Dodaj opcję
@@ -16,12 +16,12 @@
             {{> uzasadnienieArchiwumModal idKwestia=idKwestia}}
             {{> uzasadnienieKoszModal idKwestia=idKwestia}}
             <div class="btn-group" role="group" aria-label="...">
-                {{#unless isKwestiaAccessOrChangeParams typ status}}
+                {{#unless isKwestiaAccessOrChangeParams typ status czyAktywny}}
                     <button id="doArchiwum" name="{{idKwestia}}" class="btn btn-warning" {{hasUserRights idKwestia}}>
                         <span class="fa fa-lock"></span> Do Archiwum
                     </button>
                 {{/unless}}
-                {{#unless isKwestiaAccessOrChangeParams typ status}}
+                {{#unless isKwestiaAccessOrChangeParams typ status czyAktywny}}
                     <button id="doKosza" name="{{idKwestia}}" class="btn btn-danger" {{hasUserRights idKwestia}}>
                         <span class="fa fa-trash"></span> Do Kosza
                     </button>

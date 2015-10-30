@@ -68,8 +68,30 @@ Meteor.startup(function(){
             }
 
             if(newKwestia.status == KWESTIA_STATUS.REALIZOWANA && newKwestia.wartoscPriorytetuWRealizacji < (-newKwestia.wartoscPriorytetu)){
-                console.log("gdy osiagnie minusowy priorytet: relizowana->-");
+                console.log("gdy osiagnie minusowy priorytet: relizowana->kosz");
                 Meteor.call('removeKwestia', newKwestia._id);
+                var zespolRealizacyjny=ZespolRealizacyjny.findOne({_id:newKwestia.idZespolRealizacyjny});
+                if(zespolRealizacyjny.kwestie.length>0){
+                    //wypisz mnie
+                    var kwestie= _.reject(zespolRealizacyjny.kwestie,function(kwestiaId){return kwestiaId==newKwestia._id});
+                    Meteor.call("updateKwestieZR",zespolRealizacyjny._id,kwestie);
+                }
+                else{//delete zespół-tu nie weszło!
+                    Meteor.call('removeZespolRealizacyjny',zespolRealizacyjny._id,function(error){
+                        if(error)
+                            console.log(error.reason);
+                    });
+                }
+                var czlonkowieZespolu=[];
+                _.each(zespolRealizacyjny.zespol,function(idUser){
+                    var user=Users.findOne({_id:idUser});
+                    czlonkowieZespolu.push(user.profile.firstName+" "+user.profile.lastName);
+                });
+                Meteor.call("addConstZRRemoveOld",newKwestia._id,czlonkowieZespolu,function(error){
+                    if(error)
+                        console.log(error);
+                });
+
             }
 
             // uaktywnienie z hibernacji w przypadku degradacji innej kwesti-opcji z Realizacji
