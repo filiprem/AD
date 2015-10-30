@@ -1,7 +1,7 @@
 Template.ZRTemplate.helpers({
     getZRName:function(idZR,status){
         var zespolR=null;
-        if(status==KWESTIA_STATUS.OSOBOWA)
+        if(status==KWESTIA_STATUS.OSOBOWA || status==KWESTIA_STATUS.REALIZOWANA)
             zespolR = ZespolRealizacyjny.findOne({_id: idZR});
         else
             zespolR= ZespolRealizacyjnyDraft.findOne({_id:idZR});
@@ -11,10 +11,10 @@ Template.ZRTemplate.helpers({
             return zespolR.zespol.slice().length==3 ? zespolR.nazwa :null;
         }
     },
-    statusGlosowanaOsobowa:function(status){
+    statusGlosowanaOsobowaRealizowana:function(status){
         console.log("status");
         console.log(status);
-        return status==KWESTIA_STATUS.GLOSOWANA || status==KWESTIA_STATUS.OSOBOWA ? true : false;
+        return status==KWESTIA_STATUS.GLOSOWANA || status==KWESTIA_STATUS.OSOBOWA || status==KWESTIA_STATUS.REALIZOWANA ? true : false;
     },
     pierwszyCzlonekFullName: function(idZR){
         return getCzlonekFullName(0,idZR,"ZRDraft");

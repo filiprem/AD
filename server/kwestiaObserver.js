@@ -68,7 +68,7 @@ Meteor.startup(function(){
             }
 
             if(newKwestia.status == KWESTIA_STATUS.REALIZOWANA && newKwestia.wartoscPriorytetuWRealizacji < (-newKwestia.wartoscPriorytetu)){
-                console.log("gdy osiagnie minusowy priorytet: relizowana->kosz");
+                console.log("gdy osiagnie minusowy priorytet: relizowana->-");
                 Meteor.call('removeKwestia', newKwestia._id);
             }
 

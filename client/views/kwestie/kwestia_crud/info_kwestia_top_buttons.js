@@ -12,9 +12,6 @@ Template.kwestiaTopButtons.helpers({
         return isKwestiaGlosowana(idKwestia);
     },
     isRealizowana:function(status){
-        console.log("isRealizowana");
-        console.log(status);
-        console.log(KWESTIA_STATUS.REALIZOWANA);
         return status==KWESTIA_STATUS.REALIZOWANA ? true :false;
     },
     isZrealizowanaChangeParamsGlosowana:function(typ,status){
@@ -43,7 +40,18 @@ Template.kwestiaTopButtons.events({
         window.history.back();
     },
     'click #addOptionButton': function () {
-        Session.setPersistent("actualKwestia", Kwestia.findOne({_id: this.idKwestia}));
+        var kw=null;
+        var kwestia=Kwestia.findOne({_id:this.idKwestia});
+        if(kwestia){
+            if(kwestia.idParent){
+                if(kwestia.isOption==false)//jezeli to glowna jest,to,ok
+                    kw=kwestia;
+                else//znajdz glowna
+                    kw=Kwestia.findOne({idParent:kwestia.idParent});
+
+            }
+        }
+        Session.setPersistent("actualKwestia",kw);
         Router.go("addKwestiaOpcja");
     },
     'click #doArchiwum': function (e) {

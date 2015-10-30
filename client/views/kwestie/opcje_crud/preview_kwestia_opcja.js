@@ -33,7 +33,7 @@ Template.previewKwestiaOpcja.events({
         //var idParentKwestii = Session.get("idKwestia");
         var newKwestiaOpcja = [{
             idUser: Meteor.userId(),
-            dataWprowadzenia: new Date(),
+            dataWprowadzenia: moment(new Date()).format(),
             kwestiaNazwa: kwestia.kwestiaNazwa,
             wartoscPriorytetu: 0,
             wartoscPriorytetuWRealizacji: 0,

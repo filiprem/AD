@@ -20,6 +20,7 @@ Meteor.methods({
             krotkaTresc: newKwestia[0].krotkaTresc,
             szczegolowaTresc: newKwestia[0].szczegolowaTresc,
             glosujacy: [],
+            glosujacyWRealizacji:[],
             isOption: false,
             numerUchwały: newKwestia[0].numerUchwały,
             typ:newKwestia[0].typ,
@@ -48,6 +49,7 @@ Meteor.methods({
             krotkaTresc: newKwestia[0].krotkaTresc,
             szczegolowaTresc: newKwestia[0].szczegolowaTresc,
             glosujacy: [],
+            glosujacyWRealizacji:[],
             isOption: false,
             numerUchwały: newKwestia[0].numerUchwały,
             idZespolRealizacyjny: newKwestia[0].idZespolRealizacyjny,
@@ -78,6 +80,7 @@ Meteor.methods({
             krotkaTresc: newKwestia[0].krotkaTresc,
             szczegolowaTresc: newKwestia[0].szczegolowaTresc,
             glosujacy: [],
+            glosujacyWRealizacji:[],
             isOption: false,
             idZgloszonego: newKwestia[0].idZgloszonego,
             isAnswerPositive:newKwestia[0].isAnswerPositive,
@@ -112,6 +115,7 @@ Meteor.methods({
             krotkaTresc: newKwestia[0].krotkaTresc,
             szczegolowaTresc: newKwestia[0].szczegolowaTresc,
             glosujacy: [],
+            //glosujacyWRealizacji:[],
             idParametr : newKwestia[0].idParametr,
             typ:newKwestia[0].typ
         });
@@ -145,6 +149,7 @@ Meteor.methods({
             krotkaTresc: newKwestiaOpcja[0].krotkaTresc,
             szczegolowaTresc: newKwestiaOpcja[0].szczegolowaTresc,
             glosujacy: [],
+            glosujacyWRealizacji:[],
             isOption: true,
             idParent: newKwestiaOpcja[0].idParent,
             numerUchwały: newKwestiaOpcja[0].numerUchwały,
@@ -174,6 +179,7 @@ Meteor.methods({
             krotkaTresc: newKwestia[0].krotkaTresc,
             szczegolowaTresc: newKwestia[0].szczegolowaTresc,
             glosujacy: [],
+            glosujacyWRealizacji:[],
             isOption: true,
             numerUchwały: newKwestia[0].numerUchwały,
             idZespolRealizacyjny: newKwestia[0].idZespolRealizacyjny,
@@ -187,6 +193,16 @@ Meteor.methods({
                 $set: {
                     wartoscPriorytetu: obj[0].wartoscPriorytetu,
                     glosujacy: obj[0].glosujacy
+                }
+            }, {upsert: true});
+        return id;
+    },
+    updateKwestiaWRealizacjiRating: function (id, obj) {
+        var id = Kwestia.update(id,
+            {
+                $set: {
+                    wartoscPriorytetuWRealizacji: obj[0].wartoscPriorytetuWRealizacji,
+                    glosujacyWRealizacji: obj[0].glosujacyWRealizacji
                 }
             }, {upsert: true});
         return id;
