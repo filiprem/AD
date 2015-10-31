@@ -70,6 +70,11 @@ Template.discussionPostItem.helpers({
             else return false;
         }
     },
+    'isZrealizowana': function () {
+        var p = Posts.findOne({_id: this.idPost});
+        if (p)
+            return  (p.postType == POSTS_TYPES.ZREALIZOWANA) ? true: false;
+    },
     'isDoWK': function () {
         var p = Posts.findOne({_id: this.idPost});
         if (p) {
@@ -214,6 +219,7 @@ Template.discussionAnswerForm.helpers({
             return false;
         var kwestia=Kwestia.findOne({_id:this.idKwestia});
         if(kwestia)
-            return kwestia.status == KWESTIA_STATUS.GLOSOWANA || kwestia.status == KWESTIA_STATUS.ZREALIZOWANA ? false : true;
+            return kwestia.status == KWESTIA_STATUS.GLOSOWANA || kwestia.status == KWESTIA_STATUS.ZREALIZOWANA ||
+                kwestia.czyAktywny==false ? false : true;
     }
 });

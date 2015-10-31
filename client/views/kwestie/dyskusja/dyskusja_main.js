@@ -149,11 +149,10 @@ Template.discussionMain.helpers({
 });
 
 Template.discussionPostForm.helpers({
-    HasUserRights: function (status) {
-
+    HasUserRights: function (status,czyAktywny) {
         if(!Meteor.userId())
             return false;
-        return status==KWESTIA_STATUS.GLOSOWANA || status==KWESTIA_STATUS.ZREALIZOWANA ? false : true;
+        return status==KWESTIA_STATUS.GLOSOWANA || status==KWESTIA_STATUS.ZREALIZOWANA || czyAktywny==false ? false : true;
     }
 });
 
@@ -169,5 +168,15 @@ Template.discussionRating.helpers({
     },
     'getFullHourDate': function (date) {
         return moment(date).format("HH:mm:ss");
+    },
+    isGlosowanaZrealizowanaKosz:function(){
+        console.log("jakasik");
+        console.log(this.idPost);
+        var post=Posts.findOne({_id:this.idPost});
+        var kwestia=Kwestia.findOne({_id:post.idKwestia});
+        if(kwestia){
+            console.log("juppi");
+            return kwestia.status==KWESTIA_STATUS.GLOSOWANA || kwestia.status==KWESTIA_STATUS.ZREALIZOWANA || kwestia.czyAktywny==false ? true :false;
+        }
     }
 });

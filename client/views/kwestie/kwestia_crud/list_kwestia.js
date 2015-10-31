@@ -40,7 +40,7 @@ Template.listKwestia.rendered = function () {
             });
         }
         else {//jezeli jest takich wiecej z tym samym priorytetem,to trzeba wybrać max 3
-            tab=setInQueueToVote(kwestie);
+            tab=setInQueueToVoteMethod(kwestie);
         }
         console.log("tab");
         console.log(tab);

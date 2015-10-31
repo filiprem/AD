@@ -1,20 +1,20 @@
 <template name="ZRTemplate">
-    {{#if statusGlosowanaOsobowaRealizowana status}}
+    {{#if statusGlosowanaOsobowaRealizowanaZrealizowana status}}
         <legend>Zespół realizacyjny</legend>
         <table class="table table-bordered manageTable">
             <tr>
                 <td><strong> Nazwa Zespołu</strong></td>
-                <td>{{getZRName idZR status}}
-                    {{#if isInKosz czyAktywny}}
-                        <a id="printResolution" data-toggle="tooltip" data-placement="top" title={{getZRCzlonkowieKosz zespol}}>
-                            <i class="fa fa-male fa-lg"></i>
-                        </a>
-                    {{else}}
-                        <a id="printResolution" data-toggle="tooltip" data-placement="top" title={{getZRCzlonkowie idZR}}>
-                            <i class="fa fa-male fa-lg"></i>
-                        </a>
-                    {{/if}}
-                </td>
+                {{#if isInKoszOrZrealizowana czyAktywny status}}
+                    <td>{{zespol.nazwa}}</td>
+                    <a id="printResolution" data-toggle="tooltip" data-placement="top" title={{getZRCzlonkowieKosz zespol}}>
+                        <i class="fa fa-male fa-lg"></i>
+                    </a>
+                {{else}}
+                    <td>{{getZRName idZR status}}</td>
+                    <a id="printResolution" data-toggle="tooltip" data-placement="top" title={{getZRCzlonkowie idZR status}}>
+                        <i class="fa fa-male fa-lg"></i>
+                    </a>
+                {{/if}}
             </tr>
         </table>
     {{else}}
@@ -24,23 +24,23 @@
             <tr>
                 <td><strong>Członek nr 1</strong> &nbsp; &nbsp;
                     {{#unless pierwszyCzlonekFullName idZR}}
-                        <button class="btn btn-success" id="czlonek1">Zgadzam się</button>
+                        <button class="btn btn-success" id="czlonek1" {{isInZR idZR}}>Zgadzam się</button>
                     {{else}}
-                        <button class="btn btn-success" id="czlonek1" {{isActualUser 0}}>{{pierwszyCzlonekFullName idZR}}</button>
+                        <button class="btn btn-success" id="czlonek1" {{isActualUser 0 idZR}}>{{pierwszyCzlonekFullName idZR}}</button>
                     {{/unless}}
                 </td>
                 <td><strong>Członek nr 2</strong> &nbsp; &nbsp;
                     {{#unless drugiCzlonekFullName idZR}}
-                        <button class="btn btn-success" id="czlonek2">Zgadzam się</button>
+                        <button class="btn btn-success" id="czlonek2" {{isInZR idZR}}>Zgadzam się</button>
                     {{else}}
-                        <button class="btn btn-success" id="czlonek2" {{isActualUser 1}}>{{drugiCzlonekFullName idZR}}</button>
+                        <button class="btn btn-success" id="czlonek2" {{isActualUser 1 idZR}}>{{drugiCzlonekFullName idZR}}</button>
                     {{/unless}}
                 </td>
                 <td><strong>Członek nr 3</strong> &nbsp; &nbsp;
                     {{#unless trzeciCzlonekFullName idZR}}
-                        <button class="btn btn-success" id="czlonek3">Zgadzam się</button>
+                        <button class="btn btn-success" id="czlonek3" {{isInZR idZR}}>Zgadzam się</button>
                     {{else}}
-                        <button class="btn btn-success" id="czlonek3" {{isActualUser 2}}>{{trzeciCzlonekFullName idZR}}</button>
+                        <button class="btn btn-success" id="czlonek3" {{isActualUser 2 idZR}}>{{trzeciCzlonekFullName idZR}}</button>
                     {{/unless}}
                 </td>
                 <td>

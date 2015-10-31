@@ -268,7 +268,7 @@ Meteor.methods({
         var id = Kwestia.update(id, {$set: {status: status, dataRozpoczeciaOczekiwania:dataOczekiwania}}, {upsert: true});
         return id;
     },
-    addConstZRRemoveOld:function(id,zespol){//,{$unset:{idZespolRealizacyjny:''}}
+    addConstZR:function(id,zespol){//,{$unset:{idZespolRealizacyjny:''}}
         var id = Kwestia.update(id, {$set: {zespol: zespol}});
         return id;
     }

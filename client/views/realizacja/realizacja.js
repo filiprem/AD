@@ -8,6 +8,15 @@ Template.realizacja.helpers({
             enableRegex: false,
             fields: [
                 {
+                    key: 'id',
+                    label: Template.listKwestiaColumnLabel,
+                    labelData: {
+                        title: "id",
+                        text: "Id"
+                    },
+                    tmpl: Template.id
+                },
+                {
                     key: 'dataRealizacji',
                     label: Template.listKwestiaRealzacjaColumnLabel,
                     labelData: {
@@ -44,6 +53,7 @@ Template.realizacja.helpers({
                     label: "Rodzaj",
                     tmpl: Template.rodzajKwestia
                 },
+                {key: 'status', label: "Status", tmpl: Template.statusKwestii},
                 {
                     key: 'options',
                     label: "Opcje",

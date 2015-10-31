@@ -11,8 +11,8 @@ Template.kwestiaTopButtons.helpers({
         }
         return isKwestiaGlosowana(idKwestia);
     },
-    isRealizowana:function(status){
-        return status==KWESTIA_STATUS.REALIZOWANA ? true :false;
+    isRealizowanaNieaktywny:function(status,czyAktywny){
+        return status==KWESTIA_STATUS.REALIZOWANA && czyAktywny==true ? true :false;
     },
     isZrealizowanaChangeParamsGlosowana:function(typ,status){
         if(Meteor.userId())
@@ -28,7 +28,6 @@ Template.kwestiaTopButtons.helpers({
             czyAktywny==false ? true : false;
     },
     isKwestiaChangeParams:function(typ){
-        console.log("typ");console.log(typ);
         return typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE ? true : false;
     },
     isKwestiaZrealizowana:function(status){
@@ -80,5 +79,18 @@ Template.kwestiaTopButtons.events({
         else {
             $("#uzasadnijWyborKosz").modal("show");
         }
-    }
+    },
+    'click #zrealizowanaClick': function (e) {
+        e.preventDefault();
+        var idKw = e.target.name;
+        var z = Posts.findOne({idKwestia: idKw, postType: POSTS_TYPES.ZREALIZOWANA});
+        if (z) {
+            $('html, body').animate({
+                scrollTop: $(".doZrealizowaniaClass").offset().top
+            }, 600);
+        }
+        else {
+            $("#uzasadnijRealizacjeKwesti").modal("show");
+        }
+    },
 });

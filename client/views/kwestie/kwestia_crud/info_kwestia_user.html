@@ -36,7 +36,7 @@
                 <td></td>
             </tr>
             {{#if isRealizowana}}
-                <td><strong>Priorytet w deliberacji i głosowaniu</strong></td>
+                <td><strong> Priorytet w deliberacji i głosowaniu</strong></td>
                 <td><b>{{wartoscPriorytetuG}}</b></td>
             {{/if}}
             <tr>
@@ -68,14 +68,13 @@
         }}
         {{#if currentUser}}
             {{#unless isGlobalParamChange}}
-            {{#unless isGlosowana}}
                 {{>ZRTemplate
                     idZR=idZespolRealizacyjny
                     status=status
                     idKwestia=_id
                     czyAktywny=czyAktywny
+                    zespol=zespol
                 }}
-            {{/unless}}
             {{/unless}}
         {{/if}}
         {{#if ifHasOpcje}}
@@ -89,7 +88,8 @@
                 <div class="col-md-12">
                     {{> discussionMain
                     _id =_id
-                    status=status}}
+                    status=status
+                    czyAktywny=czyAktywny}}
                 </div>
             </div>
         {{/if}}

@@ -5,14 +5,20 @@
                 <button id="backToList" class="btn btn-primary">
                     <span class="fa fa-arrow-left"></span> Powrót
                 </button>
+                {{#if isRealizowanaNieaktywny status czyAktywny}}
+                    <button id="zrealizowanaClick" name="{{idKwestia}}" class="btn btn-success" {{hasUserRights idKwestia}}>
+                        <span class="fa fa-check-circle-o"></span> Zrealizowana
+                    </button>
+                {{/if}}
                 {{#unless isKwestiaAccessOrChangeParams typ status czyAktywny}}
-                   {{#unless isRealizowana status}}
+                   {{#unless isRealizowanaNieaktywny status czyAktywny}}
                         <button id="addOptionButton" class="btn btn-primary" {{hasUserRights idKwestia}}>
                             <span class="fa fa-plus"></span> Dodaj opcję
                         </button>
                     {{/unless}}
                 {{/unless}}
             </div>
+            {{> uzasadnienieZrealizowanaModal idKwestia=idKwestia}}
             {{> uzasadnienieArchiwumModal idKwestia=idKwestia}}
             {{> uzasadnienieKoszModal idKwestia=idKwestia}}
             <div class="btn-group" role="group" aria-label="...">

@@ -191,6 +191,70 @@
                         </div>
                     </div>
                 {{else}}
+                    {{#if isZrealizowana}}
+                    <div class="panel-heading doZrealizowaniaClass" role="tab" id="heading{{idPost}}"
+                    style="background-color: lightgreen">
+                    <h4 class="panel-title">
+                    <div class="row">
+                    <div class="col-md-12">
+                    <div class="pull-left">
+                    <div class="col-md-12">
+                    {{> discussionRating
+                    idPost=idPost
+                    wartoscPriorytetu=wartoscPriorytetu
+                    userFullName=userFullName
+                    addDate=addDate
+                    }}
+                </div>
+                    </div>
+                    <div class="pull-right">
+                        <h6>
+                            <a class="btn btn-xs btn-default pull-right" role="button" data-toggle="collapse"
+                               data-parent="#accordion{{idPost}}" href="#{{idPost}}" aria-expanded="true"
+                               aria-controls="{{idPost}}">
+                                {{getAnswersCount idPost}} odniesień&nbsp; <i
+                                    class="glyphicon glyphicon-triangle-bottom"></i>
+                            </a>
+                        </h6>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p>
+                                {{getText wiadomosc idPost}}
+                                {{#if textTooLong wiadomosc}}
+                                    <small>
+                                        {{#if isInTab idPost}}
+                                            [ <a id="zwinText" name="{{idPost}}">mniej</a> ]
+                                        {{else}}
+                                            [ <a id="rozwinText" name="{{idPost}}">więcej</a> ]
+                                        {{/if}}
+                                    </small>
+                                {{/if}}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    </h4>
+                    </div>
+                    <div id="{{idPost}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading{{idPost}}">
+                        <div class="panel-body">
+                            {{#each getAnswers idPost}}
+                                {{> discussionAnswerItem
+                                wiadomosc = wiadomosc
+                                userFullName = userFullName
+                                wartoscPriorytetu = wartoscPriorytetu
+                                idPost = _id
+                                }}
+                            {{/each}}
+                            {{> discussionAnswerForm
+                            idKwestia=idKwestia
+                            idPost=idPost
+                            }}
+                        </div>
+                    </div>
+                {{else}}
                     <div class="panel-heading" role="tab" id="heading{{idPost}}">
                         <h4 class="panel-title">
                             <div class="row">
@@ -252,6 +316,7 @@
                         </div>
                     </div>
                 {{/if}}
+            {{/if}}
             {{/if}}
         {{/if}}
     </div>

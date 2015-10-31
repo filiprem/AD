@@ -11,15 +11,16 @@ Template.ZRTemplate.helpers({
             return zespolR.zespol.slice().length==3 ? zespolR.nazwa :null;
         }
     },
-    isInKosz:function(czyAktywny){
+    isInKoszOrZrealizowana:function(czyAktywny,status){
         console.log("czyaktywny");
         console.log(czyAktywny);
-        return czyAktywny==false ? true :false;
+        return czyAktywny==false || status==KWESTIA_STATUS.ZREALIZOWANA ? true :false;
     },
-    statusGlosowanaOsobowaRealizowana:function(status){
+    statusGlosowanaOsobowaRealizowanaZrealizowana:function(status){
         console.log("status");
         console.log(status);
-        return status==KWESTIA_STATUS.GLOSOWANA || status==KWESTIA_STATUS.OSOBOWA || status==KWESTIA_STATUS.REALIZOWANA ? true : false;
+        return status==KWESTIA_STATUS.GLOSOWANA || status==KWESTIA_STATUS.OSOBOWA ||
+        status==KWESTIA_STATUS.REALIZOWANA || status==KWESTIA_STATUS.ZREALIZOWANA ? true : false;
     },
     pierwszyCzlonekFullName: function(idZR){
         return getCzlonekFullName(0,idZR,"ZRDraft");
@@ -32,30 +33,46 @@ Template.ZRTemplate.helpers({
         //return getCzlonekFullName(2,this._id);
         return getCzlonekFullName(2,idZR,"ZRDraft");
     },
-    isActualUser:function(index){
-        console.log("index:");
-        console.log(index);
-        var userID=getZRData(index,this.idZR);
+    isActualUser:function(index,idZR){
+        var userID=getZRData(index,idZR,"ZRDraft");
         console.log(userID);
         if(userID){
             if(userID!=Meteor.userId())
                 return "disabled";
-            return this.status=KWESTIA_STATUS.GLOSOWANA ? "disabled" :"";
+            return this.status==KWESTIA_STATUS.GLOSOWANA ? "disabled" :"";
+        }
+        return "disabled";
+    },
+    isInZR:function(idZr){
+        var zrDraft=ZespolRealizacyjnyDraft.findOne({_id:idZr});
+        if(zrDraft){
+            return _.contains(zrDraft.zespol,Meteor.userId()) ? "disabled" :"";
         }
     },
-    getZRCzlonkowie:function(idZR){
-        var zespol=ZespolRealizacyjny.findOne({_id: idZR});
+    getZRCzlonkowie:function(idZR,status){
+        console.log("tuuu");
+        var zespol=null;
+        var text=null;
+        if(status==KWESTIA_STATUS.GLOSOWANA) {
+            zespol = ZespolRealizacyjnyDraft.findOne({_id: idZR});
+            text="ZRDraft";
+        }
+        else {
+            zespol = ZespolRealizacyjny.findOne({_id: idZR});
+            text="ZR";
+        }
+        console.log(zespol);
         var data="";
         if(zespol){
             for(var i=0;i<zespol.zespol.length;i++){
-                data+=getCzlonekFullName(i,zespol._id,"ZR")+",";
+                data+=getCzlonekFullName(i,zespol._id,text)+",";
             }
         }
         return data;
     },
     getZRCzlonkowieKosz:function(zespol){
         var data="";
-        _.each(zespol,function(czlonek){
+        _.each(zespol.czlonkowie,function(czlonek){
            data+=czlonek+",";
         });
         return data;
@@ -68,11 +85,11 @@ Template.ZRTemplate.events({
         console.log("czlonek 1");
         console.log(this.idZR);
         zespolId=this.idZR;
-        //var idUser=getZRData(0,this.idZR,"ZRDraft");
-        var idUser=checkIfInZR(zespolId,Meteor.userId());
+        var idUser=getZRData(0,this.idZR,"ZRDraft");
+        //var idUser=checkIfInZR(zespolId,Meteor.userId());
         if(idUser==Meteor.userId()){//jezeli jest juz w zespole
-            //rezygnujZRAlert(getZRData(0,zespolId,"ZRDraft"),this.idKwestia);
-            rezygnujZRAlert(checkIfInZR(zespolId,Meteor.userId()),this.idKwestia);
+            rezygnujZRAlert(getZRData(0,zespolId,"ZRDraft"),this.idKwestia);
+            //rezygnujZRAlert(checkIfInZR(zespolId,Meteor.userId()),this.idKwestia);
         }
         else {//nie ma go w zespole
             console.log("tutaj wejdzie");
@@ -131,7 +148,6 @@ Template.ZRTemplate.events({
             rezygnujZRAlert(checkIfInZR(zespolId,Meteor.userId()),this.idKwestia);
         }
         else {
-            console.log("xxxxx");
             var z = ZespolRealizacyjnyDraft.findOne({_id: zespolId});
 
             var zespolToUpdate = z.zespol.slice();

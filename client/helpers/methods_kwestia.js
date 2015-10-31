@@ -63,7 +63,7 @@ isKwestiaGlosowana=function(idKwestia){
     }
     return "";
 };
-setInQueueToVote=function(kwestie){
+setInQueueToVoteMethod=function(kwestie){
     var tab=[];
     var tabKwestie = [];
     kwestie.forEach(function (item) {
@@ -89,7 +89,7 @@ setInQueueToVote=function(kwestie){
         //console.log("past values");
         //console.log(tabKwestieSort[0].wartoscPriorytetu);
         //console.log(tabKwestie);
-        tabKwestie = _.sortBy(tabKwestie, "wartoscPriorytetu");
+        tabKwestie =( _.sortBy(tabKwestie, "wartoscPriorytetu")).reverse();
         //console.log(tabKwestie);
         arrayTheSameWartoscPrior = _.where(tabKwestie, {'wartoscPriorytetu': tabKwestie[0].wartoscPriorytetu});
         tabKwestieSort = _.sortBy(arrayTheSameWartoscPrior, "dataWprowadzenia");

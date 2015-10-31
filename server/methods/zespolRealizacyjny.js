@@ -42,6 +42,10 @@ Meteor.methods({
         var id = ZespolRealizacyjny.update(id, {$set: {kwestie: kwestie}}, {upsert: true});
         return id;
     },
+    updateKwestieZRChangeActivity:function (id, kwestie,czyAktywny) {
+        var id = ZespolRealizacyjny.update(id, {$set: {kwestie: kwestie,czyAktywny:czyAktywny}}, {upsert: true});
+        return id;
+    },
     removeZespolRealizacyjny:function(id){
         var id = ZespolRealizacyjny.update(id, {$set: {czyAktywny: false}}, {upsert: true});
         return id;
