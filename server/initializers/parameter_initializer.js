@@ -7,7 +7,7 @@ Meteor.startup(function () {
             "regulamin": "brak regulaminu",
             //"voteFrequency": 7,
             "voteQuantity": 3,
-            "voteDuration":2
+            "voteDuration":1
         }
     ];
     if (Parametr.find().count() == 0) {

@@ -1,7 +1,7 @@
 Template.realizacja.helpers({
     'settings': function () {
         return {
-            rowsPerPage: 10,
+            rowsPerPage: 15,
             showFilter: true,
             showNavigation: 'always',
             showColumnToggles: false,

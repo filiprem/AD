@@ -15,7 +15,7 @@ Template.archiwum.events({
 Template.archiwum.helpers({
     'settings': function () {
         return {
-            rowsPerPage: 10,
+            rowsPerPage: 15,
             showFilter: true,
             showNavigation: 'always',
             showColumnToggles: false,
