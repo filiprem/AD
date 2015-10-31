@@ -7,15 +7,15 @@ Template.kosz.helpers({
             showColumnToggles: false,
             enableRegex: false,
             fields: [
-                {
-                    key: 'id',
-                    label: Template.listKwestiaColumnLabel,
-                    labelData: {
-                        title: "id",
-                        text: "Id"
-                    },
-                    tmpl: Template.id
-                },
+                //{
+                //    key: 'id',
+                //    label: Template.listKwestiaColumnLabel,
+                //    labelData: {
+                //        title: "id",
+                //        text: "Id"
+                //    },
+                //    tmpl: Template.id
+                //},
                 {
                     key: 'dataGlosowania',
                     label: Template.listKwestiaColumnLabel,

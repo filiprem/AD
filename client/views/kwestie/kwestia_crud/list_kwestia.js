@@ -159,15 +159,15 @@ Template.listKwestia.helpers({
             noDataTemplate: Template.noData,
             filters: ['customFilter'],
             fields: [
-                {
-                    key: 'id',
-                    label: Template.listKwestiaColumnLabel,
-                    labelData: {
-                        title: "id",
-                        text: "Id"
-                    },
-                    tmpl: Template.id
-                },
+                //{
+                //    key: 'id',
+                //    label: Template.listKwestiaColumnLabel,
+                //    labelData: {
+                //        title: "id",
+                //        text: "Id"
+                //    },
+                //    tmpl: Template.id
+                //},
                 {
                     key: 'dataWprowadzenia',
                     label: Template.listKwestiaColumnLabel,

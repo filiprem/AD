@@ -147,6 +147,7 @@ checkingDeliberationExpiration=function(){
         var date=moment(kwestia).add(1,"month").format();
         if(date<=moment(new Date().format()))
            Meteor.call("removeKwestia",kwestia._id);
+        //+ zarządzanie zr!
     });
 };
 //RAZ NA 7 DNI 3 NAJWYŻEJ OCENIANE KWESTIE PRZECHODZĄ DO GŁOSOWANIA
