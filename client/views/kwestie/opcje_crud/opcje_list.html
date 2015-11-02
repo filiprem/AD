@@ -14,3 +14,19 @@
 <template name="statusKwestia">
     {{status}}
 </template>
+
+<template name="opcjeNazwaKwestiLink">
+    {{#if isArchiwalna}}
+        {{#if isKwestiaMain actualKwestiaId}}
+            {{this.kwestiaNazwa}}
+        {{else}}
+            <a href="{{ pathFor 'informacjeKwestiaArchiwum'}}" class="kwestiaId">{{this.kwestiaNazwa}}</a>
+        {{/if}}
+    {{else}}
+        {{#if isKwestiaMain actualKwestiaId}}
+            {{this.kwestiaNazwa}}
+        {{else}}
+            <a href="{{ pathFor 'informacjeKwestia'}}" id="kwestiaIdClick" class="kwestiaId">{{this.kwestiaNazwa}}</a>
+        {{/if}}
+    {{/if}}
+</template>

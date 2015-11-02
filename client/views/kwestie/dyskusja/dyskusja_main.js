@@ -170,12 +170,9 @@ Template.discussionRating.helpers({
         return moment(date).format("HH:mm:ss");
     },
     isGlosowanaZrealizowanaKosz:function(){
-        console.log("jakasik");
-        console.log(this.idPost);
         var post=Posts.findOne({_id:this.idPost});
         var kwestia=Kwestia.findOne({_id:post.idKwestia});
         if(kwestia){
-            console.log("juppi");
             return kwestia.status==KWESTIA_STATUS.GLOSOWANA || kwestia.status==KWESTIA_STATUS.ZREALIZOWANA || kwestia.czyAktywny==false ? true :false;
         }
     }

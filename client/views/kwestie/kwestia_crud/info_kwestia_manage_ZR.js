@@ -17,8 +17,6 @@ Template.ZRTemplate.helpers({
         return czyAktywny==false || status==KWESTIA_STATUS.ZREALIZOWANA ? true :false;
     },
     statusGlosowanaOsobowaRealizowanaZrealizowana:function(status){
-        console.log("status");
-        console.log(status);
         return status==KWESTIA_STATUS.GLOSOWANA || status==KWESTIA_STATUS.OSOBOWA ||
         status==KWESTIA_STATUS.REALIZOWANA || status==KWESTIA_STATUS.ZREALIZOWANA ? true : false;
     },

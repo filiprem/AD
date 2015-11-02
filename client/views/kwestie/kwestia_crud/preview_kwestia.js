@@ -205,7 +205,7 @@ addKwestia=function(idTemat,idRodzaj,isOption,kwestia){
         }
         else {
             Session.set("kwestiaPreview", null);
-            Meteor.call("sendEmailAddedIssue", ret);
+            //Meteor.call("sendEmailAddedIssue", ret);
             Router.go('administracjaUserMain');
         }
     });

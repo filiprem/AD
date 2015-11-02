@@ -1,10 +1,8 @@
 Template.opcjeList.helpers({
     OpcjeList: function () {
-        var parent = this.idParent;
-        var kwestia = Kwestia.findOne({_id: parent});
-        var k = Kwestia.find({czyAktywny: true, _id: {$ne: this._id}, idParent: this.idParent, status: {$ne: KWESTIA_STATUS.KOSZ}}).fetch();
-        if (k) return k;
-        else return false;
+        //var k = Kwestia.find({czyAktywny: true, _id: {$ne: this._id}, idParent: this.idParent, status: {$ne: KWESTIA_STATUS.KOSZ}});
+        var k = Kwestia.find({czyAktywny: true, idParent: this.idParent});
+        return k ? k :false;
     },
     'settings': function () {
         return {
@@ -30,7 +28,7 @@ Template.opcjeList.helpers({
                         title: "Kliknij, aby zobaczyć szczegóły",
                         text: "Nazwa Kwestii"
                     },
-                    tmpl: Template.nazwaKwestiLink
+                    tmpl: Template.opcjeNazwaKwestiLink
                 },
                 {
                     key: 'wartoscPriorytetu',
@@ -55,8 +53,11 @@ Template.opcjeList.helpers({
         };
     }
 });
-Template.nazwaKwestiLink.helpers({
+Template.opcjeNazwaKwestiLink.helpers({
     isArchiwalna:function(){
         return this.status==KWESTIA_STATUS.ARCHIWALNA ? true :false;
+    },
+    isKwestiaMain:function(){
+        return Template.instance().data._id==Session.get("idKwestia") ? true : false;
     }
 });

@@ -27,9 +27,13 @@ getOldValueOfUserVote = function (ratingValue, object) {
     return oldValue;
 };
 powolajZRFunction=function(idKwestia,idAktualnyZR) {
+    console.log("bedziemy przepisywac zespoly");
+    console.log("id kwestii: "+idKwestia);
+    console.log("powolany id zr: "+idAktualnyZR);
     var kwestia = Kwestia.findOne({_id: idKwestia});
     if (kwestia) {
         var zespolWybrany = ZespolRealizacyjny.findOne({_id: idAktualnyZR});
+        console.log(zespolWybrany);
         if (zespolWybrany) {
             var myZR = ZespolRealizacyjnyDraft.findOne({_id: kwestia.idZespolRealizacyjny});
             if (myZR) {
@@ -40,13 +44,16 @@ powolajZRFunction=function(idKwestia,idAktualnyZR) {
                 };
                 Meteor.call('updateZespolRealizacyjnyDraft', myZR._id, myNewZR, function (error, ret) {
                     if (error) {
-                        if (typeof Errors === "undefined")
-                            Log.error('Error: ' + error.reason);
-                        else {
-                            throwError(error.reason);
-                        }
+                        //if (typeof Errors === "undefined")
+                        //    Log.error('Error: ' + error.reason);
+                        //else {
+                        //    throwError(error.reason);
+                        //}
+                        console.log(error.reason);
                     }
                     else {
+                        console.log("moje id zwrócone");
+                        console.log(ret);
                         $("#listZespolRealizacyjny").modal("hide");
                         $("#listZespolRealizacyjnyDouble").modal("hide");
                     }

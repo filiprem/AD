@@ -90,15 +90,15 @@ Template.informacjeKwestia.helpers({
             return "+"+this.wartoscPriorytetu;
         else return this.wartoscPriorytetu;
     },
-    thisKwestia: function () {
-        var kw = Kwestia.findOne({_id: this._id});
-        if (kw) {
-            if (kw.isOption)
-                Session.set("idKwestia", kw.idParent);
-            else
-                Session.set("idKwestia", this._id)
-        }
-    },
+    //thisKwestia: function () {
+    //    var kw = Kwestia.findOne({_id: this._id});
+    //    if (kw) {
+    //        if (kw.isOption)
+    //            Session.set("idKwestia", kw.idParent);
+    //        else
+    //            Session.set("idKwestia", this._id)
+    //    }
+    //},
     // OPCJE
     ifHasOpcje: function () {
         var kwestiaGlownaId = this.idParent;
