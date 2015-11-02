@@ -121,10 +121,11 @@ Template.language.events({
     'click #showPageInfo': function () {
 
         var defaultLang = LANGUAGES.DEFAULT_LANGUAGE;
-        var lang = Meteor.user().profile.language ? Meteor.user().profile.language : defaultLang;
+        var user=Meteor.user();
+        var lang = user ? profile.user.language : defaultLang;
         var routeName = Router.current().route.getName();
         var item = PagesInfo.findOne({shortLanguageName: lang, routeName: routeName});
-        var title = TAPi18n.__("pageInfo." + lang + "." + routeName)
+        var title = TAPi18n.__("pageInfo." + lang + "." + routeName);
         bootbox.dialog({
             message: item.infoText ? item.infoText : "Brak opisu",
             title: title
@@ -142,6 +143,8 @@ Template.language.helpers({
                 return Meteor.user().profile.language;
             }
         }
+        else
+            return LANGUAGES.DEFAULT_LANGUAGE;
     },
     'langs': function () {
         var langs = Languages.find({isEnabled: true, czyAktywny: true});
