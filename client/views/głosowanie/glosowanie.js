@@ -20,8 +20,8 @@ Template.glosowanie.helpers({
                     key: 'dataGlosowania',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        title: "Koniec głosowania Kwestii",
-                        text: "Data"
+                        //title: "Koniec głosowania Kwestii",
+                        text: "Konuec głosowania"
                     },
                     tmpl: Template.dataGlosowaniaKwestia,
                     sortOrder: 0,
@@ -31,7 +31,7 @@ Template.glosowanie.helpers({
                     key: 'kwestiaNazwa',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        title: "Kliknij, aby zobaczyć szczegóły",
+                        //title: "Kliknij, aby zobaczyć szczegóły",
                         text: "Nazwa Kwestii"
                     },
                     tmpl: Template.nazwaKwestiLink
@@ -40,7 +40,7 @@ Template.glosowanie.helpers({
                     key: 'sredniaPriorytet',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        title: "Kliknij, aby zmienić swój priorytet dla tej Kwestii",
+                       // title: "Kliknij, aby zmienić swój priorytet dla tej Kwestii",
                         text: "Priorytet"
                     },
                     tmpl: Template.priorytetKwestia,

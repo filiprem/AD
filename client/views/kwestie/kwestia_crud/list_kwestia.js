@@ -102,7 +102,7 @@ Template.listKwestia.helpers({
                     key: 'dataWprowadzenia',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        title: "Data wprowadzenia Kwestii i rozpoczęcia jej deliberacji",
+                        //title: "Data wprowadzenia Kwestii i rozpoczęcia jej deliberacji",
                         text: "Data"
                     },
                     tmpl: Template.dataUtwKwestia,
@@ -113,7 +113,7 @@ Template.listKwestia.helpers({
                     key: 'kwestiaNazwa',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        title: "Kliknij w nazwę, aby zobaczyć szczegóły Kwestii",
+                        //title: "Kliknij w nazwę, aby zobaczyć szczegóły Kwestii",
                         text: "Nazwa Kwestii"
                     },
                     tmpl: Template.nazwaKwestiLink
@@ -122,7 +122,7 @@ Template.listKwestia.helpers({
                     key: 'wartoscPriorytetu',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        title: "Priorytet nadany przez Ciebie oraz ogólna siła priorytetu",
+                        //title: "Priorytet nadany przez Ciebie oraz ogólna siła priorytetu",
                         text: "Priorytet"
                     },
                     tmpl: Template.priorytetKwestia
@@ -172,7 +172,7 @@ Template.listKwestia.helpers({
                     key: 'dataWprowadzenia',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        title: "Data wprowadzenia Kwestii i rozpoczęcia jej deliberacji",
+                        //title: "Data wprowadzenia Kwestii i rozpoczęcia jej deliberacji",
                         text: "Data"
                     },
                     tmpl: Template.dataUtwKwestia,
@@ -183,7 +183,7 @@ Template.listKwestia.helpers({
                     key: 'kwestiaNazwa',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        title: "Kliknij w nazwę, aby zobaczyć szczegóły Kwestii",
+                        //title: "Kliknij w nazwę, aby zobaczyć szczegóły Kwestii",
                         text: "Nazwa Kwestii"
                     },
                     tmpl: Template.nazwaKwestiLink
@@ -192,7 +192,7 @@ Template.listKwestia.helpers({
                     key: 'wartoscPriorytetu',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        title: "Priorytet nadany przez Ciebie oraz ogólna siła priorytetu",
+                       // title: "Priorytet nadany przez Ciebie oraz ogólna siła priorytetu",
                         text: "Priorytet"
                     },
                     tmpl: Template.priorytetKwestia,
@@ -205,7 +205,7 @@ Template.listKwestia.helpers({
                     key: 'dataGlosowania',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        title: "Aktualne kworum / wymagane kworum",
+                        //title: "Aktualne kworum / wymagane kworum",
                         text: "Kworum"
                     },
                     tmpl: Template.kworumNumber
@@ -257,14 +257,14 @@ Template.listKwestia.helpers({
 Template.tematKwestia.helpers({
     tematNazwa: function () {
         var t = Temat.findOne({_id: this.idTemat});
-        if (t) return t.nazwaTemat;
+        return t? t.nazwaTemat : "techniczna systemowa";
     }
 });
 
 Template.rodzajKwestia.helpers({
     rodzajNazwa: function () {
         var r = Rodzaj.findOne({_id: this.idRodzaj});
-        if (r) return r.nazwaRodzaj;
+        return r? r.nazwaRodzaj: "techniczna systemowa";
     }
 });
 

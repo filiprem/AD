@@ -21,7 +21,7 @@ Template.kosz.helpers({
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
                         title: "Koniec g³osowania Kwestii",
-                        text: "Data"
+                        text: "Koniec g³osowania"
                     },
                     tmpl: Template.dataKoniecKwestia,
                     sortOrder: 0,
@@ -31,7 +31,7 @@ Template.kosz.helpers({
                     key: 'kwestiaNazwa',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        title: "Kliknij, aby zobaczyæ szczegó³y",
+                        //title: "Kliknij, aby zobaczyæ szczegó³y",
                         text: "Nazwa Kwestii"
                     },
                     tmpl: Template.nazwaKwestiLink
@@ -40,7 +40,7 @@ Template.kosz.helpers({
                     key: 'sredniaPriorytet',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        title: "Kliknij, aby zmieniæ swój priorytet dla tej Kwestii",
+                        //title: "Kliknij, aby zmieniæ swój priorytet dla tej Kwestii",
                         text: "Priorytet"
                     },
                     tmpl: Template.priorytetKwestia,

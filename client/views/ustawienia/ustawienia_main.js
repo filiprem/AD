@@ -10,19 +10,20 @@ Template.administracjaUserMain.helpers({
                 {
                     key: 'dataWprowadzenia',
                     label: Template.listKwestiaAdminColumnLabel,
-                    labelData: {title: "Data wprowadzenia Kwestii i rozpoczęcia jej deliberacji", text: "Data"},
-                    tmpl: Template.dataUtwKwestia
+                    //labelData: {title: "Data wprowadzenia Kwestii i rozpoczęcia jej deliberacji", text: "Data"},
+                    tmpl: Template.dataUtwKwestia,
+                    sortDirection: "descending"
                 },
                 {
                     key: 'kwestiaNazwa',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        title: "Kliknij, aby zobaczyć szczegóły",
+                        //title: "Kliknij, aby zobaczyć szczegóły",
                         text: "Nazwa Kwestii"
                     },
                     tmpl: Template.nazwaKwestiLink
                 },
-                {key: 'status', label: "Status", tmpl: Template.statusKwestii},
+                //{key: 'status', label: "Status", tmpl: Template.statusKwestii},
                 //{key: 'options', label: "Opcje", tmpl: Template.editTypeAndTopic }
             ]
         };

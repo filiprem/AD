@@ -14,9 +14,12 @@
                                     <i class="fa fa-edit"></i> Edytuj
                                 </a>
                              {{else}}
-                                <a href="{{pathFor 'listKwestia'}}" class="btn btn-primary">
+                                <a  id="parametersClick" class="kwestiaId btn btn-primary">
                                     <i class="fa fa-edit"></i> Zobacz kwestię
                                 </a>
+                                <!--<a href="{{pathFor 'listKwestia'}}" class="btn btn-primary">-->
+                                    <!--<i class="fa fa-edit"></i> Zobacz kwestię-->
+                                <!--</a>-->
                             {{/if}}
                         {{/if}}
                     </div>

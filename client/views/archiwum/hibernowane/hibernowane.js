@@ -1,4 +1,4 @@
-Template.archiwum.events({
+Template.hibernowaneList.events({
     'click .glyphicon-trash': function (event, template) {
         Session.set('kwestiaInScope', this);
     },
@@ -12,7 +12,7 @@ Template.archiwum.events({
         Session.set('kwestiaInScope', this);
     }
 });
-Template.archiwum.helpers({
+Template.hibernowaneList.helpers({
     'settings': function () {
         return {
             rowsPerPage: 15,
@@ -24,51 +24,62 @@ Template.archiwum.helpers({
                 {
                     key: 'dataWprowadzenia',
                     label: Template.listKwestiaAdminColumnLabel,
-                    labelData: {title: "Data wprowadzenia Kwestii i rozpoczÄ™cia jej deliberacji", text: "Data"},
+                    labelData: {
+                        //title: "Data wprowadzenia Kwestii i rozpoczêcia jej deliberacji",
+                        text: "Data"
+                    },
                     tmpl: Template.dataUtwKwestia
                 },
                 {
                     key: 'kwestiaNazwa',
                     label: Template.listKwestiaAdminColumnLabel,
-                    labelData: {title: "Kliknij, aby zobaczyÄ‡ szczegÃ³Å‚y", text: "Nazwa Kwestii"},
-                    tmpl: Template.nazwaKwestiiArchiwumLink
+                    labelData: {
+                        title: "Kliknij, aby zobaczyæ szczegó³y",
+                        //text: "Nazwa Kwestii"
+                    },
+                    tmpl: Template.nazwaKwestiiHibernowaneLink
                 },
                 {
                     key: 'sredniaPriorytet',
                     label: Template.listKwestiaAdminColumnLabel,
-                    labelData: {title: "Kliknij, aby zmieniÄ‡ swÃ³j priorytet dla tej Kwestii", text: "Priorytet"},
+                    labelData: {
+                        //title: "Kliknij, aby zmieniæ swój priorytet dla tej Kwestii",
+                        text: "Priorytet"
+                    },
                     tmpl: Template.priorytetKwestia,
                     sortOrder: 1,
                     sortDirection: 'descending'
                 },
-                {key: '', label: "Temat", tmpl: Template.tematKwestiiArchiwum},
-                {key: '', label: "Rodzaj", tmpl: Template.rodzajKwestiiArchiwum},
+                {key: '', label: "Temat", tmpl: Template.tematKwestiiHibernowane},
+                {key: '', label: "Rodzaj", tmpl: Template.rodzajKwestiiHibernowane},
                 {
                     key: 'status',
                     label: Template.listKwestiaAdminColumnLabel,
-                    labelData: {title: "Etap, na ktÃ³rym znajduje sie ta Kwestia", text: "Status"}
+                    labelData: {
+                        //title: "Etap, na którym znajduje sie ta Kwestia",
+                        text: "Status"
+                    }
                 }
             ]
         };
     },
-    ArchiwumList: function () {
-
+    HibernowaneList: function () {
         return Kwestia.find({
             czyAktywny: true,
             status: {
                 $in: [
-                    KWESTIA_STATUS.ARCHIWALNA,
+                    //KWESTIA_STATUS.ARCHIWALNA
                     KWESTIA_STATUS.HIBERNOWANA
                 ]
             }
         });
     },
-    'ArchiwumListCount': function () {
+    'hibernowaneListCount': function () {
         var count = Kwestia.find({
             czyAktywny: true,
             status: {
                 $in: [
-                    KWESTIA_STATUS.ARCHIWALNA,
+                    //KWESTIA_STATUS.ARCHIWALNA,
                     KWESTIA_STATUS.HIBERNOWANA
                 ]
             }
@@ -86,18 +97,18 @@ Template.archiwum.helpers({
     }
 });
 
-Template.archiwum.rendered = function () {
+Template.hibernowaneList.rendered = function () {
     $('[data-toggle="tooltip"]').tooltip();
 }
 
-Template.tematKwestiiArchiwum.helpers({
+Template.tematKwestiiHibernowane.helpers({
     'getTemat': function (id) {
         var item = Temat.findOne({_id: id});
         return !!item && !!item.nazwaTemat ? item.nazwaTemat : id;
     }
 });
 
-Template.rodzajKwestiiArchiwum.helpers({
+Template.rodzajKwestiiHibernowane.helpers({
     'getRodzaj': function (id) {
         var item = Rodzaj.findOne({_id: id});
         return !!item && !!item.nazwaRodzaj ? item.nazwaRodzaj : id;

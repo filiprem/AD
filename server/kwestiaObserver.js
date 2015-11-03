@@ -135,15 +135,21 @@ Meteor.startup(function(){
                         var kwestieGlosowane=Kwestia.find({status:KWESTIA_STATUS.GLOSOWANA,czyAktywny:true});
                         var tab=null;
                         if(kwestieGlosowane.count()==0) {
-                            console.log("wchodza 3");
-                            tab = setInQueueToVote(arrayKwestie,3);
+                            console.log("moga wejsc  max 3");
+                            console.log("ale wejdą ,bo tyle jest gotowych do głosowania "+arrayKwestie.length);
+                            //tab = setInQueueToVote(arrayKwestie,3);
+                            tab = setInQueueToVote(arrayKwestie,arrayKwestie.length);
                         }
                         else if(kwestieGlosowane.count()==1){
-                            console.log("wchodza 2");
-                            var tab= _.first(setInQueueToVote(arrayKwestie,2),2);
+                            console.log("moga wejsc  max 2");
+                            //var tab= _.first(setInQueueToVote(arrayKwestie,2),2);
+                            console.log("ale wejdą ,bo tyle jest gotowych do głosowania "+arrayKwestie.length);
+                            var tab= _.first(setInQueueToVote(arrayKwestie,arrayKwestie.length),2);
                         }
                         else{
-                            console.log("wchodzi 1");
+                            console.log("moze wejsc max 1");
+                            console.log("totez wejdzie jedna,tyle jest gotowych do głosowania: "+arrayKwestie.length);
+                            //var tab= _.first(setInQueueToVote(arrayKwestie,1),1);
                             var tab= _.first(setInQueueToVote(arrayKwestie,1),1);
                         }
                         console.log("tablica");
@@ -153,6 +159,7 @@ Meteor.startup(function(){
                             if(kwestia){
                                 if(kwestia.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE)
                                     globalParamChangeVote(kwestia);
+                                    //changeParametersSuccessObserver(kwestia);
                                 else {
                                     var zr = ZespolRealizacyjnyDraft.findOne({_id: arrayKwestie[0].idZespolRealizacyjny});
                                     deliberowanaVote(kwestia, zr,false);
@@ -304,7 +311,7 @@ Meteor.startup(function(){
         console.log(allKwestieGlosowane);
         return allKwestieGlosowane < 3 ? true : false;
     };
-    globalParamChangeVote=function(newKwestia){
+    globalParamChangeVote=function(newKwestia){//deliberowana->glosowana
         if(kwestiaAllowedToGlosowana()) {
             var globalParam = Parametr.findOne();
             var czasGlosowania = globalParam.voteDuration;
@@ -312,6 +319,32 @@ Meteor.startup(function(){
             var start = new Date();
             Meteor.call("updateStatusDataGlosowaniaKwestiiFinal", newKwestia._id, KWESTIA_STATUS.GLOSOWANA, final, start);
         }
+    };
+    changeParametersSuccessObserver=function(kwestia){//głosowana->zrealizowana
+        var globalPramsDraft=ParametrDraft.findOne({czyAktywny:true});
+        var obj={
+            nazwaOrganizacji:globalPramsDraft.nazwaOrganizacji,
+            terytorium:globalPramsDraft.terytorium,
+            kontakty:globalPramsDraft.kontakty,
+            regulamin: globalPramsDraft.regulamin,
+            voteDuration: globalPramsDraft.voteDuration,
+            voteQuantity:globalPramsDraft.voteQuantity
+        };
+        console.log("new Parameter");
+        console.log(obj);
+        var globalParam=Parametr.findOne();
+        Meteor.call("updateParametr",globalParam._id,obj,function(error){
+            if(!error)
+                Meteor.call("setActivityParametrDraft",globalPramsDraft._id,false,function(error){
+                    if(!error)
+                        Meteor.call("updateStatusKwestii",kwestia._id,KWESTIA_STATUS.ZREALIZOWANA);
+                    else
+                        console.log("update param failed");
+                });
+            else{
+                console.log("nie udało się");
+            }
+        });
     };
     deliberowanaVote=function(newKwestia,ZRDraft,ifUpdateZR){//tu spirawdzic godziny. i warunek blokujacy wejscie kwestii do glosowania!
         if(kwestiaAllowedToGlosowana()) {//jezeli deliberowana vote w bosrverrze,gdy ta opuscila i wpuszczmy nowe- to obśługa zr musi by!
@@ -384,6 +417,8 @@ Meteor.startup(function(){
         kwestie.forEach(function (item) {
             tabKwestie.push(item);
         });
+        console.log("tab kwestie");
+        console.log(tabKwestie);
         //console.log("array with the same priority");
         var arrayTheSameWartoscPrior = _.where(tabKwestie, {'wartoscPriorytetu': tabKwestie[0].wartoscPriorytetu});
         //console.log(arrayTheSameWartoscPrior.length);
@@ -393,10 +428,10 @@ Meteor.startup(function(){
 
 
             if(numberKwestieAvailable==3) {
-                tab=setTabValues(3,tabKwestieSort);
+                tab=setTabValues(3,tabKwestieSort,tab);
             }
             else if(numberKwestieAvailable==2){
-                tab=setTabValues(2,tabKwestieSort);
+                tab=setTabValues(2,tabKwestieSort,tab);
             }
             else
                 tab.push(tabKwestieSort[0]._id);
@@ -454,7 +489,9 @@ Meteor.startup(function(){
             }
             else if(numberKwestieAvailable==2){
                 console.log("wejda 2");
+                console.log(tabKwestie[1].wartoscPriorytetu);
                 arrayTheSameWartoscPrior = _.where(tabKwestie, {'wartoscPriorytetu': tabKwestie[1].wartoscPriorytetu});
+                console.log(arrayTheSameWartoscPrior);
                 if (arrayTheSameWartoscPrior.length >= 2) {//jezeli 2 i 3 sie powtarzaja,to posortuj i wrzuć
                     tabKwestieSort = _.sortBy(arrayTheSameWartoscPrior, "dataWprowadzenia");
                     //tab.push(tabKwestieSort[0]._id);

@@ -17,21 +17,28 @@ Template.managePriorities.helpers({
             if (user.profile.userType != USERTYPE.CZLONEK)
                 return "disabled";
         }
-        var kwestia=Kwestia.findOne({_id:idParent});
-        if(kwestia.status==KWESTIA_STATUS.ZREALIZOWANA)
-            return "disabled";
+        var kwestia=Kwestia.findOne({_id:idKwestia});
+        //var kwestia=Kwestia.findOne({_id:idParent});
+        //if(kwestia){
+        //if(kwestia.status==KWESTIA_STATUS.ZREALIZOWANA)
+            //return "disabled";
+
         var flag = false;
-        if(kwestia.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE)//for GLobalPARAM->No KWESTIA OPCJE
-            var kwestie = Kwestia.find({
-                czyAktywny: true,
-                'glosujacy.idUser': Meteor.userId()
-            });
-        else
-            var kwestie = Kwestia.find({
-                czyAktywny: true,
-                'glosujacy.idUser': Meteor.userId(),
-                idParent: idParent
-            });
+        if(kwestia) {
+            if (kwestia.typ == KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE) {//for GLobalPARAM->No KWESTIA OPCJE
+                var kwestie = Kwestia.find({
+                    czyAktywny: true,
+                    'glosujacy.idUser': Meteor.userId(),
+                    typ: KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE
+                });
+            }
+            else
+                var kwestie = Kwestia.find({
+                    czyAktywny: true,
+                    'glosujacy.idUser': Meteor.userId(),
+                    idParent: idParent
+                });
+        }
         if(status==KWESTIA_STATUS.REALIZOWANA){//nie ma odznaczania kwestii opcji
             var kwestia=Kwestia.findOne({_id:idKwestia});
             if(kwestia) {
