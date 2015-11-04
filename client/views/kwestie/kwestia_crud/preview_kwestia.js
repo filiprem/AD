@@ -176,7 +176,8 @@ addKwestia=function(idTemat,idRodzaj,isOption,kwestia){
     var status = KWESTIA_STATUS.DELIBEROWANA;
     var newKwestia = [{
         idUser: Meteor.userId(),
-        dataWprowadzenia: moment(new Date()).format(),
+        //dataWprowadzenia: moment(new Date()).format(),
+        dataWprowadzenia: new Date(),
         kwestiaNazwa: kwestia.kwestiaNazwa,
         wartoscPriorytetu: 0,
         wartoscPriorytetuWRealizacji: 0,

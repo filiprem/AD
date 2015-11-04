@@ -55,9 +55,16 @@ Template.listKwestia.created = function () {
 
 Template.listKwestia.events({
     'click #addKwestiaButton': function () {
-        if (!!Session.get("kwestiaPreview"))
-            Session.set("kwestiaPreview", null);
-        Router.go("addKwestia");
+        var kwestiaCanBeInserted=kwestiaIsAllowedToInsert();
+        console.log("odp");
+        console.log(kwestiaCanBeInserted);
+        if(kwestiaCanBeInserted==true) {
+            if (!!Session.get("kwestiaPreview"))
+                Session.set("kwestiaPreview", null);
+            Router.go("addKwestia");
+        }
+        else
+            notificationPauseWarning("kwestii",kwestiaCanBeInserted);
     },
     'click #clickMe': function () {
         var users = Users.find({}).fetch();
@@ -271,6 +278,7 @@ Template.rodzajKwestia.helpers({
 Template.dataUtwKwestia.helpers({
     date: function () {
         var d = this.dataWprowadzenia;
+        //if (d) return moment(getLocalDate(d)).format("DD-MM-YYYY HH:mm:ss");
         if (d) return moment(d).format("DD-MM-YYYY HH:mm:ss");
     }
 });
@@ -331,4 +339,37 @@ Template.kworumNumber.helpers({
         return usersCount.toString() + " / " +liczenieKworumZwykle();
     }
 });
+kwestiaIsAllowedToInsert=function(){
+    var myKwestie=Kwestia.find({idUser:Meteor.userId()},{sort:{dataWprowadzenia:1}});
+    if(myKwestie.count()>0){
+        var array=[];
+        myKwestie.forEach(function(kwestia){
+            array.push(kwestia);
+        });
+        array=(_.sortBy(array,'dataWprowadzenia')).reverse();
+        var lastAddedIssueTime= (_.first(array)).dataWprowadzenia;
+        var params=Parametr.findOne();
+        if(params) {
+            return checkTimePause(params.addIssuePause, lastAddedIssueTime);
+        }
+    }
+    else return true;
+};
+
+checkTimePause=function(typePause,lastAddedTime){
+    //var newTimeToAdd=moment(getLocalDate(lastAddedIssueTime)).add(addIsssuePause,"minutes").format();
+    var newTimeToAdd=moment(lastAddedTime).add(typePause,"minutes").format();
+    console.log(lastAddedTime);
+    console.log(newTimeToAdd);
+    if(newTimeToAdd > moment(new Date()).format()){
+        var ms = moment(newTimeToAdd,"DD/MM/YYYY HH:mm:ss").diff(moment(new Date(),"DD/MM/YYYY HH:mm:ss"));
+        var s = moment.utc(ms).format("mm:ss");
+        console.log(s);
+        var timeString= s.substring(0, s.indexOf(":"))+ " min, "+s.substring(s.indexOf(":")+1, s.length)+ " sek";
+        return timeString ;
+    }
+    else
+        return true;
+};
+
 

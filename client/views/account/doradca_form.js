@@ -216,7 +216,7 @@ addKwestiaOsobowaDoradca=function(idUserDraft,newUser){
                 Router.go("administracjaUserMain");
             else
                 Router.go("home");
-            przyjecieWnioskuConfirmation(daneAplikanta.email,"doradztwo");
+            przyjecieWnioskuConfirmation(Parametr.findOne().czasWyczekiwaniaKwestiiSpec,daneAplikanta.email,"doradztwo");
             //addZR(ret,newUser[0].email);
         }
     });

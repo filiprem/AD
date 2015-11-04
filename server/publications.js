@@ -102,7 +102,11 @@ Meteor.publish('kwestieOczekujace', function (status) {
 });
 
 Meteor.publish('kwestieNazwa', function () {
-    return Kwestia.find({}, {fields: {kwestiaNazwa: 1, czyAktywny: 1}});
+    return Kwestia.find({}, {fields: {kwestiaNazwa: 1,czyAktywny: 1}});
+});
+
+Meteor.publish('kwestieNazwaIdUserDataWprowadzenia', function () {
+    return Kwestia.find({}, {fields: {kwestiaNazwa: 1,idUser:1,dataWprowadzenia:1, czyAktywny: 1}});
 });
 
 Meteor.publish('kwestieInfo', function () {

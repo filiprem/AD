@@ -15,7 +15,11 @@ Template.previewParametr.events({
             kontakty: params.kontakty,
             regulamin: params.regulamin,
             voteDuration:params.voteDuration,
-            voteQuantity:params.voteQuantity
+            voteQuantity:params.voteQuantity,
+            czasWyczekiwaniaKwestiiSpecjalnej:params.czasWyczekiwaniaKwestiiSpecjalnej,
+            addIssuePause:params.addIssuePause,
+            addCommentPause:params.addCommentPause,
+            addReferencePause:params.addReferencePause
         };
 
         Meteor.call('addParametrDraft', addParamDraft, function (error,ret) {

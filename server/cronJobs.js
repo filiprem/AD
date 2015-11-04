@@ -231,7 +231,11 @@ changeParametersSuccess=function(kwestia){
         kontakty:globalPramsDraft.kontakty,
         regulamin: globalPramsDraft.regulamin,
         voteDuration: globalPramsDraft.voteDuration,
-        voteQuantity:globalPramsDraft.voteQuantity
+        voteQuantity:globalPramsDraft.voteQuantity,
+        czasWyczekiwaniaKwestiiSpecjalnej:globalPramsDraft.czasWyczekiwaniaKwestiiSpecjalnej,
+        addIssuePause:globalPramsDraft.addIssuePause,
+        addCommentPause:globalPramsDraft.addCommentPause,
+        addReferencePause:globalPramsDraft.addReferencePause
     };
     console.log("new Parameter");
     console.log(obj);

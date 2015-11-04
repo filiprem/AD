@@ -72,12 +72,49 @@
                                       value={{voteDuration}}>
                         </div>
                     </div>
+                    <br/>
+                    <legend>Głosowanie</legend>
+
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" for="CzasWyczekiwaniaKwestiiSpec">Czas wyczekiwania kwestii i komentarzy specjalnych(w dniach):</label>
+
+                        <div class="col-xs-9">
+                            <input name="CzasWyczekiwaniaKwestiiSpec" class="form-control" id="CzasWyczekiwaniaKwestiiSpec" readonly
+                                   value={{czasWyczekiwaniaKwestiiSpecjalnej}}>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label class="control-label col-xs-3" for="inputEmail">Ilość kwesti przechodzących do głosowania:</label>
 
                         <div class="col-xs-9">
                             <input name="IloscKwestiiDoGlosowania" class="form-control" id="IloscKwestiiDoGlosowania" readonly
                                       value={{voteQuantity}}>
+                        </div>
+                    </div>
+                    <br/>
+                    <legend>Ilość minut koniecznej pauzy do ponownej akcjii tego samego typu</legend>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" for="addIssuePause">Dodanie kwestii:</label>
+
+                        <div class="col-xs-9">
+                            <input name="addIssuePause" class="form-control" id="addIssuePause" readonly
+                                   value={{addIssuePause}}>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" for="add">Dodanie komentarza w ramach danej kwestii:</label>
+
+                        <div class="col-xs-9">
+                            <input name="addCommentPause" class="form-control" id="addCommentPause" readonly
+                                   value={{addCommentPause}}>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" for="addReferencePause">Dodanie odniesienia w ramach danego komentarza:</label>
+
+                        <div class="col-xs-9">
+                            <input name="addReferencePause" class="form-control" id="addReferencePause" readonly
+                                   value={{addReferencePause}}>
                         </div>
                     </div>
                 </form>

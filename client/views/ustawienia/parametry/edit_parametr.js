@@ -30,6 +30,10 @@ Template.editParametry.rendered = function () {
             voteQuantity: {
                 required: fieldEmptyMessage(),
                 min: positiveNumberMessage()
+            },
+            czasWyczekiwaniaKwestiiSpec:{
+                required:fieldEmptyMessage(),
+                min:positiveNumberMessage()
             }
         },
         highlight: function (element) {
@@ -71,9 +75,28 @@ Template.editParametry.events({
         if(voteDur != parameter.voteDuration) {
             tab.push(setParamInfo("CZAS GLOSOWANIA", parameter.voteDuration, voteDur));
         }
+        var czasWyczekiwaniaKwestiiSpec = $(e.target).find('[name=czasWyczekiwaniaKwestiiSpec]').val();
+        if(czasWyczekiwaniaKwestiiSpec != parameter.czasWyczekiwaniaKwestiiSpecjalnej) {
+            tab.push(setParamInfo("CZAS WYCZEKIWANIA KWESTII I KOMENTARZY SPECJALNYCH", parameter.czasWyczekiwaniaKwestiiSpecjalnej, czasWyczekiwaniaKwestiiSpec));
+        }
         var voteQuant = $(e.target).find('[name=voteQuantity]').val();
         if(voteQuant != parameter.voteQuantity) {
-            tab.push(setParamInfo("ILOSC KWESTII", parameter.voteQuantity, voteQuant));
+            tab.push(setParamInfo("LICZBA KWESTII GŁOSOWANYCH   ", parameter.voteQuantity, voteQuant));
+        }
+
+        var addIssuePause=$(e.target).find('[name=addIssuePause]').val();
+        if(addIssuePause != parameter.addIssuePause) {
+            tab.push(setParamInfo("CZĘSTOTLIWOŚĆ DODANIA KWESTII", parameter.addIssuePause, addIssuePause));
+        }
+
+        var addCommentPause=$(e.target).find('[name=addCommentPause]').val();
+        if(addCommentPause != parameter.addCommentPause) {
+            tab.push(setParamInfo("CZĘSTOTLIWOŚĆ DODANIA KOMENTARZA", parameter.addCommentPause, addCommentPause));
+        }
+
+        var addReferencePause=$(e.target).find('[name=addReferencePause]').val();
+        if(addReferencePause != parameter.addReferencePause) {
+            tab.push(setParamInfo("CZĘSTOTLIWOŚĆ DODANIA ODNIESIENIA", parameter.addReferencePause, addReferencePause));
         }
 
         var newParametr = [
@@ -84,7 +107,11 @@ Template.editParametry.events({
                 kontakty: kont,
                 regulamin: reg,
                 voteDuration: voteDur,
-                voteQuantity: voteQuant
+                voteQuantity: voteQuant,
+                czasWyczekiwaniaKwestiiSpecjalnej:czasWyczekiwaniaKwestiiSpec,
+                addIssuePause:addIssuePause,
+                addCommentPause:addCommentPause,
+                addReferencePause:addReferencePause
             }];
         if (tab.length > 0) {
             Session.setPersistent("tablica", tab);

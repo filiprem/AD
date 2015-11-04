@@ -158,6 +158,8 @@ addUserDraft=function(newUser){
                     throwError(error.reason);
             }
             else
+            //do poprawienia
+                //Meteor.call("sendApplicationConfirmation",newUser[0]);
                 addKwestiaOsobowa(ret,newUser);
         });
 };
@@ -213,33 +215,8 @@ addKwestiaOsobowa=function(idUserDraft,newUser){
                 Router.go("administracjaUserMain");
             else
                 Router.go("home");
-            przyjecieWnioskuConfirmation(daneAplikanta.email,"członkowstwo");
+            przyjecieWnioskuConfirmation(Parametr.findOne().czasWyczekiwaniaKwestiiSpec,daneAplikanta.email,"członkowstwo");
             //addZR(ret,newUser[0].email);
         }
     });
 };
-//addZR=function(idKwestii,email){
-//    var zr=ZespolRealizacyjny.findOne({});
-//    var kwestia=Kwestia.findOne({_id:idKwestii});
-//    var myZR=ZespolRealizacyjny.findOne({_id:kwestia.idZespolRealizacyjny});
-//    var ZRdataToUpdate={
-//        nazwa:zr.nazwa,
-//        zespol:zr.zespol
-//    };
-//    Meteor.call('updateZespolRealizacyjny', myZR._id,ZRdataToUpdate, function (error,ret) {
-//        if (error) {
-//            // optionally use a meteor errors package
-//            if (typeof Errors === "undefined")
-//                Log.error('Error: ' + error.reason);
-//            else
-//                throwError(error.reason);
-//        }
-//        else {
-//            if(Meteor.userId())
-//                Router.go("administracjaUserMain");
-//            else
-//                Router.go("home");
-//            przyjecieWnioskuConfirmation(email,"doradztwo");
-//        }
-//    });
-//};

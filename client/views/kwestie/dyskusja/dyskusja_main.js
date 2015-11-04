@@ -23,57 +23,62 @@ Template.discussionPostForm.events({
     'submit #dyskusjaForm': function (e) {
         e.preventDefault();
 
-        var message = $(e.target).find('[name=message]').val();
-        var idKwestia = $(e.target).find('[name=idKwestia]').val();
-        var idUser = Meteor.userId();
-        var addDate = new Date();
-        var isParent = true;
-        var idParent = null;
-        var czyAktywny = true;
-        var userFullName = Meteor.user().profile.fullName;
-        var idParent = null;
-        var ratingValue = 0;
-        var glosujacy = [];
+        if(commentIsAllowedToInsert()==true) {
 
-        var post = [{
-            idKwestia: idKwestia,
-            wiadomosc: message,
-            idUser: idUser,
-            userFullName: userFullName,
-            addDate: addDate,
-            isParent: isParent,
-            czyAktywny: czyAktywny,
-            idParent: idParent,
-            wartoscPriorytetu: ratingValue,
-            glosujacy: glosujacy
-        }];
+            var message = $(e.target).find('[name=message]').val();
+            var idKwestia = $(e.target).find('[name=idKwestia]').val();
+            var idUser = Meteor.userId();
+            var addDate = new Date();
+            var isParent = true;
+            var idParent = null;
+            var czyAktywny = true;
+            var userFullName = Meteor.user().profile.fullName;
+            var idParent = null;
+            var ratingValue = 0;
+            var glosujacy = [];
 
-        if (isNotEmpty(post[0].idKwestia, '') && isNotEmpty(post[0].wiadomosc, 'komentarz') && isNotEmpty(post[0].idUser, '') &&
-            isNotEmpty(post[0].addDate.toString(), '') && isNotEmpty(post[0].czyAktywny.toString(), '') &&
-            isNotEmpty(post[0].userFullName, '' && isNotEmpty(post[0].isParent.toString(), ''))) {
+            var post = [{
+                idKwestia: idKwestia,
+                wiadomosc: message,
+                idUser: idUser,
+                userFullName: userFullName,
+                addDate: addDate,
+                isParent: isParent,
+                czyAktywny: czyAktywny,
+                idParent: idParent,
+                wartoscPriorytetu: ratingValue,
+                glosujacy: glosujacy
+            }];
 
-            Meteor.call('addPost', post, function (error, ret) {
-                if (error) {
-                    if (typeof Errors === "undefined")
-                        Log.error('Error: ' + error.reason);
-                    else
-                        throwError(error.reason);
-                } else {
-                    document.getElementById("message").value = "";
+            if (isNotEmpty(post[0].idKwestia, '') && isNotEmpty(post[0].wiadomosc, 'komentarz') && isNotEmpty(post[0].idUser, '') &&
+                isNotEmpty(post[0].addDate.toString(), '') && isNotEmpty(post[0].czyAktywny.toString(), '') &&
+                isNotEmpty(post[0].userFullName, '' && isNotEmpty(post[0].isParent.toString(), ''))) {
 
-                    var newValue = 0;
-                    newValue = Number(RADKING.DODANIE_KOMENTARZA) + getUserRadkingValue(Meteor.userId());
-                    Meteor.call('updateUserRanking', Meteor.userId(), newValue, function (error) {
-                        if (error) {
-                            if (typeof Errors === "undefined")
-                                Log.error('Error: ' + error.reason);
-                            else
-                                throwError(error.reason);
-                        }
-                    });
-                }
-            });
+                Meteor.call('addPost', post, function (error, ret) {
+                    if (error) {
+                        if (typeof Errors === "undefined")
+                            Log.error('Error: ' + error.reason);
+                        else
+                            throwError(error.reason);
+                    } else {
+                        document.getElementById("message").value = "";
+
+                        var newValue = 0;
+                        newValue = Number(RADKING.DODANIE_KOMENTARZA) + getUserRadkingValue(Meteor.userId());
+                        Meteor.call('updateUserRanking', Meteor.userId(), newValue, function (error) {
+                            if (error) {
+                                if (typeof Errors === "undefined")
+                                    Log.error('Error: ' + error.reason);
+                                else
+                                    throwError(error.reason);
+                            }
+                        });
+                    }
+                });
+            }
         }
+        else
+            notificationPauseWarning("komentarzy",commentIsAllowedToInsert());
     }
 });
 
@@ -177,3 +182,22 @@ Template.discussionRating.helpers({
         }
     }
 });
+
+commentIsAllowedToInsert=function(){
+    console.log("uwaga");
+    console.log(this.idKwestia.value);
+    var myPosts=Posts.find({idUser:Meteor.userId(),idKwestia:this.idKwestia.value,isParent:true},{sort:{addDate:1}});
+    if(myPosts.count()>0){
+        var array=[];
+        myPosts.forEach(function(post){
+            array.push(post);
+        });
+        array= (_.sortBy(array,'addDate')).reverse();
+        var lastAddedIssueTime= (_.first(array)).addDate;
+        var params=Parametr.findOne();
+        if(params)
+            return checkTimePause(params.addCommentPause,lastAddedIssueTime);
+    }
+    else return true;
+};
+

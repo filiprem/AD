@@ -99,9 +99,9 @@ checkExistsUser=function(searchedEmail,userType1,userType2){
     });
     return found;
 };
-przyjecieWnioskuConfirmation=function(email,userTypeText){
+przyjecieWnioskuConfirmation=function(time,email,userTypeText){
     bootbox.dialog({
-        message: "Twój wniosek aplikacyjny będzie oczekiwał (maksymalnie 1 tydzień) na akceptację ogółu członków organizacji "+ getNazwaOrganizacji()+
+        message: "Twój wniosek aplikacyjny będzie oczekiwał (maksymalnie "+ time+" dzień/dni) na akceptację ogółu członków organizacji "+ getNazwaOrganizacji()+
         ". Po pozytywnym rozpatrzeniu otrzymasz informację w wiadomości na "+ email+", w której otrzymasz link aktywujący Twoje "+ userTypeText+ " dla nas.",
         title: "Uwaga",
         buttons: {

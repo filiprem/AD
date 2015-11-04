@@ -123,7 +123,7 @@ Template.addKwestiaForm.events({
                 krotkaTresc: $(e.target).find('[name=krotkaTresc]').val(),
                 szczegolowaTresc: $(e.target).find('[name=szczegolowaTresc]').val(),
                 isOption: false,
-                typ:KWESTIA_TYPE.BASIC
+                typ: KWESTIA_TYPE.BASIC
             }];
 
         Session.setPersistent("kwestiaPreview", newKwestia[0]);
@@ -133,11 +133,3 @@ Template.addKwestiaForm.events({
         Router.go('listKwestia');
     }
 });
-Template.addKwestiaForm.helpers({
-    tematChosen:function(){
-
-    }
-});
-foo=function(){
-
-};

@@ -4,6 +4,7 @@ SSR.compileTemplate('email_added_issue',Assets.getText('email_added_issue.html')
 SSR.compileTemplate('email_lobbing_issue',Assets.getText('email_lobbing_issue.html'));
 SSR.compileTemplate('email_started_voting',Assets.getText('email_started_voting.html'));
 SSR.compileTemplate('email_honorowy_invitation',Assets.getText('email_honorowy_invitation.html'));
+SSR.compileTemplate('email_application_confirmation',Assets.getText('email_application_confirmation.html'));
 
 Template.email_started_voting.nadanoPriorytet= function (kwestiaId,userId) {
     var kwestia = Kwestia.findOne(kwestiaId);
@@ -187,6 +188,25 @@ Meteor.methods({
                     html: html
                 });
             }
+        });
+    },
+    sendApplicationConfirmation:function(userData){
+        var  userTypeData=null;
+        switch (userData.userType){
+            case USERTYPE.CZLONEK: userTypeData="członka zwyczajnego";break;
+            case USERTYPE.HONOROWY: userTypeData="członka honorowego";break;
+        }
+        var html = SSR.render('email_application_confirmation',{
+            username:userData.profile.fullName,
+            organizacja: Parametr.findOne().nazwaOrganizacji,
+            userTypeData:userTypeData,
+            idKwestia:"111111"
+        });
+        Email.send({
+            to: userData.emails[0].address,
+            from: "AD "+Parametr.findOne().nazwaOrganizacji,
+            subject: "Potwierdzenie przyjęcia aplikacji na stanowisko "+userTypeData,
+            html: html
         });
     }
 });

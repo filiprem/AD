@@ -111,51 +111,56 @@ Template.discussionAnswerForm.events({
     'submit #dyskusjaAnswerForm': function (e) {
         e.preventDefault();
 
-        var wiadomosc = $(e.target).find('[id=answer_message]').val();
-        var idKwestia = $(e.target).find('[name=idKwestiaAnswer]').val();
-        var idParent = $(e.target).find('[name=idPost]').val();
-        var idUser = Meteor.userId();
-        var addDate = new Date();
-        var isParent = false;
-        var czyAktywny = true;
-        var userFullName = Meteor.user().profile.fullName;
-        var ratingValue = 0;
-        var glosujacy = [];
+        var isAllowed=referenceIsAllowedToInsert($(e.target).find('[name=idPost]').val());
+        if(isAllowed==true) {
+            var wiadomosc = $(e.target).find('[id=answer_message]').val();
+            var idKwestia = $(e.target).find('[name=idKwestiaAnswer]').val();
+            var idParent = $(e.target).find('[name=idPost]').val();
+            var idUser = Meteor.userId();
+            var addDate = new Date();
+            var isParent = false;
+            var czyAktywny = true;
+            var userFullName = Meteor.user().profile.fullName;
+            var ratingValue = 0;
+            var glosujacy = [];
 
-        var post = [{
-            idKwestia: idKwestia,
-            wiadomosc: wiadomosc,
-            idUser: idUser,
-            userFullName: userFullName,
-            addDate: addDate,
-            isParent: isParent,
-            idParent: idParent,
-            czyAktywny: czyAktywny,
-            wartoscPriorytetu: ratingValue,
-            glosujacy: glosujacy
-        }];
+            var post = [{
+                idKwestia: idKwestia,
+                wiadomosc: wiadomosc,
+                idUser: idUser,
+                userFullName: userFullName,
+                addDate: addDate,
+                isParent: isParent,
+                idParent: idParent,
+                czyAktywny: czyAktywny,
+                wartoscPriorytetu: ratingValue,
+                glosujacy: glosujacy
+            }];
 
-        Meteor.call('addPostAnswer', post, function (error, ret) {
-            if (error) {
-                if (typeof Errors === "undefined")
-                    Log.error('Error: ' + error.reason);
-                else
-                    throwError(error.reason);
-            } else {
-                document.getElementsByName("answer_message" + idParent)[0].value = "";
+            Meteor.call('addPostAnswer', post, function (error, ret) {
+                if (error) {
+                    if (typeof Errors === "undefined")
+                        Log.error('Error: ' + error.reason);
+                    else
+                        throwError(error.reason);
+                } else {
+                    document.getElementsByName("answer_message" + idParent)[0].value = "";
 
-                var newValue = 0;
-                newValue = Number(RADKING.DODANIE_ODNIESIENIA) + getUserRadkingValue(Meteor.userId());
-                Meteor.call('updateUserRanking', Meteor.userId(), newValue, function (error) {
-                    if (error) {
-                        if (typeof Errors === "undefined")
-                            Log.error('Error: ' + error.reason);
-                        else
-                            throwError(error.reason);
-                    }
-                });
-            }
-        });
+                    var newValue = 0;
+                    newValue = Number(RADKING.DODANIE_ODNIESIENIA) + getUserRadkingValue(Meteor.userId());
+                    Meteor.call('updateUserRanking', Meteor.userId(), newValue, function (error) {
+                        if (error) {
+                            if (typeof Errors === "undefined")
+                                Log.error('Error: ' + error.reason);
+                            else
+                                throwError(error.reason);
+                        }
+                    });
+                }
+            });
+        }
+        else
+            notificationPauseWarning("odniesień",isAllowed);
     }
 });
 
@@ -223,3 +228,19 @@ Template.discussionAnswerForm.helpers({
                 kwestia.czyAktywny==false ? false : true;
     }
 });
+
+referenceIsAllowedToInsert=function(idParent){
+    var myPosts=Posts.find({idUser:Meteor.userId(),isParent:false,idKwestia:this.idKwestia.value,idParent:idParent},{sort:{addDate:1}});
+    if(myPosts.count()>0){
+        var array=[];
+        myPosts.forEach(function(post){
+            array.push(post);
+        });
+        array= (_.sortBy(array,'addDate')).reverse();
+        var lastAddedReferenceTime= (_.first(array)).addDate;
+        var params=Parametr.findOne();
+        if(params)
+            return checkTimePause(params.addReferencePause,lastAddedReferenceTime);
+    }
+    else return true;
+};

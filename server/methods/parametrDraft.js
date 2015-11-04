@@ -7,6 +7,10 @@ Meteor.methods({
             regulamin: newParametr.regulamin,
             voteDuration:newParametr.voteDuration,
             voteQuantity:newParametr.voteQuantity,
+            czasWyczekiwaniaKwestiiSpecjalnej:newParametr.czasWyczekiwaniaKwestiiSpecjalnej,
+            addIssuePause:newParametr.addIssuePause,
+            addCommentPause:newParametr.addCommentPause,
+            addReferencePause:newParametr.addReferencePause,
             czyAktywny:true
         });
         return id;

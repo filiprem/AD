@@ -6,7 +6,11 @@ Meteor.methods({
             kontakty: newParametr[0].kontakty,
             regulamin: newParametr[0].regulamin,
             voteDuration: newParametr[0].voteDuration,
-            voteQuantity: newParametr[0].voteQuantity
+            voteQuantity: newParametr[0].voteQuantity,
+            czasWyczekiwaniaKwestiiSpecjalnej:newParametr[0].czasWyczekiwaniaKwestiiSpecjalnej,
+            addIssuePause:newParametr[0].addIssuePause,
+            addCommentPause:newParametr[0].addCommentPause,
+            addReferencePause:newParametr[0].addReferencePause
         });
     },
     updateParametr: function(id, parametr){

@@ -21,7 +21,7 @@ Template.glosowanie.helpers({
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
                         //title: "Koniec głosowania Kwestii",
-                        text: "Konuec głosowania"
+                        text: "Koniec głosowania"
                     },
                     tmpl: Template.dataGlosowaniaKwestia,
                     sortOrder: 0,
