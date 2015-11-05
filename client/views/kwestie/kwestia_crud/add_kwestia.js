@@ -1,4 +1,5 @@
 Template.addKwestiaForm.rendered = function () {
+
     var rodzaj = document.getElementById("rodzajHidden").value;
     var temat = document.getElementById("tematHidden").value;
 

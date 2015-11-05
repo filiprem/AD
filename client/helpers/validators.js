@@ -100,7 +100,7 @@ jQuery.validator.addMethod("checkExistsEmail2", function (value, element,param) 
 jQuery.validator.addMethod("checkExistsEmailDraft", function (value, element) {
     var usersDraft = UsersDraft.find({
         $where: function () {
-            return ((this.email == value) || (this.email.toLowerCase() == value.toLowerCase()));
+            return (((this.email == value) || (this.email.toLowerCase() == value.toLowerCase()))&& this.czyAktywny==true);
         }
     });
     var found = null;

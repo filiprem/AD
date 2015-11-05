@@ -5,6 +5,8 @@ SSR.compileTemplate('email_lobbing_issue',Assets.getText('email_lobbing_issue.ht
 SSR.compileTemplate('email_started_voting',Assets.getText('email_started_voting.html'));
 SSR.compileTemplate('email_honorowy_invitation',Assets.getText('email_honorowy_invitation.html'));
 SSR.compileTemplate('email_application_confirmation',Assets.getText('email_application_confirmation.html'));
+SSR.compileTemplate('email_application_rejected',Assets.getText('email_application_rejected.html'));
+SSR.compileTemplate('email_application_accepted',Assets.getText('email_application_accepted.html'));
 
 Template.email_started_voting.nadanoPriorytet= function (kwestiaId,userId) {
     var kwestia = Kwestia.findOne(kwestiaId);
@@ -191,22 +193,81 @@ Meteor.methods({
         });
     },
     sendApplicationConfirmation:function(userData){
-        var  userTypeData=null;
-        switch (userData.userType){
-            case USERTYPE.CZLONEK: userTypeData="członka zwyczajnego";break;
-            case USERTYPE.HONOROWY: userTypeData="członka honorowego";break;
-        }
-        var html = SSR.render('email_application_confirmation',{
-            username:userData.profile.fullName,
-            organizacja: Parametr.findOne().nazwaOrganizacji,
-            userTypeData:userTypeData,
-            idKwestia:"111111"
-        });
+        var data=applicationEmail(userData,"confirm");
+
         Email.send({
-            to: userData.emails[0].address,
-            from: "AD "+Parametr.findOne().nazwaOrganizacji,
-            subject: "Potwierdzenie przyjęcia aplikacji na stanowisko "+userTypeData,
-            html: html
+            to: data.to,
+            from: data.to,
+            subject: "Potwierdzenie przyjęcia aplikacji na stanowisko "+data.userType,
+            html: data.html
+        });
+    },
+    sendApplicationRejected:function(userData){
+        var data=applicationEmail(userData,"reject");
+
+        Email.send({
+            to: data.to,
+            from: data.to,
+            subject: "Odrzucenie aplikacji na stanowisko "+data.userType,
+            html: data.html
+        });
+    },
+    sendApplicationAccepted:function(userData){
+        var data=applicationEmail(userData,"accept");
+
+        Email.send({
+            to: data.to,
+            from: data.to,
+            subject: "Akceptacja aplikacji na stanowisko "+data.userType,
+            html: data.html
         });
     }
 });
+applicationEmail=function(userData,emailTypeText){
+    console.log("user data");
+    console.log(userData);
+    console.log("pesel");
+    var welcomeGender=null;
+    if(userData.profile.pesel){
+        var pesel=userData.profile.pesel.substring(9,10);
+        if(_.contains(['1','3','5','7','9'],pesel))
+            welcomeGender="Szanowny";
+        else welcomeGender="Szanowna"
+    }
+    else
+        welcomeGender="Szanowny/a ";
+
+
+    var  userTypeData=null;
+    switch (userData.profile.userType){
+        case USERTYPE.CZLONEK: userTypeData="członka zwyczajnego";break;
+        case USERTYPE.HONOROWY: userTypeData="członka honorowego";break;
+    }
+    var url=null;
+    if(emailTypeText=="reject") {
+        emailTypeText = 'email_application_rejected';
+    }
+    else if (emailTypeText == "accept") {
+        emailTypeText = 'email_application_accepted';
+        url="#";
+        if(userData.profile.linkAktywacyjny)
+            url="activate_account/"+userData.profile.linkAktywacyjny;
+    }
+    else{
+       emailTypeText = 'email_application_confirmation';
+    }
+    var html = SSR.render(emailTypeText,{
+        username:userData.profile.firstName+" "+userData.profile.lastName,
+        organizacja: Parametr.findOne().nazwaOrganizacji,
+        userTypeData:userTypeData,
+        url:"#",
+        welcomeType:welcomeGender
+    });
+    var obj={
+        to:userData.email,
+        from:"AD "+Parametr.findOne().nazwaOrganizacji,
+        html:html,
+        userType:userTypeData
+    };
+    return obj;
+};

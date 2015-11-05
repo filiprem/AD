@@ -1,7 +1,7 @@
 Template.ZRTemplate.helpers({
     getZRName:function(idZR,status){
         var zespolR=null;
-        if(status==KWESTIA_STATUS.OSOBOWA || status==KWESTIA_STATUS.REALIZOWANA)
+        if(status==KWESTIA_STATUS.REALIZOWANA)
             zespolR = ZespolRealizacyjny.findOne({_id: idZR});
         else
             zespolR= ZespolRealizacyjnyDraft.findOne({_id:idZR});

@@ -85,13 +85,14 @@ checkingEndOfVote = function() {
                     if (kwestia.typ == KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE)
                         changeParametersSuccess(kwestia);
 
-                    //for kwestia type basic-jesli minal czas glosowania,wartPrior>0->
+                    //for kwestia type basic,osobowa-jesli minal czas glosowania,wartPrior>0->
                     //-dodajemy pkt uzytkownikom za udzial w zespole(zepsol bierzemy z ZrDraft)
                     //-jezeli zrDraft ma idZR- to odszukujemy ten ZR i o ile istnieje(mogl byc w miedzyczasie rozwiazany)
                     //to dopisujemy do tego zr tą kwestię i tej kwestii zeminiamy idZr,stary ZRDraft usuwamy
                     //-else: tworzymy nowy ZR przepisujac ZRDraft,dodajemy do niego kwestie,W kwestii zmeiniamy idZr, ZRDraft usuwamy
                     //-kwestia zmienia status na realizowana
                     else {
+                        console.log("GLOSOWANA->REALIZAZCJA");
                         awansUzytkownika(kwestia.idZespolRealizacyjny, pktZaUdzialWZesp);
                         kwestia.dataRealizacji = new Date();
                         kwestia.numerUchwaly = nadawanieNumeruUchwaly(kwestia.dataRealizacji);
@@ -123,11 +124,48 @@ checkingEndOfVote = function() {
                             if(kwestieOpcje.count()>1)
                                 hibernateKwestieOpcje(kwestia);
                         }
+                        //TO BĘDZIE ZREALIZOWANA!
+                        ////dla kwestii osobowych akcesyjnych bezpośrednich:
+                        ////powiadom o pozytywnej decyzji.nadaj login i hasło
+                        ////email
+                        ////przepisz user draft do user
+                        ////ustaw kwestię jako zrealizowaną
+                        //if(_.contains([KWESTIA_TYPE.ACCESS_HONOROWY,KWESTIA_TYPE.ACCESS_ZWYCZAJNY],kwestia.typ)){
+                        //
+                        //}
                     }
                 }
                 else {
                     console.log("admnistrowna/deliberowana w glosowaniu->kosz");
                     Meteor.call('removeKwestia', kwestia._id);
+
+                    //dla kwestii osobowych akcesyjnych bezpośrednich:
+                    //powiadom o negatywnej decyzji
+                    //usuń Zrdrat,userDraft->set to false
+                    //set w kwestii czyaktywny:false
+                    if(_.contains([KWESTIA_TYPE.ACCESS_HONOROWY,KWESTIA_TYPE.ACCESS_ZWYCZAJNY],kwestia.typ)){
+                        var ZRDraft=ZespolRealizacyjnyDraft.findOne({_id:kwestia.idZespolRealizacyjny});
+                        if(ZRDraft){
+                            Meteor.call('removeZespolRealizacyjnyDraft', ZRDraft._id, function (error) {
+                                if (error)
+                                    console.log(error.reason);
+                                else {
+                                    var zr=ZespolRealizacyjny.findOne({_id:ZRDraft.idZR});
+                                    if(zr)
+                                    rewriteZRMembersToList(zr, kwestia);
+                                }
+                            });
+                        }
+                        var userDraft=UsersDraft.findOne({_id:kwestia.idUser});
+                        if(userDraft) {
+                            Meteor.call("sendApplicationRejected",userDraft,function(error,ret){
+                                (!error)
+                                    Meteor.call("removeUserDraft",userDraft);
+                            });
+                            //set userDraft to false
+                            //ad to kwestia idUserDraft
+                        }
+                    }
                 }
             }
         }

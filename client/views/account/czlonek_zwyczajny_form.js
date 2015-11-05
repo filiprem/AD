@@ -68,7 +68,7 @@ Template.czlonekZwyczajnyForm.rendered = function () {
             else
                 validationPlacementError(error, element);
         }
-    })
+    });
 };
 
 Template.czlonekZwyczajnyForm.events({
@@ -88,7 +88,6 @@ Template.czlonekZwyczajnyForm.events({
                 login: "",
                 firstName: $(e.target).find('[name=firstName]').val(),
                 lastName: $(e.target).find('[name=lastName]').val(),
-                profession: $(e.target).find('[name=profession]').val(),
                 address: $(e.target).find('[name=address]').val(),
                 zip: $(e.target).find('[name=zipCode]').val(),
                 role: 'user',
@@ -159,48 +158,19 @@ addUserDraft=function(newUser){
             }
             else
             //do poprawienia
-                //Meteor.call("sendApplicationConfirmation",newUser[0]);
+                var user=UsersDraft.findOne({_id:ret});
+                Meteor.call("sendApplicationConfirmation",user);
                 addKwestiaOsobowa(ret,newUser);
         });
 };
 addKwestiaOsobowa=function(idUserDraft,newUser){
-    var dataG = new Date();
-    var d = dataG.setDate(dataG.getDate() + 7);
-    var uwagi="";
-    if(newUser[0].uwagi!=null)
-        uwagi=newUser[0].uwagi;
-
-    var daneAplikanta={
-        fullName:newUser[0].firstName + " " + newUser[0].lastName,
-        email:newUser[0].email,
-        pesel:newUser[0].pesel,
-        city:newUser[0].city,
-        zip:newUser[0].zip,
-        address:newUser[0].address,
-        uwagi:uwagi
-    };
-    var newKwestia = [
-        {
-            idUser: idUserDraft,
-            dataWprowadzenia: new Date(),
-            kwestiaNazwa: 'Aplikowanie- ' + newUser[0].firstName + " " + newUser[0].lastName,
-            wartoscPriorytetu: 0,
-            wartoscPriorytetuWRealizacji:0,
-            sredniaPriorytet: 0,
-            idTemat: Temat.findOne({})._id,
-            idRodzaj: Rodzaj.findOne({})._id,
-            idZespolRealizacyjny:ZespolRealizacyjny.findOne()._id,
-            dataDyskusji: new Date(),
-            dataGlosowania: d,
-            krotkaTresc: 'Aplikacja o przyjęcie do systemu jako ' + newUser[0].userType,
-            szczegolowaTresc: daneAplikanta,
-            isOption: false,
-            status: KWESTIA_STATUS.OSOBOWA,
-            typ:KWESTIA_TYPE.ACCESS_ZWYCZAJNY
-        }];
-    console.log("add kwestia");
-    console.log(newKwestia);
-    Meteor.call('addKwestiaOsobowa', newKwestia, function (error,ret) {
+    var ZR=ZespolRealizacyjny.findOne();
+    var newZR=[{
+        nazwa:ZR.nazwa,
+        idZR:ZR._id,
+        zespol:ZR.zespol
+    }];
+    Meteor.call('addZespolRealizacyjnyDraft', newZR, function (error,ret) {
         if (error) {
             // optionally use a meteor errors package
             if (typeof Errors === "undefined")
@@ -210,13 +180,66 @@ addKwestiaOsobowa=function(idUserDraft,newUser){
                 throwError(error.reason);
             }
         }
-        else {
-            if(Meteor.userId())
-                Router.go("administracjaUserMain");
-            else
-                Router.go("home");
-            przyjecieWnioskuConfirmation(Parametr.findOne().czasWyczekiwaniaKwestiiSpec,daneAplikanta.email,"członkowstwo");
-            //addZR(ret,newUser[0].email);
+        else{
+            console.log("ret:");
+            console.log(ret);
+            var dataG = new Date();
+            var d = dataG.setDate(dataG.getDate() + 7);
+            var uwagi="";
+            if(newUser[0].uwagi!=null)
+                uwagi=newUser[0].uwagi;
+
+            var daneAplikanta={
+                fullName:newUser[0].firstName + " " + newUser[0].lastName,
+                email:newUser[0].email,
+                pesel:newUser[0].pesel,
+                city:newUser[0].city,
+                zip:newUser[0].zip,
+                address:newUser[0].address,
+                uwagi:uwagi
+            };
+            var newKwestia = [
+                {
+                    idUser: idUserDraft,
+                    dataWprowadzenia: new Date(),
+                    kwestiaNazwa: 'Aplikowanie- ' + newUser[0].firstName + " " + newUser[0].lastName,
+                    wartoscPriorytetu: 0,
+                    wartoscPriorytetuWRealizacji:0,
+                    sredniaPriorytet: 0,
+                    idTemat: Temat.findOne({})._id,
+                    idRodzaj: Rodzaj.findOne({})._id,
+                    idZespolRealizacyjny:ret,
+                    dataDyskusji: new Date(),
+                    dataGlosowania: d,
+                    krotkaTresc: 'Aplikacja o przyjęcie do systemu jako ' + newUser[0].userType,
+                    szczegolowaTresc: daneAplikanta,
+                    isOption: false,
+                    status: KWESTIA_STATUS.OSOBOWA,
+                    typ:KWESTIA_TYPE.ACCESS_ZWYCZAJNY
+                }];
+            console.log("add kwestia");
+            console.log(newKwestia);
+            Meteor.call('addKwestiaOsobowa', newKwestia, function (error,ret) {
+                if (error) {
+                    // optionally use a meteor errors package
+                    if (typeof Errors === "undefined")
+                        Log.error('Error: ' + error.reason);
+                    else {
+                        //if(error.error === 409)
+                        throwError(error.reason);
+                    }
+                }
+                else {
+                    if(Meteor.userId())
+                        Router.go("administracjaUserMain");
+                    else
+                        Router.go("home");
+                    przyjecieWnioskuConfirmation(Parametr.findOne().czasWyczekiwaniaKwestiiSpecjalnej,daneAplikanta.email,"członkowstwo");
+                    //addZR(ret,newUser[0].email);
+                }
+            });
         }
     });
+
+
 };

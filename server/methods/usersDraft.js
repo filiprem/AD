@@ -16,7 +16,11 @@ Meteor.methods({
                 idUser:newUser[0].idUser,
                 isExpectant:newUser[0].isExpectant,
                 city:newUser[0].city,
-                pesel:newUser[0].pesel
+                pesel:newUser[0].pesel,
+                czyAktywny:true,
+                dataWprowadzenia:new Date(),
+                czyZrealizowany:false,
+                linkAktywacyjny:null
             }
         });
         return id;
@@ -28,7 +32,16 @@ Meteor.methods({
                 $set: currentUser},
             {upsert:true});
     },
+    //removeUserDraft: function(id){
+    //    UsersDraft.update({_id:id},{$set:{'profile.czyAktywny': false,czyZrealizowany:false}});
+    //},
     removeUserDraft: function(id){
-        UsersDraft.remove({_id: id});
+        UsersDraft.update({_id:id},{$set:{'profile.czyAktywny': false,czyZrealizowany:true}});
+    },
+    setZrealizowanyUserDraft:function(id,realization){
+        UsersDraft.update({_id:id},{$set:{czyZrealizowany:realization}});
+    },
+    setZrealizowanyActivationHashUserDraft:function(id,activationLink,realization){
+        UsersDraft.update({_id:id},{$set:{linkAktywacyjny:activationLink,czyZrealizowany:realization}});
     }
 });

@@ -7,8 +7,8 @@ Template.kwestiaDetails.helpers({
                 return zr.protector==Meteor.userId() ? true : false;
         }
     },
-    isOsobowa: function (status) {
-        if (status == KWESTIA_STATUS.OSOBOWA)
+    isOsobowa: function (typ) {
+        if (_.contains([KWESTIA_TYPE.ACCESS_ZWYCZAJNY,KWESTIA_TYPE.ACCESS_HONOROWY],typ))
             return true;
         else
             return false;

@@ -1,0 +1,11 @@
+<template name="activateAccount">
+    {{#if notActivatedAccount}}
+        <p class="col-md-12 bg-success padding-15">
+            Dziêkujemy za aktywacjê konta! Na podany przez Ciebie email zostanie wys³any login i has³o.
+        </p>
+    {{else}}
+        <p class="col-md-12 bg-warning padding-15">
+            Twoje konto zosta³o ju¿ aktywowane. PrzejdŸ {{link}} aby, siê zalogowaæ.
+        </p>
+    {{/if}}
+</template>
