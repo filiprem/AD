@@ -156,11 +156,12 @@ addUserDraft=function(newUser){
                 else
                     throwError(error.reason);
             }
-            else
-            //do poprawienia
-                var user=UsersDraft.findOne({_id:ret});
-                Meteor.call("sendApplicationConfirmation",user);
-                addKwestiaOsobowa(ret,newUser);
+            else {
+                //do poprawienia
+                var user = UsersDraft.findOne({_id: ret});
+                Meteor.call("sendApplicationConfirmation", user);
+                addKwestiaOsobowa(ret, newUser);
+            }
         });
 };
 addKwestiaOsobowa=function(idUserDraft,newUser){
@@ -172,19 +173,11 @@ addKwestiaOsobowa=function(idUserDraft,newUser){
     }];
     Meteor.call('addZespolRealizacyjnyDraft', newZR, function (error,ret) {
         if (error) {
-            // optionally use a meteor errors package
-            if (typeof Errors === "undefined")
-                Log.error('Error: ' + error.reason);
-            else {
-                //if(error.error === 409)
-                throwError(error.reason);
-            }
+            console.log(error.reason);
         }
         else{
             console.log("ret:");
             console.log(ret);
-            var dataG = new Date();
-            var d = dataG.setDate(dataG.getDate() + 7);
             var uwagi="";
             if(newUser[0].uwagi!=null)
                 uwagi=newUser[0].uwagi;
@@ -209,8 +202,7 @@ addKwestiaOsobowa=function(idUserDraft,newUser){
                     idTemat: Temat.findOne({})._id,
                     idRodzaj: Rodzaj.findOne({})._id,
                     idZespolRealizacyjny:ret,
-                    dataDyskusji: new Date(),
-                    dataGlosowania: d,
+                    dataGlosowania: null,
                     krotkaTresc: 'Aplikacja o przyjęcie do systemu jako ' + newUser[0].userType,
                     szczegolowaTresc: daneAplikanta,
                     isOption: false,
@@ -221,13 +213,7 @@ addKwestiaOsobowa=function(idUserDraft,newUser){
             console.log(newKwestia);
             Meteor.call('addKwestiaOsobowa', newKwestia, function (error,ret) {
                 if (error) {
-                    // optionally use a meteor errors package
-                    if (typeof Errors === "undefined")
-                        Log.error('Error: ' + error.reason);
-                    else {
-                        //if(error.error === 409)
-                        throwError(error.reason);
-                    }
+                    console.log(error.reason);
                 }
                 else {
                     if(Meteor.userId())

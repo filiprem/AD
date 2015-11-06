@@ -16,12 +16,13 @@ Meteor.methods({
                 idUser:newUser[0].idUser,
                 isExpectant:newUser[0].isExpectant,
                 city:newUser[0].city,
-                pesel:newUser[0].pesel,
-                czyAktywny:true,
-                dataWprowadzenia:new Date(),
-                czyZrealizowany:false,
-                linkAktywacyjny:null
-            }
+                pesel:newUser[0].pesel
+            },
+             czyZrealizowany:false,
+             linkAktywacyjny:null,
+             czyAktywny:true,
+             dataWprowadzenia:new Date(),
+             licznikKlikniec:0
         });
         return id;
 
@@ -36,12 +37,15 @@ Meteor.methods({
     //    UsersDraft.update({_id:id},{$set:{'profile.czyAktywny': false,czyZrealizowany:false}});
     //},
     removeUserDraft: function(id){
-        UsersDraft.update({_id:id},{$set:{'profile.czyAktywny': false,czyZrealizowany:true}});
+        UsersDraft.update({_id:id},{$set:{czyAktywny: false,czyZrealizowany:true}});
     },
     setZrealizowanyUserDraft:function(id,realization){
         UsersDraft.update({_id:id},{$set:{czyZrealizowany:realization}});
     },
     setZrealizowanyActivationHashUserDraft:function(id,activationLink,realization){
         UsersDraft.update({_id:id},{$set:{linkAktywacyjny:activationLink,czyZrealizowany:realization}});
-    }
+    },
+    updateLicznikKlikniec:function(id,counter){
+        UsersDraft.update({_id:id},{$set:{licznikKlikniec:counter}});
+    },
 });

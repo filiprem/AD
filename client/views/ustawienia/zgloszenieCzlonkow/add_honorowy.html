@@ -1,0 +1,81 @@
+<template name="addHonorowy">
+    <div class="row">
+        <!--(widok do poprawy estetycznej)-->
+        <!--<div class="col col-md-6">-->
+            <!--<button class="btn  btn-default" data-toggle="tooltip" title="Wybierz osobę z listy lub powołaj uzupełniając formularz" id="zglosNaHonorowegoClick" {{isCzlonek}}>-->
+                <!--<i class="fa fa-male"></i> Zgłoś na członka honorowego-->
+            <!--</button>-->
+        <!--</div>-->
+        <div class="col col-md-10">
+            <form class="form-horizontal" id="parametrForm">
+                <legend>Zgłoszenie na członka honorowego</legend>
+                <div class="form-group" id="email">
+                    <input type="hidden" value="{{sugerowanyEmail}}" id="emailHidden"/>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" for="sugerowanyEmail">Email:</label>
+                            <div class="col-xs-9">
+                                <input type="text"  name="sugerowanyEmail" id="sugerowanyEmail" required />
+                            </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-3" for="firstName">Imię:</label>
+                    <div class="col-xs-9">
+                        <input type="text"  name="firstName" id="firstName" required value="{{firstName}}" class="form-control" {{isEmailInserted}}/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-3" for="lastName">Nazwisko:</label>
+                    <div class="col-xs-9">
+                        <input type="text"  name="lastName" id="lastName" required value="{{lastName}}" class="form-control" {{isEmailInserted}}/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-xs-offset-3 col-xs-9">
+                        <input type="submit" class="btn btn-primary" value="Zgłoś">
+                        <input type="reset" class="btn btn-default" value="Anuluj">
+                    </div>
+                </div>
+                <br/>
+            </form>
+        </div>
+        </div>
+        <!--<div class="col col-md-10">-->
+            <!--<form class="form-horizontal" id="honorowyForm">-->
+                <!--<legend>Zgłoszenie na członka honorowego</legend>-->
+                <!--<div class="form-group" id="email">-->
+                    <!--<input type="hidden" value="{{sugerowanyTemat}}" id="tematHidden"/>-->
+                    <!--<div class="form-group">-->
+                        <!--<label class="control-label col-xs-3" for="sugerowanyTemat">Email:</label>-->
+                        <!--<div class="col-xs-9">-->
+                            <!--<input type="text"  name="sugerowanyTemat" id="sugerowanyTemat" required/>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="form-group">-->
+                    <!--<label class="control-label col-xs-3" for="firstName">Imię:</label>-->
+                    <!--<div class="col-xs-9">-->
+                        <!--<input type="text"  name="firstName" id="firstName" required value="{{firstName}}"/>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="form-group">-->
+                    <!--<label class="control-label col-xs-3" for="lastName">Nazwisko:</label>-->
+                    <!--<div class="col-xs-9">-->
+                        <!--<input type="text"  name="lastName" id="lastName" required value="{{lastName}}"/>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <!--<div class="form-group">-->
+                    <!--<div class="col-xs-offset-3 col-xs-9">-->
+                        <!--<input type="submit" class="btn btn-primary" value="Zgłoś">-->
+                        <!--<input type="reset" class="btn btn-default" value="Anuluj">-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</form>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<br/>-->
+    <!--{{>listDoradcyModal}}-->
+    <!--{{> GlobalNotifications}}-->
+</template>

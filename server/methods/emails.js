@@ -7,6 +7,8 @@ SSR.compileTemplate('email_honorowy_invitation',Assets.getText('email_honorowy_i
 SSR.compileTemplate('email_application_confirmation',Assets.getText('email_application_confirmation.html'));
 SSR.compileTemplate('email_application_rejected',Assets.getText('email_application_rejected.html'));
 SSR.compileTemplate('email_application_accepted',Assets.getText('email_application_accepted.html'));
+SSR.compileTemplate('email_application_accepted_existing_user',Assets.getText('email_application_accepted_existing_user.html'));
+SSR.compileTemplate('email_login_data',Assets.getText('email_login_data.html'));
 
 Template.email_started_voting.nadanoPriorytet= function (kwestiaId,userId) {
     var kwestia = Kwestia.findOne(kwestiaId);
@@ -193,7 +195,7 @@ Meteor.methods({
         });
     },
     sendApplicationConfirmation:function(userData){
-        var data=applicationEmail(userData,"confirm");
+        var data=applicationEmail(userData,"confirm",null);
 
         Email.send({
             to: data.to,
@@ -203,7 +205,7 @@ Meteor.methods({
         });
     },
     sendApplicationRejected:function(userData){
-        var data=applicationEmail(userData,"reject");
+        var data=applicationEmail(userData,"reject",null);
 
         Email.send({
             to: data.to,
@@ -212,59 +214,98 @@ Meteor.methods({
             html: data.html
         });
     },
-    sendApplicationAccepted:function(userData){
-        var data=applicationEmail(userData,"accept");
-
+    sendApplicationAccepted:function(userData,text){
+        var data=applicationEmail(userData,text,null);
         Email.send({
             to: data.to,
             from: data.to,
             subject: "Akceptacja aplikacji na stanowisko "+data.userType,
             html: data.html
         });
+    },
+    sendFirstLoginData:function(userData,pass){
+        var data=applicationEmail(userData,"loginData",pass);
+        Email.send({
+            to: data.to,
+            from: data.to,
+            subject: "Dane logowania do systemu "+Parametr.findOne().nazwaOrganizacji,
+            html: data.html
+        });
     }
 });
-applicationEmail=function(userData,emailTypeText){
-    console.log("user data");
-    console.log(userData);
-    console.log("pesel");
+recognizeSex=function(userData){
     var welcomeGender=null;
     if(userData.profile.pesel){
-        var pesel=userData.profile.pesel.substring(9,10);
-        if(_.contains(['1','3','5','7','9'],pesel))
-            welcomeGender="Szanowny";
-        else welcomeGender="Szanowna"
+        if(userData.profile.pesel!="") {
+            var pesel = userData.profile.pesel.substring(9, 10);
+            if (_.contains(['1', '3', '5', '7', '9'], pesel))
+                welcomeGender = "Szanowny";
+            else welcomeGender = "Szanowna"
+        }
+        else
+            welcomeGender="Szanowny/a ";
     }
     else
         welcomeGender="Szanowny/a ";
 
+    return welcomeGender;
+}
+applicationEmail=function(userData,emailTypeText,passw){
+    console.log("user data");
+    console.log(userData);
+    console.log("pesel");
+    var welcomeGender=recognizeSex(userData);
 
     var  userTypeData=null;
     switch (userData.profile.userType){
         case USERTYPE.CZLONEK: userTypeData="członka zwyczajnego";break;
-        case USERTYPE.HONOROWY: userTypeData="członka honorowego";break;
+        case USERTYPE.DORADCA: userTypeData="doradca";break;
+        case USERTYPE.HONOROWY: userTypeData="członka honorwego";break;
     }
     var url=null;
+    var login=null;
+    var pass=null;
+    var to=userData.email;
+    var textGender=null;
     if(emailTypeText=="reject") {
         emailTypeText = 'email_application_rejected';
     }
-    else if (emailTypeText == "accept") {
+    else if (emailTypeText == "acceptNew") {
         emailTypeText = 'email_application_accepted';
-        url="#";
-        if(userData.profile.linkAktywacyjny)
-            url="activate_account/"+userData.profile.linkAktywacyjny;
+        if(userData.linkAktywacyjny)
+            url="http://localhost:3000/account/activate_account/"+userData.linkAktywacyjny;
+        if(welcomeGender=="Szanowny")
+            textGender="mógł";
+        else if(welcomeGender=="Szanowna")
+            textGender="mogła";
+        else
+            textGender="mógł/mogła";
+    }
+    else if(emailTypeText=="acceptExisting"){
+        emailTypeText = 'email_application_accepted_existing_user';
+    }
+    else if(emailTypeText=="loginData"){
+        emailTypeText = 'email_login_data';
+        login=userData.username;
+        pass=passw;
+        to=userData.emails[0].address
     }
     else{
        emailTypeText = 'email_application_confirmation';
     }
+    console.log(url);
     var html = SSR.render(emailTypeText,{
         username:userData.profile.firstName+" "+userData.profile.lastName,
         organizacja: Parametr.findOne().nazwaOrganizacji,
         userTypeData:userTypeData,
-        url:"#",
-        welcomeType:welcomeGender
+        url:url,
+        welcomeType:welcomeGender,
+        login:login,
+        password:pass,
+        textGender:textGender
     });
     var obj={
-        to:userData.email,
+        to:to,
         from:"AD "+Parametr.findOne().nazwaOrganizacji,
         html:html,
         userType:userTypeData

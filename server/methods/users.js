@@ -38,6 +38,9 @@ Meteor.methods({
     updateUserRanking: function(currentUserId,value) {
         Users.update({_id:currentUserId},{$set:{'profile.rADking': value}});
     },
+    updateUserType: function(currentUserId,value) {
+        Users.update({_id:currentUserId},{$set:{'profile.userType': value}});
+    },
     removeUser: function(id){
         Users.remove({_id: id});
     },

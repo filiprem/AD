@@ -135,14 +135,40 @@ Meteor.startup(function(){
                                 }
                                 if(_.contains([KWESTIA_TYPE.ACCESS_HONOROWY,KWESTIA_TYPE.ACCESS_ZWYCZAJNY],kwestia.typ)) {
                                     var userDraft = UsersDraft.findOne({_id: kwestia.idUser});
-                                    var activationLink=CryptoJS.MD5(userDraft._id).toString();
-                                    if (userDraft) {
-                                        Meteor.call("setZrealizowanyActivationHashUserDraft", userDraft._id,activationLink,true, function (error, ret) {
-                                            (!error)
-                                                Meteor.call("sendApplicationAccepted", UsersDraft.findOne({_id:userDraft._id}));
-                                                //Meteor.call("setZrealizowanyUserDraft", userDraft._id,true);
+                                    //jezeli userDraft mial idUser=byl juz doradcą,to tylko zmieniamy user type,wysylamy powiadomienie email,updateuserDraft
+                                    if(userDraft.profile.idUser!=null){
+                                        var user=Users.findOne({_id:userDraft.profile.idUser});
+                                        if(user){
+                                            //sprawdzamy czy ten ,który aplikował jeszcze jest w systemie!czyAktywny==true
+                                            //if(user.profile.czyAktywny==true) {
+                                                if (user.profile.userType == USERTYPE.DORADCA) {//sprawdzamy cz ten wcześniej nie aplikował i już ma zmienione
+                                                    Meteor.call("updateUserType",user._id,USERTYPE.CZLONEK,function(error){
+                                                        if(!error){
+                                                            Meteor.call("removeUserDraft",userDraft._id,function(error){
+                                                                if(!error){
+                                                                    Meteor.call("sendApplicationAccepted",user,"acceptExisting",function(error){
+                                                                       if(error)
+                                                                           console.log(error.reason);
+                                                                    });
+                                                                }
+                                                            });
+                                                        }
+                                                    });
+                                                }
+                                                else{
 
-                                        });
+                                                }
+                                            //}
+                                        }
+                                    }
+                                    else {//zupełnie nowy członek systemu
+                                        var activationLink = CryptoJS.MD5(userDraft._id).toString();
+                                        if (userDraft) {
+                                            Meteor.call("setZrealizowanyActivationHashUserDraft", userDraft._id, activationLink, true, function (error, ret) {
+                                                (!error)
+                                                Meteor.call("sendApplicationAccepted", UsersDraft.findOne({_id: userDraft._id}),"acceptNew");
+                                            });
+                                        }
                                     }
                                 }
                             }

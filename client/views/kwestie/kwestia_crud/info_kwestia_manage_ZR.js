@@ -51,7 +51,7 @@ Template.ZRTemplate.helpers({
         console.log("tuuu");
         var zespol=null;
         var text=null;
-        if(status==KWESTIA_STATUS.GLOSOWANA) {
+        if(status==KWESTIA_STATUS.GLOSOWANA || status==KWESTIA_STATUS.OSOBOWA) {
             zespol = ZespolRealizacyjnyDraft.findOne({_id: idZR});
             text="ZRDraft";
         }
