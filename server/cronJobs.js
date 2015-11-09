@@ -143,7 +143,7 @@ checkingEndOfVote = function() {
                     //powiadom o negatywnej decyzji
                     //usuń Zrdrat,userDraft->set to false
                     //set w kwestii czyaktywny:false
-                    if(_.contains([KWESTIA_TYPE.ACCESS_HONOROWY,KWESTIA_TYPE.ACCESS_ZWYCZAJNY],kwestia.typ)){
+                    if(_.contains([KWESTIA_TYPE.ACCESS_DORADCA,KWESTIA_TYPE.ACCESS_ZWYCZAJNY],kwestia.typ)){
                         var ZRDraft=ZespolRealizacyjnyDraft.findOne({_id:kwestia.idZespolRealizacyjny});
                         if(ZRDraft){
                             Meteor.call('removeZespolRealizacyjnyDraft', ZRDraft._id, function (error) {
@@ -170,11 +170,12 @@ checkingEndOfVote = function() {
             }
         }
         else if(kwestia.status == KWESTIA_STATUS.OCZEKUJACA){ //DO ZROBIENIA!!!!! po miesiącu idzie do kosza
-
-            awansUzytkownika(kwestia.idZespolRealizacyjny, pktZaUdzialWZesp);
-            kwestia.dataRealizacji = new Date();
-            kwestia.numerUchwaly = nadawanieNumeruUchwaly(kwestia.dataRealizacji);
-            Meteor.call('updateStatNrUchwDtRealKwestii', kwestia._id, KWESTIA_STATUS.REALIZOWANA, kwestia.numerUchwaly, kwestia.dataRealizacji);
+            console.log("oczekujaca crone");
+            //to bedzie do wyrzucenia? bo nie ma głosowania w tyh kwestiach
+            //awansUzytkownika(kwestia.idZespolRealizacyjny, pktZaUdzialWZesp);
+            //kwestia.dataRealizacji = new Date();
+            //kwestia.numerUchwaly = nadawanieNumeruUchwaly(kwestia.dataRealizacji);
+            //Meteor.call('updateStatNrUchwDtRealKwestii', kwestia._id, KWESTIA_STATUS.REALIZOWANA, kwestia.numerUchwaly, kwestia.dataRealizacji);
            //to samo,co dla tej powyzej, +zmiana statusu na w realizacji
         }
     });

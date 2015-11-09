@@ -133,7 +133,7 @@ Meteor.startup(function(){
                                     if(kwestia.idZespolRealizacyjny!=null)
                                         manageZR(kwestia);
                                 }
-                                if(_.contains([KWESTIA_TYPE.ACCESS_HONOROWY,KWESTIA_TYPE.ACCESS_ZWYCZAJNY],kwestia.typ)) {
+                                if(_.contains([KWESTIA_TYPE.ACCESS_DORADCA,KWESTIA_TYPE.ACCESS_ZWYCZAJNY],kwestia.typ)) {
                                     var userDraft = UsersDraft.findOne({_id: kwestia.idUser});
                                     //jezeli userDraft mial idUser=byl juz doradcą,to tylko zmieniamy user type,wysylamy powiadomienie email,updateuserDraft
                                     if(userDraft.profile.idUser!=null){

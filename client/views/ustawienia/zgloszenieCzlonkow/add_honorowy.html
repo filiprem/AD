@@ -7,30 +7,61 @@
             <!--</button>-->
         <!--</div>-->
         <div class="col col-md-10">
-            <form class="form-horizontal" id="parametrForm">
+            <form class="form-horizontal" id="honorowyForm">
                 <legend>Zgłoszenie na członka honorowego</legend>
-                <div class="form-group" id="email">
-                    <input type="hidden" value="{{sugerowanyEmail}}" id="emailHidden"/>
+                <div class="form-group">
+                    <label class="control-label col-xs-3" for="firstName">Wybierz opcję:</label>
+                    <div class="col-xs-9">
+                        <select id="chooseOption">
+                            <option value="chooseNewOption">Wprowadź nowego użytkownika</option>
+                            <option value="chooseExistingOption">Wybierz z listy</option>
+                        </select>
+                    </div>
+                </div>
+                {{#if chooseNewOption}}
                     <div class="form-group">
-                        <label class="control-label col-xs-3" for="sugerowanyEmail">Email:</label>
-                            <div class="col-xs-9">
-                                <input type="text"  name="sugerowanyEmail" id="sugerowanyEmail" required />
-                            </div>
+                        <label class="control-label col-xs-3" for="email">Email:</label>
+                        <div class="col-xs-9">
+                            <input type="text"  name="email" id="email" required  class="form-control" />
+                        </div>
                     </div>
-                </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" for="firstName">Imię:</label>
+                        <div class="col-xs-9">
+                            <input type="text"  name="firstName" id="firstName" required value="{{firstName}}" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" for="lastName">Nazwisko:</label>
+                        <div class="col-xs-9">
+                            <input type="text"  name="lastName" id="lastName" required value="{{lastName}}" class="form-control"/>
+                        </div>
+                    </div>
+                {{else}}
+                    <div class="form-group" id="chosenCandidate" style="display: none">
+                        <label class="control-label col-xs-3" for="personChosen">Wybrany kandydat:</label>
+                        <div class="col-xs-7">
+                            <input type="text"  name="personChosen" id="personChosen"  class="form-control"  required disabled/>
+                        </div>
+                        <input type="reset" class="btn btn-danger" value="Usuń" id="removeChosenPerson">
+                    </div>
+                    <div class="col-md-12" id="reactiveTable" style="display: block">
+                        {{> reactiveTable
+                        class = "table table-bordered table-hover"
+                        fields = settings.fields
+                        settings = settings
+                        collection = DoradcyList
+                        }}
+                    </div>
+                {{/if}}
                 <div class="form-group">
-                    <label class="control-label col-xs-3" for="firstName">Imię:</label>
+                    <label class="control-label col-xs-3" for="uzasadnienie">Uzasadnienie:</label>
                     <div class="col-xs-9">
-                        <input type="text"  name="firstName" id="firstName" required value="{{firstName}}" class="form-control" {{isEmailInserted}}/>
+                        <textarea   name="uzasadnienie" id="uzasadnienie" required  class="form-control" rows="3"
+                                    placeholder="Uzasadnij dlaczego chcesz powołać na stanowisko człona honorowego właśnie tę osobę">
+                        </textarea>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="control-label col-xs-3" for="lastName">Nazwisko:</label>
-                    <div class="col-xs-9">
-                        <input type="text"  name="lastName" id="lastName" required value="{{lastName}}" class="form-control" {{isEmailInserted}}/>
-                    </div>
-                </div>
-
                 <div class="form-group">
                     <div class="col-xs-offset-3 col-xs-9">
                         <input type="submit" class="btn btn-primary" value="Zgłoś">
@@ -40,42 +71,10 @@
                 <br/>
             </form>
         </div>
-        </div>
-        <!--<div class="col col-md-10">-->
-            <!--<form class="form-horizontal" id="honorowyForm">-->
-                <!--<legend>Zgłoszenie na członka honorowego</legend>-->
-                <!--<div class="form-group" id="email">-->
-                    <!--<input type="hidden" value="{{sugerowanyTemat}}" id="tematHidden"/>-->
-                    <!--<div class="form-group">-->
-                        <!--<label class="control-label col-xs-3" for="sugerowanyTemat">Email:</label>-->
-                        <!--<div class="col-xs-9">-->
-                            <!--<input type="text"  name="sugerowanyTemat" id="sugerowanyTemat" required/>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                    <!--<label class="control-label col-xs-3" for="firstName">Imię:</label>-->
-                    <!--<div class="col-xs-9">-->
-                        <!--<input type="text"  name="firstName" id="firstName" required value="{{firstName}}"/>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                    <!--<label class="control-label col-xs-3" for="lastName">Nazwisko:</label>-->
-                    <!--<div class="col-xs-9">-->
-                        <!--<input type="text"  name="lastName" id="lastName" required value="{{lastName}}"/>-->
-                    <!--</div>-->
-                <!--</div>-->
+    </div>
+</template>
 
-                <!--<div class="form-group">-->
-                    <!--<div class="col-xs-offset-3 col-xs-9">-->
-                        <!--<input type="submit" class="btn btn-primary" value="Zgłoś">-->
-                        <!--<input type="reset" class="btn btn-default" value="Anuluj">-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</form>-->
-        <!--</div>-->
-    <!--</div>-->
-    <!--<br/>-->
-    <!--{{>listDoradcyModal}}-->
-    <!--{{> GlobalNotifications}}-->
+<template name="userDataLink">
+    <input type="hidden" value="{{_id}}" id="chosenDor"/>
+    <a href="#" id="chooseDoradca" value="{{_id}}">{{userData}}</a>
 </template>

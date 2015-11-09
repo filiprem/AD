@@ -1,30 +1,30 @@
 <template name="answerInvitation">
-    {{#if userAnswered}}
-        {{#if answerPositive}}
-            <p>Ju¿ potwierdzi³eœ chêæ aplikowania do naszej organizacji {{organizationName}}</p>
-            <p>Aby zobaczyæ szczegó³y kwestii kliknij <a href="#">tutaj</a> </p>
-            {{else}}
-            <p>Przepraszamy!</p>
-            <p>Odrzuci³eœ zaproszenie do aplikowania na stanowisko {{position}} w naszej organizacji {{organizationName}}</p>
-        {{/if}}
-    {{else}}
+    {{#if userNotAnswered}}
         {{#if timeExpired}}
-            <p>Przepraszamy, czas przyjêcia zaproszenia na stanowisko {{psition}} w naszej organizacji {{organizationName}} min¹³.</p>
+            <p>Przepraszamy, czas przyjÄ™cia zaproszenia na stanowisko {{position}} w naszej organizacji {{organizationName}} minÄ…Å‚.</p>
         {{else}}
             <div class="main">
-                <p>Witaj {{fullName}}</p>
+                <p>Witaj {{fullName}}!</p>
                 <br>
                 <p>
-                    Zosta³eœ zaproszony do aplikowania na stanowisko {{postion}} w naszej organizacji {{organizationName}}
+                    ZostaÅ‚eÅ› zaproszony do aplikowania na stanowisko {{postion}} w naszej organizacji {{organizationName}}
                 </p>
                 <br>
-                <p>Czy chcesz aplikowaæ na powy¿sze stanowisko?</p>
+                <p>Czy chcesz aplikowaÄ‡ na powyÅ¼sze stanowisko?</p>
                 <br>
                 <div class="col-xs-offset-3 col-xs-9">
-                    <input type="submit" class="btn btn-primary" value="Chcê aplikowaæ">
-                    <input type="reset" class="btn btn-default" value="Nie, dziêkujê">
+                    <input type="submit" class="btn btn-primary" value="ChcÄ™ aplikowaÄ‡">
+                    <input type="reset" class="btn btn-default" value="Nie, dziÄ™kujÄ™">
                 </div>
             </div>
+        {{/if}}
+    {{else}}
+        {{#if answerPositive}}
+            <p>JuÅ¼ potwierdziÅ‚eÅ› chÄ™Ä‡ aplikowania do naszej organizacji {{organizationName}}</p>
+            <p>Aby zobaczyÄ‡ szczegÃ³Å‚y kwestii kliknij <a href="#">tutaj</a> </p>
+        {{else}}
+            <p>Przepraszamy!</p>
+            <p>OdrzuciÅ‚eÅ› zaproszenie do aplikowania na stanowisko {{position}} w naszej organizacji {{organizationName}}</p>
         {{/if}}
     {{/if}}
 </template>

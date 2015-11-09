@@ -16,9 +16,9 @@ Template.ZRTemplate.helpers({
         console.log(czyAktywny);
         return czyAktywny==false || status==KWESTIA_STATUS.ZREALIZOWANA ? true :false;
     },
-    statusGlosowanaOsobowaRealizowanaZrealizowana:function(status){
+    statusGlosowanaOsobowaRealizowanaZrealizowana:function(status,typ){
         return status==KWESTIA_STATUS.GLOSOWANA || status==KWESTIA_STATUS.OSOBOWA ||
-        status==KWESTIA_STATUS.REALIZOWANA || status==KWESTIA_STATUS.ZREALIZOWANA ? true : false;
+        status==KWESTIA_STATUS.REALIZOWANA || status==KWESTIA_STATUS.ZREALIZOWANA || typ==KWESTIA_TYPE.ACCESS_HONOROWY ? true : false;
     },
     pierwszyCzlonekFullName: function(idZR){
         return getCzlonekFullName(0,idZR,"ZRDraft");
@@ -51,7 +51,7 @@ Template.ZRTemplate.helpers({
         console.log("tuuu");
         var zespol=null;
         var text=null;
-        if(status==KWESTIA_STATUS.GLOSOWANA || status==KWESTIA_STATUS.OSOBOWA) {
+        if(status==KWESTIA_STATUS.GLOSOWANA || status==KWESTIA_STATUS.OSOBOWA || status==KWESTIA_STATUS.OCZEKUJACA || status==KWESTIA_STATUS.STATUSOWA) {
             zespol = ZespolRealizacyjnyDraft.findOne({_id: idZR});
             text="ZRDraft";
         }

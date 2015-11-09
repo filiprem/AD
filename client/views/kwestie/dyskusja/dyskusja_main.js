@@ -157,7 +157,7 @@ Template.discussionPostForm.helpers({
     HasUserRights: function (status,czyAktywny) {
         if(!Meteor.userId())
             return false;
-        return status==KWESTIA_STATUS.GLOSOWANA || status==KWESTIA_STATUS.ZREALIZOWANA || czyAktywny==false ? false : true;
+        return status==KWESTIA_STATUS.GLOSOWANA || status==KWESTIA_STATUS.ZREALIZOWANA || status==KWESTIA_STATUS.OCZEKUJACA || czyAktywny==false ? false : true;
     }
 });
 

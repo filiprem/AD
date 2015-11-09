@@ -32,10 +32,12 @@
                     <td>{{szczegolowaTresc.zip}}</td>
                 </tr>
             {{/if}}
-            <tr>
-                <td><strong>Miasto: </strong></td>
-                <td>{{szczegolowaTresc.city}}</td>
-            </tr>
+            {{#unless isHonorowyType typ}}
+                <tr>
+                    <td><strong>Miasto: </strong></td>
+                    <td>{{szczegolowaTresc.city}}</td>
+                </tr>
+            {{/unless}}
             </td>
             </tr>
             <tr>

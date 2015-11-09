@@ -33,8 +33,9 @@ Template.administracjaUserMain.helpers({
             $where: function () {
                     return ((this.czyAktywny == true) && ((this.status==KWESTIA_STATUS.ADMINISTROWANA)
                     || (this.idUser==Meteor.userId()))
-                    || this.typ==KWESTIA_TYPE.ACCESS_HONOROWY
-                    || this.typ==KWESTIA_TYPE.ACCESS_ZWYCZAJNY);
+                    || this.typ==KWESTIA_TYPE.ACCESS_DORADCA
+                    || this.typ==KWESTIA_TYPE.ACCESS_ZWYCZAJNY
+                    || this.idZglaszajacego==Meteor.userId());//dla kwesti statusowych
             }
         });
         if(kwestie) return kwestie;

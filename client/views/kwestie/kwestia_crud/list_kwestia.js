@@ -233,7 +233,8 @@ Template.listKwestia.helpers({
                 ((this.status==KWESTIA_STATUS.DELIBEROWANA)  ||
                 (this.status==KWESTIA_STATUS.STATUSOWA) ||
                 (this.status==KWESTIA_STATUS.ADMINISTROWANA) ||
-                (this.status==KWESTIA_STATUS.OSOBOWA)));
+                (this.status==KWESTIA_STATUS.OSOBOWA)) ||
+                (this.status==KWESTIA_STATUS.OCZEKUJACA));
             }
         });
 

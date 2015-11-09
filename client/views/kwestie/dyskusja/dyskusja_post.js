@@ -225,7 +225,7 @@ Template.discussionAnswerForm.helpers({
         var kwestia=Kwestia.findOne({_id:this.idKwestia});
         if(kwestia)
             return kwestia.status == KWESTIA_STATUS.GLOSOWANA || kwestia.status == KWESTIA_STATUS.ZREALIZOWANA ||
-                kwestia.czyAktywny==false ? false : true;
+               kwestia.status==KWESTIA_STATUS.OCZEKUJACA || kwestia.czyAktywny==false ? false : true;
     }
 });
 

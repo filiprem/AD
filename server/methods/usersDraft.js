@@ -45,6 +45,9 @@ Meteor.methods({
     setZrealizowanyActivationHashUserDraft:function(id,activationLink,realization){
         UsersDraft.update({_id:id},{$set:{linkAktywacyjny:activationLink,czyZrealizowany:realization}});
     },
+    setActivationHashUserDraft:function(id,activationLink){
+        UsersDraft.update({_id:id},{$set:{linkAktywacyjny:activationLink}});
+    },
     updateLicznikKlikniec:function(id,counter){
         UsersDraft.update({_id:id},{$set:{licznikKlikniec:counter}});
     },

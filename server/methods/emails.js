@@ -56,29 +56,6 @@ Meteor.methods({
             });
         });
     },
-    sendEmailHonorowyInvitation:function(idUser){
-        var user=null;
-        console.log(idUser);
-        var userDraft=UsersDraft.findOne({_id:idUser});
-        if(userDraft.profile.idUser!=null){//to znaczy,ze zaproszono uzytkownika już mającego konto w systemie i stamtad pobieramy dane
-            userDraft=Users.findOne({_id:userDraft.idUser});
-        }
-        //else//to znaczy,ze to jest nowy uztykownik,nie ma go w systemie,wiec dane bierzemy z drafta
-        console.log("ten user!");
-        console.log(userDraft);
-        var parametr = Parametr.findOne({});
-
-        var html = SSR.render('email_honorowy_invitation',{
-            username:userDraft.profile.fullName,
-            organizacja: parametr.nazwaOrganizacji
-        });
-        Email.send({
-            to: userDraft.emails[0].address,
-            from: "AD "+parametr.nazwaOrganizacji,
-            subject: "Zaproszenie do systemu AD "+parametr.nazwaOrganizacji,
-            html: html
-        });
-    },
     sendEmailAddedIssue: function (idKwestia) {
         this.unblock();
         var parametr = Parametr.findOne({});
@@ -194,6 +171,15 @@ Meteor.methods({
             }
         });
     },
+    sendEmailHonorowyInvitation:function(userData,text){
+        var data=applicationEmail(userData,text,null);
+        Email.send({
+            to: data.to,
+            from: data.to,
+            subject: "Zaproszenie do aplikowania na stanowisko Członka Honorowego w organizacji "+Parametr.findOne().nazwaOrganizacji,
+            html: data.html
+        });
+    },
     sendApplicationConfirmation:function(userData){
         var data=applicationEmail(userData,"confirm",null);
 
@@ -253,13 +239,12 @@ recognizeSex=function(userData){
 applicationEmail=function(userData,emailTypeText,passw){
     console.log("user data");
     console.log(userData);
-    console.log("pesel");
     var welcomeGender=recognizeSex(userData);
 
     var  userTypeData=null;
     switch (userData.profile.userType){
         case USERTYPE.CZLONEK: userTypeData="członka zwyczajnego";break;
-        case USERTYPE.DORADCA: userTypeData="doradca";break;
+        case USERTYPE.DORADCA: userTypeData="doradcę";break;
         case USERTYPE.HONOROWY: userTypeData="członka honorwego";break;
     }
     var url=null;
@@ -283,6 +268,14 @@ applicationEmail=function(userData,emailTypeText,passw){
     }
     else if(emailTypeText=="acceptExisting"){
         emailTypeText = 'email_application_accepted_existing_user';
+    }
+    else if(emailTypeText=="honorowyInvitation"){
+        emailTypeText = 'email_honorowy_invitation';
+        console.log("jest link!");
+        console.log(userData);
+        console.log(userData.linkAktywacyjny);
+        if(userData.linkAktywacyjny)
+            url="http://localhost:3000/account/answer_invitation/"+userData.linkAktywacyjny;
     }
     else if(emailTypeText=="loginData"){
         emailTypeText = 'email_login_data';

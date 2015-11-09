@@ -111,4 +111,17 @@ przyjecieWnioskuConfirmation=function(time,email,userTypeText){
             }
         }
     });
-}
+};
+przyjecieWnioskuHonorowyConfirmation=function(time,email,userTypeText){
+    bootbox.dialog({
+        message: "Twój wniosek będzie oczekiwał (maksymalnie "+ time+" dzień/dni) na akceptację ogółu członków organizacji "+ getNazwaOrganizacji()+
+        ". Po pozytywnym rozpatrzeniu osoba, którą wskazałeś otrzyma  informację w wiadomości na "+ email+", w której otrzyma link, gdzie będzie mógł potwierdzić/odrzucić chęć przynależności do oragnizacji jako "+ userTypeText+ " .",
+        title: "Uwaga",
+        buttons: {
+            main: {
+                label: "Ok",
+                className: "btn-primary"
+            }
+        }
+    });
+};

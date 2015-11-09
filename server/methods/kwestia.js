@@ -62,8 +62,6 @@ Meteor.methods({
     //gdy tworzymy kwestię statusową, idUser: to osoba zgłaszajaca doradcę na honorowego
     //idZglaszającego- osoba zgłaszana
     addKwestiaStatusowa: function (newKwestia) {
-        var z = ZespolRealizacyjnyDraft.insert({nazwa: "", zespol: []});
-
         var id = Kwestia.insert({
             idUser: newKwestia[0].idUser,
             dataWprowadzenia: newKwestia[0].dataWprowadzenia,
@@ -73,7 +71,7 @@ Meteor.methods({
             sredniaPriorytet: parseFloat(newKwestia[0].sredniaPriorytet),
             idTemat: newKwestia[0].idTemat,
             idRodzaj: newKwestia[0].idRodzaj,
-            dataDyskusji: newKwestia[0].dataDyskusji,
+            //dataDyskusji: newKwestia[0].dataDyskusji,
             dataGlosowania: newKwestia[0].dataGlosowania,
             czyAktywny: newKwestia[0].czyAktywny = true,
             status: newKwestia[0].status,
@@ -82,11 +80,11 @@ Meteor.methods({
             glosujacy: [],
             glosujacyWRealizacji:[],
             isOption: false,
-            idZgloszonego: newKwestia[0].idZgloszonego,
+            idZglaszajacego: newKwestia[0].idZglaszajacego,
             isAnswerPositive:newKwestia[0].isAnswerPositive,
             dataRozpoczeciaOczekiwania:newKwestia[0].dataRozpoczeciaOczekiwania,
             typ:newKwestia[0].typ,
-            idZespolRealizacyjny: z
+            idZespolRealizacyjny: newKwestia[0].idZespolRealizacyjny
         });
         Kwestia.update({_id: id}, {$set: {idParent: id}}, {upsert: true});
         //var z = ZespolRealizacyjny.insert({idKwestia: id, nazwa: "", zespol: []});

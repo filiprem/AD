@@ -60,21 +60,37 @@ Meteor.startup(function(){
                     console.log("basic: deliberowana->glosowana");
                     moveKwestiaToGlosowana(newKwestia);
                 }
-                else if(newKwestia.status==KWESTIA_STATUS.OSOBOWA && (newKwestia.typ==KWESTIA_TYPE.ACCESS_HONOROWY || newKwestia.typ==KWESTIA_TYPE.ACCESS_ZWYCZAJNY)){
+                else if(newKwestia.status==KWESTIA_STATUS.OSOBOWA && (newKwestia.typ==KWESTIA_TYPE.ACCESS_DORADCA || newKwestia.typ==KWESTIA_TYPE.ACCESS_ZWYCZAJNY)){
                     console.log("OSOBOWA(ACCESS)->GLOSOWANA");
                     moveKwestiaToGlosowana(newKwestia);
                 }
-                else if (newKwestia.status == KWESTIA_STATUS.STATUSOWA){
-                    console.log("basic: deliberowana?->statusowa");
-                    //Meteor.call('updateStatusKwestii', newKwestia._id, KWESTIA_STATUS.OCZEKUJACA);
-                    Meteor.call('updateStatusDataOczekwianiaKwestii', newKwestia._id, KWESTIA_STATUS.OCZEKUJACA,new Date());
-
-                    Meteor.call("sendEmailHonorowyInvitation", newKwestia.idZgloszonego);
+                else if (newKwestia.status == KWESTIA_STATUS.STATUSOWA && newKwestia.typ==KWESTIA_TYPE.ACCESS_HONOROWY){
+                    console.log("STATUSOWA(ACCESS HONOROWY)->OCZEKUJACA");
+                    var userDraft=UsersDraft.findOne({_id:newKwestia.idUser});
+                    var acceptInvitationLink = CryptoJS.MD5(userDraft._id).toString();
+                    Meteor.call("setActivationHashUserDraft",userDraft._id,acceptInvitationLink,function(error){
+                        if(!error){
+                            Meteor.call('updateStatusDataOczekwianiaKwestii', newKwestia._id, KWESTIA_STATUS.OCZEKUJACA,new Date(),function(error){
+                                if(error)
+                                    console.log(error.reason);
+                                else
+                                    Meteor.call("sendEmailHonorowyInvitation", UsersDraft.findOne({_id:newKwestia.idUser}),"honorowyInvitation");
+                            });
+                        }
+                    });
                 }
-                //else if (newKwestia.status == KWESTIA_STATUS.ADMINISTROWANA){//to finish
-                //    newKwestia.dataGlosowania = new Date().addHours(24);
-                //    Meteor.call('updateStatusDataGlosowaniaKwestii', newKwestia._id, KWESTIA_STATUS.GLOSOWANA, newKwestia.dataGlosowania);
-                //}
+                else if (newKwestia.status == KWESTIA_STATUS.OCZEKUJACA && newKwestia.typ==KWESTIA_TYPE.ACCESS_HONOROWY){//to finish
+                    console.log("OCZEKUJĄCA (HONOROWY)->REALIZACJA");
+                   if(newKwestia.isAnswerPositive==true){
+                       //przepisz ZR
+                       //te 2: jeśli zrealizowana:dopisz czlonka do userów
+                       //drafta obsłuż
+                       //kwestia realizacja
+                   }
+                    else{//drafta obsluz,przepisz ZR,kwestia do kosza
+
+                   }
+                }
             }
 
             if(newKwestia.status == KWESTIA_STATUS.REALIZOWANA && newKwestia.wartoscPriorytetuWRealizacji < (-newKwestia.wartoscPriorytetu)){
@@ -86,7 +102,7 @@ Meteor.startup(function(){
                         }
                         //jezeli osobowa,usun drafta i powiadomienie
                         
-                        if(_.contains([KWESTIA_TYPE.ACCESS_HONOROWY,KWESTIA_TYPE.ACCESS_ZWYCZAJNY],newKwestia.typ)) {
+                        if(_.contains([KWESTIA_TYPE.ACCESS_DORADCA,KWESTIA_TYPE.ACCESS_ZWYCZAJNY],newKwestia.typ)) {
                             var userDraft = UsersDraft.findOne({_id: newKwestia.idUser});
                             if (userDraft) {
                                 Meteor.call("sendApplicationRejected", userDraft, function (error, ret) {

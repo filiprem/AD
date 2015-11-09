@@ -79,7 +79,7 @@ Template.managePriorities.helpers({
         return "";
     },
     koszZrealizowanaArchiwum:function(czyAktywny,status){
-        return czyAktywny==false || status==KWESTIA_STATUS.ZREALIZOWANA || status==KWESTIA_STATUS.ARCHIWALNA ? true: false;
+        return czyAktywny==false || status==KWESTIA_STATUS.ZREALIZOWANA || status==KWESTIA_STATUS.ARCHIWALNA || status==KWESTIA_STATUS.OCZEKUJACA ? true: false;
     },
     isRealizowana:function(status){
         return status==KWESTIA_STATUS.REALIZOWANA ? true: false;

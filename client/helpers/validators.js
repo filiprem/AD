@@ -74,9 +74,9 @@ jQuery.validator.addMethod("checkExistsNazwaZespoluRealizacyjnego", function (va
 //a wówczas email będzie ten sam naturalnie
 jQuery.validator.addMethod("checkExistsAnyEmail", function (value, element) {
     var found = null;
-    if (!Meteor.userId()) {
+    //if (!Meteor.userId()) {
         found=checkExistsUser(value,null,null);
-    }
+    //}
     return this.optional(element) || found == null;
 }, 'Istnieje już w systemie użytkownik o podanym adresie email!');
 

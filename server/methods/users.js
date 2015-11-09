@@ -19,7 +19,8 @@ Meteor.methods({
                 rADking:newUser[0].rADking,
                 userType:newUser[0].userType,
                 city:newUser[0].city,
-                pesel:newUser[0].pesel
+                pesel:newUser[0].pesel,
+                czyAktywny:true
             }
         });
 
