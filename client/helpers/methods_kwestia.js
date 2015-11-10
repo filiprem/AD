@@ -120,6 +120,61 @@ setInQueueToVoteMethod=function(kwestie){
     }
     return tab;
 };
+rewriteZRMembersToListMethod=function(zespolRealizacyjny,newKwestia){
+    var czlonkowieZespolu = [];
+    _.each(zespolRealizacyjny.zespol, function (idUser) {
+        var user = Users.findOne({_id: idUser});
+        czlonkowieZespolu.push(user.profile.firstName + " " + user.profile.lastName);
+    });
+    var obj={
+        nazwa:zespolRealizacyjny.nazwa,
+        czlonkowie:czlonkowieZespolu
+    };
+    Meteor.call("addConstZR", newKwestia._id, obj, function (error) {
+        if (error)
+            console.log(error);
+    });
+};
+manageZRMethod=function(newKwestia){
+    var zespolRealizacyjny = ZespolRealizacyjny.findOne({_id: newKwestia.idZespolRealizacyjny});
+    if (zespolRealizacyjny.kwestie.length > 0) {
+        //wypisz mnie
+        var kwestie = _.reject(zespolRealizacyjny.kwestie, function (kwestiaId) {
+            return kwestiaId == newKwestia._id
+        });
+        console.log(kwestie);
+        //jezeli bylem tylko ja,set false,o ile to nnie jestjest zr ds osób
+        if(kwestie.length==0 && zespolRealizacyjny._id!=ZespolRealizacyjny.findOne()._id){
+            Meteor.call("updateKwestieZRChangeActivity", zespolRealizacyjny._id, kwestie,false, function (error) {
+                if (error)
+                    console.log(error.reason);
+                else
+                    rewriteZRMembersToList(zespolRealizacyjny, newKwestia);
+            });
+        }
+        else {
+            Meteor.call("updateKwestieZR", zespolRealizacyjny._id, kwestie, function (error) {
+                if (error)
+                    console.log(error.reason);
+                else
+                    rewriteZRMembersToList(zespolRealizacyjny, newKwestia);
+            });
+        }
+    }
+    else {//jezeli nie ma zadnych kwestii,ustaw na false, o ile
+        console.log("delete zespol");
+        if(zespolRealizacyjny._id!=ZespolRealizacyjny.findOne()._id){
+            Meteor.call('removeZespolRealizacyjny', zespolRealizacyjny._id, function (error) {
+                if (error)
+                    console.log(error.reason);
+                else
+                    rewriteZRMembersToList(zespolRealizacyjny, newKwestia);
+            });
+        }
+        else
+            rewriteZRMembersToList(zespolRealizacyjny, newKwestia);
+    }
+};
 
 
 

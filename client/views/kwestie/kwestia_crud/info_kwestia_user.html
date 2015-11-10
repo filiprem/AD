@@ -35,6 +35,12 @@
                 <td><b>{{status}}</b></td>
                 <td></td>
             </tr>
+            {{#if kwestiaInKosz}}
+                <tr>
+                    <td><strong> Powód odrzucenia kwestii</strong></td>
+                    <td><b>{{reason}}</b></td>
+                </tr>
+            {{/if}}
             {{#if isRealizowana}}
                 <td><strong> Priorytet w deliberacji i głosowaniu</strong></td>
                 <td><b>{{wartoscPriorytetuG}}</b></td>

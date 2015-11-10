@@ -250,6 +250,12 @@ Meteor.methods({
     removeKwestia: function(id){
         Kwestia.update(id,{$set: {czyAktywny: false}}, {upsert: true});
     },
+    removeKwestiaSetReason: function(id,reason){
+        Kwestia.update(id,{$set: {czyAktywny: false,reason:reason}}, {upsert: true});
+    },
+    removeKwestiaSetReasonAnswer: function(id,reason,answer){
+        Kwestia.update(id,{$set: {czyAktywny: false,reason:reason,isAnswerPositive:answer}}, {upsert: true});
+    },
     updateStatIdZespolu:function(id,status,idZR){
         var id = Kwestia.update(id, {
             $set: {

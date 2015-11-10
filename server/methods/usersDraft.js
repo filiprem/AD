@@ -39,6 +39,12 @@ Meteor.methods({
     removeUserDraft: function(id){
         UsersDraft.update({_id:id},{$set:{czyAktywny: false,czyZrealizowany:true}});
     },
+    removeUserDraftNotZrealizowany: function(id,licznik){
+        UsersDraft.update({_id:id},{$set:{czyAktywny: false,czyZrealizowany:false}});
+    },
+    removeUserDraftNotZrealizowanyLicznik: function(id,licznik){
+        UsersDraft.update({_id:id},{$set:{czyAktywny: false,czyZrealizowany:false,licznikKlikniec:licznik}});
+    },
     setZrealizowanyUserDraft:function(id,realization){
         UsersDraft.update({_id:id},{$set:{czyZrealizowany:realization}});
     },

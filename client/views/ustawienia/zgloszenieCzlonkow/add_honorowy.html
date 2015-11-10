@@ -9,7 +9,7 @@
         <div class="col col-md-10">
             <form class="form-horizontal" id="honorowyForm">
                 <legend>Zgłoszenie na członka honorowego</legend>
-                <div class="form-group">
+                <div class="form-group col-md-12">
                     <label class="control-label col-xs-3" for="firstName">Wybierz opcję:</label>
                     <div class="col-xs-9">
                         <select id="chooseOption">
@@ -18,7 +18,8 @@
                         </select>
                     </div>
                 </div>
-                {{#if chooseNewOption}}
+
+                <div id="chooseNewOptionSelect" style="display: block">
                     <div class="form-group">
                         <label class="control-label col-xs-3" for="email">Email:</label>
                         <div class="col-xs-9">
@@ -37,29 +38,21 @@
                             <input type="text"  name="lastName" id="lastName" required value="{{lastName}}" class="form-control"/>
                         </div>
                     </div>
-                {{else}}
-                    <div class="form-group" id="chosenCandidate" style="display: none">
-                        <label class="control-label col-xs-3" for="personChosen">Wybrany kandydat:</label>
-                        <div class="col-xs-7">
-                            <input type="text"  name="personChosen" id="personChosen"  class="form-control"  required disabled/>
-                        </div>
-                        <input type="reset" class="btn btn-danger" value="Usuń" id="removeChosenPerson">
+                </div>
+
+                <div class="form-group" id="chosenCandidate" style="display: none">
+                    <label class="control-label col-xs-3" for="personChosen">Wybrany kandydat:</label>
+                    <div class="col-xs-7">
+                        <input type="text"  name="personChosen" id="personChosen"  class="form-control"  required disabled/>
                     </div>
-                    <div class="col-md-12" id="reactiveTable" style="display: block">
-                        {{> reactiveTable
-                        class = "table table-bordered table-hover"
-                        fields = settings.fields
-                        settings = settings
-                        collection = DoradcyList
-                        }}
-                    </div>
-                {{/if}}
-                <div class="form-group">
+                    <input type="reset" class="btn btn-danger" value="Zmień" id="changeChosenPerson">
+                </div>
+
+                <div class="form-group" style="display: block">
                     <label class="control-label col-xs-3" for="uzasadnienie">Uzasadnienie:</label>
                     <div class="col-xs-9">
                         <textarea   name="uzasadnienie" id="uzasadnienie" required  class="form-control" rows="3"
-                                    placeholder="Uzasadnij dlaczego chcesz powołać na stanowisko człona honorowego właśnie tę osobę">
-                        </textarea>
+                                    placeholder="Uzasadnij dlaczego chcesz powołać na stanowisko członka honorowego właśnie tę osobę"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
@@ -72,9 +65,5 @@
             </form>
         </div>
     </div>
-</template>
-
-<template name="userDataLink">
-    <input type="hidden" value="{{_id}}" id="chosenDor"/>
-    <a href="#" id="chooseDoradca" value="{{_id}}">{{userData}}</a>
+    {{>listDoradcyModal}}
 </template>

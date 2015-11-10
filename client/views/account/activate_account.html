@@ -1,11 +1,13 @@
 <template name="activateAccount">
     {{#if notActivatedAccount}}
-        <p class="col-md-12 bg-success padding-15">
-            Dziękujemy za aktywację konta! Na podany przez Ciebie email zostanie wysłany login i hasło.
-        </p>
+        <div class="col-md-12 bg-success padding-15" style="text-align: center ">
+            <p>Dziękujemy za aktywację konta!</p>
+            <p>Na podany przez Ciebie email zostanie wysłany login i hasło.</p>
+        </div>
     {{else}}
-        <p class="col-md-12 bg-warning padding-15">
-            Twoje konto zostało już aktywowane. Przejdź {{link}} aby, się zalogować.
-        </p>
+        <div class="col-md-12 bg-warning padding-15" style="text-align: center ">
+            <p>Uwaga!</p>
+            <p>Twoje konto zostało już aktywowane. Przejdź {{link}} aby, się zalogować.</p>
+        </div>
     {{/if}}
 </template>

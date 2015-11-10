@@ -1,21 +1,27 @@
+Template.answerInvitation.rendered=function(){
+    var userDraft=getUserDraft(Router.current().params);
+    var kwestia=getKwestia(Router.current().params);
+    var licznik=userDraft.licznikKlikniec+1;
+    if(kwestia.isAnswerPositive!=null) {
+        console.log('tu weszło');
+        Meteor.call("updateLicznikKlikniec", userDraft._id, licznik, function (error) {
+            if (error)
+                console.log(error.reason);
+        });
+    }
+},
 Template.answerInvitation.helpers({
-    notActivatedAccount:function(){
-        var currentRoute=Router.current().params;
-        console.log("current route");
-        console.log(currentRoute.linkAktywacyjny);
-        var userDraft=UsersDraft.findOne({linkAktywacyjny:currentRoute.linkAktywacyjny});
-        if(userDraft)
-            return userDraft.czyAktywny==true || userDraft.licznikKlikniec<=1 ? true : false;
-        return true;
-    },
     userNotAnswered:function(){
         var currentRoute=Router.current().params;
         var userDraft=UsersDraft.findOne({linkAktywacyjny:currentRoute.linkAktywacyjny});
         var kwestia=getKwestia(currentRoute);
         console.log("hiere");
         console.log(kwestia);
-        if(kwestia)
-            return kwestia.status==KWESTIA_STATUS.OCZEKUJACA && kwestia.czyAktywny==true && userDraft.czyAktywny==true ? true : false;
+        console.log(kwestia.isAnswerPositive);
+        if(kwestia) {
+            //return kwestia.status==KWESTIA_STATUS.OCZEKUJACA && kwestia.czyAktywny==true && userDraft.czyAktywny==true ? true : false;
+            return kwestia.isAnswerPositive==null ? true: false;
+        }
     },
     timeExpired:function(){
         var kwestia=getKwestia(Router.current().params);
@@ -33,19 +39,82 @@ Template.answerInvitation.helpers({
     },
     position:function(){
         var userDraft=getUserDraft(Router.current().params);
+        console.log(userDraft.profile.userType);
         if(userDraft.profile.userType==USERTYPE.HONOROWY)
-        return "cz�onka honorowego";
+        return "członka honorowego";
+    },
+    organizationName:function(){
+        return Parametr.findOne().nazwaOrganizacji ? Parametr.findOne().nazwaOrganizacji : null;
+    },
+    answeredNow:function(){
+        var kwestia=getKwestia(Router.current().params);
+        var userDraft=getUserDraft(Router.current().params);
+        return (kwestia.isAnswerPositive==true || kwestia.isAnswerPositive==false) && userDraft.licznikKlikniec<=1 ? true : false;
+    },
+    answerPositive:function(){
+        var kwestia=getKwestia(Router.current().params);
+        var userDraft=getUserDraft(Router.current().params);
+        return kwestia.isAnswerPositive==true &&  userDraft.licznikKlikniec>1  ? true : false;
+    },
+    answerNegative:function(){
+        var kwestia=getKwestia(Router.current().params);
+        var userDraft=getUserDraft(Router.current().params);
+        return kwestia.isAnswerPositive==false &&  userDraft.licznikKlikniec>1  ? true : false;
+    },
+    url:function(){
+        var userDraft=getUserDraft(Router.current().params);
+        return("/issueInfo/")
+    },
+    actualKwestia:function(){
+        return getKwestia(Router.current().params);
     }
 });
+Template.answerInvitation.events({
+   'click #apply':function(e){
+       e.preventDefault();//kwestia idzie do realizacji
+       var kwestia=getKwestia(Router.current().params);
+       Meteor.call("updateStatusKwestii",kwestia._id,KWESTIA_STATUS.REALIZOWANA);
+   },
+    'click #refuse':function(e){
+        e.preventDefault();
+        //kwestia idzie do kosza,przepisz ZR
+        //dodać pole reason
+        var kwestia=getKwestia(Router.current().params);
+        var userDraft=getUserDraft(Router.current().params);
 
+        console.log("draft!!");
+        console.log(userDraft);
+        console.log(userDraft.licznikKlikniec);
+        Meteor.call('removeKwestiaSetReasonAnswer', kwestia._id,KWESTIA_ACTION.INVITATION_HONOROWY_REJECTED,false,function(error) {
+            if(!error) {
+                if (kwestia.idZespolRealizacyjny) {
+                    var zrDraft=ZespolRealizacyjnyDraft.findOne({_id:kwestia.idZespolRealizacyjny});
+                    Meteor.call("removeZespolRealizacyjnyDraft",kwestia.idZespolRealizacyjny,function(error){
+                       if(!error) {
+                           rewriteZRMembersToListMethod(zrDraft, kwestia);
+                           var licznik=userDraft.licznikKlikniec+1;
+
+                           Meteor.call("removeUserDraftNotZrealizowanyLicznik", userDraft._id,licznik,function(error){
+                               if(error)
+                                    console.log(error.reason);
+                           });
+                       }
+                    });
+                }
+            }
+            else
+                console.log(error.reason);
+        });
+    }
+});
 getKwestia=function(currentRoute){
     console.log("get");
     console.log(currentRoute);
     var userDraft=UsersDraft.findOne({linkAktywacyjny:currentRoute.linkAktywacyjny});
-    kwestia=Kwestia.findOne({idUser:userDraft._id});
+    var kwestia=Kwestia.findOne({idUser:userDraft._id});
     return kwestia? kwestia: null;
 };
 getUserDraft=function(currentRoute){
     var userDraft=UsersDraft.findOne({linkAktywacyjny:currentRoute.linkAktywacyjny});
     return userDraft ? userDraft : null;
-}
+};

@@ -85,6 +85,9 @@ Template.informacjeKwestia.helpers({
     isRealizowana:function(){
         return this.status==KWESTIA_STATUS.REALIZOWANA ? true :false;
     },
+    kwestiaInKosz:function(){
+        return this.czyAktywny==false ? true : false;
+    },
     wartoscPriorytetuG:function(){
         if(this.wartoscPriorytetu>0)
             return "+"+this.wartoscPriorytetu;

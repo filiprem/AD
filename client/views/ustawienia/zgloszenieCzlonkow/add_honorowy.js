@@ -1,8 +1,4 @@
-var selectedOption=new ReactiveVar();
-var emailInserted=new ReactiveVar();
-emailInserted.set("");
 Template.addHonorowy.rendered=function(){
-    selectedOption.set("chooseNewOption");
 
     $("#honorowyForm").validate({
         rules: {
@@ -46,43 +42,34 @@ Template.addHonorowy.rendered=function(){
         errorElement: 'span',
         errorClass: 'help-block',
         errorPlacement: function (error, element) {
-            if(element.attr("name") == "personChosen")
-            console.log('to ten element');
-            if(element.attr("name") == "statutConfirmation")
-                error.insertAfter(document.getElementById("statutConfirmationSpan"));
-            else
-                validationPlacementError(error, element);
+            validationPlacementError(error, element);
         }
     });
 };
 Template.addHonorowy.events({
-    'change #email': function (e) {
-        console.log("email changed");
-        var value=$(e.target).val();
-        emailInserted.set(value);
-    },
     'change #chooseOption': function (e) {
+        console.log("change!!");
         var value=$(e.target).val();
-        selectedOption.set(value);
+        if(value=="chooseNewOption"){
+            $("#listDoradcy").modal("hide");
+            document.getElementById("chooseNewOptionSelect").style.display="block";
+            document.getElementById("chosenCandidate").style.display="none";
+        }
+        else {
+            $("#listDoradcy").modal("show");
+            document.getElementById("chooseNewOptionSelect").style.display="none";
+            document.getElementById("chosenCandidate").style.display="block";
+        }
     },
-    'click #chooseDoradca':function(e){
-        console.log(document.getElementById("chosenDor").value);
-        var chosenPersonId=document.getElementById("chosenDor").value;
-        var user=Users.findOne({_id:chosenPersonId});
-
-        document.getElementById("reactiveTable").style.display="none";
-        document.getElementById("chosenCandidate").style.display="block";
-
-        document.getElementById("personChosen").value=user.profile.firstName+" "+user.profile.lastName;
-    },
-    'click #removeChosenPerson':function(e){
-        document.getElementById("reactiveTable").style.display="block";
-        document.getElementById("chosenCandidate").style.display="none";
+    'click #changeChosenPerson':function(e){
+        e.preventDefault();
+        $("#listDoradcy").modal("show");
     },
     'submit form':function(e){
         e.preventDefault();
 
-        if(selectedOption.get()=="chooseNewOption"){//kwestia z gościem
+        if(document.getElementById("chooseNewOptionSelect").style.display=="block"){//kwestia z gościem
+            console.log("kwestia guest");
             var newUserDraft = [
                 {
                     email: $(e.target).find('[name=email]').val(),
@@ -92,48 +79,37 @@ Template.addHonorowy.events({
                     role: 'user',
                     uwagi: $(e.target).find('[name=uzasadnienie]').val(),
                     userType: USERTYPE.HONOROWY,
-                    pesel:""
+                    pesel:"",
+                    licznikKlikniec:0
                 }];
             addUserDraftHonorowy(newUserDraft);
         }
         else{
-            console.log("dddd");
-            var el=document.getElementById("personChosen").value;
-            if(el!=null && el.trim()!=""){
-                console.log("yeah!");
-            }
+            console.log("kwestia existing");
+            var chosenPersonId=document.getElementById("chosenDor").value;
+            console.log(chosenPersonId);
+            var user=Users.findOne({_id:chosenPersonId});
+            var newUserDraft = [
+                {
+                    email: user.emails[0].address,
+                    login: user.username,
+                    firstName: user.profile.firstName,
+                    lastName: user.profile.lastName,
+                    role: 'user',
+                    uwagi: $(e.target).find('[name=uzasadnienie]').val(),
+                    userType: USERTYPE.HONOROWY,
+                    pesel:"",
+                    idUser:chosenPersonId,
+                    licznikKlikniec:0
+                }];
+            addUserDraftHonorowy(newUserDraft);
         }
     },
-    'reset form':function(){
-        selectedOption.set("chooseNewOption");
-    }
-});
-Template.addHonorowy.helpers({
-    chooseNewOption:function(){
-        return selectedOption.get()=="chooseNewOption" ? true : false;
-    },
-    'settings': function () {
-        var self = Template.instance();
-        return {
-            rowsPerPage: 10,
-            showFilter: true,
-            showNavigation: 'always',
-            showColumnToggles: false,
-            enableRegex: false,
-            fields: [
-                {key: '_id', label: "Imię i Nazwisko",tmpl: Template.userDataLink},
-                //{key: 'profile.lastName', label: "Nazwisko"},
-                {key: 'profile.city', label: "Miasto"}
-            ]
-        };
-    },
-    DoradcyList:function(){
-        return Users.find({'profile.userType':USERTYPE.DORADCA,_id:{$nin:[Meteor.userId()]}});
-    }
-});
-Template.userDataLink.helpers({
-    userData:function(){
-        return this.profile.firstName+" "+this.profile.lastName;
+    'reset form':function(e){
+        //e.preventDefault();
+        //selectedOption.set("chooseNewOption");
+        document.getElementById("chooseNewOptionSelect").style.display="block";
+        document.getElementById("chosenCandidate").style.display="none";
     }
 });
 addUserDraftHonorowy=function(newUser){
@@ -169,7 +145,7 @@ addKwestiaOsobowaHonorowy=function(idUserDraft,newUser){
                 {
                     idUser: idUserDraft,
                     dataWprowadzenia: new Date(),
-                    kwestiaNazwa: 'Prośba o możliwość aplikowania na stanowisko członka honorowego- ' + newUser[0].firstName + " " + newUser[0].lastName,
+                    kwestiaNazwa: 'Anplikowanie na stanowisko członka honorowego- ' + newUser[0].firstName + " " + newUser[0].lastName,
                     wartoscPriorytetu: 0,
                     wartoscPriorytetuWRealizacji: 0,
                     sredniaPriorytet: 0,
@@ -177,7 +153,7 @@ addKwestiaOsobowaHonorowy=function(idUserDraft,newUser){
                     idRodzaj: Rodzaj.findOne({})._id,
                     idZespolRealizacyjny: ret,
                     dataGlosowania: null,
-                    krotkaTresc: 'Prośba o możliwość aplikowania do systemu na stanowisko członka honorowego',
+                    krotkaTresc: 'Aplikowanie do systemu na stanowisko członka honorowego',
                     szczegolowaTresc: daneAplikanta,
                     isOption: false,
                     status: KWESTIA_STATUS.STATUSOWA,

@@ -1,30 +1,44 @@
 <template name="answerInvitation">
     {{#if userNotAnswered}}
         {{#if timeExpired}}
-            <p>Przepraszamy, czas przyjęcia zaproszenia na stanowisko {{position}} w naszej organizacji {{organizationName}} minął.</p>
+            <div class="col-md-12 bg-warning padding-15" style="text-align: center ">
+                <p>Przepraszamy,</p>
+                <p >Czas przyjęcia zaproszenia na stanowisko {{position}} w naszej organizacji {{organizationName}} minął.</p>
+            </div>
         {{else}}
             <div class="main">
-                <p>Witaj {{fullName}}!</p>
+                <div class="col-md-12 bg-success padding-15" style="text-align: center ">
+                    <p>Witaj {{fullName}}!</p>
+                    <br>
+                    <p>Zostałeś zaproszony do aplikowania na stanowisko {{position}} w naszej organizacji {{organizationName}}.</p>
+                    <br>
+                    <p>Czy chcesz aplikować na powyższe stanowisko?</p>
+                </div>
                 <br>
-                <p>
-                    Zostałeś zaproszony do aplikowania na stanowisko {{postion}} w naszej organizacji {{organizationName}}
-                </p>
-                <br>
-                <p>Czy chcesz aplikować na powyższe stanowisko?</p>
-                <br>
-                <div class="col-xs-offset-3 col-xs-9">
-                    <input type="submit" class="btn btn-primary" value="Chcę aplikować">
-                    <input type="reset" class="btn btn-default" value="Nie, dziękuję">
+                &nbsp;
+                <div style="text-align: center ">
+                    <input type="submit" class="btn btn-primary" value="Chcę aplikować" id="apply">
+                    <input type="reset" class="btn btn-default" value="Nie, dziękuję" id="refuse">
                 </div>
             </div>
         {{/if}}
     {{else}}
         {{#if answerPositive}}
-            <p>Już potwierdziłeś chęć aplikowania do naszej organizacji {{organizationName}}</p>
-            <p>Aby zobaczyć szczegóły kwestii kliknij <a href="#">tutaj</a> </p>
-        {{else}}
-            <p>Przepraszamy!</p>
-            <p>Odrzuciłeś zaproszenie do aplikowania na stanowisko {{position}} w naszej organizacji {{organizationName}}</p>
+            <div class="col-md-12 bg-success padding-15" style="text-align: center ">
+            <p>Już potwierdziłeś chęć aplikowania do naszej organizacji {{organizationName}}.</p>
+            {{#with actualKwestia}}
+                <p>Aby zobaczyć szczegóły kwestii kliknij <a href="{{pathFor 'informacjeKwestia'}}">tutaj</a> </p>
+            {{/with}}
+            </div>
         {{/if}}
+        {{#if answerNegative}}
+            <div class="col-md-12 bg-info padding-15" style="text-align: center ">
+                <p>Przepraszamy!</p>
+                <p>Odrzuciłeś zaproszenie do aplikowania na stanowisko {{position}} w naszej organizacji {{organizationName}}.</p>
+            </div>
+        {{/if}}
+        {{#if answeredNow}}
+            odp dopiero przyszla
+         {{/if}}
     {{/if}}
 </template>

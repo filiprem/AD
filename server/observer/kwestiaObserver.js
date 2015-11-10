@@ -81,6 +81,7 @@ Meteor.startup(function(){
                 }
                 else if (newKwestia.status == KWESTIA_STATUS.OCZEKUJACA && newKwestia.typ==KWESTIA_TYPE.ACCESS_HONOROWY){//to finish
                     console.log("OCZEKUJĄCA (HONOROWY)->REALIZACJA");
+                    console.log("to obsłużone w kodzie!");
                    if(newKwestia.isAnswerPositive==true){
                        //przepisz ZR
                        //te 2: jeśli zrealizowana:dopisz czlonka do userów
@@ -321,19 +322,12 @@ Meteor.startup(function(){
         else {//nie powtarzaja sie
             console.log("one priority");
             if(numberKwestieAvailable==3) {
-                //tab.push(tabKwestie[0]._id);
-                //console.log(tabKwestie[1]);
                 arrayTheSameWartoscPrior = _.where(tabKwestie, {'wartoscPriorytetu': tabKwestie[1].wartoscPriorytetu});
                 if (arrayTheSameWartoscPrior.length >= 2) {//jezeli 2 i 3 sie powtarzaja,to posortuj i wrzuć
                     tabKwestieSort = _.sortBy(arrayTheSameWartoscPrior, "dataWprowadzenia");
-                    //tab.push(tabKwestieSort[0]._id);
-                    //tab.push(tabKwestieSort[1]._id);
                     tab = setTabValues(numberKwestieAvailable, [tabKwestie[0]._id, tabKwestieSort[0]._id, tabKwestieSort[1]._id], tab);
                 }
                 else {//2 i 3 sa inne
-                    //console.log("all are different");
-                    //tab.push(tabKwestie[1]._id);
-                    //tab.push(tabKwestie[2]._id);
                     tab = setTabValues(numberKwestieAvailable, [tabKwestie[0]._id, tabKwestie[1]._id, tabKwestie[2]._id], tab);
                 }
             }
@@ -344,8 +338,6 @@ Meteor.startup(function(){
                 console.log(arrayTheSameWartoscPrior);
                 if (arrayTheSameWartoscPrior.length >= 2) {//jezeli 2 i 3 sie powtarzaja,to posortuj i wrzuć
                     tabKwestieSort = _.sortBy(arrayTheSameWartoscPrior, "dataWprowadzenia");
-                    //tab.push(tabKwestieSort[0]._id);
-                    //tab.push(tabKwestieSort[1]._id);
                     tab = setTabValues(numberKwestieAvailable, [tabKwestie[0]._id, tabKwestieSort[0]._id], tab);
                 }
             }
