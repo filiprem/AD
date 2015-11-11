@@ -1,6 +1,6 @@
 Meteor.methods({
     // metody Kwestia GŁÓWNA
-    addKwestia: function (newKwestia) {
+    addKwestia:function(newKwestia){
         var z = ZespolRealizacyjnyDraft.insert({nazwa: "", zespol: []});
 
         var id = Kwestia.insert({
@@ -255,6 +255,9 @@ Meteor.methods({
     },
     removeKwestiaSetReasonAnswer: function(id,reason,answer){
         Kwestia.update(id,{$set: {czyAktywny: false,reason:reason,isAnswerPositive:answer}}, {upsert: true});
+    },
+    setAnswerKwestiaOczekujaca:function(id,answer){
+        Kwestia.update(id,{$set: {isAnswerPositive:answer}}, {upsert: true});
     },
     updateStatIdZespolu:function(id,status,idZR){
         var id = Kwestia.update(id, {

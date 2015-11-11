@@ -14,6 +14,7 @@
                 <td><strong>Imię i Nazwisko: </strong></td>
                 <td>{{szczegolowaTresc.fullName}}</td>
             </tr>
+            {{#unless isHonorowyType typ}}
             {{#if protectorZR}}
                 <tr>
                     <td><strong>Email: </strong></td>
@@ -32,7 +33,6 @@
                     <td>{{szczegolowaTresc.zip}}</td>
                 </tr>
             {{/if}}
-            {{#unless isHonorowyType typ}}
                 <tr>
                     <td><strong>Miasto: </strong></td>
                     <td>{{szczegolowaTresc.city}}</td>

@@ -51,6 +51,10 @@ Template.answerInvitation.helpers({
         var userDraft=getUserDraft(Router.current().params);
         return (kwestia.isAnswerPositive==true || kwestia.isAnswerPositive==false) && userDraft.licznikKlikniec<=1 ? true : false;
     },
+    ansPos:function(){
+        var kwestia=getKwestia(Router.current().params);
+        return kwestia.isAnswerPositive==true? true:false;
+    },
     answerPositive:function(){
         var kwestia=getKwestia(Router.current().params);
         var userDraft=getUserDraft(Router.current().params);
@@ -73,7 +77,34 @@ Template.answerInvitation.events({
    'click #apply':function(e){
        e.preventDefault();//kwestia idzie do realizacji
        var kwestia=getKwestia(Router.current().params);
-       Meteor.call("updateStatusKwestii",kwestia._id,KWESTIA_STATUS.REALIZOWANA);
+       kwestia.dataRealizacji = new Date();
+       kwestia.numerUchwaly = nadawanieNumeruUchwalyMethod(kwestia.dataRealizacji);
+       var idZr=kwestia.idZespolRealizacyjny;
+       var zrDraft = ZespolRealizacyjnyDraft.findOne({_id: kwestia.idZespolRealizacyjny});
+       if (zrDraft.idZR != null) {//jezeli draft ma id ZR( kopiuje od istniejącego ZR), to dopisz do kisty ZR tego drafta
+           var ZR = ZespolRealizacyjny.findOne({_id: zrDraft.idZR});
+           if(ZR) {
+               console.log("updetujemy zr istniejący");
+               updateListKwestieMethod(ZR, kwestia._id);
+           }
+           else {
+               createNewZRMethod(zrDraft, kwestia);
+           }
+       }
+       else {
+           createNewZRMethod(zrDraft, kwestia);
+       }
+
+       Meteor.call('removeZespolRealizacyjnyDraft',kwestia.idZespolRealizacyjny,function(error){
+           if(!error){
+               var userDraft=getUserDraft(Router.current().params);
+               var counter=userDraft.licznikKlikniec+1;
+                Meteor.call("updateLicznikKlikniec",userDraft._id,counter,function(error){
+                    if(!error)
+                        Meteor.call("setAnswerKwestiaOczekujaca",kwestia._id,true);
+                });
+           }
+       });
    },
     'click #refuse':function(e){
         e.preventDefault();

@@ -19,6 +19,10 @@ Template.listDoradcyModalInner.helpers({
             ]
         };
     },
+    doradcyListCount: function(){
+        var users=Users.find({_id:{$nin:[Meteor.userId()]},'profile.userType':USERTYPE.DORADCA});
+        return users.count()==0 ? true: false;
+    },
     doradcyList: function(){
         var users=Users.find({$where:function(){
             return this.profile.userType==USERTYPE.DORADCA && this._id != Meteor.userId();
@@ -32,16 +36,18 @@ Template.listDoradcyModalInner.events({
         e.preventDefault();
                 var user = Users.findOne({_id: this._id});
         if (user) {
-            var user=UsersDraft.findOne({'profile.idUser':user._id,czyAktywny:true});
-            if(user)
+            var userD=UsersDraft.findOne({'profile.idUser':user._id,czyAktywny:true});
+            if(userD)
                 bootbox.alert("Przepraszamy, został złożony już wniosek o zmianę uprawnień dla tego użytkownika!", function() {
                 });
             else
             {
-                $("#listDoradcy").modal("hide");
+
+                console.log(document.getElementById("personChosen").value);
                 document.getElementById("chooseNewOptionSelect").style.display = "none";
                 document.getElementById("chosenCandidate").style.display = "block";
                 document.getElementById("personChosen").value = user.profile.fullName;
+                $("#listDoradcy").modal("hide");
             }
         }
     },

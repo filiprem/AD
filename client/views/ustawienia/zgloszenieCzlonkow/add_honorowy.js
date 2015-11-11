@@ -145,7 +145,7 @@ addKwestiaOsobowaHonorowy=function(idUserDraft,newUser){
                 {
                     idUser: idUserDraft,
                     dataWprowadzenia: new Date(),
-                    kwestiaNazwa: 'Anplikowanie na stanowisko członka honorowego- ' + newUser[0].firstName + " " + newUser[0].lastName,
+                    kwestiaNazwa: 'Aplikowanie na stanowisko członka honorowego- ' + newUser[0].firstName + " " + newUser[0].lastName,
                     wartoscPriorytetu: 0,
                     wartoscPriorytetuWRealizacji: 0,
                     sredniaPriorytet: 0,
