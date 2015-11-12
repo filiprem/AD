@@ -45,14 +45,29 @@
                 <td>{{szczegolowaTresc.uwagi}}</td>
             </tr>
         {{else}}
-            <tr>
-                <td><strong> Krótka treść</strong></td>
-                <td>{{krotkaTresc}}</td>
-            </tr>
-            <tr>
-                <td><strong> Opis z uzasadnieniem</strong></td>
-                <td>{{szczegolowaTresc}}</td>
-            </tr>
+            {{#if isGlobalParamsChange typ}}
+                <tr>
+                    <td><strong>Parametr: </strong></td>
+                    <td>{{szczegolowaTresc.title}}</td>
+                </tr>
+                <tr>
+                    <td><strong>Wartość początkowa: </strong></td>
+                    <td>{{szczegolowaTresc.oldValue}}</td>
+                </tr>
+                <tr>
+                    <td><strong>Proponowana wartość: </strong></td>
+                    <td>{{szczegolowaTresc.newValue}}</td>
+                </tr>
+            {{else}}
+                <tr>
+                    <td><strong> Krótka treść</strong></td>
+                    <td>{{krotkaTresc}}</td>
+                </tr>
+                <tr>
+                    <td><strong> Opis z uzasadnieniem</strong></td>
+                    <td>{{szczegolowaTresc}}</td>
+                </tr>
+            {{/if}}
         {{/if}}
     </table>
 </template>

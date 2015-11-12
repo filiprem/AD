@@ -2,6 +2,8 @@
 SSR.compileTemplate('email_act',Assets.getText('email_act.html'));
 SSR.compileTemplate('email_added_issue',Assets.getText('email_added_issue.html'));
 SSR.compileTemplate('email_lobbing_issue',Assets.getText('email_lobbing_issue.html'));
+SSR.compileTemplate('email_lobbing_issue_access',Assets.getText('email_lobbing_issue_access.html'));
+SSR.compileTemplate('email_lobbing_issue_global_params',Assets.getText('email_lobbing_issue_global_params.html'));
 SSR.compileTemplate('email_started_voting',Assets.getText('email_started_voting.html'));
 SSR.compileTemplate('email_honorowy_invitation',Assets.getText('email_honorowy_invitation.html'));
 SSR.compileTemplate('email_application_confirmation',Assets.getText('email_application_confirmation.html'));
@@ -110,17 +112,35 @@ Meteor.methods({
             }
         });
     },
-    sendEmailLobbingIssue: function (idKwestia,uzasadnienie) {
+    sendEmailLobbingIssue: function (idKwestia,uzasadnienie,idAuthor) {
         this.unblock();
         var parametr = Parametr.findOne({});
         var kwestiaItem = Kwestia.findOne({_id:idKwestia});
+        var htmlText=null;
+        var title=null;
+        var oldValue=null;
+        var newValue=null;
+        switch(kwestiaItem.typ){
+            case KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE:{
+                htmlText='email_lobbing_issue_global_params',
+                title=kwestiaItem.szczegolowaTresc.title,
+                newValue=kwestiaItem.szczegolowaTresc.newValue,
+                oldValue=kwestiaItem.szczegolowaTresc.oldValue};break;
+            case KWESTIA_TYPE.ACCESS_DORADCA:htmlText='email_lobbing_issue_access';break;
+            case KWESTIA_TYPE.ACCESS_ZWYCZAJNY:htmlText='email_lobbing_issue_access';break;
+            case KWESTIA_TYPE.ACCESS_HONOROWY:htmlText='email_lobbing_issue_access';break;
+            default: htmlText='email_lobbing_issue';break;
+        }
+        //bo globlane nie maja tematu i rodzaju!
         var rodzaj = Rodzaj.findOne({_id:kwestiaItem.idRodzaj});
         var temat = Temat.findOne({_id:kwestiaItem.idTemat});
+        var author=Users.findOne({_id:idAuthor});
         Users.find({}).forEach(function(item) {
-            if (!Roles.userIsInRole(item, ['admin'])) {
-                var html = SSR.render('email_lobbing_issue',{
+            if (!Roles.userIsInRole(item, ['admin']) && item._id!=Meteor.userId() && item.profile.userType==USERTYPE.CZLONEK) {
+                var html = SSR.render(htmlText,{
                     username:item.username,
                     organizacja: parametr.nazwaOrganizacji,
+                    krotkaTresc:kwestiaItem.krotkaTresc,
                     szczegolyKwestii: kwestiaItem.szczegolowaTresc,
                     nazwaKwestii: kwestiaItem.kwestiaNazwa,
                     idKwestii:kwestiaItem._id,
@@ -129,13 +149,18 @@ Meteor.methods({
                     userType: item.profile.userType,
                     uzasadnienie: uzasadnienie,
                     email: item.emails[0].address,
-                    imie: item.profile.firstName,
-                    nazwisko: item.profile.lastName
+                    fullName:item.profile.fullName,
+                    imie: author.profile.firstName,
+                    nazwisko: author.profile.lastName,
+
+                    title:title,
+                    newValue:newValue,
+                    oldValue:oldValue
                 });
                 Email.send({
                     to: item.emails[0].address,
-                    from: "admin AD",
-                    subject: "Lobbowanie Kwestii",
+                    from: author.profile.firstName+" "+author.profile.lastName,
+                    subject: "Proszę o wsparcie mojej kwestii",
                     html: html
                 });
             }

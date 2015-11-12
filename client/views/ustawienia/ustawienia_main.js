@@ -55,13 +55,68 @@ Template.administracjaUserMain.helpers({
 
 Template.lobbujZaKwestia.helpers({
     IAmOwnerKwestiaGlosowanaOrDEliberowana:function(){
-        console.log(this.idUser);
-        console.log(Meteor.userId());
-        console.log("brr");
         return (this.idUser==Meteor.userId() || this.idZglaszajacego==Meteor.userId()) &&
         (this.status==KWESTIA_STATUS.GLOSOWANA ||
         this.status==KWESTIA_STATUS.DELIBEROWANA ||
         this.status==KWESTIA_STATUS.OSOBOWA ||
-        this.status==KWESTIA_STATUS.ADMINISTROWANA) ? true: false;
+        this.status==KWESTIA_STATUS.ADMINISTROWANA ||
+        this.status==KWESTIA_STATUS.STATUSOWA) ? true: false;
     }
 });
+
+Template.lobbujZaKwestia.events({
+   'click #lobbujZaKwestia':function(e){
+       e.preventDefault();
+       var idKwestia=this._id;
+       bootbox.dialog({
+           message:
+           '<p><b>'+'Treść email:'+'</b></p>'+
+           '<div class="row">  ' +
+           '<div class="col-md-12"> ' +
+           '<form class="form-horizontal"> ' +
+           '<div class="form-group"> ' +
+           '<div class="col-md-12"> ' +
+           '<textarea id="emailText" name="emailText" type="text" placeholder="Zachęć użytkowników do akcjii w Twojej kwestii" class="form-control" rows=5></textarea> '+
+           '</form> </div>  </div>',
+           title: "Wiadomość do członków",
+           closeButton:false,
+           buttons: {
+               success: {
+                   label: "Wyślij",
+                   className: "btn-success",
+                   callback: function() {
+                        sendEmailAndNotification(idKwestia,$('#emailText').val());
+                   }
+               },
+               danger: {
+                   label: "Anuluj",
+                   className: "btn-danger",
+                   callback: function() {
+
+                   }
+               }
+           }
+       });
+   }
+});
+sendEmailAndNotification=function(idKwestia,emailText){
+    console.log("jest");
+    console.log(idKwestia);
+    console.log(emailText);
+    if(emailText==null || emailText.trim()==''){
+        GlobalNotification.error({
+            title: 'Przepraszamy',
+            content: "Pole treści email nie może być puste!",
+            duration: 3 // duration the notification should stay in seconds
+        });
+        return false;
+    }
+    else{
+        Meteor.call("sendEmailLobbingIssue",idKwestia,emailText,Meteor.userId(),function(error){
+            if(!error){
+                bootbox.alert("Dziękujemy, Twój email z prośbą został wysłany!", function() {
+                });
+            }
+        });
+    }
+}
