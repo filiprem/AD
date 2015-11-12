@@ -258,7 +258,7 @@ applicationEmail=function(userData,emailTypeText,passw){
     else if (emailTypeText == "acceptNew") {
         emailTypeText = 'email_application_accepted';
         if(userData.linkAktywacyjny)
-            url="http://localhost:3000/account/activate_account/"+userData.linkAktywacyjny;
+            url="http://ad-2015.meteor.com/account/activate_account/"+userData.linkAktywacyjny;
         if(welcomeGender=="Szanowny")
             textGender="mógł";
         else if(welcomeGender=="Szanowna")
@@ -275,7 +275,7 @@ applicationEmail=function(userData,emailTypeText,passw){
         console.log(userData);
         console.log(userData.linkAktywacyjny);
         if(userData.linkAktywacyjny)
-            url="http://localhost:3000/account/answer_invitation/"+userData.linkAktywacyjny;
+            url="http://ad-2015.meteor.com/account/answer_invitation/"+userData.linkAktywacyjny;
     }
     else if(emailTypeText=="loginData"){
         emailTypeText = 'email_login_data';

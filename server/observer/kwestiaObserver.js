@@ -96,14 +96,14 @@ Meteor.startup(function(){
 
             if(newKwestia.status == KWESTIA_STATUS.REALIZOWANA && newKwestia.wartoscPriorytetuWRealizacji < (-newKwestia.wartoscPriorytetu)){
                 console.log("gdy osiagnie minusowy priorytet: relizowana->kosz");
-                Meteor.call('removeKwestia', newKwestia._id,function(error) {
+                Meteor.call('removeKwestiaSetReason', newKwestia._id,KWESTIA_ACTION.NEGATIVE_PRIORITY,function(error) {
                     if(!error) {
                         if (newKwestia.idZespolRealizacyjny) {
                             manageZR(newKwestia);
                         }
                         //jezeli osobowa,usun drafta i powiadomienie
                         
-                        if(_.contains([KWESTIA_TYPE.ACCESS_DORADCA,KWESTIA_TYPE.ACCESS_ZWYCZAJNY],newKwestia.typ)) {
+                        if(_.contains([KWESTIA_TYPE.ACCESS_DORADCA,KWESTIA_TYPE.ACCESS_ZWYCZAJNY,KWESTIA_TYPE.ACCESS_HONOROWY],newKwestia.typ)) {
                             var userDraft = UsersDraft.findOne({_id: newKwestia.idUser});
                             if (userDraft) {
                                 Meteor.call("sendApplicationRejected", userDraft, function (error, ret) {

@@ -133,16 +133,19 @@ Meteor.startup(function(){
                                     if(kwestia.idZespolRealizacyjny!=null)
                                         manageZR(kwestia);
                                 }
-                                if(_.contains([KWESTIA_TYPE.ACCESS_DORADCA,KWESTIA_TYPE.ACCESS_ZWYCZAJNY],kwestia.typ)) {
+                                if(_.contains([KWESTIA_TYPE.ACCESS_DORADCA,KWESTIA_TYPE.ACCESS_ZWYCZAJNY,KWESTIA_TYPE.ACCESS_HONOROWY],kwestia.typ)) {
                                     var userDraft = UsersDraft.findOne({_id: kwestia.idUser});
+
+                                    console.log("contains");
+                                    console.log(userDraft);
                                     //jezeli userDraft mial idUser=byl juz doradcą,to tylko zmieniamy user type,wysylamy powiadomienie email,updateuserDraft
-                                    if(userDraft.profile.idUser!=null){
+                                    if(userDraft.profile.idUser!=null){//moze todotyczyc apliakcji istniejacego na czlonka lub honorowego
                                         var user=Users.findOne({_id:userDraft.profile.idUser});
                                         if(user){
                                             //sprawdzamy czy ten ,który aplikował jeszcze jest w systemie!czyAktywny==true
                                             //if(user.profile.czyAktywny==true) {
-                                                if (user.profile.userType == USERTYPE.DORADCA) {//sprawdzamy cz ten wcześniej nie aplikował i już ma zmienione
-                                                    Meteor.call("updateUserType",user._id,USERTYPE.CZLONEK,function(error){
+                                                //if (user.profile.userType == USERTYPE.DORADCA) {//sprawdzamy cz ten wcześniej nie aplikował i już ma zmienione
+                                                    Meteor.call("updateUserType",user._id,userDraft.profile.userType,function(error){
                                                         if(!error){
                                                             Meteor.call("removeUserDraft",userDraft._id,function(error){
                                                                 if(!error){
@@ -154,10 +157,10 @@ Meteor.startup(function(){
                                                             });
                                                         }
                                                     });
-                                                }
-                                                else{
+                                                //}
+                                                //else{
 
-                                                }
+                                                //}
                                             //}
                                         }
                                     }
@@ -166,7 +169,10 @@ Meteor.startup(function(){
                                         if (userDraft) {
                                             Meteor.call("setZrealizowanyActivationHashUserDraft", userDraft._id, activationLink, true, function (error, ret) {
                                                 (!error)
-                                                Meteor.call("sendApplicationAccepted", UsersDraft.findOne({_id: userDraft._id}),"acceptNew");
+                                                Meteor.call("sendApplicationAccepted", UsersDraft.findOne({_id: userDraft._id}),"acceptNew",function(error){
+                                                    (!error)
+                                                        Meteor.cal("updateLicznikKlikniec",userDraft._id,0);
+                                                });
                                             });
                                         }
                                     }

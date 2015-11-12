@@ -38,7 +38,19 @@
             </div>
         {{/if}}
         {{#if answeredNow}}
-            odp dopiero przyszla
+            {{#if ansPos}}
+                <div class="col-md-12 bg-info padding-15" style="text-align: center ">
+                    <p>Dziękujemy za potwierdzenie chęci przynależenia do naszej organizacji {{organizationName}}!</p>
+                    {{#with actualKwestia}}
+                        <p>Możesz śledzić na bieżąco kwestię <a href="{{pathFor 'informacjeKwestia'}}">tutaj</a> .</p>
+                    {{/with}}
+                </div>
+            {{else}}
+                <div class="col-md-12 bg-info padding-15" style="text-align: center ">
+                    <p>Dziękujemy za udzielenie odpowiedzi.</p>
+                    <p>System {{organizationName}}</p>
+                </div>
+            {{/if}}
          {{/if}}
     {{/if}}
 </template>
