@@ -202,7 +202,7 @@ Template.registerForm.events({
 Template.registerForm.helpers({
     'lessThanFiveUsers': function () {
         var users = Users.find();
-        return !!users && users.count() <= 4 ? true : false;
+        return !!users && users.count() <= 5 ? true : false;
     },
     'getLanguages':function(){
         return Languages.find({});
