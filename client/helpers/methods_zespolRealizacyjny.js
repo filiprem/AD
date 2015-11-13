@@ -225,7 +225,8 @@ getCzlonekFullName=function(number,idZR,ZRType){
     var userID=getZRData(number,idZR,ZRType);
     if(userID){
         var user = Users.findOne({_id: userID});
-        return user.profile.fullName;
+        if(user.profile)
+            return user.profile.fullName;
     }
 };
 getZRData=function(number,idZR,ZRType){

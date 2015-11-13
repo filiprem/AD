@@ -149,6 +149,8 @@ parametrPreview=function(paramName,title,oldValue,newValue){
 };
 
 createIssueChangeParam=function(paramName,title,oldValue,newValue){
+    console.log("param name");
+    console.log(paramName);
     var params=Parametr.findOne();
     var nazwaOrg=params.nazwaOrganizacji;
     var terytorium=params.terytorium;
@@ -185,6 +187,7 @@ createIssueChangeParam=function(paramName,title,oldValue,newValue){
         addCommentPause:commPause,
         addReferencePause:refPause
     };
+    console.log(addParamDraft);
     Meteor.call('addParametrDraft', addParamDraft, function (error,ret) {
         if (!error) {
             var dataParams={

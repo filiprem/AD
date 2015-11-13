@@ -159,12 +159,12 @@ addUserDraft=function(newUser){
             else {
                 //do poprawienia
                 var user = UsersDraft.findOne({_id: ret});
-                Meteor.call("sendApplicationConfirmation", user);
-                addKwestiaOsobowa(ret, newUser);
+                addKwestiaOsobowa(ret, newUser,user);
+
             }
         });
 };
-addKwestiaOsobowa=function(idUserDraft,newUser){
+addKwestiaOsobowa=function(idUserDraft,newUser,user){
     var ZR=ZespolRealizacyjny.findOne();
     var newZR=[{
         nazwa:ZR.nazwa,
@@ -221,6 +221,7 @@ addKwestiaOsobowa=function(idUserDraft,newUser){
                     else
                         Router.go("home");
                     przyjecieWnioskuConfirmation(Parametr.findOne().czasWyczekiwaniaKwestiiSpecjalnej,daneAplikanta.email,"członkowstwo");
+                    Meteor.call("sendApplicationConfirmation", user);
                     //addZR(ret,newUser[0].email);
                 }
             });

@@ -82,13 +82,6 @@
                 {{/if}}
             <ul class="nav navbar-nav navbar-right">
                 {{#if currentUser}}
-                    {{#if isDoradca}}
-                        <li class="{{activeRouteClass 'register_form'}} ">
-                            <a href="{{pathFor 'czlonek_zwyczajny_form'}}" id="aplikujIdClick">
-                                <i class="fa fa-male"></i> Aplikuj na członka zwyczajnego
-                            </a>
-                        </li>
-                    {{/if}}
                     <li class="{{activeRouteClass 'notification_list'}} ">
                         <a href="{{pathFor 'notification_list'}}">Powiadomienia <span class="badge red">{{liczbaNieprzeczytanych}}</span></a>
                     </li>

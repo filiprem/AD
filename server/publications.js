@@ -77,6 +77,10 @@ Meteor.publish('parametr', function () {
     return Parametr.find({});
 });
 
+Meteor.publish('parametrDraft', function () {
+    return ParametrDraft.find({});
+});
+
 // RAPORTY
 
 Meteor.publish('raport', function () {

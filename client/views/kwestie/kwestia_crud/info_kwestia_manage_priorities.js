@@ -26,11 +26,20 @@ Template.managePriorities.helpers({
         var flag = false;
         if(kwestia) {
             if (kwestia.typ == KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE) {//for GLobalPARAM->No KWESTIA OPCJE
-                var kwestie = Kwestia.find({
-                    czyAktywny: true,
-                    'glosujacy.idUser': Meteor.userId(),
-                    typ: KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE
-                });
+                //var kwestie = Kwestia.find({
+                //    czyAktywny: true,
+                //    'glosujacy.idUser': Meteor.userId(),
+                //    typ: KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE
+                //});
+                var globalParams=ParametrDraft.findOne({czyAktywny:true});
+                if(globalParams){
+                    var kwestie = Kwestia.find({
+                        czyAktywny: true,
+                        'glosujacy.idUser': Meteor.userId(),
+                        typ: KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE,
+                        idParametr:globalParams._id
+                    });
+                }
             }
             else
                 var kwestie = Kwestia.find({

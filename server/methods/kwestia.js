@@ -278,5 +278,9 @@ Meteor.methods({
     addConstZR:function(id,zespol){//,{$unset:{idZespolRealizacyjny:''}}
         var id = Kwestia.update(id, {$set: {zespol: zespol}});
         return id;
+    },
+    updateKwestiaCzasLobbowana:function(id,lobbowana){//,{$unset:{idZespolRealizacyjny:''}}
+        var id = Kwestia.update(id, {$set: {lobbowana:lobbowana}});
+        return id;
     }
 });
