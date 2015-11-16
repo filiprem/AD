@@ -10,7 +10,7 @@ Template.registerForm.rendered = function () {
             },
             email: {
                 email: true,
-                checkExistsEmail: true
+                checkExistsAnyEmail: true
             },
             confirmPassword: {
                 equalTo: "#inputPassword"
@@ -19,18 +19,11 @@ Template.registerForm.rendered = function () {
                 exactlength: 11,
                 peselValidation:true
             },
-            identityCard:{
-                exactlength:9,
-                identityCardValidation:true
-            },
             ZipCode:{
                 kodPocztowyValidation:true
             },
             language:{
                 isNotEmptyValue:true
-            },
-            genderRadios:{
-                required:true
             }
         },
         messages: {
@@ -54,20 +47,11 @@ Template.registerForm.rendered = function () {
             confirmPassword: {
                 equalTo: equalToMessage()
             },
-            phone: {
-                required: fieldEmptyMessage()
-            },
-            dateOfBirth: {
-                required: fieldEmptyMessage()
-            },
             address: {
                 required: fieldEmptyMessage()
             },
             ZipCode: {
                 required: fieldEmptyMessage()
-            },
-            identityCard:{
-                required:fieldEmptyMessage()
             },
             pesel:{
                 required:fieldEmptyMessage()
@@ -80,9 +64,6 @@ Template.registerForm.rendered = function () {
             },
             statutConfirmation:{
                 required:fieldEmptyMessage()
-            },
-            genderRadios:{
-                required:fieldEmptyMessage()
             }
         },
         highlight: function (element) {
@@ -94,11 +75,7 @@ Template.registerForm.rendered = function () {
         errorElement: 'span',
         errorClass: 'help-block',
         errorPlacement: function (error, element) {
-            if(element.attr("type") == "radio")
-                error.insertAfter(document.getElementById("womanRadio"));
-            else if(element.attr("name") == "dateOfBirth")
-                error.insertAfter(document.getElementById("dataUrodzeniaDatePicker"));
-            else if(element.attr("name") == "statutConfirmation")
+            if(element.attr("name") == "statutConfirmation")
                 error.insertAfter(document.getElementById("statutConfirmationSpan"));
             else
                 validationPlacementError(error, element);
@@ -119,18 +96,13 @@ Template.registerForm.events({
                 password: $(e.target).find('[name=password]').val(),
                 confirm_password: $(e.target).find('[name=confirmPassword]').val(),
                 profession: $(e.target).find('[name=profession]').val(),
-                phone: $(e.target).find('[name=phone]').val(),
-                dateOfBirth: $(e.target).find('[name=dateOfBirth]').val(),
                 address: $(e.target).find('[name=address]').val(),
                 zip: $(e.target).find('[name=zipCode]').val(),
-                web: $(e.target).find('[name=web]').val(),
-                gender: $(e.target).find('[name=genderRadios]:checked').val(),
                 role: 'user',
                 userType: USERTYPE.CZLONEK,
                 uwagi: $(e.target).find('[name=uwagi]').val(),
                 language: $(e.target).find('[name=language]').val(),
                 city:$(e.target).find('[name=city]').val(),
-                identityCard:$(e.target).find('[name=identityCard]').val(),
                 pesel:$(e.target).find('[name=pesel]').val(),
                 rADking:0
 
@@ -162,17 +134,33 @@ Template.registerForm.events({
                             if(zespol.zespol.length<3) {
                                 var ZR=zespol.zespol.slice();
                                 ZR.push(addedUser);
-                                Meteor.call('updateCzlonkowieZR', zespol._id,ZR, function (error, ret) {
-                                    if (error) {
-                                        // optionally use a meteor errors package
-                                        if (typeof Errors === "undefined")
-                                            Log.error('Error: ' + error.reason);
-                                        else {
-                                            //if(error.error === 409)
-                                            throwError(error.reason);
+
+                                if(zespol.zespol.length==0){
+                                    Meteor.call('updateCzlonkowieZRProtector', zespol._id, ZR, addedUser, function (error, ret) {
+                                        if (error) {
+                                            // optionally use a meteor errors package
+                                            if (typeof Errors === "undefined")
+                                                Log.error('Error: ' + error.reason);
+                                            else {
+                                                //if(error.error === 409)
+                                                throwError(error.reason);
+                                            }
                                         }
-                                    }
-                                });
+                                    });
+                                }
+                                else {
+                                    Meteor.call('updateCzlonkowieZR', zespol._id, ZR, function (error, ret) {
+                                        if (error) {
+                                            // optionally use a meteor errors package
+                                            if (typeof Errors === "undefined")
+                                                Log.error('Error: ' + error.reason);
+                                            else {
+                                                //if(error.error === 409)
+                                                throwError(error.reason);
+                                            }
+                                        }
+                                    });
+                                }
                             }
                         }
                         if (Meteor.loggingIn()) {
@@ -214,7 +202,7 @@ Template.registerForm.events({
 Template.registerForm.helpers({
     'lessThanFiveUsers': function () {
         var users = Users.find();
-        return !!users && users.count() <= 4 ? true : false;
+        return !!users && users.count() <= 5 ? true : false;
     },
     'getLanguages':function(){
         return Languages.find({});

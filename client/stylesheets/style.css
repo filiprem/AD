@@ -206,7 +206,7 @@ body {
 }
 
 .reactive-table .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td{
-    line-height: 15px;
+    line-height: 12px;
 }
 .color-red{
     color:red;
@@ -228,6 +228,11 @@ body #listZespolRealizacyjnyDouble .modal-dialog{
     width: 750px;
 }
 
+body #editParametrMod .modal-dialog{
+    width: 750px;
+    height: 750px;
+}
+
 .panel .noborder{
     border:none;
     box-shadow: none;
@@ -244,3 +249,14 @@ body #listZespolRealizacyjnyDouble .modal-dialog{
     font-size:9px;
 }
 
+.postNegativePriority{
+    background-color: #888888;
+    border-style: solid;
+    border-color: #737373;
+}
+
+.postPositivePriority{
+    background-color: #afafaf;
+    border-style: solid;
+    border-color: #737373;
+}

@@ -72,6 +72,25 @@ jQuery.validator.addMethod("checkExistsNazwaZespoluRealizacyjnego", function (va
 //funkcja walidujaca, uzywana przy samorejestracji lub przy aplikacji na czlonka lub doradcę(tylko nowy user!!)
 //waliduje tylko wtyedy,gdy uzytkownik niezalogowany,bo gdy zalogowany,to moze aplikwoac tylko z doradcy na członka
 //a wówczas email będzie ten sam naturalnie
+jQuery.validator.addMethod("checkExistsAnyEmail", function (value, element) {
+    var found = null;
+    //if (!Meteor.userId()) {
+        found=checkExistsUser(value,null,null);
+    //}
+    return this.optional(element) || found == null;
+}, 'Istnieje już w systemie użytkownik o podanym adresie email!');
+
+jQuery.validator.addMethod("checkExistsEmailZwyczajny", function (value, element) {
+    var found=null;
+    var users=Users.find({'profile.userType':{$in:[USERTYPE.CZLONEK,USERTYPE.HONOROWY]}});
+    console.log(users.count());
+    users.forEach(function(user){
+       if(user.emails[0].address==value)
+        found=true;
+    });
+    return this.optional(element) || found== null;
+}, 'Istnieje już w systemie użytkownik o podanym adresie email!');
+
 jQuery.validator.addMethod("checkExistsEmail", function (value, element,param) {
     var found = null;
     if (!Meteor.userId()) {
@@ -92,7 +111,7 @@ jQuery.validator.addMethod("checkExistsEmail2", function (value, element,param) 
 jQuery.validator.addMethod("checkExistsEmailDraft", function (value, element) {
     var usersDraft = UsersDraft.find({
         $where: function () {
-            return ((this.email == value) || (this.email.toLowerCase() == value.toLowerCase()));
+            return (((this.email == value) || (this.email.toLowerCase() == value.toLowerCase()))&& this.czyAktywny==true);
         }
     });
     var found = null;
@@ -106,10 +125,10 @@ jQuery.validator.addMethod("exactlength", function(value, element,param) {
     return this.optional(element) || value.length == param;
 }, "Wprowadź dokładnie {0} znaków.");
 
-jQuery.validator.addMethod("identityCardValidation", function(value, element) {
-    var filter =/^[A-Z]{3}[0-9]{6}$/;
-    return this.optional(element) || filter.test(value);
-}, "Niepoprawny format numer Dowodu Osobistego.");
+//jQuery.validator.addMethod("identityCardValidation", function(value, element) {
+//    var filter =/^[A-Z]{3}[0-9]{6}$/;
+//    return this.optional(element) || filter.test(value);
+//}, "Niepoprawny format numer Dowodu Osobistego.");
 
 jQuery.validator.addMethod("peselValidation", function(value, element) {
     var filter =/^[0-9]{11}$/;

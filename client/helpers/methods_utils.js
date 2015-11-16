@@ -77,3 +77,18 @@ renderTmpForBootbox = function (template, data) {
 getNazwaOrganizacji=function(){
     return Parametr.findOne() ? Parametr.findOne().nazwaOrganizacji :"Aktywna Demokracjaa";
 };
+
+getLocalDate=function(date) {
+    var dt = new Date(date);
+    var minutes = dt.getTimezoneOffset();
+    dt = new Date(dt.getTime() + minutes*60000);
+    return dt;
+};
+
+notificationPauseWarning=function(text,timeLeft){
+    GlobalNotification.warning({
+        title: 'Przepraszamy',
+        content: "Istnieje ograniczenie częstotliwości dodawania "+ text +" . Następna tego typu akcja możliwa za "+timeLeft,
+        duration: 5 // duration the notification should stay in seconds
+    });
+};

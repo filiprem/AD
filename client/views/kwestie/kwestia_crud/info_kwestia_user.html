@@ -1,0 +1,126 @@
+<template name="informacjeKwestia" xmlns="http://www.w3.org/1999/html">
+    <div class="main">
+        <div class="row">
+            <div class="col-md-12">
+                <legend>{{kwestiaNazwa}}<small> ({{status}})</small></legend>
+                <p class="bg-info padding-15">
+                    <b>Obecni:</b> {{glosujacyCount}}<br/>
+                    {{#if kworumComplete}}
+                        <b>Kworum:</b> spełnione.<br/>
+                    {{else}}
+                        <b>Kworum:</b> brak {{textKworum}} dla uzyskania kworum.<br/>
+                    {{/if}}
+                    {{#unless isGlobalParamChange}}
+                        {{#if ZRComplete}}
+                            <b>Zespół Realizacyjny:</b> kompletny.<br/>
+                        {{else}}
+                            <b>Zespół Realizacyjny:</b> brak jeszcze {{ZRText}} ZR.<br/>
+                        {{/if}}
+                    {{/unless}}
+                    {{#if isNotAdminOrDoradca}}
+                        {{#if mojPriorytetZero}}
+                            <br/>Wstrzymałeś się od głosu nadając tej Kwestii priorytet <b>0</b>
+                        {{else}}
+                            {{#if mojPiorytet}}
+                                <br/>Nadałeś tej Kwestii priorytet: <b>{{mojPiorytet}}</b>
+                            {{else}}
+                                <br/>Nie nadałeś jeszcze tej Kwestii priorytetu
+                            {{/if}}
+                        {{/if}}
+                    {{/if}}
+                </p>
+            </div>
+            <!--{{thisKwestia}}-->
+            {{> kwestiaTopButtons
+                status=status
+                typ=typ
+                idParent=idParent
+                idKwestia=_id
+                czyAktywny=czyAktywny
+            }}
+        </div>
+
+        <br/>
+        <table class="table table-bordered manageTable">
+            {{#if kwestiaInKosz}}
+                <tr>
+                    <td><strong> Powód odrzucenia kwestii</strong></td>
+                    <td><b>{{reason}}</b></td>
+                </tr>
+            {{/if}}
+            {{#if isRealizowana}}
+                <td><strong> Priorytet w deliberacji i głosowaniu</strong></td>
+                <td><b>{{wartoscPriorytetuG}}</b></td>
+            {{/if}}
+            <tr>
+                {{>managePriorities
+                    priorytet=wartoscPriorytetu
+                    priorytetRealizacja=wartoscPriorytetuWRealizacji
+                    idKwestia=_id
+                    idParent=idParent
+                    glosujacy=glosujacy
+                    status=status
+                    czyAktywny=czyAktywny
+                }}
+            </tr>
+            <tr>
+                <td><strong> Temat </strong>&nbsp; &nbsp; {{tematNazwa.nazwaTemat}}</td>
+                <td><strong> Rodzaj </strong>&nbsp; &nbsp; {{rodzajNazwa.nazwaRodzaj}}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong> Data wprowadzenia Kwestii </strong>&nbsp; {{date}}</td>
+                <td><strong> Start głosowania </strong>&nbsp; {{dateVoteStart}}</td>
+                <td><strong> Finał </strong>&nbsp; {{dateVoteFinish}}</td>
+            </tr>
+        </table>
+        {{>kwestiaDetails
+            krotkaTresc=krotkaTresc
+            szczegolowaTresc=szczegolowaTresc
+            status=status
+            typ=typ
+        }}
+        {{#if currentUser}}
+            {{#unless isGlobalParamChange}}
+                {{>ZRTemplate
+                    idZR=idZespolRealizacyjny
+                    status=status
+                    idKwestia=_id
+                    czyAktywny=czyAktywny
+                    zespol=zespol
+                    typ=typ
+                }}
+            {{/unless}}
+        {{/if}}
+        {{#if ifHasOpcje}}
+            <div class="row">
+                {{> opcjeList
+                    actualKwestiaId=_id
+                    idParent=idParent
+                }}
+            </div>
+        {{/if}}
+        {{#if currentUser}}
+            <legend id="dyskusja">Dyskusja Kwestii</legend>
+            <div class="row">
+                <div class="col-md-12">
+                    {{> discussionMain
+                    _id =_id
+                    status=status
+                    czyAktywny=czyAktywny}}
+                </div>
+            </div>
+        {{/if}}
+    </div>
+
+    {{> notifications}}
+    {{> listZespolRealizacyjnyModal}}
+    {{> addNazwaModal}}
+    {{>decyzjaModal}}
+    {{>listZespolRealizacyjnyDoubleModal}}
+    {{> GlobalNotifications}}
+
+</template>
+
+
+

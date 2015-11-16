@@ -1,12 +1,14 @@
 Meteor.methods({
     addZespolRealizacyjny: function (newZespol) {
-
+        console.log("method call");
+        console.log(newZespol);
         var id = ZespolRealizacyjny.insert({
             nazwa: newZespol[0].nazwa,
             zespol:newZespol[0].zespol,
             kwestie:newZespol[0].kwestie,
             czyAktywny:newZespol[0].czyAktywny
         });
+        console.log(id);
         return id;
     },
     updateListKwesti:function (id, listKwestii) {
@@ -32,8 +34,16 @@ Meteor.methods({
         var id = ZespolRealizacyjny.update(id, {$set: {zespol: czlonkowie}}, {upsert: true});
         return id;
     },
+    updateCzlonkowieZRProtector: function (id, czlonkowie,protector) {
+        var id = ZespolRealizacyjny.update(id, {$set: {zespol: czlonkowie,protector:protector}}, {upsert: true});
+        return id;
+    },
     updateKwestieZR:function (id, kwestie) {
         var id = ZespolRealizacyjny.update(id, {$set: {kwestie: kwestie}}, {upsert: true});
+        return id;
+    },
+    updateKwestieZRChangeActivity:function (id, kwestie,czyAktywny) {
+        var id = ZespolRealizacyjny.update(id, {$set: {kwestie: kwestie,czyAktywny:czyAktywny}}, {upsert: true});
         return id;
     },
     removeZespolRealizacyjny:function(id){

@@ -1,0 +1,44 @@
+<template name="editParametrModal">
+    <!--data-backdrop="static"-->
+    <div id="editParametrMod"  class="modal fade" data-keyboard="false"  tabindex="-1" data-width="960" style="display:none;" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                {{> editParametrModalInner}}
+            </div>
+        </div>
+    </div>
+    {{> GlobalNotifications}}
+</template>
+
+<template name="editParametrModalInner">
+    {{#with parametrInScope}}
+        <div class="modal-body">
+            <div class="row">
+                <div class="col col-md-10">
+                    <form class="form-horizontal" id="parametrFormEditModal">
+                        <legend>Edycja parametru</legend>
+                        <div class="form-group">
+                            <label class="control-label col-xs-3" for="{{parametrInScope.name}}">{{parametrInScope.title}}:</label>
+
+                            {{#if NoStatutKontaktInput parametrInScope.title}}
+                                <div class="col-xs-9">
+                                    <input name="{{parametrInScope.name}}" type="text" class="form-control" id="param"
+                                             value="{{parametrInScope.value}}" required/>
+                                </div>
+                            {{else}}
+                                <div class="col-xs-9">
+                                    <textarea name="{{parametrInScope.name}}" type="text" class="form-control" id="param"
+                                               value="{{parametrInScope.value}}" rows="5" required></textarea>
+                                </div>
+                            {{/if}}
+                        </div>
+                        <div class="form-group" style="text-align: center">
+                            <input type="submit" class="btn btn-success" value="Zmień"/>
+                            <input type="reset" class="btn btn-danger" value="Anuluj"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {{/with}}
+</template>

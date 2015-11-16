@@ -36,15 +36,15 @@
                                 <span class="fa fa-file-archive-o"></span> Archiwum
                             </a>
                         </li>
+                        <!--<li class="{{activeRouteClass 'kosz'}}">-->
+                            <!--<a href="{{pathFor 'kosz'}}">-->
+                                <!--<span class="fa fa-trash-o"></span> Kosz-->
+                            <!--</a>-->
+                        <!--</li>-->
                         {{#if currentUser}}
-                        <li class="{{activeRouteClass 'profile_list'}}">
-                            <a href="{{pathFor 'profile_list'}}">
-                                <i class="fa fa-users"></i> Użytkownicy
-                            </a>
-                        </li>
                             <li class="{{activeRouteClass 'administracjaUserMain'}}">
                                 <a href="{{pathFor 'administracjaUserMain'}}">
-                                    <i class="fa fa-gears"></i> Administracja
+                                    <i class="fa fa-gears"></i> Ustawienia
                                 </a>
                             </li>
                         {{/if}}
@@ -70,8 +70,10 @@
                                         <span class="caret"></span>
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                        <li><a href="{{pathFor 'czlonek_zwyczajny_form'}}">Członek zwyczajny</a></li>
-                                        <li><a href="{{pathFor 'doradca_form'}}">Doradca</a></li>
+                                        <li><a href="{{pathFor 'czlonek_zwyczajny_form'}}">jako Członek zwyczajny</a></li>
+                                        <li><a href="{{pathFor 'doradca_form'}}">jako Doradca</a></li>
+                                        <li><a href="#">Uwagę</a></li>
+                                        <li><a href="#">Nowy węzeł sieci</a></li>
                                     </ul>
                                 </li>
                             {{/if}}
@@ -80,13 +82,6 @@
                 {{/if}}
             <ul class="nav navbar-nav navbar-right">
                 {{#if currentUser}}
-                    {{#if isDoradca}}
-                        <li class="{{activeRouteClass 'register_form'}} ">
-                            <a href="{{pathFor 'czlonek_zwyczajny_form'}}" id="aplikujIdClick">
-                                <i class="fa fa-male"></i> Aplikuj na członka zwyczajnego
-                            </a>
-                        </li>
-                    {{/if}}
                     <li class="{{activeRouteClass 'notification_list'}} ">
                         <a href="{{pathFor 'notification_list'}}">Powiadomienia <span class="badge red">{{liczbaNieprzeczytanych}}</span></a>
                     </li>

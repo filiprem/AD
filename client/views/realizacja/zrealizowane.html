@@ -1,0 +1,26 @@
+<template name="realizacjaTab2">
+    <div class="main">
+        {{#if ZrealizowaneListCount}}
+            <h3>Lista Kwestii zrealizowanych</h3>
+
+            <div class="pull-right">
+                <span>Liczba Kwestii zrealizowanych: </span><span class="badge">{{zrealizowaneCount}}</span>
+            </div>
+            <hr/>
+            <div class="row">
+                <div class="col-md-12">
+
+                    {{> reactiveTable
+                    class = "table table-bordered table-hover"
+                    fields = settings.fields
+                    settings = settings
+                    collection = ZrealizowaneList
+                    }}
+
+                </div>
+            </div>
+        {{else}}
+            <label>Brak Kwestii</label>
+        {{/if}}
+    </div>
+</template>

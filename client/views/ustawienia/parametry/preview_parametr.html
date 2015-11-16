@@ -1,0 +1,31 @@
+<!--z tego widoku przestajemy korzystac-->
+<template name="previewParametr">
+    <div class="main">
+        <p class="col-md-12 bg-warning padding-15 color-red">
+            Zamierzasz dokonać następujących zmian:
+        </p>
+
+        <div class="row">
+            <div class="col col-md-10">
+                <form class="form-horizontal">
+                    {{#each parameters}}
+                        <div class="form-group">
+                            <div class="col-xs-9">
+                                Proponuję zmianę zawartości w <b>{{paramName}}</b> z wartości<b> {{initialValue}} </b> na <b>{{newValue}}</b>
+                                <br>Priorytetowanie tej Kwestii oraz dyskusja zdecydują czy nastąpi zmiana.
+
+                            </div>
+                        </div>
+                    {{/each}}
+                    <div class="form-group">
+                        <div class="col-xs-offset-3 col-xs-9">
+                            <a id="save" type="button" class="btn btn-primary">Dodaj</a>
+                            <a id="cancel" type="reset" href="{{pathFor "listParametr"}}"
+                               class="btn btn-default">Anuluj</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</template>

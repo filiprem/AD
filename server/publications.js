@@ -10,6 +10,10 @@ Meteor.publish('users', function () {
     return Users.find({});
 });
 
+Meteor.publish('user', function (id) {
+    return Users.find({_id:id});
+});
+
 Meteor.publish('usersRoles', function () {
     return Users.find({}, {fields: {roles: 1}});
 });
@@ -20,6 +24,10 @@ Meteor.publish('usersEmails', function () {
 
 Meteor.publish('usersType', function () {
     return Users.find({}, {fields: {'profile.userType': 1}});
+});
+
+Meteor.publish('usersUsernames', function () {
+    return Users.find({}, {fields: {username: 1}});
 });
 
 Meteor.publish('usersDraft', function () {
@@ -33,6 +41,7 @@ Meteor.publish('userDraft', function (id) {
 Meteor.publish('usersDraftEmails', function () {
     return UsersDraft.find({}, {fields: {email: 1}});
 });
+
 
 Meteor.publish(null, function (){
     return Meteor.roles.find({})
@@ -68,6 +77,10 @@ Meteor.publish('parametr', function () {
     return Parametr.find({});
 });
 
+Meteor.publish('parametrDraft', function () {
+    return ParametrDraft.find({});
+});
+
 // RAPORTY
 
 Meteor.publish('raport', function () {
@@ -93,7 +106,11 @@ Meteor.publish('kwestieOczekujace', function (status) {
 });
 
 Meteor.publish('kwestieNazwa', function () {
-    return Kwestia.find({}, {fields: {kwestiaNazwa: 1, czyAktywny: 1}});
+    return Kwestia.find({}, {fields: {kwestiaNazwa: 1,czyAktywny: 1}});
+});
+
+Meteor.publish('kwestieNazwaIdUserDataWprowadzenia', function () {
+    return Kwestia.find({}, {fields: {kwestiaNazwa: 1,idUser:1,dataWprowadzenia:1, czyAktywny: 1}});
 });
 
 Meteor.publish('kwestieInfo', function () {
@@ -120,14 +137,14 @@ Meteor.publish('kwestieGlosowane', function () {
 Meteor.publish('kwestieArchiwum', function () {
     return Kwestia.find({
         $or: [
-            {czyAktywny: true},
-            {
-                $and: [{dataGlosowania: {$lt: moment().format()}}, {
-                    $where: function () {
-                        return this.wartoscPriorytetu <= 0
-                    }
-                }]
-            },
+            {czyAktywny: false},
+            //{
+            //    $and: [{dataGlosowania: {$lt: moment().format()}}, {
+            //        $where: function () {
+            //            return this.wartoscPriorytetu <= 0
+            //        }
+            //    }]
+            //},
             {status: KWESTIA_STATUS.ARCHIWALNA},
             {status: KWESTIA_STATUS.HIBERNOWANA}
         ]
@@ -170,8 +187,8 @@ Meteor.publish('zespolyRealizacyjne', function(){
     return ZespolRealizacyjny.find({});
 });
 
-Meteor.publish('zespolRealizacyjny', function(){
-    return ZespolRealizacyjny.findOne({});
+Meteor.publish('zespolRealizacyjny', function(id){
+    return ZespolRealizacyjny.find({_id:id});
 });
 
 Meteor.publish('zespolyRealizacyjneDraft', function(){
@@ -180,6 +197,18 @@ Meteor.publish('zespolyRealizacyjneDraft', function(){
 
 Meteor.publish('kwestieRealizacja', function () {
     return Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.REALIZOWANA});
+});
+
+Meteor.publish('kwestieZrealizowana', function () {
+    return Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.ZREALIZOWANA});
+});
+
+Meteor.publish('kwestieArrayStatus', function (array) {
+    return Kwestia.find({czyAktywny: true, status: {$in:array}});
+});
+
+Meteor.publish('kwestieActivity', function (activity) {
+    return Kwestia.find({czyAktywny: activity});
 });
 
 Meteor.publish('powiadomienia', function () {

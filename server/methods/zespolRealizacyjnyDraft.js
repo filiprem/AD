@@ -20,7 +20,12 @@ Meteor.methods({
         ZespolRealizacyjnyDraft.remove(object);
     },
     updateZespolRealizacyjnyDraft:function(id,data){
-        var id = ZespolRealizacyjnyDraft.update(id, {$set: data}, {upsert: true});
+        console.log("update!");
+        console.log(data);
+        console.log(id);
+        //var id = ZespolRealizacyjnyDraft.update(id, {$set: data}, {upsert: true});
+        var id = ZespolRealizacyjnyDraft.update({_id:id}, {$set: {nazwa: data.nazwa,zespol:data.zespol,idZR:data.idZR}}, {upsert: true});
+        console.log(id);
         return id;
     },
     updateCzlonkowieZRDraft: function (id, czlonkowie) {

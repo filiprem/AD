@@ -5,8 +5,13 @@ Meteor.startup(function () {
             "terytorium": "Polska",
             "kontakty": "Warszawa ul. Miła",
             "regulamin": "brak regulaminu",
-            "voteFrequency": 7,
-            "voteQuantity": 3
+            //"voteFrequency": 7,
+            "czasWyczekiwaniaKwestiiSpecjalnej":2,
+            "voteQuantity": 3,
+            "voteDuration":1,
+            "addIssuePause":60,
+            "addCommentPause":2,
+            "addReferencePause":1
         }
     ];
     if (Parametr.find().count() == 0) {

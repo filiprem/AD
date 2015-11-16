@@ -218,3 +218,81 @@ addCzlonekToZespolRealizacyjnyNotificationNew=function(idUser,zespolToUpdate,num
 
 
 };
+
+//FUNKCJE
+getCzlonekFullName=function(number,idZR,ZRType){
+
+    var userID=getZRData(number,idZR,ZRType);
+    if(userID){
+        var user = Users.findOne({_id: userID});
+        if(user.profile)
+            return user.profile.fullName;
+    }
+};
+getZRData=function(number,idZR,ZRType){
+    var z=null;
+    if(ZRType=="ZRDraft")
+        z = ZespolRealizacyjnyDraft.findOne({_id: idZR});
+    else
+        z = ZespolRealizacyjny.findOne({_id: idZR});
+    if(z){
+        zespolId = z._id;
+        var zespol = z.zespol;
+        if(zespol){
+            var id = zespol[number];
+            return id ? id :null;
+        }
+    }
+};
+checkIfInZR=function(idZR,idMember){
+    var z = ZespolRealizacyjnyDraft.findOne({_id: idZR});
+    if(z){
+        return _.contains(z.zespol,idMember) ? idMember :null;
+    }
+},
+rezygnujZRAlert=function(idUserZR,idKwestia){
+    bootbox.dialog({
+        message:"Czy chcesz zrezygnować z udziału w Zespole Realizacyjnym?",
+        title: "Uwaga!",
+        buttons: {
+            success: {
+                label: "Rezygnuję",
+                className: "btn-success",
+                callback: function() {
+                    rezygnujZRFunction(idUserZR,idKwestia);
+                }
+            },
+            main: {
+                label: "Nie",
+                className: "btn-primary"
+            }
+        }
+    });
+};
+rezygnujZRFunction=function(idUserZR,idKwestia){
+
+    var kwestia=Kwestia.findOne({_id:idKwestia});
+    if(kwestia) {
+        var zespol=ZespolRealizacyjnyDraft.findOne({_id:kwestia.idZespolRealizacyjny});
+        if(zespol) {
+            var zespolR = zespol.zespol.slice();
+            zespolR= _.without(zespolR,Meteor.userId());
+            var ZRDraft= {
+                nazwa: "",
+                "zespol": zespolR,
+                "idZR": null
+            };
+            console.log("ten zespół");
+            console.log();
+            Meteor.call('updateZespolRealizacyjnyDraft', zespol._id, ZRDraft, function (error) {
+                if (error) {
+                    if (typeof Errors === "undefined")
+                        Log.error('Error: ' + error.reason);
+                    else {
+                        throwError(error.reason);
+                    }
+                }
+            });
+        }
+    }
+};

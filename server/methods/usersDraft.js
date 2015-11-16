@@ -10,19 +10,19 @@ Meteor.methods({
                 profession: newUser[0].profession,
                 address: newUser[0].address,
                 zip: newUser[0].zip,
-                dateOfBirth: newUser[0].dateOfBirth,
-                gender: newUser[0].gender,
-                phone: newUser[0].phone,
-                web: newUser[0].web,
                 language:newUser[0].language,
                 userType:newUser[0].userType,
                 uwagi:newUser[0].uwagi,
                 idUser:newUser[0].idUser,
                 isExpectant:newUser[0].isExpectant,
                 city:newUser[0].city,
-                identityCard:newUser[0].identityCard,
                 pesel:newUser[0].pesel
-            }
+            },
+             czyZrealizowany:false,
+             linkAktywacyjny:null,
+             czyAktywny:true,
+             dataWprowadzenia:new Date(),
+             licznikKlikniec:0
         });
         return id;
 
@@ -33,7 +33,28 @@ Meteor.methods({
                 $set: currentUser},
             {upsert:true});
     },
+    //removeUserDraft: function(id){
+    //    UsersDraft.update({_id:id},{$set:{'profile.czyAktywny': false,czyZrealizowany:false}});
+    //},
     removeUserDraft: function(id){
-        UsersDraft.remove({_id: id});
-    }
+        UsersDraft.update({_id:id},{$set:{czyAktywny: false,czyZrealizowany:true}});
+    },
+    removeUserDraftNotZrealizowany: function(id,licznik){
+        UsersDraft.update({_id:id},{$set:{czyAktywny: false,czyZrealizowany:false}});
+    },
+    removeUserDraftNotZrealizowanyLicznik: function(id,licznik){
+        UsersDraft.update({_id:id},{$set:{czyAktywny: false,czyZrealizowany:false,licznikKlikniec:licznik}});
+    },
+    setZrealizowanyUserDraft:function(id,realization){
+        UsersDraft.update({_id:id},{$set:{czyZrealizowany:realization}});
+    },
+    setZrealizowanyActivationHashUserDraft:function(id,activationLink,realization){
+        UsersDraft.update({_id:id},{$set:{linkAktywacyjny:activationLink,czyZrealizowany:realization}});
+    },
+    setActivationHashUserDraft:function(id,activationLink){
+        UsersDraft.update({_id:id},{$set:{linkAktywacyjny:activationLink}});
+    },
+    updateLicznikKlikniec:function(id,counter){
+        UsersDraft.update({_id:id},{$set:{licznikKlikniec:counter}});
+    },
 });

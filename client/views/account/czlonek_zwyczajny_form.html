@@ -37,30 +37,11 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-xs-3" for="identityCard">Nr Dowodu Osobistego: </label>
-
-                        <div class="col-xs-9">
-                            <input name="identityCard" type="text" class="form-control" id="profession"
-                                   placeholder="Numer Dowodu Osobistego" value={{profile.identityCard}} required>
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label class="control-label col-xs-3" for="phoneNumber">PESEL: </label>
 
                         <div class="col-xs-9">
                             <input name="pesel" type="text" class="form-control" id="pesel"
                                    placeholder="PESEL" value={{profile.pesel}} required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-xs-3">Data urodzenia: </label>
-
-                        <div class="col-xs-9">
-                            <div class="input-group datetimepicker" id="dataUrodzeniaDatePicker">
-                                <span class="input-group-addon glyphicon glyphicon-calendar"></span>
-                                <input class="set-due-date form-control" type="text" name="dateOfBirth"
-                                       required/>
-                            </div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -74,46 +55,13 @@
                     <div class="form-group">
                         <label class="control-label col-xs-3">Kod pocztowy: </label>
                         <div class="col-xs-9">
-                            <input class="form-control" type="text" name="ZipCode" id="ZipCode" placeholder="Kod pocztowy" required/>
+                            <input class="form-control" type="text" name="zipCode" id="ZipCode" placeholder="Kod pocztowy" required/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-xs-3">Miasto: </label>
                         <div class="col-xs-9">
                             <input name="city" type="text" class="form-control" id="city" placeholder="Miasto"  required >
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-xs-3" for="web">Telefon: </label>
-
-                        <div class="col-xs-9">
-                            <input name="phone" type="text" class="form-control" id="phone"
-                                   placeholder="Numer telefonu" value={{profile.phone}} required {{isNotEmpty}}>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-xs-3" for="web">Strona www: </label>
-
-                        <div class="col-xs-9">
-                            <input name="web" type="text" class="form-control" id="web"
-                                   placeholder="WWW" value={{profile.web}}>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="genderRadios" class="control-label col-xs-3">Płeć: </label>
-                        <div class="col-xs-9">
-                            <div class="radio">
-                                <label class="radio-inline" id="manRadio">
-                                    <input type="radio" name="genderRadios" value="mężczyzna" >
-                                    Mężczyzna
-                                </label>
-                            </div>
-                            <div class="radio">
-                                <label class="radio-inline" id="womanRadio">
-                                    <input type="radio" name="genderRadios" value="kobieta">
-                                    Kobieta
-                                </label>
-                            </div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -139,7 +87,7 @@
                     <div class="form-group">
                         <div class="col-xs-offset-3 col-xs-9">
                             <div class="input-group">
-                                <input type="checkbox" name="statutConfirmation"  {{isSelected 'kobieta'}} required/>
+                                <input type="checkbox" name="statutConfirmation"  required/>
                                 <span id="statutConfirmationSpan">Potwierdzam znajomość <a id="statutBootbox">Statutu</a> </span>
                             </div>
                         </div>

@@ -5,8 +5,13 @@ Meteor.methods({
             terytorium: newParametr.terytorium,
             kontakty: newParametr.kontakty,
             regulamin: newParametr.regulamin,
-           
-    
+            voteDuration:newParametr.voteDuration,
+            voteQuantity:newParametr.voteQuantity,
+            czasWyczekiwaniaKwestiiSpecjalnej:newParametr.czasWyczekiwaniaKwestiiSpecjalnej,
+            addIssuePause:newParametr.addIssuePause,
+            addCommentPause:newParametr.addCommentPause,
+            addReferencePause:newParametr.addReferencePause,
+            czyAktywny:true
         });
         return id;
     },
@@ -15,5 +20,8 @@ Meteor.methods({
     },
     removeParametrDraft: function(id){
         ParametrDraft.remove({_id: id});
+    },
+    setActivityParametrDraft:function(id,czyAktywny){
+        ParametrDraft.update(id, {$set: {czyAktywny: czyAktywny}}, {upsert: true});
     }
 });
