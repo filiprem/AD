@@ -49,6 +49,7 @@ Template.ZRTemplate.helpers({
     },
     getZRCzlonkowie:function(idZR,status){
         console.log("tuuu");
+        console.log(idZR);
         var zespol=null;
         var text=null;
         if(status==KWESTIA_STATUS.GLOSOWANA || status==KWESTIA_STATUS.OSOBOWA || status==KWESTIA_STATUS.OCZEKUJACA || status==KWESTIA_STATUS.STATUSOWA) {
@@ -63,7 +64,10 @@ Template.ZRTemplate.helpers({
         var data="";
         if(zespol){
             for(var i=0;i<zespol.zespol.length;i++){
-                data+=getCzlonekFullName(i,zespol._id,text)+",";
+                console.log(zespol.zespol[i]);
+                var user=Users.findOne({_id:zespol.zespol[i]});
+                console.log(user);
+                data+=user.profile.fullName+",";
             }
         }
         return data;

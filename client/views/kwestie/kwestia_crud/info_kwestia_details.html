@@ -10,35 +10,41 @@
             <tr>
                 <td><strong> Dane aplikanta</strong></td>
                 <td>
-            <tr>
-                <td><strong>Imię i Nazwisko: </strong></td>
-                <td>{{szczegolowaTresc.fullName}}</td>
-            </tr>
-            {{#unless isHonorowyType typ}}
-            {{#if protectorZR}}
+                {{#if isHonorowyType typ}}
+                    <tr>
+                        <td><strong>Email: </strong></td>
+                        <td>{{szczegolowaTresc.email}}</td>
+                    </tr>
+                {{/if}}
+                {{#unless isHonorowyType typ}}
                 <tr>
-                    <td><strong>Email: </strong></td>
-                    <td>{{szczegolowaTresc.email}}</td>
+                    <td><strong>Imię i Nazwisko: </strong></td>
+                    <td>{{szczegolowaTresc.fullName}}</td>
                 </tr>
-                <tr>
-                    <td><strong>Pesel: </strong></td>
-                    <td>{{szczegolowaTresc.pesel}}</td>
-                </tr>
-                <tr>
-                    <td><strong>Adres: </strong></td>
-                    <td>{{szczegolowaTresc.address}}</td>
-                </tr>
-                <tr>
-                    <td><strong>Kod pocztowy: </strong></td>
-                    <td>{{szczegolowaTresc.zip}}</td>
-                </tr>
-            {{/if}}
-                <tr>
-                    <td><strong>Miasto: </strong></td>
-                    <td>{{szczegolowaTresc.city}}</td>
-                </tr>
-            {{/unless}}
-            </td>
+                {{#if protectorZR}}
+                    <tr>
+                        <td><strong>Email: </strong></td>
+                        <td>{{szczegolowaTresc.email}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pesel: </strong></td>
+                        <td>{{szczegolowaTresc.pesel}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Adres: </strong></td>
+                        <td>{{szczegolowaTresc.address}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Kod pocztowy: </strong></td>
+                        <td>{{szczegolowaTresc.zip}}</td>
+                    </tr>
+                {{/if}}
+                    <tr>
+                        <td><strong>Miasto: </strong></td>
+                        <td>{{szczegolowaTresc.city}}</td>
+                    </tr>
+                {{/unless}}
+                </td>
             </tr>
             <tr>
                 <td><strong> Dodatkowe</strong></td>

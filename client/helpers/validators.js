@@ -80,6 +80,17 @@ jQuery.validator.addMethod("checkExistsAnyEmail", function (value, element) {
     return this.optional(element) || found == null;
 }, 'Istnieje już w systemie użytkownik o podanym adresie email!');
 
+jQuery.validator.addMethod("checkExistsEmailZwyczajny", function (value, element) {
+    var found=null;
+    var users=Users.find({'profile.userType':{$in:[USERTYPE.CZLONEK,USERTYPE.HONOROWY]}});
+    console.log(users.count());
+    users.forEach(function(user){
+       if(user.emails[0].address==value)
+        found=true;
+    });
+    return this.optional(element) || found== null;
+}, 'Istnieje już w systemie użytkownik o podanym adresie email!');
+
 jQuery.validator.addMethod("checkExistsEmail", function (value, element,param) {
     var found = null;
     if (!Meteor.userId()) {

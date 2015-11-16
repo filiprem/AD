@@ -61,5 +61,8 @@ Template.activateAccount.helpers({
         if(userDraft)
             return userDraft.czyAktywny==true || userDraft.licznikKlikniec<=1 ? true : false;
         return true;
+    },
+    link:function(){
+        return Meteor.absoluteUrl()+'account/login';
     }
 });

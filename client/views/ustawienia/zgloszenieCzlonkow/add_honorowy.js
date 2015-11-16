@@ -4,30 +4,14 @@ Template.addHonorowy.rendered=function(){
         rules: {
             email: {
                 email: true,
-                checkExistsAnyEmail: true,
+                checkExistsEmailZwyczajny: true,
                 checkExistsEmailDraft:true
-            },
-            pesel:{
-                exactlength: 11,
-                peselValidation:true
             }
         },
         messages: {
             email: {
                 required: fieldEmptyMessage(),
                 email: validEmailMessage()
-            },
-            firstName: {
-                required: fieldEmptyMessage()
-            },
-            lastName: {
-                required: fieldEmptyMessage()
-            },
-            personChosen: {
-                required: fieldEmptyMessage()
-            },
-            personChosen1: {
-                required: fieldEmptyMessage()
             },
             uzasadnienie: {
                 required: fieldEmptyMessage()
@@ -47,69 +31,35 @@ Template.addHonorowy.rendered=function(){
     });
 };
 Template.addHonorowy.events({
-    'change #chooseOption': function (e) {
-        console.log("change!!");
-        var value=$(e.target).val();
-        if(value=="chooseNewOption"){
-            $("#listDoradcy").modal("hide");
-            document.getElementById("chooseNewOptionSelect").style.display="block";
-            document.getElementById("chosenCandidate").style.display="none";
-        }
-        else {
-            $("#listDoradcy").modal("show");
-            document.getElementById("chooseNewOptionSelect").style.display="none";
-            document.getElementById("chosenCandidate").style.display="block";
-        }
-    },
-    'click #changeChosenPerson':function(e){
-        e.preventDefault();
-        $("#listDoradcy").modal("show");
-    },
     'submit form':function(e){
         e.preventDefault();
+        var idUser=null;
+        var email=$(e.target).find('[name=email]').val();
+        var users=Users.find({'profile.userType':USERTYPE.DORADCA});
+        users.forEach(function(user){
+            if(user.emails[0].address==email)
+                idUser=user._id;
+        });
+        console.log("id user!");
+        console.log(idUser);
 
-        if(document.getElementById("chooseNewOptionSelect").style.display=="block"){//kwestia z gościem
-            console.log("kwestia guest");
-            var newUserDraft = [
-                {
-                    email: $(e.target).find('[name=email]').val(),
-                    login: "",
-                    firstName: $(e.target).find('[name=firstName]').val(),
-                    lastName: $(e.target).find('[name=lastName]').val(),
-                    role: 'user',
-                    uwagi: $(e.target).find('[name=uzasadnienie]').val(),
-                    userType: USERTYPE.HONOROWY,
-                    pesel:"",
-                    licznikKlikniec:0
-                }];
-            addUserDraftHonorowy(newUserDraft);
-        }
-        else{
-            console.log("kwestia existing");
-            var chosenPersonId=document.getElementById("chosenDor").value;
-            console.log(chosenPersonId);
-            var user=Users.findOne({_id:chosenPersonId});
-            var newUserDraft = [
-                {
-                    email: user.emails[0].address,
-                    login: user.username,
-                    firstName: user.profile.firstName,
-                    lastName: user.profile.lastName,
-                    role: 'user',
-                    uwagi: $(e.target).find('[name=uzasadnienie]').val(),
-                    userType: USERTYPE.HONOROWY,
-                    pesel:"",
-                    idUser:chosenPersonId,
-                    licznikKlikniec:0
-                }];
-            addUserDraftHonorowy(newUserDraft);
-        }
+        var newUserDraft = [
+            {
+                email: email,
+                login: "",
+                firstName: "",
+                lastName: "",
+                role: 'user',
+                uwagi: $(e.target).find('[name=uzasadnienie]').val(),
+                userType: USERTYPE.HONOROWY,
+                pesel:"",
+                idUser:idUser,
+                licznikKlikniec:0
+            }];
+        addUserDraftHonorowy(newUserDraft);
     },
     'reset form':function(e){
-        //e.preventDefault();
-        //selectedOption.set("chooseNewOption");
-        document.getElementById("chooseNewOptionSelect").style.display="block";
-        document.getElementById("chosenCandidate").style.display="none";
+
     }
 });
 addUserDraftHonorowy=function(newUser){
@@ -136,8 +86,13 @@ addKwestiaOsobowaHonorowy=function(idUserDraft,newUser){
             console.log(error.reason);
         }
         else {
+            var fullName=null;
+            if(newUser[0].idUser!=null){
+                var user=Users.findOne({_id:newUser[0].idUser});
+                fullName=user.profile.fullName;
+            }
             var daneAplikanta = {
-                fullName: newUser[0].firstName + " " + newUser[0].lastName,
+                fullName: fullName,
                 email: newUser[0].email,
                 uwagi: newUser[0].uwagi
             };
@@ -145,7 +100,7 @@ addKwestiaOsobowaHonorowy=function(idUserDraft,newUser){
                 {
                     idUser: idUserDraft,
                     dataWprowadzenia: new Date(),
-                    kwestiaNazwa: 'Aplikowanie na stanowisko członka honorowego- ' + newUser[0].firstName + " " + newUser[0].lastName,
+                    kwestiaNazwa: 'Aplikowanie na stanowisko członka honorowego- ' + newUser[0].email,
                     wartoscPriorytetu: 0,
                     wartoscPriorytetuWRealizacji: 0,
                     sredniaPriorytet: 0,
@@ -176,7 +131,10 @@ addKwestiaOsobowaHonorowy=function(idUserDraft,newUser){
                     Router.go("home");
                     przyjecieWnioskuHonorowyConfirmation(Parametr.findOne().czasWyczekiwaniaKwestiiSpecjalnej, daneAplikanta.email, "członek honorowy");
                     var user = UsersDraft.findOne({_id: idUserDraft});
-                    //Meteor.call("sendApplicationConfirmation", user);
+                    //Meteor.call("sendApplicationConfirmation", user,function(error){
+                       // if(!error)
+                            Meteor.call("sendEmailAddedIssue", ret);
+                    //});
                 }
             });
         }

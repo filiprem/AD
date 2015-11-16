@@ -4,6 +4,7 @@ SSR.compileTemplate('email_added_issue',Assets.getText('email_added_issue.html')
 SSR.compileTemplate('email_lobbing_issue',Assets.getText('email_lobbing_issue.html'));
 SSR.compileTemplate('email_lobbing_issue_access',Assets.getText('email_lobbing_issue_access.html'));
 SSR.compileTemplate('email_lobbing_issue_full_access',Assets.getText('email_lobbing_issue_full_access.html'));
+SSR.compileTemplate('email_lobbing_issue_honorowy_access',Assets.getText('email_lobbing_issue_honorowy_access.html'));
 SSR.compileTemplate('email_lobbing_issue_global_params',Assets.getText('email_lobbing_issue_global_params.html'));
 SSR.compileTemplate('email_started_voting',Assets.getText('email_started_voting.html'));
 SSR.compileTemplate('email_honorowy_invitation',Assets.getText('email_honorowy_invitation.html'));
@@ -65,17 +66,28 @@ Meteor.methods({
         var kwestiaItem = Kwestia.findOne({_id:idKwestia});
         var rodzaj = Rodzaj.findOne({_id:kwestiaItem.idRodzaj});
         var temat = Temat.findOne({_id:kwestiaItem.idTemat});
+        if(!rodzaj)
+            rodzaj="techniczna systemowa";
+        else
+            rodzaj=rodzaj.nazwaRodzaj;
+        if(!temat)
+            temat="techniczna systemowa";
+        else temat=temat.nazwaTemat;
+
         Users.find({}).forEach(function(item) {
-            if (!Roles.userIsInRole(item, ['admin'])) {
+            if (!Roles.userIsInRole(item, ['admin']) && item.profile.userType==USERTYPE.CZLONEK) {
                 var html = SSR.render('email_added_issue',{
-                    username:item.username,
+                    welcomeGender:recognizeSex(item),
+                    userData:item.profile.fullName,
                     organizacja: parametr.nazwaOrganizacji,
-                    szczegolyKwestii: kwestiaItem.szczegolowaTresc,
+                    krotkaTresc: kwestiaItem.krotkaTresc,
                     nazwaKwestii: kwestiaItem.kwestiaNazwa,
                     idKwestii:kwestiaItem._id,
                     idUser: item._id,
-                    rodzaj: rodzaj.nazwaRodzaj,
-                    temat: temat.nazwaTemat
+                    rodzaj: rodzaj,
+                    temat: temat,
+                    url:Meteor.absoluteUrl()+"issue_info/"+kwestiaItem._id,
+                    urlLogin:Meteor.absoluteUrl()+"account/login"
                 });
                 Email.send({
                     to: item.emails[0].address,
@@ -95,6 +107,7 @@ Meteor.methods({
         Users.find({}).forEach(function(item) {
             if (!Roles.userIsInRole(item, ['admin'])) {
                 var html = SSR.render('email_act',{
+                    welcomeGender:recognizeSex(item),
                     username:item.username,
                     organizacja: parametr.nazwaOrganizacji,
                     szczegolyKwestii: kwestiaItem.szczegolowaTresc,
@@ -130,6 +143,7 @@ Meteor.methods({
         var codeApp=null;
         var cityApp=null;
         var uwagiApp=null;
+        var url=Meteor.absoluteUrl()+"issue_info/"+kwestiaItem._id;
         if(kwestiaItem.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE){
             htmlText='email_lobbing_issue_global_params';
             title=kwestiaItem.szczegolowaTresc.title;
@@ -140,7 +154,7 @@ Meteor.methods({
             rodzaj = Rodzaj.findOne({_id:kwestiaItem.idRodzaj}).nazwaRodzaj;
             temat = Temat.findOne({_id:kwestiaItem.idTemat}).nazwaTemat;
             console.log(kwestiaItem.typ);
-            if(_.contains([KWESTIA_TYPE.ACCESS_DORADCA,KWESTIA_TYPE.ACCESS_HONOROWY,KWESTIA_TYPE.ACCESS_ZWYCZAJNY],kwestiaItem.typ)){
+            if(_.contains([KWESTIA_TYPE.ACCESS_DORADCA,KWESTIA_TYPE.ACCESS_ZWYCZAJNY],kwestiaItem.typ)){
                 console.log('contains!!');
                 htmlText='email_lobbing_issue_access';
                 fullNameApp=kwestiaItem.szczegolowaTresc.fullName;
@@ -154,8 +168,15 @@ Meteor.methods({
                 console.log(uwagiApp);
             }
             else{
-                console.log("tu nie wejdzie");
-                htmlText='email_lobbing_issue';
+                console.log("attention");
+                console.log(KWESTIA_TYPE.ACCESS_HONOROWY);
+                console.log(kwestiaItem.typ);
+                if(kwestiaItem.typ==KWESTIA_TYPE.ACCESS_HONOROWY) {
+                    htmlText = "email_lobbing_issue_honorowy_access";
+                    uwagiApp=kwestiaItem.szczegolowaTresc.uwagi;
+                }
+                else
+                    htmlText='email_lobbing_issue';
             }
         }
 
@@ -199,6 +220,7 @@ Meteor.methods({
                     fullName:item.profile.fullName,
                     imie: author.profile.firstName,
                     nazwisko: author.profile.lastName,
+                    url:url,
 
                     title:title,//for global params
                     newValue:newValue,
@@ -321,6 +343,7 @@ recognizeSex=function(userData){
 applicationEmail=function(userData,emailTypeText,passw){
     console.log("user data");
     console.log(userData);
+    var urlLogin=Meteor.absoluteUrl()+"account/login";
     var welcomeGender=recognizeSex(userData);
 
     var  userTypeData=null;
@@ -340,7 +363,7 @@ applicationEmail=function(userData,emailTypeText,passw){
     else if (emailTypeText == "acceptNew") {
         emailTypeText = 'email_application_accepted';
         if(userData.linkAktywacyjny)
-            url="/account/activate_account/"+userData.linkAktywacyjny;
+            url=Meteor.absoluteUrl()+"account/activate_account/"+userData.linkAktywacyjny;
         if(welcomeGender=="Szanowny")
             textGender="mógł";
         else if(welcomeGender=="Szanowna")
@@ -357,7 +380,7 @@ applicationEmail=function(userData,emailTypeText,passw){
         console.log(userData);
         console.log(userData.linkAktywacyjny);
         if(userData.linkAktywacyjny)
-            url="/account/answer_invitation/"+userData.linkAktywacyjny;
+            url=Meteor.absoluteUrl()+"account/answer_invitation/"+userData.linkAktywacyjny;
     }
     else if(emailTypeText=="loginData"){
         emailTypeText = 'email_login_data';
@@ -371,7 +394,7 @@ applicationEmail=function(userData,emailTypeText,passw){
         console.log("to jest ta kwestiaa!");
         console.log(userData._id);
         console.log(kwestia);
-        url=Meteor.absoluteUrl()+"/issue_info/"+kwestia._id;
+        url=Meteor.absoluteUrl()+"issue_info/"+kwestia._id;
     }
     console.log(url);
     var html = SSR.render(emailTypeText,{
@@ -379,6 +402,7 @@ applicationEmail=function(userData,emailTypeText,passw){
         organizacja: Parametr.findOne().nazwaOrganizacji,
         userTypeData:userTypeData,
         url:url,
+        urlLogin:urlLogin,
         welcomeType:welcomeGender,
         login:login,
         password:pass,
@@ -396,10 +420,15 @@ setHTMLTextLobbingIssue=function(typ){
     var text=null;
       if(typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE)
         text="email_lobbing_issue_global_params";
-      else if(_.contains([KWESTIA_TYPE.ACCESS_DORADCA,KWESTIA_TYPE.ACCESS_HONOROWY,KWESTIA_TYPE.ACCESS_ZWYCZAJNY],typ)) {
+      else if(_.contains([KWESTIA_TYPE.ACCESS_DORADCA,KWESTIA_TYPE.ACCESS_ZWYCZAJNY],typ)) {
           text = 'email_lobbing_issue_access';
       }
-      else text='email_lobbing_issue';
+      else{
+          if(typ==KWESTIA_TYPE.ACCESS_HONOROWY)
+            text='email_lobbing_issue_honorowy_access';
+          else
+            text='email_lobbing_issue';
+      }
 
       return text;
 };

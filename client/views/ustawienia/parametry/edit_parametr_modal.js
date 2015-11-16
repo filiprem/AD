@@ -210,9 +210,12 @@ createIssueChangeParam=function(paramName,title,oldValue,newValue){
                     typ:KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE
                 }];
 
-            Meteor.call('addKwestiaADMINISTROWANA', newKwestia, function (error) {
+            Meteor.call('addKwestiaADMINISTROWANA', newKwestia, function (error,ret) {
                if(error)
                 console.log(error.reason);
+                else {
+                   Meteor.call("sendEmailAddedIssue", ret);
+               }
             });
         }
     });

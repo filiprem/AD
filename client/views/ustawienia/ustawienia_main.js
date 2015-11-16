@@ -177,9 +177,9 @@ sendEmailAndNotification=function(idKwestia,emailText){
         bootboxEmail(idKwestia);
     }
     else{
-        Meteor.call("sendEmailLobbingIssue",idKwestia,emailText,Meteor.userId(),function(error){
+        Meteor.call("updateKwestiaCzasLobbowana",idKwestia,new Date(),function(error){
             if(!error){
-                Meteor.call("updateKwestiaCzasLobbowana",idKwestia,new Date(),function(error){
+                Meteor.call("sendEmailLobbingIssue",idKwestia,emailText,Meteor.userId(),function(error){
                     if(!error)
                         bootbox.alert("Dziękujemy, Twój email z prośbą został wysłany do wszystkich członków organizacji!", function() {
                         });

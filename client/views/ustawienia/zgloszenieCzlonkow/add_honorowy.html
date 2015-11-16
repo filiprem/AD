@@ -9,46 +9,15 @@
         <div class="col col-md-10">
             <form class="form-horizontal" id="honorowyForm">
                 <legend>Zgłoszenie na członka honorowego</legend>
-                <div class="form-group col-md-12">
-                    <label class="control-label col-xs-3" for="firstName">Wybierz opcję:</label>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-3" for="email">Email:</label>
                     <div class="col-xs-9">
-                        <select id="chooseOption">
-                            <option value="chooseNewOption">Wprowadź nowego użytkownika</option>
-                            <option value="chooseExistingOption">Wybierz z listy</option>
-                        </select>
+                        <input type="text"  name="email" id="email" required  class="form-control" />
                     </div>
                 </div>
 
-                <div id="chooseNewOptionSelect" style="display: block">
-                    <div class="form-group">
-                        <label class="control-label col-xs-3" for="email">Email:</label>
-                        <div class="col-xs-9">
-                            <input type="text"  name="email" id="email" required  class="form-control" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-xs-3" for="firstName">Imię:</label>
-                        <div class="col-xs-9">
-                            <input type="text"  name="firstName" id="firstName" required value="{{firstName}}" class="form-control"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-xs-3" for="lastName">Nazwisko:</label>
-                        <div class="col-xs-9">
-                            <input type="text"  name="lastName" id="lastName" required value="{{lastName}}" class="form-control"/>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group" id="chosenCandidate" style="display: none">
-                    <label class="control-label col-xs-3" for="personChosen">Wybrany kandydat:</label>
-                    <div class="col-xs-7">
-                        <input type="text"  name="personChosen" id="personChosen"  class="form-control"  required disabled/>
-                    </div>
-                    <input type="reset" class="btn btn-danger" value="Zmień" id="changeChosenPerson">
-                </div>
-
-                <div class="form-group" style="display: block">
+                <div class="form-group">
                     <label class="control-label col-xs-3" for="uzasadnienie">Uzasadnienie:</label>
                     <div class="col-xs-9">
                         <textarea   name="uzasadnienie" id="uzasadnienie" required  class="form-control" rows="3"
@@ -65,5 +34,4 @@
             </form>
         </div>
     </div>
-    {{>listDoradcyModal}}
 </template>

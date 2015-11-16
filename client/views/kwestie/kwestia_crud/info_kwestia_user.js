@@ -183,16 +183,6 @@ Template.informacjeKwestia.helpers({
         var d = this.dataGlosowania;
         return (d) ? moment(d).format("DD-MM-YYYY, HH:mm") : "---";
     },
-    dataGlosowaniaObliczana: function () {
-        var dataG = this.dataGlosowania;
-        var rodzajId = this.idRodzaj;
-        var r = Rodzaj.findOne({_id: this.idRodzaj});
-        if (r) {
-            var czasGlRodzaj = r.czasGlosowania;
-            var k = moment(dataG).subtract(czasGlRodzaj, 'h').format("DD-MM-YYYY, HH:mm");
-            return k;
-        }
-    },
     //USERS
     isNotAdminOrDoradca: function () {//jezeli nie jest adminem ani doradcą
         if (Meteor.user()) {
@@ -209,5 +199,39 @@ Template.informacjeKwestia.helpers({
             }
         }
         return false;
+    },
+    kworumComplete:function(){
+        var kworum = liczenieKworumZwykle();
+        var usersCount = this.glosujacy.length;
+        return usersCount>=kworum ? true : false;
+    },
+    textKworum:function(){
+        var kworum = liczenieKworumZwykle();
+        var usersCount = this.glosujacy.length;
+        var lock=kworum-usersCount;
+        return lock==1 ? lock+ " osoby" : lock+ " osób";
+    },
+    ZRComplete:function(){
+        var zespol=null;
+        if(this.zespol) {//kwestia archiwalna lub w koszu
+            zespol = zespol.czlonkowie;
+            return zespol.length >= 3 ? true : false;
+        }
+        else
+            return getZRCount(this.idZespolRealizacyjny) >=3 ? true : false;
+    },
+    ZRText:function(){
+        var count=null;
+        if(this.zespol)
+            count = this.zespol.czlonkowie.length;
+        else
+            count=getZRCount(this.idZespolRealizacyjny);
+            return (count >1)  ? count+ "członków" : count+ " członka";
     }
 });
+getZRCount=function(idZR){
+    var zespol = ZespolRealizacyjny.findOne({_id: idZR});
+    if (!zespol)
+        zespol = ZespolRealizacyjnyDraft.findOne({_id: idZR});
+    return zespol.zespol.length;
+};

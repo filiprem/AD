@@ -221,7 +221,10 @@ addKwestiaOsobowa=function(idUserDraft,newUser,user){
                     else
                         Router.go("home");
                     przyjecieWnioskuConfirmation(Parametr.findOne().czasWyczekiwaniaKwestiiSpecjalnej,daneAplikanta.email,"członkowstwo");
-                    Meteor.call("sendApplicationConfirmation", user);
+                    Meteor.call("sendApplicationConfirmation", user,function(error){
+                        if(!error)
+                            Meteor.call("sendEmailAddedIssue", ret);
+                    });
                     //addZR(ret,newUser[0].email);
                 }
             });

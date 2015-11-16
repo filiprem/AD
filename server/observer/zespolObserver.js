@@ -53,7 +53,8 @@ Meteor.startup(function(){
     moveKwestiaToGlosowana=function(newKwestia,ZRDraft,ifUpdateZR){//tu spirawdzic godziny. i warunek blokujacy wejscie kwestii do glosowania!
         if(kwestiaAllowedToGlosowana()) {//jezeli deliberowana vote w bosrverrze,gdy ta opuscila i wpuszczmy nowe- to obœ³uga zr musi by!
             var czasGlosowania = Parametr.findOne({}).voteDuration;
-            var final = moment(new Date()).add(czasGlosowania, "hours").format();
+            var final = moment(new Date()).add(czasGlosowania, "minutes").format();//do testów tylko!!
+            //var final = moment(new Date()).add(czasGlosowania, "hours").format();
             var start = new Date();
             console.log(newKwestia._id);
             console.log(final);

@@ -147,7 +147,10 @@ addKwestiaOsobowaDoradca=function(idUserDraft,newUser){
                         Router.go("home");
                     przyjecieWnioskuConfirmation(Parametr.findOne().czasWyczekiwaniaKwestiiSpecjalnej, daneAplikanta.email, "doradztwo");
                     var user = UsersDraft.findOne({_id: idUserDraft});
-                    Meteor.call("sendApplicationConfirmation", user);
+                    Meteor.call("sendApplicationConfirmation", user,function(error){
+                        if(!error)
+                            Meteor.call("sendEmailAddedIssue", ret);
+                    });
                 }
             });
         }
