@@ -71,44 +71,48 @@ Template.addKwestiaOpcjaForm.helpers({
 Template.addKwestiaOpcjaForm.events({
     'submit form': function (e) {
         e.preventDefault();
-        var eventForm = $(e.target);
-        //var idParentKwestii = Session.get("idKwestia");
-        var dataG = new Date();
-        var d = dataG.setDate(dataG.getDate() + 7);
-        var szczegolowaTresc=null;
-        if(this.status==KWESTIA_STATUS.OSOBOWA) {
-            szczegolowaTresc = this.szczegolowaTresc;
-            szczegolowaTresc.uwagi=$(e.target).find('[name=szczegolowaTrescUwagi]').val()
-        }
-        else
-            szczegolowaTresc=$(e.target).find('[name=szczegolowaTresc]').val();
+        document.getElementById("submitAddKwestiaOpcja").disabled = true;
+        Meteor.setTimeout(function () {
+            document.getElementById("submitAddKwestiaOpcja").disabled = false;
+            var eventForm = $(e.target);
+            //var idParentKwestii = Session.get("idKwestia");
+            var dataG = new Date();
+            var d = dataG.setDate(dataG.getDate() + 7);
+            var szczegolowaTresc = null;
+            if (this.status == KWESTIA_STATUS.OSOBOWA) {
+                szczegolowaTresc = this.szczegolowaTresc;
+                szczegolowaTresc.uwagi = $(e.target).find('[name=szczegolowaTrescUwagi]').val()
+            }
+            else
+                szczegolowaTresc = $(e.target).find('[name=szczegolowaTresc]').val();
 
-        var newKwestiaOpcja = [{
-            idUser: Meteor.userId(),
-            dataWprowadzenia: new Date(),
-            kwestiaNazwa: $(e.target).find('[name=kwestiaNazwa]').val(),
-            wartoscPriorytetu: 0,
-            wartoscPriorytetuWRealizacji:0,
-            sredniaPriorytet: 0,
-            status:this.status,
-            idTemat: this.idTemat,
-            idRodzaj: this.idRodzaj,
-            idZespolRealizacyjny:this.idZespolRealizacyjny,
-            dataDyskusji: new Date(),
-            dataGlosowania: d,
-            krotkaTresc: $(e.target).find('[name=krotkaTresc]').val(),
-            szczegolowaTresc: szczegolowaTresc,
-            idParent: this._id,
-            isOption: true,
-            numerUchwały:0,
-            czyAktywny:true,
-            typ:KWESTIA_TYPE.BASIC
-        }];
-        console.log("kwestia prev");
-        console.log(newKwestiaOpcja[0]);
-       // Session.set("kwestiaPreviewOpcja", newKwestiaOpcja[0]);
-        Session.setPersistent("actualKwestia", newKwestiaOpcja[0]);
-        Router.go('previewKwestiaOpcja');
+            var newKwestiaOpcja = [{
+                idUser: Meteor.userId(),
+                dataWprowadzenia: new Date(),
+                kwestiaNazwa: $(e.target).find('[name=kwestiaNazwa]').val(),
+                wartoscPriorytetu: 0,
+                wartoscPriorytetuWRealizacji: 0,
+                sredniaPriorytet: 0,
+                status: this.status,
+                idTemat: this.idTemat,
+                idRodzaj: this.idRodzaj,
+                idZespolRealizacyjny: this.idZespolRealizacyjny,
+                dataDyskusji: new Date(),
+                dataGlosowania: d,
+                krotkaTresc: $(e.target).find('[name=krotkaTresc]').val(),
+                szczegolowaTresc: szczegolowaTresc,
+                idParent: this._id,
+                isOption: true,
+                numerUchwały: 0,
+                czyAktywny: true,
+                typ: KWESTIA_TYPE.BASIC
+            }];
+            console.log("kwestia prev");
+            console.log(newKwestiaOpcja[0]);
+            // Session.set("kwestiaPreviewOpcja", newKwestiaOpcja[0]);
+            Session.setPersistent("actualKwestia", newKwestiaOpcja[0]);
+            Router.go('previewKwestiaOpcja');
+        },2000);
     },
     'click #anuluj': function () {
         Session.setPersistent("actualKwestia", null);

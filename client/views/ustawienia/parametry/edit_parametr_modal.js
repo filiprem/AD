@@ -214,6 +214,7 @@ createIssueChangeParam=function(paramName,title,oldValue,newValue){
                if(error)
                 console.log(error.reason);
                 else {
+                   addPowiadomienieGlobalneFunction(ret);
                    Meteor.call("sendEmailAddedIssue", ret);
                }
             });
@@ -221,4 +222,27 @@ createIssueChangeParam=function(paramName,title,oldValue,newValue){
     });
     Session.setPersistent("chosenParameterSession",null);
     $("#editParametrMod").modal("hide");
+};
+
+addPowiadomienieGlobalneFunction=function(idKwestia){
+    var users=Users.find({'profile.userType':USERTYPE.CZLONEK});
+    var kwestia=Kwestia.findOne({_id:idKwestia});
+    users.forEach(function(user){
+        var newPowiadomienie ={
+            idOdbiorca: user._id,
+            idNadawca: null,
+            dataWprowadzenia: kwestia.dataWprowadzenia,
+            tytul: "",
+            powiadomienieTyp: NOTIFICATION_TYPE.NEW_ISSUE,
+            tresc: "",
+            idKwestia:idKwestia,
+            czyAktywny: true,
+            czyOdczytany:false
+        };
+        Meteor.call("addPowiadomienie",newPowiadomienie,function(error){
+            if(error)
+                console.log(error.reason);
+        })
+    });
+
 };

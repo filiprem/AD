@@ -212,5 +212,28 @@ Meteor.publish('kwestieActivity', function (activity) {
 });
 
 Meteor.publish('powiadomienia', function () {
-    return Powiadomienie.find({});
+    return Powiadomienie.find({czyAkywny:true});
+});
+
+Meteor.publish('myNotifications', function (idOdbiorca) {
+    return Powiadomienie.find({idOdbiorca:idOdbiorca,czyAktywny:true});
+});
+
+Meteor.publish('notificationsNotRead', function (idOdbiorca) {
+    return Powiadomienie.find({idOdbiorca:idOdbiorca,czyAktywny:true},{fields: {czyOdczytany:1,idOdbiorca:1,czyAktywny:1}});
+});
+
+Meteor.publish('issueInNotification', function (notification) {
+    if(notification.idKwestia!=null)
+        return Kwestia.find({_id:{$in:[notification.idKwestia]}});
+});
+
+Meteor.publish('issuesInNotifications', function (idUser) {
+    var powiadomienia=Powiadomienie.find({idOdbiorca:idUser});
+    var array=[];
+    powiadomienia.forEach(function(item){
+        if(item.idKwestia!=null)
+            array.push(item.idKwestia);
+    });
+    return Kwestia.find({_id:{$in:array}},{fields: {kwestiaNazwa:1}});
 });

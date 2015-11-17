@@ -55,12 +55,28 @@ sendMessage=function(newEmail){
             var user=Users.findOne({_id:newEmail[0].idReceiver});
             if(user)
                 to=user.emails[0].address;
+            addPowiadomienieFunction( newEmail[0]);
             Meteor.call("sendEmail", to, from, newEmail[0].subject, newEmail[0].content);
             Router.go('administracjaUserMain');
         }
     });
 };
-
+addPowiadomienieFunction=function(content){
+    var newPowiadomienie ={
+        idOdbiorca: content.idReceiver,
+        idNadawca: Meteor.userId(),
+        dataWprowadzenia: new Date(),
+        tytul: content.subject,
+        powiadomienieTyp: NOTIFICATION_TYPE.MESSAGE_FROM_USER,
+        tresc: content.content,
+        czyAktywny: true,
+        czyOdczytany:false
+    };
+    Meteor.call("addPowiadomienie",newPowiadomienie,function(error){
+        if(error)
+            console.log(error.reason);
+    })
+};
 askToFillSubject=function(text,newEmail){
     var result=null;
     bootbox.dialog({

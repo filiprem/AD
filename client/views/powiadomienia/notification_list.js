@@ -1,21 +1,7 @@
 Template.notificationList.created = function(){
-    this.usersRV = new ReactiveVar();
 };
 
 Template.notificationList.rendered = function () {
-    var self = Template.instance();
-    this.autorun(function () {
-        var users = Users.find({
-            $where: function () {
-                return (this._id == Meteor.userId());
-            }
-        });
-        var tab = [];
-        users.forEach(function (item) {
-            tab.push(item._id);
-        });
-        self.usersRV.set(tab);
-    })
 };
 Template.notificationList.helpers({
     'settings': function () {
@@ -27,35 +13,29 @@ Template.notificationList.helpers({
             showColumnToggles: false,
             enableRegex: false,
             fields: [
-                {key: 'powiadomienieTyp', label: "Rodzaj"},
-                {key: 'tytul', label: "Tytuł",tmpl: Template.tytulLink},
+                {key: 'powiadomienieTyp', label: "Temat",tmpl: Template.tematLink,sortOrder: 1, sortDirection: 'descending'},
                 {
                     key: 'dataWprowadzenia',
                     label: "Data",
-                    tmpl: Template.dataWpr
-                },
-            ],
-            rowClass: function (item) {
-                var tab = self.usersRV.get();
-                if (_.contains(tab, item._id)) {
-                    return 'myselfClass';
+                    tmpl: Template.dataWpr,
+                    sortOrder: 0,
+                    sortDirection: 'descending'
                 }
+            ],
+            rowClass:function(item){
+                console.log(item.czyOdczytany);
+                if(item.czyOdczytany==false)
+                return "danger";
             }
         };
     },
     PowiadomieniaList: function () {
         //console.log(this._id);
-        return Powiadomienie.find({
-            $where: function () {
-                return (this.idUser==Meteor.userId());
-            }
-        }).fetch();
+        console.log(Powiadomienie.find({idOdbiorca:Meteor.userId()}).count());
+        return Powiadomienie.find({idOdbiorca:Meteor.userId(),czyAktywny:true},{$sort:{dataWprowadzenia:-1}});
     },
     usersCount: function () {
         return Users.find().count() - 1;
-    },
-    myself: function (userId) {
-        return Meteor.userId() === userId;
     }
 
 });
@@ -65,4 +45,31 @@ Template.dataWpr.helpers({
         if (d) return moment(d).format("DD-MM-YYYY, HH:mm");
     }
 });
+Template.tematLink.helpers({
+    notificationTitle:function(){
+        console.log(this.powiadomienieTyp);
+        var idNadawca=this.idNadawca;
+        var idKwestia=this.idKwestia;
+        return getTopicTypeNotification(this.powiadomienieTyp,idNadawca,idKwestia);
+    }
+});
 
+getTopicTypeNotification=function(powiadomienieTyp,idNadawca,idKwestia){
+    console.log(idNadawca);
+    switch(powiadomienieTyp){
+        case NOTIFICATION_TYPE.MESSAGE_FROM_USER:{
+            var user=Users.findOne({_id:idNadawca});
+            return powiadomienieTyp+" "+ user.profile.fullName;break;
+        }
+        case NOTIFICATION_TYPE.NEW_ISSUE:{
+            var kwestia=Kwestia.findOne({_id:idKwestia});
+            return powiadomienieTyp +": "+kwestia.kwestiaNazwa;break;
+        }
+        case NOTIFICATION_TYPE.LOOBBING_MESSAGE:{
+            var user=Users.findOne({_id:idNadawca});
+            if(user)
+                return powiadomienieTyp+" przez "+ user.profile.fullName;break;
+        }
+        default : return powiadomienieTyp;
+    }
+};

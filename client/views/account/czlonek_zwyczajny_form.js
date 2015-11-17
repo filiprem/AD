@@ -79,37 +79,42 @@ Template.czlonekZwyczajnyForm.events({
         // jeżeli nie ma,to znaczy,że nowy draft->i dane są przepisywane do usera, po akceptacji kwestii:stworzony nowy użytkownik,userDraftUsunięty
         //kwestia ta sama z draftem zawsze!
 
-        var idUser = null;
-        if (Meteor.userId())
-            idUser = Meteor.userId();
-        var newUser = [
-            {
-                email: $(e.target).find('[name=email]').val(),
-                login: "",
-                firstName: $(e.target).find('[name=firstName]').val(),
-                lastName: $(e.target).find('[name=lastName]').val(),
-                address: $(e.target).find('[name=address]').val(),
-                zip: $(e.target).find('[name=zipCode]').val(),
-                role: 'user',
-                userType: USERTYPE.CZLONEK,
-                uwagi: $(e.target).find('[name=uwagi]').val(),
-                language: $(e.target).find('[name=language]').val(),
-                isExpectant: false,
-                idUser: idUser,
-                city:$(e.target).find('[name=city]').val(),
-                pesel:$(e.target).find('[name=pesel]').val()
-            }];
-        //-- generowanie loginu dla użytkownika
-        newUser[0].login = generateLogin(newUser[0].firstName, newUser[0].lastName);
+        document.getElementById("submitZwyczajny").disabled = true;
+        Meteor.setTimeout(function () {
+            document.getElementById("submitZwyczajny").disabled = false;
 
-        //var found=checkExistsUser(newUser[0].email,USERTYPE.DORADCA,USERTYPE.HONOROWY);
-        //if(found==true){
-        //    aplikujConfirmation("członkiem zwyczajnym",newUser);
-        //}
-        addUserDraft(newUser);
+            var idUser = null;
+            if (Meteor.userId())
+                idUser = Meteor.userId();
+            var newUser = [
+                {
+                    email: $(e.target).find('[name=email]').val(),
+                    login: "",
+                    firstName: $(e.target).find('[name=firstName]').val(),
+                    lastName: $(e.target).find('[name=lastName]').val(),
+                    address: $(e.target).find('[name=address]').val(),
+                    zip: $(e.target).find('[name=zipCode]').val(),
+                    role: 'user',
+                    userType: USERTYPE.CZLONEK,
+                    uwagi: $(e.target).find('[name=uwagi]').val(),
+                    language: $(e.target).find('[name=language]').val(),
+                    isExpectant: false,
+                    idUser: idUser,
+                    city: $(e.target).find('[name=city]').val(),
+                    pesel: $(e.target).find('[name=pesel]').val()
+                }];
+            //-- generowanie loginu dla użytkownika
+            newUser[0].login = generateLogin(newUser[0].firstName, newUser[0].lastName);
 
-        console.log("Dodany członek: ");
-        console.log(newUser[0]);
+            //var found=checkExistsUser(newUser[0].email,USERTYPE.DORADCA,USERTYPE.HONOROWY);
+            //if(found==true){
+            //    aplikujConfirmation("członkiem zwyczajnym",newUser);
+            //}
+            addUserDraft(newUser);
+
+            console.log("Dodany członek: ");
+            console.log(newUser[0]);
+        },2000);
     },
     'reset form': function () {
         Router.go('home');
@@ -221,9 +226,11 @@ addKwestiaOsobowa=function(idUserDraft,newUser,user){
                     else
                         Router.go("home");
                     przyjecieWnioskuConfirmation(Parametr.findOne().czasWyczekiwaniaKwestiiSpecjalnej,daneAplikanta.email,"członkowstwo");
+                    addPowiadomienieAplikacjaIssueFunction(ret,newKwestia[0].dataWprowadzenia);
                     Meteor.call("sendApplicationConfirmation", user,function(error){
-                        if(!error)
+                        if(!error) {
                             Meteor.call("sendEmailAddedIssue", ret);
+                        }
                     });
                     //addZR(ret,newUser[0].email);
                 }
@@ -232,4 +239,26 @@ addKwestiaOsobowa=function(idUserDraft,newUser,user){
     });
 
 
+};
+
+addPowiadomienieAplikacjaIssueFunction=function(idKwestia,dataWprowadzenia){
+    var users=Users.find({'profile.userType':USERTYPE.CZLONEK});
+    //var kwestia=Kwestia.findOne({_id:idKwestia});
+    users.forEach(function(user){
+        var newPowiadomienie ={
+            idOdbiorca: user._id,
+            idNadawca: null,
+            dataWprowadzenia: dataWprowadzenia,
+            tytul: "",
+            powiadomienieTyp: NOTIFICATION_TYPE.NEW_ISSUE,
+            tresc: "",
+            idKwestia:idKwestia,
+            czyAktywny: true,
+            czyOdczytany:false
+        };
+        Meteor.call("addPowiadomienie",newPowiadomienie,function(error){
+            if(error)
+                console.log(error.reason);
+        })
+    });
 };

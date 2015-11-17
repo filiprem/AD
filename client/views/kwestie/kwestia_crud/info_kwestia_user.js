@@ -226,10 +226,13 @@ Template.informacjeKwestia.helpers({
             count = this.zespol.czlonkowie.length;
         else
             count=getZRCount(this.idZespolRealizacyjny);
-            return (count >1)  ? count+ "członków" : count+ " członka";
+        var result=3-count;
+        return (result >1)  ? result+ " członków" : result+ " członka";
     }
 });
 getZRCount=function(idZR){
+    console.log("weszło tutaj");
+    console.log(idZR);
     var zespol = ZespolRealizacyjny.findOne({_id: idZR});
     if (!zespol)
         zespol = ZespolRealizacyjnyDraft.findOne({_id: idZR});

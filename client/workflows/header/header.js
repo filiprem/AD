@@ -58,9 +58,14 @@ Template.header.helpers({
         }
         return null;
     },
-    liczbaNieprzeczytanych: function () {
-        var powiad = Powiadomienie.find({idUser: Meteor.userId(), czyOdczytany: false});
+    issuesNotReadCount: function () {
+        var powiad = Powiadomienie.find({idOdbiorca: Meteor.userId(), czyOdczytany: false,czyAktywny:true});
         return powiad ? powiad.count() : null;
+    },
+    anyNotRead:function(){
+        var powiad = Powiadomienie.find({idOdbiorca: Meteor.userId(), czyOdczytany: false,czyAktywny:true});
+        if(powiad)
+            return powiad.count()>0 ? true : false;
     }
     //appliedForCzlonek:function(){
     //    if(isDoradca()){
@@ -118,6 +123,14 @@ Template.language.events({
     },
     'click #organizationName': function () {
         Router.go("home");
+    }
+});
+
+Template.header.events({
+    'change #notification-counter':function(e){
+        console.log("change!!");
+        var value=$(e.target).val();
+        console.log(value);
     }
 });
 

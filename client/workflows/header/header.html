@@ -83,7 +83,11 @@
             <ul class="nav navbar-nav navbar-right">
                 {{#if currentUser}}
                     <li class="{{activeRouteClass 'notification_list'}} ">
-                        <a href="{{pathFor 'notification_list'}}">Powiadomienia <span class="badge red">{{liczbaNieprzeczytanych}}</span></a>
+                        <a href="{{pathFor 'notification_list'}}">Powiadomienia
+                            {{#if anyNotRead}}
+                                <span class="badge notification-counter" style="background-color:red" id="notification-counter">{{issuesNotReadCount}}</span>
+                            {{/if}}
+                        </a>
                     </li>
                     {{> loginButtons}}
                 {{/if}}

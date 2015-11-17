@@ -44,33 +44,32 @@ Template.doradcaForm.rendered = function () {
 Template.doradcaForm.events({
     'submit form': function (e) {
         e.preventDefault();
-        // uzupełnienie tymczasowej tablicy danymi z formularza
-        var idUser = null;
-        if (Meteor.userId())
-            idUser = Meteor.userId();
-        var newUser = [
-            {
-                email: $(e.target).find('[name=email]').val(),
-                login: "",
-                firstName: $(e.target).find('[name=firstName]').val(),
-                lastName: $(e.target).find('[name=lastName]').val(),
-                role: 'user',
-                city:$(e.target).find('[name=city]').val(),
-                userType: USERTYPE.DORADCA,
-                isExpectant: false,
-                uwagi: $(e.target).find('[name=uwagi]').val(),
-                pesel:""
-            }];
-        //-- generowanie loginu dla użytkownika
-        newUser[0].login = generateLogin(newUser[0].firstName, newUser[0].lastName);
+        document.getElementById("submitButton").disabled = true;
+        Meteor.setTimeout(function () {
+            document.getElementById("submitButton").disabled = false;
 
-        //sprawdzic czy podany mail jest już w bazie,jak jest,to zablokuj
-        //wyświetlenie komunikatu,ze o wyniku przyjęcia zostanie poinformowany mailem
-        //utworzenie nowego usera
-        //utworzenie nowej kwestii z idUser
-        //poinformowanie użytkowników o pojawieniu się kwestii
+            var idUser = null;
+            if (Meteor.userId())
+                idUser = Meteor.userId();
+            var newUser = [
+                {
+                    email: $(e.target).find('[name=email]').val(),
+                    login: "",
+                    firstName: $(e.target).find('[name=firstName]').val(),
+                    lastName: $(e.target).find('[name=lastName]').val(),
+                    role: 'user',
+                    city:$(e.target).find('[name=city]').val(),
+                    userType: USERTYPE.DORADCA,
+                    isExpectant: false,
+                    uwagi: $(e.target).find('[name=uwagi]').val(),
+                    pesel:""
+                }];
+            //-- generowanie loginu dla użytkownika
+            newUser[0].login = generateLogin(newUser[0].firstName, newUser[0].lastName);
 
-        addUserDraftDoradca(newUser);
+            addUserDraftDoradca(newUser);
+        }, 2000);
+
     },
     'reset form': function () {
         Router.go('home');
@@ -145,6 +144,7 @@ addKwestiaOsobowaDoradca=function(idUserDraft,newUser){
                         Router.go("administracjaUserMain");
                     else
                         Router.go("home");
+                    addPowiadomienieAplikacjaIssueFunction(ret,newKwestia[0].dataWprowadzenia);
                     przyjecieWnioskuConfirmation(Parametr.findOne().czasWyczekiwaniaKwestiiSpecjalnej, daneAplikanta.email, "doradztwo");
                     var user = UsersDraft.findOne({_id: idUserDraft});
                     Meteor.call("sendApplicationConfirmation", user,function(error){
