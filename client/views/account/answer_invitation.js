@@ -78,7 +78,7 @@ Template.answerInvitation.events({
        e.preventDefault();//kwestia idzie do realizacji
        var kwestia=getKwestia(Router.current().params);
        kwestia.dataRealizacji = new Date();
-       kwestia.numerUchwaly = nadawanieNumeruUchwalyMethod(kwestia.dataRealizacji);
+       kwestia.numerUchwaly = kwestia.issueNumber; //nadawanieNumeruUchwalyMethod(kwestia.dataRealizacji);
        var idZr=kwestia.idZespolRealizacyjny;
        var zrDraft = ZespolRealizacyjnyDraft.findOne({_id: kwestia.idZespolRealizacyjny});
        if (zrDraft.idZR != null) {//jezeli draft ma id ZR( kopiuje od istniejącego ZR), to dopisz do kisty ZR tego drafta

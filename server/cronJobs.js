@@ -95,7 +95,7 @@ checkingEndOfVote = function() {
                         console.log("GLOSOWANA->REALIZAZCJA");
                         awansUzytkownika(kwestia.idZespolRealizacyjny, pktZaUdzialWZesp);
                         kwestia.dataRealizacji = new Date();
-                        kwestia.numerUchwaly = nadawanieNumeruUchwaly(kwestia.dataRealizacji);
+                        kwestia.numerUchwaly = kwestia.issueNumber;//nadawanieNumeruUchwaly(kwestia.dataRealizacji);
                         var idZr=kwestia.idZespolRealizacyjny;
                         var zrDraft = ZespolRealizacyjnyDraft.findOne({_id: kwestia.idZespolRealizacyjny});
                         if (zrDraft.idZR != null) {//jezeli draft ma id ZR( kopiuje od istniejącego ZR), to dopisz do kisty ZR tego drafta

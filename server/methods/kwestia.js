@@ -2,7 +2,14 @@ Meteor.methods({
     // metody Kwestia GŁÓWNA
     addKwestia:function(newKwestia){
         var z = ZespolRealizacyjnyDraft.insert({nazwa: "", zespol: []});
-
+        var issueNumber = "";
+        Meteor.call('generateNextIssueNumber', function (error, ret) {
+            if (error) {
+                console.log(error.reason);
+            } else {
+                issueNumber = ret;
+            }
+        });
         var id = Kwestia.insert({
             idUser: newKwestia[0].idUser,
             dataWprowadzenia: newKwestia[0].dataWprowadzenia,
@@ -26,12 +33,21 @@ Meteor.methods({
             typ:newKwestia[0].typ,
 
             //Marzena
-            idZespolRealizacyjny: z
+            idZespolRealizacyjny: z,
+            issueNumber: issueNumber
         });
         Kwestia.update({_id: id}, {$set: {idParent: id}}, {upsert: true});
         return id;
     },
     addKwestiaOsobowa: function (newKwestia) {
+        var issueNumber = "";
+        Meteor.call('generateNextIssueNumber', function (error, ret) {
+            if (error) {
+                console.log(error.reason);
+            } else {
+                issueNumber = ret;
+            }
+        });
         var id = Kwestia.insert({
             idUser: newKwestia[0].idUser,
             dataWprowadzenia: newKwestia[0].dataWprowadzenia,
@@ -53,7 +69,8 @@ Meteor.methods({
             isOption: false,
             numerUchwały: newKwestia[0].numerUchwały,
             idZespolRealizacyjny: newKwestia[0].idZespolRealizacyjny,
-            typ:newKwestia[0].typ
+            typ:newKwestia[0].typ,
+            issueNumber: issueNumber
         });
         Kwestia.update({_id: id}, {$set: {idParent: id}}, {upsert: true});
         return id;
@@ -62,6 +79,14 @@ Meteor.methods({
     //gdy tworzymy kwestię statusową, idUser: to osoba zgłaszajaca doradcę na honorowego
     //idZglaszającego- osoba zgłaszana
     addKwestiaStatusowa: function (newKwestia) {
+        var issueNumber = "";
+        Meteor.call('generateNextIssueNumber', function (error, ret) {
+            if (error) {
+                console.log(error.reason);
+            } else {
+                issueNumber = ret;
+            }
+        });
         var id = Kwestia.insert({
             idUser: newKwestia[0].idUser,
             dataWprowadzenia: newKwestia[0].dataWprowadzenia,
@@ -84,7 +109,8 @@ Meteor.methods({
             isAnswerPositive:newKwestia[0].isAnswerPositive,
             dataRozpoczeciaOczekiwania:newKwestia[0].dataRozpoczeciaOczekiwania,
             typ:newKwestia[0].typ,
-            idZespolRealizacyjny: newKwestia[0].idZespolRealizacyjny
+            idZespolRealizacyjny: newKwestia[0].idZespolRealizacyjny,
+            issueNumber: issueNumber
         });
         Kwestia.update({_id: id}, {$set: {idParent: id}}, {upsert: true});
         //var z = ZespolRealizacyjny.insert({idKwestia: id, nazwa: "", zespol: []});
@@ -99,6 +125,14 @@ Meteor.methods({
     },
 //// metoda Kwestia ADMINISTROWANA
  addKwestiaADMINISTROWANA: function (newKwestia) {
+     var issueNumber = "";
+     Meteor.call('generateNextIssueNumber', function (error, ret) {
+         if (error) {
+             console.log(error.reason);
+         } else {
+             issueNumber = ret;
+         }
+     });
         var id = Kwestia.insert({
             idUser: newKwestia[0].idUser,
             dataWprowadzenia: newKwestia[0].dataWprowadzenia,
@@ -115,7 +149,8 @@ Meteor.methods({
             glosujacy: [],
             //glosujacyWRealizacji:[],
             idParametr : newKwestia[0].idParametr,
-            typ:newKwestia[0].typ
+            typ:newKwestia[0].typ,
+            issueNumber: issueNumber
         });
         return id;
     },
@@ -129,6 +164,14 @@ Meteor.methods({
     //metody Kwestia OPCJA
     addKwestiaOpcja: function (newKwestiaOpcja) {
         var z = ZespolRealizacyjnyDraft.insert({idKwestia: id, nazwa: "", zespol: []});
+        var issueNumber = "";
+        Meteor.call('generateNextIssueNumber', function (error, ret) {
+            if (error) {
+                console.log(error.reason);
+            } else {
+                issueNumber = ret;
+            }
+        });
 
         var id = Kwestia.insert({
             idUser: Meteor.userId(),
@@ -152,13 +195,21 @@ Meteor.methods({
             idParent: newKwestiaOpcja[0].idParent,
             numerUchwały: newKwestiaOpcja[0].numerUchwały,
             idZespolRealizacyjny: z,
-            typ:newKwestiaOpcja[0].typ
+            typ:newKwestiaOpcja[0].typ,
+            issueNumber: issueNumber
         });
         //var z = ZespolRealizacyjny.insert({idKwestia: id, nazwa: "", zespol: []});
         return id;
     },
     addKwestiaOsobowaOpcja: function (newKwestia) {
-        console.log(newKwestia);
+        var issueNumber = "";
+        Meteor.call('generateNextIssueNumber', function (error, ret) {
+            if (error) {
+                console.log(error.reason);
+            } else {
+                issueNumber = ret;
+            }
+        });
 
         var id = Kwestia.insert({
             idUser: newKwestia[0].idUser,
@@ -182,7 +233,8 @@ Meteor.methods({
             numerUchwały: newKwestia[0].numerUchwały,
             idZespolRealizacyjny: newKwestia[0].idZespolRealizacyjny,
             idParent: newKwestia[0].idParent,
-            typ:newKwestia[0].typ
+            typ:newKwestia[0].typ,
+            issueNumber: issueNumber
         });
     },
     updateKwestiaRating: function (id, obj) {
