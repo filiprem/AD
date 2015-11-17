@@ -92,3 +92,21 @@ notificationPauseWarning=function(text,timeLeft){
         duration: 5 // duration the notification should stay in seconds
     });
 };
+
+recognizeSexMethod=function(userData){
+    var welcomeGender=null;
+    if(userData.profile.pesel){
+        if(userData.profile.pesel!="") {
+            var pesel = userData.profile.pesel.substring(9, 10);
+            if (_.contains(['1', '3', '5', '7', '9'], pesel))
+                welcomeGender = "Szanowny ";
+            else welcomeGender = "Szanowna "
+        }
+        else
+            welcomeGender="Szanowny/a ";
+    }
+    else
+        welcomeGender="Szanowny/a ";
+
+    return welcomeGender;
+};

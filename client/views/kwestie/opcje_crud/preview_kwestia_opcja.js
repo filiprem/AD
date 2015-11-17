@@ -65,6 +65,7 @@ Template.previewKwestiaOpcja.events({
                 }
             }
             else {
+                addPowiadomienieBasicOptionIssueFunction(ret,newKwestiaOpcja[0].dataWprowadzenia);
                 var userKwestia= Meteor.userId();
                 var newValue=0;
 
@@ -88,3 +89,26 @@ Template.previewKwestiaOpcja.events({
         });
     }
 });
+
+addPowiadomienieBasicOptionIssueFunction=function(idKwestia,dataWprowadzenia){
+    var users=Users.find({'profile.userType':USERTYPE.CZLONEK});
+    //var kwestia=Kwestia.findOne({_id:idKwestia});
+    users.forEach(function(user){
+        var newPowiadomienie ={
+            idOdbiorca: user._id,
+            idNadawca: null,
+            dataWprowadzenia: dataWprowadzenia,
+            tytul: "",
+            powiadomienieTyp: NOTIFICATION_TYPE.NEW_ISSUE,
+            tresc: "",
+            idKwestia:idKwestia,
+            czyAktywny: true,
+            czyOdczytany:false
+        };
+        Meteor.call("addPowiadomienie",newPowiadomienie,function(error){
+            if(error)
+                console.log(error.reason);
+        })
+    });
+
+};

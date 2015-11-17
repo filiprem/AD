@@ -339,7 +339,7 @@ recognizeSex=function(userData){
         welcomeGender="Szanowny/a ";
 
     return welcomeGender;
-}
+};
 applicationEmail=function(userData,emailTypeText,passw){
     console.log("user data");
     console.log(userData);

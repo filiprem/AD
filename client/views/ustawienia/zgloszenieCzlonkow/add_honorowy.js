@@ -129,6 +129,7 @@ addKwestiaOsobowaHonorowy=function(idUserDraft,newUser){
                 }
                 else {
                     Router.go("home");
+                    addPowiadomienieAplikacjaIssueFunction(ret,newKwestia[0].dataWprowadzenia);
                     przyjecieWnioskuHonorowyConfirmation(Parametr.findOne().czasWyczekiwaniaKwestiiSpecjalnej, daneAplikanta.email, "członek honorowy");
                     var user = UsersDraft.findOne({_id: idUserDraft});
                     //Meteor.call("sendApplicationConfirmation", user,function(error){

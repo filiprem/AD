@@ -110,25 +110,29 @@ Template.addKwestiaForm.events({
     'submit form': function (e) {
         e.preventDefault();
 
-        var newKwestia = [
-            {
-                idUser: Meteor.userId(),
-                dataWprowadzenia: new Date(),
-                kwestiaNazwa: $(e.target).find('[name=kwestiaNazwa]').val(),
-                wartoscPriorytetu: 0,
-                sredniaPriorytet: 0,
-                temat: $(e.target).find('[name=sugerowanyTemat]').val(),
-                rodzaj: $(e.target).find('[name=sugerowanyRodzaj]').val(),
-                dataDyskusji: new Date(),
-                //dataGlosowania: d,
-                krotkaTresc: $(e.target).find('[name=krotkaTresc]').val(),
-                szczegolowaTresc: $(e.target).find('[name=szczegolowaTresc]').val(),
-                isOption: false,
-                typ: KWESTIA_TYPE.BASIC
-            }];
+        document.getElementById("submitAddKwestia").disabled = true;
+        Meteor.setTimeout(function () {
+            document.getElementById("submitAddKwestia").disabled = false;
+            var newKwestia = [
+                {
+                    idUser: Meteor.userId(),
+                    dataWprowadzenia: new Date(),
+                    kwestiaNazwa: $(e.target).find('[name=kwestiaNazwa]').val(),
+                    wartoscPriorytetu: 0,
+                    sredniaPriorytet: 0,
+                    temat: $(e.target).find('[name=sugerowanyTemat]').val(),
+                    rodzaj: $(e.target).find('[name=sugerowanyRodzaj]').val(),
+                    dataDyskusji: new Date(),
+                    //dataGlosowania: d,
+                    krotkaTresc: $(e.target).find('[name=krotkaTresc]').val(),
+                    szczegolowaTresc: $(e.target).find('[name=szczegolowaTresc]').val(),
+                    isOption: false,
+                    typ: KWESTIA_TYPE.BASIC
+                }];
 
-        Session.setPersistent("kwestiaPreview", newKwestia[0]);
-        Router.go('previewKwestia');
+            Session.setPersistent("kwestiaPreview", newKwestia[0]);
+            Router.go('previewKwestia');
+        },2000);
     },
     'reset form': function () {
         Router.go('listKwestia');

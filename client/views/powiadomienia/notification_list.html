@@ -13,15 +13,11 @@
             </div>
         </div>
     </div>
-    {{> updateRolesModal}}
-    {{> deleteAccountModal}}
-    {{> infoAccountModal}}
-    {{> updateAccountModal}}
         <!--{{/if}}-->
 </template>
 
-<template name="tytulLink">
-    <a href="{{ pathFor 'notification_info' this._id}}">{{this.tytul}}</a>
+<template name="tematLink">
+    <a href="{{ pathFor 'notificationInfo'}}">{{notificationTitle}}</a>
 </template>
 
 <template name="dataWpr">

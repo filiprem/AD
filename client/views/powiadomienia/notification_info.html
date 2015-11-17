@@ -1,0 +1,97 @@
+<template name="notificationInfo">
+    <div class="main">
+        <div class="row">
+            <div class="col col-md-12">
+                <table class="table">
+                    {{#if notificationTypeMessage}}
+                        {{>notificationNewMessage
+                            idPowiadomienie=this._id}}
+                    {{/if}}
+                    {{#if notificationTypeNewIssue}}
+                        {{>notificationNewIssue
+                            idPowiadomienie=this._id}}
+                    {{/if}}
+                    {{#if notificationTypeLobbingMessage}}
+                        {{>notificationLobbingMessage
+                        idPowiadomienie=this._id}}
+                    {{/if}}
+                 </table>
+                <button id="backToNotificationList" class="btn btn-primary">
+                    <span class="fa fa-arrow-left"></span> Powrót do powiadomień
+                </button>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="notificationNewMessage">
+    {{#with powiadomienie idPowiadomienie}}
+        <tr>
+            <td><b>Data wysłania:</b></td>
+            <td>{{dataWprowadzenia}}</td>
+        </tr>
+        <tr>
+            <td><b>Nadawca:</b></td>
+            <td>{{sender}}</td><br/>
+        </tr>
+        <tr>
+            <td><b>Tytuł:</b></td>
+            <td>{{tytul}}</td><br/>
+        </tr>
+        <tr>
+            <td><b>Treść:</b></td>
+            <td>{{tresc}}</td><br/>
+        </tr>
+    {{/with}}
+</template>
+
+<template name="notificationNewIssue">
+    {{#with powiadomienie idPowiadomienie}}
+        {{#with actualKwestia this.idKwestia}}
+            <div>Aktywna Demokracja</div>
+            <div>{{organisationName}}</div>
+            {{welcomeGender}} {{userData}}! <br /><br />
+            Do systemu AD wprowadzono nową Kwestię: <b>{{kwestiaNazwa}}</b><br />
+            <b>Temat:</b> {{temat}}<br/>
+            <b>Rodzaj:</b> {{rodzaj}}<br />
+            dotyczącą: <b>{{krotkaTresc}}</b> <br /><br />
+
+            Zapraszamy do deliberacji tej Kwestii, dyskusji i nadania priorytetu. <br />
+            <a href="{{pathFor 'informacjeKwestia'}}">Link do Kwestii</a>
+        {{/with}}
+    {{/with}}
+</template>
+<!--to finish-->
+<template name="notificationLobbingMessage">
+    {{#with powiadomienie idPowiadomienie}}
+        {{#with actualKwestia this.idKwestia}}
+            <div>Aktywna Demokracja</div>
+            <div>{{organisationName}}</div>
+            {{welcomeGender}} {{userData}}! <br /><br />
+
+            Zachęcam Cię do wsparcia Kwestii: <b><a href="{{url}}">{{nazwaKwestii}}</a></b> <br />
+
+            <b>Szczegóły:</b> <br />
+            {{krotkaTresc}} <b>{{title}}</b> z :<br />
+            {{oldValue}} na<br />
+            {{newValue}} <br/>><br />
+
+            <b>Uzasadnienie:</b><br/>
+            {{uzasadnienie}}<br/><br/>
+
+            Dziękuję!<br/>
+            {{imie}} {{nazwisko}}
+
+            <div>Aktywna Demokracja</div>
+            <div>{{organisationName}}</div>
+            {{welcomeGender}} {{userData}}! <br /><br />
+            Do systemu AD wprowadzono nową Kwestię: <b>{{kwestiaNazwa}}</b><br />
+            <b>Temat:</b> {{temat}}<br/>
+            <b>Rodzaj:</b> {{rodzaj}}<br />
+            dotyczącą: <b>{{krotkaTresc}}</b> <br /><br />
+
+            Zapraszamy do deliberacji tej Kwestii, dyskusji i nadania priorytetu. <br />
+            <a href="{{pathFor 'informacjeKwestia'}}">Link do Kwestii</a>
+        {{/with}}
+    {{/with}}
+</template>

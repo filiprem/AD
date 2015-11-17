@@ -74,6 +74,9 @@ Template.administracjaUserMain.helpers({
     isDoradca:function() {
         return Meteor.user().profile.userType == USERTYPE.DORADCA ? true : false;
     },
+    isCzlonek:function() {
+        return Meteor.user().profile.userType == USERTYPE.CZLONEK ? true : false;
+    },
     kwestiaDraftExists:function(){
         console.log("czy istnieje");
         var userDraf = UsersDraft.find({'profile.idUser': Meteor.userId(),czyAktywny:true});
@@ -179,10 +182,11 @@ sendEmailAndNotification=function(idKwestia,emailText){
     else{
         Meteor.call("updateKwestiaCzasLobbowana",idKwestia,new Date(),function(error){
             if(!error){
+                addPowiadomienieLobbingIssueFunction(idKwestia);
                 Meteor.call("sendEmailLobbingIssue",idKwestia,emailText,Meteor.userId(),function(error){
-                    if(!error)
-                        bootbox.alert("Dziękujemy, Twój email z prośbą został wysłany do wszystkich członków organizacji!", function() {
-                        });
+                    //if(!error)
+                    //    bootbox.alert("Dziękujemy, Twój email z prośbą został wysłany do wszystkich członków organizacji!", function() {
+                    //    });
                 });
             }
             else{
@@ -191,4 +195,26 @@ sendEmailAndNotification=function(idKwestia,emailText){
             }
         });
     }
-}
+};
+
+addPowiadomienieLobbingIssueFunction=function(idKwestia){
+    var users=Users.find({'profile.userType':USERTYPE.CZLONEK});
+    var kwestia=Kwestia.findOne({_id:idKwestia});
+    users.forEach(function(user){
+        var newPowiadomienie ={
+            idOdbiorca: user._id,
+            idNadawca: Meteor.userId(),
+            dataWprowadzenia: new Date(),
+            tytul: "",
+            powiadomienieTyp: NOTIFICATION_TYPE.LOOBBING_MESSAGE,
+            tresc: "",
+            idKwestia:idKwestia,
+            czyAktywny: true,
+            czyOdczytany:false
+        };
+        Meteor.call("addPowiadomienie",newPowiadomienie,function(error){
+            if(error)
+                console.log(error.reason);
+        })
+    });
+};
