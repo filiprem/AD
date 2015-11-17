@@ -244,10 +244,13 @@ addKwestiaOsobowa=function(idUserDraft,newUser,user){
 addPowiadomienieAplikacjaIssueFunction=function(idKwestia,dataWprowadzenia){
     var users=Users.find({'profile.userType':USERTYPE.CZLONEK});
     //var kwestia=Kwestia.findOne({_id:idKwestia});
+    var idNadawca=null;
+    if(Meteor.userId())
+        idNadawca=Meteor.userId();
     users.forEach(function(user){
         var newPowiadomienie ={
             idOdbiorca: user._id,
-            idNadawca: null,
+            idNadawca: idNadawca,
             dataWprowadzenia: dataWprowadzenia,
             tytul: "",
             powiadomienieTyp: NOTIFICATION_TYPE.NEW_ISSUE,

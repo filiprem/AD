@@ -182,7 +182,7 @@ sendEmailAndNotification=function(idKwestia,emailText){
     else{
         Meteor.call("updateKwestiaCzasLobbowana",idKwestia,new Date(),function(error){
             if(!error){
-                addPowiadomienieLobbingIssueFunction(idKwestia);
+                addPowiadomienieLobbingIssueFunction(idKwestia,emailText);
                 Meteor.call("sendEmailLobbingIssue",idKwestia,emailText,Meteor.userId(),function(error){
                     //if(!error)
                     //    bootbox.alert("Dziękujemy, Twój email z prośbą został wysłany do wszystkich członków organizacji!", function() {
@@ -197,7 +197,7 @@ sendEmailAndNotification=function(idKwestia,emailText){
     }
 };
 
-addPowiadomienieLobbingIssueFunction=function(idKwestia){
+addPowiadomienieLobbingIssueFunction=function(idKwestia,uzasadnienie){
     var users=Users.find({'profile.userType':USERTYPE.CZLONEK});
     var kwestia=Kwestia.findOne({_id:idKwestia});
     users.forEach(function(user){
@@ -208,6 +208,7 @@ addPowiadomienieLobbingIssueFunction=function(idKwestia){
             tytul: "",
             powiadomienieTyp: NOTIFICATION_TYPE.LOOBBING_MESSAGE,
             tresc: "",
+            uzasadnienie:uzasadnienie,
             idKwestia:idKwestia,
             czyAktywny: true,
             czyOdczytany:false

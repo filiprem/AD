@@ -69,29 +69,45 @@
             <div>{{organisationName}}</div>
             {{welcomeGender}} {{userData}}! <br /><br />
 
-            Zachęcam Cię do wsparcia Kwestii: <b><a href="{{url}}">{{nazwaKwestii}}</a></b> <br />
+            <div>Zachęcam Cię do wsparcia Kwestii: <b><a href="{{pathFor 'informacjeKwestia'}}">{{kwestiaNazwa}}</a></b></div> <br />
 
-            <b>Szczegóły:</b> <br />
-            {{krotkaTresc}} <b>{{title}}</b> z :<br />
-            {{oldValue}} na<br />
-            {{newValue}} <br/>><br />
+            {{#if isKwestiaGlobalParams}}
+                <b>Szczegóły:</b> <br />
+                {{krotkaTresc}} <b>{{szczegolowaTresc.title}}</b> z :<br />
+                {{szczegolowaTresc.oldValue}} na<br />
+                {{szczegolowaTresc.newValue}} <br/><br />
+            {{/if}}
+            {{#if isKwestiaBasic}}
+                <b>Temat:</b> {{temat}}<br />
+                <b>Rodzaj:</b> {{rodzaj}} <br /><br />
 
+                <b>Szczegóły:</b> <br />
+                {{krotkaTresc}}<br />
+                {{kwestiaNazwa}} <br /><br />
+            {{/if}}
+            {{#if isKwestiaAccess}}
+                <b>Temat:</b> {{temat}},<br />
+                <b>Rodzaj:</b> {{rodzaj}} <br /><br />
+
+                <b>Szczegóły:</b> <br />
+                {{krotkaTresc}}<br />
+                DANE APLIKANTA:<br/>
+                <b>Imię i Nazwisko: </b>{{szczegolowaTresc.fullName}} <br />
+                {{#if isKwestiaAccessHonorowyAndProtector}}
+                    <b>Email: </b>{{szczegolowaTresc.email}} <br />
+                    <b>Pesel: </b>{{szczegolowaTresc.pesel}} <br />
+                    <b>Adres: </b>{{szczegolowaTresc.address}} <br />
+                    <b>Kod pocztowy: </b>{{szczegolowaTresc.zip}} <br />
+                {{/if}}
+                <b>Miejscowość: </b>{{szczegolowaTresc.city}} <br />
+                <b>Uzasadanienie aplikacjii/kilka słów o sobie: </b>{{szczegolowaTresc.uwagi}} <br /><br />
+            {{/if}}
+        {{/with}}
             <b>Uzasadnienie:</b><br/>
             {{uzasadnienie}}<br/><br/>
 
             Dziękuję!<br/>
-            {{imie}} {{nazwisko}}
+            {{sender}}
 
-            <div>Aktywna Demokracja</div>
-            <div>{{organisationName}}</div>
-            {{welcomeGender}} {{userData}}! <br /><br />
-            Do systemu AD wprowadzono nową Kwestię: <b>{{kwestiaNazwa}}</b><br />
-            <b>Temat:</b> {{temat}}<br/>
-            <b>Rodzaj:</b> {{rodzaj}}<br />
-            dotyczącą: <b>{{krotkaTresc}}</b> <br /><br />
-
-            Zapraszamy do deliberacji tej Kwestii, dyskusji i nadania priorytetu. <br />
-            <a href="{{pathFor 'informacjeKwestia'}}">Link do Kwestii</a>
-        {{/with}}
     {{/with}}
 </template>

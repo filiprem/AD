@@ -89,6 +89,38 @@ Template.notificationLobbingMessage.helpers({
     organisationName:function(){
         return Parametr.findOne().nazwaOrganizacji;
     },
+    sender:function(){
+        var user=Users.findOne({_id:this.idNadawca});
+        return user? user.profile.fullName : null;
+    },
+    isKwestiaGlobalParams:function(){
+        return this.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE ? true : false;
+    },
+    isKwestiaBasic:function(){
+        return this.typ==KWESTIA_TYPE.BASIC ? true : false;
+    },
+    isKwestiaAccess:function(){
+        return (_.contains([KWESTIA_TYPE.ACCESS_DORADCA,KWESTIA_TYPE.ACCESS_HONOROWY,KWESTIA_TYPE.ACCESS_ZWYCZAJNY],this.typ)) ? true : false;
+    },
+    isKwestiaAccessHonorowyAndProtector:function(){//to finish
+        var kwestia=Kwestia.findOne({_id:this._id});
+        if(kwestia.idZespolRealizacyjny){
+            var zespol=null;
+            zespol=ZespolRealizacyjny.findOne({_id:kwestia.idZespolRealizacyjny});
+            if(!zespol) {
+                zespol = ZespolRealizacyjnyDraft.findOne({_id: kwestia.idZespolRealizacyjny});
+                if(zespol.idZR){
+                    zespol=ZespolRealizacyjny.findOne({_id:zespol.idZR});
+                    if(zespol.protector==Meteor.userId())
+                    return true;
+                    else return false;
+                }
+                else return false;
+            }
+        }
+        else false;
+        //return this.typ==KWESTIA_TYPE.ACCESS_ZWYCZAJNY ;
+    },
     temat:function(){
         if(this.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE)
             return "techniczna systemowa";

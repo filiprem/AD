@@ -9,6 +9,7 @@ Meteor.methods({
             tresc: newPowiadomienie.tresc,
             idNadawca: newPowiadomienie.idNadawca,
             idKwestia:newPowiadomienie.idKwestia,
+            uzasadnienie:newPowiadomienie.uzasadnienie,
             czyAktywny: true,
             czyOdczytany:newPowiadomienie.czyOdczytany
         });
