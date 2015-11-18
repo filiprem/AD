@@ -19,8 +19,12 @@ Template.notificationInfo.helpers({
         return this.powiadomienieTyp==NOTIFICATION_TYPE.NEW_ISSUE ? true : false;
     },
     notificationTypeLobbingMessage:function(){
-    return this.powiadomienieTyp==NOTIFICATION_TYPE.LOOBBING_MESSAGE ? true : false;
-},
+        return this.powiadomienieTyp==NOTIFICATION_TYPE.LOOBBING_MESSAGE ? true : false;
+    },
+    notificationTypeApplicationConfirmationAcceptedRejected:function(){
+        return _.contains([NOTIFICATION_TYPE.APPLICATION_CONFIRMATION,NOTIFICATION_TYPE.APPLICATION_ACCEPTED,
+            NOTIFICATION_TYPE.APPLICATION_REJECTED ],this.powiadomienieTyp)? true : false;
+    }
 });
 
 Template.notificationInfo.events({
@@ -39,6 +43,15 @@ Template.notificationNewMessage.helpers({
     sender:function(){
         var user=Users.findOne({_id:this.idNadawca});
         return user? user.profile.fullName : null;
+    },
+    welcomeGender:function(){
+        return recognizeSexMethod(Meteor.user());
+    },
+    userData:function(){
+        return Meteor.user().profile.fullName;
+    },
+    organisationName:function(){
+        return Parametr.findOne().nazwaOrganizacji;
     }
 });
 Template.notificationNewIssue.helpers({
@@ -73,6 +86,33 @@ Template.notificationNewIssue.helpers({
     }
 });
 
+Template.notificationApplicationAnswer.helpers({
+    powiadomienie:function(idPowiadomienie){
+        return getNotification(idPowiadomienie);
+    },
+    actualKwestia:function(idKwestia){
+        return getIssue(idKwestia);
+    },
+    welcomeGender:function(){
+        return recognizeSexMethod(Meteor.user());
+    },
+    userData:function(){
+        return Meteor.user().profile.fullName;
+    },
+    organisationName:function(){
+        return Parametr.findOne().nazwaOrganizacji;
+    },
+    applicationConfirmation:function(){
+        return this.powiadomienieTyp==NOTIFICATION_TYPE.APPLICATION_CONFIRMATION? true : false;
+    },
+    applicationRejected:function(){
+        return this.powiadomienieTyp==NOTIFICATION_TYPE.APPLICATION_REJECTED? true : false;
+    },
+    userTypeData:function(){
+        return this.typ==KWESTIA_TYPE.ACCESS_ZWYCZAJNY ? "Członka Zwyczajnego" : "(do uzupełnienia)";
+    }
+});
+
 Template.notificationLobbingMessage.helpers({
     powiadomienie:function(idPowiadomienie){
         return getNotification(idPowiadomienie);
@@ -92,34 +132,6 @@ Template.notificationLobbingMessage.helpers({
     sender:function(){
         var user=Users.findOne({_id:this.idNadawca});
         return user? user.profile.fullName : null;
-    },
-    isKwestiaGlobalParams:function(){
-        return this.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE ? true : false;
-    },
-    isKwestiaBasic:function(){
-        return this.typ==KWESTIA_TYPE.BASIC ? true : false;
-    },
-    isKwestiaAccess:function(){
-        return (_.contains([KWESTIA_TYPE.ACCESS_DORADCA,KWESTIA_TYPE.ACCESS_HONOROWY,KWESTIA_TYPE.ACCESS_ZWYCZAJNY],this.typ)) ? true : false;
-    },
-    isKwestiaAccessHonorowyAndProtector:function(){//to finish
-        var kwestia=Kwestia.findOne({_id:this._id});
-        if(kwestia.idZespolRealizacyjny){
-            var zespol=null;
-            zespol=ZespolRealizacyjny.findOne({_id:kwestia.idZespolRealizacyjny});
-            if(!zespol) {
-                zespol = ZespolRealizacyjnyDraft.findOne({_id: kwestia.idZespolRealizacyjny});
-                if(zespol.idZR){
-                    zespol=ZespolRealizacyjny.findOne({_id:zespol.idZR});
-                    if(zespol.protector==Meteor.userId())
-                    return true;
-                    else return false;
-                }
-                else return false;
-            }
-        }
-        else false;
-        //return this.typ==KWESTIA_TYPE.ACCESS_ZWYCZAJNY ;
     },
     temat:function(){
         if(this.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE)

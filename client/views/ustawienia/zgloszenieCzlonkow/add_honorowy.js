@@ -100,7 +100,7 @@ addKwestiaOsobowaHonorowy=function(idUserDraft,newUser){
                 {
                     idUser: idUserDraft,
                     dataWprowadzenia: new Date(),
-                    kwestiaNazwa: 'Aplikowanie na stanowisko członka honorowego- ' + newUser[0].email,
+                    kwestiaNazwa: 'Aplikowanie na stanowisko członka honorowego' ,
                     wartoscPriorytetu: 0,
                     wartoscPriorytetuWRealizacji: 0,
                     sredniaPriorytet: 0,
@@ -108,7 +108,7 @@ addKwestiaOsobowaHonorowy=function(idUserDraft,newUser){
                     idRodzaj: Rodzaj.findOne({})._id,
                     idZespolRealizacyjny: ret,
                     dataGlosowania: null,
-                    krotkaTresc: 'Aplikowanie do systemu na stanowisko członka honorowego',
+                    krotkaTresc: 'Aplikowanie do systemu na stanowisko Członka Honorowego '+ newUser[0].email,
                     szczegolowaTresc: daneAplikanta,
                     isOption: false,
                     status: KWESTIA_STATUS.STATUSOWA,

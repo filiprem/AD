@@ -41,19 +41,24 @@ Template.kwestiaTopButtons.events({
         window.history.back();
     },
     'click #addOptionButton': function () {
-        var kw=null;
-        var kwestia=Kwestia.findOne({_id:this.idKwestia});
-        if(kwestia){
-            if(kwestia.idParent){
-                if(kwestia.isOption==false)//jezeli to glowna jest,to,ok
-                    kw=kwestia;
-                else//znajdz glowna
-                    kw=Kwestia.findOne({idParent:kwestia.idParent});
+        var kwestiaCanBeInserted=kwestiaIsAllowedToInsert();
+        if(kwestiaCanBeInserted==true) {
+            var kw = null;
+            var kwestia = Kwestia.findOne({_id: this.idKwestia});
+            if (kwestia) {
+                if (kwestia.idParent) {
+                    if (kwestia.isOption == false)//jezeli to glowna jest,to,ok
+                        kw = kwestia;
+                    else//znajdz glowna
+                        kw = Kwestia.findOne({idParent: kwestia.idParent});
 
+                }
             }
+            Session.setPersistent("actualKwestia", kw);
+            Router.go("addKwestiaOpcja");
         }
-        Session.setPersistent("actualKwestia",kw);
-        Router.go("addKwestiaOpcja");
+        else
+            notificationPauseWarning("kwestii",kwestiaCanBeInserted);
     },
     'click #doArchiwum': function (e) {
         e.preventDefault();

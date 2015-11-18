@@ -15,6 +15,11 @@
                         {{>notificationLobbingMessage
                         idPowiadomienie=this._id}}
                     {{/if}}
+                    {{#if notificationTypeApplicationConfirmationAcceptedRejected}}
+                        {{>notificationApplicationAnswer
+                        idPowiadomienie=this._id
+                        }}
+                    {{/if}}
                  </table>
                 <button id="backToNotificationList" class="btn btn-primary">
                     <span class="fa fa-arrow-left"></span> Powrót do powiadomień
@@ -38,9 +43,20 @@
             <td><b>Tytuł:</b></td>
             <td>{{tytul}}</td><br/>
         </tr>
+        &nbsp;
+        <tr><b>Treść:</b></tr>
         <tr>
-            <td><b>Treść:</b></td>
-            <td>{{tresc}}</td><br/>
+            <td>
+                Aktywna Demokracja<br />
+                {{organisationName}}<br />
+
+                {{welcomeGender}} {{userData}}!<br /><br />
+
+                {{tresc}}<br /><br/>
+
+                Pozdrawiam,<br/>
+                {{sender}}
+            </td><br/>
         </tr>
     {{/with}}
 </template>
@@ -61,7 +77,34 @@
         {{/with}}
     {{/with}}
 </template>
-<!--to finish-->
+
+<template name="notificationApplicationAnswer">
+    {{#with powiadomienie idPowiadomienie}}
+            <div>Aktywna Demokracja</div>
+            <div>{{organisationName}}</div>
+            {{welcomeGender}} {{userData}}! <br /><br />
+
+            {{#if applicationConfirmation}}
+                {{#with actualKwestia this.idKwestia}}
+                    Dziękujemy za aplikowanie na stanowisko Członka Zwyczajnego w systemie AD {{organisationName}}.<br />
+                    Aby zobaczyć szczegóły kwestii kliknij <a href="{{pathFor 'informacjeKwestia'}}">tutaj</a>
+                {{/with}}
+            {{else}}
+                {{#if applicationRejected}}
+                    {{organisationName}}, do której wstąpiłeś jako {{userTypeData}} nie zaakceptowała Twojego wniosku.<br/>
+                    Możesz zgłosić ten problem odwołując się do ogółu.<br/>
+                    Zapytania i uwagi możesz kierować <a href="{{url}}">tutaj</a> <br/><br />
+                {{else}}
+                    Z radością informujemy,że Twoja aplikacja na stanowisko {{userTypeData}} w systemie AD {{organizacja}} <br />
+                    została rozpatrzona pozytywnie.
+                {{/if}}
+            {{/if}}
+            <br /><br />
+            Logowanie do systemu: <a href="{{pathFor 'home'}}"> Zaloguj</a>
+    {{/with}}
+</template>
+
+
 <template name="notificationLobbingMessage">
     {{#with powiadomienie idPowiadomienie}}
         {{#with actualKwestia this.idKwestia}}
@@ -71,43 +114,15 @@
 
             <div>Zachęcam Cię do wsparcia Kwestii: <b><a href="{{pathFor 'informacjeKwestia'}}">{{kwestiaNazwa}}</a></b></div> <br />
 
-            {{#if isKwestiaGlobalParams}}
-                <b>Szczegóły:</b> <br />
-                {{krotkaTresc}} <b>{{szczegolowaTresc.title}}</b> z :<br />
-                {{szczegolowaTresc.oldValue}} na<br />
-                {{szczegolowaTresc.newValue}} <br/><br />
-            {{/if}}
-            {{#if isKwestiaBasic}}
-                <b>Temat:</b> {{temat}}<br />
-                <b>Rodzaj:</b> {{rodzaj}} <br /><br />
+            <b>Temat:</b> {{temat}}<br />
+            <b>Rodzaj:</b> {{rodzaj}} <br /><br />
 
-                <b>Szczegóły:</b> <br />
-                {{krotkaTresc}}<br />
-                {{kwestiaNazwa}} <br /><br />
-            {{/if}}
-            {{#if isKwestiaAccess}}
-                <b>Temat:</b> {{temat}},<br />
-                <b>Rodzaj:</b> {{rodzaj}} <br /><br />
-
-                <b>Szczegóły:</b> <br />
-                {{krotkaTresc}}<br />
-                DANE APLIKANTA:<br/>
-                <b>Imię i Nazwisko: </b>{{szczegolowaTresc.fullName}} <br />
-                {{#if isKwestiaAccessHonorowyAndProtector}}
-                    <b>Email: </b>{{szczegolowaTresc.email}} <br />
-                    <b>Pesel: </b>{{szczegolowaTresc.pesel}} <br />
-                    <b>Adres: </b>{{szczegolowaTresc.address}} <br />
-                    <b>Kod pocztowy: </b>{{szczegolowaTresc.zip}} <br />
-                {{/if}}
-                <b>Miejscowość: </b>{{szczegolowaTresc.city}} <br />
-                <b>Uzasadanienie aplikacjii/kilka słów o sobie: </b>{{szczegolowaTresc.uwagi}} <br /><br />
-            {{/if}}
+            <b>Szczegóły:</b> <br />
+            {{krotkaTresc}}<br /><br />
         {{/with}}
             <b>Uzasadnienie:</b><br/>
             {{uzasadnienie}}<br/><br/>
-
             Dziękuję!<br/>
             {{sender}}
-
     {{/with}}
 </template>

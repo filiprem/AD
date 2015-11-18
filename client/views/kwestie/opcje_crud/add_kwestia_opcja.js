@@ -75,17 +75,14 @@ Template.addKwestiaOpcjaForm.events({
         Meteor.setTimeout(function () {
             document.getElementById("submitAddKwestiaOpcja").disabled = false;
             var eventForm = $(e.target);
-            //var idParentKwestii = Session.get("idKwestia");
-            var dataG = new Date();
-            var d = dataG.setDate(dataG.getDate() + 7);
+            var parentKwestia = Session.get("actualKwestia");
             var szczegolowaTresc = null;
-            if (this.status == KWESTIA_STATUS.OSOBOWA) {
+            if (parentKwestia.status == KWESTIA_STATUS.OSOBOWA) {
                 szczegolowaTresc = this.szczegolowaTresc;
                 szczegolowaTresc.uwagi = $(e.target).find('[name=szczegolowaTrescUwagi]').val()
             }
             else
                 szczegolowaTresc = $(e.target).find('[name=szczegolowaTresc]').val();
-
             var newKwestiaOpcja = [{
                 idUser: Meteor.userId(),
                 dataWprowadzenia: new Date(),
@@ -93,15 +90,12 @@ Template.addKwestiaOpcjaForm.events({
                 wartoscPriorytetu: 0,
                 wartoscPriorytetuWRealizacji: 0,
                 sredniaPriorytet: 0,
-                status: this.status,
-                idTemat: this.idTemat,
-                idRodzaj: this.idRodzaj,
-                idZespolRealizacyjny: this.idZespolRealizacyjny,
-                dataDyskusji: new Date(),
-                dataGlosowania: d,
+                status: parentKwestia.status,
+                idTemat: parentKwestia.idTemat,
+                idRodzaj: parentKwestia.idRodzaj,
                 krotkaTresc: $(e.target).find('[name=krotkaTresc]').val(),
                 szczegolowaTresc: szczegolowaTresc,
-                idParent: this._id,
+                idParent: parentKwestia._id,
                 isOption: true,
                 numerUchwały: 0,
                 czyAktywny: true,

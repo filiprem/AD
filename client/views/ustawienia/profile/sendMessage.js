@@ -15,7 +15,7 @@ Template.sendMessage.events({
         e.preventDefault();
         var subject=$(e.target).find('[name=topic]').val();
         var content=$(e.target).find('[name=content]').val();
-
+        var idReceiver=this._id;
         var newEmail = [
             {
                 idSender: Meteor.userId(),
@@ -33,7 +33,7 @@ Template.sendMessage.events({
             askToFillSubject(text,newEmail);
         }
         else
-            sendMessage(newEmail);
+            sendMessage(newEmail,idReceiver);
 
     },
     'reset form': function () {
@@ -41,7 +41,7 @@ Template.sendMessage.events({
     }
 });
 
-sendMessage=function(newEmail){
+sendMessage=function(newEmail,idReceiver){
     Meteor.call('sendMessageToUser', newEmail, function (error, ret) {
         if (error) {
             if (typeof Errors === "undefined")
@@ -56,7 +56,8 @@ sendMessage=function(newEmail){
             if(user)
                 to=user.emails[0].address;
             addPowiadomienieFunction( newEmail[0]);
-            Meteor.call("sendEmail", to, from, newEmail[0].subject, newEmail[0].content);
+            //Meteor.call("sendEmail", to, from, newEmail[0].subject, newEmail[0].content);
+            Meteor.call("sendDirectMessageToUser",idReceiver,from, newEmail[0].subject, newEmail[0].content);
             Router.go('administracjaUserMain');
         }
     });

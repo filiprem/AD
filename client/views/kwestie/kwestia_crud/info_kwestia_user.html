@@ -12,11 +12,15 @@
                     {{/if}}
                     {{#unless isGlobalParamChange}}
                         {{#if ZRComplete}}
-                            <b>Zespół Realizacyjny:</b> kompletny.<br/>
+                            <b>Zespół Realizacyjny:</b> skompletowany.<br/>
                         {{else}}
                             <b>Zespół Realizacyjny:</b> brak jeszcze {{ZRText}} ZR.<br/>
                         {{/if}}
                     {{/unless}}
+                    <br/>
+                    {{#if kwestiaInKosz}}
+                        <b>Powód odrzucenia kwestii:</b> {{reason}} <br/>
+                    {{/if}}
                     {{#if isNotAdminOrDoradca}}
                         {{#if mojPriorytetZero}}
                             <br/>Wstrzymałeś się od głosu nadając tej Kwestii priorytet <b>0</b>
@@ -42,12 +46,6 @@
 
         <br/>
         <table class="table table-bordered manageTable">
-            {{#if kwestiaInKosz}}
-                <tr>
-                    <td><strong> Powód odrzucenia kwestii</strong></td>
-                    <td><b>{{reason}}</b></td>
-                </tr>
-            {{/if}}
             {{#if isRealizowana}}
                 <td><strong> Priorytet w deliberacji i głosowaniu</strong></td>
                 <td><b>{{wartoscPriorytetuG}}</b></td>

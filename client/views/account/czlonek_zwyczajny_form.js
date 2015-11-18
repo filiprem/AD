@@ -106,10 +106,6 @@ Template.czlonekZwyczajnyForm.events({
             //-- generowanie loginu dla użytkownika
             newUser[0].login = generateLogin(newUser[0].firstName, newUser[0].lastName);
 
-            //var found=checkExistsUser(newUser[0].email,USERTYPE.DORADCA,USERTYPE.HONOROWY);
-            //if(found==true){
-            //    aplikujConfirmation("członkiem zwyczajnym",newUser);
-            //}
             addUserDraft(newUser);
 
             console.log("Dodany członek: ");
@@ -227,6 +223,10 @@ addKwestiaOsobowa=function(idUserDraft,newUser,user){
                         Router.go("home");
                     przyjecieWnioskuConfirmation(Parametr.findOne().czasWyczekiwaniaKwestiiSpecjalnej,daneAplikanta.email,"członkowstwo");
                     addPowiadomienieAplikacjaIssueFunction(ret,newKwestia[0].dataWprowadzenia);
+                    if(newUser[0].idUser!=null){//jezeli istnieje juz ten użtykownik,jest doradcą,to wyślij mu confirmation w powiad
+                        console.log("existing user,so wysyłamy do niego confirmation w powiadomienia");
+                        addPowiadomienieAplikacjaRespondFunction(ret,newKwestia[0].dataWprowadzenia,NOTIFICATION_TYPE.APPLICATION_CONFIRMATION);
+                    }
                     Meteor.call("sendApplicationConfirmation", user,function(error){
                         if(!error) {
                             Meteor.call("sendEmailAddedIssue", ret);
@@ -263,5 +263,23 @@ addPowiadomienieAplikacjaIssueFunction=function(idKwestia,dataWprowadzenia){
             if(error)
                 console.log(error.reason);
         })
+    });
+};
+
+addPowiadomienieAplikacjaRespondFunction=function(idKwestia,dataWprowadzenia,typ){
+    var newPowiadomienie ={
+        idOdbiorca: Meteor.userId(),
+        idNadawca: null,
+        dataWprowadzenia: dataWprowadzenia,
+        tytul: "",
+        powiadomienieTyp: typ,
+        tresc: "",
+        idKwestia:idKwestia,
+        czyAktywny: true,
+        czyOdczytany:false
+    };
+    Meteor.call("addPowiadomienie",newPowiadomienie,function(error){
+        if(error)
+            console.log(error.reason);
     });
 };

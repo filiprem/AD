@@ -122,8 +122,6 @@ Template.addKwestiaForm.events({
                     sredniaPriorytet: 0,
                     temat: $(e.target).find('[name=sugerowanyTemat]').val(),
                     rodzaj: $(e.target).find('[name=sugerowanyRodzaj]').val(),
-                    dataDyskusji: new Date(),
-                    //dataGlosowania: d,
                     krotkaTresc: $(e.target).find('[name=krotkaTresc]').val(),
                     szczegolowaTresc: $(e.target).find('[name=szczegolowaTresc]').val(),
                     isOption: false,

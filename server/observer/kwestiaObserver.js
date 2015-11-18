@@ -45,8 +45,10 @@ Meteor.startup(function(){
                     ZRDraft = ZespolRealizacyjny.findOne({_id: newKwestia.idZespolRealizacyjny});
                     if(ZRDraft)
                         zespolCount = ZRDraft.zespol.length;
-                    else
-                        zespolCount=newKwestia.zespol.czlonkowie.length;
+                    else {
+                        if(newKwestia.czyAktywny==false)
+                            zespolCount = newKwestia.zespol.czlonkowie.length;
+                    }
                 }
             }
             //for global parameters(deliberowana->glosowanie) 2 conditions:wartoscPriorytetu>0,liczbaUsers>kworum
@@ -94,8 +96,8 @@ Meteor.startup(function(){
                 }
             }
 
-            if(newKwestia.status == KWESTIA_STATUS.REALIZOWANA && newKwestia.wartoscPriorytetuWRealizacji < (-newKwestia.wartoscPriorytetu)){
-                console.log("gdy osiagnie minusowy priorytet: relizowana->kosz");
+            if(newKwestia.status == KWESTIA_STATUS.REALIZOWANA && newKwestia.wartoscPriorytetuWRealizacji < (-newKwestia.wartoscPriorytetu && newKwestia.czyAktywny==true)){
+                console.log("REALIZOWANA->KOSZ gdy osiagnie minusowy priorytet:");
                 Meteor.call('removeKwestiaSetReason', newKwestia._id,KWESTIA_ACTION.NEGATIVE_PRIORITY,function(error) {
                     if(!error) {
                         if (newKwestia.idZespolRealizacyjny) {
@@ -108,10 +110,16 @@ Meteor.startup(function(){
                             if (userDraft) {
                                 Meteor.call("sendApplicationRejected", userDraft, function (error, ret) {
                                     (!error)
-                                    Meteor.call("removeUserDraft", userDraft._id);
+                                        Meteor.call('removeUserDraftNotZrealizowany',userDraft._id);
                                 });
                             }
+                            if(userDraft.profile.idUser!=null) {
+                                var user = Users.findOne({_id:userDraft.profile.idUser});
+                                console.log("to jest existing user- powiadom o negatywnej w powiadomieniach");
+                                addPowiadomienieAplikacjaRespondMethod(newKwestia._id,new Date(),NOTIFICATION_TYPE.APPLICATION_REJECTED,user._id);
+                            }
                         }
+
                     }
                     else
                         console.log(error.reason);
@@ -419,3 +427,21 @@ Meteor.startup(function(){
         });
     }
 });
+
+addPowiadomienieAplikacjaRespondMethod=function(idKwestia,dataWprowadzenia,typ,idReceiver){
+    var newPowiadomienie ={
+        idOdbiorca: idReceiver,
+        idNadawca: null,
+        dataWprowadzenia: dataWprowadzenia,
+        tytul: "",
+        powiadomienieTyp: typ,
+        tresc: "",
+        idKwestia:idKwestia,
+        czyAktywny: true,
+        czyOdczytany:false
+    };
+    Meteor.call("addPowiadomienie",newPowiadomienie,function(error){
+        if(error)
+            console.log(error.reason);
+    });
+};

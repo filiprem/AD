@@ -62,6 +62,8 @@ Template.administracjaUserMain.helpers({
         return ile > 0 ? true : false;
     },
     myData:function(){
+        console.log("my data");
+        console.log(Users.findOne({_id:Meteor.userId()}));
         return Users.findOne({_id:Meteor.userId()});
     },
     myKwestia:function(){

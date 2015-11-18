@@ -214,7 +214,9 @@ Template.informacjeKwestia.helpers({
     ZRComplete:function(){
         var zespol=null;
         if(this.zespol) {//kwestia archiwalna lub w koszu
-            zespol = zespol.czlonkowie;
+            zespol = this.zespol.czlonkowie;
+            console.log("uwagaaaaaaaaaaaaaaaaaaaaaa");
+            console.log(zespol.czlonkowie);
             return zespol.length >= 3 ? true : false;
         }
         else
