@@ -100,7 +100,6 @@ Template.editUserForm.events({
                 firstName: $(e.target).find('[name=firstName]').val(),
                 lastName: $(e.target).find('[name=lastName]').val(),
                 fullName: $(e.target).find('[name=firstName]').val() + ' ' + $(e.target).find('[name=lastName]').val(),
-                profession: $(e.target).find('[name=profession]').val(),
                 address: $(e.target).find('[name=address]').val(),
                 zip: $(e.target).find('[name=zipCode]').val(),
                 phone: $(e.target).find('[name=phone]').val(),

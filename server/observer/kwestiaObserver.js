@@ -75,8 +75,10 @@ Meteor.startup(function(){
                             Meteor.call('updateStatusDataOczekwianiaKwestii', newKwestia._id, KWESTIA_STATUS.OCZEKUJACA,new Date(),function(error){
                                 if(error)
                                     console.log(error.reason);
-                                else
-                                    Meteor.call("sendEmailHonorowyInvitation", UsersDraft.findOne({_id:newKwestia.idUser}),"honorowyInvitation");
+                                else {
+                                    addPowiadomienieAplikacjaObsRespondMethod(newKwestia._id,new Date(),NOTIFICATION_TYPE.HONOROWY_INVITATION,userDraft.profile.idUser,newKwestia.idUser);
+                                    Meteor.call("sendEmailHonorowyInvitation", UsersDraft.findOne({_id: newKwestia.idUser}), "honorowyInvitation");
+                                }
                             });
                         }
                     });
@@ -96,8 +98,11 @@ Meteor.startup(function(){
                 }
             }
 
-            if(newKwestia.status == KWESTIA_STATUS.REALIZOWANA && newKwestia.wartoscPriorytetuWRealizacji < (-newKwestia.wartoscPriorytetu && newKwestia.czyAktywny==true)){
+            if(newKwestia.status == KWESTIA_STATUS.REALIZOWANA && newKwestia.wartoscPriorytetuWRealizacji < ((-1)*newKwestia.wartoscPriorytetu) && newKwestia.czyAktywny==true){
                 console.log("REALIZOWANA->KOSZ gdy osiagnie minusowy priorytet:");
+                console.log(newKwestia.wartoscPriorytetuWRealizacji);
+                console.log(-newKwestia.wartoscPriorytetu);
+
                 Meteor.call('removeKwestiaSetReason', newKwestia._id,KWESTIA_ACTION.NEGATIVE_PRIORITY,function(error) {
                     if(!error) {
                         if (newKwestia.idZespolRealizacyjny) {
@@ -116,7 +121,7 @@ Meteor.startup(function(){
                             if(userDraft.profile.idUser!=null) {
                                 var user = Users.findOne({_id:userDraft.profile.idUser});
                                 console.log("to jest existing user- powiadom o negatywnej w powiadomieniach");
-                                addPowiadomienieAplikacjaRespondMethod(newKwestia._id,new Date(),NOTIFICATION_TYPE.APPLICATION_REJECTED,user._id);
+                                addPowiadomienieAplikacjaObsRespondMethod(newKwestia._id,new Date(),NOTIFICATION_TYPE.APPLICATION_REJECTED,user._id,null);
                             }
                         }
 
@@ -259,8 +264,8 @@ Meteor.startup(function(){
     moveKwestiaToGlosowana=function(newKwestia,ZRDraft,ifUpdateZR){//tu spirawdzic godziny. i warunek blokujacy wejscie kwestii do glosowania!
         if(kwestiaAllowedToGlosowana()) {//jezeli deliberowana vote w bosrverrze,gdy ta opuscila i wpuszczmy nowe- to obśługa zr musi by!
             var czasGlosowania = Parametr.findOne({}).voteDuration;
-            var final = moment(new Date()).add(czasGlosowania, "minutes").format();//do testów tylko!!
-            //var final = moment(new Date()).add(czasGlosowania, "hours").format();
+            var final = moment(new Date()).add(czasGlosowania, "hours").format();//do testów tylko!!
+            //var final = moment(new Date()).add(czasGlosowania, "hours").format();//orginal one
             var start = new Date();
             console.log(newKwestia._id);
             console.log(final);
@@ -269,6 +274,7 @@ Meteor.startup(function(){
                 if(error)
                     console.log(error.reason);
             });
+            Meteor.call("sendEmailStartedVoting",newKwestia._id);
         }
     };
     setInQueueToVote=function(kwestie,numberKwestieAvailable){
@@ -428,7 +434,7 @@ Meteor.startup(function(){
     }
 });
 
-addPowiadomienieAplikacjaRespondMethod=function(idKwestia,dataWprowadzenia,typ,idReceiver){
+addPowiadomienieAplikacjaObsRespondMethod=function(idKwestia,dataWprowadzenia,typ,idReceiver,idUserDraft){
     var newPowiadomienie ={
         idOdbiorca: idReceiver,
         idNadawca: null,
@@ -437,6 +443,7 @@ addPowiadomienieAplikacjaRespondMethod=function(idKwestia,dataWprowadzenia,typ,i
         powiadomienieTyp: typ,
         tresc: "",
         idKwestia:idKwestia,
+        idUserDraft:idUserDraft,
         czyAktywny: true,
         czyOdczytany:false
     };

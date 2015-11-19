@@ -11,22 +11,30 @@ SSR.compileTemplate('email_application_accepted',Assets.getText('email_applicati
 SSR.compileTemplate('email_application_accepted_existing_user',Assets.getText('email_application_accepted_existing_user.html'));
 SSR.compileTemplate('email_login_data',Assets.getText('email_login_data.html'));
 
-Template.email_started_voting.nadanoPriorytet= function (kwestiaId,userId) {
-    var kwestia = Kwestia.findOne(kwestiaId);
-    if (kwestia) {
-        var g = kwestia.glosujacy;
-        for (var i = 0; i < g.length; i++) {
-            if (userId == g[i].idUser) {
-                if (g[i].value > 0) {
-                    g[i].value = "+" + g[i].value;
-                    return g[i].value;
-                }
-                else
-                    return g[i].value;
-            }
+Template.email_started_voting.helpers({
+    nadanoPriorytet: function (kwestiaId,userId) {
+        console.log("metodkaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        console.log(kwestiaId);
+        console.log(userId);
+        var kwestia = Kwestia.findOne({_id:kwestiaId});
+
+        if (kwestia) {
+            var glosujacy = _.pluck(kwestia.glosujacy, 'idUser');
+            return (_.contains(glosujacy, userId)) ? true : false;
         }
+        return false;
+    },
+    mojPriorytet: function (kwestiaId,userId) {
+        console.log("metodkaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        console.log(kwestiaId);
+        console.log(userId);
+        var kwestia = Kwestia.findOne({_id:kwestiaId});
+        var myObj= _.reject(kwestia.glosujacy,function(obj){return obj.idUser!=userId});
+        console.log("my obj:");
+        console.log(myObj);
+        return myObj[0] ? myObj[0].value : null;
     }
-}
+});
 
 Meteor.methods({
     registerAddKwestiaNotification: function(prop){
@@ -191,23 +199,41 @@ Meteor.methods({
         this.unblock();
         var parametr = Parametr.findOne({});
         var kwestiaItem = Kwestia.findOne({_id:idKwestia});
-        var rodzaj = Rodzaj.findOne({_id:kwestiaItem.idRodzaj});
-        var temat = Temat.findOne({_id:kwestiaItem.idTemat});
+        var temat=null;
+        var rodzaj=null;
+        if(kwestiaItem.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE){
+            temat="techniczna systemowa";
+            rodzaj="techniczna systemowa";
+        }
+        else {
+            rodzaj = Rodzaj.findOne({_id: kwestiaItem.idRodzaj}).nazwaRodzaj;
+            temat = Temat.findOne({_id: kwestiaItem.idTemat}).nazwaTemat;
+        }
+        var urlLogin=Meteor.absoluteUrl()+"account/login";
+        var url=Meteor.absoluteUrl()+'issue_info/'+kwestiaItem._id;
+        var kworum=null;
+        if(rodzaj=="Statutowe")
+            kworum=liczenieKworumStatutowe();
+        else
+            kworum=liczenieKworumZwykle();
         Users.find({}).forEach(function(item) {
-            if (!Roles.userIsInRole(item, ['admin'])) {
+            if (!Roles.userIsInRole(item, ['admin']) && item.profile.userType==USERTYPE.CZLONEK) {
                 var html = SSR.render('email_started_voting',{
                     welcomeGender:recognizeSex(item),
-                    username:item.username,
+                    username:item.profile.fullName,
                     organizacja: parametr.nazwaOrganizacji,
-                    szczegolyKwestii: kwestiaItem.szczegolowaTresc,
+                    szczegolyKwestii: kwestiaItem.krotkaTresc,
                     nazwaKwestii: kwestiaItem.kwestiaNazwa,
                     idKwestii:kwestiaItem._id,
-                    dataGlosowania:kwestiaItem.dataGlosowania,
-                    rodzaj: rodzaj.nazwaRodzaj,
-                    temat: temat.nazwaTemat,
+                    dataGlosowania:moment(kwestiaItem.dataGlosowania).format("DD-MM-YYYY, HH:mm"),
+                    rodzaj: rodzaj,
+                    idUser:item._id,
+                    temat: temat,
                     wartoscPriorytetu:kwestiaItem.wartoscPriorytetu,
                     glosujacy:kwestiaItem.glosujacy.length,
-                    kworum: liczenieKworumZwykle()
+                    kworum: kworum,
+                    urlLogin:urlLogin,
+                    url:url
                 });
                 Email.send({
                     to: item.emails[0].address,
@@ -253,7 +279,7 @@ Meteor.methods({
         Email.send({
             to: data.to,
             from: data.to,
-            subject: "Akceptacja aplikacji na stanowisko "+data.userType,
+            subject: "Pozytywne rozpatrzenie wniosku aplikacyjnego na stanowisko "+data.userType,
             html: data.html
         });
     },

@@ -17,8 +17,16 @@
                     {{/if}}
                     {{#if notificationTypeApplicationConfirmationAcceptedRejected}}
                         {{>notificationApplicationAnswer
-                        idPowiadomienie=this._id
+                            idPowiadomienie=this._id
                         }}
+                    {{/if}}
+                    {{#if notificationTypeHonorowyInvitation}}
+                        {{>notificationHonorowyInvitation
+                        idPowiadomienie=this._id}}
+                    {{/if}}
+                    {{#if notificationTypeVoteStarted}}
+                        {{>notificationVoteStarted
+                        idPowiadomienie=this._id}}
                     {{/if}}
                  </table>
                 <button id="backToNotificationList" class="btn btn-primary">
@@ -90,20 +98,38 @@
                     Aby zobaczyć szczegóły kwestii kliknij <a href="{{pathFor 'informacjeKwestia'}}">tutaj</a>
                 {{/with}}
             {{else}}
-                {{#if applicationRejected}}
-                    {{organisationName}}, do której wstąpiłeś jako {{userTypeData}} nie zaakceptowała Twojego wniosku.<br/>
-                    Możesz zgłosić ten problem odwołując się do ogółu.<br/>
-                    Zapytania i uwagi możesz kierować <a href="{{url}}">tutaj</a> <br/><br />
-                {{else}}
-                    Z radością informujemy,że Twoja aplikacja na stanowisko {{userTypeData}} w systemie AD {{organizacja}} <br />
-                    została rozpatrzona pozytywnie.
-                {{/if}}
+                {{#with actualKwestia this.idKwestia}}
+                    {{#if applicationRejected}}
+                        {{organisationName}}, do której wstąpiłeś jako {{userTypeData}} nie zaakceptowała Twojego wniosku.<br/>
+                        Możesz zgłosić ten problem odwołując się do ogółu.<br/>
+                        Zapytania i uwagi możesz kierować <a href="{{url}}">tutaj</a> <br/><br />
+                    {{else}}
+                        Z radością informujemy,że Twoja aplikacja na stanowisko {{userTypeData}} w systemie AD {{organisationName}} <br />
+                        została rozpatrzona pozytywnie.
+                    {{/if}}
+                {{/with}}
             {{/if}}
             <br /><br />
             Logowanie do systemu: <a href="{{pathFor 'home'}}"> Zaloguj</a>
     {{/with}}
 </template>
 
+<template name="notificationHonorowyInvitation">
+    {{#with powiadomienie idPowiadomienie}}
+        <div>Aktywna Demokracja</div>
+        <div>{{organisationName}}</div>
+        Szanowny/a {{userData}}! <br /><br />
+
+        Zostałeś zaproszony do aplikowania na stanowisko Członka Honorowego w systemie AD {{organisationName}}.<br />
+        Aby potwierdzić / odrzucić chęć aplikowania na powyższe stanowisko kliknij
+        {{#with actualUserDraft this.idUserDraft}}
+            <a href={{pathFor 'answer_invitation'}}>tutaj</a>.<br/>
+        {{/with}}
+
+        <br /><br />
+        Logowanie do systemu: <a href="{{pathFor 'home'}}"> Zaloguj</a>
+    {{/with}}
+</template>
 
 <template name="notificationLobbingMessage">
     {{#with powiadomienie idPowiadomienie}}
@@ -125,4 +151,8 @@
             Dziękuję!<br/>
             {{sender}}
     {{/with}}
+</template>
+
+<template name="notificationVoteStarted">
+    <!--to finish-->
 </template>

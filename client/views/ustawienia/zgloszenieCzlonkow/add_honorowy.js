@@ -42,13 +42,19 @@ Template.addHonorowy.events({
         });
         console.log("id user!");
         console.log(idUser);
-
+        var firstName="";
+        var lastName="";
+        if(idUser!=null){
+            var user=Users.findOne({_id:idUser});
+            firstName=user.profile.firstName,
+            lastName=user.profile.lastName
+        }
         var newUserDraft = [
             {
                 email: email,
                 login: "",
-                firstName: "",
-                lastName: "",
+                firstName: firstName,
+                lastName: lastName,
                 role: 'user',
                 uwagi: $(e.target).find('[name=uzasadnienie]').val(),
                 userType: USERTYPE.HONOROWY,
@@ -100,7 +106,7 @@ addKwestiaOsobowaHonorowy=function(idUserDraft,newUser){
                 {
                     idUser: idUserDraft,
                     dataWprowadzenia: new Date(),
-                    kwestiaNazwa: 'Aplikowanie na stanowisko członka honorowego' ,
+                    kwestiaNazwa: 'Aplikowanie na stanowisko Członka Honorowego' ,
                     wartoscPriorytetu: 0,
                     wartoscPriorytetuWRealizacji: 0,
                     sredniaPriorytet: 0,
@@ -108,7 +114,7 @@ addKwestiaOsobowaHonorowy=function(idUserDraft,newUser){
                     idRodzaj: Rodzaj.findOne({})._id,
                     idZespolRealizacyjny: ret,
                     dataGlosowania: null,
-                    krotkaTresc: 'Aplikowanie do systemu na stanowisko Członka Honorowego '+ newUser[0].email,
+                    krotkaTresc: 'Aplikowanie do systemu na stanowisko Członka Honorowego: '+ newUser[0].email,
                     szczegolowaTresc: daneAplikanta,
                     isOption: false,
                     status: KWESTIA_STATUS.STATUSOWA,
@@ -141,3 +147,4 @@ addKwestiaOsobowaHonorowy=function(idUserDraft,newUser){
         }
     });
 };
+

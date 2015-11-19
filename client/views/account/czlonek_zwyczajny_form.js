@@ -118,6 +118,7 @@ Template.czlonekZwyczajnyForm.events({
     'click #statutBootbox':function(){
         bootbox.dialog({
             message: getRegulamin(),
+            //TAP.i18n("_ addKwestiaForm.legend"),
             title: "Statut organizacji "+getNazwaOrganizacji(),
             buttons: {
                 main: {
@@ -137,7 +138,7 @@ Template.czlonekZwyczajnyForm.helpers({
         return getEmail(this);
     },
     isNotEmpty: function () {
-        return Meteor.userId() ? "readonly" : "";
+        return Meteor.userId() ? "disabled" : "";
     },
     nazwaOrganizacji:function(){
         return Parametr.findOne() ? Parametr.findOne().nazwaOrganizacji :"Aktywna Demokraca";

@@ -21,6 +21,12 @@ Template.notificationInfo.helpers({
     notificationTypeLobbingMessage:function(){
         return this.powiadomienieTyp==NOTIFICATION_TYPE.LOOBBING_MESSAGE ? true : false;
     },
+    notificationTypeHonorowyInvitation:function(){
+        return this.powiadomienieTyp==NOTIFICATION_TYPE.HONOROWY_INVITATION ? true : false;
+    },
+    notificationTypeVoteStarted:function(){
+        return this.powiadomienieTyp==NOTIFICATION_TYPE.VOTE_BEGINNING ? true : false;
+    },
     notificationTypeApplicationConfirmationAcceptedRejected:function(){
         return _.contains([NOTIFICATION_TYPE.APPLICATION_CONFIRMATION,NOTIFICATION_TYPE.APPLICATION_ACCEPTED,
             NOTIFICATION_TYPE.APPLICATION_REJECTED ],this.powiadomienieTyp)? true : false;
@@ -109,7 +115,22 @@ Template.notificationApplicationAnswer.helpers({
         return this.powiadomienieTyp==NOTIFICATION_TYPE.APPLICATION_REJECTED? true : false;
     },
     userTypeData:function(){
-        return this.typ==KWESTIA_TYPE.ACCESS_ZWYCZAJNY ? "Członka Zwyczajnego" : "(do uzupełnienia)";
+        return this.typ==KWESTIA_TYPE.ACCESS_ZWYCZAJNY ? "Członka Zwyczajnego" : "Członka Honorowego";
+    }
+});
+
+Template.notificationHonorowyInvitation.helpers({
+    powiadomienie:function(idPowiadomienie){
+        return getNotification(idPowiadomienie);
+    },
+    actualUserDraft:function(idUserDraft){
+        return getUserDraft(idUserDraft);
+    },
+    userData:function(){
+        return Meteor.user().profile.fullName;
+    },
+    organisationName:function(){
+        return Parametr.findOne().nazwaOrganizacji;
     }
 });
 
@@ -157,4 +178,7 @@ getNotification=function(idPowiadomienie){
 };
 getIssue=function(idKwestia){
     return Kwestia.findOne({_id:idKwestia}) ? Kwestia.findOne({_id:idKwestia}) :null;
+};
+getUserDraft=function(idUserDraft){
+    return UsersDraft.findOne({_id:idUserDraft}) ? UsersDraft.findOne({_id:idUserDraft}) :null;
 };
