@@ -119,7 +119,6 @@ Template.addKwestiaForm.events({
                     dataWprowadzenia: new Date(),
                     kwestiaNazwa: $(e.target).find('[name=kwestiaNazwa]').val(),
                     wartoscPriorytetu: 0,
-                    sredniaPriorytet: 0,
                     temat: $(e.target).find('[name=sugerowanyTemat]').val(),
                     rodzaj: $(e.target).find('[name=sugerowanyRodzaj]').val(),
                     krotkaTresc: $(e.target).find('[name=krotkaTresc]').val(),

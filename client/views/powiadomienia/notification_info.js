@@ -170,6 +170,66 @@ Template.notificationLobbingMessage.helpers({
     }
 });
 
+Template.notificationVoteStarted.helpers({
+    powiadomienie:function(idPowiadomienie){
+        return getNotification(idPowiadomienie);
+    },
+    actualKwestia:function(idKwestia){
+        return getIssue(idKwestia);
+    },
+    welcomeGender:function(){
+        return recognizeSexMethod(Meteor.user());
+    },
+    userData:function(){
+        return Meteor.user().profile.fullName;
+    },
+    organisationName:function(){
+        return Parametr.findOne().nazwaOrganizacji;
+    },
+    sender:function(){
+        var user=Users.findOne({_id:this.idNadawca});
+        return user? user.profile.fullName : null;
+    },
+    temat:function(){
+        if(this.kwestia.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE)
+            return "techniczna systemowa";
+        else
+            var temat=Temat.findOne({_id:this.kwestia.idTemat});
+        return temat? temat.nazwaTemat : "";
+    },
+    rodzaj:function(){
+        if(this.kwestia.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE)
+            return "techniczna systemowa";
+        else
+            var rodzaj=Rodzaj.findOne({_id:this.kwestia.idRodzaj});
+        return rodzaj? rodzaj.nazwaRodzaj : "";
+    },
+    nadanoPriorytet:function(idOdbiorca){
+        var glosujacy= _.pluck(this.kwestia.glosujacy,'idUser');
+        return _.contains(glosujacy,idOdbiorca) ? true : false;
+    },
+    mojPriorytet:function(idOdbiorca){
+        var myObj= _.reject(this.kwestia.glosujacy,function(obj){return obj.idUser!=idOdbiorca});
+        console.log("my obj:");
+        console.log(myObj);
+        return myObj[0] ? myObj[0].value : null;
+    },
+    dataGlosowania:function(){
+        return formatDate(this.kwestia.dataGlosowania);
+    },
+    attendance:function(){
+        return this.kwestia.glosujacy.length;
+    },
+    kworum:function(){
+        if(this.kwestia.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE)
+            return liczenieKworumZwykle();
+        else {
+            var rodzaj = Rodzaj.findOne({_id: this.kwestia.idRodzaj});
+            return rodzaj.rodzajNazwa=="Statutowe" ? liczenieKworumStatutowe() : liczenieKworumZwykle();
+        }
+        return rodzaj? rodzaj.nazwaRodzaj : "";
+    }
+});
 formatDate=function(date){
     return moment(date).format("DD-MM-YYYY, HH:mm");
 };

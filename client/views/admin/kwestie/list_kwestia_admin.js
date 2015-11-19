@@ -40,18 +40,6 @@ Template.listKwestiaAdmin.helpers({
                     }
                 },
                 {
-                    key: 'sredniaPriorytet',
-                    label: Template.listKwestiaAdminColumnLabel,
-                    labelData: {title: "Kliknij, aby zmienić swój priorytet dla tej Kwestii", text: "Priorytet"},
-                    tmpl: Template.priorytetKwestia,
-                    sortOrder: 1,
-                    sortDirection: 'descending',
-                    cellClass: function () {
-                        var css = 'tableCellsFont';
-                        return css;
-                    }
-                },
-                {
                     key: 'temat_id',
                     label: "Temat",
                     tmpl: Template.tematKwestia,

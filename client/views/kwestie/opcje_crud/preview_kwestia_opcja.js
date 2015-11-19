@@ -37,7 +37,6 @@ Template.previewKwestiaOpcja.events({
             kwestiaNazwa: kwestia.kwestiaNazwa,
             wartoscPriorytetu: 0,
             wartoscPriorytetuWRealizacji: 0,
-            sredniaPriorytet: 0,
             idTemat: kwestia.idTemat,
             idRodzaj: kwestia.idRodzaj,
             dataDyskusji: kwestia.dataDyskusji,

@@ -13,9 +13,6 @@ SSR.compileTemplate('email_login_data',Assets.getText('email_login_data.html'));
 
 Template.email_started_voting.helpers({
     nadanoPriorytet: function (kwestiaId,userId) {
-        console.log("metodkaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-        console.log(kwestiaId);
-        console.log(userId);
         var kwestia = Kwestia.findOne({_id:kwestiaId});
 
         if (kwestia) {

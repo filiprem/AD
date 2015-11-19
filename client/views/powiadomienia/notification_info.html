@@ -154,5 +154,35 @@
 </template>
 
 <template name="notificationVoteStarted">
-    <!--to finish-->
+    {{#with powiadomienie idPowiadomienie}}
+        <div>Aktywna Demokracja</div>
+        <div>{{organisationName}}</div>
+        {{welcomeGender}} {{userData}}! <br /><br />
+
+        Informujemy o trwającej procedurze głosowania Kwestii: {{kwestia.kwestiaNazwa}}<br/>
+        <b>Temat:</b> {{temat}},<br/>
+        <b>Rodzaj:</b> {{rodzaj}}<br/>
+        dotyczącej:<b>{{kwestia.krotkaTresc}}</b> <br/><br/>
+
+        <b>Zakończenie głosowania:</b> {{dataGlosowania}}<br/><br/>
+
+        {{#if nadanoPriorytet idOdbiorca}}
+            Dziękujemy za głosowanie!<br/>
+            <b>Nadany priorytet:</b> {{mojPriorytet idOdbiorca}}<br/>
+            Możesz jeszcze zmienić jego wielkość zanim zakończy się głosowanie.<br/><br/>
+        {{else}}
+            {{#with actualKwestia this.idKwestia}}
+                <b>Nie zagłosowałaś/eś jeszcze w tej Kwestii, zapraszamy: <a href="{{pathFor 'informacjeKwestia'}}">
+                    Link do Kwestii</a>
+                </b><br/>
+            {{/with}}
+        {{/if}}
+
+        <b>Aktualna siła priorytetu:</b> {{kwestia.wartoscPriorytetu}}<br/>
+        <b>Wymagane kworum:</b> {{kworum}} osób / aktualna obecność: {{attendance}}<br/><br/>
+
+        Jest to automatyczna informacja z systemu AD {{organizacja}}<br/>
+        Nie odpowiadaj na nią.<br/>
+        Logowanie do systemu: <a href="{{urlLogin}}">Zaloguj</a><br/>
+    {{/with}}
 </template>

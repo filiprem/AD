@@ -274,6 +274,7 @@ Meteor.startup(function(){
                 if(error)
                     console.log(error.reason);
             });
+            addPowiadomienieKwestiaGlosowanaMethod(newKwestia._id);
             Meteor.call("sendEmailStartedVoting",newKwestia._id);
         }
     };
@@ -450,5 +451,28 @@ addPowiadomienieAplikacjaObsRespondMethod=function(idKwestia,dataWprowadzenia,ty
     Meteor.call("addPowiadomienie",newPowiadomienie,function(error){
         if(error)
             console.log(error.reason);
+    });
+};
+
+addPowiadomienieKwestiaGlosowanaMethod=function(idKwestia){
+    var users=Users.find({'profile.userType':USERTYPE.CZLONEK});
+    var kwestia=Kwestia.findOne({_id:idKwestia});
+    users.forEach(function(user){
+        var newPowiadomienie ={
+            idOdbiorca: user._id,
+            idNadawca: null,
+            dataWprowadzenia: new Date(),
+            tytul: "",
+            powiadomienieTyp: NOTIFICATION_TYPE.VOTE_BEGINNING,
+            tresc: "",
+            idKwestia:idKwestia,
+            kwestia:kwestia,
+            czyAktywny: true,
+            czyOdczytany:false
+        };
+        Meteor.call("addPowiadomienie",newPowiadomienie,function(error){
+            if(error)
+                console.log(error.reason);
+        });
     });
 };

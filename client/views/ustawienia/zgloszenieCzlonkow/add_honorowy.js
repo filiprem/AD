@@ -109,7 +109,6 @@ addKwestiaOsobowaHonorowy=function(idUserDraft,newUser){
                     kwestiaNazwa: 'Aplikowanie na stanowisko Członka Honorowego' ,
                     wartoscPriorytetu: 0,
                     wartoscPriorytetuWRealizacji: 0,
-                    sredniaPriorytet: 0,
                     idTemat: Temat.findOne({})._id,
                     idRodzaj: Rodzaj.findOne({})._id,
                     idZespolRealizacyjny: ret,

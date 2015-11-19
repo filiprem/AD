@@ -200,7 +200,6 @@ addKwestiaOsobowa=function(idUserDraft,newUser,user){
                     kwestiaNazwa: 'Aplikowanie- ' + newUser[0].firstName + " " + newUser[0].lastName,
                     wartoscPriorytetu: 0,
                     wartoscPriorytetuWRealizacji:0,
-                    sredniaPriorytet: 0,
                     idTemat: Temat.findOne({})._id,
                     idRodzaj: Rodzaj.findOne({})._id,
                     idZespolRealizacyjny:ret,

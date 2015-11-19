@@ -37,7 +37,7 @@ Template.kosz.helpers({
                     tmpl: Template.nazwaKwestiLink
                 },
                 {
-                    key: 'sredniaPriorytet',
+                    key: 'wartoscPriorytetu',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
                         //title: "Kliknij, aby zmienić swój priorytet dla tej Kwestii",

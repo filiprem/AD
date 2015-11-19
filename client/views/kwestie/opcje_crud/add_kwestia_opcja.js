@@ -89,7 +89,6 @@ Template.addKwestiaOpcjaForm.events({
                 kwestiaNazwa: $(e.target).find('[name=kwestiaNazwa]').val(),
                 wartoscPriorytetu: 0,
                 wartoscPriorytetuWRealizacji: 0,
-                sredniaPriorytet: 0,
                 status: parentKwestia.status,
                 idTemat: parentKwestia.idTemat,
                 idRodzaj: parentKwestia.idRodzaj,

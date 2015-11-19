@@ -291,28 +291,6 @@ Template.id.helpers({
 
 Template.priorytetKwestia.helpers({
     priorytet: function () {
-        //var searchedId = this._id;
-        //var kwe = Kwestia.findOne({_id: this._id});
-        //if (kwe) {
-        //    var glosy = kwe.glosujacy.slice();
-        //    var myGlos;
-        //    _.each(glosy, function (glos) {
-        //        if (glos.idUser == Meteor.userId()) {
-        //            myGlos = glos.value;
-        //        }
-        //    });
-        //    var p = this.wartoscPriorytetu;
-        //    if (p) {
-        //        if (p > 0) p = " +" + p;
-        //        if (myGlos) {
-        //            if (myGlos > 0) myGlos = " +" + myGlos;
-        //        }
-        //        else
-        //            myGlos = 0;
-        //        return p + " / " + myGlos;
-        //    }
-        //    else return 0 + " / " + 0;
-        //}
         var kwe = Kwestia.findOne({_id: this._id});
         if (kwe) {
             var p = this.wartoscPriorytetu;
