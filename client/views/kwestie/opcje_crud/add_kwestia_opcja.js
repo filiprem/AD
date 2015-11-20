@@ -76,9 +76,6 @@ Template.addKwestiaOpcjaForm.events({
         Meteor.setTimeout(function () {
             document.getElementById("submitAddKwestiaOpcja").disabled = false;
             var eventForm = $(e.target);
-            //var idParentKwestii = Session.get("idKwestia");
-            var dataG = new Date();
-            var d = dataG.setDate(dataG.getDate() + 7);
             var szczegolowaTresc = null;
             if (parentIssue.status == KWESTIA_STATUS.OSOBOWA) {
                 szczegolowaTresc = parentIssue.szczegolowaTresc;
@@ -86,20 +83,15 @@ Template.addKwestiaOpcjaForm.events({
             }
             else
                 szczegolowaTresc = $(e.target).find('[name=szczegolowaTresc]').val();
-
             var newKwestiaOpcja = [{
                 idUser: Meteor.userId(),
                 dataWprowadzenia: new Date(),
                 kwestiaNazwa: $(e.target).find('[name=kwestiaNazwa]').val(),
                 wartoscPriorytetu: 0,
                 wartoscPriorytetuWRealizacji: 0,
-                sredniaPriorytet: 0,
                 status: parentIssue.status,
                 idTemat: parentIssue.idTemat,
                 idRodzaj: parentIssue.idRodzaj,
-                idZespolRealizacyjny: parentIssue.idZespolRealizacyjny,
-                dataDyskusji: new Date(),
-                dataGlosowania: d,
                 krotkaTresc: $(e.target).find('[name=krotkaTresc]').val(),
                 szczegolowaTresc: szczegolowaTresc,
                 idParent: parentIssue._id,

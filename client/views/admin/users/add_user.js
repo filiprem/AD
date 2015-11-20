@@ -69,7 +69,6 @@ Template.addUserForm.events({
                 confirm_password: $(e.target).find('[name=confirmPassword]').val(),
                 firstName: $(e.target).find('[name=firstName]').val(),
                 lastName: $(e.target).find('[name=lastName]').val(),
-                profession: $(e.target).find('[name=profession]').val(),
                 phone: $(e.target).find('[name=phone]').val(),
                 dateOfBirth: $(e.target).find('[name=dateOfBirth]').val(),
                 address: $(e.target).find('[name=address]').val(),

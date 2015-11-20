@@ -1,24 +1,26 @@
-Aktywna Demokracja
-{{ogranizacja}}
+Aktywna Demokracja<br/>
+{{organizacja}}<br/><br/>
 
-Szanowna/y {{username}}!
+{{welcomeGender}} {{username}}!<br/><br/>
 
-Informujemy o trwającej procedurze głosowania Kwestii: {{nazwaKwestii}}
-Temat: {{temat}}, Rodzaj: {{rodzaj}}
-dotyczącej: {{szczegolyKwestii}}
+Informujemy o trwającej procedurze głosowania Kwestii: {{nazwaKwestii}}<br/>
+<b>Temat:</b> {{temat}},<br/>
+<b>Rodzaj:</b> {{rodzaj}}<br/>
+dotyczącej:<b>{{szczegolyKwestii}}</b> <br/><br/>
 
-Zakończenie głosowania: {{dataGlosowania}}
+<b>Zakończenie głosowania:</b> {{dataGlosowania}}<br/><br/>
 
 {{#if nadanoPriorytet idKwestii idUser}}
-Dziękujemy za głosowanie!
-Nadany priorytet: {{nadanoPriorytet idKwestii idUser}}
-Możesz jeszcze zmienić jego wielkość zanim zakończy się głosowanie.
+    Dziękujemy za głosowanie!<br/>
+    <b>Nadany priorytet:</b> {{mojPriorytet idKwestii idUser}}<br/>
+    Możesz jeszcze zmienić jego wielkość zanim zakończy się głosowanie.<br/><br/>
 {{else}}
-Nie zagłosowałaś/eś jeszcze w tej Kwestii, zapraszamy: <a href="ad-test2.meteor.com/issue_info/{{idKwestii}}">Link do Kwestii</a>
+    <b>Nie zagłosowałaś/eś jeszcze w tej Kwestii, zapraszamy: <a href={{url}}>Link do Kwestii</a></b><br/>
 {{/if}}
-Aktualna siła priorytetu: {{wartoscPriorytetu}}
-Wymagane kworum: {{kworum}} osób / aktualna obecność: {{glosujacy}}
 
-Jest to automatyczna informacja z systemu AD {{organizacja}}
-Nie odpowiadaj na nią.
-Logowanie do systemu: <a href="ad-test2.meteor.com/account/login">Zaloguj</a>
+<b>Aktualna siła priorytetu:</b> {{wartoscPriorytetu}}<br/>
+<b>Wymagane kworum:</b> {{kworum}} osób / aktualna obecność: {{glosujacy}}<br/><br/>
+
+Jest to automatyczna informacja z systemu AD {{organizacja}}<br/>
+Nie odpowiadaj na nią.<br/>
+Logowanie do systemu: <a href="{{urlLogin}}">Zaloguj</a><br/>

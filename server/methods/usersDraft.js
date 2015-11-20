@@ -7,7 +7,6 @@ Meteor.methods({
                 firstName: newUser[0].firstName,
                 lastName: newUser[0].lastName,
                 fullName: newUser[0].firstName + ' ' + newUser[0].lastName,
-                profession: newUser[0].profession,
                 address: newUser[0].address,
                 zip: newUser[0].zip,
                 language:newUser[0].language,
@@ -39,7 +38,7 @@ Meteor.methods({
     removeUserDraft: function(id){
         UsersDraft.update({_id:id},{$set:{czyAktywny: false,czyZrealizowany:true}});
     },
-    removeUserDraftNotZrealizowany: function(id,licznik){
+    removeUserDraftNotZrealizowany: function(id){
         UsersDraft.update({_id:id},{$set:{czyAktywny: false,czyZrealizowany:false}});
     },
     removeUserDraftNotZrealizowanyLicznik: function(id,licznik){

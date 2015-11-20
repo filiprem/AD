@@ -145,23 +145,36 @@ Meteor.startup(function(){
                                             //sprawdzamy czy ten ,który aplikował jeszcze jest w systemie!czyAktywny==true
                                             //if(user.profile.czyAktywny==true) {
                                                 //if (user.profile.userType == USERTYPE.DORADCA) {//sprawdzamy cz ten wcześniej nie aplikował i już ma zmienione
-                                                    Meteor.call("updateUserType",user._id,userDraft.profile.userType,function(error){
+                                            var newUserFields=null;
+                                            var text=null;
+                                            if(kwestia.typ==KWESTIA_TYPE.ACCESS_ZWYCZAJNY) {
+                                                newUserFields = {
+                                                    address: userDraft.profile.address,
+                                                    zip: userDraft.profile.zip,
+                                                    language: userDraft.profile.language,
+                                                    userType: userDraft.profile.userType,
+                                                    rADking: 0,
+                                                    pesel: userDraft.profile.pesel
+                                                };
+                                                text="rewriteFromDraftToUser";
+                                            }
+                                            else if(kwestia.typ==KWESTIA_TYPE.ACCESS_HONOROWY){
+                                                newUserFields=userDraft.profile.userType;
+                                                text="updateUserType";
+                                            }
+                                            Meteor.call(text,user._id,newUserFields,function(error){
+                                                if(!error){
+                                                    Meteor.call("removeUserDraft",userDraft._id,function(error){
                                                         if(!error){
-                                                            Meteor.call("removeUserDraft",userDraft._id,function(error){
-                                                                if(!error){
-                                                                    Meteor.call("sendApplicationAccepted",user,"acceptExisting",function(error){
-                                                                       if(error)
-                                                                           console.log(error.reason);
-                                                                    });
-                                                                }
+                                                            addPowiadomienieAplikacjaRespondMethodPosts(kwestia._id,new Date(),NOTIFICATION_TYPE.APPLICATION_ACCEPTED,user._id);
+                                                            Meteor.call("sendApplicationAccepted",userDraft,"acceptExisting",function(error){
+                                                                if(error)
+                                                                    console.log(error.reason);
                                                             });
                                                         }
                                                     });
-                                                //}
-                                                //else{
-
-                                                //}
-                                            //}
+                                                }
+                                            });
                                         }
                                     }
                                     else {//zupełnie nowy członek systemu
@@ -169,10 +182,12 @@ Meteor.startup(function(){
                                         if (userDraft) {
                                             Meteor.call("setZrealizowanyActivationHashUserDraft", userDraft._id, activationLink, true, function (error, ret) {
                                                 (!error)
-                                                Meteor.call("sendApplicationAccepted", UsersDraft.findOne({_id: userDraft._id}),"acceptNew",function(error){
-                                                    (!error)
-                                                        Meteor.cal("updateLicznikKlikniec",userDraft._id,0);
-                                                });
+                                                {
+                                                    Meteor.call("sendApplicationAccepted", UsersDraft.findOne({_id: userDraft._id}), "acceptNew", function (error) {
+                                                        (!error)
+                                                        Meteor.cal("updateLicznikKlikniec", userDraft._id, 0);
+                                                    });
+                                                }
                                             });
                                         }
                                     }
@@ -181,6 +196,11 @@ Meteor.startup(function(){
                         });
                         break;
                 }
+            }
+            else{
+                //obsluga gdy, komentarz specjalny nie spełni kworum i prior
+                //gdy "zrealizowana"->kosz
+                //gdy "kosz","do archiwum"->nic?
             }
         }
     });
@@ -224,5 +244,23 @@ Meteor.startup(function(){
             else
                 rewriteZRMembersToList(zespolRealizacyjny, newKwestia);
         }
+    };
+
+    addPowiadomienieAplikacjaRespondMethodPosts=function(idKwestia,dataWprowadzenia,typ,idReceiver){
+        var newPowiadomienie ={
+            idOdbiorca: idReceiver,
+            idNadawca: null,
+            dataWprowadzenia: dataWprowadzenia,
+            tytul: "",
+            powiadomienieTyp: typ,
+            tresc: "",
+            idKwestia:idKwestia,
+            czyAktywny: true,
+            czyOdczytany:false
+        };
+        Meteor.call("addPowiadomienie",newPowiadomienie,function(error){
+            if(error)
+                console.log(error.reason);
+        });
     };
 });

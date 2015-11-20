@@ -9,7 +9,6 @@ Meteor.methods({
                 firstName: newUser[0].firstName,
                 lastName: newUser[0].lastName,
                 fullName: newUser[0].firstName + ' ' + newUser[0].lastName,
-                profession: newUser[0].profession,
                 address: newUser[0].address,
                 zip: newUser[0].zip,
                 // role: newUser[0].role,
@@ -57,5 +56,23 @@ Meteor.methods({
             content: newEmail[0].content
         });
         return id;
+    },
+    rewriteFromDraftToUser: function(currentUserId,fields) {
+        Users.update({_id:currentUserId}, {$set: {
+            'profile.address': fields.address,
+            'profile.zip': fields.zip,
+            'profile.language': fields.language,
+            'profile.userType': fields.userType,
+            'profile.rADking': fields.rADking,
+            'profile.pesel': fields.pesel
+        }});
     }
+    //var newUserFields={
+    //    address:userDraft.profile.address,
+    //    zip:userDraft.profile.zip,
+    //    language:userDraft.profile.language,
+    //    userType:userDraft.profile.userType,
+    //    rADking:0,
+    //    pesel:userDraft.profile.pesel
+    //};
 });

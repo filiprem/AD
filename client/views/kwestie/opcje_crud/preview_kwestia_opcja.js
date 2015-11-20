@@ -33,11 +33,10 @@ Template.previewKwestiaOpcja.events({
         //var idParentKwestii = Session.get("idKwestia");
         var newKwestiaOpcja = [{
             idUser: Meteor.userId(),
-            dataWprowadzenia: moment(new Date()).format(),
+            dataWprowadzenia: new Date(),
             kwestiaNazwa: kwestia.kwestiaNazwa,
             wartoscPriorytetu: 0,
             wartoscPriorytetuWRealizacji: 0,
-            sredniaPriorytet: 0,
             idTemat: kwestia.idTemat,
             idRodzaj: kwestia.idRodzaj,
             dataDyskusji: kwestia.dataDyskusji,
@@ -49,7 +48,8 @@ Template.previewKwestiaOpcja.events({
             szczegolowaTresc: kwestia.szczegolowaTresc,
             idParent: kwestia.idParent,
             isOption: true,
-            idZespolRealizacyjny:kwestia.idZespolRealizacyjny
+            idZespolRealizacyjny:kwestia.idZespolRealizacyjny,
+            typ:kwestia.typ
         }];
         console.log(newKwestiaOpcja[0]);
         var methodToCall=null;
@@ -65,6 +65,7 @@ Template.previewKwestiaOpcja.events({
                 }
             }
             else {
+                Meteor.call("sendEmailAddedIssue", ret);
                 addPowiadomienieBasicOptionIssueFunction(ret,newKwestiaOpcja[0].dataWprowadzenia);
                 var userKwestia= Meteor.userId();
                 var newValue=0;

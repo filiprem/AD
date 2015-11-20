@@ -136,13 +136,6 @@ Template.informacjeKwestiaArchiwum.helpers({
             return liczba;
         }
     },
-    srednia: function () {
-        var s = this.sredniaPriorytet;
-        if (s) {
-            var ss = s.toFixed(2);
-            return ss;
-        }
-    },
     nazwa: function () {
         var currentKwestiaId = this._id;
         var tab = Kwestia.findOne(currentKwestiaId);

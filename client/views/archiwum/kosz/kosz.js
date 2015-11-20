@@ -20,8 +20,8 @@ Template.kosz.helpers({
                     key: 'dataGlosowania',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        title: "Koniec g³osowania Kwestii",
-                        text: "Koniec g³osowania"
+                        title: "Koniec gÅ‚osowania Kwestii",
+                        text: "Koniec gÅ‚osowania"
                     },
                     tmpl: Template.dataKoniecKwestia,
                     sortOrder: 0,
@@ -31,16 +31,16 @@ Template.kosz.helpers({
                     key: 'kwestiaNazwa',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        //title: "Kliknij, aby zobaczyæ szczegó³y",
+                        //title: "Kliknij, aby zobaczyÄ‡ szczegÃ³Å‚y",
                         text: "Nazwa Kwestii"
                     },
                     tmpl: Template.nazwaKwestiLink
                 },
                 {
-                    key: 'sredniaPriorytet',
+                    key: 'wartoscPriorytetu',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        //title: "Kliknij, aby zmieniæ swój priorytet dla tej Kwestii",
+                        //title: "Kliknij, aby zmieniÄ‡ swÃ³j priorytet dla tej Kwestii",
                         text: "Priorytet"
                     },
                     tmpl: Template.priorytetKwestia,
@@ -53,8 +53,8 @@ Template.kosz.helpers({
                 //    key: 'dataGlosowania',
                 //    label: Template.listKwestiaColumnLabel,
                 //    labelData: {
-                //        title: "Data zakoñczenia g³osowania",
-                //        text: "Fina³"
+                //        title: "Data zakoÅ„czenia gÅ‚osowania",
+                //        text: "FinaÅ‚"
                 //    },
                 //    tmpl: Template.dataGlKwestia
                 //}

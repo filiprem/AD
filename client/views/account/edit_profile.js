@@ -72,7 +72,6 @@ Template.profileEdit.events({
                     firstName: $(e.target).find('[name=name]').val(),
                     lastName: $(e.target).find('[name=surname]').val(),
                     fullName: $(e.target).find('[name=name]').val() + ' ' + $(e.target).find('[name=surname]').val(),
-                    profession: $(e.target).find('[name=profession]').val(),
                     address: $(e.target).find('[name=address]').val(),
                     zip: $(e.target).find('[name=zipcode]').val(),
                     gender: $(e.target).find('[name=genderRadios]:checked').val(),

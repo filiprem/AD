@@ -53,7 +53,7 @@ Meteor.startup(function(){
     moveKwestiaToGlosowana=function(newKwestia,ZRDraft,ifUpdateZR){//tu spirawdzic godziny. i warunek blokujacy wejscie kwestii do glosowania!
         if(kwestiaAllowedToGlosowana()) {//jezeli deliberowana vote w bosrverrze,gdy ta opuscila i wpuszczmy nowe- to obœ³uga zr musi by!
             var czasGlosowania = Parametr.findOne({}).voteDuration;
-            var final = moment(new Date()).add(czasGlosowania, "minutes").format();//do testów tylko!!
+            var final = moment(new Date()).add(czasGlosowania, "hours").format();//do testów tylko!!
             //var final = moment(new Date()).add(czasGlosowania, "hours").format();
             var start = new Date();
             console.log(newKwestia._id);
@@ -63,6 +63,33 @@ Meteor.startup(function(){
                 if(error)
                     console.log(error.reason);
             });
+            Meteor.call("sendEmailStartedVoting",newKwestia._id);
+            addPowiadomienieKwestiaGlosowanaMethod(newKwestia._id);
         }
     };
+
+    addPowiadomienieKwestiaGlosowanaMethod=function(idKwestia){
+        var users=Users.find({'profile.userType':USERTYPE.CZLONEK});
+        var kwestia=Kwestia.findOne({_id:idKwestia});
+        users.forEach(function(user){
+            var newPowiadomienie ={
+                idOdbiorca: user._id,
+                idNadawca: null,
+                dataWprowadzenia: new Date(),
+                tytul: "",
+                powiadomienieTyp: NOTIFICATION_TYPE.VOTE_BEGINNING,
+                tresc: "",
+                idKwestia:idKwestia,
+                kwestia:kwestia,
+                czyAktywny: true,
+                czyOdczytany:false
+            };
+            Meteor.call("addPowiadomienie",newPowiadomienie,function(error){
+                if(error)
+                    console.log(error.reason);
+            });
+        });
+    };
 });
+
+

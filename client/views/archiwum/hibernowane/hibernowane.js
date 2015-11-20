@@ -40,7 +40,7 @@ Template.hibernowaneList.helpers({
                     tmpl: Template.nazwaKwestiiHibernowaneLink
                 },
                 {
-                    key: 'sredniaPriorytet',
+                    key: 'wartoscPriorytetu',
                     label: Template.listKwestiaAdminColumnLabel,
                     labelData: {
                         //title: "Kliknij, aby zmieniæ swój priorytet dla tej Kwestii",

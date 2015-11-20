@@ -106,10 +106,6 @@ Template.czlonekZwyczajnyForm.events({
             //-- generowanie loginu dla użytkownika
             newUser[0].login = generateLogin(newUser[0].firstName, newUser[0].lastName);
 
-            //var found=checkExistsUser(newUser[0].email,USERTYPE.DORADCA,USERTYPE.HONOROWY);
-            //if(found==true){
-            //    aplikujConfirmation("członkiem zwyczajnym",newUser);
-            //}
             addUserDraft(newUser);
 
             console.log("Dodany członek: ");
@@ -122,6 +118,7 @@ Template.czlonekZwyczajnyForm.events({
     'click #statutBootbox':function(){
         bootbox.dialog({
             message: getRegulamin(),
+            //TAP.i18n("_ addKwestiaForm.legend"),
             title: "Statut organizacji "+getNazwaOrganizacji(),
             buttons: {
                 main: {
@@ -141,7 +138,7 @@ Template.czlonekZwyczajnyForm.helpers({
         return getEmail(this);
     },
     isNotEmpty: function () {
-        return Meteor.userId() ? "readonly" : "";
+        return Meteor.userId() ? "disabled" : "";
     },
     nazwaOrganizacji:function(){
         return Parametr.findOne() ? Parametr.findOne().nazwaOrganizacji :"Aktywna Demokraca";
@@ -203,7 +200,6 @@ addKwestiaOsobowa=function(idUserDraft,newUser,user){
                     kwestiaNazwa: 'Aplikowanie- ' + newUser[0].firstName + " " + newUser[0].lastName,
                     wartoscPriorytetu: 0,
                     wartoscPriorytetuWRealizacji:0,
-                    sredniaPriorytet: 0,
                     idTemat: Temat.findOne({})._id,
                     idRodzaj: Rodzaj.findOne({})._id,
                     idZespolRealizacyjny:ret,
@@ -227,6 +223,10 @@ addKwestiaOsobowa=function(idUserDraft,newUser,user){
                         Router.go("home");
                     przyjecieWnioskuConfirmation(Parametr.findOne().czasWyczekiwaniaKwestiiSpecjalnej,daneAplikanta.email,"członkowstwo");
                     addPowiadomienieAplikacjaIssueFunction(ret,newKwestia[0].dataWprowadzenia);
+                    if(newUser[0].idUser!=null){//jezeli istnieje juz ten użtykownik,jest doradcą,to wyślij mu confirmation w powiad
+                        console.log("existing user,so wysyłamy do niego confirmation w powiadomienia");
+                        addPowiadomienieAplikacjaRespondFunction(ret,newKwestia[0].dataWprowadzenia,NOTIFICATION_TYPE.APPLICATION_CONFIRMATION);
+                    }
                     Meteor.call("sendApplicationConfirmation", user,function(error){
                         if(!error) {
                             Meteor.call("sendEmailAddedIssue", ret);
@@ -244,10 +244,13 @@ addKwestiaOsobowa=function(idUserDraft,newUser,user){
 addPowiadomienieAplikacjaIssueFunction=function(idKwestia,dataWprowadzenia){
     var users=Users.find({'profile.userType':USERTYPE.CZLONEK});
     //var kwestia=Kwestia.findOne({_id:idKwestia});
+    var idNadawca=null;
+    if(Meteor.userId())
+        idNadawca=Meteor.userId();
     users.forEach(function(user){
         var newPowiadomienie ={
             idOdbiorca: user._id,
-            idNadawca: null,
+            idNadawca: idNadawca,
             dataWprowadzenia: dataWprowadzenia,
             tytul: "",
             powiadomienieTyp: NOTIFICATION_TYPE.NEW_ISSUE,
@@ -260,5 +263,23 @@ addPowiadomienieAplikacjaIssueFunction=function(idKwestia,dataWprowadzenia){
             if(error)
                 console.log(error.reason);
         })
+    });
+};
+
+addPowiadomienieAplikacjaRespondFunction=function(idKwestia,dataWprowadzenia,typ){
+    var newPowiadomienie ={
+        idOdbiorca: Meteor.userId(),
+        idNadawca: null,
+        dataWprowadzenia: dataWprowadzenia,
+        tytul: "",
+        powiadomienieTyp: typ,
+        tresc: "",
+        idKwestia:idKwestia,
+        czyAktywny: true,
+        czyOdczytany:false
+    };
+    Meteor.call("addPowiadomienie",newPowiadomienie,function(error){
+        if(error)
+            console.log(error.reason);
     });
 };

@@ -141,7 +141,7 @@ checkingEndOfVote = function() {
                 }
                 else {
                     console.log("admnistrowna/deliberowana w glosowaniu->kosz");
-                    Meteor.call('removeKwestia', kwestia._id);
+
 
                     //dla kwestii osobowych akcesyjnych bezpośrednich:
                     //powiadom o negatywnej decyzji
@@ -162,6 +162,12 @@ checkingEndOfVote = function() {
                         }
                         var userDraft=UsersDraft.findOne({_id:kwestia.idUser});
                         if(userDraft) {
+                            //jezeli to jest existing user- powiadom o negatywnej w powiadomieniach
+                            if(userDraft.profile.idUser!=null) {
+                                var user = Users.findOne({_id:userDraft.profile.idUser});
+                                console.log("to jest existing user- powiadom o negatywnej w powiadomieniach");
+                                addPowiadomienieAplikacjaRespondMethod(kwestia._id,new Date(),NOTIFICATION_TYPE.APPLICATION_REJECTED,user._id);
+                            }
                             Meteor.call("sendApplicationRejected",userDraft,function(error,ret){
                                 (!error)
                                     Meteor.call("removeUserDraft",userDraft);
@@ -169,7 +175,10 @@ checkingEndOfVote = function() {
                             //set userDraft to false
                             //ad to kwestia idUserDraft
                         }
+
                     }
+                    Meteor.call('removeKwestiaSetReason', kwestia._id,KWESTIA_ACTION.NEGATIVE_PRIORITY_VOTE);
+                    Meteor.call('removeUserDraftNotZrealizowany',userDraft._id);
                 }
             }
         }
@@ -356,4 +365,22 @@ hibernateKwestieOpcje=function(kwestia){
             }
         });
     }
+};
+
+addPowiadomienieAplikacjaRespondMethod=function(idKwestia,dataWprowadzenia,typ,idReceiver){
+    var newPowiadomienie ={
+        idOdbiorca: idReceiver,
+        idNadawca: null,
+        dataWprowadzenia: dataWprowadzenia,
+        tytul: "",
+        powiadomienieTyp: typ,
+        tresc: "",
+        idKwestia:idKwestia,
+        czyAktywny: true,
+        czyOdczytany:false
+    };
+    Meteor.call("addPowiadomienie",newPowiadomienie,function(error){
+        if(error)
+            console.log(error.reason);
+    });
 };

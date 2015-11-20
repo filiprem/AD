@@ -40,7 +40,7 @@ Template.archiwumList.helpers({
                     tmpl: Template.nazwaKwestiiArchiwumLink
                 },
                 {
-                    key: 'sredniaPriorytet',
+                    key: 'wartoscPriorytetu',
                     label: Template.listKwestiaAdminColumnLabel,
                     labelData: {title: "Kliknij, aby zmienić swój priorytet dla tej Kwestii", text: "Priorytet"},
                     tmpl: Template.priorytetKwestia,

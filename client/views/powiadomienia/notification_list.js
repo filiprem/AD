@@ -58,10 +58,10 @@ getTopicTypeNotification=function(powiadomienieTyp,idNadawca,idKwestia){
     console.log(idNadawca);
     switch(powiadomienieTyp){
         case NOTIFICATION_TYPE.MESSAGE_FROM_USER:{
-            var user=Users.findOne({_id:idNadawca});
+            var user = Users.findOne({_id: idNadawca});
             return powiadomienieTyp+" "+ user.profile.fullName;break;
         }
-        case NOTIFICATION_TYPE.NEW_ISSUE:{
+        case NOTIFICATION_TYPE.NEW_ISSUE:{//sth wrong,when applies guest
             var kwestia=Kwestia.findOne({_id:idKwestia});
             return powiadomienieTyp +": "+kwestia.kwestiaNazwa;break;
         }

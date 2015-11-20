@@ -15,6 +15,19 @@
                         {{>notificationLobbingMessage
                         idPowiadomienie=this._id}}
                     {{/if}}
+                    {{#if notificationTypeApplicationConfirmationAcceptedRejected}}
+                        {{>notificationApplicationAnswer
+                            idPowiadomienie=this._id
+                        }}
+                    {{/if}}
+                    {{#if notificationTypeHonorowyInvitation}}
+                        {{>notificationHonorowyInvitation
+                        idPowiadomienie=this._id}}
+                    {{/if}}
+                    {{#if notificationTypeVoteStarted}}
+                        {{>notificationVoteStarted
+                        idPowiadomienie=this._id}}
+                    {{/if}}
                  </table>
                 <button id="backToNotificationList" class="btn btn-primary">
                     <span class="fa fa-arrow-left"></span> Powrót do powiadomień
@@ -38,9 +51,20 @@
             <td><b>Tytuł:</b></td>
             <td>{{tytul}}</td><br/>
         </tr>
+        &nbsp;
+        <tr><b>Treść:</b></tr>
         <tr>
-            <td><b>Treść:</b></td>
-            <td>{{tresc}}</td><br/>
+            <td>
+                Aktywna Demokracja<br />
+                {{organisationName}}<br />
+
+                {{welcomeGender}} {{userData}}!<br /><br />
+
+                {{tresc}}<br /><br/>
+
+                Pozdrawiam,<br/>
+                {{sender}}
+            </td><br/>
         </tr>
     {{/with}}
 </template>
@@ -61,7 +85,52 @@
         {{/with}}
     {{/with}}
 </template>
-<!--to finish-->
+
+<template name="notificationApplicationAnswer">
+    {{#with powiadomienie idPowiadomienie}}
+            <div>Aktywna Demokracja</div>
+            <div>{{organisationName}}</div>
+            {{welcomeGender}} {{userData}}! <br /><br />
+
+            {{#if applicationConfirmation}}
+                {{#with actualKwestia this.idKwestia}}
+                    Dziękujemy za aplikowanie na stanowisko Członka Zwyczajnego w systemie AD {{organisationName}}.<br />
+                    Aby zobaczyć szczegóły kwestii kliknij <a href="{{pathFor 'informacjeKwestia'}}">tutaj</a>
+                {{/with}}
+            {{else}}
+                {{#with actualKwestia this.idKwestia}}
+                    {{#if applicationRejected}}
+                        {{organisationName}}, do której wstąpiłeś jako {{userTypeData}} nie zaakceptowała Twojego wniosku.<br/>
+                        Możesz zgłosić ten problem odwołując się do ogółu.<br/>
+                        Zapytania i uwagi możesz kierować <a href="{{url}}">tutaj</a> <br/><br />
+                    {{else}}
+                        Z radością informujemy,że Twoja aplikacja na stanowisko {{userTypeData}} w systemie AD {{organisationName}} <br />
+                        została rozpatrzona pozytywnie.
+                    {{/if}}
+                {{/with}}
+            {{/if}}
+            <br /><br />
+            Logowanie do systemu: <a href="{{pathFor 'home'}}"> Zaloguj</a>
+    {{/with}}
+</template>
+
+<template name="notificationHonorowyInvitation">
+    {{#with powiadomienie idPowiadomienie}}
+        <div>Aktywna Demokracja</div>
+        <div>{{organisationName}}</div>
+        Szanowny/a {{userData}}! <br /><br />
+
+        Zostałeś zaproszony do aplikowania na stanowisko Członka Honorowego w systemie AD {{organisationName}}.<br />
+        Aby potwierdzić / odrzucić chęć aplikowania na powyższe stanowisko kliknij
+        {{#with actualUserDraft this.idUserDraft}}
+            <a href={{pathFor 'answer_invitation'}}>tutaj</a>.<br/>
+        {{/with}}
+
+        <br /><br />
+        Logowanie do systemu: <a href="{{pathFor 'home'}}"> Zaloguj</a>
+    {{/with}}
+</template>
+
 <template name="notificationLobbingMessage">
     {{#with powiadomienie idPowiadomienie}}
         {{#with actualKwestia this.idKwestia}}
@@ -69,29 +138,51 @@
             <div>{{organisationName}}</div>
             {{welcomeGender}} {{userData}}! <br /><br />
 
-            Zachęcam Cię do wsparcia Kwestii: <b><a href="{{url}}">{{nazwaKwestii}}</a></b> <br />
+            <div>Zachęcam Cię do wsparcia Kwestii: <b><a href="{{pathFor 'informacjeKwestia'}}">{{kwestiaNazwa}}</a></b></div> <br />
+
+            <b>Temat:</b> {{temat}}<br />
+            <b>Rodzaj:</b> {{rodzaj}} <br /><br />
 
             <b>Szczegóły:</b> <br />
-            {{krotkaTresc}} <b>{{title}}</b> z :<br />
-            {{oldValue}} na<br />
-            {{newValue}} <br/>><br />
-
+            {{krotkaTresc}}<br /><br />
+        {{/with}}
             <b>Uzasadnienie:</b><br/>
             {{uzasadnienie}}<br/><br/>
-
             Dziękuję!<br/>
-            {{imie}} {{nazwisko}}
+            {{sender}}
+    {{/with}}
+</template>
 
-            <div>Aktywna Demokracja</div>
-            <div>{{organisationName}}</div>
-            {{welcomeGender}} {{userData}}! <br /><br />
-            Do systemu AD wprowadzono nową Kwestię: <b>{{kwestiaNazwa}}</b><br />
-            <b>Temat:</b> {{temat}}<br/>
-            <b>Rodzaj:</b> {{rodzaj}}<br />
-            dotyczącą: <b>{{krotkaTresc}}</b> <br /><br />
+<template name="notificationVoteStarted">
+    {{#with powiadomienie idPowiadomienie}}
+        <div>Aktywna Demokracja</div>
+        <div>{{organisationName}}</div>
+        {{welcomeGender}} {{userData}}! <br /><br />
 
-            Zapraszamy do deliberacji tej Kwestii, dyskusji i nadania priorytetu. <br />
-            <a href="{{pathFor 'informacjeKwestia'}}">Link do Kwestii</a>
-        {{/with}}
+        Informujemy o trwającej procedurze głosowania Kwestii: {{kwestia.kwestiaNazwa}}<br/>
+        <b>Temat:</b> {{temat}},<br/>
+        <b>Rodzaj:</b> {{rodzaj}}<br/>
+        dotyczącej:<b>{{kwestia.krotkaTresc}}</b> <br/><br/>
+
+        <b>Zakończenie głosowania:</b> {{dataGlosowania}}<br/><br/>
+
+        {{#if nadanoPriorytet idOdbiorca}}
+            Dziękujemy za głosowanie!<br/>
+            <b>Nadany priorytet:</b> {{mojPriorytet idOdbiorca}}<br/>
+            Możesz jeszcze zmienić jego wielkość zanim zakończy się głosowanie.<br/><br/>
+        {{else}}
+            {{#with actualKwestia this.idKwestia}}
+                <b>Nie zagłosowałaś/eś jeszcze w tej Kwestii, zapraszamy: <a href="{{pathFor 'informacjeKwestia'}}">
+                    Link do Kwestii</a>
+                </b><br/>
+            {{/with}}
+        {{/if}}
+
+        <b>Aktualna siła priorytetu:</b> {{kwestia.wartoscPriorytetu}}<br/>
+        <b>Wymagane kworum:</b> {{kworum}} osób / aktualna obecność: {{attendance}}<br/><br/>
+
+        Jest to automatyczna informacja z systemu AD {{organizacja}}<br/>
+        Nie odpowiadaj na nią.<br/>
+        Logowanie do systemu: <a href="{{urlLogin}}">Zaloguj</a><br/>
     {{/with}}
 </template>

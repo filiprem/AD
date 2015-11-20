@@ -1,5 +1,5 @@
 Template.answerInvitation.rendered=function(){
-    var userDraft=getUserDraft(Router.current().params);
+    var userDraft=getUserDraftMethod(Router.current().params);
     var kwestia=getKwestia(Router.current().params);
     var licznik=userDraft.licznikKlikniec+1;
     if(kwestia.isAnswerPositive!=null) {
@@ -34,11 +34,11 @@ Template.answerInvitation.helpers({
 
     },
     fullName:function(){
-        var userDraft=getUserDraft(Router.current().params);
+        var userDraft=getUserDraftMethod(Router.current().params);
         return userDraft.profile.firstName+" "+userDraft.profile.lastName;
     },
     position:function(){
-        var userDraft=getUserDraft(Router.current().params);
+        var userDraft=getUserDraftMethod(Router.current().params);
         console.log(userDraft.profile.userType);
         if(userDraft.profile.userType==USERTYPE.HONOROWY)
         return "członka honorowego";
@@ -48,7 +48,7 @@ Template.answerInvitation.helpers({
     },
     answeredNow:function(){
         var kwestia=getKwestia(Router.current().params);
-        var userDraft=getUserDraft(Router.current().params);
+        var userDraft=getUserDraftMethod(Router.current().params);
         return (kwestia.isAnswerPositive==true || kwestia.isAnswerPositive==false) && userDraft.licznikKlikniec<=1 ? true : false;
     },
     ansPos:function(){
@@ -57,16 +57,16 @@ Template.answerInvitation.helpers({
     },
     answerPositive:function(){
         var kwestia=getKwestia(Router.current().params);
-        var userDraft=getUserDraft(Router.current().params);
+        var userDraft=getUserDraftMethod(Router.current().params);
         return kwestia.isAnswerPositive==true &&  userDraft.licznikKlikniec>1  ? true : false;
     },
     answerNegative:function(){
         var kwestia=getKwestia(Router.current().params);
-        var userDraft=getUserDraft(Router.current().params);
+        var userDraft=getUserDraftMethod(Router.current().params);
         return kwestia.isAnswerPositive==false &&  userDraft.licznikKlikniec>1  ? true : false;
     },
     url:function(){
-        var userDraft=getUserDraft(Router.current().params);
+        var userDraft=getUserDraftMethod(Router.current().params);
         return("/issueInfo/")
     },
     actualKwestia:function(){
@@ -97,7 +97,7 @@ Template.answerInvitation.events({
 
        Meteor.call('removeZespolRealizacyjnyDraft',kwestia.idZespolRealizacyjny,function(error){
            if(!error){
-               var userDraft=getUserDraft(Router.current().params);
+               var userDraft=getUserDraftMethod(Router.current().params);
                var counter=userDraft.licznikKlikniec+1;
                 Meteor.call("updateLicznikKlikniec",userDraft._id,counter,function(error){
                     if(!error)
@@ -111,7 +111,7 @@ Template.answerInvitation.events({
         //kwestia idzie do kosza,przepisz ZR
         //dodać pole reason
         var kwestia=getKwestia(Router.current().params);
-        var userDraft=getUserDraft(Router.current().params);
+        var userDraft=getUserDraftMethod(Router.current().params);
 
         console.log("draft!!");
         console.log(userDraft);
@@ -145,7 +145,7 @@ getKwestia=function(currentRoute){
     var kwestia=Kwestia.findOne({idUser:userDraft._id});
     return kwestia? kwestia: null;
 };
-getUserDraft=function(currentRoute){
+getUserDraftMethod=function(currentRoute){
     var userDraft=UsersDraft.findOne({linkAktywacyjny:currentRoute.linkAktywacyjny});
     return userDraft ? userDraft : null;
 };

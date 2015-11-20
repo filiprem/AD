@@ -181,7 +181,6 @@ addKwestia=function(idTemat,idRodzaj,isOption,kwestia){
         kwestiaNazwa: kwestia.kwestiaNazwa,
         wartoscPriorytetu: 0,
         wartoscPriorytetuWRealizacji: 0,
-        sredniaPriorytet: 0,
         idTemat: idTemat,
         idRodzaj: idRodzaj,
         dataDyskusji: kwestia.dataDyskusji,

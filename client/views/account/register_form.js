@@ -95,7 +95,6 @@ Template.registerForm.events({
                 lastName: $(e.target).find('[name=lastName]').val(),
                 password: $(e.target).find('[name=password]').val(),
                 confirm_password: $(e.target).find('[name=confirmPassword]').val(),
-                profession: $(e.target).find('[name=profession]').val(),
                 address: $(e.target).find('[name=address]').val(),
                 zip: $(e.target).find('[name=zipCode]').val(),
                 role: 'user',
