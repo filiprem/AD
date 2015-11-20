@@ -126,74 +126,75 @@ Meteor.startup(function(){
                     case POSTS_TYPES.ZREALIZOWANA:
                         console.log("kwestia realizowana->zrealizowana");
 
-                        Meteor.call('updateStatusKwestii', newPost.idKwestia, KWESTIA_STATUS.ZREALIZOWANA,function(error){
-                            if(!error){
-                                var kwestia=Kwestia.findOne({_id:newPost.idKwestia});
-                                if(kwestia.idZespolRealizacyjny){
-                                    if(kwestia.idZespolRealizacyjny!=null)
-                                        manageZR(kwestia);
-                                }
-                                if(_.contains([KWESTIA_TYPE.ACCESS_DORADCA,KWESTIA_TYPE.ACCESS_ZWYCZAJNY,KWESTIA_TYPE.ACCESS_HONOROWY],kwestia.typ)) {
-                                    var userDraft = UsersDraft.findOne({_id: kwestia.idUser});
+                        //Meteor.call('updateStatusKwestii', newPost.idKwestia, KWESTIA_STATUS.ZREALIZOWANA,function(error){
+                        //    if(!error){
+                        //        var kwestia=Kwestia.findOne({_id:newPost.idKwestia});
+                        //        if(kwestia.idZespolRealizacyjny){
+                        //            if(kwestia.idZespolRealizacyjny!=null)
+                        //                manageZR(kwestia);
+                        //        }
 
-                                    console.log("contains");
-                                    console.log(userDraft);
-                                    //jezeli userDraft mial idUser=byl juz doradcą,to tylko zmieniamy user type,wysylamy powiadomienie email,updateuserDraft
-                                    if(userDraft.profile.idUser!=null){//moze todotyczyc apliakcji istniejacego na czlonka lub honorowego
-                                        var user=Users.findOne({_id:userDraft.profile.idUser});
-                                        if(user){
-                                            //sprawdzamy czy ten ,który aplikował jeszcze jest w systemie!czyAktywny==true
-                                            //if(user.profile.czyAktywny==true) {
-                                                //if (user.profile.userType == USERTYPE.DORADCA) {//sprawdzamy cz ten wcześniej nie aplikował i już ma zmienione
-                                            var newUserFields=null;
-                                            var text=null;
-                                            if(kwestia.typ==KWESTIA_TYPE.ACCESS_ZWYCZAJNY) {
-                                                newUserFields = {
-                                                    address: userDraft.profile.address,
-                                                    zip: userDraft.profile.zip,
-                                                    language: userDraft.profile.language,
-                                                    userType: userDraft.profile.userType,
-                                                    rADking: 0,
-                                                    pesel: userDraft.profile.pesel
-                                                };
-                                                text="rewriteFromDraftToUser";
-                                            }
-                                            else if(kwestia.typ==KWESTIA_TYPE.ACCESS_HONOROWY){
-                                                newUserFields=userDraft.profile.userType;
-                                                text="updateUserType";
-                                            }
-                                            Meteor.call(text,user._id,newUserFields,function(error){
-                                                if(!error){
-                                                    Meteor.call("removeUserDraft",userDraft._id,function(error){
-                                                        if(!error){
-                                                            addPowiadomienieAplikacjaRespondMethodPosts(kwestia._id,new Date(),NOTIFICATION_TYPE.APPLICATION_ACCEPTED,user._id);
-                                                            Meteor.call("sendApplicationAccepted",userDraft,"acceptExisting",function(error){
-                                                                if(error)
-                                                                    console.log(error.reason);
-                                                            });
-                                                        }
-                                                    });
-                                                }
-                                            });
-                                        }
-                                    }
-                                    else {//zupełnie nowy członek systemu
-                                        var activationLink = CryptoJS.MD5(userDraft._id).toString();
-                                        if (userDraft) {
-                                            Meteor.call("setZrealizowanyActivationHashUserDraft", userDraft._id, activationLink, true, function (error, ret) {
-                                                (!error)
-                                                {
-                                                    Meteor.call("sendApplicationAccepted", UsersDraft.findOne({_id: userDraft._id}), "acceptNew", function (error) {
-                                                        (!error)
-                                                        Meteor.cal("updateLicznikKlikniec", userDraft._id, 0);
-                                                    });
-                                                }
-                                            });
-                                        }
-                                    }
-                                }
-                            }
-                        });
+                                //if(_.contains([KWESTIA_TYPE.ACCESS_DORADCA,KWESTIA_TYPE.ACCESS_ZWYCZAJNY,KWESTIA_TYPE.ACCESS_HONOROWY],kwestia.typ)) {
+                                //    var userDraft = UsersDraft.findOne({_id: kwestia.idUser});
+                                //
+                                //    console.log("contains");
+                                //    console.log(userDraft);
+                                //    //jezeli userDraft mial idUser=byl juz doradcą,to tylko zmieniamy user type,wysylamy powiadomienie email,updateuserDraft
+                                //    if(userDraft.profile.idUser!=null){//moze todotyczyc apliakcji istniejacego na czlonka lub honorowego
+                                //        var user=Users.findOne({_id:userDraft.profile.idUser});
+                                //        if(user){
+                                //            //sprawdzamy czy ten ,który aplikował jeszcze jest w systemie!czyAktywny==true
+                                //            //if(user.profile.czyAktywny==true) {
+                                //                //if (user.profile.userType == USERTYPE.DORADCA) {//sprawdzamy cz ten wcześniej nie aplikował i już ma zmienione
+                                //            var newUserFields=null;
+                                //            var text=null;
+                                //            if(kwestia.typ==KWESTIA_TYPE.ACCESS_ZWYCZAJNY) {
+                                //                newUserFields = {
+                                //                    address: userDraft.profile.address,
+                                //                    zip: userDraft.profile.zip,
+                                //                    language: userDraft.profile.language,
+                                //                    userType: userDraft.profile.userType,
+                                //                    rADking: 0,
+                                //                    pesel: userDraft.profile.pesel
+                                //                };
+                                //                text="rewriteFromDraftToUser";
+                                //            }
+                                //            else if(kwestia.typ==KWESTIA_TYPE.ACCESS_HONOROWY){
+                                //                newUserFields=userDraft.profile.userType;
+                                //                text="updateUserType";
+                                //            }
+                                //            Meteor.call(text,user._id,newUserFields,function(error){
+                                //                if(!error){
+                                //                    Meteor.call("removeUserDraft",userDraft._id,function(error){
+                                //                        if(!error){
+                                //                            addPowiadomienieAplikacjaRespondMethodPosts(kwestia._id,new Date(),NOTIFICATION_TYPE.APPLICATION_ACCEPTED,user._id);
+                                //                            Meteor.call("sendApplicationAccepted",userDraft,"acceptExisting",function(error){
+                                //                                if(error)
+                                //                                    console.log(error.reason);
+                                //                            });
+                                //                        }
+                                //                    });
+                                //                }
+                                //            });
+                                //        }
+                                //    }
+                                //    else {//zupełnie nowy członek systemu
+                                //        var activationLink = CryptoJS.MD5(userDraft._id).toString();
+                                //        if (userDraft) {
+                                //            Meteor.call("setZrealizowanyActivationHashUserDraft", userDraft._id, activationLink, true, function (error, ret) {
+                                //                (!error)
+                                //                {
+                                //                    Meteor.call("sendApplicationAccepted", UsersDraft.findOne({_id: userDraft._id}), "acceptNew", function (error) {
+                                //                        (!error)
+                                //                        Meteor.cal("updateLicznikKlikniec", userDraft._id, 0);
+                                //                    });
+                                //                }
+                                //            });
+                                //        }
+                                //    }
+                                //}
+                        //    }
+                       // });
                         break;
                 }
             }

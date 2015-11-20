@@ -105,6 +105,41 @@ Template.answerInvitation.events({
                 });
            }
        });
+
+       if(kwestia.typ=KWESTIA_TYPE.ACCESS_HONOROWY){
+           var userDraft=getUserDraftMethod(Router.current().params);
+           //jezeli to jest istniejący doradca- email o wynku i update jego statusu
+           if(userDraft.profile.idUser!=null){
+               Meteor.call("updateUserType",userDraft.profile.idUser,userDraft.profile.userType,function(error){
+                   Meteor.call("sendApplicationAccepted", userDraft._id, "acceptExisting", function (error) {
+                       (!error)
+                       {
+                           Meteor.call("removeUserDraft", userDraft._id);
+                       }
+                   });
+               });
+           }
+           //jezeli nowy- to update i email z danymi
+           //to FINISH
+           else{
+               var newUser={
+
+               };
+               //var activationLink = CryptoJS.MD5(userDraft._id).toString();
+               //if (userDraft) {
+               //    Meteor.call("setZrealizowanyActivationHashUserDraft", userDraft._id, activationLink, true, function (error, ret) {
+               //        (!error)
+               //        {
+               //            Meteor.call("sendApplicationAccepted", UsersDraft.findOne({_id: userDraft._id}), "acceptNew", function (error) {
+               //                (!error)
+               //                Meteor.call("updateLicznikKlikniec", userDraft._id, 0);
+               //            });
+               //        }
+               //    });
+               //}
+           }
+       }
+
    },
     'click #refuse':function(e){
         e.preventDefault();

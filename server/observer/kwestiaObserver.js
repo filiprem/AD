@@ -135,7 +135,7 @@ Meteor.startup(function(){
             // //jezeli kwestia idzie do zrealizowana,uwolinij hibernowane
             if(oldKwestia.status != newKwestia.status){
                 console.log("zmiana statusu");
-                if(oldKwestia.status == KWESTIA_STATUS.REALIZOWANA && (newKwestia.status == KWESTIA_STATUS.ZREALIZOWANA || newKwestia.status == KWESTIA_STATUS.ARCHIWALNA)){
+                if(oldKwestia.status == KWESTIAf_STATUS.REALIZOWANA && (newKwestia.status == KWESTIA_STATUS.ZREALIZOWANA || newKwestia.status == KWESTIA_STATUS.ARCHIWALNA)){
                     unhibernateKwestieOpcje(newKwestia);
                 }
 

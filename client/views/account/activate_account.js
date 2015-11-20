@@ -1,6 +1,9 @@
 Template.activateAccount.rendered=function(){
     var currentRoute=Router.current().params;
     var userD=UsersDraft.findOne({linkAktywacyjny:currentRoute.linkAktywacyjny});
+    console.log("User do aktywacji");
+    console.log(currentRoute);
+    console.log(userD);
     var clickedLinkCount=userD.licznikKlikniec+1;
     Meteor.call("updateLicznikKlikniec",userD._id,clickedLinkCount,function(error){
        if(!error){
