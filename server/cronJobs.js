@@ -10,7 +10,7 @@ SyncedCron.add({
     name: 'checking dates crone',
     schedule: function(parser) {
         // parser is a later.parse object
-        return parser.text('every 1 minute');
+        return parser.text('every 30 seconds');
     },
     job: function() {
         return checkingEndOfVote();

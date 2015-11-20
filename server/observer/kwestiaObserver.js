@@ -439,7 +439,10 @@ Meteor.startup(function(){
 
         var kwestieOpcje = Kwestia.find({czyAktywny: true, idParent: kwestia.idParent, status: KWESTIA_STATUS.HIBERNOWANA});
         kwestieOpcje.forEach(function (kwestiaOpcja){
+            if(kwestiaOpcja._id!=kwestia._id) {
+                console.log("update status kwestii opcjii na deliberowana");
                 Meteor.call('updateStatusKwestii', kwestiaOpcja._id, KWESTIA_STATUS.DELIBEROWANA);
+            }
         });
     }
 });
