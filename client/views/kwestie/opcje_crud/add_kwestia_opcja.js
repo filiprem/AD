@@ -72,6 +72,7 @@ Template.addKwestiaOpcjaForm.events({
     'submit form': function (e) {
         e.preventDefault();
         document.getElementById("submitAddKwestiaOpcja").disabled = true;
+        var parentIssue = this;
         Meteor.setTimeout(function () {
             document.getElementById("submitAddKwestiaOpcja").disabled = false;
             var eventForm = $(e.target);
@@ -79,8 +80,8 @@ Template.addKwestiaOpcjaForm.events({
             var dataG = new Date();
             var d = dataG.setDate(dataG.getDate() + 7);
             var szczegolowaTresc = null;
-            if (this.status == KWESTIA_STATUS.OSOBOWA) {
-                szczegolowaTresc = this.szczegolowaTresc;
+            if (parentIssue.status == KWESTIA_STATUS.OSOBOWA) {
+                szczegolowaTresc = parentIssue.szczegolowaTresc;
                 szczegolowaTresc.uwagi = $(e.target).find('[name=szczegolowaTrescUwagi]').val()
             }
             else
@@ -93,19 +94,20 @@ Template.addKwestiaOpcjaForm.events({
                 wartoscPriorytetu: 0,
                 wartoscPriorytetuWRealizacji: 0,
                 sredniaPriorytet: 0,
-                status: this.status,
-                idTemat: this.idTemat,
-                idRodzaj: this.idRodzaj,
-                idZespolRealizacyjny: this.idZespolRealizacyjny,
+                status: parentIssue.status,
+                idTemat: parentIssue.idTemat,
+                idRodzaj: parentIssue.idRodzaj,
+                idZespolRealizacyjny: parentIssue.idZespolRealizacyjny,
                 dataDyskusji: new Date(),
                 dataGlosowania: d,
                 krotkaTresc: $(e.target).find('[name=krotkaTresc]').val(),
                 szczegolowaTresc: szczegolowaTresc,
-                idParent: this._id,
+                idParent: parentIssue._id,
                 isOption: true,
-                numerUchwały: 0,
+                numerUchwały: null,
                 czyAktywny: true,
-                typ: KWESTIA_TYPE.BASIC
+                typ: KWESTIA_TYPE.BASIC,
+                issueNumber: parentIssue.issueNumber
             }];
             console.log("kwestia prev");
             console.log(newKwestiaOpcja[0]);

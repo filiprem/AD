@@ -127,7 +127,11 @@ Meteor.startup(function(){
                 }
 
                 //sprawdzenie czy jakas kwestia opuściła głosowanie,jeśli tak,wpuść inne(zrealizowana dla param glob)
-                if(oldKwestia.status == KWESTIA_STATUS.GLOSOWANA &&(newKwestia.status==KWESTIA_STATUS.ZREALIZOWANA || newKwestia.status==KWESTIA_STATUS.REALIZOWANA)){
+                if(oldKwestia.status == KWESTIA_STATUS.GLOSOWANA &&
+                    (newKwestia.status==KWESTIA_STATUS.ZREALIZOWANA ||
+                    newKwestia.status==KWESTIA_STATUS.REALIZOWANA ||
+                    newKwestia.status==KWESTIA_STATUS.HIBERNOWANA)){
+
                     console.log("hiere reakcja,bo zmiana glosowana-> realizowana");
                     console.log("hiere reakcja,bo zmiana glosowana-> zrealizowana");
 
@@ -142,7 +146,7 @@ Meteor.startup(function(){
                         },
                         {wartoscPriorytetu: {$gt: 0}},
                         {'glosujacy.length': {$gte: liczenieKworumZwykle()}},
-                        {sort: {wartoscPriorytetu: -1}});
+                        {sort: {wartoscPriorytetu: -1, dataWprowadzenia: 1}});
 
                     var arrayKwestie=[];
                     console.log("te kwestie");
@@ -251,6 +255,7 @@ Meteor.startup(function(){
     moveKwestiaToGlosowana=function(newKwestia,ZRDraft,ifUpdateZR){//tu spirawdzic godziny. i warunek blokujacy wejscie kwestii do glosowania!
         if(kwestiaAllowedToGlosowana()) {//jezeli deliberowana vote w bosrverrze,gdy ta opuscila i wpuszczmy nowe- to obśługa zr musi by!
             var czasGlosowania = Parametr.findOne({}).voteDuration;
+            czasGlosowania = 5;
             var final = moment(new Date()).add(czasGlosowania, "minutes").format();//do testów tylko!!
             //var final = moment(new Date()).add(czasGlosowania, "hours").format();
             var start = new Date();

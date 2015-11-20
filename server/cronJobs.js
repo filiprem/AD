@@ -73,11 +73,19 @@ Meteor.startup(function (){
 //sprawdzanie kiedy koniec glosowania i dopowiednie dzzialania-realizacja lub kosz lub sth else
 checkingEndOfVote = function() {
 
-    var actualDate = moment(new Date()).format();
-    var kwestie = Kwestia.find({czyAktywny: true, status: {$in: [KWESTIA_STATUS.GLOSOWANA, KWESTIA_STATUS.OCZEKUJACA]}});
     var pktZaUdzialWZesp = RADKING.UDZIAL_W_ZESPOLE_REALIZACYJNYM;
-    kwestie.forEach(function (kwestia) {
+    var actualDate = moment(new Date()).format();
+    var kwestie = Kwestia.find(
+        {
+            czyAktywny: true,
+            status: {$in: [KWESTIA_STATUS.GLOSOWANA, KWESTIA_STATUS.OCZEKUJACA]}
+        },
+        {
+            sort: {wartoscPriorytetu: -1, dataWprowadzenia: 1}
+        }
+    );
 
+    kwestie.forEach(function (kwestia) {
         if(kwestia.status == KWESTIA_STATUS.GLOSOWANA) {
             if(actualDate >= kwestia.dataGlosowania) {
                 if (kwestia.wartoscPriorytetu > 0) {
@@ -96,7 +104,6 @@ checkingEndOfVote = function() {
                         awansUzytkownika(kwestia.idZespolRealizacyjny, pktZaUdzialWZesp);
                         kwestia.dataRealizacji = new Date();
                         kwestia.numerUchwaly = kwestia.issueNumber;//nadawanieNumeruUchwaly(kwestia.dataRealizacji);
-                        var idZr=kwestia.idZespolRealizacyjny;
                         var zrDraft = ZespolRealizacyjnyDraft.findOne({_id: kwestia.idZespolRealizacyjny});
                         if (zrDraft.idZR != null) {//jezeli draft ma id ZR( kopiuje od istniejącego ZR), to dopisz do kisty ZR tego drafta
                             var ZR = ZespolRealizacyjny.findOne({_id: zrDraft.idZR});
@@ -115,13 +122,10 @@ checkingEndOfVote = function() {
                         Meteor.call('removeZespolRealizacyjnyDraft',kwestia.idZespolRealizacyjny);
 
                         //W przypadku przejścia Kwestii-Opcji do Realizacji - pozostałe Opcje przechodzą na status HIBERNOWANA
-                        //var kwestieOpcje=Kwestia.find({idParent:kwestia.idParent});
-                        //if(kwestieOpcje.count()>0)
-                        //if (kwestia.idParent != kwestia._id)
 
                         if(kwestia.idParent!=null) {
-                            var kwestieOpcje=Kwestia.find({idParent:kwestia.idParent});
-                            if(kwestieOpcje.count()>1)
+                            //var kwestieOpcje=Kwestia.find({idParent:kwestia.idParent});
+                            //if(kwestieOpcje.count()>1)
                                 hibernateKwestieOpcje(kwestia);
                         }
                         //TO BĘDZIE ZREALIZOWANA!
@@ -342,13 +346,14 @@ createNewZR=function(zrDraft,kwestia){
 hibernateKwestieOpcje=function(kwestia){
     kwestieOpcje = Kwestia.find({czyAktywny: true, idParent: kwestia.idParent,
         status:{$in:[KWESTIA_STATUS.GLOSOWANA,KWESTIA_STATUS.DELIBEROWANA]}});
-    console.log("kwestie opcje");
-    console.log(kwestieOpcje);
-    kwestieOpcje.forEach(function (kwestiaOpcja) {
-        if(kwestiaOpcja._id!=kwestia._id) {
-            console.log("update kwestii opcjii");
-            Meteor.call('updateStatusKwestii', kwestiaOpcja._id, KWESTIA_STATUS.HIBERNOWANA);
-        }
-
-    });
+    if(kwestieOpcje.count()>1){
+        console.log("kwestie opcje");
+        console.log(kwestieOpcje);
+        kwestieOpcje.forEach(function (kwestiaOpcja) {
+            if(kwestiaOpcja._id!=kwestia._id) {
+                console.log("update kwestii opcjii");
+                Meteor.call('updateStatusKwestii', kwestiaOpcja._id, KWESTIA_STATUS.HIBERNOWANA);
+            }
+        });
+    }
 };
