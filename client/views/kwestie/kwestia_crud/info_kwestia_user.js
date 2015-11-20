@@ -61,6 +61,18 @@ Template.informacjeKwestia.rendered = function () {
             });
         }
     }
+
+    if(Meteor.userId()) {
+        var myNotifications = Powiadomienie.find({idOdbiorca: Meteor.userId(),
+            powiadomienieTyp:{$in:[NOTIFICATION_TYPE.ISSUE_NO_PRIORITY,NOTIFICATION_TYPE.ISSUE_NO_PRIORITY_REALIZATION]},
+            czyAktywny:true,czyOdczytany:false
+        });
+        myNotifications.forEach(function(powiadomienie){
+           //if(powiadomienie.typ==NOTIFICATION_TYPE.ISSUE_NO_PRIORITY){
+               Meteor.call("setOdczytaneAktywnoscPowiadomienie",powiadomienie._id,true,false);
+          //}
+        });
+    }
 };
 Template.informacjeKwestia.created = function () {
     this.listaCzlonkow = new ReactiveVar();

@@ -1,7 +1,8 @@
 Template.notificationInfo.rendered=function(){
     var powiadomienie=Powiadomienie.findOne({_id:Template.instance().data._id});
     console.log("czy odczytany");
-    if(powiadomienie.czyOdczytany==false)
+    console.log(powiadomienie);
+    if(powiadomienie.czyOdczytany==false && powiadomienie.powiadomienieTyp!=NOTIFICATION_TYPE.ISSUE_NO_PRIORITY)
         Meteor.call("setOdczytanePowiadomienie",powiadomienie._id,true,function(error){
             if(error)
                 console.log(error.reason);
@@ -26,6 +27,9 @@ Template.notificationInfo.helpers({
     },
     notificationTypeVoteStarted:function(){
         return this.powiadomienieTyp==NOTIFICATION_TYPE.VOTE_BEGINNING ? true : false;
+    },
+    notificationTypeNoActivity:function(){
+        return this.powiadomienieTyp==NOTIFICATION_TYPE.ISSUE_NO_PRIORITY ? true : false;
     },
     notificationTypeApplicationConfirmationAcceptedRejected:function(){
         return _.contains([NOTIFICATION_TYPE.APPLICATION_CONFIRMATION,NOTIFICATION_TYPE.APPLICATION_ACCEPTED,
@@ -167,6 +171,24 @@ Template.notificationLobbingMessage.helpers({
         else
             var rodzaj=Rodzaj.findOne({_id:this.idRodzaj});
         return rodzaj? rodzaj.nazwaRodzaj : "";
+    }
+});
+
+Template.notificationNoActivity.helpers({
+    powiadomienie:function(idPowiadomienie){
+        return getNotification(idPowiadomienie);
+    },
+    actualKwestia:function(idKwestia){
+        return getIssue(idKwestia);
+    },
+    welcomeGender:function(){
+        return recognizeSexMethod(Meteor.user());
+    },
+    userData:function(){
+        return Meteor.user().profile.fullName;
+    },
+    organisationName:function(){
+        return Parametr.findOne().nazwaOrganizacji;
     }
 });
 

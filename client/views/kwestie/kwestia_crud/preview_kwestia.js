@@ -206,13 +206,15 @@ addKwestia=function(idTemat,idRodzaj,isOption,kwestia){
         else {
             Session.set("kwestiaPreview", null);
             Meteor.call("sendEmailAddedIssue", ret);
-            addPowiadomienieBasicIssueFunction(ret,newKwestia[0].dataWprowadzenia);
+            addPowiadomienieIssueFunction(ret,newKwestia[0].dataWprowadzenia,NOTIFICATION_TYPE.NEW_ISSUE,"");
+            var text="Nie odnotowaliśmy Twojej aktywności w następującej Kwestii:";
+            addPowiadomienieIssueFunction(ret,newKwestia[0].dataWprowadzenia,NOTIFICATION_TYPE.ISSUE_NO_PRIORITY,text);
             Router.go('administracjaUserMain');
         }
     });
 };
 
-addPowiadomienieBasicIssueFunction=function(idKwestia,dataWprowadzenia){
+addPowiadomienieIssueFunction=function(idKwestia,dataWprowadzenia,typ,text){
     var users=Users.find({'profile.userType':USERTYPE.CZLONEK});
     //var kwestia=Kwestia.findOne({_id:idKwestia});
     users.forEach(function(user){
@@ -221,8 +223,8 @@ addPowiadomienieBasicIssueFunction=function(idKwestia,dataWprowadzenia){
             idNadawca: null,
             dataWprowadzenia: dataWprowadzenia,
             tytul: "",
-            powiadomienieTyp: NOTIFICATION_TYPE.NEW_ISSUE,
-            tresc: "",
+            powiadomienieTyp: typ,
+            tresc: text,
             idKwestia:idKwestia,
             czyAktywny: true,
             czyOdczytany:false

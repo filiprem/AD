@@ -19,5 +19,8 @@ Meteor.methods({
     },
     setOdczytanePowiadomienie:function(id,czyOdczytany){
         Powiadomienie.update(id, {$set: {czyOdczytany: czyOdczytany}}, {upsert: true});
+    },
+    setOdczytaneAktywnoscPowiadomienie:function(id,czyOdczytany,czyAktywny){
+        Powiadomienie.update(id, {$set: {czyOdczytany: czyOdczytany,czyAktywny:czyAktywny}}, {upsert: true});
     }
 });

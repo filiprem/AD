@@ -86,6 +86,8 @@ Template.registerForm.rendered = function () {
 Template.registerForm.events({
     'submit form': function (e) {
         e.preventDefault();
+        console.log("Użytkownicy");
+        console.log(Users.find());
         // uzupełnienie tymczasowej tablicy danymi z formularza
         var newUser = [
             {

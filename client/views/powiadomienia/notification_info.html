@@ -28,6 +28,10 @@
                         {{>notificationVoteStarted
                         idPowiadomienie=this._id}}
                     {{/if}}
+                    {{#if notificationTypeNoActivity}}
+                        {{>notificationNoActivity
+                        idPowiadomienie=this._id}}
+                    {{/if}}
                  </table>
                 <button id="backToNotificationList" class="btn btn-primary">
                     <span class="fa fa-arrow-left"></span> Powrót do powiadomień
@@ -184,5 +188,21 @@
         Jest to automatyczna informacja z systemu AD {{organizacja}}<br/>
         Nie odpowiadaj na nią.<br/>
         Logowanie do systemu: <a href="{{urlLogin}}">Zaloguj</a><br/>
+    {{/with}}
+</template>
+
+<template name="notificationNoActivity">
+    {{#with powiadomienie idPowiadomienie}}
+        <div>Aktywna Demokracja</div>
+        <div>{{organisationName}}</div>
+        {{welcomeGender}} {{userData}}! <br /><br />
+
+
+        {{tresc}}<br/>
+        {{#with actualKwestia this.idKwestia}}
+            <b>{{kwestiaNazwa}}<br/>
+            <a href="{{pathFor 'informacjeKwestia'}}">Link do Kwestii</a></b>
+        {{/with}}
+        <br/>
     {{/with}}
 </template>

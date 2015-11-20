@@ -219,6 +219,10 @@ Meteor.publish('myNotifications', function (idOdbiorca) {
     return Powiadomienie.find({idOdbiorca:idOdbiorca,czyAktywny:true});
 });
 
+Meteor.publish('notificationsNotReadIssue', function (idOdbiorca) {
+    return Powiadomienie.find({idOdbiorca:idOdbiorca,czyAktywny:true},{fields: {czyOdczytany:1,idOdbiorca:1,czyAktywny:1,powiadomienieTyp:1}});
+});
+
 Meteor.publish('notificationsNotRead', function (idOdbiorca) {
     return Powiadomienie.find({idOdbiorca:idOdbiorca,czyAktywny:true},{fields: {czyOdczytany:1,idOdbiorca:1,czyAktywny:1}});
 });

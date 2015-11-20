@@ -85,7 +85,12 @@
 </template>
 
 <template name="priorytetKwestia">
-    <b>{{priorytet}}</b><small>{{myGlos}}</small>
+    <b>{{priorytet}}</b>
+    {{#if nadanyPriorytet}}
+        <small>{{myGlos}}</small>
+    {{else}}
+        <small style="color:#C9302C"><b>{{myGlos}}</b></small>
+    {{/if}}
 </template>
 
 <template name="editColumnKwestia">
