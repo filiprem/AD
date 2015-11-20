@@ -86,12 +86,13 @@ checkingEndOfVote = function() {
     );
 
     kwestie.forEach(function (kwestia) {
-        if(kwestia.status == KWESTIA_STATUS.GLOSOWANA) {
-            if(actualDate >= kwestia.dataGlosowania) {
-                if (kwestia.wartoscPriorytetu > 0) {
+        var issueUpdated = Kwestia.findOne({_id: kwestia._id});
+        if(issueUpdated.status == KWESTIA_STATUS.GLOSOWANA) {
+            if(actualDate >= issueUpdated.dataGlosowania) {
+                if (issueUpdated.wartoscPriorytetu > 0) {
                     //for global prameters- jeśli minął czas głosowania,wartPrior>0-> update parametrów, zmiana na zrealizowaną
-                    if (kwestia.typ == KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE)
-                        changeParametersSuccess(kwestia);
+                    if (issueUpdated.typ == KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE)
+                        changeParametersSuccess(issueUpdated);
 
                     //for kwestia type basic,osobowa-jesli minal czas glosowania,wartPrior>0->
                     //-dodajemy pkt uzytkownikom za udzial w zespole(zepsol bierzemy z ZrDraft)
@@ -101,33 +102,36 @@ checkingEndOfVote = function() {
                     //-kwestia zmienia status na realizowana
                     else {
                         console.log("GLOSOWANA->REALIZAZCJA");
-                        awansUzytkownika(kwestia.idZespolRealizacyjny, pktZaUdzialWZesp);
-                        kwestia.dataRealizacji = new Date();
-                        kwestia.numerUchwaly = kwestia.issueNumber;//nadawanieNumeruUchwaly(kwestia.dataRealizacji);
-                        var zrDraft = ZespolRealizacyjnyDraft.findOne({_id: kwestia.idZespolRealizacyjny});
+                        awansUzytkownika(issueUpdated.idZespolRealizacyjny, pktZaUdzialWZesp);
+                        issueUpdated.dataRealizacji = new Date();
+                        issueUpdated.numerUchwaly = issueUpdated.issueNumber;//nadawanieNumeruUchwaly(kwestia.dataRealizacji);
+
+                        if(issueUpdated.idParent!=null) {
+                            //var kwestieOpcje=Kwestia.find({idParent:kwestia.idParent});
+                            //if(kwestieOpcje.count()>1)
+                            hibernateKwestieOpcje(issueUpdated);
+                        }
+
+                        var zrDraft = ZespolRealizacyjnyDraft.findOne({_id: issueUpdated.idZespolRealizacyjny});
                         if (zrDraft.idZR != null) {//jezeli draft ma id ZR( kopiuje od istniejącego ZR), to dopisz do kisty ZR tego drafta
                             var ZR = ZespolRealizacyjny.findOne({_id: zrDraft.idZR});
                             if(ZR) {
                                 console.log("updetujemy zr istniejący");
-                                updateListKwestie(ZR, kwestia._id);
+                                updateListKwestie(ZR, issueUpdated);
                             }
                             else {
-                                createNewZR(zrDraft, kwestia);
+                                createNewZR(zrDraft, issueUpdated);
                             }
                         }
                         else {
-                            createNewZR(zrDraft, kwestia);
+                            createNewZR(zrDraft, issueUpdated);
                         }
 
-                        Meteor.call('removeZespolRealizacyjnyDraft',kwestia.idZespolRealizacyjny);
+                        Meteor.call('removeZespolRealizacyjnyDraft',issueUpdated.idZespolRealizacyjny);
 
                         //W przypadku przejścia Kwestii-Opcji do Realizacji - pozostałe Opcje przechodzą na status HIBERNOWANA
 
-                        if(kwestia.idParent!=null) {
-                            //var kwestieOpcje=Kwestia.find({idParent:kwestia.idParent});
-                            //if(kwestieOpcje.count()>1)
-                                hibernateKwestieOpcje(kwestia);
-                        }
+
                         //TO BĘDZIE ZREALIZOWANA!
                         ////dla kwestii osobowych akcesyjnych bezpośrednich:
                         ////powiadom o pozytywnej decyzji.nadaj login i hasło
@@ -147,8 +151,8 @@ checkingEndOfVote = function() {
                     //powiadom o negatywnej decyzji
                     //usuń Zrdrat,userDraft->set to false
                     //set w kwestii czyaktywny:false
-                    if(_.contains([KWESTIA_TYPE.ACCESS_DORADCA,KWESTIA_TYPE.ACCESS_ZWYCZAJNY],kwestia.typ)){
-                        var ZRDraft=ZespolRealizacyjnyDraft.findOne({_id:kwestia.idZespolRealizacyjny});
+                    if(_.contains([KWESTIA_TYPE.ACCESS_DORADCA,KWESTIA_TYPE.ACCESS_ZWYCZAJNY],issueUpdated.typ)){
+                        var ZRDraft=ZespolRealizacyjnyDraft.findOne({_id:issueUpdated.idZespolRealizacyjny});
                         if(ZRDraft){
                             Meteor.call('removeZespolRealizacyjnyDraft', ZRDraft._id, function (error) {
                                 if (error)
@@ -156,20 +160,20 @@ checkingEndOfVote = function() {
                                 else {
                                     var zr=ZespolRealizacyjny.findOne({_id:ZRDraft.idZR});
                                     if(zr)
-                                    rewriteZRMembersToList(zr, kwestia);
+                                    rewriteZRMembersToList(zr, issueUpdated);
                                 }
                             });
                         }
-                        var userDraft=UsersDraft.findOne({_id:kwestia.idUser});
+                        var userDraft=UsersDraft.findOne({_id:issueUpdated.idUser});
                         if(userDraft) {
                             //jezeli to jest existing user- powiadom o negatywnej w powiadomieniach
                             if(userDraft.profile.idUser!=null) {
                                 var user = Users.findOne({_id:userDraft.profile.idUser});
                                 console.log("to jest existing user- powiadom o negatywnej w powiadomieniach");
-                                addPowiadomienieAplikacjaRespondMethod(kwestia._id,new Date(),NOTIFICATION_TYPE.APPLICATION_REJECTED,user._id);
+                                addPowiadomienieAplikacjaRespondMethod(issueUpdated._id,new Date(),NOTIFICATION_TYPE.APPLICATION_REJECTED,user._id);
                             }
                             Meteor.call("sendApplicationRejected",userDraft,function(error,ret){
-                                (!error)
+                                if(!error)
                                     Meteor.call("removeUserDraft",userDraft);
                             });
                             //set userDraft to false
@@ -177,12 +181,12 @@ checkingEndOfVote = function() {
                         }
 
                     }
-                    Meteor.call('removeKwestiaSetReason', kwestia._id,KWESTIA_ACTION.NEGATIVE_PRIORITY_VOTE);
+                    Meteor.call('removeKwestiaSetReason', issueUpdated._id,KWESTIA_ACTION.NEGATIVE_PRIORITY_VOTE);
                     Meteor.call('removeUserDraftNotZrealizowany',userDraft._id);
                 }
             }
         }
-        else if(kwestia.status == KWESTIA_STATUS.OCZEKUJACA){ //DO ZROBIENIA!!!!! po miesiącu idzie do kosza
+        else if(issueUpdated.status == KWESTIA_STATUS.OCZEKUJACA){ //DO ZROBIENIA!!!!! po miesiącu idzie do kosza
             console.log("oczekujaca crone");
             //to bedzie do wyrzucenia? bo nie ma głosowania w tyh kwestiach
             //awansUzytkownika(kwestia.idZespolRealizacyjny, pktZaUdzialWZesp);
@@ -306,11 +310,11 @@ changeParametersSuccess=function(kwestia){
     });
 };
 
-updateListKwestie=function(ZR,kwestiaId){
-    var kwestia=Kwestia.findOne({_id:kwestiaId});
+updateListKwestie=function(ZR,kwestia){
+    //var kwestia=Kwestia.findOne({_id:kwestiaId});
     if(kwestia) {
         var listKwestii = ZR.kwestie.slice();
-        listKwestii.push(kwestiaId);
+        listKwestii.push(kwestia._id);
         Meteor.call('updateListKwesti', ZR._id, listKwestii, function (error) {
             if (error) {
                 if (typeof Errors === "undefined")

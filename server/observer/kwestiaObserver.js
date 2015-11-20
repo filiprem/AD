@@ -268,7 +268,7 @@ Meteor.startup(function(){
     moveKwestiaToGlosowana=function(newKwestia,ZRDraft,ifUpdateZR){//tu spirawdzic godziny. i warunek blokujacy wejscie kwestii do glosowania!
         if(kwestiaAllowedToGlosowana()) {//jezeli deliberowana vote w bosrverrze,gdy ta opuscila i wpuszczmy nowe- to obśługa zr musi by!
             var czasGlosowania = Parametr.findOne({}).voteDuration;
-            var final = moment(new Date()).add(czasGlosowania, "hours").format();//do testów tylko!!
+            var final = moment(new Date()).add(10, "minutes").format();//do testów tylko!!
             //var final = moment(new Date()).add(czasGlosowania, "hours").format();//orginal one
             var start = new Date();
             console.log(newKwestia._id);
@@ -345,10 +345,10 @@ Meteor.startup(function(){
                 arrayTheSameWartoscPrior = _.where(tabKwestie, {'wartoscPriorytetu': tabKwestie[1].wartoscPriorytetu});
                 if (arrayTheSameWartoscPrior.length >= 2) {//jezeli 2 i 3 sie powtarzaja,to posortuj i wrzuć
                     tabKwestieSort = _.sortBy(arrayTheSameWartoscPrior, "dataWprowadzenia");
-                    tab = setTabValues(numberKwestieAvailable, [tabKwestie[0]._id, tabKwestieSort[0]._id, tabKwestieSort[1]._id], tab);
+                    tab = setTabValues(numberKwestieAvailable, [tabKwestie[0], tabKwestieSort[0], tabKwestieSort[1]], tab);
                 }
                 else {//2 i 3 sa inne
-                    tab = setTabValues(numberKwestieAvailable, [tabKwestie[0]._id, tabKwestie[1]._id, tabKwestie[2]._id], tab);
+                    tab = setTabValues(numberKwestieAvailable, [tabKwestie[0], tabKwestie[1], tabKwestie[2]], tab);
                 }
             }
             else if(numberKwestieAvailable==2){
@@ -358,7 +358,9 @@ Meteor.startup(function(){
                 console.log(arrayTheSameWartoscPrior);
                 if (arrayTheSameWartoscPrior.length >= 2) {//jezeli 2 i 3 sie powtarzaja,to posortuj i wrzuć
                     tabKwestieSort = _.sortBy(arrayTheSameWartoscPrior, "dataWprowadzenia");
-                    tab = setTabValues(numberKwestieAvailable, [tabKwestie[0]._id, tabKwestieSort[0]._id], tab);
+                    tab = setTabValues(numberKwestieAvailable, [tabKwestie[0], tabKwestieSort[0]], tab);
+                }else{
+                    tab = setTabValues(numberKwestieAvailable, [tabKwestie[0], tabKwestie[1]], tab);
                 }
             }
             else{
