@@ -264,7 +264,7 @@ Meteor.startup(function(){
     moveKwestiaToGlosowana=function(newKwestia,ZRDraft,ifUpdateZR){//tu spirawdzic godziny. i warunek blokujacy wejscie kwestii do glosowania!
         if(kwestiaAllowedToGlosowana()) {//jezeli deliberowana vote w bosrverrze,gdy ta opuscila i wpuszczmy nowe- to obśługa zr musi by!
             var czasGlosowania = Parametr.findOne({}).voteDuration;
-            var final = moment(new Date()).add(czasGlosowania, "hours").format();//do testów tylko!!
+            var final = moment(new Date()).add(czasGlosowania, "minutes").format();//do testów tylko!!
             //var final = moment(new Date()).add(czasGlosowania, "hours").format();//orginal one
             var start = new Date();
             console.log(newKwestia._id);
@@ -356,6 +356,9 @@ Meteor.startup(function(){
                     tabKwestieSort = _.sortBy(arrayTheSameWartoscPrior, "dataWprowadzenia");
                     tab = setTabValues(numberKwestieAvailable, [tabKwestie[0]._id, tabKwestieSort[0]._id], tab);
                 }
+                //else{
+                //    tab=setTabValues(numberKwestieAvailable,[tabKwestie[0]._id, tabKwestie[1]._id], tab)
+                //}
             }
             else{
                 console.log("wejdzie 1");

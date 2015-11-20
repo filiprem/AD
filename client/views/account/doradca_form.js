@@ -124,7 +124,7 @@ addKwestiaOsobowaDoradca=function(idUserDraft,newUser){
                     szczegolowaTresc: daneAplikanta,
                     isOption: false,
                     status: KWESTIA_STATUS.OSOBOWA,
-                    typ: KWESTIA_TYPE.ACCESS_HONOROWY
+                    typ: KWESTIA_TYPE.ACCESS_DORADCA
                 }];
             console.log("add kwestia");
             console.log(newKwestia);

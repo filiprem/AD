@@ -319,6 +319,13 @@ Template.priorytetKwestia.helpers({
                 myGlos = 0;
             return " (" + myGlos+")";
         }
+    },
+    nadanyPriorytet:function(){
+        var kwestia=Kwestia.findOne({_id:this._id});
+        if(kwestia){
+            if(Meteor.userId())
+                return _.contains(_.pluck(kwestia.glosujacy,'idUser'),Meteor.userId()) ? true : false;
+        }
     }
 });
 

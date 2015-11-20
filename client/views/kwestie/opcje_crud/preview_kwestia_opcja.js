@@ -67,6 +67,8 @@ Template.previewKwestiaOpcja.events({
             else {
                 Meteor.call("sendEmailAddedIssue", ret);
                 addPowiadomienieBasicOptionIssueFunction(ret,newKwestiaOpcja[0].dataWprowadzenia);
+                var text="Nie odnotowaliœmy Twojej aktywnoœci w nastêpuj¹cej Kwestii:";
+                addPowiadomienieIssueFunction(ret,newKwestiaOpcja[0].dataWprowadzenia,NOTIFICATION_TYPE.ISSUE_NO_PRIORITY,text);
                 var userKwestia= Meteor.userId();
                 var newValue=0;
 
