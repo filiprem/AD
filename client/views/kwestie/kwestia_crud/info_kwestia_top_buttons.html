@@ -5,11 +5,11 @@
                 <button id="backToList" class="btn btn-primary">
                     <span class="fa fa-arrow-left"></span> Powrót
                 </button>
-                {{#if isRealizowanaNieaktywny status czyAktywny}}
-                    <button id="zrealizowanaClick" name="{{idKwestia}}" class="btn btn-success" {{hasUserRights idKwestia}}>
-                        <span class="fa fa-check-circle-o"></span> Zrealizowana
-                    </button>
-                {{/if}}
+                <!--{{#if isRealizowanaNieaktywny status czyAktywny}}-->
+                    <!--<button id="zrealizowanaClick" name="{{idKwestia}}" class="btn btn-success" {{hasUserRights idKwestia}}>-->
+                        <!--<span class="fa fa-check-circle-o"></span> Zrealizowana-->
+                    <!--</button>-->
+                <!--{{/if}}-->
                 {{#unless isKwestiaAccessOrChangeParams typ status czyAktywny}}
                    {{#unless isRealizowanaNieaktywny status czyAktywny}}
                         <button id="addOptionButton" class="btn btn-primary" {{hasUserRights idKwestia}}>

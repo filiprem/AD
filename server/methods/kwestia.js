@@ -306,6 +306,9 @@ Meteor.methods({
     setAnswerKwestiaOczekujaca:function(id,answer){
         Kwestia.update(id,{$set: {isAnswerPositive:answer}}, {upsert: true});
     },
+    setAnswerKwestiaOczekujacaNrUchw:function(id,answer,nrUch){
+        Kwestia.update(id,{$set: {isAnswerPositive:answer,numerUchwaly:nrUch}}, {upsert: true});
+    },
     updateStatIdZespolu:function(id,status,idZR){
         var id = Kwestia.update(id, {
             $set: {

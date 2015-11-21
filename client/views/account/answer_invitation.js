@@ -17,7 +17,6 @@ Template.answerInvitation.helpers({
         var kwestia=getKwestia(currentRoute);
         console.log("hiere");
         console.log(kwestia);
-        console.log(kwestia.isAnswerPositive);
         if(kwestia) {
             //return kwestia.status==KWESTIA_STATUS.OCZEKUJACA && kwestia.czyAktywny==true && userDraft.czyAktywny==true ? true : false;
             return kwestia.isAnswerPositive==null ? true: false;
@@ -71,45 +70,23 @@ Template.answerInvitation.helpers({
     },
     actualKwestia:function(){
         return getKwestia(Router.current().params);
+    },
+    isGuest:function(){
+        var userDraft=getUserDraftMethod(Router.current().params);
+        return userDraft.profile.idUser==null ? true : false;
     }
 });
 Template.answerInvitation.events({
    'click #apply':function(e){
        e.preventDefault();//kwestia idzie do realizacji
        var kwestia=getKwestia(Router.current().params);
-       kwestia.dataRealizacji = new Date();
-       kwestia.numerUchwaly = kwestia.issueNumber; //nadawanieNumeruUchwalyMethod(kwestia.dataRealizacji);
-       var idZr=kwestia.idZespolRealizacyjny;
-       var zrDraft = ZespolRealizacyjnyDraft.findOne({_id: kwestia.idZespolRealizacyjny});
-       if (zrDraft.idZR != null) {//jezeli draft ma id ZR( kopiuje od istniejącego ZR), to dopisz do kisty ZR tego drafta
-           var ZR = ZespolRealizacyjny.findOne({_id: zrDraft.idZR});
-           if(ZR) {
-               console.log("updetujemy zr istniejący");
-               updateListKwestieMethod(ZR, kwestia._id);
-           }
-           else {
-               createNewZRMethod(zrDraft, kwestia);
-           }
-       }
-       else {
-           createNewZRMethod(zrDraft, kwestia);
-       }
-
-       Meteor.call('removeZespolRealizacyjnyDraft',kwestia.idZespolRealizacyjny,function(error){
-           if(!error){
-               var userDraft=getUserDraftMethod(Router.current().params);
-               var counter=userDraft.licznikKlikniec+1;
-                Meteor.call("updateLicznikKlikniec",userDraft._id,counter,function(error){
-                    if(!error)
-                        Meteor.call("setAnswerKwestiaOczekujaca",kwestia._id,true);
-                });
-           }
-       });
 
        if(kwestia.typ=KWESTIA_TYPE.ACCESS_HONOROWY){
+
            var userDraft=getUserDraftMethod(Router.current().params);
            //jezeli to jest istniejący doradca- email o wynku i update jego statusu
            if(userDraft.profile.idUser!=null){
+               applyPositiveMethod(kwestia);
                Meteor.call("updateUserType",userDraft.profile.idUser,userDraft.profile.userType,function(error){
                    Meteor.call("sendApplicationAccepted", userDraft._id, "acceptExisting", function (error) {
                        (!error)
@@ -119,24 +96,8 @@ Template.answerInvitation.events({
                    });
                });
            }
-           //jezeli nowy- to update i email z danymi
-           //to FINISH
            else{
-               var newUser={
-
-               };
-               //var activationLink = CryptoJS.MD5(userDraft._id).toString();
-               //if (userDraft) {
-               //    Meteor.call("setZrealizowanyActivationHashUserDraft", userDraft._id, activationLink, true, function (error, ret) {
-               //        (!error)
-               //        {
-               //            Meteor.call("sendApplicationAccepted", UsersDraft.findOne({_id: userDraft._id}), "acceptNew", function (error) {
-               //                (!error)
-               //                Meteor.call("updateLicznikKlikniec", userDraft._id, 0);
-               //            });
-               //        }
-               //    });
-               //}
+                fillDataNewHonorowyBootbox(kwestia,userDraft.email);
            }
        }
 
@@ -177,10 +138,170 @@ getKwestia=function(currentRoute){
     console.log("get");
     console.log(currentRoute);
     var userDraft=UsersDraft.findOne({linkAktywacyjny:currentRoute.linkAktywacyjny});
+    console.log(userDraft);
     var kwestia=Kwestia.findOne({idUser:userDraft._id});
     return kwestia? kwestia: null;
 };
 getUserDraftMethod=function(currentRoute){
     var userDraft=UsersDraft.findOne({linkAktywacyjny:currentRoute.linkAktywacyjny});
     return userDraft ? userDraft : null;
+};
+
+applyPositiveMethod=function(kwestia){
+    console.log("apply positive");
+    console.log(kwestia);
+    console.log(kwestia.issueNumber);
+    var nrUchw=kwestia.issueNumber;
+    kwestia.dataRealizacji = new Date();
+    kwestia.numerUchwaly = kwestia.issueNumber; //nadawanieNumeruUchwalyMethod(kwestia.dataRealizacji);
+    var idZr=kwestia.idZespolRealizacyjny;
+    var zrDraft = ZespolRealizacyjnyDraft.findOne({_id: kwestia.idZespolRealizacyjny});
+    if (zrDraft.idZR != null) {//jezeli draft ma id ZR( kopiuje od istniejącego ZR), to dopisz do kisty ZR tego drafta
+        var ZR = ZespolRealizacyjny.findOne({_id: zrDraft.idZR});
+        if(ZR) {
+            console.log("updetujemy zr istniejący");
+            updateListKwestieMethod(ZR, kwestia._id);
+        }
+        else {
+            createNewZRMethod(zrDraft, kwestia);
+        }
+    }
+    else {
+        createNewZRMethod(zrDraft, kwestia);
+    }
+
+    Meteor.call('removeZespolRealizacyjnyDraft',kwestia.idZespolRealizacyjny,function(error){
+        if(!error){
+            var userDraft=getUserDraftMethod(Router.current().params);
+            var counter=userDraft.licznikKlikniec+1;
+            Meteor.call("updateLicznikKlikniec",userDraft._id,counter,function(error){
+                if(!error)
+                    Meteor.call("setAnswerKwestiaOczekujacaNrUchw",kwestia._id,true,nrUchw,function(error){
+                        if(error)
+                        console.log(error.reason);
+                    });
+            });
+        }
+    });
+};
+
+fillDataNewHonorowyBootbox=function(kwestia,email){
+    //bootbox z danymi do uzupełnienia: imie,nazwisko,miasto
+    //tutaj już następuje aktywacja konta
+    // info,ze w kolejnym mailu dostanie dane do logowania
+
+   // $("#fillDataHonorowy").modal("show");
+    bootbox.dialog({
+            title: "Aby uzyskać dostęp, należy uzupełnić wymagane pola.",
+            closeButton:false,
+            message:
+            '<div class="row">  ' +
+            '<div class="col-md-12"> ' +
+            '<form class="form-horizontal"> ' +
+            '<div class="form-group"> ' +
+                '<label class="col-md-4 control-label" for="name">Imię</label> ' +
+                '<div class="col-md-4"> ' +
+                    '<input id="firstName" name="firstName" type="text"  class="form-control input-md"> ' +
+                '</div> ' +
+            '</div>'+
+            '<div class="form-group"> ' +
+            '<label class="col-md-4 control-label" for="name">Nazwisko</label> ' +
+            '<div class="col-md-4"> ' +
+            '<input id="lastName" name="lastName" type="text"  class="form-control input-md"> ' +
+            '</div> ' +'</div>'+
+            '<div class="form-group"> ' +
+            '<label class="col-md-4 control-label" for="name">Miasto</label> ' +
+            '<div class="col-md-4"> ' +
+            '<input id="city" name="city" type="text"  class="form-control input-md"> ' +
+            '</div> ' +'</div>'+
+            '</form> ' +
+            '</div>  ' +
+            '</div>',
+            buttons: {
+                success: {
+                    label: "Zapisz",
+                    className: "btn-success",
+                    callback: function () {
+                        var firstName = $('#firstName').val();
+                        var lastName=$('#lastName').val();
+                        var city=$('#city').val();
+                        console.log("dane:");
+                        console.log(firstName);
+                        console.log(lastName);
+                        console.log(city);
+                        if(firstName.trim()!='' && lastName.trim()!='' && city.trim()!=''){
+                            addNewUser(firstName,lastName,city,email,kwestia);
+                        }
+                        else{
+                            fillDataNewHonorowyBootbox(kwestia,email);
+                            GlobalNotification.error({
+                                title: 'Błąd',
+                                content: 'Formularz nie może zawierać pustych pól!',
+                                duration: 3 // duration the notification should stay in seconds
+                            });
+                        }
+                    }
+                },
+                main: {
+                    label: "Wstecz",
+                    className: "btn-primary"
+                }
+            }
+        }
+    );
+};
+addNewUser=function(firstName,lastName,city,email,kwestia){
+    console.log("dane2:");
+    console.log(firstName);
+    console.log(lastName);
+    console.log(city);
+    applyPositiveMethod(kwestia);
+    var newUser = [
+        {
+            email: email,
+            login: "",
+            firstName: firstName,
+            lastName: lastName,
+            city:city,
+            userType:USERTYPE.HONOROWY
+
+        }];
+    newUser[0].login = generateLogin(firstName,lastName);
+    newUser[0].fullName=firstName+" "+lastName;
+    newUser[0].password=CryptoJS.MD5(newUser[0].login).toString();
+    newUser[0].confirm_password=newUser[0].password;
+
+    Meteor.call('addUser', newUser, function (error,ret) {
+        if (error) {
+            console.log(error.reason);
+        }
+        else {
+            var idUser=ret;
+            console.log("idUser");
+            console.log(idUser);
+            Meteor.call("removeUserDraft", getUserDraftMethod(Router.current().params)._id, function (error) {
+                if (error)
+                    console.log(error.reason);
+                else{
+                    Meteor.call("sendFirstLoginData",Users.findOne({_id:idUser}),newUser[0].password,function(error){
+                        if(error)
+                            console.log(error.reason);
+                    })
+                }
+            });
+        }
+    });
+
+    //var activationLink = CryptoJS.MD5(userDraft._id).toString();
+    //if (userDraft) {
+    //    Meteor.call("setZrealizowanyActivationHashUserDraft", userDraft._id, activationLink, true, function (error, ret) {
+    //        (!error)
+    //        {
+    //            Meteor.call("sendApplicationAccepted", UsersDraft.findOne({_id: userDraft._id}), "acceptNew", function (error) {
+    //                (!error)
+    //                Meteor.call("updateLicznikKlikniec", userDraft._id, 0);
+    //            });
+    //        }
+    //    });
+    //}
 };
