@@ -176,7 +176,7 @@ applyPositiveMethod=function(kwestia){
             var counter=userDraft.licznikKlikniec+1;
             Meteor.call("updateLicznikKlikniec",userDraft._id,counter,function(error){
                 if(!error)
-                    Meteor.call("setAnswerKwestiaOczekujacaNrUchw",kwestia._id,true,nrUchw,function(error){
+                    Meteor.call("setAnswerKwestiaOczekujacaNrUchwDataRealizacji",kwestia._id,true,nrUchw,new Date(),function(error){
                         if(error)
                         console.log(error.reason);
                     });

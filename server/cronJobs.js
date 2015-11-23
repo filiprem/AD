@@ -355,7 +355,7 @@ changeParametersSuccess=function(kwestia){
         if(!error)
             Meteor.call("setActivityParametrDraft",globalPramsDraft._id,false,function(error){
                 if(!error)
-                    Meteor.call("updateStatusKwestii",kwestia._id,KWESTIA_STATUS.ZREALIZOWANA);
+                    Meteor.call("updateStatusNrUchwalyDataRealizacjiiKwestii",kwestia._id,KWESTIA_STATUS.ZREALIZOWANA,kwestia.issueNumber,new Date());
                 else
                     console.log("update param failed");
             });

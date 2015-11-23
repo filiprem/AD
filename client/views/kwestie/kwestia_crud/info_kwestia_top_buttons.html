@@ -22,12 +22,12 @@
             {{> uzasadnienieArchiwumModal idKwestia=idKwestia}}
             {{> uzasadnienieKoszModal idKwestia=idKwestia}}
             <div class="btn-group" role="group" aria-label="...">
-                {{#unless isKwestiaAccessOrChangeParams typ status czyAktywny}}
+                {{#unless isKwestiaAccessOrChangeParamsRealizacja typ status czyAktywny}}
                     <button id="doArchiwum" name="{{idKwestia}}" class="btn btn-warning" {{hasUserRights idKwestia}}>
                         <span class="fa fa-lock"></span> Do Archiwum
                     </button>
                 {{/unless}}
-                {{#unless isKwestiaAccessOrChangeParams typ status czyAktywny}}
+                {{#unless isKwestiaAccessOrChangeParamsRealizacja typ status czyAktywny}}
                     <button id="doKosza" name="{{idKwestia}}" class="btn btn-danger" {{hasUserRights idKwestia}}>
                         <span class="fa fa-trash"></span> Do Kosza
                     </button>

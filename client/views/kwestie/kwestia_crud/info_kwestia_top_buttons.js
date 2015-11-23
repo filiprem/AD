@@ -28,8 +28,20 @@ Template.kwestiaTopButtons.helpers({
             status==KWESTIA_STATUS.ZREALIZOWANA ||
             czyAktywny==false ? true : false;
     },
-    isKwestiaChangeParams:function(typ){
-        return typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE ? true : false;
+    isKwestiaAccessOrChangeParamsRealizacja:function(typ,status,czyAktywny){
+        console.log("dane");
+        console.log(typ);
+        console.log(status);
+        console.log(czyAktywny);
+        return ((typ==KWESTIA_TYPE.ACCESS_DORADCA ||
+        typ==KWESTIA_TYPE.ACCESS_ZWYCZAJNY ||
+        typ==KWESTIA_TYPE.ACCESS_HONOROWY ||
+        typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE) && (status==KWESTIA_STATUS.REALIZOWANA || status==KWESTIA_STATUS.ZREALIZOWANA) && czyAktywny==false) ||
+        status==KWESTIA_STATUS.GLOSOWANA ||
+        //status==KWESTIA_STATUS.ZREALIZOWANA ||
+        status==KWESTIA_STATUS.ADMINISTROWANA ||
+        status==KWESTIA_STATUS.OCZEKUJACA ||
+        czyAktywny==false ? true : false;
     },
     isKwestiaZrealizowana:function(status){
         console.log("uwagaaa"+ status);

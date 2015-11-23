@@ -264,6 +264,10 @@ Meteor.methods({
         var id = Kwestia.update(id, {$set: {status: status}}, {upsert: true});
         return id;
     },
+    updateStatusNrUchwalyDataRealizacjiiKwestii: function (id, status,numerUchwaly,data) {
+        var id = Kwestia.update(id, {$set: {status: status,numerUchwaly:numerUchwaly,dataRealizacji:data}}, {upsert: true});
+        return id;
+    },
     updateStatNrUchwDtRealIdZespolKwestii: function (id, status, numerUchwaly, dataRealizacji,idZR) {
         var id = Kwestia.update(id, {
             $set: {
@@ -306,8 +310,8 @@ Meteor.methods({
     setAnswerKwestiaOczekujaca:function(id,answer){
         Kwestia.update(id,{$set: {isAnswerPositive:answer}}, {upsert: true});
     },
-    setAnswerKwestiaOczekujacaNrUchw:function(id,answer,nrUch){
-        Kwestia.update(id,{$set: {isAnswerPositive:answer,numerUchwaly:nrUch}}, {upsert: true});
+    setAnswerKwestiaOczekujacaNrUchwDataRealizacji:function(id,answer,nrUch,dataRealizacji){
+        Kwestia.update(id,{$set: {isAnswerPositive:answer,numerUchwaly:nrUch,dataRealizacji:dataRealizacji}}, {upsert: true});
     },
     updateStatIdZespolu:function(id,status,idZR){
         var id = Kwestia.update(id, {

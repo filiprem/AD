@@ -20,8 +20,8 @@ Template.realizacjaTab2.helpers({
                     key: 'dataRealizacji',
                     label: Template.listKwestiaRealzacjaColumnLabel,
                     labelData: {
-                        title: "Data rozpoczêcia realizacji kwestii",
-                        text: "Data"
+                        //title: "Data rozpoczÄ™cia realizacji kwestii",
+                        text: "Data realizacji"
                     },
                     tmpl: Template.dataRealizKwestia
                 },
@@ -29,8 +29,8 @@ Template.realizacjaTab2.helpers({
                     key: 'numerUchwaly',
                     label: Template.listKwestiaRealzacjaColumnLabel,
                     labelData: {
-                        title: "Numer Uchwa³y",
-                        text: "Nr. Uchwa³y"
+                        //title: "Numer UchwaÅ‚y",
+                        text: "Nr. UchwaÅ‚y"
                     },
                     tmpl: Template.numerUchwKwestia
                 },
@@ -38,7 +38,7 @@ Template.realizacjaTab2.helpers({
                     key: 'kwestiaNazwa',
                     label: Template.listKwestiaRealzacjaColumnLabel,
                     labelData: {
-                        title: "Kliknij, aby zobaczyæ szczegó³y",
+                        //title: "Kliknij, aby zobaczyÄ‡ szczegÃ³Å‚y",
                         text: "Nazwa Kwestii"
                     },
                     tmpl: Template.nazwaKwestiLink
@@ -80,7 +80,7 @@ Template.realizacjaTab2.events({
         var docDefinition = {
             content: [
                 { text: "dn. " + moment(this.dataRealizacji).format("DD.MM.YYYY").toString() + "r.", style: 'uchwalaTop'},
-                { text: "Uchwa³a  Numer: " + this.numerUchwaly.toString() + "\nDotyczy: " + this.kwestiaNazwa , style: 'uchwalaHeadline'},
+                { text: "UchwaÅ‚a  Numer: " + this.numerUchwaly.toString() + "\nDotyczy: " + this.kwestiaNazwa , style: 'uchwalaHeadline'},
                 { text: "\n\t\t\t\t\t\t" + this.szczegolowaTresc, style: 'contentStyle'}
             ],
             styles: {

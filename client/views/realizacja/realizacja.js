@@ -11,7 +11,7 @@ Template.realizacjaTab1.helpers({
                     key: 'id',
                     label: Template.listKwestiaColumnLabel,
                     labelData: {
-                        title: "id",
+                       // title: "id",
                         text: "Id"
                     },
                     tmpl: Template.id
@@ -20,8 +20,8 @@ Template.realizacjaTab1.helpers({
                     key: 'dataRealizacji',
                     label: Template.listKwestiaRealzacjaColumnLabel,
                     labelData: {
-                        title: "Data rozpoczęcia realizacji kwestii",
-                        text: "Data"
+                        //title: "Data rozpoczęcia realizacji kwestii",
+                        text: "Data realizacji"
                     },
                     tmpl: Template.dataRealizKwestia
                 },
@@ -29,7 +29,7 @@ Template.realizacjaTab1.helpers({
                     key: 'numerUchwaly',
                     label: Template.listKwestiaRealzacjaColumnLabel,
                     labelData: {
-                        title: "Numer Uchwały",
+                       // title: "Numer Uchwały",
                         text: "Nr. Uchwały"
                     },
                     tmpl: Template.numerUchwKwestia
@@ -38,7 +38,7 @@ Template.realizacjaTab1.helpers({
                     key: 'kwestiaNazwa',
                     label: Template.listKwestiaRealzacjaColumnLabel,
                     labelData: {
-                        title: "Kliknij, aby zobaczyć szczegóły",
+                        //title: "Kliknij, aby zobaczyć szczegóły",
                         text: "Nazwa Kwestii"
                     },
                     tmpl: Template.nazwaKwestiLink
