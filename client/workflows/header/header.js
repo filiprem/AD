@@ -112,7 +112,14 @@ Template.language.events({
 
         var defaultLang = LANGUAGES.DEFAULT_LANGUAGE;
         var user=Meteor.user();
-        var lang = user ? profile.user.language : defaultLang;
+        //var lang = user ? user.profile.language : defaultLang;
+        var lang = null;
+        if(user){
+            if(user.profile.language)
+                lang=user.profile.language;
+            else lang=defaultLang;
+        }
+        else lang=defaultLang;
         var routeName = Router.current().route.getName();
         var item = PagesInfo.findOne({shortLanguageName: lang, routeName: routeName});
         var title = TAPi18n.__("pageInfo." + lang + "." + routeName);

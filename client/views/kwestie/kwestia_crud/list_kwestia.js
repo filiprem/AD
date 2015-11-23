@@ -55,16 +55,16 @@ Template.listKwestia.created = function () {
 
 Template.listKwestia.events({
     'click #addKwestiaButton': function () {
-        var kwestiaCanBeInserted=kwestiaIsAllowedToInsert();
+       // var kwestiaCanBeInserted=kwestiaIsAllowedToInsert();
         console.log("odp");
-        console.log(kwestiaCanBeInserted);
-        if(kwestiaCanBeInserted==true) {
+       // console.log(kwestiaCanBeInserted);
+        //if(kwestiaCanBeInserted==true) {
             if (!!Session.get("kwestiaPreview"))
                 Session.set("kwestiaPreview", null);
             Router.go("addKwestia");
-        }
-        else
-            notificationPauseWarning("kwestii",kwestiaCanBeInserted);
+        //}
+        //else
+        //    notificationPauseWarning("kwestii",kwestiaCanBeInserted);
     },
     'click #clickMe': function () {
         var users = Users.find({}).fetch();

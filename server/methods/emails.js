@@ -292,6 +292,9 @@ Meteor.methods({
 });
 recognizeSex=function(userData){
     var welcomeGender=null;
+    console.log("recognize sex");
+    console.log(userData);
+    console.log(userData.profile.pesel);
     if(userData.profile.pesel){
         if(userData.profile.pesel!="") {
             var pesel = userData.profile.pesel.substring(9, 10);
@@ -364,8 +367,13 @@ applicationEmail=function(userData,emailTypeText,passw){
         url=Meteor.absoluteUrl()+"issue_info/"+kwestia._id;
     }
     console.log(url);
+    var userName=null;
+    if(userData.profile.firstName!=null && userData.profile.firstName.trim()!= '')
+        username=userData.profile.firstName+" "+userData.profile.lastName;
+    else
+        userName=userData.email;
     var html = SSR.render(emailTypeText,{
-        username:userData.profile.firstName+" "+userData.profile.lastName,
+        username:userName,
         organizacja: Parametr.findOne().nazwaOrganizacji,
         userTypeData:userTypeData,
         url:url,
