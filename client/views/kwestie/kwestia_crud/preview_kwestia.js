@@ -55,17 +55,35 @@ Template.previewKwestia.events({
     'click #save': function (e) {
         e.preventDefault();
 
-        var kwestia = Session.get("kwestiaPreview");
-        var temat=kwestia.temat;
-        var rodzaj=kwestia.rodzaj;
+        document.getElementById("save").disabled = true;
+        //document.getElementById("formGroup").style.visibility='none';
+        Meteor.setTimeout(function () {
+            document.getElementById("save").disabled = false;
+            var kwestie=Kwestia.find({czyAktywny:true});
+            var kwestia = Session.get("kwestiaPreview");
 
-        var idParentKwestii = Session.get("idKwestia");
-        var isOption=false;
+            var flag=false;
+            kwestie.forEach(function(item){
+                if(item.kwestiaNazwa.trim().toUpperCase() == kwestia.kwestiaNazwa.trim().toUpperCase()) {
+                   flag=true;
+                    console.log("flag!");
+                }
+            });
+            if(flag==false) {
+                var temat = kwestia.temat;
+                var rodzaj = kwestia.rodzaj;
+
+                var idParentKwestii = Session.get("idKwestia");
+                var isOption = false;
 
 
-
-        kwestia.idParent ? isOption=true : isOption=false;
-        setValue(temat,rodzaj,isOption,kwestia);
+                kwestia.idParent ? isOption = true : isOption = false;
+                setValue(temat, rodzaj, isOption, kwestia);
+            }
+            else
+                bootbox.alert("Istnieje już kwestia o podanej nazwie!", function() {
+                });
+        },2000);
 
     }
 });

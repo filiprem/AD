@@ -206,19 +206,21 @@ checkingEndOfVote = function() {
                     //powiadom o negatywnej decyzji
                     //usuń Zrdrat,userDraft->set to false
                     //set w kwestii czyaktywny:false
+
+                    var ZRDraft=ZespolRealizacyjnyDraft.findOne({_id:issueUpdated.idZespolRealizacyjny});
+                    if(ZRDraft){
+                        var zr=null;
+                        if(ZRDraft.idZR!=null)
+                            zr=ZespolRealizacyjny.findOne({_id:ZRDraft.idZR});
+                        else zr=ZRDraft;
+                        if(zr)
+                            rewriteZRMembersToList(zr, issueUpdated);
+                        Meteor.call('removeZespolRealizacyjnyDraft', ZRDraft._id, function (error) {
+                            if (error)
+                                console.log(error.reason);
+                        });
+                    }
                     if(_.contains([KWESTIA_TYPE.ACCESS_DORADCA,KWESTIA_TYPE.ACCESS_ZWYCZAJNY],issueUpdated.typ)){
-                        var ZRDraft=ZespolRealizacyjnyDraft.findOne({_id:issueUpdated.idZespolRealizacyjny});
-                        if(ZRDraft){
-                            Meteor.call('removeZespolRealizacyjnyDraft', ZRDraft._id, function (error) {
-                                if (error)
-                                    console.log(error.reason);
-                                else {
-                                    var zr=ZespolRealizacyjny.findOne({_id:ZRDraft.idZR});
-                                    if(zr)
-                                    rewriteZRMembersToList(zr, issueUpdated);
-                                }
-                            });
-                        }
                         var userDraft=UsersDraft.findOne({_id:issueUpdated.idUser});
                         if(userDraft) {
                             //jezeli to jest existing user- powiadom o negatywnej w powiadomieniach
@@ -234,10 +236,10 @@ checkingEndOfVote = function() {
                             //set userDraft to false
                             //ad to kwestia idUserDraft
                         }
-
+                        Meteor.call('removeUserDraftNotZrealizowany',userDraft._id);
                     }
                     Meteor.call('removeKwestiaSetReason', issueUpdated._id,KWESTIA_ACTION.NEGATIVE_PRIORITY_VOTE);
-                    Meteor.call('removeUserDraftNotZrealizowany',userDraft._id);
+
                 }
             }
         }
@@ -346,7 +348,8 @@ changeParametersSuccess=function(kwestia){
         czasWyczekiwaniaKwestiiSpecjalnej:globalPramsDraft.czasWyczekiwaniaKwestiiSpecjalnej,
         addIssuePause:globalPramsDraft.addIssuePause,
         addCommentPause:globalPramsDraft.addCommentPause,
-        addReferencePause:globalPramsDraft.addReferencePause
+        addReferencePause:globalPramsDraft.addReferencePause,
+        okresSkladaniaRR:globalPramsDraft.okresSkladaniaRR
     };
     console.log("new Parameter");
     console.log(obj);

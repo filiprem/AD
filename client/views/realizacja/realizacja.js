@@ -53,7 +53,7 @@ Template.realizacjaTab1.helpers({
                     label: "Rodzaj",
                     tmpl: Template.rodzajKwestia
                 },
-                {key: 'status', label: "Status", tmpl: Template.statusKwestii},
+                {key: 'raport', label: "Raport", tmpl: Template.statusKwestii},
                 {
                     key: 'options',
                     label: "Opcje",

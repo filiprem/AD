@@ -1,4 +1,30 @@
 <template name="informacjeKwestia" xmlns="http://www.w3.org/1999/html">
+    {{#if isIssueRealizowanaZrealizowana}}
+        <div class="main">
+            <div>
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#issueInfoo" aria-controls="issueInfoo" role="tab" data-toggle="tab">Szczegóły Kwestii</a></li>
+                    <li role="presentation"><a href="#manageZRIssue" aria-controls="manageZRIssue" role="tab" data-toggle="tab">Zespół Realizacyjny</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="issueInfoo">
+                        <br />
+                        {{> issueDetails}}
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="manageZRIssue">
+                        <br />
+                        {{> issueManageZR}}
+                    </div>
+                </div>
+            </div>
+         </div>
+    {{else}}
+        {{>issueDetails}}
+    {{/if}}
+</template>
+
+<template name="issueDetails">
     <div class="main">
         <div class="row">
             <div class="col-md-12">
@@ -36,11 +62,12 @@
             </div>
             <!--{{thisKwestia}}-->
             {{> kwestiaTopButtons
-                status=status
-                typ=typ
-                idParent=idParent
-                idKwestia=_id
-                czyAktywny=czyAktywny
+            status=status
+            typ=typ
+            idParent=idParent
+            idKwestia=_id
+            czyAktywny=czyAktywny
+            idZespolRealizacyjny=idZespolRealizacyjny
             }}
         </div>
 
@@ -52,13 +79,13 @@
             {{/if}}
             <tr>
                 {{>managePriorities
-                    priorytet=wartoscPriorytetu
-                    priorytetRealizacja=wartoscPriorytetuWRealizacji
-                    idKwestia=_id
-                    idParent=idParent
-                    glosujacy=glosujacy
-                    status=status
-                    czyAktywny=czyAktywny
+                priorytet=wartoscPriorytetu
+                priorytetRealizacja=wartoscPriorytetuWRealizacji
+                idKwestia=_id
+                idParent=idParent
+                glosujacy=glosujacy
+                status=status
+                czyAktywny=czyAktywny
                 }}
             </tr>
             <tr>
@@ -73,28 +100,28 @@
             </tr>
         </table>
         {{>kwestiaDetails
-            krotkaTresc=krotkaTresc
-            szczegolowaTresc=szczegolowaTresc
-            status=status
-            typ=typ
+        krotkaTresc=krotkaTresc
+        szczegolowaTresc=szczegolowaTresc
+        status=status
+        typ=typ
         }}
         {{#if currentUser}}
             {{#unless isGlobalParamChange}}
                 {{>ZRTemplate
-                    idZR=idZespolRealizacyjny
-                    status=status
-                    idKwestia=_id
-                    czyAktywny=czyAktywny
-                    zespol=zespol
-                    typ=typ
+                idZR=idZespolRealizacyjny
+                status=status
+                idKwestia=_id
+                czyAktywny=czyAktywny
+                zespol=zespol
+                typ=typ
                 }}
             {{/unless}}
         {{/if}}
         {{#if ifHasOpcje}}
             <div class="row">
                 {{> opcjeList
-                    actualKwestiaId=_id
-                    idParent=idParent
+                actualKwestiaId=_id
+                idParent=idParent
                 }}
             </div>
         {{/if}}
@@ -117,8 +144,38 @@
     {{>decyzjaModal}}
     {{>listZespolRealizacyjnyDoubleModal}}
     {{> GlobalNotifications}}
-
 </template>
 
+<template name="issueManageZR">
+    <legend>{{getZRName idZespolRealizacyjny zespol}}</legend>
+    <br/>
+    <div class="row">
+        <div class="col-md-12">
+            {{> reactiveTable
+                class = "table table-bordered table-hover"
+                fields = settings.fields
+                settings = settings
+                collection = ZRList
+            }}
+        </div>
+    </div>
+    {{>zrModalCurrentIssueMyResolutions
+        idZespolRealizacyjny=idZespolRealizacyjny
+    }}
+</template>
 
+<template name="zrOptions">
+    <div >
+        {{#if currentUser _id}}
+            <a class="btn btn-default btn-xs" data-toggle="tooltip" title="Rezygnuj z udziału w Zespole Realizacyjnym" id="giveUpMembership">
+                Rezygnuj <i class="fa fa-outdent"></i>
+            </a>
+        {{else}}
+            <a class="btn btn-default btn-xs" data-toggle="tooltip" title="Napisz wiadomość do członka ZR"
+               href="{{pathFor 'sendMessage' _id}}">
+                Napisz wiadomość <i class="fa fa-pencil"></i>
+            </a>
+        {{/if}}
+    </div>
+</template>
 

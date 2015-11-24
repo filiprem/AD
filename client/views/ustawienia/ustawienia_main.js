@@ -45,13 +45,15 @@ Template.administracjaUserMain.helpers({
                         condition=true;
                     }
                 }
-                    return(this.czyAktywny==true && condition==true) ||//dla draftów
+                    return(this.czyAktywny==true && condition==true && (this.status!= KWESTIA_STATUS.ZREALIZOWANA && this.status!=KWESTIA_STATUS.REALIZOWANA)) ||//dla draftów
 
-                    (((this.czyAktywny == true) && ((this.status==KWESTIA_STATUS.ADMINISTROWANA)
-                    || (this.idUser==Meteor.userId()))
-                    || this.typ==KWESTIA_TYPE.ACCESS_DORADCA
+                    (((this.czyAktywny == true) && ((this.status==KWESTIA_STATUS.ADMINISTROWANA) || (this.idUser==Meteor.userId()))
+                    || ((this.typ==KWESTIA_TYPE.ACCESS_DORADCA
                     || this.typ==KWESTIA_TYPE.ACCESS_ZWYCZAJNY
-                    || this.idZglaszajacego==Meteor.userId()));//dla kwesti statusowych
+                    || this.typ==KWESTIA_TYPE.ACCESS_HONOROWY) )
+                    || this.status==KWESTIA_STATUS.OCZEKUJACA
+                    || this.idZglaszajacego==Meteor.userId())
+                    && (this.status!= KWESTIA_STATUS.ZREALIZOWANA && this.status!=KWESTIA_STATUS.REALIZOWANA));//dla kwesti statusowych
             }
         });
         if(kwestie) return kwestie;
@@ -102,8 +104,10 @@ Template.lobbujZaKwestia.helpers({
                     condition = true;
             }
         }
-        console.log(condition);
-        console.log(this.czyAktywny);
+        console.log("uwagaaaaaaaaaaaa");
+        //console.log(this.status);
+        //console.log(condition);
+        //console.log(this.czyAktywny);
         return (this.idUser==Meteor.userId() || this.idZglaszajacego==Meteor.userId() || condition==true) && this.czyAktywny==true &&
         (this.status==KWESTIA_STATUS.GLOSOWANA ||
         this.status==KWESTIA_STATUS.DELIBEROWANA ||

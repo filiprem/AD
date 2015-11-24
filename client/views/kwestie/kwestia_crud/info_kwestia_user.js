@@ -14,8 +14,25 @@
  Dopóki Kwestia jest w Deliberacji, nie wyświetlamy jej dat GLOSOWANIA i FINALU.
  Jak Kwestia przejdzie do panelu GLOSOWANIE to daty się pojawiaja.
  * */
+Template.informacjeKwestia.helpers({
+    isIssueRealizowanaZrealizowana:function(){
+        if(!Meteor.userId()) return false;
+        if((this.status==KWESTIA_STATUS.REALIZOWANA || this.status==KWESTIA_STATUS.ZREALIZOWANA) && this.typ!=KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE){
+            var zespol=null;
+            zespol = ZespolRealizacyjny.findOne({_id: this.idZespolRealizacyjny});
+            if (!zespol)
+                zespol = ZespolRealizacyjnyDraft.findOne({_id: this.idZespolRealizacyjny});
+            if(zespol.idZR)
+                zespol=ZespolRealizacyjny.findOne({_id: zespol.idZR});
+            console.log("ten zespół");
+            console.log(zespol.zespol);
+            return _.contains(zespol.zespol,Meteor.userId()) ? true : false;
+        }
+        else return false;
+    }
+});
 
-Template.informacjeKwestia.rendered = function () {
+Template.issueDetails.rendered = function () {
     //nadajemy priorytet automatycznie po wejściu na kwestię + dajemy punkty
     //za wyjątkiem ,gdy użytkownik nie jest zalogowany lub jest kims innym niz czlonek
     if(Meteor.userId()==null)
@@ -25,6 +42,7 @@ Template.informacjeKwestia.rendered = function () {
         if(me.profile.userType!=USERTYPE.CZLONEK || Meteor.user().roles == "admin")
             return;
     }
+
     var idKwestia=Template.instance().data._id;
     var kwestia = Kwestia.findOne({_id: idKwestia});
     if(kwestia.status!=KWESTIA_STATUS.REALIZOWANA) {
@@ -74,10 +92,10 @@ Template.informacjeKwestia.rendered = function () {
         });
     }
 };
-Template.informacjeKwestia.created = function () {
+Template.issueDetails.created = function () {
     this.listaCzlonkow = new ReactiveVar();
 };
-Template.informacjeKwestia.events({
+Template.issueDetails.events({
     'click #dyskusja': function (e) {
         var id = document.getElementById("dyskusja").name;
         Router.go('dyskusjaKwestia', {_id: id})
@@ -87,7 +105,7 @@ Template.informacjeKwestia.events({
     }
 });
 
-Template.informacjeKwestia.helpers({
+Template.issueDetails.helpers({
     isGlobalParamChange: function(){
         return this.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE ? true : false;
     },
@@ -227,8 +245,6 @@ Template.informacjeKwestia.helpers({
         var zespol=null;
         if(this.zespol) {//kwestia archiwalna lub w koszu
             zespol = this.zespol.czlonkowie;
-            console.log("uwagaaaaaaaaaaaaaaaaaaaaaa");
-            console.log(zespol.czlonkowie);
             return zespol.length >= 3 ? true : false;
         }
         else
@@ -244,9 +260,70 @@ Template.informacjeKwestia.helpers({
         return (result >1)  ? result+ " członków" : result+ " członka";
     }
 });
+Template.issueManageZR.helpers({
+    getZRName:function(idZR,zespol){
+        if(zespol!=null)
+            return zespol.nazwa;
+        else {
+            var zespol = null;
+            zespol = ZespolRealizacyjny.findOne({_id: this.idZespolRealizacyjny});//wlasciwie tylko ta linijka powinna być
+            if (!zespol)
+                zespol = ZespolRealizacyjnyDraft.findOne({_id: this.idZespolRealizacyjny});
+            if (zespol.idZR)
+                zespol = ZespolRealizacyjny.findOne({_id: zespol.idZR});
+            return zespol.nazwa;
+        }
+    },
+    'settings': function () {
+        var self = Template.instance();
+        return {
+            rowsPerPage: 10,
+            showNavigation: 'always',
+            showColumnToggles: false,
+            enableRegex: false,
+            filters: ['customFilter'],
+            fields: [
+                {
+                    key: 'profile.fullName',
+                    label: "Imię i Nazwisko"
+                },
+                {
+                    key: '_id',
+                    label:"Opcje",
+                    tmpl: Template.zrOptions
+                }
+            ],
+            rowClass: function (item) {
+                if(item._id==Meteor.userId())
+                    return "myselfClass";
+            }
+        };
+    },
+    ZRList:function(){//tylko dla realizacji czy zrealizowanych? przyjmijmy ,ze w reazacji,wiec z zr bierzemy
+        var zespol = ZespolRealizacyjny.findOne({_id: this.idZespolRealizacyjny});
+        if(zespol){
+            var users=Users.find({_id:{$in:zespol.zespol}});
+            return users;
+        }
+    }
+});
+
+Template.zrOptions.helpers({
+    currentUser:function(idUser){
+        return idUser==Meteor.userId()? true :false;
+    }
+});
+
+Template.zrOptions.events({
+    'click #giveUpMembership':function(e){
+        e.preventDefault();
+        console.log(Template.instance().data._id);
+
+        $("#zrCurrentIssueMyResolutions").modal("show");
+    }
+});
+
 getZRCount=function(idZR){
-    console.log("weszło tutaj");
-    console.log(idZR);
     var zespol = ZespolRealizacyjny.findOne({_id: idZR});
     if (!zespol)
         zespol = ZespolRealizacyjnyDraft.findOne({_id: idZR});

@@ -12,7 +12,11 @@ Template.kwestiaTopButtons.helpers({
         return isKwestiaGlosowana(idKwestia);
     },
     isRealizowanaNieaktywny:function(status,czyAktywny){
-        return status==KWESTIA_STATUS.REALIZOWANA && czyAktywny==true ? true :false;
+        return (status==KWESTIA_STATUS.REALIZOWANA || status==KWESTIA_STATUS.ZREALIZOWANA) && czyAktywny==true ? true :false;
+    },
+    isInZR:function(idZR){
+        var zr=ZespolRealizacyjny.findOne({_id:idZR});
+        return _.contains(zr.zespol,Meteor.userId()) ? true : false;
     },
     isZrealizowanaChangeParamsGlosowana:function(typ,status){
         if(Meteor.userId())
@@ -29,10 +33,6 @@ Template.kwestiaTopButtons.helpers({
             czyAktywny==false ? true : false;
     },
     isKwestiaAccessOrChangeParamsRealizacja:function(typ,status,czyAktywny){
-        console.log("dane");
-        console.log(typ);
-        console.log(status);
-        console.log(czyAktywny);
         return ((typ==KWESTIA_TYPE.ACCESS_DORADCA ||
         typ==KWESTIA_TYPE.ACCESS_ZWYCZAJNY ||
         typ==KWESTIA_TYPE.ACCESS_HONOROWY ||
@@ -44,7 +44,6 @@ Template.kwestiaTopButtons.helpers({
         czyAktywny==false ? true : false;
     },
     isKwestiaZrealizowana:function(status){
-        console.log("uwagaaa"+ status);
         return status==KWESTIA_STATUS.ZREALIZOWANA ? true : false;
     }
 });
@@ -54,7 +53,7 @@ Template.kwestiaTopButtons.events({
     },
     'click #addOptionButton': function () {
         var kwestiaCanBeInserted=kwestiaIsAllowedToInsert();
-        if(kwestiaCanBeInserted==true) {
+       // if(kwestiaCanBeInserted==true) {
             var kw = null;
             var kwestia = Kwestia.findOne({_id: this.idKwestia});
             if (kwestia) {
@@ -68,9 +67,9 @@ Template.kwestiaTopButtons.events({
             }
             Session.setPersistent("actualKwestia", kw);
             Router.go("addKwestiaOpcja");
-        }
-        else
-            notificationPauseWarning("kwestii",kwestiaCanBeInserted);
+        //}
+       // else
+        //    notificationPauseWarning("kwestii",kwestiaCanBeInserted);
     },
     'click #doArchiwum': function (e) {
         e.preventDefault();

@@ -33,36 +33,40 @@ Template.addHonorowy.rendered=function(){
 Template.addHonorowy.events({
     'submit form':function(e){
         e.preventDefault();
-        var idUser=null;
-        var email=$(e.target).find('[name=email]').val();
-        var users=Users.find({'profile.userType':USERTYPE.DORADCA});
-        users.forEach(function(user){
-            if(user.emails[0].address==email)
-                idUser=user._id;
-        });
-        console.log("id user!");
-        console.log(idUser);
-        var firstName="";
-        var lastName="";
-        if(idUser!=null){
-            var user=Users.findOne({_id:idUser});
-            firstName=user.profile.firstName,
-            lastName=user.profile.lastName
-        }
-        var newUserDraft = [
-            {
-                email: email,
-                login: "",
-                firstName: firstName,
-                lastName: lastName,
-                role: 'user',
-                uwagi: $(e.target).find('[name=uzasadnienie]').val(),
-                userType: USERTYPE.HONOROWY,
-                pesel:"",
-                idUser:idUser,
-                licznikKlikniec:0
-            }];
-        addUserDraftHonorowy(newUserDraft);
+        document.getElementById("submitHonorowy").disabled = true;
+        Meteor.setTimeout(function () {
+            document.getElementById("submitHonorowy").disabled = false;
+            var idUser = null;
+            var email = $(e.target).find('[name=email]').val();
+            var users = Users.find({'profile.userType': USERTYPE.DORADCA});
+            users.forEach(function (user) {
+                if (user.emails[0].address == email)
+                    idUser = user._id;
+            });
+            console.log("id user!");
+            console.log(idUser);
+            var firstName = "";
+            var lastName = "";
+            if (idUser != null) {
+                var user = Users.findOne({_id: idUser});
+                firstName = user.profile.firstName,
+                    lastName = user.profile.lastName
+            }
+            var newUserDraft = [
+                {
+                    email: email,
+                    login: "",
+                    firstName: firstName,
+                    lastName: lastName,
+                    role: 'user',
+                    uwagi: $(e.target).find('[name=uzasadnienie]').val(),
+                    userType: USERTYPE.HONOROWY,
+                    pesel: "",
+                    idUser: idUser,
+                    licznikKlikniec: 0
+                }];
+            addUserDraftHonorowy(newUserDraft);
+        },2000);
     },
     'reset form':function(e){
 

@@ -292,9 +292,6 @@ Meteor.methods({
 });
 recognizeSex=function(userData){
     var welcomeGender=null;
-    console.log("recognize sex");
-    console.log(userData);
-    console.log(userData.profile.pesel);
     if(userData.profile.pesel){
         if(userData.profile.pesel!="") {
             var pesel = userData.profile.pesel.substring(9, 10);

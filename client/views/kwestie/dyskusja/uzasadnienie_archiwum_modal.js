@@ -18,6 +18,7 @@ Template.uzasadnienieArchiwumModal.events({
             var post = [{
                 idKwestia: idKwestia,
                 wiadomosc: message,
+                uzasadnienie:uzasadnienie,
                 idUser: idUser,
                 userFullName: userFullName,
                 addDate: addDate,
@@ -38,38 +39,37 @@ Template.uzasadnienieArchiwumModal.events({
                         }
                     }
                     else {
-                        var wiadomosc = uzasadnienie;
-                       // var idKwestia = ret.idKwestia;
-                        var idParent = ret;
-                        var idUser = Meteor.userId();
-                        var addDate = new Date();
-                        var isParent = false;
-                        var czyAktywny = true;
-                        var userFullName = Meteor.user().profile.fullName;
-                        var ratingValue = 0;
-                        var glosujacy = [];
-
-                        var post = [{
-                            idKwestia: idKwestia,
-                            wiadomosc: wiadomosc,
-                            idUser: idUser,
-                            userFullName: userFullName,
-                            addDate: addDate,
-                            isParent: isParent,
-                            idParent: idParent,
-                            czyAktywny: czyAktywny,
-                            wartoscPriorytetu: ratingValue,
-                            glosujacy: glosujacy
-                        }];
-
-                        Meteor.call('addPostAnswer', post, function (error, ret) {
-                            if (error) {
-                                if (typeof Errors === "undefined")
-                                    Log.error('Error: ' + error.reason);
-                                else
-                                    throwError(error.reason);
-                            } else {
-                                document.getElementsByName("answer_message" + idParent)[0].value = "";
+                        //var wiadomosc = uzasadnienie;
+                        //var idParent = ret;
+                        //var idUser = Meteor.userId();
+                        //var addDate = new Date();
+                        //var isParent = false;
+                        //var czyAktywny = true;
+                        //var userFullName = Meteor.user().profile.fullName;
+                        //var ratingValue = 0;
+                        //var glosujacy = [];
+                        //
+                        //var post = [{
+                        //    idKwestia: idKwestia,
+                        //    wiadomosc: wiadomosc,
+                        //    idUser: idUser,
+                        //    userFullName: userFullName,
+                        //    addDate: addDate,
+                        //    isParent: isParent,
+                        //    idParent: idParent,
+                        //    czyAktywny: czyAktywny,
+                        //    wartoscPriorytetu: ratingValue,
+                        //    glosujacy: glosujacy
+                        //}];
+                        //
+                        //Meteor.call('addPostAnswer', post, function (error, ret) {
+                        //    if (error) {
+                        //        if (typeof Errors === "undefined")
+                        //            Log.error('Error: ' + error.reason);
+                        //        else
+                        //            throwError(error.reason);
+                        //    } else {
+                                //document.getElementsByName("answer_message" + idParent)[0].value = "";
                                 var newValue = 0;
                                 newValue = Number(RADKING.DODANIE_ODNIESIENIA) + getUserRadkingValue(Meteor.userId());
                                 Meteor.call('updateUserRanking', Meteor.userId(), newValue, function (error) {
@@ -80,8 +80,8 @@ Template.uzasadnienieArchiwumModal.events({
                                             throwError(error.reason);
                                     }
                                 });
-                            }
-                        });
+                        //    }
+                        //});
                         document.getElementById("message").value = "";
                         $("#uzasadnijWyborArchiwum").modal("hide");
                         $('html, body').animate({

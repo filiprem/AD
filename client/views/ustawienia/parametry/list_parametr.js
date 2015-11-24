@@ -73,6 +73,10 @@ Template.listParametr.events({
         console.log(this.addReferencePause);
         editParameter("addReferencePause","Częstotliwość dodania odniesienia (w minutach)",this.addReferencePause);
 
+    },
+    'click #editRRDuration':function(e){
+        e.preventDefault();
+        editParameter("okresSkladaniaRR","Okres składania Raportów Realizacyjnych (w dniach)",this.addReferencePause);
     }
 });
 editParameter=function(name,parameterName,value){

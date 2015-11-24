@@ -47,9 +47,6 @@ Template.profileList.helpers({
                 //{key: 'username', label: "Nazwa użytkownika", tmpl: Template.usernameLink},
                 {key: 'Kontakt', label: "Kontakt", tmpl: Template.userEmailContact},
                 {key: 'profile.city', label: "Miasto"}
-                //{key: 'roles', label: "Rola"},
-                //{key: 'profile.userType', label: "Stanowisko w systemie"},
-                //{key: 'profile.rADking', label: "Ranking"},
             ],
             rowClass: function (item) {
                 var tab = self.usersRV.get();
