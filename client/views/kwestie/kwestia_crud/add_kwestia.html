@@ -6,26 +6,51 @@
                     <legend>{{_ "addKwestiaForm.legend"}}</legend>
                     <div class="form-group" id="kwestiaNazwaGroup">
                         <label class="control-label col-xs-3" for="inputEmail">Nazwa Kwestii:</label>
-
                         <div class="col-xs-9">
                             <input class="form-control" name="kwestiaNazwa" maxlength="85" id="kwestiaNazwa"
                                    placeholder="Nazwa Kwestii" value="{{kwestiaNazwa}}" required>
                         </div>
                     </div>
-                    <input type="hidden" value="{{sugerowanyRodzaj}}" id="rodzajHidden"/>
-                    <input type="hidden" value="{{sugerowanyTemat}}" id="tematHidden"/>
                     <div class="form-group">
-                        <label class="control-label col-xs-3" for="sugerowanyTemat">Temat:</label>
+                        <label class="control-label col-xs-3">Temat:</label>
                         <div class="col-xs-9">
-                            <input type="text"  name="sugerowanyTemat" id="sugerowanyTemat" required/>
+                            <input type="button" class="btn btn-primary" id="chooseTopicBtn" value="Wybierz istniejący">
+                            <input type="button" class="btn btn-default" id="addTopicBtn" value="Wprowadź nowy">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-xs-3" for="sugerowanyRodzaj">Rodzaj:</label>
-                        <div class="col-xs-9">
-                            <input type="text" name="sugerowanyRodzaj" id="sugerowanyRodzaj" required/>
+                        <div class="col-xs-offset-3 col-xs-9">
+                            <input class="form-control" name="sugerowanyTemat" id="sugerowanyTemat"
+                                   placeholder="Temat" value="{{topic.nazwaTemat}}" required>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3">Rodzaj:</label>
+                        <div class="col-xs-9">
+                            <input type="button" class="btn btn-primary" id="chooseTypeBtn" value="Wybierz istniejący">
+                            <input type="button" class="btn btn-default" id="addTypeBtn" value="Wprowadź nowy">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-offset-3 col-xs-9">
+                            <input class="form-control" name="sugerowanyRodzaj" id="sugerowanyRodzaj"
+                                   placeholder="Rodzaj" value="{{type.nazwaRodzaj}}" required>
+                        </div>
+                    </div>
+                    <!--<input type="hidden" value="{{sugerowanyRodzaj}}" id="rodzajHidden"/>-->
+                    <!--<input type="hidden" value="{{sugerowanyTemat}}" id="tematHidden"/>-->
+                    <!--<div class="form-group">-->
+                        <!--<label class="control-label col-xs-3" for="sugerowanyTemat">Temat:</label>-->
+                        <!--<div class="col-xs-9">-->
+                            <!--<input type="text"  name="sugerowanyTemat" id="sugerowanyTemat" required/>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="form-group">-->
+                        <!--<label class="control-label col-xs-3" for="sugerowanyRodzaj">Rodzaj:</label>-->
+                        <!--<div class="col-xs-9">-->
+                            <!--<input type="text" name="sugerowanyRodzaj" id="sugerowanyRodzaj" required/>-->
+                        <!--</div>-->
+                    <!--</div>-->
                     <legend>Treść Kwestii</legend>
                     <div class="form-group" id="krotkaTrescGroup">
                         <label class="control-label col-xs-3" for="tresc">Krótka treść:</label>
@@ -54,4 +79,7 @@
             </div>
         </div>
     </div>
+
+    {{>chooseTopicModal}}
+    {{>chooseTypeModal}}
 </template>

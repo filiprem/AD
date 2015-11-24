@@ -1,58 +1,65 @@
 Template.addKwestiaForm.rendered = function () {
 
-    var rodzaj = document.getElementById("rodzajHidden").value;
-    var temat = document.getElementById("tematHidden").value;
+    Session.setPersistent("choosenTopicId", null);
+    Session.setPersistent("choosenTypeId", null);
+    document.getElementById("sugerowanyTemat").disabled = true;
+    document.getElementById("sugerowanyRodzaj").disabled = true;
+    document.getElementById("chooseTypeBtn").disabled = true;
+    document.getElementById("addTypeBtn").disabled = true;
 
-    var tabRodzaj = [];
-    var tabTemat = [];
-
-    if (!!rodzaj)
-        tabRodzaj.push({nazwa: rodzaj});
-    if (!!temat)
-        tabTemat.push({nazwa: temat});
-
-    Rodzaj.find({}).forEach(function (item) {
-        var rodzaj = {
-            nazwa: item.nazwaRodzaj
-        };
-        tabRodzaj.push(rodzaj);
-    });
-
-    Temat.find({}).forEach(function (item) {
-        var temat = {
-            nazwa: item.nazwaTemat
-        };
-        tabTemat.push(temat);
-    });
-
-    var $select1 = $('#sugerowanyRodzaj').selectize({
-        persist: false,
-        createOnBlur: true,
-        create: true,
-        maxItems: 1,
-        labelField: 'nazwa',
-        valueField: 'nazwa',
-        options: tabRodzaj
-    });
-
-    var $select2 = $('#sugerowanyTemat').selectize({
-        persist: false,
-        createOnBlur: true,
-        create: true,
-        maxItems: 1,
-        labelField: 'nazwa',
-        valueField: 'nazwa',
-        options: tabTemat
-        //create: function(input){
-        //    if(input==null)
-        //        return input+'ala';
-        //    alert("cxdcd");
-        //    return false;
-        //}
-    });
-
-    $select1[0].selectize.setValue(rodzaj);
-    $select2[0].selectize.setValue(temat);
+    //var rodzaj = document.getElementById("rodzajHidden").value;
+    //var temat = document.getElementById("tematHidden").value;
+    //
+    //var tabRodzaj = [];
+    //var tabTemat = [];
+    //
+    //if (!!rodzaj)
+    //    tabRodzaj.push({nazwa: rodzaj});
+    //if (!!temat)
+    //    tabTemat.push({nazwa: temat});
+    //
+    //Rodzaj.find({}).forEach(function (item) {
+    //    var rodzaj = {
+    //        nazwa: item.nazwaRodzaj
+    //    };
+    //    tabRodzaj.push(rodzaj);
+    //});
+    //
+    //Temat.find({}).forEach(function (item) {
+    //    var temat = {
+    //        nazwa: item.nazwaTemat
+    //    };
+    //    tabTemat.push(temat);
+    //});
+    //
+    //var $select1 = $('#sugerowanyRodzaj').selectize({
+    //    persist: false,
+    //    createOnBlur: true,
+    //    create: true,
+    //    maxItems: 1,
+    //    labelField: 'nazwa',
+    //    valueField: 'nazwa',
+    //    options: tabRodzaj
+    //});
+    //
+    //var $select2 = $('#sugerowanyTemat').selectize({
+    //    persist: false,
+    //    createOnBlur: true,
+    //    create: true,
+    //    maxItems: 1,
+    //    labelField: 'nazwa',
+    //    valueField: 'nazwa',
+    //    options: tabTemat
+    //    //create: function(input){
+    //    //    if(input==null)
+    //    //        return input+'ala';
+    //    //    alert("cxdcd");
+    //    //    return false;
+    //    //}
+    //});
+    //
+    //$select1[0].selectize.setValue(rodzaj);
+    //$select2[0].selectize.setValue(temat);
 
 
     $("#kwestiaForm").validate({
@@ -106,6 +113,15 @@ Template.addKwestiaForm.rendered = function () {
     })
 };
 
+Template.addKwestiaForm.helpers({
+    topic: function () {
+        return Temat.findOne({_id: Session.get("choosenTopicId")})
+    },
+    type: function () {
+        return Rodzaj.findOne({_id: Session.get("choosenTypeId")})
+    }
+});
+
 Template.addKwestiaForm.events({
     'submit form': function (e) {
         e.preventDefault();
@@ -133,5 +149,17 @@ Template.addKwestiaForm.events({
     },
     'reset form': function () {
         Router.go('listKwestia');
+    },
+    'click #chooseTopicBtn': function () {
+        $("#chooseTopicModalId").modal("show");
+    },
+    'click #addTopicBtn': function () {
+        $("#addTopicModalId").modal("show");
+    },
+    'click #chooseTypeBtn': function () {
+        $("#chooseTypeModalId").modal("show");
+    },
+    'click #addTypeBtn': function () {
+        $("#addTypeModalId").modal("show");
     }
 });

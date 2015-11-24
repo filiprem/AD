@@ -59,8 +59,5 @@ Template.editKwestiaForm.events({
         }
         else {
         }
-    },
-    'reset form': function () {
-        Router.go('listKwestia');
     }
 });
