@@ -1,4 +1,5 @@
 Template.addNazwaModalInner.rendered = function () {
+    $('#nazwaZR').css("visibility", "visible");
     $("addNazwa").validate({
         rules:{
             nazwaZR: {
@@ -30,10 +31,11 @@ Template.addNazwaModalInner.rendered = function () {
 
 Template.addNazwaModal.events({
     'click #zapiszButton': function (e) {
+        e.preventDefault();
+        $('#nazwaZR').css("visibility", "hidden");
         console.log("SIEMAAA");
         console.log(this._id);
         var idKwestia=this._id;
-        e.preventDefault();
         var nazwa = document.getElementById('nazwaZR').value;
         var zespoly = ZespolRealizacyjny.find({czyAktywny:true});
         var z = "Zespół Realizacyjny ds. ";

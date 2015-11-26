@@ -1,5 +1,5 @@
 Template.czlonekZwyczajnyForm.rendered = function () {
-    document.getElementById("submitZwyczajny").disabled = true;
+    document.getElementById("submitZwyczajny").disabled = false;
 
     $("#userForm").validate({
         rules: {
@@ -82,7 +82,7 @@ Template.czlonekZwyczajnyForm.events({
         //kwestia ta sama z draftem zawsze!
 
         if ($('#userForm').valid()) {
-            document.getElementById("submitZwyczajny").disabled = false;
+            document.getElementById("submitZwyczajny").disabled = true;
 
             var idUser = null;
             if (Meteor.userId())

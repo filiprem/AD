@@ -38,6 +38,9 @@ Meteor.methods({
     removeUserDraft: function(id){
         UsersDraft.update({_id:id},{$set:{czyAktywny: false,czyZrealizowany:true}});
     },
+    removeUserDraftAddNewIdUser: function(id,idUser){
+        UsersDraft.update({_id:id},{$set:{czyAktywny: false,czyZrealizowany:true,'profile.idUser':idUser}});
+    },
     removeUserDraftNotZrealizowany: function(id){
         UsersDraft.update({_id:id},{$set:{czyAktywny: false,czyZrealizowany:false}});
     },

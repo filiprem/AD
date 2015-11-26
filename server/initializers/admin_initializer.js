@@ -95,7 +95,8 @@ Meteor.startup(function () {
                     gender: data[i].Gender,
                     phone: data[i].Phone,
                     web: data[i].Web,
-                    roles: data[i].Role
+                    roles: data[i].Role,
+                    userType:'admin'
                 }
             );
         }

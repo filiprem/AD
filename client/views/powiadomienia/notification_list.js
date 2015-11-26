@@ -29,11 +29,11 @@ Template.notificationList.helpers({
             }
         };
     },
-    PowiadomieniaList: function () {
-        //console.log(this._id);
-        console.log(Powiadomienie.find({idOdbiorca:Meteor.userId()}).count());
-        return Powiadomienie.find({idOdbiorca:Meteor.userId(),czyAktywny:true},{$sort:{dataWprowadzenia:-1}});
-    },
+    //PowiadomieniaList: function () {
+    //    //console.log(this._id);
+    //    console.log(Powiadomienie.find({idOdbiorca:Meteor.userId()}).count());
+    //    return Powiadomienie.find({idOdbiorca:Meteor.userId(),czyAktywny:true},{$sort:{dataWprowadzenia:-1}});
+    //},
     usersCount: function () {
         return Users.find().count() - 1;
     }

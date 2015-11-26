@@ -281,7 +281,7 @@ addNewUser=function(firstName,lastName,city,email,kwestia){
             var idUser=ret;
             console.log("idUser");
             console.log(idUser);
-            Meteor.call("removeUserDraft", getUserDraftMethod(Router.current().params)._id, function (error) {
+            Meteor.call("removeUserDraftAddNewIdUser", getUserDraftMethod(Router.current().params)._id,idUser, function (error) {
                 if (error)
                     console.log(error.reason);
                 else{

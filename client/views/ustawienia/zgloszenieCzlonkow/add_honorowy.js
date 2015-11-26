@@ -1,5 +1,5 @@
 Template.addHonorowy.rendered=function(){
-    document.getElementById("submitHonorowy").disabled = true;
+    document.getElementById("submitHonorowy").disabled = false;
     $("#honorowyForm").validate({
         rules: {
             email: {
@@ -34,7 +34,7 @@ Template.addHonorowy.events({
     'submit form':function(e){
         e.preventDefault();
         if ($('#honorowyForm').valid()) {
-            document.getElementById("submitHonorowy").disabled = false;
+            document.getElementById("submitHonorowy").disabled = true;
             var idUser = null;
             var email = $(e.target).find('[name=email]').val();
             var users = Users.find({'profile.userType': USERTYPE.DORADCA});

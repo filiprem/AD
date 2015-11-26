@@ -49,25 +49,16 @@ Template.kosz.helpers({
                 },
                 {key: 'idTemat', label: "Temat", tmpl: Template.tematKwestia},
                 {key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestia}
-                //{
-                //    key: 'dataGlosowania',
-                //    label: Template.listKwestiaColumnLabel,
-                //    labelData: {
-                //        title: "Data zakończenia głosowania",
-                //        text: "Finał"
-                //    },
-                //    tmpl: Template.dataGlKwestia
-                //}
             ]
         };
     },
-    KoszList: function () {
-        return Kwestia.find({czyAktywny: false});
-    },
-    KoszListCount: function () {
-        var ile = Kwestia.find({czyAktywny: false}).count();
-        return ile > 0 ? true : false;
-    }
+    //KoszList: function () {
+    //    return Kwestia.find({czyAktywny: false});
+    //},
+    //KoszListCount: function () {
+    //    var ile = Kwestia.find({czyAktywny: false}).count();
+    //    return ile > 0 ? true : false;
+    //}
 });
 
 Template.dataKoniecKwestia.helpers({

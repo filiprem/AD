@@ -244,22 +244,8 @@ Template.listKwestia.helpers({
         else
             return null;
     },
-    kwestiaCount: function () {
-        return Kwestia.find({czyAktywny: true}).count();
-    },
     isAdminUser: function () {
         return IsAdminUser();
-    },
-    isAdmin: function () {
-        if(Meteor.user()){
-            if (Meteor.user().roles) {
-                if (Meteor.user().roles == "admin")
-                    return true;
-                else
-                    return false;
-            }
-            else return false;
-        }
     }
 });
 
@@ -292,41 +278,31 @@ Template.id.helpers({
 
 Template.priorytetKwestia.helpers({
     priorytet: function () {
-        var kwe = Kwestia.findOne({_id: this._id});
-        if (kwe) {
-            var p = this.wartoscPriorytetu;
-            if (p) {
-                if (p > 0) p = " +" + p;
-                return p ;
-            }
-            else return 0 ;
+        var p = this.wartoscPriorytetu;
+        if (p) {
+            if (p > 0) p = " +" + p;
+            return p ;
         }
+        else return 0 ;
     },
     myGlos:function(){
-        var searchedId = this._id;
-        var kwe = Kwestia.findOne({_id: this._id});
-        if (kwe) {
-            var glosy = kwe.glosujacy.slice();
-            var myGlos;
-            _.each(glosy, function (glos) {
-                if (glos.idUser == Meteor.userId()) {
-                    myGlos = glos.value;
-                }
-            });
-            if (myGlos) {
-                if (myGlos > 0) myGlos = "+" + myGlos;
+        var glosy = this.glosujacy.slice();
+        var myGlos;
+        _.each(glosy, function (glos) {
+            if (glos.idUser == Meteor.userId()) {
+                myGlos = glos.value;
             }
-            else
-                myGlos = 0;
-            return " (" + myGlos+")";
+        });
+        if (myGlos) {
+            if (myGlos > 0) myGlos = "+" + myGlos;
         }
+        else
+            myGlos = 0;
+        return " (" + myGlos+")";
     },
     nadanyPriorytet:function(){
-        var kwestia=Kwestia.findOne({_id:this._id});
-        if(kwestia){
-            if(Meteor.userId())
-                return _.contains(_.pluck(kwestia.glosujacy,'idUser'),Meteor.userId()) ? true : false;
-        }
+        if(Meteor.userId())
+            return _.contains(_.pluck(this.glosujacy,'idUser'),Meteor.userId()) ? true : false;
     }
 });
 

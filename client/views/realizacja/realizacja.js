@@ -61,17 +61,14 @@ Template.realizacjaTab1.helpers({
                 }
             ]
         };
-    },
-    RealizacjaList: function () {
-        return Kwestia.find({czyAktywny: true, status: {$in:[KWESTIA_STATUS.REALIZOWANA]}}).fetch();
-    },
-    realizacjaCount: function () {
-        return Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.REALIZOWANA}).count();
-    },
-    RealizacjaListCount: function () {
-        var ile = Kwestia.find({czyAktywny: true, status: {$in:[KWESTIA_STATUS.REALIZOWANA]}}).count();
-        return ile > 0 ? true : false;
     }
+    //RealizacjaList: function () {
+    //    return Kwestia.find({czyAktywny: true, status: {$in:[KWESTIA_STATUS.REALIZOWANA]}}).fetch();
+    //},
+    //RealizacjaListCount: function () {
+    //    var ile = Kwestia.find({czyAktywny: true, status: {$in:[KWESTIA_STATUS.REALIZOWANA]}}).count();
+    //    return ile > 0 ? true : false;
+    //}
 });
 
 Template.realizacjaTab1.events({

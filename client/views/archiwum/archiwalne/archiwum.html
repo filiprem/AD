@@ -2,16 +2,16 @@
     <div class="main">
         <div class="row">
             <div class="col-md-12">
-                {{#if ArchiwumListCount}}
+                <!--{{#if ArchiwumListCount}}-->
                     {{> reactiveTable
                     class = "table table-bordered table-hover"
                     fields = settings.fields
                     settings = settings
-                    collection = ArchiwumList
+                    collection = "ArchiwumList"
                     }}
-                {{else}}
-                    <label>Brak Kwestii</label>
-                {{/if}}
+                <!--{{else}}-->
+                    <!--<label>Brak Kwestii</label>-->
+                <!--{{/if}}-->
             </div>
         </div>
     </div>

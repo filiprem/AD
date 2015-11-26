@@ -366,7 +366,7 @@ applicationEmail=function(userData,emailTypeText,passw){
     console.log(url);
     var userName=null;
     if(userData.profile.firstName!=null && userData.profile.firstName.trim()!= '')
-        username=userData.profile.firstName+" "+userData.profile.lastName;
+        userName=userData.profile.firstName+" "+userData.profile.lastName;
     else
         userName=userData.email;
     var html = SSR.render(emailTypeText,{

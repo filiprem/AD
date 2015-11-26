@@ -39,7 +39,7 @@ Template.activateAccount.rendered=function(){
                        var idUser=ret;
                        console.log("idUser");
                        console.log(idUser);
-                       Meteor.call("removeUserDraft", userDraft._id, function (error) {
+                       Meteor.call("removeUserDraftAddNewIdUser", userDraft._id,idUser, function (error) {
                            if (error)
                                console.log(error.reason);
                            else{
