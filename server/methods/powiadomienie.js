@@ -13,6 +13,7 @@ Meteor.methods({
             idUserDraft:newPowiadomienie.idUserDraft,
             uzasadnienie:newPowiadomienie.uzasadnienie,
             czyAktywny: true,
+            zespol:newPowiadomienie.zespol,
             czyOdczytany:newPowiadomienie.czyOdczytany
         });
         return id;

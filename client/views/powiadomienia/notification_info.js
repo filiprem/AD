@@ -34,6 +34,9 @@ Template.notificationInfo.helpers({
     notificationTypeApplicationConfirmationAcceptedRejected:function(){
         return _.contains([NOTIFICATION_TYPE.APPLICATION_CONFIRMATION,NOTIFICATION_TYPE.APPLICATION_ACCEPTED,
             NOTIFICATION_TYPE.APPLICATION_REJECTED ],this.powiadomienieTyp)? true : false;
+    },
+    notificationTypeLackOfRealizationReport:function(){
+        return this.powiadomienieTyp==NOTIFICATION_TYPE.LACK_OF_REALIZATION_REPORT ? true : false;
     }
 });
 
@@ -93,6 +96,52 @@ Template.notificationNewIssue.helpers({
         else
             var rodzaj=Rodzaj.findOne({_id:this.idRodzaj});
         return rodzaj? rodzaj.nazwaRodzaj : "";
+    }
+});
+
+Template.notificationLackOfRealizationReport.helpers({
+    powiadomienie:function(idPowiadomienie){
+        return getNotification(idPowiadomienie);
+    },
+    actualKwestia:function(idKwestia){
+        return getIssue(idKwestia);
+    },
+    welcomeGender:function(){
+        return recognizeSexMethod(Meteor.user());
+    },
+    userData:function(){
+        return Meteor.user().profile.fullName;
+    },
+    organisationName:function(){
+        return Parametr.findOne().nazwaOrganizacji;
+    },
+    temat:function(){
+        if(this.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE)
+            return "techniczna systemowa";
+        else
+            var temat=Temat.findOne({_id:this.idTemat});
+        return temat? temat.nazwaTemat : "";
+    },
+    rodzaj:function(){
+        if(this.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE)
+            return "techniczna systemowa";
+        else
+            var rodzaj=Rodzaj.findOne({_id:this.idRodzaj});
+        return rodzaj? rodzaj.nazwaRodzaj : "";
+    },
+    czlonekZR:function(zespol){
+        console.log("elo");
+        console.log(zespol);
+        var array=[];
+        _.each(zespol,function(czlonekId){
+            var user=Users.findOne({_id:czlonekId});
+            var obj={
+                fullName:user.profile.fullName,
+                url:Meteor.absoluteUrl()+"new_message/"+czlonekId
+            };
+            array.push(obj);
+        });
+        return array;
     }
 });
 

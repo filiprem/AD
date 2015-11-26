@@ -18,6 +18,20 @@ SyncedCron.add({
 });
 
 SyncedCron.add({
+    name: 'checking RR',
+    schedule: function(parser) {
+        // parser is a later.parse object
+        var RRFrequency = Parametr.findOne({}).okresSkladaniaRR;
+        //return parser.text('every '+ voteFreq + ' day'); domyslnie bedzie w dniach?
+        //return parser.text('every 20 seconds');
+        return parser.text('every '+ RRFrequency + ' minute');
+    },
+    job: function() {
+        return checkingRRExist();
+    }
+});
+
+SyncedCron.add({
     name: 'checking if deliberation expired',
     schedule: function(parser) {
         // parser is a later.parse object
@@ -41,28 +55,6 @@ SyncedCron.add({
 //    }
 //});
 
-//Observe dla parametru który ustawia częstotliwość w cronie "checking issues to vote crone"
-Meteor.startup(function (){
-    var parametr = Parametr.find({});
-    parametr.observe({
-        changedAt: function(newParametr, oldParametr, atIndex){
-            //if(oldParametr.voteFrequency!=newParametr.voteFrequency){
-            //    //console.log("było:"+oldParametr.voteFrequency+" jest:"+newParametr.voteFrequency);
-            //    SyncedCron.remove('checking issues to vote crone');
-            //    SyncedCron.add({
-            //        name: 'checking issues to vote crone',
-            //        schedule: function(parser) {
-            //            // parser is a later.parse object
-            //            return parser.text('every '+ newParametr.voteFrequency + ' minute');
-            //        },
-            //        job: function() {
-            //            return checkingIssuesToVote();
-            //        }
-            //    });
-            //}
-        }
-    });
-});
 
 //==================================== wywoływane metody ======================================================//
 
@@ -71,6 +63,43 @@ Meteor.startup(function (){
 //i wtedy dodawać 30 dni (taki jest termin) lub odrazu zapisywać termin wygaśniecia kwesti oczekującej.
 
 //sprawdzanie kiedy koniec glosowania i dopowiednie dzzialania-realizacja lub kosz lub sth else
+checkingRRExist=function(){
+    console.log(moment(new Date()).format());
+    var kwestie=Kwestia.find({czyAktywny:true,status:{$in:[KWESTIA_STATUS.ZREALIZOWANA,KWESTIA_STATUS.REALIZOWANA]}});
+    console.log("liczba kwestii:"+kwestie.count());
+    kwestie.forEach(function(kwestia){
+        var param=Parametr.findOne().okresSkladaniaRR;
+        var timeNow=moment(new Date()).format();
+        //w previousCheck- ustwienia zgodnie z param glob domyślnymi ma być! czylo sub -days
+        var previousCheck=moment(new Date()).subtract(param,"minutes").format();
+        console.log("time now");
+        console.log(timeNow);
+        console.log("previous check");
+        console.log(previousCheck);
+        console.log(Raport.find({idKwestia:kwestia._id}).count());
+        var raporty=Raport.find({idKwestia:kwestia._id,
+            dataWprowadzenia: {
+                $gte: previousCheck,
+                $lt: timeNow
+            }},{sort:{dataWprowadzenia:-1}});
+
+        if(raporty.count()==0){
+            console.log("wysyłamy powiadomienie");
+            Meteor.call("sendEmailNoRealizationReport",kwestia._id,function(error){
+                if(error)
+                console.log(error.reason);
+            });
+            var users=Users.find({'profile.userType':USERTYPE.CZLONEK});
+            users.forEach(function(user){
+                //dodaj!-wybranie z zespolu tych czlonkow,którzy czyAtywny==true
+                var zr=ZespolRealizacyjny.findOne({_id:kwestia.idZespolRealizacyjny});
+                addPowiadomienieAplikacjaRespondMethodPosts(kwestia._id,new Date(),NOTIFICATION_TYPE.LACK_OF_REALIZATION_REPORT,user._id,zr.zespol);
+            });
+        }
+        else console.log("jest raport!");
+
+    });
+};
 checkingEndOfVote = function() {
 
     var pktZaUdzialWZesp = RADKING.UDZIAL_W_ZESPOLE_REALIZACYJNYM;
@@ -170,7 +199,7 @@ checkingEndOfVote = function() {
                                         if(!error){
                                             Meteor.call("removeUserDraft",userDraft._id,function(error){
                                                 if(!error){
-                                                    addPowiadomienieAplikacjaRespondMethodPosts(issueUpdated._id,new Date(),NOTIFICATION_TYPE.APPLICATION_ACCEPTED,user._id);
+                                                    addPowiadomienieAplikacjaRespondMethodPosts(issueUpdated._id,new Date(),NOTIFICATION_TYPE.APPLICATION_ACCEPTED,user._id,null);
                                                     Meteor.call("sendApplicationAccepted",userDraft,"acceptExisting",function(error){
                                                         if(error)
                                                             console.log(error.reason);

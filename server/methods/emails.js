@@ -10,6 +10,7 @@ SSR.compileTemplate('email_application_rejected',Assets.getText('email_applicati
 SSR.compileTemplate('email_application_accepted',Assets.getText('email_application_accepted.html'));
 SSR.compileTemplate('email_application_accepted_existing_user',Assets.getText('email_application_accepted_existing_user.html'));
 SSR.compileTemplate('email_login_data',Assets.getText('email_login_data.html'));
+SSR.compileTemplate('email_no_realization_report',Assets.getText('email_no_realization_report.html'));
 
 Template.email_started_voting.helpers({
     nadanoPriorytet: function (kwestiaId,userId) {
@@ -30,6 +31,24 @@ Template.email_started_voting.helpers({
         console.log("my obj:");
         console.log(myObj);
         return myObj[0] ? myObj[0].value : null;
+    }
+});
+Template.email_no_realization_report.helpers({
+    czlonekZR:function(idZespolRealizacyjny){
+        var zr=ZespolRealizacyjny.findOne({_id:idZespolRealizacyjny});
+        //srpawdzać trzeba bedzie czy jest choć 1 członek-ale to w cronie przed wygenerowaniem powiad
+        //var zespolCount= (_.pluck(zr.zespol,'czyAktywny')).count();
+        //if(zespolCount==0) trouble
+        var array=[];
+        _.each(zr.zespol,function(czlonekId){
+            var user=Users.findOne({_id:czlonekId});
+            var obj={
+                 fullName:user.profile.fullName,
+                 url:Meteor.absoluteUrl()+"new_message/"+czlonekId
+            };
+            array.push(obj);
+        });
+        return array;
     }
 });
 
@@ -141,6 +160,48 @@ Meteor.methods({
                     to: item.emails[0].address,
                     from: "admin AD",
                     subject: "Podjęto uchwałę",
+                    html: html
+                });
+            }
+        });
+    },
+    sendEmailNoRealizationReport: function (idKwestia) {
+        this.unblock();
+        var parametr = Parametr.findOne({});
+        var kwestiaItem = Kwestia.findOne({_id:idKwestia});
+        var rodzaj = Rodzaj.findOne({_id:kwestiaItem.idRodzaj});
+        var temat = Temat.findOne({_id:kwestiaItem.idTemat});
+        if(!rodzaj)
+            rodzaj="techniczna systemowa";
+        else
+            rodzaj=rodzaj.nazwaRodzaj;
+        if(!temat)
+            temat="techniczna systemowa";
+        else temat=temat.nazwaTemat;
+
+        Users.find({}).forEach(function(item) {
+
+            if (!Roles.userIsInRole(item, ['admin']) && item.profile.userType==USERTYPE.CZLONEK) {
+                console.log(item.profile.fullName);
+                console.log("uwaga!");
+                var html = SSR.render('email_no_realization_report',{
+                    welcomeGender:recognizeSex(item),//
+                    userData:item.profile.fullName,//
+                    organizacja: parametr.nazwaOrganizacji,//
+                    krotkaTresc: kwestiaItem.krotkaTresc,//
+                    nazwaKwestii: kwestiaItem.kwestiaNazwa,//
+                    idZespolRealizacyjny:kwestiaItem.idZespolRealizacyjny,
+                    //idKwestii:kwestiaItem._id,
+                    //idUser: item._id,
+                    rodzaj: rodzaj,//
+                    temat: temat,//
+                    url:Meteor.absoluteUrl()+"issue_info/"+kwestiaItem._id,//
+                    urlLogin:Meteor.absoluteUrl()+"account/login"//
+                });
+                Email.send({
+                    to: item.emails[0].address,
+                    from: "admin AD",
+                    subject: "Komunikat o braku Raportu Realizacyjnego",
                     html: html
                 });
             }

@@ -247,7 +247,7 @@ Meteor.startup(function(){
         }
     };
 
-    addPowiadomienieAplikacjaRespondMethodPosts=function(idKwestia,dataWprowadzenia,typ,idReceiver){
+    addPowiadomienieAplikacjaRespondMethodPosts=function(idKwestia,dataWprowadzenia,typ,idReceiver,zespol){
         var newPowiadomienie ={
             idOdbiorca: idReceiver,
             idNadawca: null,
@@ -257,7 +257,8 @@ Meteor.startup(function(){
             tresc: "",
             idKwestia:idKwestia,
             czyAktywny: true,
-            czyOdczytany:false
+            czyOdczytany:false,
+            zespol:zespol
         };
         Meteor.call("addPowiadomienie",newPowiadomienie,function(error){
             if(error)

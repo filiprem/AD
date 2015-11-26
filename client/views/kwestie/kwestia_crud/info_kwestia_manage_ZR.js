@@ -44,6 +44,8 @@ Template.ZRTemplate.helpers({
         }
     },
     isInZR:function(idZr){
+        if(Meteor.user().profile.userType!==USERTYPE.CZLONEK)
+            return "disabled";
         var zrDraft=ZespolRealizacyjnyDraft.findOne({_id:idZr});
         if(zrDraft){
             return _.contains(zrDraft.zespol,Meteor.userId()) ? "disabled" :"";
