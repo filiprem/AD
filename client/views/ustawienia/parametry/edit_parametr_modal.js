@@ -142,6 +142,7 @@ parametrPreview=function(paramName,title,oldValue,newValue){
                 label: "Zgadzam się",
                 className: "btn-success",
                 callback: function() {
+                    $('.btn-success').css("visibility", "hidden");
                     createIssueChangeParam(paramName,title,oldValue,newValue);
                 }
             },
@@ -149,7 +150,7 @@ parametrPreview=function(paramName,title,oldValue,newValue){
                 label: "Rezygnuję",
                 className: "btn-danger",
                 callback: function() {
-
+                    $('.btn-success').css("visibility", "visible");
                 }
             }
         }

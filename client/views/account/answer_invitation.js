@@ -230,10 +230,12 @@ fillDataNewHonorowyBootbox=function(kwestia,email){
                         console.log(lastName);
                         console.log(city);
                         if(firstName.trim()!='' && lastName.trim()!='' && city.trim()!=''){
+                            $('.btn-success').css("visibility", "hidden");
                             addNewUser(firstName,lastName,city,email,kwestia);
                         }
                         else{
                             fillDataNewHonorowyBootbox(kwestia,email);
+                            $('.btn-success').css("visibility", "visible");
                             GlobalNotification.error({
                                 title: 'Błąd',
                                 content: 'Formularz nie może zawierać pustych pól!',

@@ -110,26 +110,22 @@ Template.addKwestiaForm.events({
     'submit form': function (e) {
         e.preventDefault();
 
-        document.getElementById("submitAddKwestia").disabled = true;
-        Meteor.setTimeout(function () {
-            document.getElementById("submitAddKwestia").disabled = false;
-            var newKwestia = [
-                {
-                    idUser: Meteor.userId(),
-                    dataWprowadzenia: new Date(),
-                    kwestiaNazwa: $(e.target).find('[name=kwestiaNazwa]').val(),
-                    wartoscPriorytetu: 0,
-                    temat: $(e.target).find('[name=sugerowanyTemat]').val(),
-                    rodzaj: $(e.target).find('[name=sugerowanyRodzaj]').val(),
-                    krotkaTresc: $(e.target).find('[name=krotkaTresc]').val(),
-                    szczegolowaTresc: $(e.target).find('[name=szczegolowaTresc]').val(),
-                    isOption: false,
-                    typ: KWESTIA_TYPE.BASIC
-                }];
+        var newKwestia = [
+            {
+                idUser: Meteor.userId(),
+                dataWprowadzenia: new Date(),
+                kwestiaNazwa: $(e.target).find('[name=kwestiaNazwa]').val(),
+                wartoscPriorytetu: 0,
+                temat: $(e.target).find('[name=sugerowanyTemat]').val(),
+                rodzaj: $(e.target).find('[name=sugerowanyRodzaj]').val(),
+                krotkaTresc: $(e.target).find('[name=krotkaTresc]').val(),
+                szczegolowaTresc: $(e.target).find('[name=szczegolowaTresc]').val(),
+                isOption: false,
+                typ: KWESTIA_TYPE.BASIC
+            }];
 
-            Session.setPersistent("kwestiaPreview", newKwestia[0]);
-            Router.go('previewKwestia');
-        },2000);
+        Session.setPersistent("kwestiaPreview", newKwestia[0]);
+        Router.go('previewKwestia');
     },
     'reset form': function () {
         Router.go('listKwestia');

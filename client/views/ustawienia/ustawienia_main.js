@@ -160,6 +160,7 @@ bootboxEmail=function(idKwestia){
                 label: "Wyślij",
                 className: "btn-success",
                 callback: function() {
+                    $('.btn-success').css("visibility", "hidden");
                     sendEmailAndNotification(idKwestia,$('#emailText').val());
                 }
             },
@@ -167,7 +168,7 @@ bootboxEmail=function(idKwestia){
                 label: "Anuluj",
                 className: "btn-danger",
                 callback: function() {
-
+                    $('.btn-success').css("visibility", "visible");
                 }
             }
         }

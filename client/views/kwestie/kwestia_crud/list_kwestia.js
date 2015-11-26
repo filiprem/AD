@@ -47,6 +47,7 @@ Template.listKwestia.rendered = function () {
         self.liczbaKwestiRV.set(tab);
     });
 };
+
 Template.listKwestia.created = function () {
     this.liczbaKwestiRV = new ReactiveVar();
     this.choosenSortRV = new ReactiveVar();
@@ -56,7 +57,6 @@ Template.listKwestia.created = function () {
 Template.listKwestia.events({
     'click #addKwestiaButton': function () {
        // var kwestiaCanBeInserted=kwestiaIsAllowedToInsert();
-        console.log("odp");
        // console.log(kwestiaCanBeInserted);
         //if(kwestiaCanBeInserted==true) {
             if (!!Session.get("kwestiaPreview"))
@@ -72,9 +72,6 @@ Template.listKwestia.events({
         en.registerAddKwestiaNotification('AD', 'Organizacja DOM', users,
             'Kwestia w sprawie...', 'Uchwała', 'Opis Kwestii....', 'linkDK', 'linkLoginTo');
     },
-    //'click #kwestiaIdClick': function () {
-    //
-    //},
     "change #customFilterSelect": function (event, template) {
         var input = $(event.target).val();
         var self = Template.instance();
@@ -97,7 +94,9 @@ Template.listKwestia.helpers({
         var self = Template.instance();
         var sort = self.choosenSortRV.get();
         return {
+            currentPage:Template.instance().currentPage,
             rowsPerPage: 15,
+            showNavigationRowsPerPage:true,
             //showFilter: true,
             showNavigation: 'always',
             showColumnToggles: false,
@@ -158,6 +157,8 @@ Template.listKwestia.helpers({
         var self = Template.instance();
         var sort = self.choosenSortRV.get();
         return {
+           // currentPage:Template.instance().currentPage,
+            //collection:"KwestiaList",
             rowsPerPage: 15,
             //showFilter: true,
             showNavigation: 'always',

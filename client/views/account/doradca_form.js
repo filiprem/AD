@@ -1,4 +1,5 @@
 Template.doradcaForm.rendered = function () {
+    document.getElementById("submitButton").disabled = false;
     $('#dataUrodzeniaDatePicker').datetimepicker({
         sideBySide: true,
         format: 'DD/MM/YYYY'
@@ -44,9 +45,8 @@ Template.doradcaForm.rendered = function () {
 Template.doradcaForm.events({
     'submit form': function (e) {
         e.preventDefault();
-        document.getElementById("submitButton").disabled = true;
-        Meteor.setTimeout(function () {
-            document.getElementById("submitButton").disabled = false;
+        if ($('#doradcaFormApp').valid()) {
+            document.getElementById("submitButton").disabled = true;
 
             var idUser = null;
             if (Meteor.userId())
@@ -68,8 +68,7 @@ Template.doradcaForm.events({
             newUser[0].login = generateLogin(newUser[0].firstName, newUser[0].lastName);
 
             addUserDraftDoradca(newUser);
-        }, 2000);
-
+        }
     },
     'reset form': function () {
         Router.go('home');

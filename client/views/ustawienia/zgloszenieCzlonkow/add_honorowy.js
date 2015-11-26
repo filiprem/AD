@@ -1,5 +1,5 @@
 Template.addHonorowy.rendered=function(){
-
+    document.getElementById("submitHonorowy").disabled = true;
     $("#honorowyForm").validate({
         rules: {
             email: {
@@ -33,8 +33,7 @@ Template.addHonorowy.rendered=function(){
 Template.addHonorowy.events({
     'submit form':function(e){
         e.preventDefault();
-        document.getElementById("submitHonorowy").disabled = true;
-        Meteor.setTimeout(function () {
+        if ($('#honorowyForm').valid()) {
             document.getElementById("submitHonorowy").disabled = false;
             var idUser = null;
             var email = $(e.target).find('[name=email]').val();
@@ -66,7 +65,7 @@ Template.addHonorowy.events({
                     licznikKlikniec: 0
                 }];
             addUserDraftHonorowy(newUserDraft);
-        },2000);
+        }
     },
     'reset form':function(e){
 
