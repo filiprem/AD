@@ -9,7 +9,8 @@ Meteor.methods({
             dataUtworzenia:newRaport.dataUtworzenia,
             idKwestia:newRaport.idKwestia,
             tytul:newRaport.tytul,
-            opis:newRaport.opis
+            opis:newRaport.opis,
+            czyAktywny:true
         });
     },
     updateRaport: function(id, raport){

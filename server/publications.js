@@ -157,6 +157,10 @@ Meteor.publish('postsByKwestiaId', function (id) {
     return Posts.find({idKwestia: id, czyAktywny: true});
 });
 
+Meteor.publish('reportsByKwestiaId', function (id) {
+    return Raport.find({idKwestia: id, czyAktywny: true});
+});
+
 Meteor.publish('allPosts', function () {
     return Posts.find({czyAktywny: true});
 });

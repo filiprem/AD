@@ -27,7 +27,7 @@ SyncedCron.add({
         return parser.text('every '+ RRFrequency + ' minute');
     },
     job: function() {
-        return checkingRRExist();
+        //return checkingRRExist();
     }
 });
 

@@ -7,8 +7,8 @@
                 </button>
                 {{#if isRealizowanaNieaktywny status czyAktywny}}
                     {{#if isInZR idZespolRealizacyjny}}
-                        <button id="zrealizowanaClick" name="{{idKwestia}}" class="btn btn-success" {{hasUserRights idKwestia}}>
-                            <span class="fa fa-check-circle-o"></span> Raport Realizacyjny
+                        <button id="addRealizationReportClick" name="{{idKwestia}}" class="btn btn-success" {{hasUserRights idKwestia}}>
+                            <span class="fa fa-check-circle-o"></span> {{realizationReportExists}}
                         </button>
                     {{/if}}
                 {{/if}}
@@ -20,7 +20,7 @@
                     {{/unless}}
                 {{/unless}}
             </div>
-            {{> uzasadnienieZrealizowanaModal idKwestia=idKwestia}}
+            {{> addRealizationReportModal idKwestia=idKwestia}}
             {{> uzasadnienieArchiwumModal idKwestia=idKwestia}}
             {{> uzasadnienieKoszModal idKwestia=idKwestia}}
             <div class="btn-group" role="group" aria-label="...">
