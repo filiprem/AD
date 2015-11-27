@@ -1,5 +1,5 @@
 Meteor.methods({
-    addRaport: function(newRaport){
+    addRaportMethod: function(newRaport){
         Raport.insert({
             //terminyGlosowan: newRaport[0].terminyGlosowan,
             //uzytkownicy: newRaport[0].uzytkownicy,
@@ -8,6 +8,7 @@ Meteor.methods({
             autorFullName:newRaport.autorFullName,
             dataUtworzenia:newRaport.dataUtworzenia,
             idKwestia:newRaport.idKwestia,
+            idPost:newRaport.idPost,
             tytul:newRaport.tytul,
             opis:newRaport.opis,
             czyAktywny:true

@@ -47,32 +47,6 @@ Template.kwestiaTopButtons.helpers({
     },
     isKwestiaZrealizowana:function(status){
         return status==KWESTIA_STATUS.ZREALIZOWANA ? true : false;
-    },
-    realizationReportExists:function(){
-        var param=Parametr.findOne().okresSkladaniaRR;
-        console.log("wow");
-        console.log(param);
-        var previousCheck=moment(new Date()).subtract(param,"minutes").format();
-        var timeNow=moment(new Date()).format();
-        console.log("time now");
-        console.log(timeNow);
-        console.log("previous check");
-        console.log(previousCheck);
-        console.log(Raport.find({idKwestia:this._id}).count());
-        var raporty=Raport.find({idKwestia:this._id,
-            dataWprowadzenia: {
-                $gte: previousCheck,
-                $lt: timeNow
-            }},{sort:{dataWprowadzenia:-1}});
-
-        if(raporty.count()==0) {
-            console.log("brak raportów");
-            return "Raport Realizacyjny";
-        }
-        else{
-            console.log("jest raport-pokaż");
-            return "Pokaż Raport Realizacyjny";
-        }
     }
 });
 Template.kwestiaTopButtons.events({
@@ -127,34 +101,107 @@ Template.kwestiaTopButtons.events({
     },
     'click #addRealizationReportClick': function (e) {
         e.preventDefault();
-        $("#addRRModal").modal("show");
-        //var idKw = e.target.name;
-        //var param=Parametr.findOne().okresSkladaniaRR;
-        //console.log("wow");
-        //console.log(param);
-        //var previousCheck=moment(new Date()).subtract(param,"minutes").format();
-        //var timeNow=moment(new Date()).format();
-        //console.log("time now");
-        //console.log(timeNow);
-        //console.log("previous check");
-        //console.log(previousCheck);
-        //console.log(Raport.find({idKwestia:this._id}).count());
-        //var raporty=Raport.find({idKwestia:this._id,
-        //    dataWprowadzenia: {
-        //        $gte: previousCheck,
-        //        $lt: timeNow
-        //    }},{sort:{dataWprowadzenia:-1}});
-        //
-        //if(raporty.count()==0) {
-        //    console.log("brak raportów");
-        //    $("#addRealizationReport").modal("show");
-        //    //return "Raport Realizacyjny";
+
+       // var odp=checkRealizationReportExists(this.idKwestia);
+        var idKw = e.target.name;
+        var param=Parametr.findOne().okresSkladaniaRR;
+        console.log("wow");
+        console.log(param);
+        var previousCheck=moment(new Date()).subtract(param,"minutes").format();
+        var timeNow=moment(new Date()).format();
+        console.log("time now");
+        console.log(timeNow);
+        console.log("previous check");
+        console.log(previousCheck);
+        console.log("id kwestia");
+        console.log(this.idKwestia);
+        console.log(Raport.find({idKwestia:this.idKwestia}).count());
+        var raporty=Raport.find({idKwestia:this.idKwestia,
+            dataUtworzenia: {
+                $gte: previousCheck,
+                $lt: timeNow
+            }},{sort:{dataUtworzenia:-1}});
+
+        if(raporty.count()==0) {
+            console.log("brak raportów");
+            $("#addRRModal").modal("show");
+            //return "Raport Realizacyjny";
+        }
+        else{
+            var array=[];
+            raporty.forEach(function(raport){
+                array.push(raport);
+
+            });
+            array.reverse();
+            console.log("uwagaaaaaaaaaaaaaa");
+            var lastDate=array[0].dataUtworzenia;
+            console.log(lastDate);
+            if(moment(lastDate).format()<previousCheck)
+                $("#addRRModal").modal("show");
+            else {
+                console.log("jest raport-pokaż");
+                return true;
+
+                console.log("jest raport-pokaż");
+                $('html, body').animate({
+                    scrollTop: $(".doRealizationRaportClass").offset().top
+                }, 600);
+            }
+        }
+        //if(odp==true) {
+        //    $("#addRRModal").modal("show");
         //}
         //else{
         //    console.log("jest raport-pokaż");
         //    $('html, body').animate({
-        //                scrollTop: $(".doZrealizowaniaClass").offset().top
+        //                scrollTop: $(".doRealizationRaportClass").offset().top
         //            }, 600);
         //}
     }
 });
+
+checkRealizationReportExists=function(idKwestia){
+    var param=Parametr.findOne().okresSkladaniaRR;
+    console.log("wow");
+    console.log(param);
+    var previousCheck=moment(new Date()).subtract(param,"minutes").format();
+    var timeNow=new Date();
+    console.log("time now");
+    console.log(timeNow);
+    console.log("previous check");
+    console.log(previousCheck);
+    console.log(Raport.find({idKwestia:idKwestia}).count());
+    var rep=Raport.find({},{sort:{'_id.dataUtworzenia':-1}});
+    var flag=false;
+    rep.forEach(function(rap){
+        console.log(rap);
+    });
+    var raporty=Raport.find({idKwestia:this.idKwestia,
+        dataUtworzenia: {
+            //$gte: previousCheck,
+            $lt: timeNow
+        }},{$sort:{dataUtworzenia:-1}});
+
+    if(raporty.count()==0) {
+        console.log("brak raportów");
+        return false;
+    }
+    else{
+        var array=[];
+        raporty.forEach(function(raport){
+            array.push(raport);
+
+        });
+        array.reverse();
+        console.log("uwagaaaaaaaaaaaaaa");
+        var lastDate=array[0].dataUtworzenia;
+        console.log(lastDate);
+        if(moment(lastDate).format()<previousCheck)
+            return false;
+        else {
+            console.log("jest raport-pokaż");
+            return true;
+        }
+    }
+};

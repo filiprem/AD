@@ -70,10 +70,10 @@ Template.discussionPostItem.helpers({
             else return false;
         }
     },
-    'isZrealizowana': function () {
+    'isRaportRealizacyjny': function () {
         var p = Posts.findOne({_id: this.idPost});
         if (p)
-            return  (p.postType == POSTS_TYPES.ZREALIZOWANA) ? true: false;
+            return  (p.postType == POSTS_TYPES.RAPORT) ? true: false;
     },
     'isDoWK': function () {
         var p = Posts.findOne({_id: this.idPost});

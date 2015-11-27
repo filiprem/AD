@@ -1,8 +1,7 @@
 Template.addRealizationReportModal.rendered=function(){
-    document.getElementById("addRR").disabled = false;
     $("#addRRForm").validate({
         rules: {
-            raportTitile: {
+            raportTitle: {
                 maxlength: 400
             },
             raportDescription: {
@@ -10,7 +9,7 @@ Template.addRealizationReportModal.rendered=function(){
             }
         },
         messages: {
-            raportTitile: {
+            raportTitle: {
                 required: fieldEmptyMessage(),
                 maxlength: maxLengthMessage(400)
             },
@@ -33,12 +32,15 @@ Template.addRealizationReportModal.rendered=function(){
     })
 };
 Template.addRealizationReportModal.events({
-    'click #addRR': function (e) {
+    'click #anuluj':function(e){
         e.preventDefault();
-
+        document.getElementById("addRRForm").reset();
+    },
+    'submit form': function (e) {
+        e.preventDefault();
         if ($('#addRRForm').valid()) {
-            document.getElementById("addRR").disabled = true;
-            var message = $(e.target).find('[name=raportTitile]').val();
+            var message=$(e.target).find('[name=raportTitle]').val();
+            console.log("Messageeee");
             var uzasadnienie=$(e.target).find('[name=raportDescription]').val();
             var idKwestia = this.idKwestia;
             var idUser = Meteor.userId();
@@ -51,14 +53,6 @@ Template.addRealizationReportModal.events({
             var glosujacy = [];
             var postType = POSTS_TYPES.RAPORT;
 
-            var newRaport={
-                idAutor:idUser,
-                autorFullName:userFullName,
-                dataUtworzenia:new Date(),
-                idKwestia:idKwestia,
-                tytul:message,
-                opis:uzasadnienie
-            };
             var post = [{
                 idKwestia: idKwestia,
                 wiadomosc: message,
@@ -83,6 +77,21 @@ Template.addRealizationReportModal.events({
                     }
                 }
                 else {
+                    var idPost=ret;
+                    var newRaport={
+                        idAutor:idUser,
+                        autorFullName:userFullName,
+                        dataUtworzenia:new Date(),
+                        idKwestia:idKwestia,
+                        tytul:message,
+                        opis:uzasadnienie,
+                        idPost:idPost
+                    };
+                    Meteor.call("addRaportMethod",newRaport,function(error){
+                       if(error)
+                            throwError(error.reason);
+                    });
+
                     var newValue = 0;
                     newValue = Number(RADKING.DODANIE_ODNIESIENIA) + getUserRadkingValue(Meteor.userId());
                     Meteor.call('updateUserRanking', Meteor.userId(), newValue, function (error) {
@@ -93,9 +102,10 @@ Template.addRealizationReportModal.events({
                                 throwError(error.reason);
                         }
                     });
+                    document.getElementById("addRRForm").reset();
                     $("#addRRModal").modal("hide");
                     $('html, body').animate({
-                        scrollTop: $(".doArchiwumClass").offset().top
+                        scrollTop: $(".doRealizationRaportClass").offset().top
                     }, 600);
                 }
             });
