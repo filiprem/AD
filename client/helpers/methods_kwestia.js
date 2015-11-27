@@ -52,7 +52,7 @@ powolajZRFunction=function(idKwestia,idAktualnyZR) {
                         console.log(error.reason);
                     }
                     else {
-                        console.log("moje id zwrócone");
+                        console.log("moje id zwrÃ³cone");
                         console.log(ret);
                         $("#listZespolRealizacyjny").modal("hide");
                         $("#listZespolRealizacyjnyDouble").modal("hide");
@@ -107,7 +107,7 @@ setInQueueToVoteMethod=function(kwestie){
         tab.push(tabKwestie[0]._id);
         //console.log(tabKwestie[1]);
         arrayTheSameWartoscPrior = _.where(tabKwestie, {'wartoscPriorytetu': tabKwestie[1].wartoscPriorytetu});
-        if (arrayTheSameWartoscPrior.length >= 2) {//jezeli 2 i 3 sie powtarzaja,to posortuj i wrzuæ
+        if (arrayTheSameWartoscPrior.length >= 2) {//jezeli 2 i 3 sie powtarzaja,to posortuj i wrzuÄ‡
             tabKwestieSort = _.sortBy(arrayTheSameWartoscPrior, "dataWprowadzenia");
             tab.push(tabKwestieSort[0]._id);
             tab.push(tabKwestieSort[1]._id);
@@ -143,7 +143,7 @@ manageZRMethod=function(newKwestia){//przpisanie ,gdy idzie do kosza a ma ZR
             return kwestiaId == newKwestia._id
         });
         console.log(kwestie);
-        //jezeli bylem tylko ja,set false,o ile to nnie jestjest zr ds osób
+        //jezeli bylem tylko ja,set false,o ile to nnie jestjest zr ds osÃ³b
         if(kwestie.length==0 && zespolRealizacyjny._id!=ZespolRealizacyjny.findOne()._id){
             Meteor.call("updateKwestieZRChangeActivity", zespolRealizacyjny._id, kwestie,false, function (error) {
                 if (error)
