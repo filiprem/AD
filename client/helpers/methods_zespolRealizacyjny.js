@@ -259,6 +259,7 @@ rezygnujZRAlert=function(idUserZR,idKwestia){
                 label: "Rezygnuję",
                 className: "btn-success",
                 callback: function() {
+                    $('.btn-success').css("visibility", "hidden");
                     rezygnujZRFunction(idUserZR,idKwestia);
                 }
             },

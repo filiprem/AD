@@ -61,17 +61,14 @@ Template.realizacjaTab2.helpers({
                 }
             ]
         };
-    },
-    ZrealizowaneList: function () {
-        return Kwestia.find({czyAktywny: true, status: {$in:[KWESTIA_STATUS.ZREALIZOWANA]}}).fetch();
-    },
-    zrealizowaneCount: function () {
-        return Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.ZREALIZOWANA}).count();
-    },
-    ZrealizowaneListCount: function () {
-        var ile = Kwestia.find({czyAktywny: true, status: {$in:[KWESTIA_STATUS.ZREALIZOWANA]}}).count();
-        return ile > 0 ? true : false;
     }
+    //ZrealizowaneList: function () {
+    //    return Kwestia.find({czyAktywny: true, status: {$in:[KWESTIA_STATUS.ZREALIZOWANA]}}).fetch();
+    //},
+    //ZrealizowaneListCount: function () {
+    //    var ile = Kwestia.find({czyAktywny: true, status: {$in:[KWESTIA_STATUS.ZREALIZOWANA]}}).count();
+    //    return ile > 0 ? true : false;
+    //}
 });
 
 Template.realizacjaTab2.events({

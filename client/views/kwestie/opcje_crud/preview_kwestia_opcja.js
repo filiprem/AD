@@ -1,3 +1,6 @@
+Template.previewKwestiaOpcja.rendered=function(){
+    document.getElementById("save").disabled = false;
+};
 Template.previewKwestiaOpcja.helpers({
     getTematName:function(id){
         return Temat.findOne({_id:id}).nazwaTemat;
@@ -26,10 +29,9 @@ Template.previewKwestiaOpcja.events({
     },
     'click #save': function(e){
         e.preventDefault();
-        console.log("bêdzie zapis");
+        document.getElementById("save").disabled = true;
+
         var kwestia = Session.get("actualKwestia");
-        console.log(kwestia);
-        console.log(kwestia.status);
         //var idParentKwestii = Session.get("idKwestia");
         var newKwestiaOpcja = [{
             idUser: Meteor.userId(),
@@ -67,7 +69,7 @@ Template.previewKwestiaOpcja.events({
             else {
                 Meteor.call("sendEmailAddedIssue", ret);
                 addPowiadomienieBasicOptionIssueFunction(ret,newKwestiaOpcja[0].dataWprowadzenia);
-                var text="Nie odnotowaliœmy Twojej aktywnoœci w nastêpuj¹cej Kwestii:";
+                var text="Nie odnotowaliï¿½my Twojej aktywnoï¿½ci w nastï¿½pujï¿½cej Kwestii:";
                 addPowiadomienieIssueFunction(ret,newKwestiaOpcja[0].dataWprowadzenia,NOTIFICATION_TYPE.ISSUE_NO_PRIORITY,text);
                 var userKwestia= Meteor.userId();
                 var newValue=0;

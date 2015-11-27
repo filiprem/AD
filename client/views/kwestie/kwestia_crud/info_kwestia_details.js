@@ -14,8 +14,6 @@ Template.kwestiaDetails.helpers({
         return typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE ? true : false;
     },
     isHonorowyType:function(typ){
-        console.log("mrrrr");
-        console.log(typ);
         return typ==KWESTIA_TYPE.ACCESS_HONOROWY ? true: false;
     }
 });

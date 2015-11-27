@@ -47,6 +47,7 @@ Template.listKwestia.rendered = function () {
         self.liczbaKwestiRV.set(tab);
     });
 };
+
 Template.listKwestia.created = function () {
     this.liczbaKwestiRV = new ReactiveVar();
     this.choosenSortRV = new ReactiveVar();
@@ -56,7 +57,6 @@ Template.listKwestia.created = function () {
 Template.listKwestia.events({
     'click #addKwestiaButton': function () {
        // var kwestiaCanBeInserted=kwestiaIsAllowedToInsert();
-        console.log("odp");
        // console.log(kwestiaCanBeInserted);
         //if(kwestiaCanBeInserted==true) {
             if (!!Session.get("kwestiaPreview"))
@@ -72,9 +72,6 @@ Template.listKwestia.events({
         en.registerAddKwestiaNotification('AD', 'Organizacja DOM', users,
             'Kwestia w sprawie...', 'Uchwała', 'Opis Kwestii....', 'linkDK', 'linkLoginTo');
     },
-    //'click #kwestiaIdClick': function () {
-    //
-    //},
     "change #customFilterSelect": function (event, template) {
         var input = $(event.target).val();
         var self = Template.instance();
@@ -97,7 +94,9 @@ Template.listKwestia.helpers({
         var self = Template.instance();
         var sort = self.choosenSortRV.get();
         return {
+            currentPage:Template.instance().currentPage,
             rowsPerPage: 15,
+            showNavigationRowsPerPage:true,
             //showFilter: true,
             showNavigation: 'always',
             showColumnToggles: false,
@@ -158,6 +157,8 @@ Template.listKwestia.helpers({
         var self = Template.instance();
         var sort = self.choosenSortRV.get();
         return {
+           // currentPage:Template.instance().currentPage,
+            //collection:"KwestiaList",
             rowsPerPage: 15,
             //showFilter: true,
             showNavigation: 'always',
@@ -243,22 +244,8 @@ Template.listKwestia.helpers({
         else
             return null;
     },
-    kwestiaCount: function () {
-        return Kwestia.find({czyAktywny: true}).count();
-    },
     isAdminUser: function () {
         return IsAdminUser();
-    },
-    isAdmin: function () {
-        if(Meteor.user()){
-            if (Meteor.user().roles) {
-                if (Meteor.user().roles == "admin")
-                    return true;
-                else
-                    return false;
-            }
-            else return false;
-        }
     }
 });
 
@@ -291,41 +278,31 @@ Template.id.helpers({
 
 Template.priorytetKwestia.helpers({
     priorytet: function () {
-        var kwe = Kwestia.findOne({_id: this._id});
-        if (kwe) {
-            var p = this.wartoscPriorytetu;
-            if (p) {
-                if (p > 0) p = " +" + p;
-                return p ;
-            }
-            else return 0 ;
+        var p = this.wartoscPriorytetu;
+        if (p) {
+            if (p > 0) p = " +" + p;
+            return p ;
         }
+        else return 0 ;
     },
     myGlos:function(){
-        var searchedId = this._id;
-        var kwe = Kwestia.findOne({_id: this._id});
-        if (kwe) {
-            var glosy = kwe.glosujacy.slice();
-            var myGlos;
-            _.each(glosy, function (glos) {
-                if (glos.idUser == Meteor.userId()) {
-                    myGlos = glos.value;
-                }
-            });
-            if (myGlos) {
-                if (myGlos > 0) myGlos = "+" + myGlos;
+        var glosy = this.glosujacy.slice();
+        var myGlos;
+        _.each(glosy, function (glos) {
+            if (glos.idUser == Meteor.userId()) {
+                myGlos = glos.value;
             }
-            else
-                myGlos = 0;
-            return " (" + myGlos+")";
+        });
+        if (myGlos) {
+            if (myGlos > 0) myGlos = "+" + myGlos;
         }
+        else
+            myGlos = 0;
+        return " (" + myGlos+")";
     },
     nadanyPriorytet:function(){
-        var kwestia=Kwestia.findOne({_id:this._id});
-        if(kwestia){
-            if(Meteor.userId())
-                return _.contains(_.pluck(kwestia.glosujacy,'idUser'),Meteor.userId()) ? true : false;
-        }
+        if(Meteor.userId())
+            return _.contains(_.pluck(this.glosujacy,'idUser'),Meteor.userId()) ? true : false;
     }
 });
 

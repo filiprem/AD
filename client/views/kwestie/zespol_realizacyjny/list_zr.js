@@ -51,8 +51,9 @@ Template.zespolTemplate.helpers({
     }
 });
 
-Template.zespolOptionsTemplate.helpers({
-});
+Template.zespolOptionsTemplate.rendered=function(){
+    $('#powolajZR').css("visibility", "visible");
+};
 
 Template.listZespolRealizacyjnyModalInner.events({
     'click #anulujButton':function(){
@@ -61,6 +62,7 @@ Template.listZespolRealizacyjnyModalInner.events({
     'click #powolajZR': function () {
         //jezeli jest w zepsole,powolaj
         if(isUserInZRNotification(this._id)==false) {//jezeli jestem w  takowym zespole
+            $('#powolajZR').css("visibility", "hidden");
             powolajZRFunction(Session.get("idKwestia"),this._id);
         }
     }

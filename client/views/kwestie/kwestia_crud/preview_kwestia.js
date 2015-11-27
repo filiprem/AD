@@ -1,3 +1,6 @@
+Template.previewKwestia.rendered=function(){
+    document.getElementById("save").disabled = false;
+};
 Template.previewKwestia.helpers({
     getTematName: function (id) {
         return Temat.findOne({_id: id}).nazwaTemat;
@@ -55,17 +58,32 @@ Template.previewKwestia.events({
     'click #save': function (e) {
         e.preventDefault();
 
+        document.getElementById("save").disabled = true;
+
+        var kwestie=Kwestia.find({czyAktywny:true});
         var kwestia = Session.get("kwestiaPreview");
-        var temat=kwestia.temat;
-        var rodzaj=kwestia.rodzaj;
 
-        var idParentKwestii = Session.get("idKwestia");
-        var isOption=false;
+        var flag=false;
+        kwestie.forEach(function(item){
+            if(item.kwestiaNazwa.trim().toUpperCase() == kwestia.kwestiaNazwa.trim().toUpperCase()) {
+                flag=true;
+                console.log("flag!");
+            }
+        });
+        if(flag==false) {
+            var temat = kwestia.temat;
+            var rodzaj = kwestia.rodzaj;
+
+            var idParentKwestii = Session.get("idKwestia");
+            var isOption = false;
 
 
-
-        kwestia.idParent ? isOption=true : isOption=false;
-        setValue(temat,rodzaj,isOption,kwestia);
+            kwestia.idParent ? isOption = true : isOption = false;
+            setValue(temat, rodzaj, isOption, kwestia);
+        }
+        else
+            bootbox.alert("Istnieje już kwestia o podanej nazwie!", function() {
+            });
 
     }
 });

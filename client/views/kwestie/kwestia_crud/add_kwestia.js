@@ -93,26 +93,22 @@ Template.addKwestiaForm.events({
             });
 
         }else{
-            document.getElementById("submitAddKwestia").disabled = true;
-            Meteor.setTimeout(function () {
-                document.getElementById("submitAddKwestia").disabled = false;
-                var newKwestia = [
-                    {
-                        idUser: Meteor.userId(),
-                        dataWprowadzenia: new Date(),
-                        kwestiaNazwa: $(e.target).find('[name=kwestiaNazwa]').val(),
-                        wartoscPriorytetu: 20,
-                        temat: Temat.findOne({_id:Session.get("choosenTopicId")}).nazwaTemat,
-                        rodzaj: Rodzaj.findOne({_id:Session.get("choosenTypeId")}).nazwaRodzaj,
-                        krotkaTresc: $(e.target).find('[name=krotkaTresc]').val(),
-                        szczegolowaTresc: $(e.target).find('[name=szczegolowaTresc]').val(),
-                        isOption: false,
-                        typ: KWESTIA_TYPE.BASIC
-                    }];
+            var newKwestia = [
+                {
+                    idUser: Meteor.userId(),
+                    dataWprowadzenia: new Date(),
+                    kwestiaNazwa: $(e.target).find('[name=kwestiaNazwa]').val(),
+                    wartoscPriorytetu: 20,
+                    temat: Temat.findOne({_id:Session.get("choosenTopicId")}).nazwaTemat,
+                    rodzaj: Rodzaj.findOne({_id:Session.get("choosenTypeId")}).nazwaRodzaj,
+                    krotkaTresc: $(e.target).find('[name=krotkaTresc]').val(),
+                    szczegolowaTresc: $(e.target).find('[name=szczegolowaTresc]').val(),
+                    isOption: false,
+                    typ: KWESTIA_TYPE.BASIC
+                }];
 
-                Session.setPersistent("kwestiaPreview", newKwestia[0]);
-                Router.go('previewKwestia');
-            },2000);
+            Session.setPersistent("kwestiaPreview", newKwestia[0]);
+            Router.go('previewKwestia');
         }
     },
     'reset form': function () {

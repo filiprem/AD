@@ -30,48 +30,24 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-xs-3" for="inputPlec">Płeć:</label>
-
-                        <div class="col-xs-2">
-                            <label class="radio-inline">
-                                <input type="radio" name="genderRadios" value="mężczyzna" {{isSelected 'mężczyzna'}}>
-                                Mężczyzna
-                            </label>
-                        </div>
-                        <div class="col-xs-2">
-                            <label class="radio-inline">
-                                <input type="radio" name="genderRadios" value="kobieta" {{isSelected 'kobieta'}}>
-                                Kobieta
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label class="control-label col-xs-3" for="inputAdres">Adres:</label>
 
                         <div class="col-xs-9">
                             <textarea name="address" class="form-control" id="address"
-                                      value="{{profile.address}}"></textarea>
+                                      value="{{profile.address}}" required></textarea>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-xs-3" for="inputZipcode">Kod pocztowy:</label>
 
                         <div class="col-xs-9">
-                            <input name="zipcode" class="form-control" id="zipcode" value="{{profile.zip}}">
+                            <input name="zipcode" type="text" class="form-control" id="zipcode" value="{{profile.zip}}" required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-xs-3" for="inputTelefon">Numer tel:</label>
-
+                        <label class="control-label col-xs-3" for="inputMiasto">Miasto: </label>
                         <div class="col-xs-9">
-                            <input name="phone" class="form-control" id="phone" value="{{profile.phone}}">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-xs-3" for="inputTelefon">Strona www:</label>
-
-                        <div class="col-xs-9">
-                            <input name="website" class="form-control" id="website" value="{{profile.web}}">
+                            <input name="city" class="form-control" id="city" value="{{profile.city}}" required>
                         </div>
                     </div>
                     <br/>

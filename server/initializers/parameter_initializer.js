@@ -11,7 +11,8 @@ Meteor.startup(function () {
             "voteDuration":1,
             "addIssuePause":60,
             "addCommentPause":2,
-            "addReferencePause":1
+            "addReferencePause":1,
+            "okresSkladaniaRR":1
         }
     ];
     if (Parametr.find().count() == 0) {

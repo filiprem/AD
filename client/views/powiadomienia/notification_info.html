@@ -32,6 +32,10 @@
                         {{>notificationNoActivity
                         idPowiadomienie=this._id}}
                     {{/if}}
+                    {{#if notificationTypeLackOfRealizationReport}}
+                        {{>notificationLackOfRealizationReport
+                        idPowiadomienie=this._id}}
+                    {{/if}}
                  </table>
                 <button id="backToNotificationList" class="btn btn-primary">
                     <span class="fa fa-arrow-left"></span> Powrót do powiadomień
@@ -86,6 +90,29 @@
 
             Zapraszamy do deliberacji tej Kwestii, dyskusji i nadania priorytetu. <br />
             <a href="{{pathFor 'informacjeKwestia'}}">Link do Kwestii</a>
+        {{/with}}
+    {{/with}}
+</template>
+
+<template name="notificationLackOfRealizationReport">
+    {{#with powiadomienie idPowiadomienie}}
+        {{#with actualKwestia this.idKwestia}}
+            <div>Aktywna Demokracja</div>
+            <div>{{organisationName}}</div>
+            {{welcomeGender}} {{userData}}! <br /><br />
+
+            Brak w systemie Raportu Realizacyjnego Kwestii: <b>{{kwestiaNazwa}}</b><br />
+            <b>Temat:</b> {{temat}},<br/>
+            <b>Rodzaj:</b> {{rodzaj}}<br />
+            dotyczącej: <b>{{krotkaTresc}}</b> <br/><br/>
+        {{/with}}
+            <b>Zespół Realizacyjny:</b><br/>
+            {{#each czlonekZR zespol}}
+                {{fullName}} - <a href="{{url}}">Napisz</a><br/>
+            {{/each}}
+            <br/><br/>
+        {{#with actualKwestia this.idKwestia}}
+            Idź do dyskusji realizacyjnej: <a href="{{pathFor 'informacjeKwestia'}}">Link do Kwestii</a><br/><br/>
         {{/with}}
     {{/with}}
 </template>

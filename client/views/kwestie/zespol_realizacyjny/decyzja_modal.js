@@ -1,6 +1,9 @@
 Template.decyzjaModal.helpers({
 });
-
+Template.decyzjaModalInner.rendered=function(){
+    $('#nowyZRButton').css("visibility", "visible");
+    $('#istniejacyZRButton').css("visibility", "visible");
+};
 Template.decyzjaModalInner.helpers({
     'settings': function () {
         return {
@@ -49,6 +52,8 @@ Template.decyzjaModalInner.events({
         //sprawdzam,czy mam uprawnienia
         console.log("KWESTYJKAAAA");//tu jest
         console.log(this._id);
+        $('#nowyZRButton').css("visibility", "hidden");
+        $('#istniejacyZRButton').css("visibility", "hidden");
         $("#listZespolRealizacyjnyDouble").modal("show");
         //if(isUserInZRNotification(Session.get("zespolRealizacyjnyDouble"))==false){//ttuaj chyba trzeba przekeić tamtą metodę z kwestii!!??cos tu nie działa!!!BD POTRZEBNE!
             //jeśli ma uprawnienia,to dać styl pusty
@@ -67,6 +72,8 @@ Template.decyzjaModalInner.events({
         //Session.setPersistent("zespolRealizacyjnyDouble",null);
     },
     'click #nowyZRButton':function(){
+        $('#nowyZRButton').css("visibility", "hidden");
+        $('#istniejacyZRButton').css("visibility", "hidden");
         $('#addNazwa').modal('show');
         //Session.setPersistent("zespolRealizacyjnyDouble",null);
     }

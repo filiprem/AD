@@ -83,17 +83,22 @@ askToFillSubject=function(text,newEmail){
     bootbox.dialog({
         message: "Czy wysłać email bez "+text,
         title: "Uwaga",
+        closeButton:false,
         buttons: {
             success: {
                 label: "Wyślij",
                 className: "btn-success",
                 callback: function() {
+                    $('.btn-success').css("visibility", "hidden");
                     sendMessage(newEmail);
                 }
             },
             danger: {
                 label: "Anuluj",
-                className: "btn-danger"
+                className: "btn-danger",
+                callback:function(){
+                    $('.btn-success').css("visibility", "visible");
+                }
             }
         }
     });

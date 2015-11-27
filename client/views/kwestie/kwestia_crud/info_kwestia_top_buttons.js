@@ -12,7 +12,13 @@ Template.kwestiaTopButtons.helpers({
         return isKwestiaGlosowana(idKwestia);
     },
     isRealizowanaNieaktywny:function(status,czyAktywny){
-        return status==KWESTIA_STATUS.REALIZOWANA && czyAktywny==true ? true :false;
+        return (status==KWESTIA_STATUS.REALIZOWANA || status==KWESTIA_STATUS.ZREALIZOWANA) && czyAktywny==true ? true :false;
+    },
+    isInZR:function(idZR){
+        console.log("idZR");
+        console.log(idZR);
+        var zr=ZespolRealizacyjny.findOne({_id:idZR});
+        return _.contains(zr.zespol,Meteor.userId()) ? true : false;
     },
     isZrealizowanaChangeParamsGlosowana:function(typ,status){
         if(Meteor.userId())
@@ -29,10 +35,6 @@ Template.kwestiaTopButtons.helpers({
             czyAktywny==false ? true : false;
     },
     isKwestiaAccessOrChangeParamsRealizacja:function(typ,status,czyAktywny){
-        console.log("dane");
-        console.log(typ);
-        console.log(status);
-        console.log(czyAktywny);
         return ((typ==KWESTIA_TYPE.ACCESS_DORADCA ||
         typ==KWESTIA_TYPE.ACCESS_ZWYCZAJNY ||
         typ==KWESTIA_TYPE.ACCESS_HONOROWY ||
@@ -44,8 +46,33 @@ Template.kwestiaTopButtons.helpers({
         czyAktywny==false ? true : false;
     },
     isKwestiaZrealizowana:function(status){
-        console.log("uwagaaa"+ status);
         return status==KWESTIA_STATUS.ZREALIZOWANA ? true : false;
+    },
+    realizationReportExists:function(){
+        var param=Parametr.findOne().okresSkladaniaRR;
+        console.log("wow");
+        console.log(param);
+        var previousCheck=moment(new Date()).subtract(param,"minutes").format();
+        var timeNow=moment(new Date()).format();
+        console.log("time now");
+        console.log(timeNow);
+        console.log("previous check");
+        console.log(previousCheck);
+        console.log(Raport.find({idKwestia:this._id}).count());
+        var raporty=Raport.find({idKwestia:this._id,
+            dataWprowadzenia: {
+                $gte: previousCheck,
+                $lt: timeNow
+            }},{sort:{dataWprowadzenia:-1}});
+
+        if(raporty.count()==0) {
+            console.log("brak raportów");
+            return "Raport Realizacyjny";
+        }
+        else{
+            console.log("jest raport-pokaż");
+            return "Pokaż Raport Realizacyjny";
+        }
     }
 });
 Template.kwestiaTopButtons.events({
@@ -54,7 +81,7 @@ Template.kwestiaTopButtons.events({
     },
     'click #addOptionButton': function () {
         var kwestiaCanBeInserted=kwestiaIsAllowedToInsert();
-        if(kwestiaCanBeInserted==true) {
+       // if(kwestiaCanBeInserted==true) {
             var kw = null;
             var kwestia = Kwestia.findOne({_id: this.idKwestia});
             if (kwestia) {
@@ -68,9 +95,9 @@ Template.kwestiaTopButtons.events({
             }
             Session.setPersistent("actualKwestia", kw);
             Router.go("addKwestiaOpcja");
-        }
-        else
-            notificationPauseWarning("kwestii",kwestiaCanBeInserted);
+        //}
+       // else
+        //    notificationPauseWarning("kwestii",kwestiaCanBeInserted);
     },
     'click #doArchiwum': function (e) {
         e.preventDefault();
@@ -98,17 +125,35 @@ Template.kwestiaTopButtons.events({
             $("#uzasadnijWyborKosz").modal("show");
         }
     },
-    'click #zrealizowanaClick': function (e) {
+    'click #addRealizationReportClick': function (e) {
         e.preventDefault();
         var idKw = e.target.name;
-        var z = Posts.findOne({idKwestia: idKw, postType: POSTS_TYPES.ZREALIZOWANA});
-        if (z) {
+        var param=Parametr.findOne().okresSkladaniaRR;
+        console.log("wow");
+        console.log(param);
+        var previousCheck=moment(new Date()).subtract(param,"minutes").format();
+        var timeNow=moment(new Date()).format();
+        console.log("time now");
+        console.log(timeNow);
+        console.log("previous check");
+        console.log(previousCheck);
+        console.log(Raport.find({idKwestia:this._id}).count());
+        var raporty=Raport.find({idKwestia:this._id,
+            dataWprowadzenia: {
+                $gte: previousCheck,
+                $lt: timeNow
+            }},{sort:{dataWprowadzenia:-1}});
+
+        if(raporty.count()==0) {
+            console.log("brak raportów");
+            $("#addRealizationReport").modal("show");
+            return "Raport Realizacyjny";
+        }
+        else{
+            console.log("jest raport-pokaż");
             $('html, body').animate({
-                scrollTop: $(".doZrealizowaniaClass").offset().top
-            }, 600);
+                        scrollTop: $(".doZrealizowaniaClass").offset().top
+                    }, 600);
         }
-        else {
-            $("#uzasadnijRealizacjeKwesti").modal("show");
-        }
-    },
+    }
 });

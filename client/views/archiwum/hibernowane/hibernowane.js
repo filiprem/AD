@@ -25,7 +25,7 @@ Template.hibernowaneList.helpers({
                     key: 'dataWprowadzenia',
                     label: Template.listKwestiaAdminColumnLabel,
                     labelData: {
-                        //title: "Data wprowadzenia Kwestii i rozpoczêcia jej deliberacji",
+                        //title: "Data wprowadzenia Kwestii i rozpoczï¿½cia jej deliberacji",
                         text: "Data"
                     },
                     tmpl: Template.dataUtwKwestia
@@ -34,8 +34,8 @@ Template.hibernowaneList.helpers({
                     key: 'kwestiaNazwa',
                     label: Template.listKwestiaAdminColumnLabel,
                     labelData: {
-                        title: "Kliknij, aby zobaczyæ szczegó³y",
-                        //text: "Nazwa Kwestii"
+                        //title: "Kliknij, aby zobaczyï¿½ szczegï¿½y",
+                        text: "Nazwa Kwestii"
                     },
                     tmpl: Template.nazwaKwestiiHibernowaneLink
                 },
@@ -43,7 +43,7 @@ Template.hibernowaneList.helpers({
                     key: 'wartoscPriorytetu',
                     label: Template.listKwestiaAdminColumnLabel,
                     labelData: {
-                        //title: "Kliknij, aby zmieniæ swój priorytet dla tej Kwestii",
+                        //title: "Kliknij, aby zmieniï¿½ swï¿½j priorytet dla tej Kwestii",
                         text: "Priorytet"
                     },
                     tmpl: Template.priorytetKwestia,
@@ -56,7 +56,7 @@ Template.hibernowaneList.helpers({
                     key: 'status',
                     label: Template.listKwestiaAdminColumnLabel,
                     labelData: {
-                        //title: "Etap, na którym znajduje sie ta Kwestia",
+                        //title: "Etap, na ktï¿½rym znajduje sie ta Kwestia",
                         text: "Status"
                     }
                 }

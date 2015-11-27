@@ -21,11 +21,13 @@
                                 <i class="fa fa-file-o"></i> Kwestie
                             </a>
                         </li>
-                        <li class="{{activeRouteClass 'glosowanie'}}">
-                            <a href="{{pathFor 'glosowanie'}}">
-                                <i class="fa fa-file-text-o"></i> Głosowanie
-                            </a>
-                        </li>
+                        {{#if currentUser}}
+                            <li class="{{activeRouteClass 'glosowanie'}}">
+                                <a href="{{pathFor 'glosowanie'}}">
+                                    <i class="fa fa-file-text-o"></i> Głosowanie
+                                </a>
+                            </li>
+                        {{/if}}
                         <li class="{{activeRouteClass 'realizacja'}}">
                             <a href="{{pathFor 'realizacja'}}">
                                 <i class="fa fa-file-text"></i> Realizacja
@@ -36,11 +38,6 @@
                                 <span class="fa fa-file-archive-o"></span> Archiwum
                             </a>
                         </li>
-                        <!--<li class="{{activeRouteClass 'kosz'}}">-->
-                            <!--<a href="{{pathFor 'kosz'}}">-->
-                                <!--<span class="fa fa-trash-o"></span> Kosz-->
-                            <!--</a>-->
-                        <!--</li>-->
                         {{#if currentUser}}
                             <li class="{{activeRouteClass 'administracjaUserMain'}}">
                                 <a href="{{pathFor 'administracjaUserMain'}}">
@@ -72,8 +69,7 @@
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                                         <li><a href="{{pathFor 'czlonek_zwyczajny_form'}}">jako Członek zwyczajny</a></li>
                                         <li><a href="{{pathFor 'doradca_form'}}">jako Doradca</a></li>
-                                        <li><a href="#">Uwagę</a></li>
-                                        <li><a href="#">Nowy węzeł sieci</a></li>
+                                        <li><a href="#" id="newRootClick">Nowy węzeł sieci</a></li>
                                     </ul>
                                 </li>
                             {{/if}}

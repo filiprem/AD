@@ -1,4 +1,6 @@
 Template.czlonekZwyczajnyForm.rendered = function () {
+    document.getElementById("submitZwyczajny").disabled = false;
+
     $("#userForm").validate({
         rules: {
             email: {
@@ -79,9 +81,8 @@ Template.czlonekZwyczajnyForm.events({
         // jeżeli nie ma,to znaczy,że nowy draft->i dane są przepisywane do usera, po akceptacji kwestii:stworzony nowy użytkownik,userDraftUsunięty
         //kwestia ta sama z draftem zawsze!
 
-        document.getElementById("submitZwyczajny").disabled = true;
-        Meteor.setTimeout(function () {
-            document.getElementById("submitZwyczajny").disabled = false;
+        if ($('#userForm').valid()) {
+            document.getElementById("submitZwyczajny").disabled = true;
 
             var idUser = null;
             if (Meteor.userId())
@@ -110,7 +111,7 @@ Template.czlonekZwyczajnyForm.events({
 
             console.log("Dodany członek: ");
             console.log(newUser[0]);
-        },2000);
+        }
     },
     'reset form': function () {
         Router.go('home');

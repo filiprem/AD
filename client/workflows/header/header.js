@@ -66,18 +66,10 @@ Template.header.helpers({
         var powiad = Powiadomienie.find({idOdbiorca: Meteor.userId(), czyOdczytany: false,czyAktywny:true});
         if(powiad)
             return powiad.count()>0 ? true : false;
+    },
+    currentUser:function(){
+        return Meteor.userId()? true : false;
     }
-    //appliedForCzlonek:function(){
-    //    if(isDoradca()){
-    //        var userDraf= UsersDraft.find({'profile.idUser':Meteor.userId()});
-    //        console.log(UsersDraft.find({'profile.idUser':Meteor.userId()}));
-    //        if(userDraf){
-    //            return userDraf.count()>0 ? false : true;
-    //        }
-    //        return true;
-    //    }
-    //    return false;
-    //}
 });
 
 Template.language.events({
@@ -138,6 +130,11 @@ Template.header.events({
         console.log("change!!");
         var value=$(e.target).val();
         console.log(value);
+    },
+    'click #newRootClick':function(e){
+        e.preventDefault();
+        bootbox.confirm("Funkcja niedostępna w tej wersji systemu!", function(result) {
+        });
     }
 });
 

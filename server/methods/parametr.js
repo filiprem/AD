@@ -10,7 +10,8 @@ Meteor.methods({
             czasWyczekiwaniaKwestiiSpecjalnej:newParametr[0].czasWyczekiwaniaKwestiiSpecjalnej,
             addIssuePause:newParametr[0].addIssuePause,
             addCommentPause:newParametr[0].addCommentPause,
-            addReferencePause:newParametr[0].addReferencePause
+            addReferencePause:newParametr[0].addReferencePause,
+            okresSkladaniaRR:newParametr[0].okresSkladaniaRR
         });
     },
     updateParametr: function(id, parametr){

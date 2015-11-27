@@ -73,16 +73,13 @@ checkExistsUser=function(searchedEmail,userType1,userType2){
     var userType=null;
     var users = Users.find();
     users.forEach(function (user) {
-        console.log(user);
         _.each(user.emails, function (email) {
             if (_.isEqual(email.address.toLowerCase(), searchedEmail.toLowerCase())) {
 
                 if(userType1 ==null && userType2==null)//dla przeszukania czy wgl jest taki user w systemie
                     found=true;
                 else {
-                    console.log("tu nie powinno wejść");
                     userType=user.profile.userType;
-                    console.log("User type: "+userType);
                     if (userType2 == null) {
                         if (userType == userType1) {//dla przeszukania czy doradca/czlonek jest w systemie
                             found = true;

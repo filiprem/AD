@@ -24,6 +24,10 @@ Template.editParametrModalInner.rendered=function(){
             addReferencePause: {
                 min: 0,
                 number: true
+            },
+            okresSkladaniaRR:{
+                min:1,
+                number:true
             }
         },
         messages: {
@@ -60,6 +64,10 @@ Template.editParametrModalInner.rendered=function(){
                 min: positiveNumberMessage()
             },
             addReferencePause: {
+                required: fieldEmptyMessage(),
+                min: positiveNumberMessage()
+            },
+            okresSkladaniaRR:{
                 required: fieldEmptyMessage(),
                 min: positiveNumberMessage()
             }
@@ -134,6 +142,7 @@ parametrPreview=function(paramName,title,oldValue,newValue){
                 label: "Zgadzam się",
                 className: "btn-success",
                 callback: function() {
+                    $('.btn-success').css("visibility", "hidden");
                     createIssueChangeParam(paramName,title,oldValue,newValue);
                 }
             },
@@ -141,7 +150,7 @@ parametrPreview=function(paramName,title,oldValue,newValue){
                 label: "Rezygnuję",
                 className: "btn-danger",
                 callback: function() {
-
+                    $('.btn-success').css("visibility", "visible");
                 }
             }
         }
@@ -162,6 +171,8 @@ createIssueChangeParam=function(paramName,title,oldValue,newValue){
     var issuePause=params.addIssuePause;
     var commPause=params.addCommentPause;
     var refPause=params.addReferencePause;
+    var okresSkladaniaRR=params.okresSkladaniaRR;
+
     switch(paramName){
         case "nazwaOrganizacji":nazwaOrg=newValue;break;
         case "terytorium":terytorium=newValue;break;
@@ -173,6 +184,7 @@ createIssueChangeParam=function(paramName,title,oldValue,newValue){
         case "addIssuePause":issuePause=newValue;break;
         case "addCommentPause":commPause=newValue;break;
         case "addReferencePause":refPause=newValue;break;
+        case "okresSkladaniaRR":okresSkladaniaRR=newValue;break;
     }
     var addParamDraft =
     {
@@ -185,7 +197,8 @@ createIssueChangeParam=function(paramName,title,oldValue,newValue){
         czasWyczekiwaniaKwestiiSpecjalnej:czasWycz,
         addIssuePause:issuePause,
         addCommentPause:commPause,
-        addReferencePause:refPause
+        addReferencePause:refPause,
+        okresSkladaniaRR:okresSkladaniaRR
     };
     console.log(addParamDraft);
     Meteor.call('addParametrDraft', addParamDraft, function (error,ret) {

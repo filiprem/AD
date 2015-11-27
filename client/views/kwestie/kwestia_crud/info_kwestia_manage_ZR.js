@@ -7,13 +7,10 @@ Template.ZRTemplate.helpers({
             zespolR= ZespolRealizacyjnyDraft.findOne({_id:idZR});
 
         if (zespolR){
-            console.log(zespolR);
             return zespolR.zespol.slice().length==3 ? zespolR.nazwa :null;
         }
     },
     isInKoszOrZrealizowana:function(czyAktywny,status){
-        console.log("czyaktywny");
-        console.log(czyAktywny);
         return czyAktywny==false || status==KWESTIA_STATUS.ZREALIZOWANA ? true :false;
     },
     statusGlosowanaOsobowaRealizowanaZrealizowana:function(status,typ){
@@ -33,7 +30,6 @@ Template.ZRTemplate.helpers({
     },
     isActualUser:function(index,idZR){
         var userID=getZRData(index,idZR,"ZRDraft");
-        console.log(userID);
         if(userID){
             if(userID!=Meteor.userId())
                 return "disabled";
@@ -41,33 +37,35 @@ Template.ZRTemplate.helpers({
         }
         return "disabled";
     },
+    isInZRFoo:function(idZr){
+        var zrDraft=ZespolRealizacyjny.findOne({_id:idZr});
+        if(zrDraft){
+            return _.contains(zrDraft.zespol,Meteor.userId()) ? true :false;
+        }
+    },
     isInZR:function(idZr){
+        if(Meteor.user().profile.userType!==USERTYPE.CZLONEK)
+            return "disabled";
         var zrDraft=ZespolRealizacyjnyDraft.findOne({_id:idZr});
         if(zrDraft){
             return _.contains(zrDraft.zespol,Meteor.userId()) ? "disabled" :"";
         }
     },
     getZRCzlonkowie:function(idZR,status){
-        console.log("tuuu");
-        console.log(idZR);
         var zespol=null;
         var text=null;
         if(status==KWESTIA_STATUS.GLOSOWANA || status==KWESTIA_STATUS.OSOBOWA || status==KWESTIA_STATUS.OCZEKUJACA || status==KWESTIA_STATUS.STATUSOWA) {
             zespol = ZespolRealizacyjnyDraft.findOne({_id: idZR});
-            text="ZRDraft";
         }
         else {
             zespol = ZespolRealizacyjny.findOne({_id: idZR});
-            text="ZR";
         }
-        console.log(zespol);
-        var data="";
+        var data=[];
         if(zespol){
             for(var i=0;i<zespol.zespol.length;i++){
-                console.log(zespol.zespol[i]);
                 var user=Users.findOne({_id:zespol.zespol[i]});
-                console.log(user);
-                data+=user.profile.fullName+",";
+                //data+=user.profile.fullName+",";
+                data.push(user.profile.fullName);
             }
         }
         return data;
@@ -78,14 +76,25 @@ Template.ZRTemplate.helpers({
            data+=czlonek+",";
         });
         return data;
+    },
+    myZR:function(zespolArray){
+        var array=[];
+        var i=1;
+        zespolArray.forEach(function(czlonek){
+            var obj={
+                member:czlonek,
+                number:i
+            };
+            array.push(obj);
+            i++;
+        });
+        return array;
     }
 });
 
 Template.ZRTemplate.events({
     'click #czlonek1': function () {
         //zmiana!
-        console.log("czlonek 1");
-        console.log(this.idZR);
         zespolId=this.idZR;
         var idUser=getZRData(0,this.idZR,"ZRDraft");
         //var idUser=checkIfInZR(zespolId,Meteor.userId());
@@ -94,10 +103,7 @@ Template.ZRTemplate.events({
             //rezygnujZRAlert(checkIfInZR(zespolId,Meteor.userId()),this.idKwestia);
         }
         else {//nie ma go w zespole
-            console.log("tutaj wejdzie");
             var z = ZespolRealizacyjnyDraft.findOne({_id: zespolId});
-            console.log("ten zespół");
-            console.log(z);
             var zespolToUpdate = z.zespol.slice();
             if (z.zespol.length > 0) {
                 GlobalNotification.error({

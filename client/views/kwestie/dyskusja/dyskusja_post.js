@@ -59,7 +59,7 @@ Template.discussionPostItem.helpers({
     'isDoArchiwum': function () {
         var p = Posts.findOne({_id: this.idPost});
         if (p) {
-            if (p.postType == "archiwum") return true;
+            if (p.postType == POSTS_TYPES.ARCHIWUM) return true;
             else return false;
         }
     },

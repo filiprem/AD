@@ -3,16 +3,16 @@
     <div class="main">
         <div class="row">
             <div class="col-md-12">
-                {{#if GlosowanieListCount}}
+                <!--{{#if GlosowanieListCount}}-->
                     {{> reactiveTable
                     class = "table table-bordered table-hover"
                     fields = settings.fields
                     settings = settings
-                    collection = GlosowanieList
+                    collection = "GlosowanieList"
                     }}
-                {{else}}
-                    <label>Brak Kwestii</label>
-                {{/if}}
+                <!--{{else}}-->
+                    <!--<label>Brak Kwestii</label>-->
+                <!--{{/if}}-->
             </div>
         </div>
     </div>
