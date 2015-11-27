@@ -1,13 +1,21 @@
 /**
  * Created by Bartłomiej Szewczyk on 2015-11-26.
  */
+Template.addTopicModalInner.rendered = function(){
+    document.getElementById("addTopicModalBtn").disabled = false;
+};
 Template.addTopicModalInner.events({
-    'click #addTopicBtn': function(){
+    'click #addTopicModalBtn': function(){
+        document.getElementById("addTopicModalBtn").disabled = true;
+        Meteor.setTimeout(function(){
+            document.getElementById("addTopicModalBtn").disabled = false;
+        }, 2000);
+
         var topic = [{
             nazwaTemat: document.getElementById("topicName").value,
             opis: document.getElementById("topicDescription").value
         }];
-        console.log(topic[0].nazwaTemat);
+
         var topicsCount = Temat.find({nazwaTemat: topic[0].nazwaTemat}).count();
 
         if(topicsCount > 0){
