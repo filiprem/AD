@@ -28,9 +28,18 @@ Meteor.methods({
     },
 
     updateUser: function(currentUserId,currentUser) {
-        Users.update(currentUserId, {
-                $set: currentUser},
-            {upsert:true});
+        Users.update(currentUserId,
+          {
+            $set: {
+              "profile.firstName": currentUser.profile.firstName,
+              "profile.lastName": currentUser.profile.lastName,
+              "profile.fullName": currentUser.profile.firstName + ' ' + currentUser.profile.lastName,
+              "profile.address": currentUser.profile.address,
+              "profile.zip": currentUser.profile.zip,
+              "profile.city": currentUser.profile.city,
+            }
+          }
+        );
     },
     updateUserLanguage: function(currentUserId,value) {
         Users.update({_id:currentUserId}, {$set:{'profile.language': value}});
