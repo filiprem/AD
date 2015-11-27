@@ -233,10 +233,10 @@ body #editParametrMod .modal-dialog{
     height: 750px;
 }
 
-/*body #addRealizationReport .modal-dialog{*/
-    /*width: 750px;*/
-    /*height: 750px;*/
-/*}*/
+body #addRRModal .modal-dialog{
+    width: 850px;
+    height: 750px;
+}
 
 .panel .noborder{
     border:none;

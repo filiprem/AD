@@ -4,6 +4,7 @@ Template.uzasadnienieArchiwumModal.rendered=function(){
 Template.uzasadnienieArchiwumModal.events({
     'click #zatwierdzPrzeniesDoArchiwum': function (e) {
         e.preventDefault();
+        console.log("eeeee");
         var uzasadnienie = document.getElementById('uzasadnienieArchiwum').value;
         if (uzasadnienie) {
             if(uzasadnienie.trim()!="") {

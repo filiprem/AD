@@ -94,7 +94,7 @@ Template.czlonekZwyczajnyForm.events({
                     firstName: $(e.target).find('[name=firstName]').val(),
                     lastName: $(e.target).find('[name=lastName]').val(),
                     address: $(e.target).find('[name=address]').val(),
-                    zip: $(e.target).find('[name=zipCode]').val(),
+                    zip: $(e.target).find('[name=ZipCode]').val(),
                     role: 'user',
                     userType: USERTYPE.CZLONEK,
                     uwagi: $(e.target).find('[name=uwagi]').val(),

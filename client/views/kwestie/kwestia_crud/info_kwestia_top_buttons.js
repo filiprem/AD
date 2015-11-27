@@ -127,33 +127,34 @@ Template.kwestiaTopButtons.events({
     },
     'click #addRealizationReportClick': function (e) {
         e.preventDefault();
-        var idKw = e.target.name;
-        var param=Parametr.findOne().okresSkladaniaRR;
-        console.log("wow");
-        console.log(param);
-        var previousCheck=moment(new Date()).subtract(param,"minutes").format();
-        var timeNow=moment(new Date()).format();
-        console.log("time now");
-        console.log(timeNow);
-        console.log("previous check");
-        console.log(previousCheck);
-        console.log(Raport.find({idKwestia:this._id}).count());
-        var raporty=Raport.find({idKwestia:this._id,
-            dataWprowadzenia: {
-                $gte: previousCheck,
-                $lt: timeNow
-            }},{sort:{dataWprowadzenia:-1}});
-
-        if(raporty.count()==0) {
-            console.log("brak raportów");
-            $("#addRealizationReport").modal("show");
-            return "Raport Realizacyjny";
-        }
-        else{
-            console.log("jest raport-pokaż");
-            $('html, body').animate({
-                        scrollTop: $(".doZrealizowaniaClass").offset().top
-                    }, 600);
-        }
+        $("#addRRModal").modal("show");
+        //var idKw = e.target.name;
+        //var param=Parametr.findOne().okresSkladaniaRR;
+        //console.log("wow");
+        //console.log(param);
+        //var previousCheck=moment(new Date()).subtract(param,"minutes").format();
+        //var timeNow=moment(new Date()).format();
+        //console.log("time now");
+        //console.log(timeNow);
+        //console.log("previous check");
+        //console.log(previousCheck);
+        //console.log(Raport.find({idKwestia:this._id}).count());
+        //var raporty=Raport.find({idKwestia:this._id,
+        //    dataWprowadzenia: {
+        //        $gte: previousCheck,
+        //        $lt: timeNow
+        //    }},{sort:{dataWprowadzenia:-1}});
+        //
+        //if(raporty.count()==0) {
+        //    console.log("brak raportów");
+        //    $("#addRealizationReport").modal("show");
+        //    //return "Raport Realizacyjny";
+        //}
+        //else{
+        //    console.log("jest raport-pokaż");
+        //    $('html, body').animate({
+        //                scrollTop: $(".doZrealizowaniaClass").offset().top
+        //            }, 600);
+        //}
     }
 });
