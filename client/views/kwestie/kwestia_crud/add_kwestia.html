@@ -12,7 +12,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-xs-3">Temat:</label>
+                        <label class="control-label col-xs-3" for="sugerowanyTemat">Temat:</label>
                         <div class="col-xs-9">
                             <input type="button" class="btn btn-primary" id="chooseTopicBtn" value="Wybierz istniejący">
                             <input type="button" class="btn btn-default" id="addTopicBtn" value="Wprowadź nowy">
@@ -21,11 +21,11 @@
                     <div class="form-group">
                         <div class="col-xs-offset-3 col-xs-9">
                             <input class="form-control" name="sugerowanyTemat" id="sugerowanyTemat"
-                                   placeholder="Temat" value="{{topic.nazwaTemat}}" required>
+                                   placeholder="Wybierz lub wprowadź Temat" value="{{topic}}" required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-xs-3">Rodzaj:</label>
+                        <label class="control-label col-xs-3" for="sugerowanyRodzaj">Rodzaj:</label>
                         <div class="col-xs-9">
                             <input type="button" class="btn btn-primary" id="chooseTypeBtn" value="Wybierz istniejący">
                             <input type="button" class="btn btn-default" id="addTypeBtn" value="Wprowadź nowy">
@@ -34,7 +34,7 @@
                     <div class="form-group">
                         <div class="col-xs-offset-3 col-xs-9">
                             <input class="form-control" name="sugerowanyRodzaj" id="sugerowanyRodzaj"
-                                   placeholder="Rodzaj" value="{{type.nazwaRodzaj}}" required>
+                                   placeholder="Wybierz lub wprowadź Rodzaj" value="{{type}}" required>
                         </div>
                     </div>
                     <!--<input type="hidden" value="{{sugerowanyRodzaj}}" id="rodzajHidden"/>-->
@@ -82,4 +82,7 @@
 
     {{>chooseTopicModal}}
     {{>chooseTypeModal}}
+    {{>addTypeModal}}
+    {{>addTopicModal}}
+    {{>GlobalNotifications}}
 </template>

@@ -34,7 +34,12 @@ Template.chooseTopicModalInner.helpers({
 Template.topicName.events({
     'click #choosenTopicBtn': function() {
         Session.setPersistent("choosenTopicId", this._id);
-        document.getElementById("chooseTypeBtn").disabled = false;
+        Session.setPersistent("choosenTypeId", null);
+        if(Rodzaj.find({idTemat: this._id}).count()>0) {
+            document.getElementById("chooseTypeBtn").disabled = false;
+        }else{
+            document.getElementById("chooseTypeBtn").disabled = true;
+        }
         document.getElementById("addTypeBtn").disabled = false;
         $("#chooseTopicModalId").modal("hide");
     }

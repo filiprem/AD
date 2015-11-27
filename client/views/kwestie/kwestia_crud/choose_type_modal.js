@@ -31,7 +31,6 @@ Template.chooseTypeModalInner.helpers({
 Template.typeName.events({
     'click #chosenTypeBtn': function() {
         Session.setPersistent("choosenTypeId", this._id);
-        console.log(Session.get("choosenTypeId"));
         $("#chooseTypeModalId").modal("hide");
     }
 });
