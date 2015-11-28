@@ -1,4 +1,5 @@
 <template name="discussionMain">
+    <input type="hidden" value="{{raporty}}" id="reportsIds"/>
     <div class="row">
         <label class="control-label col-xs-12">{{title}}</label>
         <input id="status" name="status" type="hidden" value="{{status}}">
@@ -11,6 +12,7 @@
                 userFullName = userFullName
                 addDate=addDate
                 idKwestia=idKwestia
+                idRaport=idRaport
                 idPost=_id
                 wartoscPriorytetu = wartoscPriorytetu
                 }}

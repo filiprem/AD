@@ -336,5 +336,8 @@ Meteor.methods({
     updateKwestiaCzasLobbowana:function(id,lobbowana){//,{$unset:{idZespolRealizacyjny:''}}
         var id = Kwestia.update(id, {$set: {lobbowana:lobbowana}});
         return id;
+    },
+    updateReportsIssue:function(id,reports){
+        var id = Kwestia.update(id, {$set: {raporty:reports}});
     }
 });

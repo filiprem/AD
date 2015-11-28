@@ -55,6 +55,11 @@ Template.realizacjaTab2.helpers({
                 },
                 {key: 'status', label: "Status", tmpl: Template.statusKwestii},
                 {
+                    key: 'raporty',
+                    label: "Raport",
+                    tmpl:Template.raport
+                },
+                {
                     key: 'options',
                     label: "Opcje",
                     tmpl: Template.editColumnRealization
@@ -62,13 +67,6 @@ Template.realizacjaTab2.helpers({
             ]
         };
     }
-    //ZrealizowaneList: function () {
-    //    return Kwestia.find({czyAktywny: true, status: {$in:[KWESTIA_STATUS.ZREALIZOWANA]}}).fetch();
-    //},
-    //ZrealizowaneListCount: function () {
-    //    var ile = Kwestia.find({czyAktywny: true, status: {$in:[KWESTIA_STATUS.ZREALIZOWANA]}}).count();
-    //    return ile > 0 ? true : false;
-    //}
 });
 
 Template.realizacjaTab2.events({

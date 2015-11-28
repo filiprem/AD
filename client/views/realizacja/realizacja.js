@@ -1,3 +1,5 @@
+Template.realizacjaTab1.rendered=function(){
+};
 Template.realizacjaTab1.helpers({
     'settings': function () {
         return {
@@ -53,7 +55,11 @@ Template.realizacjaTab1.helpers({
                     label: "Rodzaj",
                     tmpl: Template.rodzajKwestia
                 },
-                {key: 'raport', label: "Raport", tmpl: Template.statusKwestii},
+                {
+                    key: 'raporty',
+                    label: "Raport",
+                    tmpl:Template.raport
+                },
                 {
                     key: 'options',
                     label: "Opcje",
@@ -62,13 +68,6 @@ Template.realizacjaTab1.helpers({
             ]
         };
     }
-    //RealizacjaList: function () {
-    //    return Kwestia.find({czyAktywny: true, status: {$in:[KWESTIA_STATUS.REALIZOWANA]}}).fetch();
-    //},
-    //RealizacjaListCount: function () {
-    //    var ile = Kwestia.find({czyAktywny: true, status: {$in:[KWESTIA_STATUS.REALIZOWANA]}}).count();
-    //    return ile > 0 ? true : false;
-    //}
 });
 
 Template.realizacjaTab1.events({
@@ -106,5 +105,60 @@ Template.numerUchwKwestia.helpers({
 
 Template.listKwestiaRealzacjaColumnLabel.rendered = function () {
     $('[data-toggle="tooltip"]').tooltip();
-}
+};
+
+Template.raport.helpers({
+    reportCurrentDurationExists:function(raporty){
+        var param=Parametr.findOne().okresSkladaniaRR;
+        var previousCheck = moment(new Date()).subtract(param, "minutes").format();
+        var timeNow = moment(new Date()).format();
+        var reports=
+            Raport.find({_id:{$in:raporty},
+                dataUtworzenia:{
+                    $gte: previousCheck,
+                    $lt: timeNow
+                }});
+        if(reports.count()==0)
+            return false;
+        else return true;
+    },
+    currentReport:function(raporty){
+        var raport= _.first(raporty.reverse());
+        return Raport.findOne({_id:raport});
+    },
+    hasZR:function(){
+        var issue=Kwestia.findOne({_id:this._id});
+        if(issue){
+            if(issue.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE)
+            return false;
+            return true;
+        }
+    }
+});
+Template.raport.events({
+   'click #showReport':function(e){
+       e.preventDefault();
+       lackOfRealizatonReport();
+   }
+});
+lackOfRealizatonReport=function(){
+    GlobalNotification.error({
+        title: 'Uwaga',
+        content: "Brak aktualnego Raportu Realizacyjnego",
+        duration: 3 // duration the notification should stay in seconds
+    });
+};
+checkRRExists=function(raporty,param){
+    var previousCheck = moment(new Date()).subtract(param, "minutes").format();
+    var timeNow = moment(new Date()).format();
+    var reports =
+        Raport.find({
+            _id: {$in: raporty},
+            dataUtworzenia: {
+                $gte: previousCheck,
+                $lt: timeNow
+            }
+        });
+    return reports;
+};
 

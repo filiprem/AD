@@ -1,5 +1,12 @@
 <template name="kwestiaTopButtons">
     <div class="col-md-12">
+        {{#if isRealizowanaNieaktywny status czyAktywny}}
+            {{#with actualIssue idKwestia}}
+                <a href="{{pathFor 'listRaport'}}" type="button" class="btn pull-left" style="background-color: darkgrey" >
+                    <span class="fa fa-list-alt"></span> Lista RR
+                </a>
+            {{/with}}
+        {{/if}}
         <div class="btn-toolbar pull-right" role="toolbar" aria-label="...">
             <div class="btn-group" role="group" aria-label="...">
 

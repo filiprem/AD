@@ -245,3 +245,22 @@ Meteor.publish('issuesInNotifications', function (idUser) {
     });
     return Kwestia.find({_id:{$in:array}},{fields: {kwestiaNazwa:1}});
 });
+
+Meteor.publish("reportsIssuesRealization",function(){
+    var issues=Kwestia.find({status:{$in:[KWESTIA_STATUS.ZREALIZOWANA,KWESTIA_STATUS.REALIZOWANA]}});
+    var array=[];
+    issues.forEach(function(issue){
+        array.push(issue._id);
+    });
+    var reports=Raport.find({idKwestia:{$in:[array]}});
+    return reports;
+});
+
+Meteor.publish("reportsIssue",function(idRaport){
+   return Kwestia.find({},{$where: function () {
+       var raporty=this.raporty;
+       var flag=false;
+       if(_.contains(raporty,idRaport))
+        flag=true;
+       return flag==true}});
+});
