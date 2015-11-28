@@ -42,11 +42,11 @@ Template.profileList.helpers({
             showColumnToggles: false,
             enableRegex: false,
             fields: [
-                {key: 'profile.firstName', label: "Imię"},
-                {key: 'profile.lastName', label: "Nazwisko"},
+                { key: 'profile.firstName', label: "Imię" },
+                { key: 'profile.lastName', label: "Nazwisko" },
                 //{key: 'username', label: "Nazwa użytkownika", tmpl: Template.usernameLink},
-                {key: 'Kontakt', label: "Kontakt", tmpl: Template.userEmailContact},
-                {key: 'profile.city', label: "Miasto"}
+                { key: 'Kontakt', label: "Kontakt", tmpl: Template.userEmailContact },
+                { key: 'profile.city', label: "Miasto" }
             ],
             rowClass: function (item) {
                 var tab = self.usersRV.get();

@@ -21,45 +21,12 @@ Template.hibernowaneList.helpers({
             showColumnToggles: false,
             enableRegex: false,
             fields: [
-                {
-                    key: 'dataWprowadzenia',
-                    label: Template.listKwestiaAdminColumnLabel,
-                    labelData: {
-                        //title: "Data wprowadzenia Kwestii i rozpoczêcia jej deliberacji",
-                        text: "Data"
-                    },
-                    tmpl: Template.dataUtwKwestia
-                },
-                {
-                    key: 'kwestiaNazwa',
-                    label: Template.listKwestiaAdminColumnLabel,
-                    labelData: {
-                        title: "Kliknij, aby zobaczyæ szczegó³y",
-                        //text: "Nazwa Kwestii"
-                    },
-                    tmpl: Template.nazwaKwestiiHibernowaneLink
-                },
-                {
-                    key: 'wartoscPriorytetu',
-                    label: Template.listKwestiaAdminColumnLabel,
-                    labelData: {
-                        //title: "Kliknij, aby zmieniæ swój priorytet dla tej Kwestii",
-                        text: "Priorytet"
-                    },
-                    tmpl: Template.priorytetKwestia,
-                    sortOrder: 1,
-                    sortDirection: 'descending'
-                },
-                {key: '', label: "Temat", tmpl: Template.tematKwestiiHibernowane},
-                {key: '', label: "Rodzaj", tmpl: Template.rodzajKwestiiHibernowane},
-                {
-                    key: 'status',
-                    label: Template.listKwestiaAdminColumnLabel,
-                    labelData: {
-                        //title: "Etap, na którym znajduje sie ta Kwestia",
-                        text: "Status"
-                    }
-                }
+                { key: 'dataWprowadzenia', label: "Data wprowadzenia", tmpl: Template.dataUtwKwestia },
+                { key: 'kwestiaNazwa', label: "Nazwa kwestii", tmpl: Template.nazwaKwestiiHibernowaneLink },
+                { key: 'wartoscPriorytetu', label: "Wartosc priorytetu", tmpl: Template.priorytetKwestia },
+                { key: '', label: "Temat", tmpl: Template.tematKwestiiHibernowane },
+                { key: '', label: "Rodzaj", tmpl: Template.rodzajKwestiiHibernowane },
+                { key: 'status', label: Template.listKwestiaAdminColumnLabel }
             ]
         };
     },

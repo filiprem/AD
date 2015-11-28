@@ -12,38 +12,12 @@ Template.opcjeList.helpers({
             showColumnToggles: false,
             enableRegex: false,
             fields: [
-                {
-                    key: 'dataWprowadzenia',
-                    label: Template.listKwestiaColumnLabel,
-                    labelData: {
-                        title: "Data wprowadzenia Kwestii i rozpoczęcia jej deliberacji",
-                        text: "Data"
-                    },
-                    tmpl: Template.dataUtwKwestia
-                },
-                {
-                    key: 'kwestiaNazwa',
-                    label: Template.listKwestiaColumnLabel,
-                    labelData: {
-                        title: "Kliknij, aby zobaczyć szczegóły",
-                        text: "Nazwa Kwestii"
-                    },
-                    tmpl: Template.opcjeNazwaKwestiLink
-                },
-                {
-                    key: 'wartoscPriorytetu',
-                    label: Template.listKwestiaColumnLabel,
-                    labelData: {
-                        title: "Kliknij, aby zmienić swój priorytet dla tej Kwestii",
-                        text: "Priorytet"
-                    },
-                    tmpl: Template.priorytetKwestia,
-                    sortOrder: 1,
-                    sortDirection: 'descending'
-                },
-                {key: 'idTemat', label: "Temat", tmpl: Template.tematKwestia},
-                {key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestia},
-                {key: 'status', label: "Status", tmpl: Template.statusKwestia}
+                { key: 'dataWprowadzenia', label: "Data wprowadzenia", tmpl: Template.dataUtwKwestia },
+                { key: 'kwestiaNazwa', label: "Kwestia nazwa", tmpl: Template.opcjeNazwaKwestiLink },
+                { key: 'wartoscPriorytetu', label: "Wartosc priorytetu", tmpl: Template.priorytetKwestia },
+                { key: 'idTemat', label: "Temat", tmpl: Template.tematKwestia },
+                { key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestia },
+                { key: 'status', label: "Status", tmpl: Template.statusKwestia }
             ],
             rowClass: function (item) {
                 if (item.status==KWESTIA_STATUS.ARCHIWALNA) {

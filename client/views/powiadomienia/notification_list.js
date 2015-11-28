@@ -13,14 +13,8 @@ Template.notificationList.helpers({
             showColumnToggles: false,
             enableRegex: false,
             fields: [
-                {key: 'powiadomienieTyp', label: "Temat",tmpl: Template.tematLink,sortOrder: 1, sortDirection: 'descending'},
-                {
-                    key: 'dataWprowadzenia',
-                    label: "Data",
-                    tmpl: Template.dataWpr,
-                    sortOrder: 0,
-                    sortDirection: 'descending'
-                }
+                { key: 'powiadomienieTyp', label: "Temat",tmpl: Template.tematLink,sortOrder: 1, sortDirection: 'descending' },
+                { key: 'dataWprowadzenia', label: "Data", tmpl: Template.dataWpr }
             ],
             rowClass:function(item){
                 console.log(item.czyOdczytany);

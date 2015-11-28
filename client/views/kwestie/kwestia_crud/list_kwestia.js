@@ -104,46 +104,12 @@ Template.listKwestia.helpers({
             noDataTemplate:Template.noData,
             filters:['customFilter'],
             fields: [
-                {
-                    key: 'dataWprowadzenia',
-                    label: Template.listKwestiaColumnLabel,
-                    labelData: {
-                        //title: "Data wprowadzenia Kwestii i rozpoczęcia jej deliberacji",
-                        text: "Data"
-                    },
-                    tmpl: Template.dataUtwKwestia,
-                    sortOrder: 1,
-                    sortDirection: "descending"
-                },
-                {
-                    key: 'kwestiaNazwa',
-                    label: Template.listKwestiaColumnLabel,
-                    labelData: {
-                        //title: "Kliknij w nazwę, aby zobaczyć szczegóły Kwestii",
-                        text: "Nazwa Kwestii"
-                    },
-                    tmpl: Template.nazwaKwestiLink
-                },
-                {
-                    key: 'wartoscPriorytetu',
-                    label: Template.listKwestiaColumnLabel,
-                    labelData: {
-                        //title: "Priorytet nadany przez Ciebie oraz ogólna siła priorytetu",
-                        text: "Priorytet"
-                    },
-                    tmpl: Template.priorytetKwestia
-                },
-                {key: 'idTemat', label: "Temat", tmpl: Template.tematKwestia},
-                {key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestia},
-                {
-                    key: 'dataGlosowania',
-                    label: Template.listKwestiaColumnLabel,
-                    labelData: {
-                        title: "Aktualne kworum / wymagane kworum",
-                        text: "Kworum"
-                    },
-                    tmpl: Template.kworumNumber
-                }
+                { key: 'dataWprowadzenia', label: "Data wprowadzenia", tmpl: Template.dataUtwKwestia },
+                { key: 'kwestiaNazwa', label: "Nazwa kwestii", tmpl: Template.nazwaKwestiLink },
+                { key: 'wartoscPriorytetu', label: "Wartosc priorytetu", tmpl: Template.priorytetKwestia },
+                { key: 'idTemat', label: "Temat", tmpl: Template.tematKwestia },
+                { key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestia },
+                { key: 'Kworum', label: "Kworum", tmpl: Template.kworumNumber}
             ],
             rowClass: function (item) {
                 tab = self.liczbaKwestiRV.get();
@@ -167,57 +133,13 @@ Template.listKwestia.helpers({
             noDataTemplate: Template.noData,
             filters: ['customFilter'],
             fields: [
-                {
-                    key: 'id',
-                    label: Template.listKwestiaColumnLabel,
-                    labelData: {
-                        title: "id",
-                        text: "Id"
-                    },
-                    tmpl: Template.id
-                },
-                {
-                    key: 'dataWprowadzenia',
-                    label: Template.listKwestiaColumnLabel,
-                    labelData: {
-                        //title: "Data wprowadzenia Kwestii i rozpoczęcia jej deliberacji",
-                        text: "Data"
-                    },
-                    tmpl: Template.dataUtwKwestia,
-                    sortOrder: 1,
-                    sortDirection: "ascending"
-                },
-                {
-                    key: 'kwestiaNazwa',
-                    label: Template.listKwestiaColumnLabel,
-                    labelData: {
-                        //title: "Kliknij w nazwę, aby zobaczyć szczegóły Kwestii",
-                        text: "Nazwa Kwestii"
-                    },
-                    tmpl: Template.nazwaKwestiLink
-                },
-                {
-                    key: 'wartoscPriorytetu',
-                    label: Template.listKwestiaColumnLabel,
-                    labelData: {
-                       // title: "Priorytet nadany przez Ciebie oraz ogólna siła priorytetu",
-                        text: "Priorytet"
-                    },
-                    tmpl: Template.priorytetKwestia,
-                    sortOrder: 0,
-                    sortDirection: "descending"
-                },
-                {key: 'idTemat', label: "Temat", tmpl: Template.tematKwestia},
-                {key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestia},
-                {
-                    key: 'dataGlosowania',
-                    label: Template.listKwestiaColumnLabel,
-                    labelData: {
-                        //title: "Aktualne kworum / wymagane kworum",
-                        text: "Kworum"
-                    },
-                    tmpl: Template.kworumNumber
-                }
+                { key: 'id', label: "Id", tmpl: Template.id },
+                { key: 'dataWprowadzenia', label: "Data wprowadzenia", tmpl: Template.dataUtwKwestia },
+                { key: 'kwestiaNazwa', label: "Kwestia nazwa", tmpl: Template.nazwaKwestiLink },
+                { key: 'wartoscPriorytetu', label: "Wartosc priorytet", tmpl: Template.priorytetKwestia },
+                { key: 'idTemat', label: "Temat", tmpl: Template.tematKwestia },
+                { key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestia },
+                { key: 'Kworum', label: "Kworum", tmpl: Template.kworumNumber }
             ],
             rowClass: function (item) {
                 tab = self.liczbaKwestiRV.get();
