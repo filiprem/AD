@@ -39,6 +39,7 @@
 </template>
 
 <template name="raport">
+    {{this.idKwestia}}
     {{#if hasZR}}
         {{#if reportCurrentDurationExists raporty}}
             {{#with currentReport raporty}}

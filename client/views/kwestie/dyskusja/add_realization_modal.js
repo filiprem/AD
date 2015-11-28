@@ -1,6 +1,10 @@
 Template.addRealizationReportModal.rendered=function(){
-    //document.getElementById("addRR").disabled = false;
-    $('#addRR').css("visibility", "visible");
+    document.getElementById("addRR").disabled = false;
+    console.log("render!");
+    this.autorun(function() {
+        console.log("render!");
+        //$('#addRR').css("visibility", "visible");
+    });
     $("#addRRForm").validate({
         rules: {
             raportTitle: {
@@ -41,12 +45,15 @@ Template.addRealizationReportModal.events({
     'submit form': function (e) {
         e.preventDefault();
         if ($('#addRRForm').valid()) {
-            var odp=checkRealizationReportExists(this.idKwestia,Parametr.findOne().okresSkladaniaRR);
-            if(odp==false){
-                bootbox.alert("Przepraszamy,istnieje już Raport Realizacyjny");
+            //var odp=checkRealizationReportExists(this.idKwestia,Parametr.findOne().okresSkladaniaRR);
+            var report=getReportsForIssueAtSpecificDuration(this.idKwestia);
+            if(report!=false){
+                bootbox.alert("Przepraszamy,istnieje już Raport Realizacyjny w wybranym okresie");
             }
             else {
-                $('#addRR').css("visibility", "hidden");
+                $("#addRRModal").modal("hide");
+                document.getElementById("addRR").disabled = true;
+               // $('#addRR').css("visibility", "hidden");
 
                 var message = $(e.target).find('[name=raportTitle]').val();
                 var uzasadnienie = $(e.target).find('[name=raportDescription]').val();
@@ -95,6 +102,7 @@ Template.addRealizationReportModal.events({
                             opis: uzasadnienie,
                             idPost: idPost
                         };
+                        document.getElementById("addRR").disabled = false;
                         Meteor.call("addRaportMethod", newRaport, function (error, ret) {
                             if (error)
                                 throwError(error.reason);
@@ -121,7 +129,7 @@ Template.addRealizationReportModal.events({
                             }
                         });
                         document.getElementById("addRRForm").reset();
-                        $("#addRRModal").modal("hide");
+
                         $('html, body').animate({
                             scrollTop: $(".doRealizationRaportClass").offset().top
                         }, 600);

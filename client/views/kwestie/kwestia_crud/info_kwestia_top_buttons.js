@@ -1,8 +1,6 @@
 Template.kwestiaTopButtons.helpers({
     actualIssue:function(id){
-        console.log("tutaaaaj");
         var issue=Kwestia.findOne({_id:id});
-        console.log(issue);
         return issue? issue : null;
     },
     hasUserRights: function(idKwestia) {
@@ -21,8 +19,6 @@ Template.kwestiaTopButtons.helpers({
         return (status==KWESTIA_STATUS.REALIZOWANA || status==KWESTIA_STATUS.ZREALIZOWANA) && czyAktywny==true ? true :false;
     },
     isInZR:function(idZR){
-        console.log("idZR");
-        console.log(idZR);
         var zr=ZespolRealizacyjny.findOne({_id:idZR});
         return _.contains(zr.zespol,Meteor.userId()) ? true : false;
     },
@@ -107,19 +103,11 @@ Template.kwestiaTopButtons.events({
     },
     'click #addRealizationReportClick': function (e) {
         e.preventDefault();
-
-
-        var odp=checkRealizationReportExists(this.idKwestia,Parametr.findOne().okresSkladaniaRR);
-        if(odp==true)
+        var odp=getReportsForIssueAtSpecificDuration(this.idKwestia);
+        if(odp==false)
             $("#addRRModal").modal("show");
         else{
-            var reports=getReportsForIssueAtSpecificDuration(this.idKwestia,Parametr.findOne().okresSkladaniaRR);
-            var array=[];
-            reports.forEach(function(report){
-                array.push(report._id);
-            });
-            var className=".doRealizationRaportClass"+ _.first(array);
-            console.log(className);
+            var className=".doRealizationRaportClass"+ odp._id;
             $('html, body').animate({
                  scrollTop: $(className).offset().top
              }, 600);
@@ -127,43 +115,14 @@ Template.kwestiaTopButtons.events({
     }
 });
 
-checkRealizationReportExists=function(idKwestia,param) {
-    console.log("dane");
-    console.log(idKwestia);
-    console.log(param);
-    var raporty=getReportsForIssueAtSpecificDuration(idKwestia,param);
-    if (raporty.count() == 0) {
-        console.log("brak raportów");
-        //$("#addRRModal").modal("show");
-        ////return "Raport Realizacyjny";
-        return true;
-    }
-    else {
-        console.log("jest raport-pokaż");
-        //$('html, body').animate({
-        //    scrollTop: $(".doRealizationRaportClass").offset().top
-        //}, 600);
-        return false;
-    }
-};
-getReportsForIssueAtSpecificDuration=function(idKwestia,param){
-    var previousCheck = moment(new Date()).subtract(param, "minutes").format();
+getReportsForIssueAtSpecificDuration=function(idKwestia){
     var timeNow = moment(new Date()).format();
-    console.log("time now");
-    console.log(timeNow);
-    console.log("previous check");
-    console.log(previousCheck);
-    //console.log(timeNow.setMinutes(timeNow.getMinutes()+1));
-    console.log("id kwestia");
-    console.log(idKwestia);
-    console.log(Raport.find({idKwestia: idKwestia}).count());
-    var raporty = Raport.find({
-        idKwestia: idKwestia,
-        dataUtworzenia: {
-            $gte: previousCheck,
-            $lt: timeNow
-        }
-    }, {sort: {dataUtworzenia: -1}});
-    return raporty;
+    var issue=Kwestia.findOne({_id:idKwestia});
+    var lastReportId=issue.raporty;
+    var report=Raport.findOne({_id:_.last(issue.raporty)});
+    if(report==null)
+    return false;
+    var reportAddedTime=report.dataUtworzenia;
+    return reportAddedTime > _.last(issue.listaDatRR) ? report : false;
 };
 

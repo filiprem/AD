@@ -109,18 +109,14 @@ Template.listKwestiaRealzacjaColumnLabel.rendered = function () {
 
 Template.raport.helpers({
     reportCurrentDurationExists:function(raporty){
-        var param=Parametr.findOne().okresSkladaniaRR;
-        var previousCheck = moment(new Date()).subtract(param, "minutes").format();
-        var timeNow = moment(new Date()).format();
-        var reports=
-            Raport.find({_id:{$in:raporty},
-                dataUtworzenia:{
-                    $gte: previousCheck,
-                    $lt: timeNow
-                }});
-        if(reports.count()==0)
-            return false;
-        else return true;
+        var raportId= _.last(raporty);
+        var issue=Kwestia.findOne({_id:this._id});
+        if(raportId==null)
+        return false;
+        else{
+            var report=Raport.findOne({_id: raportId});
+            return report.dataUtworzenia> _.last(issue.listaDatRR) ? true : false;_
+        }
     },
     currentReport:function(raporty){
         var raport= _.first(raporty.reverse());

@@ -51,55 +51,99 @@ SyncedCron.add({
 
 //sprawdzanie kiedy koniec glosowania i dopowiednie dzzialania-realizacja lub kosz lub sth else
 checkingRRExist=function(){
-    console.log(moment(new Date()).format());
-    var kwestie=Kwestia.find({czyAktywny:true,status:{$in:[KWESTIA_STATUS.ZREALIZOWANA,KWESTIA_STATUS.REALIZOWANA]},typ:{$nin:[KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE]}});
-    console.log("liczba kwestii:"+kwestie.count());
+    console.log("checking rr exists");
+    var kwestie=Kwestia.find({
+        czyAktywny:true,
+        status:{$in:[KWESTIA_STATUS.ZREALIZOWANA,KWESTIA_STATUS.REALIZOWANA]},
+        typ:{$nin:[KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE]}});
     kwestie.forEach(function(kwestia){
-        var param=Parametr.findOne().okresSkladaniaRR;
-        var timeNow=moment(new Date()).format();
-        //w previousCheck- ustwienia zgodnie z param glob domyślnymi ma być! czylo sub -days
-        var previousCheck=moment(new Date()).subtract(param,"minutes").format();
-        console.log("time now");
-        console.log(timeNow);
-        console.log("previous check");
-        console.log(previousCheck);
-        console.log(Raport.find({idKwestia:kwestia._id}).count());
-        var raporty=Raport.find({idKwestia:kwestia._id,
-            dataWprowadzenia: {
-                $gte: previousCheck,
-                $lt: timeNow
-            }},{sort:{dataWprowadzenia:-1}});
+    //moment(new Date()).add(Parametr.findOne().okresSkladaniaRR,"minutes").format()
+       //var nextCheck= _.last(kwestia.listaDatRR);
+        var initial=_.last(kwestia.listaDatRR);
+        var nextCheck= moment(initial).add(Parametr.findOne().okresSkladaniaRR,"minutes").format();
+        var currentTime=moment(new Date()).format();
+        console.log("Daty miedzy którymi musi pojawić się raport");
+        console.log(initial);
+        console.log(nextCheck);
+        console.log("Obecna godzina");
+        console.log(currentTime);
+       if(nextCheck<=currentTime){
+           //sprawdzamy czy jest raport-jeśli jest,to git, jeśli nie-powiad
+           var raporty=Raport.find({idKwestia:kwestia._id,
+               dataUtworzenia: {
+                   $gte: initial,
+               }},{sort:{dataWprowadzenia:-1}});
 
-        if(raporty.count()==0){
-            var notifications=Powiadomienie.find({idKwestia:kwestia._id,powiadomienieTyp:NOTIFICATION_TYPE.LACK_OF_REALIZATION_REPORT});
-            if(notifications.count()==0) {
-                console.log("wysyłamy powiadomienie");
-                Meteor.call("sendEmailNoRealizationReport", kwestia._id, function (error) {
-                    if (error)
-                        console.log(error.reason);
-                });
-                var users = Users.find({'profile.userType': USERTYPE.CZLONEK});
-                users.forEach(function (user) {
-                    //dodaj!-wybranie z zespolu tych czlonkow,którzy czyAtywny==true
-                    var zr = ZespolRealizacyjny.findOne({_id: kwestia.idZespolRealizacyjny});
-                    addPowiadomienieAplikacjaRespondMethodPosts(kwestia._id, new Date(), NOTIFICATION_TYPE.LACK_OF_REALIZATION_REPORT, user._id, zr.zespol);
-                });
-            }
-            else{
-                var n=Powiadomienie.find({idKwestia:kwestia._id,
-                    dataWprowadzenia: {
-                        $gte: previousCheck,
-                        $lt: timeNow
-                    }},{sort:{dataWprowadzenia:-1}});
-                if(n.count()>0)
-                console.log("jest takie");
-                else
-                    console.log("nie ma takiego");
-            }
-        }
-        else console.log("jest raport!");
-
+           if(raporty.count()==0) {
+                console.log("brak raportów");
+               Meteor.call("sendEmailNoRealizationReport", kwestia._id, function (error) {
+                   if (error)
+                       console.log(error.reason);
+               });
+               var users = Users.find({'profile.userType': USERTYPE.CZLONEK});
+               users.forEach(function (user) {
+                   //dodaj!-wybranie z zespolu tych czlonkow,którzy czyAtywny==true
+                   var zr = ZespolRealizacyjny.findOne({_id: kwestia.idZespolRealizacyjny});
+                   addPowiadomienieAplikacjaRespondMethodPosts(kwestia._id, new Date(), NOTIFICATION_TYPE.LACK_OF_REALIZATION_REPORT, user._id, zr.zespol);
+               });
+           }
+           else console.log("jest raport ->git");
+           var array=kwestia.listaDatRR;
+           array.push(currentTime);
+           Meteor.call("updateDeadlineNextRR",kwestia._id,array,function(error){
+              if(!error){
+              }
+           });
+       }
     });
+    //var kwestie=Kwestia.find({czyAktywny:true,status:{$in:[KWESTIA_STATUS.ZREALIZOWANA,KWESTIA_STATUS.REALIZOWANA]},typ:{$nin:[KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE]}});
+    //console.log("liczba kwestii:"+kwestie.count());
+    //kwestie.forEach(function(kwestia){
+    //    var param=Parametr.findOne().okresSkladaniaRR;
+    //    var timeNow=moment(new Date()).format();
+    //    //w previousCheck- ustwienia zgodnie z param glob domyślnymi ma być! czylo sub -days
+    //    var previousCheck=moment(new Date()).subtract(param,"minutes").format();
+    //    console.log("time now");
+    //    console.log(timeNow);
+    //    console.log("previous check");
+    //    console.log(previousCheck);
+    //    console.log(Raport.find({idKwestia:kwestia._id}).count());
+    //    var raporty=Raport.find({idKwestia:kwestia._id,
+    //        dataWprowadzenia: {
+    //            $gte: previousCheck,
+    //            $lt: timeNow
+    //        }},{sort:{dataWprowadzenia:-1}});
+    //
+    //    if(raporty.count()==0){
+    //        var notifications=Powiadomienie.find({idKwestia:kwestia._id,powiadomienieTyp:NOTIFICATION_TYPE.LACK_OF_REALIZATION_REPORT});
+    //        if(notifications.count()==0) {
+    //            console.log("wysyłamy powiadomienie");
+    //            Meteor.call("sendEmailNoRealizationReport", kwestia._id, function (error) {
+    //                if (error)
+    //                    console.log(error.reason);
+    //            });
+    //            var users = Users.find({'profile.userType': USERTYPE.CZLONEK});
+    //            users.forEach(function (user) {
+    //                //dodaj!-wybranie z zespolu tych czlonkow,którzy czyAtywny==true
+    //                var zr = ZespolRealizacyjny.findOne({_id: kwestia.idZespolRealizacyjny});
+    //                addPowiadomienieAplikacjaRespondMethodPosts(kwestia._id, new Date(), NOTIFICATION_TYPE.LACK_OF_REALIZATION_REPORT, user._id, zr.zespol);
+    //            });
+    //        }
+    //        else{
+    //            var n=Powiadomienie.find({idKwestia:kwestia._id,
+    //                dataWprowadzenia: {
+    //                    $gte: previousCheck,
+    //                    $lt: timeNow
+    //                }},{sort:{dataWprowadzenia:-1}});
+    //            if(n.count()>0)
+    //            console.log("jest takie");
+    //            else
+    //                console.log("nie ma takiego");
+    //        }
+    //    }
+    //    else console.log("jest raport!");
+    //
+    //});
 };
 checkingEndOfVote = function() {
 
