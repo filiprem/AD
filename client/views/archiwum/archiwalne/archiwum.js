@@ -21,42 +21,12 @@ Template.archiwumList.helpers({
             showColumnToggles: false,
             enableRegex: false,
             fields: [
-                {
-                    key: 'dataWprowadzenia',
-                    label: Template.listKwestiaAdminColumnLabel,
-                    labelData: {
-                        //title: "Data wprowadzenia Kwestii i rozpoczęcia jej deliberacji",
-                        text: "Data"
-                    },
-                    tmpl: Template.dataUtwKwestia
-                },
-                {
-                    key: 'kwestiaNazwa',
-                    label: Template.listKwestiaAdminColumnLabel,
-                    labelData: {
-                        title: "Kliknij, aby zobaczyć szczegóły",
-                        //text: "Nazwa Kwestii"
-                    },
-                    tmpl: Template.nazwaKwestiiArchiwumLink
-                },
-                {
-                    key: 'wartoscPriorytetu',
-                    label: Template.listKwestiaAdminColumnLabel,
-                    labelData: {title: "Kliknij, aby zmienić swój priorytet dla tej Kwestii", text: "Priorytet"},
-                    tmpl: Template.priorytetKwestia,
-                    sortOrder: 1,
-                    sortDirection: 'descending'
-                },
-                {key: '', label: "Temat", tmpl: Template.tematKwestiiArchiwum},
-                {key: '', label: "Rodzaj", tmpl: Template.rodzajKwestiiArchiwum},
-                {
-                    key: 'status',
-                    label: Template.listKwestiaAdminColumnLabel,
-                    labelData: {
-                        //title: "Etap, na którym znajduje sie ta Kwestia",
-                        text: "Status"
-                    }
-                }
+                { key: 'dataWprowadzenia', label: Template.listKwestiaAdminColumnLabel, tmpl: Template.dataUtwKwestia },
+                { key: 'kwestiaNazwa', label: Template.listKwestiaAdminColumnLabel, tmpl: Template.nazwaKwestiiArchiwumLink },
+                { key: 'wartoscPriorytetu', label: Template.listKwestiaAdminColumnLabel, tmpl: Template.priorytetKwestia },
+                { key: '', label: "Temat", tmpl: Template.tematKwestiiArchiwum },
+                { key: '', label: "Rodzaj", tmpl: Template.rodzajKwestiiArchiwum },
+                { key: 'status', label: Template.listKwestiaAdminColumnLabel }
             ]
         };
     },
