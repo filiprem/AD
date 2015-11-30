@@ -33,8 +33,8 @@ Template.chooseTopicModalInner.helpers({
 
 Template.topicName.events({
     'click #choosenTopicBtn': function() {
-        Session.setPersistent("choosenTopicId", this._id);
-        Session.setPersistent("choosenTypeId", null);
+        Session.setPersistent("choosenTopic", this.nazwaTemat);
+        Session.setPersistent("choosenType", null);
         if(Rodzaj.find({idTemat: this._id}).count()>0) {
             document.getElementById("chooseTypeBtn").disabled = false;
         }else{

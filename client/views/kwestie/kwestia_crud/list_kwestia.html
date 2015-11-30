@@ -51,11 +51,11 @@
 </template>
 
 <template name="tematKwestia">
-    {{tematNazwa}}
+    {{topicName}}
 </template>
 
 <template name="rodzajKwestia">
-    {{rodzajNazwa}}
+    {{typeName}}
 </template>
 
 <template name="dataGlKwestia">
@@ -74,9 +74,9 @@
 </template>
 <template name="nazwaKwestiLink">
     {{#if isArchiwalna}}
-        <a href="{{ pathFor 'informacjeKwestiaArchiwum'}}" class="kwestiaId">{{this.kwestiaNazwa}}</a>
+        <a href="{{ pathFor 'informacjeKwestiaArchiwum'}}" class="kwestiaId">{{issueName}}</a>
      {{else}}
-        <a href="{{ pathFor 'informacjeKwestia'}}" id="kwestiaIdClick" class="kwestiaId">{{this.kwestiaNazwa}}</a>
+        <a href="{{ pathFor 'informacjeKwestia'}}" id="kwestiaIdClick" class="kwestiaId">{{issueName}}</a>
     {{/if}}
 </template>
 

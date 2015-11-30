@@ -99,7 +99,7 @@ setValue=function(temat,rodzaj,isOption,kwestia){
             return;
         }
     });
-    //je�eli nie ma tematu,dodaj nowy,to rodzaju te� nie mo�e by�,dodaj rodzaj!
+    //jeżeli nie ma tematu,dodaj nowy,to rodzaju też nie może być,dodaj rodzaj!
 
     if(foundIdTemat==null) {
         temat=firstLetterToUpperCase(temat);
