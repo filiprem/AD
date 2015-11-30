@@ -18,6 +18,9 @@ Template.kwestiaTopButtons.helpers({
     isRealizowanaNieaktywny:function(status,czyAktywny){
         return (status==KWESTIA_STATUS.REALIZOWANA || status==KWESTIA_STATUS.ZREALIZOWANA) && czyAktywny==true ? true :false;
     },
+    isGlobalParams:function(typ){
+        return typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE ? true : false;
+    },
     isInZR:function(idZR){
         var zr=ZespolRealizacyjny.findOne({_id:idZR});
         return _.contains(zr.zespol,Meteor.userId()) ? true : false;

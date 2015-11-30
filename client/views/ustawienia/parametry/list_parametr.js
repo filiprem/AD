@@ -85,6 +85,8 @@ editParameter=function(name,parameterName,value){
         title:parameterName,
         value:value
     };
+    console.log("edit param");
+    console.log(obj);
     Session.setPersistent("chosenParameterSession",obj);
     $("#editParametrMod").modal("show");
 };

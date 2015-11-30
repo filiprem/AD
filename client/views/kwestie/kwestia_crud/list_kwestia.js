@@ -300,6 +300,9 @@ Template.nazwaKwestiLink.helpers({
 
 Template.tematKwestia.helpers({
     'topicName': function(){
+        if(this.typ=KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE){
+            return "techniczna systemowa";
+        }
         var topic = Temat.findOne({_id: this.idTemat}).nazwaTemat;
         if(topic.length>20){
             return topic.substr(0,20)+"...";
@@ -310,6 +313,9 @@ Template.tematKwestia.helpers({
 });
 Template.rodzajKwestia.helpers({
     'typeName': function(){
+        if(this.typ=KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE){
+            return "techniczna systemowa";
+        }
         var type = Rodzaj.findOne({_id: this.idRodzaj}).nazwaRodzaj;
         if(type.length>20){
             return type.substr(0,20)+"...";

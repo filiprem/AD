@@ -1,133 +1,128 @@
 Template.editParametrModalInner.rendered=function(){
     console.log("render!");
     $('.btn-success').css("visibility", "visible");
-    $("#parametrFormEditModal").validate({
-        rules:{
-            voteDuration: {
-                min: 0,
-                number: true
-            },
-            voteQuantity: {
-                min: 0,
-                number: true
-            },
-            czasWyczekiwaniaKwestiiSpec: {
-                min: 0,
-                number: true
-            },
-            addIssuePause: {
-                min: 0,
-                number: true
-            },
-            addCommentPause: {
-                min: 0,
-                number: true
-            },
-            addReferencePause: {
-                min: 0,
-                number: true
-            },
-            okresSkladaniaRR:{
-                min:1,
-                number:true
-            }
-        },
-        messages: {
-            nazwaOrganizacji: {
-                required: fieldEmptyMessage()
-            },
-            terytorium: {
-                required: fieldEmptyMessage()
-            },
-            kontakty: {
-                required: fieldEmptyMessage()
-            },
-            regulamin: {
-                required: fieldEmptyMessage()
-            },
-            voteDuration: {
-                required: fieldEmptyMessage(),
-                min: positiveNumberMessage()
-            },
-            voteQuantity: {
-                required: fieldEmptyMessage(),
-                min: positiveNumberMessage()
-            },
-            czasWyczekiwaniaKwestiiSpec:{
-                required:fieldEmptyMessage(),
-                min:positiveNumberMessage()
-            },
-            addIssuePause: {
-                required: fieldEmptyMessage(),
-                min: positiveNumberMessage()
-            },
-            addCommentPause: {
-                required: fieldEmptyMessage(),
-                min: positiveNumberMessage()
-            },
-            addReferencePause: {
-                required: fieldEmptyMessage(),
-                min: positiveNumberMessage()
-            },
-            okresSkladaniaRR:{
-                required: fieldEmptyMessage(),
-                min: positiveNumberMessage()
-            }
-        },
-        highlight: function (element) {
-            highlightFunction(element);
-        },
-        unhighlight: function (element) {
-            unhighlightFunction(element);
-        },
-        errorElement: 'span',
-        errorClass: 'help-block',
-        errorPlacement: function (error, element) {
-            validationPlacementError(error, element);
-        }
-    })
+    //$("#parametrFormEditModal").validate({
+    //    rules:{
+    //        voteDuration: {
+    //            min: 0,
+    //            number: true
+    //        },
+    //        voteQuantity: {
+    //            min: 0,
+    //            number: true
+    //        },
+    //        czasWyczekiwaniaKwestiiSpec: {
+    //            min: 0,
+    //            number: true
+    //        },
+    //        addIssuePause: {
+    //            min: 0,
+    //            number: true
+    //        },
+    //        addCommentPause: {
+    //            min: 0,
+    //            number: true
+    //        },
+    //        addReferencePause: {
+    //            min: 0,
+    //            number: true
+    //        },
+    //        okresSkladaniaRR:{
+    //            min:1,
+    //            number:true
+    //        }
+    //    },
+    //    messages: {
+    //        nazwaOrganizacji: {
+    //            required: fieldEmptyMessage()
+    //        },
+    //        terytorium: {
+    //            required: fieldEmptyMessage()
+    //        },
+    //        kontakty: {
+    //            required: fieldEmptyMessage()
+    //        },
+    //        regulamin: {
+    //            required: fieldEmptyMessage()
+    //        },
+    //        voteDuration: {
+    //            required: fieldEmptyMessage(),
+    //            min: positiveNumberMessage()
+    //        },
+    //        voteQuantity: {
+    //            required: fieldEmptyMessage(),
+    //            min: positiveNumberMessage()
+    //        },
+    //        czasWyczekiwaniaKwestiiSpec:{
+    //            required:fieldEmptyMessage(),
+    //            min:positiveNumberMessage()
+    //        },
+    //        addIssuePause: {
+    //            required: fieldEmptyMessage(),
+    //            min: positiveNumberMessage()
+    //        },
+    //        addCommentPause: {
+    //            required: fieldEmptyMessage(),
+    //            min: positiveNumberMessage()
+    //        },
+    //        addReferencePause: {
+    //            required: fieldEmptyMessage(),
+    //            min: positiveNumberMessage()
+    //        },
+    //        okresSkladaniaRR:{
+    //            required: fieldEmptyMessage(),
+    //            min: positiveNumberMessage()
+    //        }
+    //    },
+    //    highlight: function (element) {
+    //        highlightFunction(element);
+    //    },
+    //    unhighlight: function (element) {
+    //        unhighlightFunction(element);
+    //    },
+    //    errorElement: 'span',
+    //    errorClass: 'help-block',
+    //    errorPlacement: function (error, element) {
+    //        validationPlacementError(error, element);
+    //    }
+    //})
 },
 Template.editParametrModalInner.helpers({
     parametrInScope: function () {
-        console.log(Session.get('chosenParameterSession'));
         return Session.get('chosenParameterSession');
     },
-    NoStatutKontaktInput:function(parameterName){
-        console.log("check");
-        return parameterName=="Statut" || parameterName=="Kontakty" ? false :true;
-    },
     nazwaOrganizacjiInput:function(parameterName){
-        return parameterName=="Nazwa organizacji" ? false :true;
+        return parameterName=="Nazwa organizacji" ? true :false;
     },
     terytoriumInput:function(parameterName){
-        return parameterName=="Terytorium" ? false :true;
+        return parameterName=="Terytorium" ? true :false;
     },
     kontaktInput:function(parameterName){
-        return parameterName=="Kontakty" ? false :true;
+        return parameterName=="Kontakty" ? true :false;
     },
     statutInput:function(parameterName){
-        return parameterName=="Statut" ? false :true;
+        return parameterName=="Statut" ? true :false;
     },
     voteDurationInput:function(parameterName){
-        return parameterName=="Czas głosowania(w godzinach)" ? false :true;
+        return parameterName=="Czas głosowania(w godzinach)" ? true :false;
     },
     czasWyczekiwaniaKwestiiSpecjalnejInput:function(parameterName){
-        return parameterName=="Czas wyczekiwania kwestii i komentarzy specjalnych (w dniach)" ? false :true;
+        return parameterName=="Czas wyczekiwania kwestii i komentarzy specjalnych (w dniach)" ? true :false;
     },
     editVoteQuantityInput:function(parameterName){
-        return parameterName=="Maksymalna ilość kwestii w głosowaniu" ? false :true;
+        return parameterName=="Maksymalna ilość kwestii w głosowaniu" ? true :false;
     },
     editIssuePauseInput:function(parameterName){
-        return parameterName=="Częstotliwość dodania kwestii (w minutach)" ? false :true;
+        return parameterName=="Częstotliwość dodania kwestii (w minutach)" ? true :false;
     },
     editCommentPauseInput:function(parameterName){
-        return parameterName=="Częstotliwość dodania komentarza (w minutach)" ? false :true;
+        return parameterName=="Częstotliwość dodania komentarza (w minutach)" ? true :false;
     },
     editReferencePauseInput:function(parameterName){
-        return parameterName=="Częstotliwość dodania odniesienia (w minutach)" ? false :true;
+        return parameterName=="Częstotliwość dodania odniesienia (w minutach)" ? true :false;
     },
     editRRDurationInput:function(parameterName){
-        return parameterName=="Okres składania Raportów Realizacyjnych (w dniach)" ? false :true;
+        return parameterName=="Okres składania Raportów Realizacyjnych (w dniach)" ? true :false;
     }
 });
 
@@ -258,40 +253,44 @@ createIssueChangeParam=function(paramName,title,oldValue,newValue){
         okresSkladaniaRR:okresSkladaniaRR
     };
     console.log(addParamDraft);
-    Meteor.call('addParametrDraft', addParamDraft, function (error,ret) {
-        if (!error) {
-            var dataParams={
-                title:title.toUpperCase(),
-                oldValue:oldValue,
-                newValue:newValue
-            }
-            var newKwestia = [
-                {
-                    idUser: Meteor.userId(),
-                    dataWprowadzenia: new Date(),
-                    kwestiaNazwa: 'Propozycja zmiany parametru globalnego  przez ' +Meteor.user().profile.firstName +"  "+ Meteor.user().profile.lastName ,
-                    wartoscPriorytetu: 0,
-                    dataGlosowania: null,
-                    krotkaTresc: 'Propozycja zmiany parametrów globalnego' ,
-                    szczegolowaTresc: dataParams,
-                    isOption: false,
-                    status: KWESTIA_STATUS.ADMINISTROWANA,
-                    idParametr : ret,
-                    typ:KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE
-                }];
+    var odp=checkIssueGlobalParamExists();
+    var params=ParametrDraft.find({czyAktywny:true});
+    if(odp==false || params.count()==0) {
+        Meteor.call('addParametrDraft', addParamDraft, function (error, ret) {
+            if (!error) {
+                var dataParams = {
+                    title: title.toUpperCase(),
+                    oldValue: oldValue,
+                    newValue: newValue
+                }
+                var newKwestia = [
+                    {
+                        idUser: Meteor.userId(),
+                        dataWprowadzenia: new Date(),
+                        kwestiaNazwa: 'Propozycja zmiany parametru globalnego  przez ' + Meteor.user().profile.firstName + "  " + Meteor.user().profile.lastName,
+                        wartoscPriorytetu: 0,
+                        dataGlosowania: null,
+                        krotkaTresc: 'Propozycja zmiany parametrów globalnego',
+                        szczegolowaTresc: dataParams,
+                        isOption: false,
+                        status: KWESTIA_STATUS.ADMINISTROWANA,
+                        idParametr: ret,
+                        typ: KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE
+                    }];
 
-            Meteor.call('addKwestiaADMINISTROWANA', newKwestia, function (error,ret) {
-               if(error)
-                console.log(error.reason);
-                else {
-                   addPowiadomienieGlobalneFunction(ret);
-                   Meteor.call("sendEmailAddedIssue", ret);
-               }
-            });
-        }
-    });
-    Session.setPersistent("chosenParameterSession",null);
-    $("#editParametrMod").modal("hide");
+                Meteor.call('addKwestiaADMINISTROWANA', newKwestia, function (error, ret) {
+                    if (error)
+                        console.log(error.reason);
+                    else {
+                        addPowiadomienieGlobalneFunction(ret);
+                        Meteor.call("sendEmailAddedIssue", ret);
+                    }
+                });
+            }
+        });
+        Session.setPersistent("chosenParameterSession", null);
+        $("#editParametrMod").modal("hide");
+    }
 };
 
 addPowiadomienieGlobalneFunction=function(idKwestia){
