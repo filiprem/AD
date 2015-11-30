@@ -23,14 +23,20 @@ Template.chooseTypeModalInner.helpers({
         };
     },
     TypeList: function(){
-        var topicId = Session.get("choosenTopicId");
+        //var topicId = Session.get("choosenTopicId");
+        //return Rodzaj.find({idTemat: topicId});
+        var topicName = Session.get("choosenTopic");
+        var topic = Temat.findOne({nazwaTemat: topicName});
+        var topicId = null;
+        if (topic != null)
+            topicId = topic._id;
         return Rodzaj.find({idTemat: topicId});
     }
 });
 
 Template.typeName.events({
     'click #chosenTypeBtn': function() {
-        Session.setPersistent("choosenTypeId", this._id);
+        Session.setPersistent("choosenType", this.nazwaRodzaj);
         $("#chooseTypeModalId").modal("hide");
     }
 });
