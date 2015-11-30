@@ -366,4 +366,33 @@ checkTimePause=function(typePause,lastAddedTime){
         return true;
 };
 
+Template.nazwaKwestiLink.helpers({
+    'issueName': function(){
+        if(this.kwestiaNazwa.length>20){
+            return this.kwestiaNazwa.substr(0,20)+"...";
+        }else{
+            return this.kwestiaNazwa
+        }
+    }
+});
 
+Template.tematKwestia.helpers({
+    'topicName': function(){
+        var topic = Temat.findOne({_id: this.idTemat}).nazwaTemat;
+        if(topic.length>20){
+            return topic.substr(0,20)+"...";
+        }else{
+            return topic
+        }
+    }
+});
+Template.rodzajKwestia.helpers({
+    'typeName': function(){
+        var type = Rodzaj.findOne({_id: this.idRodzaj}).nazwaRodzaj;
+        if(type.length>20){
+            return type.substr(0,20)+"...";
+        }else{
+            return type
+        }
+    }
+});
