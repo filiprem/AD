@@ -1,10 +1,9 @@
 <template name="realizacjaTab1">
         <div class="main">
-            <!--{{#if RealizacjaListCount}}-->
             <h3>Lista Kwestii realizowanych</h3>
             <br>
-            &nbsp;
             <hr/>
+            &nbsp;
             <div class="row">
                 <div class="col-md-12">
 
@@ -17,10 +16,8 @@
 
                 </div>
             </div>
-            <!--{{else}}-->
-                <!--<label>Brak Kwestii</label>-->
-            <!--{{/if}}-->
         </div>
+    {{>GlobalNotifications}}
 </template>
 
 <template name="editColumnRealization">
@@ -39,4 +36,18 @@
 
 <template name="numerUchwKwestia">
     {{number}}
+</template>
+
+<template name="raport">
+    {{this.idKwestia}}
+    {{#if hasZR}}
+        {{#if reportCurrentDurationExists raporty}}
+            {{#with currentReport raporty}}
+                {{this.tytul}}
+                <a href="{{pathFor 'informacjeRaport'}}">Pokaż</a>
+            {{/with}}
+        {{else}}
+            <a href="#" id="showReport">Pokaż</a>
+        {{/if}}
+    {{/if}}
 </template>

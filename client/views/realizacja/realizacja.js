@@ -7,63 +7,22 @@ Template.realizacjaTab1.helpers({
             showColumnToggles: false,
             enableRegex: false,
             fields: [
-                {
-                    key: 'id',
-                    label: Template.listKwestiaColumnLabel,
-                    labelData: {
-                       // title: "id",
-                        text: "Id"
-                    },
-                    tmpl: Template.id
-                },
-                {
-                    key: 'dataRealizacji',
-                    label: Template.listKwestiaRealzacjaColumnLabel,
-                    labelData: {
-                        //title: "Data rozpoczęcia realizacji kwestii",
-                        text: "Data realizacji"
-                    },
-                    tmpl: Template.dataRealizKwestia
-                },
-                {
-                    key: 'numerUchwaly',
-                    label: Template.listKwestiaRealzacjaColumnLabel,
-                    labelData: {
-                       // title: "Numer Uchwały",
-                        text: "Nr. Uchwały"
-                    },
-                    tmpl: Template.numerUchwKwestia
-                },
-                {
-                    key: 'kwestiaNazwa',
-                    label: Template.listKwestiaRealzacjaColumnLabel,
-                    labelData: {
-                        //title: "Kliknij, aby zobaczyć szczegóły",
-                        text: "Nazwa Kwestii"
-                    },
-                    tmpl: Template.nazwaKwestiLink
-                },
-                {
-                    key: 'idTemat',
-                    label: "Temat",
-                    tmpl: Template.tematKwestia
-                },
-                {
-                    key: 'idRodzaj',
-                    label: "Rodzaj",
-                    tmpl: Template.rodzajKwestia
-                },
-                {key: 'raport', label: "Raport", tmpl: Template.statusKwestii},
-                {
-                    key: 'options',
-                    label: "Opcje",
-                    tmpl: Template.editColumnRealization
-                }
+                { key: 'id', label: "Id", tmpl: Template.id },
+                { key: 'dataRealizacji', label: "Data realizacji", tmpl: Template.dataRealizKwestia },
+                { key: 'numerUchwaly', label: "Numer uchwały", tmpl: Template.numerUchwKwestia },
+                { key: 'kwestiaNazwa', label: "Kwestia nazwa", tmpl: Template.nazwaKwestiLink },
+                { key: 'idTemat', label: "Temat", tmpl: Template.tematKwestia },
+                { key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestia },
+                { key: 'raport', label: "Raport", tmpl: Template.statusKwestii },
+                { key: 'options', label: "Opcje", tmpl: Template.editColumnRealization }
             ]
         };
     }
     //RealizacjaList: function () {
     //    return Kwestia.find({czyAktywny: true, status: {$in:[KWESTIA_STATUS.REALIZOWANA]}}).fetch();
+    //},
+    //realizacjaCount: function () {
+    //    return Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.REALIZOWANA}).count();
     //},
     //RealizacjaListCount: function () {
     //    var ile = Kwestia.find({czyAktywny: true, status: {$in:[KWESTIA_STATUS.REALIZOWANA]}}).count();
@@ -107,4 +66,5 @@ Template.numerUchwKwestia.helpers({
 Template.listKwestiaRealzacjaColumnLabel.rendered = function () {
     $('[data-toggle="tooltip"]').tooltip();
 }
+
 

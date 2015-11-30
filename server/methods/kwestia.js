@@ -274,7 +274,8 @@ Meteor.methods({
                 status: status,
                 numerUchwaly: numerUchwaly,
                 dataRealizacji: dataRealizacji,
-                idZespolRealizacyjny:idZR
+                idZespolRealizacyjny:idZR,
+                listaDatRR:[moment(new Date()).format()]
             }
         }, {upsert: true});
         return id;
@@ -336,5 +337,11 @@ Meteor.methods({
     updateKwestiaCzasLobbowana:function(id,lobbowana){//,{$unset:{idZespolRealizacyjny:''}}
         var id = Kwestia.update(id, {$set: {lobbowana:lobbowana}});
         return id;
+    },
+    updateReportsIssue:function(id,reports){
+        var id = Kwestia.update(id, {$set: {raporty:reports}});
+    },
+    updateDeadlineNextRR:function(id,checkArrayRR){
+        Kwestia.update(id, {$set: {listaDatRR:checkArrayRR}});
     }
 });

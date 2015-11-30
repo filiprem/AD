@@ -283,15 +283,8 @@ Template.issueManageZR.helpers({
             enableRegex: false,
             filters: ['customFilter'],
             fields: [
-                {
-                    key: 'profile.fullName',
-                    label: "Imię i Nazwisko"
-                },
-                {
-                    key: '_id',
-                    label:"Opcje",
-                    tmpl: Template.zrOptions
-                }
+                { key: 'profile.fullName', label: "Imię i Nazwisko" },
+                { key: '_id', label:"Opcje", tmpl: Template.zrOptions }
             ],
             rowClass: function (item) {
                 if(item._id==Meteor.userId())

@@ -293,17 +293,4 @@ addNewUser=function(firstName,lastName,city,email,kwestia){
             });
         }
     });
-
-    //var activationLink = CryptoJS.MD5(userDraft._id).toString();
-    //if (userDraft) {
-    //    Meteor.call("setZrealizowanyActivationHashUserDraft", userDraft._id, activationLink, true, function (error, ret) {
-    //        (!error)
-    //        {
-    //            Meteor.call("sendApplicationAccepted", UsersDraft.findOne({_id: userDraft._id}), "acceptNew", function (error) {
-    //                (!error)
-    //                Meteor.call("updateLicznikKlikniec", userDraft._id, 0);
-    //            });
-    //        }
-    //    });
-    //}
 };

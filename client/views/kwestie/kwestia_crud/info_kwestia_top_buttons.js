@@ -1,5 +1,9 @@
 Template.kwestiaTopButtons.helpers({
-    hasUserRights: function (idKwestia) {
+    actualIssue:function(id){
+        var issue=Kwestia.findOne({_id:id});
+        return issue? issue : null;
+    },
+    hasUserRights: function(idKwestia) {
         if(!Meteor.userId())
             return "disabled";
         var user=Meteor.user().profile;
@@ -15,8 +19,6 @@ Template.kwestiaTopButtons.helpers({
         return (status==KWESTIA_STATUS.REALIZOWANA || status==KWESTIA_STATUS.ZREALIZOWANA) && czyAktywny==true ? true :false;
     },
     isInZR:function(idZR){
-        console.log("idZR");
-        console.log(idZR);
         var zr=ZespolRealizacyjny.findOne({_id:idZR});
         return _.contains(zr.zespol,Meteor.userId()) ? true : false;
     },
@@ -47,32 +49,6 @@ Template.kwestiaTopButtons.helpers({
     },
     isKwestiaZrealizowana:function(status){
         return status==KWESTIA_STATUS.ZREALIZOWANA ? true : false;
-    },
-    realizationReportExists:function(){
-        var param=Parametr.findOne().okresSkladaniaRR;
-        console.log("wow");
-        console.log(param);
-        var previousCheck=moment(new Date()).subtract(param,"minutes").format();
-        var timeNow=moment(new Date()).format();
-        console.log("time now");
-        console.log(timeNow);
-        console.log("previous check");
-        console.log(previousCheck);
-        console.log(Raport.find({idKwestia:this._id}).count());
-        var raporty=Raport.find({idKwestia:this._id,
-            dataWprowadzenia: {
-                $gte: previousCheck,
-                $lt: timeNow
-            }},{sort:{dataWprowadzenia:-1}});
-
-        if(raporty.count()==0) {
-            console.log("brak raportów");
-            return "Raport Realizacyjny";
-        }
-        else{
-            console.log("jest raport-pokaż");
-            return "Pokaż Raport Realizacyjny";
-        }
     }
 });
 Template.kwestiaTopButtons.events({
@@ -127,33 +103,26 @@ Template.kwestiaTopButtons.events({
     },
     'click #addRealizationReportClick': function (e) {
         e.preventDefault();
-        var idKw = e.target.name;
-        var param=Parametr.findOne().okresSkladaniaRR;
-        console.log("wow");
-        console.log(param);
-        var previousCheck=moment(new Date()).subtract(param,"minutes").format();
-        var timeNow=moment(new Date()).format();
-        console.log("time now");
-        console.log(timeNow);
-        console.log("previous check");
-        console.log(previousCheck);
-        console.log(Raport.find({idKwestia:this._id}).count());
-        var raporty=Raport.find({idKwestia:this._id,
-            dataWprowadzenia: {
-                $gte: previousCheck,
-                $lt: timeNow
-            }},{sort:{dataWprowadzenia:-1}});
-
-        if(raporty.count()==0) {
-            console.log("brak raportów");
-            $("#addRealizationReport").modal("show");
-            return "Raport Realizacyjny";
-        }
+        var odp=getReportsForIssueAtSpecificDuration(this.idKwestia);
+        if(odp==false)
+            $("#addRRModal").modal("show");
         else{
-            console.log("jest raport-pokaż");
+            var className=".doRealizationRaportClass"+ odp._id;
             $('html, body').animate({
-                        scrollTop: $(".doZrealizowaniaClass").offset().top
-                    }, 600);
+                 scrollTop: $(className).offset().top
+             }, 600);
         }
     }
 });
+
+getReportsForIssueAtSpecificDuration=function(idKwestia){
+    var timeNow = moment(new Date()).format();
+    var issue=Kwestia.findOne({_id:idKwestia});
+    var lastReportId=issue.raporty;
+    var report=Raport.findOne({_id:_.last(issue.raporty)});
+    if(report==null)
+    return false;
+    var reportAddedTime=report.dataUtworzenia;
+    return reportAddedTime > _.last(issue.listaDatRR) ? report : false;
+};
+

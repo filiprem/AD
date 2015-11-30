@@ -12,16 +12,16 @@ Template.listRaport.events({
 Template.listRaport.helpers({
     'settings': function () {
         return {
-            rowsPerPage: 10,
-            showFilter: true,
+            rowsPerPage: 15,
+            //showFilter: true,
             showNavigation: 'always',
             showColumnToggles: false,
             enableRegex: false,
             fields: [
-                {key: 'terminyGlosowan', label: "Terminy głosowań"},
-                {key: 'uzytkownicy', label: "Użytkownicy"},
-                {key: 'realizacja', label: "Realizacja"},
-                {key: 'options', label: "Opcje", tmpl: Template.editColumnRaport}
+                {key: 'dataUtworzenia', label: "Data utworzenia",tmpl:Template.dataUtworzenia,sortDirection: 'descending',sortOrder:1},
+                {key: '_id', label: "Tytuł",tmpl:Template.raportDetails},
+                {key: 'autorFullName', label: "Autor"},
+
             ]
         };
     },
@@ -31,6 +31,10 @@ Template.listRaport.helpers({
     email: function () {
         return getEmail(this);
     },
+    kwestiaNazwa:function(){
+        var issue=Kwestia.findOne({_id:Router.current().params._id});
+        return issue ? issue.kwestiaNazwa : "";
+    },
     raportCount: function () {
         return Raport.find().count();
     },
@@ -39,3 +43,15 @@ Template.listRaport.helpers({
     }
 });
 
+Template.dataUtworzenia.helpers({
+   dataUtworzenia:function(){
+       return moment(this.dataUtworzenia).format("DD-MM-YYYY, HH:mm");
+   }
+});
+
+Template.raportDetails.helpers({
+    raport:function(id){
+        var report=Raport.findOne({_id:id});
+        return report? report : null;
+    }
+});
