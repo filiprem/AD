@@ -21,9 +21,9 @@ Template.archiwumList.helpers({
             showColumnToggles: false,
             enableRegex: false,
             fields: [
-                { key: 'dataWprowadzenia', label: Template.listKwestiaAdminColumnLabel, tmpl: Template.dataUtwKwestia },
-                { key: 'kwestiaNazwa', label: Template.listKwestiaAdminColumnLabel, tmpl: Template.nazwaKwestiiArchiwumLink },
-                { key: 'wartoscPriorytetu', label: Template.listKwestiaAdminColumnLabel, tmpl: Template.priorytetKwestia },
+                { key: 'dataWprowadzenia', label: "Data wprowadzenia", tmpl: Template.dataUtwKwestia },
+                { key: 'kwestiaNazwa', label: "Nazwa kwestii", tmpl: Template.nazwaKwestiiArchiwumLink },
+                { key: 'wartoscPriorytetu', label: "Wartosc priorytetu", tmpl: Template.priorytetKwestia ,sortOrder:1,sortDirection:'ascending'},
                 { key: '', label: "Temat", tmpl: Template.tematKwestiiArchiwum },
                 { key: '', label: "Rodzaj", tmpl: Template.rodzajKwestiiArchiwum },
                 { key: 'status', label: Template.listKwestiaAdminColumnLabel }

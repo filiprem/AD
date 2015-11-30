@@ -26,7 +26,9 @@ Template.listRaport.helpers({
         };
     },
     RaportListAdmin: function () {
-        return Raport.find({}).fetch();
+        console.log("list raport");
+        console.log(this._id);
+        return Raport.find({idKwestia:Router.current().params._id});
     },
     email: function () {
         return getEmail(this);

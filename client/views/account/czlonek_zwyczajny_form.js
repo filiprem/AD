@@ -14,7 +14,8 @@ Template.czlonekZwyczajnyForm.rendered = function () {
             },
             pesel:{
                 exactlength: 11,
-                peselValidation:true
+                peselValidation:true,
+                peselValidation2:true
             },
             ZipCode:{
                 kodPocztowyValidation:true

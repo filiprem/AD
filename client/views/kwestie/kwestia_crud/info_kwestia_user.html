@@ -3,7 +3,7 @@
         <div class="main">
             <div>
                 <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="active"><a href="#issueInfoo" aria-controls="issueInfoo" role="tab" data-toggle="tab">Szczegóły Kwestii</a></li>
+                    <li role="presentation" class="active" id="issueInfoDetails"><a href="#issueInfoo" aria-controls="issueInfoo" role="tab" data-toggle="tab">Szczegóły Kwestii</a></li>
                     <li role="presentation"><a href="#manageZRIssue" aria-controls="manageZRIssue" role="tab" data-toggle="tab">Zespół Realizacyjny</a></li>
                 </ul>
 
@@ -14,7 +14,7 @@
                     </div>
                     <div role="tabpanel" class="tab-pane" id="manageZRIssue">
                         <br />
-                        {{> issueManageZR}}
+                        {{> issueManageZR idZespolRealizacyjny=idZespolRealizacyjny}}
                     </div>
                 </div>
             </div>
@@ -22,6 +22,9 @@
     {{else}}
         {{>issueDetails}}
     {{/if}}
+    {{>zrModalCurrentIssueMyResolutions
+    idZespolRealizacyjny=idZespolRealizacyjny
+    }}
 </template>
 
 <template name="issueDetails">
@@ -144,9 +147,11 @@
     {{>decyzjaModal}}
     {{>listZespolRealizacyjnyDoubleModal}}
     {{> GlobalNotifications}}
+
 </template>
 
 <template name="issueManageZR">
+    <input type="hidden" id="idZR" value="{{idZespolRealizacyjny}}"/>
     <legend>{{getZRName idZespolRealizacyjny zespol}}</legend>
     <br/>
     <div class="row">
@@ -159,12 +164,11 @@
             }}
         </div>
     </div>
-    {{>zrModalCurrentIssueMyResolutions
-        idZespolRealizacyjny=idZespolRealizacyjny
-    }}
+
 </template>
 
 <template name="zrOptions">
+    {{idZespolRealizacyjny}}
     <div >
         {{#if currentUser _id}}
             <a class="btn btn-default btn-xs" data-toggle="tooltip" title="Rezygnuj z udziału w Zespole Realizacyjnym" id="giveUpMembership">

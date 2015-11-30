@@ -14,7 +14,7 @@ Template.notificationList.helpers({
             enableRegex: false,
             fields: [
                 { key: 'powiadomienieTyp', label: "Temat",tmpl: Template.tematLink,sortOrder: 1, sortDirection: 'descending' },
-                { key: 'dataWprowadzenia', label: "Data", tmpl: Template.dataWpr }
+                { key: 'dataWprowadzenia', label: "Data", tmpl: Template.dataWpr,sortOrder: 0, sortDirection: 'descending' }
             ],
             rowClass:function(item){
                 console.log(item.czyOdczytany);

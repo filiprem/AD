@@ -20,15 +20,70 @@
                         <div class="form-group">
                             <label class="control-label col-xs-3" for="{{parametrInScope.name}}">{{parametrInScope.title}}:</label>
 
-                            {{#if NoStatutKontaktInput parametrInScope.title}}
+                            {{#if nazwaOrganizacjiInput parametrInScope.title}}
                                 <div class="col-xs-9">
-                                    <input name="{{parametrInScope.name}}" type="text" class="form-control" id="param"
-                                             value="{{parametrInScope.value}}" required/>
+                                    <textarea name="nazwaOrganizacji" type="text" class="form-control" id="param"
+                                              value="{{parametrInScope.value}}" rows="2" required></textarea>
                                 </div>
-                            {{else}}
+                            {{/if}}
+                            {{#if terytoriumInput parametrInScope.title}}
                                 <div class="col-xs-9">
-                                    <textarea name="{{parametrInScope.name}}" type="text" class="form-control" id="param"
-                                               value="{{parametrInScope.value}}" rows="5" required></textarea>
+                                    <input name="terytorium" type="text" class="form-control" id="param"
+                                           value="{{parametrInScope.value}}" required/>
+                                </div>
+                            {{/if}}
+                            {{#if kontaktInput parametrInScope.title}}
+                                <div class="col-xs-9">
+                                    <input name="kontakty" type="text" class="form-control" id="param"
+                                           value="{{parametrInScope.value}}" required/>
+                                </div>
+                            {{/if}}
+                            {{#if statutInput parametrInScope.title}}
+                                <div class="col-xs-9">
+                                    <textarea name="regulamin" type="text" class="form-control" id="param"
+                                              value="{{parametrInScope.value}}" rows="6" required></textarea>
+                                </div>
+                            {{/if}}
+                            {{#if voteDurationInput parametrInScope.title}}
+                                <div class="col-xs-9">
+                                    <input name="voteDuration" type="text" class="form-control" id="param"
+                                           value="{{parametrInScope.value}}" required/>
+                                </div>
+                            {{/if}}
+                            {{#if czasWyczekiwaniaKwestiiSpecjalnejInput parametrInScope.title}}
+                                <div class="col-xs-9">
+                                    <input name="czasWyczekiwaniaKwestiiSpec" type="text" class="form-control" id="param"
+                                           value="{{parametrInScope.value}}" required/>
+                                </div>
+                            {{/if}}
+                            {{#if editVoteQuantityInput parametrInScope.title}}
+                                <div class="col-xs-9">
+                                    <input name="voteQuantity" type="text" class="form-control" id="param"
+                                           value="{{parametrInScope.value}}" required/>
+                                </div>
+                            {{/if}}
+                            {{#if editIssuePauseInput parametrInScope.title}}
+                                <div class="col-xs-9">
+                                    <input name="addIssuePause" type="text" class="form-control" id="param"
+                                           value="{{parametrInScope.value}}" required/>
+                                </div>
+                            {{/if}}
+                            {{#if editCommentPauseInput parametrInScope.title}}
+                                <div class="col-xs-9">
+                                    <input name="addCommentPause" type="text" class="form-control" id="param"
+                                           value="{{parametrInScope.value}}" required/>
+                                </div>
+                            {{/if}}
+                            {{#if editReferencePauseInput parametrInScope.title}}
+                                <div class="col-xs-9">
+                                    <input name="addReferencePause" type="text" class="form-control" id="param"
+                                           value="{{parametrInScope.value}}" required/>
+                                </div>
+                            {{/if}}
+                            {{#if editRRDurationInput parametrInScope.title}}
+                                <div class="col-xs-9">
+                                    <input name="okresSkladaniaRR" type="text" class="form-control" id="param"
+                                           value="{{parametrInScope.value}}" required/>
                                 </div>
                             {{/if}}
                         </div>

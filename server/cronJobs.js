@@ -457,6 +457,14 @@ updateListKwestie=function(ZR,kwestia){
             }
             else {//zaktualizuj idZespoluRealizacyjnego w tej kwestii
                 console.log("update kwestii");
+                if(_.contains([KWESTIA_TYPE.ACCESS_DORADCA,KWESTIA_TYPE.ACCESS_ZWYCZAJNY],kwestia.typ)){
+                    var issueName=kwestia.kwestiaNazwa;
+                    if (issueName.contains("Aplikowanie-")){
+                       var  newIssueName=issueName.substring(issueName.indexOf("-")+1);
+                        Meteor.call('updateStatNrUchwDtRealIdZespolKwestiiNazwa', kwestia._id, KWESTIA_STATUS.REALIZOWANA, kwestia.numerUchwaly, kwestia.dataRealizacji, ZR._id,newIssueName);
+                    }
+                    Meteor.call('updateStatNrUchwDtRealIdZespolKwestii', kwestia._id, KWESTIA_STATUS.REALIZOWANA, kwestia.numerUchwaly, kwestia.dataRealizacji, ZR._id);
+                }
                 Meteor.call('updateStatNrUchwDtRealIdZespolKwestii', kwestia._id, KWESTIA_STATUS.REALIZOWANA, kwestia.numerUchwaly, kwestia.dataRealizacji, ZR._id);
             }
         });

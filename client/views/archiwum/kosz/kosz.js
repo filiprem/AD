@@ -21,15 +21,6 @@ Template.kosz.helpers({
                 { key: 'wartoscPriorytetu', label: Template.listKwestiaColumnLabel, tmpl: Template.priorytetKwestia ,sortOrder:1,sortDirection:'descending'},
                 { key: 'idTemat', label: "Temat", tmpl: Template.tematKwestia },
                 { key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestia }
-                //{
-                //    key: 'dataGlosowania',
-                //    label: Template.listKwestiaColumnLabel,
-                //    labelData: {
-                //        title: "Data zakończenia głosowania",
-                //        text: "Finał"
-                //    },
-                //    tmpl: Template.dataGlKwestia
-                //}
             ]
         };
     },

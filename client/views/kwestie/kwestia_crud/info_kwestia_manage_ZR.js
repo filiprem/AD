@@ -7,7 +7,8 @@ Template.ZRTemplate.helpers({
             zespolR= ZespolRealizacyjnyDraft.findOne({_id:idZR});
 
         if (zespolR){
-            return zespolR.zespol.slice().length==3 ? zespolR.nazwa :null;
+            return zespolR.nazwa;
+            //return zespolR.zespol.slice().length==3 ? zespolR.nazwa :null;
         }
     },
     isInKoszOrZrealizowana:function(czyAktywny,status){

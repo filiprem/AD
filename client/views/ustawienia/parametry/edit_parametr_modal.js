@@ -1,4 +1,6 @@
 Template.editParametrModalInner.rendered=function(){
+    console.log("render!");
+    $('.btn-success').css("visibility", "visible");
     $("#parametrFormEditModal").validate({
         rules:{
             voteDuration: {
@@ -87,70 +89,125 @@ Template.editParametrModalInner.rendered=function(){
 },
 Template.editParametrModalInner.helpers({
     parametrInScope: function () {
+        console.log(Session.get('chosenParameterSession'));
         return Session.get('chosenParameterSession');
     },
     NoStatutKontaktInput:function(parameterName){
         console.log("check");
         return parameterName=="Statut" || parameterName=="Kontakty" ? false :true;
+    },
+    nazwaOrganizacjiInput:function(parameterName){
+        return parameterName=="Nazwa organizacji" ? false :true;
+    },
+    terytoriumInput:function(parameterName){
+        return parameterName=="Terytorium" ? false :true;
+    },
+    kontaktInput:function(parameterName){
+        return parameterName=="Kontakty" ? false :true;
+    },
+    statutInput:function(parameterName){
+        return parameterName=="Statut" ? false :true;
+    },
+    voteDurationInput:function(parameterName){
+        return parameterName=="Czas głosowania(w godzinach)" ? false :true;
+    },
+    czasWyczekiwaniaKwestiiSpecjalnejInput:function(parameterName){
+        return parameterName=="Czas wyczekiwania kwestii i komentarzy specjalnych (w dniach)" ? false :true;
+    },
+    editVoteQuantityInput:function(parameterName){
+        return parameterName=="Maksymalna ilość kwestii w głosowaniu" ? false :true;
+    },
+    editIssuePauseInput:function(parameterName){
+        return parameterName=="Częstotliwość dodania kwestii (w minutach)" ? false :true;
+    },
+    editCommentPauseInput:function(parameterName){
+        return parameterName=="Częstotliwość dodania komentarza (w minutach)" ? false :true;
+    },
+    editReferencePauseInput:function(parameterName){
+        return parameterName=="Częstotliwość dodania odniesienia (w minutach)" ? false :true;
+    },
+    editRRDurationInput:function(parameterName){
+        return parameterName=="Okres składania Raportów Realizacyjnych (w dniach)" ? false :true;
     }
 });
 
 Template.editParametrModalInner.events({
     'click .btn-danger': function (e) {
         e.preventDefault();
-        console.log("tu weszło");
         Session.setPersistent("chosenParameterSession",null);
         $("#editParametrMod").modal("hide");
     },
-    'click .btn-success':function(e){
-        console.log("success");
-        e.preventDefault();
-        var session=Session.get("chosenParameterSession");
-        console.log(session.name);
-        console.log(session.title);
-        console.log(session.value);
-        console.log();
+    'submit form':function(e){
+        console.log("success");//submit form
+        e.preventDefault();//click .btn-success
+        if ($('#parametrFormEditModal').valid()) {
+            $('.btn-success').css("visibility", "hidden");
+            var odp = checkIssueGlobalParamExists();
+            if (odp == true) {
+                bootbox.alert("Przepraszamy, istnieje już kwestia dotycząca zmiany parametru globalnego!");
+                $("#editParametrMod").modal("hide");
+                document.getElementById("parametrFormEditModal").reset();
+            }
+            else {
+                var session = Session.get("chosenParameterSession");
+                console.log(session.name);
+                console.log(session.title);
+                console.log(session.value);
+                console.log();
 
-        var val=session.name;
-        var newValue=document.getElementById("param").value;
-        console.log(newValue);
-        console.log(document.getElementById("param").name);
-        if(newValue==null || newValue.trim()==""){
-            GlobalNotification.error({
-                title: 'Przepraszamy',
-                content: "Pole "+ session.title+ " nie może być puste!",
-                duration: 3 // duration the notification should stay in seconds
-            });
+                var val = session.name;
+                var newValue = document.getElementById("param").value;
+                console.log(newValue);
+                console.log(document.getElementById("param").name);
+                if (newValue == null || newValue.trim() == "") {
+                    GlobalNotification.error({
+                        title: 'Przepraszamy',
+                        content: "Pole " + session.title + " nie może być puste!",
+                        duration: 3 // duration the notification should stay in seconds
+                    });
+                }
+                else {
+                    //document.getElementById("parametrFormEditModal").reset();
+                    //document.getElementById(session.name).value=newValue;
+                    parametrPreview(session.name, session.title, session.value, newValue);
+                }
+            }
+            $('.btn-success').css("visibility", "visible");
         }
-        else
-            parametrPreview(session.name,session.title,session.value,newValue);
+
     }
 });
 
 parametrPreview=function(paramName,title,oldValue,newValue){
     bootbox.dialog({
-        message:
-        '<p class="bg-warning padding-15 color-red"><b>'+'Zamierzasz dokonać następujących zmian:'+'</b></p>'+
-        '<p>'+'Proponuję zmianę zawartości w '+'<b>'+title.toUpperCase()+'</b>'+' z wartości'+'</p>'+
-        '<p>'+oldValue+'</p>'+
-        '<p>'+'na'+'</p>'+
-        '<p>'+newValue+'</p>',
+        message: '<p class="bg-warning padding-15 color-red"><b>' + 'Zamierzasz dokonać następujących zmian:' + '</b></p>' +
+        '<p>' + 'Proponuję zmianę zawartości w ' + '<b>' + title.toUpperCase() + '</b>' + ' z wartości' + '</p>' +
+        '<p>' + oldValue + '</p>' +
+        '<p>' + 'na' + '</p>' +
+        '<p>' + newValue + '</p>',
         title: "Uwaga",
-        closeButton:false,
+        closeButton: false,
         buttons: {
             success: {
                 label: "Zgadzam się",
-                className: "btn-success",
-                callback: function() {
-                    $('.btn-success').css("visibility", "hidden");
-                    createIssueChangeParam(paramName,title,oldValue,newValue);
+                className: "btn-success successBtn",
+                callback: function () {
+                    $('.successBtn').css("visibility", "hidden");
+                    var odp=checkIssueGlobalParamExists();
+                    if(odp==true){
+                        bootbox.alert("Przepraszamy, istnieje już kwestia dotycząca zmiany parametru globalnego!");
+                        $("#editParametrMod").modal("hide");
+                    }
+                    else
+                        createIssueChangeParam(paramName, title, oldValue, newValue);
+                    $('.successBtn').css("visibility", "visible");
                 }
             },
             danger: {
                 label: "Rezygnuję",
                 className: "btn-danger",
-                callback: function() {
-                    $('.btn-success').css("visibility", "visible");
+                callback: function () {
+                    $('.btn-success2').css("visibility", "visible");
                 }
             }
         }
@@ -258,4 +315,10 @@ addPowiadomienieGlobalneFunction=function(idKwestia){
         })
     });
 
+};
+
+checkIssueGlobalParamExists=function(){
+    var kwestie=Kwestia.find({typ:KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE, czyAktywny:true,
+        status:{$nin:[KWESTIA_STATUS.ZREALIZOWANA]}});
+    return kwestie.count()>0? true : false;
 };

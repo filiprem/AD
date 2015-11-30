@@ -1,5 +1,6 @@
-Template.zrModalCurrentIssueMyResolutions.helpers({
-});
+Template.zrModalCurrentIssueMyResolutionsInner.rendered=function(){
+    document.getElementById("agreeButton").disabled=false;
+};
 
 Template.zrModalCurrentIssueMyResolutionsInner.helpers({
     'settings': function () {
@@ -17,19 +18,25 @@ Template.zrModalCurrentIssueMyResolutionsInner.helpers({
         };
     },
     IssuesList: function(){
-        console.log(this.idZespolRealizacyjny);
-        var zr=ZespolRealizacyjny.findOne({_id:this.idZespolRealizacyjny});
-        console.log(zr);
-        console.log(zr.kwestie);
-        var issues=Kwestia.find({_id:{$in:zr.kwestie},czyAktywny:true});
-        console.log(issues.count());
-        return issues;
+        //console.log(this.idZespolRealizacyjny);
+        if(this.idZespolRealizacyjny) {
+            var zr = ZespolRealizacyjny.findOne({_id: this.idZespolRealizacyjny});
+            console.log(zr);
+            console.log(zr.kwestie);
+            var issues = Kwestia.find({_id: {$in: zr.kwestie}, czyAktywny: true});
+            console.log(issues.count());
+            return issues;
+        }
     }
 });
 
 Template.zrModalCurrentIssueMyResolutionsInner.events({
-    'click .btn-success':function(e){
+    'click #agreeButton':function(e){
         e.preventDefault();
+        document.getElementById("agreeButton").disabled=true;
+        $("#zrCurrentIssueMyResolutions").modal("hide");
+
+
         var zr=ZespolRealizacyjny.findOne({_id:this.idZespolRealizacyjny});
         console.log(zr);
         //przepisz do kwestii członków,mimo,że jeszcze nie idzie do kosza?=to nie ,patrz->zeszyt!
@@ -47,10 +54,11 @@ Template.zrModalCurrentIssueMyResolutionsInner.events({
                 }
                 //ustawiamy ZR na czy aktywny=false;
                 Meteor.call("removeZespolRealizacyjny",zr._id);
+                document.getElementById("agreeButton").disabled=false;
             }
         });
 
-        $("#zrCurrentIssueMyResolutions").modal("hide");
+
     }
 });
 

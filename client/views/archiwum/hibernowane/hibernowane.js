@@ -23,7 +23,7 @@ Template.hibernowaneList.helpers({
             fields: [
                 { key: 'dataWprowadzenia', label: "Data wprowadzenia", tmpl: Template.dataUtwKwestia },
                 { key: 'kwestiaNazwa', label: "Nazwa kwestii", tmpl: Template.nazwaKwestiiHibernowaneLink },
-                { key: 'wartoscPriorytetu', label: "Wartosc priorytetu", tmpl: Template.priorytetKwestia },
+                { key: 'wartoscPriorytetu', label: "Wartosc priorytetu", tmpl: Template.priorytetKwestia,sortOrder:1,sortDirection:'ascending' },
                 { key: '', label: "Temat", tmpl: Template.tematKwestiiHibernowane },
                 { key: '', label: "Rodzaj", tmpl: Template.rodzajKwestiiHibernowane },
                 { key: 'status', label: Template.listKwestiaAdminColumnLabel }

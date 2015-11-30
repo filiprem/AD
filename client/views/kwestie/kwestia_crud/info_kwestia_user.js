@@ -310,9 +310,17 @@ Template.zrOptions.helpers({
 Template.zrOptions.events({
     'click #giveUpMembership':function(e){
         e.preventDefault();
-        console.log(Template.instance().data._id);
-
-        $("#zrCurrentIssueMyResolutions").modal("show");
+        var idZR=document.getElementById("idZR").value;
+        var zr=ZespolRealizacyjny.findOne({_id:idZR});
+        var zespol=zr.zespol.length;
+        if(zespol==1)
+            bootbox.alert("Przepraszamy! Jesteś jedynym członkiem tego ZR. Nie możesz opuścić go dopóki masz pod swoją opieką uchwały")
+        else {
+            console.log(Template.instance().data._id);
+            console.log("bum!");
+            console.log(this._id);
+            $("#zrCurrentIssueMyResolutions").modal("show");
+        }
     }
 });
 
