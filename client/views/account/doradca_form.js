@@ -88,6 +88,8 @@ addUserDraftDoradca=function(newUser){
 };
 addKwestiaOsobowaDoradca=function(idUserDraft,newUser){
     var ZR=ZespolRealizacyjny.findOne({_id:"jjXKur4qC5ZGPQkgN"});
+    console.log("ten zr");
+    console.log(ZR);
     var newZR=[{
         nazwa:ZR.nazwa,
         idZR:ZR._id,

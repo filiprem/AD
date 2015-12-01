@@ -9,14 +9,21 @@ Meteor.startup(function(){
     }];
 
     if(ZespolRealizacyjny.find().count() == 0){
-        Meteor.call('addZespolRealizacyjny', ZR, function (error, ret) {
-            if (error) {
-                if (typeof Errors === "undefined")
-                    Log.error('Error: ' + error.reason);
-                else {
-                    throwError(error.reason);
-                }
-            }
+        ZespolRealizacyjny.insert({
+            _id:ZR._id,
+            nazwa:ZR.nazwa,
+            zespol:ZR.zespol,
+            kwestie:ZR.kwestie,
+            czyAktywny:ZR.czyAktywny
         });
+        //Meteor.call('addZespolRealizacyjny', ZR, function (error, ret) {
+        //    if (error) {
+        //        if (typeof Errors === "undefined")
+        //            Log.error('Error: ' + error.reason);
+        //        else {
+        //            throwError(error.reason);
+        //        }
+        //    }
+        //});
     }
 });

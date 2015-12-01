@@ -96,54 +96,6 @@ checkingRRExist=function(){
            });
        }
     });
-    //var kwestie=Kwestia.find({czyAktywny:true,status:{$in:[KWESTIA_STATUS.ZREALIZOWANA,KWESTIA_STATUS.REALIZOWANA]},typ:{$nin:[KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE]}});
-    //console.log("liczba kwestii:"+kwestie.count());
-    //kwestie.forEach(function(kwestia){
-    //    var param=Parametr.findOne().okresSkladaniaRR;
-    //    var timeNow=moment(new Date()).format();
-    //    //w previousCheck- ustwienia zgodnie z param glob domyślnymi ma być! czylo sub -days
-    //    var previousCheck=moment(new Date()).subtract(param,"minutes").format();
-    //    console.log("time now");
-    //    console.log(timeNow);
-    //    console.log("previous check");
-    //    console.log(previousCheck);
-    //    console.log(Raport.find({idKwestia:kwestia._id}).count());
-    //    var raporty=Raport.find({idKwestia:kwestia._id,
-    //        dataWprowadzenia: {
-    //            $gte: previousCheck,
-    //            $lt: timeNow
-    //        }},{sort:{dataWprowadzenia:-1}});
-    //
-    //    if(raporty.count()==0){
-    //        var notifications=Powiadomienie.find({idKwestia:kwestia._id,powiadomienieTyp:NOTIFICATION_TYPE.LACK_OF_REALIZATION_REPORT});
-    //        if(notifications.count()==0) {
-    //            console.log("wysyłamy powiadomienie");
-    //            Meteor.call("sendEmailNoRealizationReport", kwestia._id, function (error) {
-    //                if (error)
-    //                    console.log(error.reason);
-    //            });
-    //            var users = Users.find({'profile.userType': USERTYPE.CZLONEK});
-    //            users.forEach(function (user) {
-    //                //dodaj!-wybranie z zespolu tych czlonkow,którzy czyAtywny==true
-    //                var zr = ZespolRealizacyjny.findOne({_id: kwestia.idZespolRealizacyjny});
-    //                addPowiadomienieAplikacjaRespondMethodPosts(kwestia._id, new Date(), NOTIFICATION_TYPE.LACK_OF_REALIZATION_REPORT, user._id, zr.zespol);
-    //            });
-    //        }
-    //        else{
-    //            var n=Powiadomienie.find({idKwestia:kwestia._id,
-    //                dataWprowadzenia: {
-    //                    $gte: previousCheck,
-    //                    $lt: timeNow
-    //                }},{sort:{dataWprowadzenia:-1}});
-    //            if(n.count()>0)
-    //            console.log("jest takie");
-    //            else
-    //                console.log("nie ma takiego");
-    //        }
-    //    }
-    //    else console.log("jest raport!");
-    //
-    //});
 };
 checkingEndOfVote = function() {
 
@@ -292,6 +244,8 @@ checkingEndOfVote = function() {
                         else zr=ZRDraft;
                         if(zr)
                             rewriteZRMembersToList(zr, issueUpdated);
+                        else
+                            rewriteZRMembersToList(ZRDraft, issueUpdated);
                         Meteor.call('removeZespolRealizacyjnyDraft', ZRDraft._id, function (error) {
                             if (error)
                                 console.log(error.reason);
