@@ -42,6 +42,17 @@ Meteor.publish('usersDraftEmails', function () {
     return UsersDraft.find({}, {fields: {email: 1}});
 });
 
+Meteor.publish('usersRolesTypeUsernames', function () {
+    return Users.find({}, {
+        fields: {
+            username: 1,
+            'profile.userType': 1,
+            roles: 1,
+            'profile.firstName': 1,
+            'profile.lastName': 1
+        }
+    });
+});
 
 Meteor.publish(null, function (){
     return Meteor.roles.find({})
@@ -49,7 +60,7 @@ Meteor.publish(null, function (){
 
 Meteor.publish('subroles', function () {
     return Subroles.find({});
-})
+});
 
 // RODZAJE
 
