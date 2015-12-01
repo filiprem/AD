@@ -33,11 +33,56 @@ Template.realizacjaTab1.helpers({
 Template.realizacjaTab1.events({
     'click #printResolution': function() {
 
+        var globalParameters = Parametr.findOne({});
+        var realizationTeam = ZespolRealizacyjny.findOne({_id: this.idZespolRealizacyjny}).zespol;
+        var vote = this.glosujacy; //.find({value:{ $gt: 0 }})
+        var voteFor = 0;
+        var voteAgainst = 0;
+        var abstained = 0;
+        var realizationTeamMembers = new Array(3);
+        var membersNames = new Array(3);
+        for(i=0; i < 3; i++){
+            membersNames[i] = "";
+        }
+
+        for(i = 0; i < realizationTeam.length; i++){
+            realizationTeamMembers[i] = Users.findOne({_id: realizationTeam[i]});
+        }
+
+        for(i = 0; i < vote.length; i++){
+            if(vote[i].value>0){
+                voteFor++;
+            }else if(vote[i].value<0){
+                voteAgainst++
+            }else if(vote[i].value==0){
+                abstained++
+            }
+        }
+        var iterator = 0;
+        realizationTeamMembers.forEach(function(member){
+            membersNames[iterator] = member.profile.firstName + " " + member.profile.lastName
+            iterator++;
+        });
+
         var docDefinition = {
             content: [
                 { text: "dn. " + moment(this.dataRealizacji).format("DD.MM.YYYY").toString() + "r.", style: 'uchwalaTop'},
+                { text: globalParameters.nazwaOrganizacji + "\n" +
+                        globalParameters.terytorium + "\n" +
+                        globalParameters.kontakty + "\n"
+                },
                 { text: "Uchwała  Numer: " + this.numerUchwaly.toString() + "\nDotyczy: " + this.kwestiaNazwa , style: 'uchwalaHeadline'},
-                { text: "\n\t\t\t\t\t\t" + this.szczegolowaTresc, style: 'contentStyle'}
+                { text: "\n\t\t\t\t\t\t" + this.szczegolowaTresc, style: 'contentStyle'},
+                { text: "\nStan osobowy - " + this.glosujacy.length +
+                        "\nObecnych  - " + this.glosujacy.length +
+                        "\nGłosujących za - " + voteFor +
+                        "\nGłosujących przeciw - " + voteAgainst +
+                        "\nWstrzymujących - " + abstained +
+                        "\n\nZespół Realizacyjny:" +
+                        "\n1. - " + membersNames[0] +
+                        "\n2. - " + membersNames[1] +
+                        "\n3. - " + membersNames[2]
+                }
             ],
             styles: {
                 uchwalaTop: {fontSize: 12, alignment: 'right'},
