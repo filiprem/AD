@@ -1,7 +1,6 @@
 Template.listZespolRealizacyjnyModal.helpers({
 });
 Template.listZespolRealizacyjnyDoubleModalInner.rendered=function(){
-    $('#powolajZR').css("visibility", "visible");
 };
 Template.listZespolRealizacyjnyDoubleModalInner.helpers({
     'settings': function () {
@@ -51,12 +50,11 @@ Template.listZespolRealizacyjnyDoubleModalInner.events({
     'click #powrotButton':function(){
         $("#decyzjaModalId").modal("show");
     },
-    'click #powolajZR':function(){
+    'click #przyjmijZR':function(){
 
         console.log("to będzie tutaaaaj");
         console.log(this._id);
         if(isUserInZRNotification(this._id)==false) {//jezeli jestem w  takowym zespole
-            $('#powolajZR').css("visibility", "hidden");
             powolajZRFunction(Session.get("idKwestia"),this._id);
         }
         //Session.setPersistent("zespolRealizacyjnyDouble",null);

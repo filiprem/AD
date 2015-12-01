@@ -58,7 +58,7 @@ Template.addKwestiaOpcjaForm.helpers({
     },
     protectorZR:function(){
         if(!Meteor.userId()) return false;
-        var zr=ZespolRealizacyjny.findOne();
+        var zr=ZespolRealizacyjny.findOne({_id:"jjXKur4qC5ZGPQkgN"});
         console.log("protector");
         console.log(zr);
         if(zr){

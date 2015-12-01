@@ -15,20 +15,23 @@
  Jak Kwestia przejdzie do panelu GLOSOWANIE to daty się pojawiaja.
  * */
 Template.informacjeKwestia.helpers({
-    isIssueRealizowanaZrealizowana:function(){
+    isIssueRealizowana:function(){
         if(!Meteor.userId()) return false;
-        if((this.status==KWESTIA_STATUS.REALIZOWANA || this.status==KWESTIA_STATUS.ZREALIZOWANA) && this.typ!=KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE){
-            var zespol=null;
-            zespol = ZespolRealizacyjny.findOne({_id: this.idZespolRealizacyjny});
-            if (!zespol)
-                zespol = ZespolRealizacyjnyDraft.findOne({_id: this.idZespolRealizacyjny});
-            if(zespol.idZR)
-                zespol=ZespolRealizacyjny.findOne({_id: zespol.idZR});
-            console.log("ten zespół");
-            console.log(zespol.zespol);
-            return _.contains(zespol.zespol,Meteor.userId()) ? true : false;
+        if((this.status==KWESTIA_STATUS.REALIZOWANA) && this.typ!=KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE){
+            return true;
         }
         else return false;
+    },
+    myselfInZR:function(){
+        var zespol=null;
+        zespol = ZespolRealizacyjny.findOne({_id: this.idZespolRealizacyjny});
+        if (!zespol)
+            zespol = ZespolRealizacyjnyDraft.findOne({_id: this.idZespolRealizacyjny});
+        if(zespol.idZR)
+            zespol=ZespolRealizacyjny.findOne({_id: zespol.idZR});
+        console.log("ten zespół");
+        console.log(zespol.zespol);
+        return _.contains(zespol.zespol,Meteor.userId()) ? true : false;
     }
 });
 

@@ -10,7 +10,7 @@ Template.realizacjaTab1.helpers({
                 { key: 'id', label: "Id", tmpl: Template.id },
                 { key: 'dataRealizacji', label: "Data realizacji", tmpl: Template.dataRealizKwestia },
                 { key: 'numerUchwaly', label: "Numer uchwały", tmpl: Template.numerUchwKwestia },
-                { key: 'kwestiaNazwa', label: "Kwestia nazwa", tmpl: Template.nazwaKwestiLink },
+                { key: 'kwestiaNazwa', label: "Nazwa", tmpl: Template.nazwaKwestiLink },
                 { key: 'idTemat', label: "Temat", tmpl: Template.tematKwestia },
                 { key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestia },
                 { key: 'raport', label: "Raport", tmpl: Template.raport },

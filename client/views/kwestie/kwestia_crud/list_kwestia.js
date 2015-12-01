@@ -171,19 +171,21 @@ Template.listKwestia.helpers({
     }
 });
 
-Template.tematKwestia.helpers({
-    tematNazwa: function () {
-        var t = Temat.findOne({_id: this.idTemat});
-        return t? t.nazwaTemat : "techniczna systemowa";
-    }
-});
-
-Template.rodzajKwestia.helpers({
-    rodzajNazwa: function () {
-        var r = Rodzaj.findOne({_id: this.idRodzaj});
-        return r? r.nazwaRodzaj: "techniczna systemowa";
-    }
-});
+//Template.tematKwestia.helpers({
+//    tematNazwa: function () {
+//        console.log("bum");
+//        console.log(this.idTemat);
+//        var t = Temat.findOne({_id: this.idTemat});
+//        return t? t.nazwaTemat : "techniczna systemowa";
+//    }
+//});
+//
+//Template.rodzajKwestia.helpers({
+//    rodzajNazwa: function () {
+//        var r = Rodzaj.findOne({_id: this.idRodzaj});
+//        return r? r.nazwaRodzaj: "techniczna systemowa";
+//    }
+//});
 
 Template.dataUtwKwestia.helpers({
     date: function () {
@@ -300,7 +302,7 @@ Template.nazwaKwestiLink.helpers({
 
 Template.tematKwestia.helpers({
     'topicName': function(){
-        if(this.typ=KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE){
+        if(this.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE){
             return "techniczna systemowa";
         }
         var topic = Temat.findOne({_id: this.idTemat}).nazwaTemat;
@@ -313,7 +315,7 @@ Template.tematKwestia.helpers({
 });
 Template.rodzajKwestia.helpers({
     'typeName': function(){
-        if(this.typ=KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE){
+        if(this.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE){
             return "techniczna systemowa";
         }
         var type = Rodzaj.findOne({_id: this.idRodzaj}).nazwaRodzaj;

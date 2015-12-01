@@ -139,9 +139,9 @@ bootboxEmail=function(idKwestia){
         buttons: {
             success: {
                 label: "Wyślij",
-                className: "btn-success",
+                className: "btn-success successMessage",
                 callback: function() {
-                    $('.btn-success').css("visibility", "hidden");
+                    $('.successMessage').css("visibility", "hidden");
                     sendEmailAndNotification(idKwestia,$('#emailText').val());
                 }
             },

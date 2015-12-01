@@ -23,7 +23,7 @@ SyncedCron.add({
         // parser is a later.parse object
         var RRFrequency = Parametr.findOne({}).okresSkladaniaRR;
         //return parser.text('every '+ voteFreq + ' day'); domyslnie bedzie w dniach?
-        return parser.text('every 20 seconds');
+        return parser.text('every 20 minutes');
         //return parser.text('every '+ RRFrequency + ' minute');
     },
     job: function() {
@@ -176,7 +176,7 @@ checkingEndOfVote = function() {
                     //-kwestia zmienia status na realizowana
                     else {
                         console.log("GLOSOWANA->REALIZAZCJA");
-                        awansUzytkownika(issueUpdated.idZespolRealizacyjny, pktZaUdzialWZesp);
+                        //awansUzytkownika(issueUpdated.idZespolRealizacyjny, pktZaUdzialWZesp);
                         issueUpdated.dataRealizacji = new Date();
                         issueUpdated.numerUchwaly = issueUpdated.issueNumber;//nadawanieNumeruUchwaly(kwestia.dataRealizacji);
 
@@ -192,16 +192,19 @@ checkingEndOfVote = function() {
                             if(ZR) {
                                 console.log("updetujemy zr istniejący");
                                 updateListKwestie(ZR, issueUpdated);
+                                Meteor.call('removeZespolRealizacyjnyDraft',issueUpdated.idZespolRealizacyjny);
                             }
                             else {
                                 createNewZR(zrDraft, issueUpdated);
+                                Meteor.call('removeZespolRealizacyjnyDraft',issueUpdated.idZespolRealizacyjny);
                             }
                         }
                         else {
                             createNewZR(zrDraft, issueUpdated);
+                            Meteor.call('removeZespolRealizacyjnyDraft',issueUpdated.idZespolRealizacyjny);
                         }
 
-                        Meteor.call('removeZespolRealizacyjnyDraft',issueUpdated.idZespolRealizacyjny);
+
 
                         //W przypadku przejścia Kwestii-Opcji do Realizacji - pozostałe Opcje przechodzą na status HIBERNOWANA
 
@@ -457,14 +460,15 @@ updateListKwestie=function(ZR,kwestia){
             }
             else {//zaktualizuj idZespoluRealizacyjnego w tej kwestii
                 console.log("update kwestii");
-                if(_.contains([KWESTIA_TYPE.ACCESS_DORADCA,KWESTIA_TYPE.ACCESS_ZWYCZAJNY],kwestia.typ)){
-                    var issueName=kwestia.kwestiaNazwa;
-                    if (issueName.contains("Aplikowanie-")){
-                       var  newIssueName=issueName.substring(issueName.indexOf("-")+1);
-                        Meteor.call('updateStatNrUchwDtRealIdZespolKwestiiNazwa', kwestia._id, KWESTIA_STATUS.REALIZOWANA, kwestia.numerUchwaly, kwestia.dataRealizacji, ZR._id,newIssueName);
-                    }
-                    Meteor.call('updateStatNrUchwDtRealIdZespolKwestii', kwestia._id, KWESTIA_STATUS.REALIZOWANA, kwestia.numerUchwaly, kwestia.dataRealizacji, ZR._id);
-                }
+                //if(_.contains([KWESTIA_TYPE.ACCESS_DORADCA,KWESTIA_TYPE.ACCESS_ZWYCZAJNY],kwestia.typ)){
+                //    var issueName=kwestia.kwestiaNazwa;
+                //    if (issueName.contains("Aplikowanie-")){
+                //       var  newIssueName=issueName.substring(issueName.indexOf("-")+1);
+                //        Meteor.call('updateStatNrUchwDtRealIdZespolKwestiiNazwa', kwestia._id, KWESTIA_STATUS.REALIZOWANA, kwestia.numerUchwaly, kwestia.dataRealizacji, ZR._id,newIssueName);
+                //    }
+                //    Meteor.call('updateStatNrUchwDtRealIdZespolKwestii', kwestia._id, KWESTIA_STATUS.REALIZOWANA, kwestia.numerUchwaly, kwestia.dataRealizacji, ZR._id);
+                //}
+                //else
                 Meteor.call('updateStatNrUchwDtRealIdZespolKwestii', kwestia._id, KWESTIA_STATUS.REALIZOWANA, kwestia.numerUchwaly, kwestia.dataRealizacji, ZR._id);
             }
         });

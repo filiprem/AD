@@ -22,11 +22,11 @@ Template.hibernowaneList.helpers({
             enableRegex: false,
             fields: [
                 { key: 'dataWprowadzenia', label: "Data wprowadzenia", tmpl: Template.dataUtwKwestia },
-                { key: 'kwestiaNazwa', label: "Nazwa kwestii", tmpl: Template.nazwaKwestiiHibernowaneLink },
-                { key: 'wartoscPriorytetu', label: "Wartosc priorytetu", tmpl: Template.priorytetKwestia,sortOrder:1,sortDirection:'ascending' },
+                { key: 'kwestiaNazwa', label: "Nazwa", tmpl: Template.nazwaKwestiiHibernowaneLink },
+                { key: 'wartoscPriorytetu', label: "Priorytet", tmpl: Template.priorytetKwestia,sortOrder:1,sortDirection:'ascending' },
                 { key: '', label: "Temat", tmpl: Template.tematKwestiiHibernowane },
                 { key: '', label: "Rodzaj", tmpl: Template.rodzajKwestiiHibernowane },
-                { key: 'status', label: Template.listKwestiaAdminColumnLabel }
+                { key: 'status', label: "Status" }
             ]
         };
     },
@@ -70,6 +70,8 @@ Template.hibernowaneList.rendered = function () {
 
 Template.tematKwestiiHibernowane.helpers({
     'getTemat': function (id) {
+        if(this.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE)
+            return "techniczna systemowa";
         var item = Temat.findOne({_id: id});
         return !!item && !!item.nazwaTemat ? item.nazwaTemat : id;
     }
@@ -77,6 +79,8 @@ Template.tematKwestiiHibernowane.helpers({
 
 Template.rodzajKwestiiHibernowane.helpers({
     'getRodzaj': function (id) {
+        if(this.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE)
+            return "techniczna systemowa";
         var item = Rodzaj.findOne({_id: id});
         return !!item && !!item.nazwaRodzaj ? item.nazwaRodzaj : id;
     }

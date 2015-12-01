@@ -396,6 +396,7 @@ Meteor.startup(function(){
         return tab;
     };
     rewriteZRMembersToList=function(zespolRealizacyjny,newKwestia){
+        console.log("rewrite zr members to list");
         var czlonkowieZespolu = [];
         _.each(zespolRealizacyjny.zespol, function (idUser) {
             var user = Users.findOne({_id: idUser});
@@ -405,9 +406,12 @@ Meteor.startup(function(){
             nazwa:zespolRealizacyjny.nazwa,
             czlonkowie:czlonkowieZespolu
         };
+        console.log(obj);
         Meteor.call("addConstZR", newKwestia._id, obj, function (error) {
             if (error)
-                console.log(error);
+                throwError(error.reason);
+            else
+            console.log("powodzenie");
         });
     };
     manageZR=function(newKwestia){
@@ -419,7 +423,7 @@ Meteor.startup(function(){
             });
             console.log(kwestie);
             //jezeli bylem tylko ja,set false,o ile to nnie jestjest zr ds osób
-            if(kwestie.length==0 && zespolRealizacyjny._id!=ZespolRealizacyjny.findOne()._id){
+            if(kwestie.length==0 && zespolRealizacyjny._id!=ZespolRealizacyjny.findOne({_id:"jjXKur4qC5ZGPQkgN"})._id){
                 Meteor.call("updateKwestieZRChangeActivity", zespolRealizacyjny._id, kwestie,false, function (error) {
                     if (error)
                         console.log(error.reason);
@@ -438,7 +442,7 @@ Meteor.startup(function(){
         }
         else {//jezeli nie ma zadnych kwestii,ustaw na false, o ile
             console.log("delete zespol");
-            if(zespolRealizacyjny._id!=ZespolRealizacyjny.findOne()._id){
+            if(zespolRealizacyjny._id!=ZespolRealizacyjny.findOne({_id:"jjXKur4qC5ZGPQkgN"})._id){
                 Meteor.call('removeZespolRealizacyjny', zespolRealizacyjny._id, function (error) {
                     if (error)
                         console.log(error.reason);

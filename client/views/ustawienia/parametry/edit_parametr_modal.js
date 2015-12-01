@@ -1,91 +1,6 @@
 Template.editParametrModalInner.rendered=function(){
     console.log("render!");
-    $('.btn-success').css("visibility", "visible");
-    //$("#parametrFormEditModal").validate({
-    //    rules:{
-    //        voteDuration: {
-    //            min: 0,
-    //            number: true
-    //        },
-    //        voteQuantity: {
-    //            min: 0,
-    //            number: true
-    //        },
-    //        czasWyczekiwaniaKwestiiSpec: {
-    //            min: 0,
-    //            number: true
-    //        },
-    //        addIssuePause: {
-    //            min: 0,
-    //            number: true
-    //        },
-    //        addCommentPause: {
-    //            min: 0,
-    //            number: true
-    //        },
-    //        addReferencePause: {
-    //            min: 0,
-    //            number: true
-    //        },
-    //        okresSkladaniaRR:{
-    //            min:1,
-    //            number:true
-    //        }
-    //    },
-    //    messages: {
-    //        nazwaOrganizacji: {
-    //            required: fieldEmptyMessage()
-    //        },
-    //        terytorium: {
-    //            required: fieldEmptyMessage()
-    //        },
-    //        kontakty: {
-    //            required: fieldEmptyMessage()
-    //        },
-    //        regulamin: {
-    //            required: fieldEmptyMessage()
-    //        },
-    //        voteDuration: {
-    //            required: fieldEmptyMessage(),
-    //            min: positiveNumberMessage()
-    //        },
-    //        voteQuantity: {
-    //            required: fieldEmptyMessage(),
-    //            min: positiveNumberMessage()
-    //        },
-    //        czasWyczekiwaniaKwestiiSpec:{
-    //            required:fieldEmptyMessage(),
-    //            min:positiveNumberMessage()
-    //        },
-    //        addIssuePause: {
-    //            required: fieldEmptyMessage(),
-    //            min: positiveNumberMessage()
-    //        },
-    //        addCommentPause: {
-    //            required: fieldEmptyMessage(),
-    //            min: positiveNumberMessage()
-    //        },
-    //        addReferencePause: {
-    //            required: fieldEmptyMessage(),
-    //            min: positiveNumberMessage()
-    //        },
-    //        okresSkladaniaRR:{
-    //            required: fieldEmptyMessage(),
-    //            min: positiveNumberMessage()
-    //        }
-    //    },
-    //    highlight: function (element) {
-    //        highlightFunction(element);
-    //    },
-    //    unhighlight: function (element) {
-    //        unhighlightFunction(element);
-    //    },
-    //    errorElement: 'span',
-    //    errorClass: 'help-block',
-    //    errorPlacement: function (error, element) {
-    //        validationPlacementError(error, element);
-    //    }
-    //})
+    $('.successBtn').css("visibility", "visible");
 },
 Template.editParametrModalInner.helpers({
     parametrInScope: function () {
@@ -136,7 +51,7 @@ Template.editParametrModalInner.events({
         console.log("success");//submit form
         e.preventDefault();//click .btn-success
         if ($('#parametrFormEditModal').valid()) {
-            $('.btn-success').css("visibility", "hidden");
+            $('.successBtn').css("visibility", "hidden");
             var odp = checkIssueGlobalParamExists();
             if (odp == true) {
                 bootbox.alert("Przepraszamy, istnieje już kwestia dotycząca zmiany parametru globalnego!");
@@ -162,12 +77,10 @@ Template.editParametrModalInner.events({
                     });
                 }
                 else {
-                    //document.getElementById("parametrFormEditModal").reset();
-                    //document.getElementById(session.name).value=newValue;
                     parametrPreview(session.name, session.title, session.value, newValue);
                 }
             }
-            $('.btn-success').css("visibility", "visible");
+            $('.successBtn').css("visibility", "visible");
         }
 
     }
@@ -255,7 +168,7 @@ createIssueChangeParam=function(paramName,title,oldValue,newValue){
     console.log(addParamDraft);
     var odp=checkIssueGlobalParamExists();
     var params=ParametrDraft.find({czyAktywny:true});
-    if(odp==false || params.count()==0) {
+    if(odp==false && params.count()<=1) {
         Meteor.call('addParametrDraft', addParamDraft, function (error, ret) {
             if (!error) {
                 var dataParams = {
@@ -318,6 +231,6 @@ addPowiadomienieGlobalneFunction=function(idKwestia){
 
 checkIssueGlobalParamExists=function(){
     var kwestie=Kwestia.find({typ:KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE, czyAktywny:true,
-        status:{$nin:[KWESTIA_STATUS.ZREALIZOWANA]}});
+        status:{$nin:[KWESTIA_STATUS.ZREALIZOWANA,KWESTIA_STATUS.ARCHIWALNA]}});
     return kwestie.count()>0? true : false;
 };

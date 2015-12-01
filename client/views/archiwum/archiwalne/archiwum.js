@@ -22,11 +22,11 @@ Template.archiwumList.helpers({
             enableRegex: false,
             fields: [
                 { key: 'dataWprowadzenia', label: "Data wprowadzenia", tmpl: Template.dataUtwKwestia },
-                { key: 'kwestiaNazwa', label: "Nazwa kwestii", tmpl: Template.nazwaKwestiiArchiwumLink },
-                { key: 'wartoscPriorytetu', label: "Wartosc priorytetu", tmpl: Template.priorytetKwestia ,sortOrder:1,sortDirection:'ascending'},
+                { key: 'kwestiaNazwa', label: "Nazwa", tmpl: Template.nazwaKwestiiArchiwumLink },
+                { key: 'wartoscPriorytetu', label: "Priorytet", tmpl: Template.priorytetKwestia ,sortOrder:1,sortDirection:'ascending'},
                 { key: '', label: "Temat", tmpl: Template.tematKwestiiArchiwum },
                 { key: '', label: "Rodzaj", tmpl: Template.rodzajKwestiiArchiwum },
-                { key: 'status', label: Template.listKwestiaAdminColumnLabel }
+                { key: 'status', label: "Status" }
             ]
         };
     },
@@ -70,6 +70,8 @@ Template.archiwum.rendered = function () {
 
 Template.tematKwestiiArchiwum.helpers({
     'getTemat': function (id) {
+        if(this.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE)
+            return "techniczna systemowa";
         var item = Temat.findOne({_id: id});
         return !!item && !!item.nazwaTemat ? item.nazwaTemat : id;
     }
@@ -77,6 +79,8 @@ Template.tematKwestiiArchiwum.helpers({
 
 Template.rodzajKwestiiArchiwum.helpers({
     'getRodzaj': function (id) {
+        if(this.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE)
+            return "techniczna systemowa";
         var item = Rodzaj.findOne({_id: id});
         return !!item && !!item.nazwaRodzaj ? item.nazwaRodzaj : id;
     }

@@ -18,15 +18,12 @@ Template.zrModalCurrentIssueMyResolutionsInner.helpers({
         };
     },
     IssuesList: function(){
-        //console.log(this.idZespolRealizacyjny);
-        if(this.idZespolRealizacyjny) {
-            var zr = ZespolRealizacyjny.findOne({_id: this.idZespolRealizacyjny});
-            console.log(zr);
-            console.log(zr.kwestie);
-            var issues = Kwestia.find({_id: {$in: zr.kwestie}, czyAktywny: true});
-            console.log(issues.count());
-            return issues;
-        }
+        var zr = ZespolRealizacyjny.findOne({_id: this.idZespolRealizacyjny});
+        console.log(zr);
+        console.log(zr.kwestie);
+        var issues = Kwestia.find({_id: {$in: zr.kwestie}, czyAktywny: true});
+        console.log(issues.count());
+        return issues;
     }
 });
 
@@ -45,15 +42,40 @@ Template.zrModalCurrentIssueMyResolutionsInner.events({
         var zespol= _.without(zr.zespol,Meteor.userId());
         console.log("new zespół");
         console.log(zespol);
-        Meteor.call("updateCzlonkowieZR",zr._id,zespol,function(error){
+        Meteor.call("updateCzlonkowieZR",zr._id,zespol,function(error){//to FINISH
             if(error)
                 throwError(error.reason);
             else{
-                if(zr.zespol.length==1) {//jezeli już nie ma nikogo w realizacjii
-                    manageIssuesWithoutZR(zr.kwestie);
+                var zrList=ZespolRealizacyjnyDraft.find({idZR:zr._id});
+                var array=[];
+                zrList.forEach(function(zr){
+                    array.push(zr._id);
+                });
+                console.log("te zespoły");
+                console.log(zrList.count());
+                console.log(array);
+                var allIssues=Kwestia.find({
+                    czyAktywny:true,
+                    status:{$in:[
+                        KWESTIA_STATUS.GLOSOWANA,
+                        KWESTIA_STATUS.OSOBOWA,
+                        KWESTIA_STATUS.OCZEKUJACA,
+                        KWESTIA_STATUS.DELIBEROWANA]},
+                    _id:{$nin:[currentIssueId]},
+                    idZespolRealizacyjny:{$in:array}
+                });
+                if(allIssues.count>0){
+                    var newZRList=[];
+                    allIssues.forEach(function(issue){
+                        newZRList.push(issue.idZespolRealizacyjny);
+                    });
+                    console.log(allIssues.count());
+                    var zrCur=ZespolRealizacyjnyDraft.findOne({idZR:{$in:newZRList}});
+                    console.log(zrCur.count());
+                    zrCur.forEach(function(zrItem){
+                       Meteor.call("updateCzlonkowieNazwaZRDraft",zrItem._id,zespol,zr.nazwa);
+                    });
                 }
-                //ustawiamy ZR na czy aktywny=false;
-                Meteor.call("removeZespolRealizacyjny",zr._id);
                 document.getElementById("agreeButton").disabled=false;
             }
         });

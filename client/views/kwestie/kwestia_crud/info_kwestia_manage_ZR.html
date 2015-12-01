@@ -1,12 +1,16 @@
 <template name="ZRTemplate">
-    {{#if statusGlosowanaOsobowaRealizowanaZrealizowana status typ}}
+    {{#if statusGlosowanaOsobowaRealizowanaZrealizowana status typ czyAktywny}}
         <legend>Zespół realizacyjny</legend>
             <table class="table manageTable">
                 <tr>
                     <td><b>Nazwa Zespołu</b></td>
                     <td>
                         {{#if isInKoszOrZrealizowana czyAktywny status}}
-                            {{zespol.nazwa}}
+                            {{#if zespol.nazwa}}
+                                {{zespol.nazwa}}
+                            {{else}}
+                                Brak
+                            {{/if}}
                         {{else}}
                             <!--{{#if isInZRFoo idZR}}-->
                                 <!--<button class="btn btn-info" id="zrList" style="margin: 2px">{{getZRName idZR status}}</button>-->
@@ -41,11 +45,12 @@
             <table class="table manageTable">
                 <tr>
                     <td><strong>Członek nr 1</strong> &nbsp; &nbsp;
-                        {{#unless pierwszyCzlonekFullName idZR}}
-                            <button style="border-style: solid; border-width: 2px; border-color:gray"  class="btn" id="czlonek1" {{isInZR idZR}}>Zgadzam się</button>
+                        {{#if pierwszyCzlonekFullName idZR}}
+                            <button class="btn btn-success" id="czlonek1" {{isActualUser 0 idZR}} style="visibility: visible">{{pierwszyCzlonekFullName idZR}}</button>
+
                         {{else}}
-                            <button class="btn btn-success" id="czlonek1" {{isActualUser 0 idZR}}>{{pierwszyCzlonekFullName idZR}}</button>
-                        {{/unless}}
+                            <button style="border-style: solid; border-width: 2px; border-color:gray"  class="btn" id="czlonek1" {{isInZR idZR}}>Zgadzam się</button>
+                        {{/if}}
                     </td>
                     <td><strong>Członek nr 2</strong> &nbsp; &nbsp;
                         {{#unless drugiCzlonekFullName idZR}}

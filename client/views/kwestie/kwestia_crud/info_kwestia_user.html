@@ -1,5 +1,6 @@
-<template name="informacjeKwestia" xmlns="http://www.w3.org/1999/html">
-    {{#if isIssueRealizowanaZrealizowana}}
+<template name="informacjeKwestia">
+    {{#if isIssueRealizowana}}
+        {{#if myselfInZR}}
         <div class="main">
             <div>
                 <ul class="nav nav-tabs" role="tablist">
@@ -19,12 +20,16 @@
                 </div>
             </div>
          </div>
-    {{else}}
-        {{>issueDetails}}
+
+        {{else}}
+            {{>issueDetails}}
+        {{/if}}
+        {{>zrModalCurrentIssueMyResolutions
+            idZespolRealizacyjny=idZespolRealizacyjny
+        }}
+        {{else}}
+            {{>issueDetails}}
     {{/if}}
-    {{>zrModalCurrentIssueMyResolutions
-    idZespolRealizacyjny=idZespolRealizacyjny
-    }}
 </template>
 
 <template name="issueDetails">

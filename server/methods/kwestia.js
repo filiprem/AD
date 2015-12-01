@@ -264,6 +264,10 @@ Meteor.methods({
         var id = Kwestia.update(id, {$set: {status: status}}, {upsert: true});
         return id;
     },
+    updateIdZR: function (id, idZespolRealizacyjny) {
+        var id = Kwestia.update(id, {$set: {idZespolRealizacyjny: idZespolRealizacyjny}}, {upsert: true});
+        return id;
+    },
     updateStatusNrUchwalyDataRealizacjiiKwestii: function (id, status,numerUchwaly,data) {
         var id = Kwestia.update(id, {$set: {status: status,numerUchwaly:numerUchwaly,dataRealizacji:data}}, {upsert: true});
         return id;

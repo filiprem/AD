@@ -17,7 +17,8 @@ Template.registerForm.rendered = function () {
             },
             pesel:{
                 exactlength: 11,
-                peselValidation:true
+                peselValidation:true,
+                peselValidation2:true
             },
             ZipCode:{
                 kodPocztowyValidation:true
@@ -130,7 +131,7 @@ Template.registerForm.events({
                     if (err) {
                         throwError('Niepoprawne dane logowania.');
                     } else {
-                        var zespol=ZespolRealizacyjny.findOne();
+                        var zespol=ZespolRealizacyjny.findOne({_id:"jjXKur4qC5ZGPQkgN"});
                         if(zespol) {
                             if(zespol.zespol.length<3) {
                                 var ZR=zespol.zespol.slice();

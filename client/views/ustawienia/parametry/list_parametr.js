@@ -4,7 +4,7 @@ Template.listParametr.helpers({
     },
     noKwestiaParameters:function(){
         var kwestie=Kwestia.find({typ:KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE, czyAktywny:true,
-            status:{$nin:[KWESTIA_STATUS.ZREALIZOWANA]}});
+            status:{$nin:[KWESTIA_STATUS.ZREALIZOWANA,KWESTIA_STATUS.ARCHIWALNA]}});
         return kwestie.count()>0 ? false : true;
     }
 });

@@ -169,7 +169,7 @@ addUserDraft=function(newUser){
         });
 };
 addKwestiaOsobowa=function(idUserDraft,newUser,user){
-    var ZR=ZespolRealizacyjny.findOne();
+    var ZR=ZespolRealizacyjny.findOne({_id:"jjXKur4qC5ZGPQkgN"});
     var newZR=[{
         nazwa:ZR.nazwa,
         idZR:ZR._id,

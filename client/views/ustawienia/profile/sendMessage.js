@@ -87,9 +87,9 @@ askToFillSubject=function(text,newEmail){
         buttons: {
             success: {
                 label: "Wyślij",
-                className: "btn-success",
+                className: "btn-success successAttention",
                 callback: function() {
-                    $('.btn-success').css("visibility", "hidden");
+                    $('.successAttention').css("visibility", "hidden");
                     sendMessage(newEmail);
                 }
             },
@@ -97,7 +97,7 @@ askToFillSubject=function(text,newEmail){
                 label: "Anuluj",
                 className: "btn-danger",
                 callback:function(){
-                    $('.btn-success').css("visibility", "visible");
+                    $('.successAttention').css("visibility", "visible");
                 }
             }
         }
