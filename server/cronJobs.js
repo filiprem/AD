@@ -50,13 +50,12 @@ checkingRRExist=function(){
         var initial=_.last(kwestia.listaDatRR);
         //console.log("ZMIANA_PARAMS");
         var nextCheck= moment(initial).add(Parametr.findOne().okresSkladaniaRR,"days").format();
-        //var nextCheck= moment(initial).add(Parametr.findOne().okresSkladaniaRR,"minutes").format();
         var currentTime=moment(new Date()).format();
-        console.log("Daty miedzy którymi musi pojawić się raport");
-        console.log(initial);
-        console.log(nextCheck);
-        console.log("Obecna godzina");
-        console.log(currentTime);
+        //console.log("Daty miedzy którymi musi pojawić się raport");
+        //console.log(initial);
+        //console.log(nextCheck);
+        //console.log("Obecna godzina");
+        //console.log(currentTime);
        if(nextCheck<=currentTime){
            var raporty=Raport.find({idKwestia:kwestia._id,
                dataUtworzenia: {
@@ -84,13 +83,11 @@ checkingRRExist=function(){
     });
 };
 checkingEndOfVote = function() {
-
-    var pktZaUdzialWZesp = RADKING.UDZIAL_W_ZESPOLE_REALIZACYJNYM;
     var actualDate = moment(new Date()).format();
     var kwestie = Kwestia.find(
         {
             czyAktywny: true,
-            status: {$in: [KWESTIA_STATUS.GLOSOWANA, KWESTIA_STATUS.OCZEKUJACA]}
+            status: {$in: [KWESTIA_STATUS.GLOSOWANA]}//KWESTIA_STATUS.OCZEKUJACA
         },
         {
             sort: {wartoscPriorytetu: -1, dataWprowadzenia: 1}
@@ -117,7 +114,6 @@ checkingEndOfVote = function() {
                         if (zrDraft.idZR != null) {
                             var ZR = ZespolRealizacyjny.findOne({_id: zrDraft.idZR});
                             if(ZR) {
-                                console.log("updetujemy zr istniejący");
                                 updateListKwestie(ZR, issueUpdated);
                                 Meteor.call('removeZespolRealizacyjnyDraft',issueUpdated.idZespolRealizacyjny);
                             }
@@ -135,8 +131,6 @@ checkingEndOfVote = function() {
                         if(_.contains([KWESTIA_TYPE.ACCESS_DORADCA,KWESTIA_TYPE.ACCESS_ZWYCZAJNY,KWESTIA_TYPE.ACCESS_HONOROWY],issueUpdated.typ)) {
                             var userDraft = UsersDraft.findOne({_id: issueUpdated.idUser});
 
-                            console.log("contains");
-                            console.log(userDraft);
                             if(userDraft.profile.idUser!=null){
                                 var user=Users.findOne({_id:userDraft.profile.idUser});
                                 if(user){
@@ -190,7 +184,6 @@ checkingEndOfVote = function() {
                     }
                 }
                 else {
-                    console.log("admnistrowna/deliberowana w glosowaniu->kosz");
 
                     var ZRDraft=ZespolRealizacyjnyDraft.findOne({_id:issueUpdated.idZespolRealizacyjny});
                     if(ZRDraft){
@@ -226,8 +219,6 @@ checkingEndOfVote = function() {
                 }
             }
         }
-        else if(issueUpdated.status == KWESTIA_STATUS.OCZEKUJACA){ //DO ZROBIENIA!!!!! po miesiącu idzie do kosza
-        }
     });
 };
 
@@ -236,12 +227,13 @@ checkingDeliberationExpiration=function(){
     {$in: [
         KWESTIA_STATUS.DELIBEROWANA,
         KWESTIA_STATUS.ADMINISTROWANA,
-        KWESTIA_STATUS.STATUSOWA
+        KWESTIA_STATUS.STATUSOWA,
+        KWESTIA_STATUS.OSOBOWA
     ]}});
     kwestie.forEach(function(kwestia){
-        var date=moment(kwestia).add(1,"month").format();
+        var date=moment(kwestia.dataWprowadzenia).add(1,"month").format();
         if(date<=moment(new Date().format()))
-           Meteor.call("removeKwestia",kwestia._id);
+           Meteor.call("removeKwestiaSetReason",kwestia._id,KWESTIA_ACTION.DELIBERATION_EXPIRED);
     });
 };
 //=========================================== metody pomocnicze ===============================================//
