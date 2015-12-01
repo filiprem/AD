@@ -77,7 +77,7 @@ setInQueueToVoteMethod=function(kwestie){
         tab.push(tabKwestieSort[0]._id);
         tab.push(tabKwestieSort[1]._id);
         //znajdz kolejny nizszy priorytet:usun z tablicy o tamtym priorytecie i posortuj na nowo
-        tabKwestie= _.reject(tabKwestie,function(el){console.log(el.wartoscPriorytetu);return el.wartoscPriorytetu==tabKwestieSort[0].wartoscPriorytetu});
+        tabKwestie= _.reject(tabKwestie,function(el){return el.wartoscPriorytetu==tabKwestieSort[0].wartoscPriorytetu});
         tabKwestie =( _.sortBy(tabKwestie, "wartoscPriorytetu")).reverse();
         arrayTheSameWartoscPrior = _.where(tabKwestie, {'wartoscPriorytetu': tabKwestie[0].wartoscPriorytetu});
         tabKwestieSort = _.sortBy(arrayTheSameWartoscPrior, "dataWprowadzenia");

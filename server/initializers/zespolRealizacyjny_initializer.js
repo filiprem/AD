@@ -16,14 +16,5 @@ Meteor.startup(function(){
             kwestie:ZR.kwestie,
             czyAktywny:ZR.czyAktywny
         });
-        //Meteor.call('addZespolRealizacyjny', ZR, function (error, ret) {
-        //    if (error) {
-        //        if (typeof Errors === "undefined")
-        //            Log.error('Error: ' + error.reason);
-        //        else {
-        //            throwError(error.reason);
-        //        }
-        //    }
-        //});
     }
 });

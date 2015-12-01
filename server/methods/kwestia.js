@@ -5,7 +5,7 @@ Meteor.methods({
         var issueNumber = "";
         Meteor.call('generateNextIssueNumber', function (error, ret) {
             if (error) {
-                console.log(error.reason);
+                throwError(error.reason);
             } else {
                 issueNumber = ret;
             }
@@ -31,7 +31,6 @@ Meteor.methods({
             numerUchwały: newKwestia[0].numerUchwały,
             typ:newKwestia[0].typ,
 
-            //Marzena
             idZespolRealizacyjny: z,
             issueNumber: issueNumber
         });
@@ -42,7 +41,7 @@ Meteor.methods({
         var issueNumber = "";
         Meteor.call('generateNextIssueNumber', function (error, ret) {
             if (error) {
-                console.log(error.reason);
+                throwError(error.reason);
             } else {
                 issueNumber = ret;
             }
@@ -73,14 +72,11 @@ Meteor.methods({
         Kwestia.update({_id: id}, {$set: {idParent: id}}, {upsert: true});
         return id;
     },
-    //ta metoda ma dodatkowo idZlgaszajacego,
-    //gdy tworzymy kwestię statusową, idUser: to osoba zgłaszajaca doradcę na honorowego
-    //idZglaszającego- osoba zgłaszana
     addKwestiaStatusowa: function (newKwestia) {
         var issueNumber = "";
         Meteor.call('generateNextIssueNumber', function (error, ret) {
             if (error) {
-                console.log(error.reason);
+                throwError(error.reason);
             } else {
                 issueNumber = ret;
             }
@@ -93,7 +89,6 @@ Meteor.methods({
             wartoscPriorytetuWRealizacji: parseInt(newKwestia[0].wartoscPriorytetuWRealizacji),
             idTemat: newKwestia[0].idTemat,
             idRodzaj: newKwestia[0].idRodzaj,
-            //dataDyskusji: newKwestia[0].dataDyskusji,
             dataGlosowania: newKwestia[0].dataGlosowania,
             czyAktywny: newKwestia[0].czyAktywny = true,
             status: newKwestia[0].status,
@@ -110,17 +105,8 @@ Meteor.methods({
             issueNumber: issueNumber
         });
         Kwestia.update({_id: id}, {$set: {idParent: id}}, {upsert: true});
-        //var z = ZespolRealizacyjny.insert({idKwestia: id, nazwa: "", zespol: []});
         return id;
     },
-    updateKwestia: function (id, kwestia) {
-        Kwestia.update(id, {$set: kwestia}, {upsert: true});
-    },
-
-    updateKwestiaNoUpsert: function (id, kwestia) {
-        Kwestia.update(id, {$set: kwestia}, {upsert: false});
-    },
-//// metoda Kwestia ADMINISTROWANA
  addKwestiaADMINISTROWANA: function (newKwestia) {
      var issueNumber = "";
      Meteor.call('generateNextIssueNumber', function (error, ret) {
@@ -144,21 +130,12 @@ Meteor.methods({
             krotkaTresc: newKwestia[0].krotkaTresc,
             szczegolowaTresc: newKwestia[0].szczegolowaTresc,
             glosujacy: [],
-            //glosujacyWRealizacji:[],
             idParametr : newKwestia[0].idParametr,
             typ:newKwestia[0].typ,
             issueNumber: issueNumber
         });
         return id;
     },
-  /*  updateKwestia: function (id, kwestia) {
-        Kwestia.update(id, {$set: kwestia}, {upsert: true});
-    },
-
-    updateKwestiaNoUpsert: function (id, kwestia) {
-        Kwestia.update(id, {$set: kwestia}, {upsert: false});
-    },*/
-    //metody Kwestia OPCJA
     addKwestiaOpcja: function (newKwestiaOpcja) {
         var z = ZespolRealizacyjnyDraft.insert({idKwestia: id, nazwa: "", zespol: []});
         var issueNumber = "";
@@ -194,7 +171,6 @@ Meteor.methods({
             typ:newKwestiaOpcja[0].typ,
             issueNumber: issueNumber
         });
-        //var z = ZespolRealizacyjny.insert({idKwestia: id, nazwa: "", zespol: []});
         return id;
     },
     addKwestiaOsobowaOpcja: function (newKwestia) {
@@ -341,17 +317,14 @@ Meteor.methods({
         return id;
     },
     updateStatusDataOczekwianiaKwestii: function (id, status,dataOczekiwania) {
-        console.log("ten status");
-        console.log(status);
-        console.log(dataOczekiwania);
         var id = Kwestia.update(id, {$set: {status: status, dataRozpoczeciaOczekiwania:dataOczekiwania}}, {upsert: true});
         return id;
     },
-    addConstZR:function(id,zespol){//,{$unset:{idZespolRealizacyjny:''}}
+    addConstZR:function(id,zespol){
         var id = Kwestia.update(id, {$set: {zespol: zespol}});
         return id;
     },
-    updateKwestiaCzasLobbowana:function(id,lobbowana){//,{$unset:{idZespolRealizacyjny:''}}
+    updateKwestiaCzasLobbowana:function(id,lobbowana){
         var id = Kwestia.update(id, {$set: {lobbowana:lobbowana}});
         return id;
     },

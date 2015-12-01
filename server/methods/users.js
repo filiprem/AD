@@ -11,10 +11,8 @@ Meteor.methods({
                 fullName: newUser[0].firstName + ' ' + newUser[0].lastName,
                 address: newUser[0].address,
                 zip: newUser[0].zip,
-                // role: newUser[0].role,
                 roleDesc:  newUser[0].roleDesc,
                 language:newUser[0].language,
-                //roleDesc:  newUser[0].roleDesc,
                 rADking:newUser[0].rADking,
                 userType:newUser[0].userType,
                 city:newUser[0].city,
@@ -76,12 +74,4 @@ Meteor.methods({
             'profile.pesel': fields.pesel
         }});
     }
-    //var newUserFields={
-    //    address:userDraft.profile.address,
-    //    zip:userDraft.profile.zip,
-    //    language:userDraft.profile.language,
-    //    userType:userDraft.profile.userType,
-    //    rADking:0,
-    //    pesel:userDraft.profile.pesel
-    //};
 });

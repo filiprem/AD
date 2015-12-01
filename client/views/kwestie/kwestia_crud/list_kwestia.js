@@ -1,15 +1,12 @@
 Template.listKwestia.rendered = function () {
     var self = Template.instance();
     this.autorun(function () {
-        //a co z kwestiami, które nie pojda do glosowania???
-        //{status:{$in:[KWESTIA_STATUS.DELIBEROWANA,KWESTIA_STATUS.ADMINISTROWANA]}},
         var kwestie = Kwestia.find({
             $where: function () {
                 var typKworum=liczenieKworumZwykle();
                 if(this.idRodzaj){
                     var rodzaj=Rodzaj.findOne({_id:this.idRodzaj});
                     if(rodzaj) {
-                        //console.log(rodzaj.nazwaRodzaj);
                         if (rodzaj.nazwaRodzaj.trim() == "Statutowe")
                             typKworum = liczenieKworumStatutowe();
                     }
@@ -30,20 +27,17 @@ Template.listKwestia.rendered = function () {
                 (this.wartoscPriorytetu > 0) &&
                 (this.glosujacy.length>=typKworum) && zrCondition==true
                 &&(this.status==KWESTIA_STATUS.DELIBEROWANA || this.status==KWESTIA_STATUS.ADMINISTROWANA));
-                //tutaj trzeba uwazac! dac tylko statusy,ktore maja byc w "kwestie",bo inaczej nie bd widoczne...
             }
         }, {sort: {wartoscPriorytetu: -1,dataWprowadzenia:1}});//, limit: 3});
         var tab = [];
-        if(kwestie.count()<=3) {//jezeli tylko 3 spelniaja warunki,to git(sa 3 na liscie?,to ida wszystkie)
+        if(kwestie.count()<=3) {
             kwestie.forEach(function (item) {
                 tab.push(item._id);
             });
         }
-        else {//jezeli jest takich wiecej z tym samym priorytetem,to trzeba wybrać max 3
+        else {
             tab=setInQueueToVoteMethod(kwestie);
         }
-        console.log("tab");
-        console.log(tab);
         self.liczbaKwestiRV.set(tab);
     });
 };
@@ -97,7 +91,6 @@ Template.listKwestia.helpers({
             currentPage:Template.instance().currentPage,
             rowsPerPage: 15,
             showNavigationRowsPerPage:true,
-            //showFilter: true,
             showNavigation: 'always',
             showColumnToggles: false,
             enableRegex: false,
@@ -123,10 +116,7 @@ Template.listKwestia.helpers({
         var self = Template.instance();
         var sort = self.choosenSortRV.get();
         return {
-           // currentPage:Template.instance().currentPage,
-            //collection:"KwestiaList",
             rowsPerPage: 15,
-            //showFilter: true,
             showNavigation: 'always',
             showColumnToggles: false,
             enableRegex: false,
@@ -171,26 +161,9 @@ Template.listKwestia.helpers({
     }
 });
 
-//Template.tematKwestia.helpers({
-//    tematNazwa: function () {
-//        console.log("bum");
-//        console.log(this.idTemat);
-//        var t = Temat.findOne({_id: this.idTemat});
-//        return t? t.nazwaTemat : "techniczna systemowa";
-//    }
-//});
-//
-//Template.rodzajKwestia.helpers({
-//    rodzajNazwa: function () {
-//        var r = Rodzaj.findOne({_id: this.idRodzaj});
-//        return r? r.nazwaRodzaj: "techniczna systemowa";
-//    }
-//});
-
 Template.dataUtwKwestia.helpers({
     date: function () {
         var d = this.dataWprowadzenia;
-        //if (d) return moment(getLocalDate(d)).format("DD-MM-YYYY HH:mm:ss");
         if (d) return moment(d).format("DD-MM-YYYY HH:mm:ss");
     }
 });
@@ -275,14 +248,10 @@ kwestiaIsAllowedToInsert=function(){
 };
 
 checkTimePause=function(typePause,lastAddedTime){
-    //var newTimeToAdd=moment(getLocalDate(lastAddedIssueTime)).add(addIsssuePause,"minutes").format();
     var newTimeToAdd=moment(lastAddedTime).add(typePause,"minutes").format();
-    console.log(lastAddedTime);
-    console.log(newTimeToAdd);
     if(newTimeToAdd > moment(new Date()).format()){
         var ms = moment(newTimeToAdd,"DD/MM/YYYY HH:mm:ss").diff(moment(new Date(),"DD/MM/YYYY HH:mm:ss"));
         var s = moment.utc(ms).format("mm:ss");
-        console.log(s);
         var timeString= s.substring(0, s.indexOf(":"))+ " min, "+s.substring(s.indexOf(":")+1, s.length)+ " sek";
         return timeString ;
     }

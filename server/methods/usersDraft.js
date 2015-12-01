@@ -26,15 +26,6 @@ Meteor.methods({
         return id;
 
     },
-
-    updateUserDraft: function(currentUserId,currentUser) {
-        UsersDraft.update(currentUserId, {
-                $set: currentUser},
-            {upsert:true});
-    },
-    //removeUserDraft: function(id){
-    //    UsersDraft.update({_id:id},{$set:{'profile.czyAktywny': false,czyZrealizowany:false}});
-    //},
     removeUserDraft: function(id){
         UsersDraft.update({_id:id},{$set:{czyAktywny: false,czyZrealizowany:true}});
     },
@@ -46,9 +37,6 @@ Meteor.methods({
     },
     removeUserDraftNotZrealizowanyLicznik: function(id,licznik){
         UsersDraft.update({_id:id},{$set:{czyAktywny: false,czyZrealizowany:false,licznikKlikniec:licznik}});
-    },
-    setZrealizowanyUserDraft:function(id,realization){
-        UsersDraft.update({_id:id},{$set:{czyZrealizowany:realization}});
     },
     setZrealizowanyActivationHashUserDraft:function(id,activationLink,realization){
         UsersDraft.update({_id:id},{$set:{linkAktywacyjny:activationLink,czyZrealizowany:realization}});

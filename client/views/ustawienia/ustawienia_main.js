@@ -10,8 +10,6 @@ Template.administracjaUserMain.helpers({
                 { key: 'dataWprowadzenia', label: "Data wprowadzenia", tmpl: Template.dataUtwKwestia },
                 { key: 'kwestiaNazwa', label: "Nazwa kwesti", tmpl: Template.nazwaKwestiLink },
                 { key: 'options', label: "Opcje", tmpl: Template.lobbujZaKwestia }
-                //{key: 'status', label: "Status", tmpl: Template.statusKwestii},
-                //{key: 'options', label: "Opcje", tmpl: Template.editTypeAndTopic }
             ]
         };
     },
@@ -26,7 +24,7 @@ Template.administracjaUserMain.helpers({
                         condition=true;
                     }
                 }
-                    return(this.czyAktywny==true && condition==true && (this.status!= KWESTIA_STATUS.ZREALIZOWANA && this.status!=KWESTIA_STATUS.REALIZOWANA)) ||//dla draftów
+                    return(this.czyAktywny==true && condition==true && (this.status!= KWESTIA_STATUS.ZREALIZOWANA && this.status!=KWESTIA_STATUS.REALIZOWANA)) ||
 
                     (((this.czyAktywny == true) && ((this.status==KWESTIA_STATUS.ADMINISTROWANA) || (this.idUser==Meteor.userId()))
                     || ((this.typ==KWESTIA_TYPE.ACCESS_DORADCA
@@ -34,7 +32,7 @@ Template.administracjaUserMain.helpers({
                     || this.typ==KWESTIA_TYPE.ACCESS_HONOROWY) )
                     || this.status==KWESTIA_STATUS.OCZEKUJACA
                     || this.idZglaszajacego==Meteor.userId())
-                    && (this.status!= KWESTIA_STATUS.ZREALIZOWANA && this.status!=KWESTIA_STATUS.REALIZOWANA));//dla kwesti statusowych
+                    && (this.status!= KWESTIA_STATUS.ZREALIZOWANA && this.status!=KWESTIA_STATUS.REALIZOWANA));
             }
         });
         if(kwestie) return kwestie;
@@ -45,15 +43,12 @@ Template.administracjaUserMain.helpers({
         return ile > 0 ? true : false;
     },
     myData:function(){
-        console.log("my data");
-        console.log(Users.findOne({_id:Meteor.userId()}));
         return Users.findOne({_id:Meteor.userId()});
     },
     myKwestia:function(){
         var userDraft = UsersDraft.findOne({'profile.idUser': Meteor.userId(),czyAktywny:true});
         var kwestia=Kwestia.findOne({czyAktywny:true,
             typ:{$in:[KWESTIA_TYPE.ACCESS_HONOROWY,KWESTIA_TYPE.ACCESS_ZWYCZAJNY]},idUser:userDraft._id});
-        console.log(userDraft._id);
         return kwestia? kwestia :null;
     },
     isDoradca:function() {
@@ -63,10 +58,8 @@ Template.administracjaUserMain.helpers({
         return Meteor.user().profile.userType == USERTYPE.CZLONEK ? true : false;
     },
     kwestiaDraftExists:function(){
-        console.log("czy istnieje");
         var userDraf = UsersDraft.find({'profile.idUser': Meteor.userId(),czyAktywny:true});
         if (userDraf) {
-            console.log(userDraf.count());
             if (userDraf.count() ==0) return false;
             else return true;
         }
@@ -76,8 +69,6 @@ Template.administracjaUserMain.helpers({
 Template.lobbujZaKwestia.helpers({
     IAmOwnerKwestiaGlosowanaOrDEliberowana:function(){
         var userDraft=UsersDraft.findOne({_id:this.idUser,czyAktywny:true});
-        console.log(this.idUser);
-        console.log(userDraft);
         var condition=false;
         if(userDraft) {
             if (userDraft.profile.idUser) {
@@ -85,10 +76,6 @@ Template.lobbujZaKwestia.helpers({
                     condition = true;
             }
         }
-        console.log("uwagaaaaaaaaaaaa");
-        //console.log(this.status);
-        //console.log(condition);
-        //console.log(this.czyAktywny);
         return (this.idUser==Meteor.userId() || this.idZglaszajacego==Meteor.userId() || condition==true) && this.czyAktywny==true &&
         (this.status==KWESTIA_STATUS.GLOSOWANA ||
         this.status==KWESTIA_STATUS.DELIBEROWANA ||
@@ -107,8 +94,6 @@ Template.lobbujZaKwestia.events({
        var idKwestia=this._id;
        var kwestia=Kwestia.findOne({_id:idKwestia});
        if(kwestia.lobbowana){
-           //console.log(moment(kwestia.lobbowana).add(24,'hours').format());
-           //console.log(moment(new Date()).format());
            if(moment(kwestia.lobbowana).add(24,'hours').format() > moment(new Date()).format()){
                GlobalNotification.warning({
                    title: 'Przepraszamy',
@@ -123,7 +108,6 @@ Template.lobbujZaKwestia.events({
    }
 });
 bootboxEmail=function(idKwestia){
-    console.log("Nie była lobbowana!");
     var form=bootbox.dialog({
         message:
         '<p><b>'+'Treść email:'+'</b></p>'+
@@ -156,9 +140,6 @@ bootboxEmail=function(idKwestia){
     });
 };
 sendEmailAndNotification=function(idKwestia,emailText){
-    console.log("jest");
-    console.log(idKwestia);
-    console.log(emailText);
     if(emailText==null || emailText.trim()==''){
         GlobalNotification.error({
             title: 'Przepraszamy',
@@ -172,9 +153,6 @@ sendEmailAndNotification=function(idKwestia,emailText){
             if(!error){
                 addPowiadomienieLobbingIssueFunction(idKwestia,emailText);
                 Meteor.call("sendEmailLobbingIssue",idKwestia,emailText,Meteor.userId(),function(error){
-                    //if(!error)
-                    //    bootbox.alert("Dziękujemy, Twój email z prośbą został wysłany do wszystkich członków organizacji!", function() {
-                    //    });
                 });
             }
             else{
@@ -203,7 +181,7 @@ addPowiadomienieLobbingIssueFunction=function(idKwestia,uzasadnienie){
         };
         Meteor.call("addPowiadomienie",newPowiadomienie,function(error){
             if(error)
-                console.log(error.reason);
+                throwError(error.reason);
         })
     });
 };

@@ -69,14 +69,9 @@ jQuery.validator.addMethod("checkExistsNazwaZespoluRealizacyjnego", function (va
     return this.optional(element) || found == null;
 }, 'Zespół Realizacyjny o tej nazwie już istnieje!');
 
-//funkcja walidujaca, uzywana przy samorejestracji lub przy aplikacji na czlonka lub doradcę(tylko nowy user!!)
-//waliduje tylko wtyedy,gdy uzytkownik niezalogowany,bo gdy zalogowany,to moze aplikwoac tylko z doradcy na członka
-//a wówczas email będzie ten sam naturalnie
 jQuery.validator.addMethod("checkExistsAnyEmail", function (value, element) {
     var found = null;
-    //if (!Meteor.userId()) {
         found=checkExistsUser(value,null,null);
-    //}
     return this.optional(element) || found == null;
 }, 'Istnieje już w systemie użytkownik o podanym adresie email!');
 
@@ -123,11 +118,6 @@ jQuery.validator.addMethod("checkExistsEmailDraft", function (value, element) {
 jQuery.validator.addMethod("exactlength", function(value, element,param) {
     return this.optional(element) || value.length == param;
 }, "Wprowadź dokładnie {0} znaków.");
-
-//jQuery.validator.addMethod("identityCardValidation", function(value, element) {
-//    var filter =/^[A-Z]{3}[0-9]{6}$/;
-//    return this.optional(element) || filter.test(value);
-//}, "Niepoprawny format numer Dowodu Osobistego.");
 
 jQuery.validator.addMethod("peselValidation", function(value, element) {
     var filter =/^[0-9]{11}$/;

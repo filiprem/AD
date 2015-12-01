@@ -150,13 +150,6 @@ Meteor.publish('kwestieArchiwum', function () {
     return Kwestia.find({
         $or: [
             {czyAktywny: false},
-            //{
-            //    $and: [{dataGlosowania: {$lt: moment().format()}}, {
-            //        $where: function () {
-            //            return this.wartoscPriorytetu <= 0
-            //        }
-            //    }]
-            //},
             {status: KWESTIA_STATUS.ARCHIWALNA},
             {status: KWESTIA_STATUS.HIBERNOWANA}
         ]

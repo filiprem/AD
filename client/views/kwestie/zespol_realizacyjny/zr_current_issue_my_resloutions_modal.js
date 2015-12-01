@@ -32,9 +32,7 @@ Template.zrModalCurrentIssueMyResolutionsInner.events({
 
 
         var zr=ZespolRealizacyjny.findOne({_id:this.idZespolRealizacyjny});
-        //przepisz do kwestii członków,mimo,że jeszcze nie idzie do kosza?=to nie ,patrz->zeszyt!
         var currentIssueId=Router.current().params._id;
-        //usunięcie z zespołu członka
         var zespol= _.without(zr.zespol,Meteor.userId());
         Meteor.call("updateCzlonkowieZR",zr._id,zespol,function(error){//to FINISH
             if(error)
@@ -80,11 +78,6 @@ manageIssuesWithoutZR=function(issuesArray){
            }
         });
     });
-    //bierzemy wszystkie kwestie,które były realizowane przez ten ZR :
-    // ustwiamy na czyKAtywne=false
-    //przepisujemy zespoły-wezmiemy od tej kwesti z grupy,która ma full członków-nie!-patrz w zeszyt
-    //zarządzamy kwestiami w zależności jaki typ kwestii:access-cofnięcie uprawnień, global Params-przywrócenie starych
-    //
 };
 
 withdrawalIssueChanges=function(issue){
@@ -92,14 +85,12 @@ withdrawalIssueChanges=function(issue){
         restoratePreviousParameters(issue);
     }
     if(_.contains([KWESTIA_TYPE.ACCESS_DORADCA,KWESTIA_TYPE.ACCESS_HONOROWY,KWESTIA_TYPE.ACCESS_ZWYCZAJNY],issue.typ)){
-        //odnajdz usera
-        //usuń go
         var userDraft=UsersDraft.findOne({_id:issue.idUser});
         if(userDraft.idUser){
-            //to będzie user existing
+
         }
         else{
-            //to będzie nowy user:/-pasuje wpisywać do userDraft lub do kwestii idUSera nowo dodanego
+
         }
     }
 };

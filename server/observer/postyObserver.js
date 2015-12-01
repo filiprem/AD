@@ -29,10 +29,7 @@ Meteor.startup(function(){
 
     postyPodKwestiami.observe({
         changedAt: function(newPost, oldPost, atIndex) {
-            console.log("posty pod kwestiami observer");
             var kworum = liczenieKworumZwykle();
-            console.log("wymagane kworum");
-            console.log(kworum);
             var usersCount = newPost.glosujacy.length;
             if(newPost.wartoscPriorytetu > 0 && usersCount >= kworum) {
                 switch(newPost.postType){
@@ -47,7 +44,7 @@ Meteor.startup(function(){
                             if(!error){
                                 var kwestia=Kwestia.findOne({_id:newPost.idKwestia});
 
-                                if(kwestia.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE){//deliberowana,glosowana
+                                if(kwestia.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE){
                                     Meteor.call("setActivityParametrDraft",kwestia.idParametr,false);
                                     if(kwestia.status==KWESTIA_STATUS.ZREALIZOWANA){//TODO
 
@@ -55,8 +52,8 @@ Meteor.startup(function(){
                                 }
                                 if(kwestia.status==KWESTIA_STATUS.REALIZOWANA || kwestia.status==KWESTIA_STATUS.ZREALIZOWANA) {
                                     if (kwestia.idZespolRealizacyjny) {
-                                        if (kwestia.idZespolRealizacyjny != null)
-                                            manageZRPosts(kwestia);
+                                        //if (kwestia.idZespolRealizacyjny != null)
+                                            //manageZRPosts(kwestia);
                                     }
                                 }
                                 else if((kwestia.status==KWESTIA_STATUS.DELIBEROWANA || kwestia.status==KWESTIA_STATUS.OSOBOWA) && kwestia.typ!=KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE){//osobowa,parametry,
@@ -73,7 +70,7 @@ Meteor.startup(function(){
                         console.log("kwestia realizowana->Archiwum(bo post)");
                         var kwestia=Kwestia.findOne({_id:newPost.idKwestia});
                         Meteor.call('updateStatusKwestii', newPost.idKwestia,KWESTIA_STATUS.ARCHIWALNA,function(error){
-                            if(!error){//poprzedni status
+                            if(!error){
                                 if(kwestia.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE){//administrowana,glosowana
                                     Meteor.call("setActivityParametrDraft",kwestia.idParametr,false);
                                     if(kwestia.status==KWESTIA_STATUS.ZREALIZOWANA){//TODO
@@ -81,7 +78,7 @@ Meteor.startup(function(){
                                     }
                                 }
                                 //TODO
-                                if((kwestia.status==KWESTIA_STATUS.REALIZOWANA || kwestia.status==KWESTIA_STATUS.ZREALIZOWANA) && kwestia.typ!=KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE) {//osobowa+powiad?
+                                if((kwestia.status==KWESTIA_STATUS.REALIZOWANA || kwestia.status==KWESTIA_STATUS.ZREALIZOWANA) && kwestia.typ!=KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE) {
                                     if(kwestia.typ==KWESTIA_TYPE.BASIC) {
                                         if (kwestia.idZespolRealizacyjny) {
                                             //f (kwestia.idZespolRealizacyjny != null)
@@ -89,7 +86,7 @@ Meteor.startup(function(){
                                         }
                                     }
                                 }
-                                else if((kwestia.status==KWESTIA_STATUS.DELIBEROWANA || kwestia.status==KWESTIA_STATUS.OSOBOWA) && kwestia.typ!=KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE){//osobowa,parametry,
+                                else if((kwestia.status==KWESTIA_STATUS.DELIBEROWANA || kwestia.status==KWESTIA_STATUS.OSOBOWA) && kwestia.typ!=KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE){
                                     var zr=ZespolRealizacyjnyDraft.findOne({_id:kwestia.idZespolRealizacyjny});
                                     if(zr) {
                                         rewriteZRMembersToList(zr, kwestia);
@@ -101,11 +98,6 @@ Meteor.startup(function(){
                         });
                         break;
                 }
-            }
-            else{
-                //obsluga gdy, komentarz specjalny nie spełni kworum i prior
-                //gdy "zrealizowana"->kosz
-                //gdy "kosz","do archiwum"->nic?
             }
         }
     });

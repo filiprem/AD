@@ -18,19 +18,9 @@ Template.managePriorities.helpers({
                 return "disabled";
         }
         var kwestia=Kwestia.findOne({_id:idKwestia});
-        //var kwestia=Kwestia.findOne({_id:idParent});
-        //if(kwestia){
-        //if(kwestia.status==KWESTIA_STATUS.ZREALIZOWANA)
-            //return "disabled";
-
         var flag = false;
         if(kwestia) {
-            if (kwestia.typ == KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE) {//for GLobalPARAM->No KWESTIA OPCJE
-                //var kwestie = Kwestia.find({
-                //    czyAktywny: true,
-                //    'glosujacy.idUser': Meteor.userId(),
-                //    typ: KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE
-                //});
+            if (kwestia.typ == KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE) {
                 var globalParams=ParametrDraft.findOne({czyAktywny:true});
                 if(globalParams){
                     var kwestie = Kwestia.find({
@@ -48,10 +38,9 @@ Template.managePriorities.helpers({
                     idParent: idParent
                 });
         }
-        if(status==KWESTIA_STATUS.REALIZOWANA){//nie ma odznaczania kwestii opcji
+        if(status==KWESTIA_STATUS.REALIZOWANA){
             var kwestia=Kwestia.findOne({_id:idKwestia});
             if(kwestia) {
-                //var glosujacyId = _.pluck(kwestia.glosujacyWRealizacji, 'idUser');
                 var glosujacyUser = _.findWhere(kwestia.glosujacyWRealizacji, {'idUser': Meteor.userId()});
                 if (glosujacyUser) {
                     if (glosujacyUser.value == number) {
@@ -155,8 +144,8 @@ managePriorityKwestiaDelibGlosowana=function(ratingKwestiaId,kwestia,object,rati
 
     var flag = false;
     if (kwestieOpcje.count() > 0) {
-        for (var i = 0; i < kwestieOpcje.length; i++) {//dla kwestii opcji- z trgo chyba juz nie korzystamy!!
-            for (var j = 0; j < kwestieOpcje[i].glosujacy.length; j++) {//przechodizmy po kazdych użytkownikach,ktory zagloswoali
+        for (var i = 0; i < kwestieOpcje.length; i++) {
+            for (var j = 0; j < kwestieOpcje[i].glosujacy.length; j++) {
                 var user = kwestieOpcje[i].glosujacy[j].idUser;
                 var oddanyGlos = kwestieOpcje[i].glosujacy[j].value;
                 if (user == Meteor.userId()) {

@@ -1,5 +1,4 @@
 Meteor.methods({
-    // metody Kwestia G£ÓWNA
     addPowiadomienie: function (newPowiadomienie) {
         var id = Powiadomienie.insert({
             idOdbiorca: newPowiadomienie.idOdbiorca,

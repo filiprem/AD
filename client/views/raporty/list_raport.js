@@ -13,7 +13,6 @@ Template.listRaport.helpers({
     'settings': function () {
         return {
             rowsPerPage: 15,
-            //showFilter: true,
             showNavigation: 'always',
             showColumnToggles: false,
             enableRegex: false,
@@ -26,8 +25,6 @@ Template.listRaport.helpers({
         };
     },
     RaportListAdmin: function () {
-        console.log("list raport");
-        console.log(this._id);
         return Raport.find({idKwestia:Router.current().params._id});
     },
     email: function () {

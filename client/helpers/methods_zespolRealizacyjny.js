@@ -27,7 +27,6 @@ addCzlonekToZespolRealizacyjnyNotification=function(idUser,zespolToUpdate,number
     if(zespolToUpdate.length==2) {
         //sprawdzam czy mamy taki zespol z idącym kolejnym członkiem
         zespolToUpdate.push(idUser);
-        ///////wszystkie kwestie glosowane,czyli ZR się nie zmieni.jezeli jest glosowana,to wiadome,że ZR będzie ==3, a mojej nie bedzie,bo nie jest głosowana!
         var kwestie = Kwestia.find({
             $where: function () {
                 return (this.status==KWESTIA_STATUS.GLOSOWANA || this.status==KWESTIA_STATUS.ARCHIWALNA);
@@ -145,7 +144,6 @@ addCzlonekToZespolRealizacyjnyNotificationNew=function(idUser,zespolToUpdate,num
                 if (i == zespol.zespol.length) {
                     arrayZespolyDouble.push(zespol._id);
                     flag = true;
-                    //moze sie zdarzyc,ze bd kilka zespołów o tych samym składzie,więc dajmy je do tablicy!
                 }
             });
         }
@@ -156,7 +154,6 @@ addCzlonekToZespolRealizacyjnyNotificationNew=function(idUser,zespolToUpdate,num
         }
         //nie ma tekiego w bazie,więc sobie uzupelniamy drafta.to finish
         else {
-            //komunikat = 'Zostałeś dodany do Zespołu Realizacyjnego.Mamy już komplet';
             $("#addNazwa").modal("show");
 
             GlobalNotification.success({

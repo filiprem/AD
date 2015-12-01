@@ -3,10 +3,9 @@ Template.answerInvitation.rendered=function(){
     var kwestia=getKwestia(Router.current().params);
     var licznik=userDraft.licznikKlikniec+1;
     if(kwestia.isAnswerPositive!=null) {
-        console.log('tu weszło');
         Meteor.call("updateLicznikKlikniec", userDraft._id, licznik, function (error) {
             if (error)
-                console.log(error.reason);
+                throwError(error.reason);
         });
     }
 },
@@ -15,20 +14,13 @@ Template.answerInvitation.helpers({
         var currentRoute=Router.current().params;
         var userDraft=UsersDraft.findOne({linkAktywacyjny:currentRoute.linkAktywacyjny});
         var kwestia=getKwestia(currentRoute);
-        console.log("hiere");
-        console.log(kwestia);
         if(kwestia) {
-            //return kwestia.status==KWESTIA_STATUS.OCZEKUJACA && kwestia.czyAktywny==true && userDraft.czyAktywny==true ? true : false;
             return kwestia.isAnswerPositive==null ? true: false;
         }
     },
     timeExpired:function(){
         var kwestia=getKwestia(Router.current().params);
         var param=Parametr.findOne().czasWyczekiwaniaKwestiiSpecjalnej;
-        console.log("time");
-
-        console.log(moment(kwestia.dataRozpoczeciaOczekiwania).add("hours",param).format());
-        console.log(moment(new Date()).format());
         return (moment(kwestia.dataRozpoczeciaOczekiwania).add("hours",param).format() < moment(new Date()).format()) ? true : false;
 
     },
@@ -38,7 +30,6 @@ Template.answerInvitation.helpers({
     },
     position:function(){
         var userDraft=getUserDraftMethod(Router.current().params);
-        console.log(userDraft.profile.userType);
         if(userDraft.profile.userType==USERTYPE.HONOROWY)
         return "członka honorowego";
     },
@@ -104,14 +95,9 @@ Template.answerInvitation.events({
    },
     'click #refuse':function(e){
         e.preventDefault();
-        //kwestia idzie do kosza,przepisz ZR
-        //dodać pole reason
         var kwestia=getKwestia(Router.current().params);
         var userDraft=getUserDraftMethod(Router.current().params);
 
-        console.log("draft!!");
-        console.log(userDraft);
-        console.log(userDraft.licznikKlikniec);
         Meteor.call('removeKwestiaSetReasonAnswer', kwestia._id,KWESTIA_ACTION.INVITATION_HONOROWY_REJECTED,false,function(error) {
             if(!error) {
                 if (kwestia.idZespolRealizacyjny) {
@@ -123,22 +109,19 @@ Template.answerInvitation.events({
 
                            Meteor.call("removeUserDraftNotZrealizowanyLicznik", userDraft._id,licznik,function(error){
                                if(error)
-                                    console.log(error.reason);
+                                   throwError(error.reason);
                            });
                        }
                     });
                 }
             }
             else
-                console.log(error.reason);
+                throwError(error.reason);
         });
     }
 });
 getKwestia=function(currentRoute){
-    console.log("get");
-    console.log(currentRoute);
     var userDraft=UsersDraft.findOne({linkAktywacyjny:currentRoute.linkAktywacyjny});
-    console.log(userDraft);
     var kwestia=Kwestia.findOne({idUser:userDraft._id});
     return kwestia? kwestia: null;
 };
@@ -148,9 +131,6 @@ getUserDraftMethod=function(currentRoute){
 };
 
 applyPositiveMethod=function(kwestia){
-    console.log("apply positive");
-    console.log(kwestia);
-    console.log(kwestia.issueNumber);
     var nrUchw=kwestia.issueNumber;
     kwestia.dataRealizacji = new Date();
     kwestia.numerUchwaly = kwestia.issueNumber; //nadawanieNumeruUchwalyMethod(kwestia.dataRealizacji);
@@ -159,7 +139,6 @@ applyPositiveMethod=function(kwestia){
     if (zrDraft.idZR != null) {//jezeli draft ma id ZR( kopiuje od istniejącego ZR), to dopisz do kisty ZR tego drafta
         var ZR = ZespolRealizacyjny.findOne({_id: zrDraft.idZR});
         if(ZR) {
-            console.log("updetujemy zr istniejący");
             updateListKwestieMethod(ZR, kwestia._id);
         }
         else {
@@ -178,7 +157,7 @@ applyPositiveMethod=function(kwestia){
                 if(!error)
                     Meteor.call("setAnswerKwestiaOczekujacaNrUchwDataRealizacji",kwestia._id,true,nrUchw,new Date(),function(error){
                         if(error)
-                        console.log(error.reason);
+                            throwError(error.reason);
                     });
             });
         }
@@ -186,11 +165,6 @@ applyPositiveMethod=function(kwestia){
 };
 
 fillDataNewHonorowyBootbox=function(kwestia,email){
-    //bootbox z danymi do uzupełnienia: imie,nazwisko,miasto
-    //tutaj już następuje aktywacja konta
-    // info,ze w kolejnym mailu dostanie dane do logowania
-
-   // $("#fillDataHonorowy").modal("show");
     bootbox.dialog({
             title: "Aby uzyskać dostęp, należy uzupełnić wymagane pola.",
             closeButton:false,
@@ -225,10 +199,6 @@ fillDataNewHonorowyBootbox=function(kwestia,email){
                         var firstName = $('#firstName').val();
                         var lastName=$('#lastName').val();
                         var city=$('#city').val();
-                        console.log("dane:");
-                        console.log(firstName);
-                        console.log(lastName);
-                        console.log(city);
                         if(firstName.trim()!='' && lastName.trim()!='' && city.trim()!=''){
                             $('.successSave').css("visibility", "hidden");
                             addNewUser(firstName,lastName,city,email,kwestia);
@@ -253,10 +223,6 @@ fillDataNewHonorowyBootbox=function(kwestia,email){
     );
 };
 addNewUser=function(firstName,lastName,city,email,kwestia){
-    console.log("dane2:");
-    console.log(firstName);
-    console.log(lastName);
-    console.log(city);
     applyPositiveMethod(kwestia);
     var newUser = [
         {
@@ -275,19 +241,17 @@ addNewUser=function(firstName,lastName,city,email,kwestia){
 
     Meteor.call('addUser', newUser, function (error,ret) {
         if (error) {
-            console.log(error.reason);
+            throwError(error.reason);
         }
         else {
             var idUser=ret;
-            console.log("idUser");
-            console.log(idUser);
             Meteor.call("removeUserDraftAddNewIdUser", getUserDraftMethod(Router.current().params)._id,idUser, function (error) {
                 if (error)
-                    console.log(error.reason);
+                    throwError(error.reason);
                 else{
                     Meteor.call("sendFirstLoginData",Users.findOne({_id:idUser}),newUser[0].password,function(error){
                         if(error)
-                            console.log(error.reason);
+                            throwError(error.reason);
                     })
                 }
             });

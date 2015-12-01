@@ -33,8 +33,6 @@ Template.addNazwaModal.events({
     'click #zapiszButton': function (e) {
         e.preventDefault();
         $('#nazwaZR').css("visibility", "hidden");
-        console.log("SIEMAAA");
-        console.log(this._id);
         var idKwestia=this._id;
         var nazwa = document.getElementById('nazwaZR').value;
         var zespoly = ZespolRealizacyjny.find({czyAktywny:true});
@@ -68,8 +66,6 @@ Template.addNazwaModal.events({
                     if(zespol) {
                         var tablicaZR = zespol.zespol.slice();
                         tablicaZR.push(Meteor.userId());
-                        console.log("tablica ZRRRR");
-                        console.log(tablicaZR);
                         var newZespol={
                             nazwa:text,
                             zespol:tablicaZR

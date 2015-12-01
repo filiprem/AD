@@ -139,8 +139,6 @@ Template.discussionRating.events({
                     Log.error('Error: ' + error.reason);
                 else
                     throwError(error.reason);
-            } else {
-                console.log("Udało sie update'ować ranking");
             }
         });
 
@@ -184,8 +182,6 @@ Template.discussionRating.helpers({
 });
 
 commentIsAllowedToInsert=function(){
-    console.log("uwaga");
-    console.log(this.idKwestia.value);
     var myPosts=Posts.find({idUser:Meteor.userId(),idKwestia:this.idKwestia.value,isParent:true},{sort:{addDate:1}});
     if(myPosts.count()>0){
         var array=[];

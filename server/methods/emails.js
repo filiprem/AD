@@ -23,22 +23,14 @@ Template.email_started_voting.helpers({
         return false;
     },
     mojPriorytet: function (kwestiaId,userId) {
-        console.log("metodkaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-        console.log(kwestiaId);
-        console.log(userId);
         var kwestia = Kwestia.findOne({_id:kwestiaId});
         var myObj= _.reject(kwestia.glosujacy,function(obj){return obj.idUser!=userId});
-        console.log("my obj:");
-        console.log(myObj);
         return myObj[0] ? myObj[0].value : null;
     }
 });
 Template.email_no_realization_report.helpers({
     czlonekZR:function(idZespolRealizacyjny){
         var zr=ZespolRealizacyjny.findOne({_id:idZespolRealizacyjny});
-        //srpawdzać trzeba bedzie czy jest choć 1 członek-ale to w cronie przed wygenerowaniem powiad
-        //var zespolCount= (_.pluck(zr.zespol,'czyAktywny')).count();
-        //if(zespolCount==0) trouble
         var array=[];
         _.each(zr.zespol,function(czlonekId){
             var user=Users.findOne({_id:czlonekId});
@@ -61,7 +53,6 @@ Meteor.methods({
     },
     sendEmail: function (to, from, subject, text) {
         this.unblock();
-        console.log(from);
         Email.send({
             to: to,
             from: from,
@@ -182,20 +173,16 @@ Meteor.methods({
         Users.find({}).forEach(function(item) {
 
             if (!Roles.userIsInRole(item, ['admin']) && item.profile.userType==USERTYPE.CZLONEK) {
-                console.log(item.profile.fullName);
-                console.log("uwaga!");
                 var html = SSR.render('email_no_realization_report',{
-                    welcomeGender:recognizeSex(item),//
-                    userData:item.profile.fullName,//
-                    organizacja: parametr.nazwaOrganizacji,//
-                    krotkaTresc: kwestiaItem.krotkaTresc,//
-                    nazwaKwestii: kwestiaItem.kwestiaNazwa,//
+                    welcomeGender:recognizeSex(item),
+                    userData:item.profile.fullName,
+                    organizacja: parametr.nazwaOrganizacji,
+                    krotkaTresc: kwestiaItem.krotkaTresc,
+                    nazwaKwestii: kwestiaItem.kwestiaNazwa,
                     idZespolRealizacyjny:kwestiaItem.idZespolRealizacyjny,
-                    //idKwestii:kwestiaItem._id,
-                    //idUser: item._id,
-                    rodzaj: rodzaj,//
-                    temat: temat,//
-                    url:Meteor.absoluteUrl()+"issue_info/"+kwestiaItem._id,//
+                    rodzaj: rodzaj,
+                    temat: temat,
+                    url:Meteor.absoluteUrl()+"issue_info/"+kwestiaItem._id,
                     urlLogin:Meteor.absoluteUrl()+"account/login"//
                 });
                 Email.send({
@@ -313,8 +300,6 @@ Meteor.methods({
     },
     sendApplicationConfirmation:function(userData){
         var data=applicationEmail(userData,"confirm",null);
-        console.log("uwaagaaa");
-        console.log(Meteor.absoluteUrl());
         Email.send({
             to: data.to,
             from: data.to,
@@ -369,8 +354,6 @@ recognizeSex=function(userData){
     return welcomeGender;
 };
 applicationEmail=function(userData,emailTypeText,passw){
-    console.log("user data");
-    console.log(userData);
     var urlLogin=Meteor.absoluteUrl()+"account/login";
     var welcomeGender=recognizeSex(userData);
 
@@ -404,9 +387,6 @@ applicationEmail=function(userData,emailTypeText,passw){
     }
     else if(emailTypeText=="honorowyInvitation"){
         emailTypeText = 'email_honorowy_invitation';
-        console.log("jest link!");
-        console.log(userData);
-        console.log(userData.linkAktywacyjny);
         if(userData.linkAktywacyjny)
             url=Meteor.absoluteUrl()+"account/answer_invitation/"+userData.linkAktywacyjny;
     }
@@ -419,12 +399,8 @@ applicationEmail=function(userData,emailTypeText,passw){
     else{
        emailTypeText = 'email_application_confirmation';
         var kwestia=Kwestia.findOne({czyAktywny:true,idUser:userData._id});
-        console.log("to jest ta kwestiaa!");
-        console.log(userData._id);
-        console.log(kwestia);
         url=Meteor.absoluteUrl()+"issue_info/"+kwestia._id;
     }
-    console.log(url);
     var userName=null;
     if(userData.profile.firstName!=null && userData.profile.firstName.trim()!= '')
         userName=userData.profile.firstName+" "+userData.profile.lastName;

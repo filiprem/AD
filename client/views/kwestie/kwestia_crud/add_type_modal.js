@@ -5,7 +5,6 @@ Template.addTypeModalInner.helpers({
     topicName: function() {
         var topicId = Session.get("choosenTopic");
         if (topicId!=null){
-            //return Temat.findOne({_id: topicId}).nazwaTemat;
             return topicId;
         }
         else{
@@ -42,16 +41,6 @@ Template.addTypeModalInner.events({
                     duration: 5 // duration the notification should stay in seconds
                 });
             }else{
-                //Meteor.call('addRodzaj', type, function (error, ret) {
-                //    if (error) {
-                //        throwError(error.reason);
-                //    }
-                //    else {
-                //        Session.setPersistent("choosenTypeId", ret);
-                //        $("#addTypeModalId").modal("hide");
-                //        document.getElementById("chooseTypeBtn").disabled = false;
-                //    }
-                //});
                 Session.setPersistent("choosenType", document.getElementById("typeName").value);
                 $("#addTypeModalId").modal("hide");
             }

@@ -1,6 +1,5 @@
 Template.opcjeList.helpers({
     OpcjeList: function () {
-        //var k = Kwestia.find({czyAktywny: true, _id: {$ne: this._id}, idParent: this.idParent, status: {$ne: KWESTIA_STATUS.KOSZ}});
         var k = Kwestia.find({czyAktywny: true, idParent: this.idParent});
         return k ? k :false;
     },

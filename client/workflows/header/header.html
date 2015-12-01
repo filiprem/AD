@@ -4,7 +4,6 @@
         <div class="navbar-header">
         </div>
         <div id="navbar-collapse" class="navbar-collapse collapse">
-                {{#if hasUserAccess}}
                     {{#if isAdmin}}
                         <ul class="nav navbar-nav">
                             <li class="{{activeRouteClass 'listLanguages'}}">
@@ -75,7 +74,6 @@
                             {{/if}}
                         </ul>
                     {{/unless}}
-                {{/if}}
             <ul class="nav navbar-nav navbar-right">
                 {{#if currentUser}}
                     <li class="{{activeRouteClass 'notification_list'}} ">

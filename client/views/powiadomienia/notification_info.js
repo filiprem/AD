@@ -1,18 +1,13 @@
 Template.notificationInfo.rendered=function(){
     var powiadomienie=Powiadomienie.findOne({_id:Template.instance().data._id});
-    console.log("czy odczytany");
-    console.log(powiadomienie);
     if(powiadomienie.czyOdczytany==false && powiadomienie.powiadomienieTyp!=NOTIFICATION_TYPE.ISSUE_NO_PRIORITY)
         Meteor.call("setOdczytanePowiadomienie",powiadomienie._id,true,function(error){
             if(error)
-                console.log(error.reason);
+                throwError(error.reason);
         });
 };
 
 Template.notificationInfo.helpers({
-   notificationTopic:function(){
-       return getTopicTypeNotification(this.powiadomienieTyp,this.idNadawca,this.idKwestia);
-   },
     notificationTypeMessage:function(){
         return this.powiadomienieTyp==NOTIFICATION_TYPE.MESSAGE_FROM_USER ? true : false;
     },
@@ -130,8 +125,6 @@ Template.notificationLackOfRealizationReport.helpers({
         return rodzaj? rodzaj.nazwaRodzaj : "";
     },
     czlonekZR:function(zespol){
-        console.log("elo");
-        console.log(zespol);
         var array=[];
         _.each(zespol,function(czlonekId){
             var user=Users.findOne({_id:czlonekId});
@@ -281,8 +274,6 @@ Template.notificationVoteStarted.helpers({
     },
     mojPriorytet:function(idOdbiorca){
         var myObj= _.reject(this.kwestia.glosujacy,function(obj){return obj.idUser!=idOdbiorca});
-        console.log("my obj:");
-        console.log(myObj);
         return myObj[0] ? myObj[0].value : null;
     },
     dataGlosowania:function(){
