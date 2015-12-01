@@ -104,9 +104,9 @@ Template.listKwestia.helpers({
             noDataTemplate:Template.noData,
             filters:['customFilter'],
             fields: [
-                { key: 'dataWprowadzenia', label: "Data wprowadzenia", tmpl: Template.dataUtwKwestia },
-                { key: 'kwestiaNazwa', label: "Nazwa kwestii", tmpl: Template.nazwaKwestiLink },
-                { key: 'wartoscPriorytetu', label: "Wartosc priorytetu", tmpl: Template.priorytetKwestia },
+                { key: 'dataWprowadzenia', label: "Data", tmpl: Template.dataUtwKwestia ,sortOrder:1,sortDirection:'descending'},
+                { key: 'kwestiaNazwa', label: "Nazwa", tmpl: Template.nazwaKwestiLink },
+                { key: 'wartoscPriorytetu', label: "Priorytet", tmpl: Template.priorytetKwestia },
                 { key: 'idTemat', label: "Temat", tmpl: Template.tematKwestia },
                 { key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestia },
                 { key: 'Kworum', label: "Kworum", tmpl: Template.kworumNumber}
@@ -134,9 +134,9 @@ Template.listKwestia.helpers({
             filters: ['customFilter'],
             fields: [
                 { key: 'id', label: "Id", tmpl: Template.id },
-                { key: 'dataWprowadzenia', label: "Data wprowadzenia", tmpl: Template.dataUtwKwestia ,sortOrder:1,sortDirection:'ascending'},
-                { key: 'kwestiaNazwa', label: "Kwestia nazwa", tmpl: Template.nazwaKwestiLink },
-                { key: 'wartoscPriorytetu', label: "Wartosc priorytet", tmpl: Template.priorytetKwestia,sortOrder:0,sortDirection:'descending' },
+                { key: 'dataWprowadzenia', label: "Data", tmpl: Template.dataUtwKwestia ,sortOrder:1,sortDirection:'ascending'},
+                { key: 'kwestiaNazwa', label: "Nazwa", tmpl: Template.nazwaKwestiLink },
+                { key: 'wartoscPriorytetu', label: "Priorytet", tmpl: Template.priorytetKwestia,sortOrder:0,sortDirection:'descending' },
                 { key: 'idTemat', label: "Temat", tmpl: Template.tematKwestia },
                 { key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestia },
                 { key: 'Kworum', label: "Kworum", tmpl: Template.kworumNumber }
@@ -171,19 +171,21 @@ Template.listKwestia.helpers({
     }
 });
 
-Template.tematKwestia.helpers({
-    tematNazwa: function () {
-        var t = Temat.findOne({_id: this.idTemat});
-        return t? t.nazwaTemat : "techniczna systemowa";
-    }
-});
-
-Template.rodzajKwestia.helpers({
-    rodzajNazwa: function () {
-        var r = Rodzaj.findOne({_id: this.idRodzaj});
-        return r? r.nazwaRodzaj: "techniczna systemowa";
-    }
-});
+//Template.tematKwestia.helpers({
+//    tematNazwa: function () {
+//        console.log("bum");
+//        console.log(this.idTemat);
+//        var t = Temat.findOne({_id: this.idTemat});
+//        return t? t.nazwaTemat : "techniczna systemowa";
+//    }
+//});
+//
+//Template.rodzajKwestia.helpers({
+//    rodzajNazwa: function () {
+//        var r = Rodzaj.findOne({_id: this.idRodzaj});
+//        return r? r.nazwaRodzaj: "techniczna systemowa";
+//    }
+//});
 
 Template.dataUtwKwestia.helpers({
     date: function () {
@@ -300,6 +302,9 @@ Template.nazwaKwestiLink.helpers({
 
 Template.tematKwestia.helpers({
     'topicName': function(){
+        if(this.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE){
+            return "techniczna systemowa";
+        }
         var topic = Temat.findOne({_id: this.idTemat}).nazwaTemat;
         if(topic.length>20){
             return topic.substr(0,20)+"...";
@@ -310,6 +315,9 @@ Template.tematKwestia.helpers({
 });
 Template.rodzajKwestia.helpers({
     'typeName': function(){
+        if(this.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE){
+            return "techniczna systemowa";
+        }
         var type = Rodzaj.findOne({_id: this.idRodzaj}).nazwaRodzaj;
         if(type.length>20){
             return type.substr(0,20)+"...";

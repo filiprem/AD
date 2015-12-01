@@ -1,9 +1,10 @@
-<template name="informacjeKwestia" xmlns="http://www.w3.org/1999/html">
-    {{#if isIssueRealizowanaZrealizowana}}
+<template name="informacjeKwestia">
+    {{#if isIssueRealizowana}}
+        {{#if myselfInZR}}
         <div class="main">
             <div>
                 <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="active"><a href="#issueInfoo" aria-controls="issueInfoo" role="tab" data-toggle="tab">Szczegóły Kwestii</a></li>
+                    <li role="presentation" class="active" id="issueInfoDetails"><a href="#issueInfoo" aria-controls="issueInfoo" role="tab" data-toggle="tab">Szczegóły Kwestii</a></li>
                     <li role="presentation"><a href="#manageZRIssue" aria-controls="manageZRIssue" role="tab" data-toggle="tab">Zespół Realizacyjny</a></li>
                 </ul>
 
@@ -14,13 +15,20 @@
                     </div>
                     <div role="tabpanel" class="tab-pane" id="manageZRIssue">
                         <br />
-                        {{> issueManageZR}}
+                        {{> issueManageZR idZespolRealizacyjny=idZespolRealizacyjny}}
                     </div>
                 </div>
             </div>
          </div>
-    {{else}}
-        {{>issueDetails}}
+
+        {{else}}
+            {{>issueDetails}}
+        {{/if}}
+        {{>zrModalCurrentIssueMyResolutions
+            idZespolRealizacyjny=idZespolRealizacyjny
+        }}
+        {{else}}
+            {{>issueDetails}}
     {{/if}}
 </template>
 
@@ -29,36 +37,38 @@
         <div class="row">
             <div class="col-md-12">
                 <legend>{{kwestiaNazwa}}<small> ({{status}})</small></legend>
-                <p class="bg-info padding-15">
-                    <b>Obecni:</b> {{glosujacyCount}}<br/>
-                    {{#if kworumComplete}}
-                        <b>Kworum:</b> spełnione.<br/>
-                    {{else}}
-                        <b>Kworum:</b> brak {{textKworum}} dla uzyskania kworum.<br/>
-                    {{/if}}
-                    {{#unless isGlobalParamChange}}
-                        {{#if ZRComplete}}
-                            <b>Zespół Realizacyjny:</b> skompletowany.<br/>
+                {{#unless isRealizowana}}
+                    <p class="bg-info padding-15">
+                        <b>Obecni:</b> {{glosujacyCount}}<br/>
+                        {{#if kworumComplete}}
+                            <b>Kworum:</b> spełnione.<br/>
                         {{else}}
-                            <b>Zespół Realizacyjny:</b> brak jeszcze {{ZRText}} ZR.<br/>
+                            <b>Kworum:</b> brak {{textKworum}} dla uzyskania kworum.<br/>
                         {{/if}}
-                    {{/unless}}
-                    <br/>
-                    {{#if kwestiaInKosz}}
-                        <b>Powód odrzucenia kwestii:</b> {{reason}} <br/>
-                    {{/if}}
-                    {{#if isNotAdminOrDoradca}}
-                        {{#if mojPriorytetZero}}
-                            <br/>Wstrzymałeś się od głosu nadając tej Kwestii priorytet <b>0</b>
-                        {{else}}
-                            {{#if mojPiorytet}}
-                                <br/>Nadałeś tej Kwestii priorytet: <b>{{mojPiorytet}}</b>
+                        {{#unless isGlobalParamChange}}
+                            {{#if ZRComplete}}
+                                <b>Zespół Realizacyjny:</b> skompletowany.<br/>
                             {{else}}
-                                <br/>Nie nadałeś jeszcze tej Kwestii priorytetu
+                                <b>Zespół Realizacyjny:</b> brak jeszcze {{ZRText}} ZR.<br/>
+                            {{/if}}
+                        {{/unless}}
+                        <br/>
+                        {{#if kwestiaInKosz}}
+                            <b>Powód odrzucenia kwestii:</b> {{reason}} <br/>
+                        {{/if}}
+                        {{#if isNotAdminOrDoradca}}
+                            {{#if mojPriorytetZero}}
+                                <br/>Wstrzymałeś się od głosu nadając tej Kwestii priorytet <b>0</b>
+                            {{else}}
+                                {{#if mojPiorytet}}
+                                    <br/>Nadałeś tej Kwestii priorytet: <b>{{mojPiorytet}}</b>
+                                {{else}}
+                                    <br/>Nie nadałeś jeszcze tej Kwestii priorytetu
+                                {{/if}}
                             {{/if}}
                         {{/if}}
-                    {{/if}}
-                </p>
+                    </p>
+                {{/unless}}
             </div>
             <!--{{thisKwestia}}-->
             {{> kwestiaTopButtons
@@ -144,9 +154,11 @@
     {{>decyzjaModal}}
     {{>listZespolRealizacyjnyDoubleModal}}
     {{> GlobalNotifications}}
+
 </template>
 
 <template name="issueManageZR">
+    <input type="hidden" id="idZR" value="{{idZespolRealizacyjny}}"/>
     <legend>{{getZRName idZespolRealizacyjny zespol}}</legend>
     <br/>
     <div class="row">
@@ -159,12 +171,11 @@
             }}
         </div>
     </div>
-    {{>zrModalCurrentIssueMyResolutions
-        idZespolRealizacyjny=idZespolRealizacyjny
-    }}
+
 </template>
 
 <template name="zrOptions">
+    {{idZespolRealizacyjny}}
     <div >
         {{#if currentUser _id}}
             <a class="btn btn-default btn-xs" data-toggle="tooltip" title="Rezygnuj z udziału w Zespole Realizacyjnym" id="giveUpMembership">

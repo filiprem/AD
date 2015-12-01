@@ -14,7 +14,7 @@ Template.opcjeList.helpers({
             fields: [
                 { key: 'dataWprowadzenia', label: "Data wprowadzenia", tmpl: Template.dataUtwKwestia },
                 { key: 'kwestiaNazwa', label: "Kwestia nazwa", tmpl: Template.opcjeNazwaKwestiLink },
-                { key: 'wartoscPriorytetu', label: "Wartosc priorytetu", tmpl: Template.priorytetKwestia },
+                { key: 'wartoscPriorytetu', label: "Wartosc priorytetu", tmpl: Template.priorytetKwestia,sortOrder:1,sortDirection:'descending' },
                 { key: 'idTemat', label: "Temat", tmpl: Template.tematKwestia },
                 { key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestia },
                 { key: 'status', label: "Status", tmpl: Template.statusKwestia }

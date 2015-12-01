@@ -141,7 +141,6 @@
                 {{/with}}
             {{/if}}
             <br /><br />
-            Logowanie do systemu: <a href="{{pathFor 'home'}}"> Zaloguj</a>
     {{/with}}
 </template>
 
@@ -156,9 +155,7 @@
         {{#with actualUserDraft this.idUserDraft}}
             <a href={{pathFor 'answer_invitation'}}>tutaj</a>.<br/>
         {{/with}}
-
         <br /><br />
-        Logowanie do systemu: <a href="{{pathFor 'home'}}"> Zaloguj</a>
     {{/with}}
 </template>
 
@@ -201,6 +198,9 @@
             Dziękujemy za głosowanie!<br/>
             <b>Nadany priorytet:</b> {{mojPriorytet idOdbiorca}}<br/>
             Możesz jeszcze zmienić jego wielkość zanim zakończy się głosowanie.<br/><br/>
+            {{#with actualKwestia this.idKwestia}}
+                <b><a href="{{pathFor 'informacjeKwestia'}}">Link do Kwestii</a></b><br/>
+            {{/with}}
         {{else}}
             {{#with actualKwestia this.idKwestia}}
                 <b>Nie zagłosowałaś/eś jeszcze w tej Kwestii, zapraszamy: <a href="{{pathFor 'informacjeKwestia'}}">
@@ -214,7 +214,6 @@
 
         Jest to automatyczna informacja z systemu AD {{organizacja}}<br/>
         Nie odpowiadaj na nią.<br/>
-        Logowanie do systemu: <a href="{{urlLogin}}">Zaloguj</a><br/>
     {{/with}}
 </template>
 

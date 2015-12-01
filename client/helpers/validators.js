@@ -135,6 +135,25 @@ jQuery.validator.addMethod("peselValidation", function(value, element) {
     return this.optional(element) || filter.test(value);
 }, "Niepoprawny format Numeru PESEL.");
 
+jQuery.validator.addMethod("peselValidation2", function(value, element) {
+    var found=null;
+    var wagi = [9,7,3,1,9,7,3,1,9,7];
+    var suma = 0;
+    for(var i=0;i < wagi.length; i++)
+    {
+        suma+=(parseInt(value.substring(i,i+1),10)*wagi[i]);
+    }
+    suma=suma % 10;
+    var cyfraKontr = parseInt(value.substring(10,11),10);
+    console.log(suma);
+    console.log(cyfraKontr);
+    if(suma==cyfraKontr)
+        found=false;
+    else found ==null;
+    console.log(found);
+    return this.optional(element) || found == false;
+}, "Nieprawidłowy Numer PESEL");
+
 jQuery.validator.addMethod("kodPocztowyValidation", function(value, element) {
     var filter =/^[0-9]{2}-[0-9]{3}$/;
     return this.optional(element) || filter.test(value);

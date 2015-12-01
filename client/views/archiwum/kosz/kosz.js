@@ -7,29 +7,19 @@ Template.kosz.helpers({
             showColumnToggles: false,
             enableRegex: false,
             fields: [
-                //{
-                //    key: 'id',
-                //    label: Template.listKwestiaColumnLabel,
-                //    labelData: {
-                //        title: "id",
-                //        text: "Id"
-                //    },
-                //    tmpl: Template.id
-                //},
-                { key: 'dataGlosowania', label: Template.listKwestiaColumnLabel, tmpl: Template.dataKoniecKwestia,sortOrder:0,sortDirection:'ascending' },
-                { key: 'kwestiaNazwa', label: Template.listKwestiaColumnLabel, tmpl: Template.nazwaKwestiLink },
-                { key: 'wartoscPriorytetu', label: Template.listKwestiaColumnLabel, tmpl: Template.priorytetKwestia ,sortOrder:1,sortDirection:'descending'},
+                {
+                    key: 'id',
+                    label: Template.listKwestiaColumnLabel,
+                    labelData: {
+                        title: "id",
+                        text: "Id"
+                    },
+                    tmpl: Template.id
+                },
+                { key: 'kwestiaNazwa', label: "Nazwa", tmpl: Template.nazwaKwestiLink },
+                { key: 'wartoscPriorytetu', label: "Priorytet", tmpl: Template.priorytetKwestia ,sortOrder:1,sortDirection:'descending'},
                 { key: 'idTemat', label: "Temat", tmpl: Template.tematKwestia },
                 { key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestia }
-                //{
-                //    key: 'dataGlosowania',
-                //    label: Template.listKwestiaColumnLabel,
-                //    labelData: {
-                //        title: "Data zakończenia głosowania",
-                //        text: "Finał"
-                //    },
-                //    tmpl: Template.dataGlKwestia
-                //}
             ]
         };
     },

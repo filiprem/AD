@@ -1,156 +1,121 @@
 Template.editParametrModalInner.rendered=function(){
-    $("#parametrFormEditModal").validate({
-        rules:{
-            voteDuration: {
-                min: 0,
-                number: true
-            },
-            voteQuantity: {
-                min: 0,
-                number: true
-            },
-            czasWyczekiwaniaKwestiiSpec: {
-                min: 0,
-                number: true
-            },
-            addIssuePause: {
-                min: 0,
-                number: true
-            },
-            addCommentPause: {
-                min: 0,
-                number: true
-            },
-            addReferencePause: {
-                min: 0,
-                number: true
-            },
-            okresSkladaniaRR:{
-                min:1,
-                number:true
-            }
-        },
-        messages: {
-            nazwaOrganizacji: {
-                required: fieldEmptyMessage()
-            },
-            terytorium: {
-                required: fieldEmptyMessage()
-            },
-            kontakty: {
-                required: fieldEmptyMessage()
-            },
-            regulamin: {
-                required: fieldEmptyMessage()
-            },
-            voteDuration: {
-                required: fieldEmptyMessage(),
-                min: positiveNumberMessage()
-            },
-            voteQuantity: {
-                required: fieldEmptyMessage(),
-                min: positiveNumberMessage()
-            },
-            czasWyczekiwaniaKwestiiSpec:{
-                required:fieldEmptyMessage(),
-                min:positiveNumberMessage()
-            },
-            addIssuePause: {
-                required: fieldEmptyMessage(),
-                min: positiveNumberMessage()
-            },
-            addCommentPause: {
-                required: fieldEmptyMessage(),
-                min: positiveNumberMessage()
-            },
-            addReferencePause: {
-                required: fieldEmptyMessage(),
-                min: positiveNumberMessage()
-            },
-            okresSkladaniaRR:{
-                required: fieldEmptyMessage(),
-                min: positiveNumberMessage()
-            }
-        },
-        highlight: function (element) {
-            highlightFunction(element);
-        },
-        unhighlight: function (element) {
-            unhighlightFunction(element);
-        },
-        errorElement: 'span',
-        errorClass: 'help-block',
-        errorPlacement: function (error, element) {
-            validationPlacementError(error, element);
-        }
-    })
+    console.log("render!");
+    $('.successBtn').css("visibility", "visible");
 },
 Template.editParametrModalInner.helpers({
     parametrInScope: function () {
         return Session.get('chosenParameterSession');
     },
-    NoStatutKontaktInput:function(parameterName){
-        console.log("check");
-        return parameterName=="Statut" || parameterName=="Kontakty" ? false :true;
+    nazwaOrganizacjiInput:function(parameterName){
+        return parameterName=="Nazwa organizacji" ? true :false;
+    },
+    terytoriumInput:function(parameterName){
+        return parameterName=="Terytorium" ? true :false;
+    },
+    kontaktInput:function(parameterName){
+        return parameterName=="Kontakty" ? true :false;
+    },
+    statutInput:function(parameterName){
+        return parameterName=="Statut" ? true :false;
+    },
+    voteDurationInput:function(parameterName){
+        return parameterName=="Czas głosowania(w godzinach)" ? true :false;
+    },
+    czasWyczekiwaniaKwestiiSpecjalnejInput:function(parameterName){
+        return parameterName=="Czas wyczekiwania kwestii i komentarzy specjalnych (w dniach)" ? true :false;
+    },
+    editVoteQuantityInput:function(parameterName){
+        return parameterName=="Maksymalna ilość kwestii w głosowaniu" ? true :false;
+    },
+    editIssuePauseInput:function(parameterName){
+        return parameterName=="Częstotliwość dodania kwestii (w minutach)" ? true :false;
+    },
+    editCommentPauseInput:function(parameterName){
+        return parameterName=="Częstotliwość dodania komentarza (w minutach)" ? true :false;
+    },
+    editReferencePauseInput:function(parameterName){
+        return parameterName=="Częstotliwość dodania odniesienia (w minutach)" ? true :false;
+    },
+    editRRDurationInput:function(parameterName){
+        return parameterName=="Okres składania Raportów Realizacyjnych (w dniach)" ? true :false;
     }
 });
 
 Template.editParametrModalInner.events({
     'click .btn-danger': function (e) {
         e.preventDefault();
-        console.log("tu weszło");
         Session.setPersistent("chosenParameterSession",null);
         $("#editParametrMod").modal("hide");
     },
-    'click .btn-success':function(e){
-        console.log("success");
-        e.preventDefault();
-        var session=Session.get("chosenParameterSession");
-        console.log(session.name);
-        console.log(session.title);
-        console.log(session.value);
-        console.log();
+    'submit form':function(e){
+        console.log("success");//submit form
+        e.preventDefault();//click .btn-success
+        if ($('#parametrFormEditModal').valid()) {
+            $('.successBtn').css("visibility", "hidden");
+            var odp = checkIssueGlobalParamExists();
+            if (odp == true) {
+                bootbox.alert("Przepraszamy, istnieje już kwestia dotycząca zmiany parametru globalnego!");
+                $("#editParametrMod").modal("hide");
+                document.getElementById("parametrFormEditModal").reset();
+            }
+            else {
+                var session = Session.get("chosenParameterSession");
+                console.log(session.name);
+                console.log(session.title);
+                console.log(session.value);
+                console.log();
 
-        var val=session.name;
-        var newValue=document.getElementById("param").value;
-        console.log(newValue);
-        console.log(document.getElementById("param").name);
-        if(newValue==null || newValue.trim()==""){
-            GlobalNotification.error({
-                title: 'Przepraszamy',
-                content: "Pole "+ session.title+ " nie może być puste!",
-                duration: 3 // duration the notification should stay in seconds
-            });
+                var val = session.name;
+                var newValue = document.getElementById("param").value;
+                console.log(newValue);
+                console.log(document.getElementById("param").name);
+                if (newValue == null || newValue.trim() == "") {
+                    GlobalNotification.error({
+                        title: 'Przepraszamy',
+                        content: "Pole " + session.title + " nie może być puste!",
+                        duration: 3 // duration the notification should stay in seconds
+                    });
+                }
+                else {
+                    parametrPreview(session.name, session.title, session.value, newValue);
+                }
+            }
+            $('.successBtn').css("visibility", "visible");
         }
-        else
-            parametrPreview(session.name,session.title,session.value,newValue);
+
     }
 });
 
 parametrPreview=function(paramName,title,oldValue,newValue){
     bootbox.dialog({
-        message:
-        '<p class="bg-warning padding-15 color-red"><b>'+'Zamierzasz dokonać następujących zmian:'+'</b></p>'+
-        '<p>'+'Proponuję zmianę zawartości w '+'<b>'+title.toUpperCase()+'</b>'+' z wartości'+'</p>'+
-        '<p>'+oldValue+'</p>'+
-        '<p>'+'na'+'</p>'+
-        '<p>'+newValue+'</p>',
+        message: '<p class="bg-warning padding-15 color-red"><b>' + 'Zamierzasz dokonać następujących zmian:' + '</b></p>' +
+        '<p>' + 'Proponuję zmianę zawartości w ' + '<b>' + title.toUpperCase() + '</b>' + ' z wartości' + '</p>' +
+        '<p>' + oldValue + '</p>' +
+        '<p>' + 'na' + '</p>' +
+        '<p>' + newValue + '</p>',
         title: "Uwaga",
-        closeButton:false,
+        closeButton: false,
         buttons: {
             success: {
                 label: "Zgadzam się",
-                className: "btn-success",
-                callback: function() {
-                    $('.btn-success').css("visibility", "hidden");
-                    createIssueChangeParam(paramName,title,oldValue,newValue);
+                className: "btn-success successBtn",
+                callback: function () {
+                    $('.successBtn').css("visibility", "hidden");
+                    var odp=checkIssueGlobalParamExists();
+                    if(odp==true){
+                        bootbox.alert("Przepraszamy, istnieje już kwestia dotycząca zmiany parametru globalnego!");
+                        $("#editParametrMod").modal("hide");
+                    }
+                    else
+                        createIssueChangeParam(paramName, title, oldValue, newValue);
+                    $('.successBtn').css("visibility", "visible");
                 }
             },
             danger: {
                 label: "Rezygnuję",
                 className: "btn-danger",
-                callback: function() {
-                    $('.btn-success').css("visibility", "visible");
+                callback: function () {
+                    $('.btn-success2').css("visibility", "visible");
                 }
             }
         }
@@ -201,40 +166,44 @@ createIssueChangeParam=function(paramName,title,oldValue,newValue){
         okresSkladaniaRR:okresSkladaniaRR
     };
     console.log(addParamDraft);
-    Meteor.call('addParametrDraft', addParamDraft, function (error,ret) {
-        if (!error) {
-            var dataParams={
-                title:title.toUpperCase(),
-                oldValue:oldValue,
-                newValue:newValue
-            }
-            var newKwestia = [
-                {
-                    idUser: Meteor.userId(),
-                    dataWprowadzenia: new Date(),
-                    kwestiaNazwa: 'Propozycja zmiany parametru globalnego  przez ' +Meteor.user().profile.firstName +"  "+ Meteor.user().profile.lastName ,
-                    wartoscPriorytetu: 0,
-                    dataGlosowania: null,
-                    krotkaTresc: 'Propozycja zmiany parametrów globalnego' ,
-                    szczegolowaTresc: dataParams,
-                    isOption: false,
-                    status: KWESTIA_STATUS.ADMINISTROWANA,
-                    idParametr : ret,
-                    typ:KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE
-                }];
+    var odp=checkIssueGlobalParamExists();
+    var params=ParametrDraft.find({czyAktywny:true});
+    if(odp==false && params.count()<=1) {
+        Meteor.call('addParametrDraft', addParamDraft, function (error, ret) {
+            if (!error) {
+                var dataParams = {
+                    title: title.toUpperCase(),
+                    oldValue: oldValue,
+                    newValue: newValue
+                }
+                var newKwestia = [
+                    {
+                        idUser: Meteor.userId(),
+                        dataWprowadzenia: new Date(),
+                        kwestiaNazwa: 'Propozycja zmiany parametru globalnego  przez ' + Meteor.user().profile.firstName + "  " + Meteor.user().profile.lastName,
+                        wartoscPriorytetu: 0,
+                        dataGlosowania: null,
+                        krotkaTresc: 'Propozycja zmiany parametrów globalnego',
+                        szczegolowaTresc: dataParams,
+                        isOption: false,
+                        status: KWESTIA_STATUS.ADMINISTROWANA,
+                        idParametr: ret,
+                        typ: KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE
+                    }];
 
-            Meteor.call('addKwestiaADMINISTROWANA', newKwestia, function (error,ret) {
-               if(error)
-                console.log(error.reason);
-                else {
-                   addPowiadomienieGlobalneFunction(ret);
-                   Meteor.call("sendEmailAddedIssue", ret);
-               }
-            });
-        }
-    });
-    Session.setPersistent("chosenParameterSession",null);
-    $("#editParametrMod").modal("hide");
+                Meteor.call('addKwestiaADMINISTROWANA', newKwestia, function (error, ret) {
+                    if (error)
+                        console.log(error.reason);
+                    else {
+                        addPowiadomienieGlobalneFunction(ret);
+                        Meteor.call("sendEmailAddedIssue", ret);
+                    }
+                });
+            }
+        });
+        Session.setPersistent("chosenParameterSession", null);
+        $("#editParametrMod").modal("hide");
+    }
 };
 
 addPowiadomienieGlobalneFunction=function(idKwestia){
@@ -258,4 +227,10 @@ addPowiadomienieGlobalneFunction=function(idKwestia){
         })
     });
 
+};
+
+checkIssueGlobalParamExists=function(){
+    var kwestie=Kwestia.find({typ:KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE, czyAktywny:true,
+        status:{$nin:[KWESTIA_STATUS.ZREALIZOWANA,KWESTIA_STATUS.ARCHIWALNA]}});
+    return kwestie.count()>0? true : false;
 };

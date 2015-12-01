@@ -65,5 +65,6 @@ Template.listZespolRealizacyjnyModalInner.events({
             $('#powolajZR').css("visibility", "hidden");
             powolajZRFunction(Session.get("idKwestia"),this._id);
         }
+        $('#powolajZR').css("visibility", "visible");
     }
 });

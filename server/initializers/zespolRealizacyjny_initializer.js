@@ -1,6 +1,7 @@
 Meteor.startup(function(){
     var ZR =[
     {
+        "_id": "jjXKur4qC5ZGPQkgN",
         "nazwa": "Zespół Realizacyjny ds. Osób",
         "zespol": [],
         "kwestie":[],

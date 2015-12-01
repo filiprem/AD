@@ -10,10 +10,10 @@ Template.realizacjaTab1.helpers({
                 { key: 'id', label: "Id", tmpl: Template.id },
                 { key: 'dataRealizacji', label: "Data realizacji", tmpl: Template.dataRealizKwestia },
                 { key: 'numerUchwaly', label: "Numer uchwały", tmpl: Template.numerUchwKwestia },
-                { key: 'kwestiaNazwa', label: "Kwestia nazwa", tmpl: Template.nazwaKwestiLink },
+                { key: 'kwestiaNazwa', label: "Nazwa", tmpl: Template.nazwaKwestiLink },
                 { key: 'idTemat', label: "Temat", tmpl: Template.tematKwestia },
                 { key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestia },
-                { key: 'raport', label: "Raport", tmpl: Template.statusKwestii },
+                { key: 'raport', label: "Raport", tmpl: Template.raport },
                 { key: 'options', label: "Opcje", tmpl: Template.editColumnRealization }
             ]
         };
@@ -110,6 +110,56 @@ Template.numerUchwKwestia.helpers({
 
 Template.listKwestiaRealzacjaColumnLabel.rendered = function () {
     $('[data-toggle="tooltip"]').tooltip();
-}
+};
+
+Template.raport.helpers({
+    reportCurrentDurationExists:function(raporty){
+    var raportId= _.last(raporty);
+    var issue=Kwestia.findOne({_id:this._id});
+    if(raportId==null)
+        return false;
+    else{
+        var report=Raport.findOne({_id: raportId});
+        return report.dataUtworzenia> _.last(issue.listaDatRR) ? true : false;_
+        }
+    },
+    currentReport:function(raporty){
+        var raport= _.first(raporty.reverse());
+        return Raport.findOne({_id:raport});
+    },
+    hasZR:function(){
+        var issue=Kwestia.findOne({_id:this._id});
+        if(issue){
+            if(issue.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE)
+                return false;
+            else return true;
+        }
+    }
+});
+Template.raport.events({
+    'click #showReport':function(e){
+        e.preventDefault();
+        lackOfRealizatonReport();
+    }
+});
+lackOfRealizatonReport=function(){
+    GlobalNotification.error({
+    title: 'Uwaga',
+    content: "Brak aktualnego Raportu Realizacyjnego",
+    duration: 3 // duration the notification should stay in seconds
+    });
+};
+checkRRExists=function(raporty,param){
+    var previousCheck = moment(new Date()).subtract(param, "minutes").format();
+    var timeNow = moment(new Date()).format();
+    var reports = Raport.find({
+        _id: {$in: raporty},
+        dataUtworzenia: {
+            $gte: previousCheck,
+            $lt: timeNow
+       }
+   });
+    return reports;
+};
 
 

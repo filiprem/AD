@@ -144,7 +144,7 @@ manageZRMethod=function(newKwestia){//przpisanie ,gdy idzie do kosza a ma ZR
         });
         console.log(kwestie);
         //jezeli bylem tylko ja,set false,o ile to nnie jestjest zr ds osób
-        if(kwestie.length==0 && zespolRealizacyjny._id!=ZespolRealizacyjny.findOne()._id){
+        if(kwestie.length==0 && zespolRealizacyjny._id!=ZespolRealizacyjny.findOne({_id:"jjXKur4qC5ZGPQkgN"})._id){
             Meteor.call("updateKwestieZRChangeActivity", zespolRealizacyjny._id, kwestie,false, function (error) {
                 if (error)
                     console.log(error.reason);

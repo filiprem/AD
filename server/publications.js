@@ -88,9 +88,10 @@ Meteor.publish('parametr', function () {
     return Parametr.find({});
 });
 
-Meteor.publish('parametrDraft', function () {
-    return ParametrDraft.find({});
+Meteor.publish('activeParametrDraft', function () {
+    return ParametrDraft.find({czyAktywny:true});
 });
+
 
 // RAPORTY
 

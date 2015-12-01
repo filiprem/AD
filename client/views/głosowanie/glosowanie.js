@@ -8,20 +8,11 @@ Template.glosowanie.helpers({
             enableRegex: false,
             fields: [
                 { key: 'id', label: "Id", tmpl: Template.id },
-                { key: 'dataGlosowania', label: "Data glosowanie", tmpl: Template.dataGlosowaniaKwestia },
-                { key: 'kwestiaNazwa', label: "Kwestia nazwa", tmpl: Template.nazwaKwestiLink },
-                { key: 'wartoscPriorytetu', label: "Wartosc priorytetu", tmpl: Template.priorytetKwestia },
+                { key: 'dataGlosowania', label: "Data glosowanie", tmpl: Template.dataGlosowaniaKwestia ,sortOrder:0,sortDirection:'ascending'},
+                { key: 'kwestiaNazwa', label: "Nazwa", tmpl: Template.nazwaKwestiLink },
+                { key: 'wartoscPriorytetu', label: "Priorytet", tmpl: Template.priorytetKwestia ,sortOrder:1,sortDirection:'descending'},
                 { key: 'idTemat', label: "Temat", tmpl: Template.tematKwestia},
                 { key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestia}
-                //{
-                //    key: 'dataGlosowania',
-                //    label: Template.listKwestiaColumnLabel,
-                //    labelData: {
-                //        title: "Data zakończenia głosowania",
-                //        text: "Finał"
-                //    },
-                //    tmpl: Template.dataGlKwestia
-                //}
             ]
         };
     },

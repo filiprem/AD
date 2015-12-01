@@ -1,5 +1,6 @@
-Template.zrModalCurrentIssueMyResolutions.helpers({
-});
+Template.zrModalCurrentIssueMyResolutionsInner.rendered=function(){
+    document.getElementById("agreeButton").disabled=false;
+};
 
 Template.zrModalCurrentIssueMyResolutionsInner.helpers({
     'settings': function () {
@@ -17,40 +18,56 @@ Template.zrModalCurrentIssueMyResolutionsInner.helpers({
         };
     },
     IssuesList: function(){
-        console.log(this.idZespolRealizacyjny);
-        var zr=ZespolRealizacyjny.findOne({_id:this.idZespolRealizacyjny});
-        console.log(zr);
-        console.log(zr.kwestie);
-        var issues=Kwestia.find({_id:{$in:zr.kwestie},czyAktywny:true});
-        console.log(issues.count());
+        var zr = ZespolRealizacyjny.findOne({_id: this.idZespolRealizacyjny});
+        var issues = Kwestia.find({_id: {$in: zr.kwestie}, czyAktywny: true});
         return issues;
     }
 });
 
 Template.zrModalCurrentIssueMyResolutionsInner.events({
-    'click .btn-success':function(e){
+    'click #agreeButton':function(e){
         e.preventDefault();
+        document.getElementById("agreeButton").disabled=true;
+        $("#zrCurrentIssueMyResolutions").modal("hide");
+
+
         var zr=ZespolRealizacyjny.findOne({_id:this.idZespolRealizacyjny});
-        console.log(zr);
         //przepisz do kwestii członków,mimo,że jeszcze nie idzie do kosza?=to nie ,patrz->zeszyt!
         var currentIssueId=Router.current().params._id;
         //usunięcie z zespołu członka
         var zespol= _.without(zr.zespol,Meteor.userId());
-        console.log("new zespół");
-        console.log(zespol);
-        Meteor.call("updateCzlonkowieZR",zr._id,zespol,function(error){
+        Meteor.call("updateCzlonkowieZR",zr._id,zespol,function(error){//to FINISH
             if(error)
                 throwError(error.reason);
             else{
-                if(zr.zespol.length==1) {//jezeli już nie ma nikogo w realizacjii
-                    manageIssuesWithoutZR(zr.kwestie);
+                var zrList=ZespolRealizacyjnyDraft.find({idZR:zr._id});
+                var array=[];
+                zrList.forEach(function(zr){
+                    array.push(zr._id);
+                });
+                var allIssues=Kwestia.find({
+                    czyAktywny:true,
+                    status:{$in:[
+                        KWESTIA_STATUS.GLOSOWANA,
+                        KWESTIA_STATUS.OSOBOWA,
+                        KWESTIA_STATUS.OCZEKUJACA,
+                        KWESTIA_STATUS.DELIBEROWANA]},
+                    _id:{$nin:[currentIssueId]},
+                    idZespolRealizacyjny:{$in:array}
+                });
+                if(allIssues.count()>0){
+                    var newZRList=[];
+                    allIssues.forEach(function(issue){
+                        newZRList.push(issue.idZespolRealizacyjny);
+                    });
+                    var zrCur=ZespolRealizacyjnyDraft.find({_id:{$in:newZRList}});
+                    zrCur.forEach(function(zrItem){
+                       Meteor.call("updateCzlonkowieNazwaZRDraft",zrItem._id,zespol,zr.nazwa);
+                    });
                 }
-                //ustawiamy ZR na czy aktywny=false;
-                Meteor.call("removeZespolRealizacyjny",zr._id);
+                document.getElementById("agreeButton").disabled=false;
             }
         });
-
-        $("#zrCurrentIssueMyResolutions").modal("hide");
     }
 });
 

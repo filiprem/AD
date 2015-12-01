@@ -39,11 +39,9 @@
 </template>
 
 <template name="raport">
-    {{this.idKwestia}}
     {{#if hasZR}}
         {{#if reportCurrentDurationExists raporty}}
             {{#with currentReport raporty}}
-                {{this.tytul}}
                 <a href="{{pathFor 'informacjeRaport'}}">Pokaż</a>
             {{/with}}
         {{else}}

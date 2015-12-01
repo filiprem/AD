@@ -55,6 +55,8 @@ Template.decyzjaModalInner.events({
         $('#nowyZRButton').css("visibility", "hidden");
         $('#istniejacyZRButton').css("visibility", "hidden");
         $("#listZespolRealizacyjnyDouble").modal("show");
+        $('#nowyZRButton').css("visibility", "visible");
+        $('#istniejacyZRButton').css("visibility", "visible");
         //if(isUserInZRNotification(Session.get("zespolRealizacyjnyDouble"))==false){//ttuaj chyba trzeba przekeić tamtą metodę z kwestii!!??cos tu nie działa!!!BD POTRZEBNE!
             //jeśli ma uprawnienia,to dać styl pusty
             //$("#modalBody").attr('disabled','disabled');
@@ -75,6 +77,7 @@ Template.decyzjaModalInner.events({
         $('#nowyZRButton').css("visibility", "hidden");
         $('#istniejacyZRButton').css("visibility", "hidden");
         $('#addNazwa').modal('show');
+        $('#nowyZRButton').css("visibility", "visible");
         //Session.setPersistent("zespolRealizacyjnyDouble",null);
     }
 });

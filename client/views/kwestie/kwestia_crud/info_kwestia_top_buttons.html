@@ -1,11 +1,13 @@
 <template name="kwestiaTopButtons">
     <div class="col-md-12">
         {{#if isRealizowanaNieaktywny status czyAktywny}}
-            {{#with actualIssue idKwestia}}
-                <a href="{{pathFor 'listRaport'}}" type="button" class="btn pull-left" style="background-color: darkgrey" >
-                    <span class="fa fa-list-alt"></span> Lista RR
-                </a>
-            {{/with}}
+            {{#unless isGlobalParams typ}}
+                {{#with actualIssue idKwestia}}
+                    <a href="{{pathFor 'listRaport'}}" type="button" class="btn pull-left" style="background-color: darkgrey" >
+                        <span class="fa fa-list-alt"></span> Lista RR
+                    </a>
+                {{/with}}
+            {{/unless}}
         {{/if}}
         <div class="btn-toolbar pull-right" role="toolbar" aria-label="...">
             <div class="btn-group" role="group" aria-label="...">
@@ -14,11 +16,13 @@
                     <span class="fa fa-arrow-left"></span> Powrót
                 </button>
                 {{#if isRealizowanaNieaktywny status czyAktywny}}
-                    {{#if isInZR idZespolRealizacyjny}}
-                        <button id="addRealizationReportClick" name="{{idKwestia}}" class="btn btn-success" {{hasUserRights idKwestia}}>
-                            <span class="fa fa-check-circle-o"></span>Raport Realizacyjny
-                        </button>
-                    {{/if}}
+                    {{#unless isGlobalParams typ}}
+                        {{#if isInZR idZespolRealizacyjny}}
+                            <button id="addRealizationReportClick" name="{{idKwestia}}" class="btn btn-success" {{hasUserRights idKwestia}}>
+                                <span class="fa fa-check-circle-o"></span>Raport Realizacyjny
+                            </button>
+                        {{/if}}
+                    {{/unless}}
                 {{/if}}
                 {{#unless isKwestiaAccessOrChangeParams typ status czyAktywny}}
                    {{#unless isRealizowanaNieaktywny status czyAktywny}}

@@ -18,6 +18,9 @@ Template.kwestiaTopButtons.helpers({
     isRealizowanaNieaktywny:function(status,czyAktywny){
         return (status==KWESTIA_STATUS.REALIZOWANA || status==KWESTIA_STATUS.ZREALIZOWANA) && czyAktywny==true ? true :false;
     },
+    isGlobalParams:function(typ){
+        return typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE ? true : false;
+    },
     isInZR:function(idZR){
         var zr=ZespolRealizacyjny.findOne({_id:idZR});
         return _.contains(zr.zespol,Meteor.userId()) ? true : false;
@@ -34,6 +37,7 @@ Template.kwestiaTopButtons.helpers({
             typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE ||
             status==KWESTIA_STATUS.GLOSOWANA ||
             status==KWESTIA_STATUS.ZREALIZOWANA ||
+            status==KWESTIA_STATUS.ARCHIWALNA ||
             czyAktywny==false ? true : false;
     },
     isKwestiaAccessOrChangeParamsRealizacja:function(typ,status,czyAktywny){
@@ -43,8 +47,9 @@ Template.kwestiaTopButtons.helpers({
         typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE) && (status==KWESTIA_STATUS.REALIZOWANA || status==KWESTIA_STATUS.ZREALIZOWANA) && czyAktywny==false) ||
         status==KWESTIA_STATUS.GLOSOWANA ||
         //status==KWESTIA_STATUS.ZREALIZOWANA ||
-        status==KWESTIA_STATUS.ADMINISTROWANA ||
+        //status==KWESTIA_STATUS.ADMINISTROWANA ||
         status==KWESTIA_STATUS.OCZEKUJACA ||
+        status==KWESTIA_STATUS.ARCHIWALNA ||
         czyAktywny==false ? true : false;
     },
     isKwestiaZrealizowana:function(status){
@@ -78,27 +83,33 @@ Template.kwestiaTopButtons.events({
     'click #doArchiwum': function (e) {
         e.preventDefault();
         var idKw = e.target.name;
-        var z = Posts.findOne({idKwestia: idKw, postType: "archiwum"});
-        if (z) {
-            $('html, body').animate({
-                scrollTop: $(".doArchiwumClass").offset().top
-            }, 600);
-        }
-        else {
-            $("#uzasadnijWyborArchiwum").modal("show");
+        var issue=Kwestia.findOne({_id:idKw});
+        if(isIssueAllowedToArchiveBin(issue)==true){
+            var z = Posts.findOne({idKwestia: idKw, postType: "archiwum"});
+            if (z) {
+                $('html, body').animate({
+                    scrollTop: $(".doArchiwumClass").offset().top
+                }, 600);
+            }
+            else {
+                $("#uzasadnijWyborArchiwum").modal("show");
+            }
         }
     },
     'click #doKosza': function (e) {
         e.preventDefault();
         var idKw = e.target.name;
-        var z = Posts.findOne({idKwestia: idKw, postType: "kosz"});
-        if (z) {
-            $('html, body').animate({
-                scrollTop: $(".doKoszaClass").offset().top
-            }, 600);
-        }
-        else {
-            $("#uzasadnijWyborKosz").modal("show");
+        var issue=Kwestia.findOne({_id:idKw});
+        if(isIssueAllowedToArchiveBin(issue)==true) {
+            var z = Posts.findOne({idKwestia: idKw, postType: "kosz"});
+            if (z) {
+                $('html, body').animate({
+                    scrollTop: $(".doKoszaClass").offset().top
+                }, 600);
+            }
+            else {
+                $("#uzasadnijWyborKosz").modal("show");
+            }
         }
     },
     'click #addRealizationReportClick': function (e) {
@@ -124,5 +135,21 @@ getReportsForIssueAtSpecificDuration=function(idKwestia){
     return false;
     var reportAddedTime=report.dataUtworzenia;
     return reportAddedTime > _.last(issue.listaDatRR) ? report : false;
+};
+
+isIssueAllowedToArchiveBin=function(issue){
+    if((issue.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE && issue.status==KWESTIA_STATUS.ZREALIZOWANA) ||
+        (_.contains([KWESTIA_TYPE.ACCESS_DORADCA,KWESTIA_TYPE.ACCESS_HONOROWY,KWESTIA_TYPE.ACCESS_ZWYCZAJNY],issue.typ) && issue.status==KWESTIA_STATUS.REALIZOWANA))
+    {
+        var text=null;
+        if(issue.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE)
+            text="cofnięcia zmiany parametru globalnego";
+        else
+            text="usunięcia/ zawieszenia użytkownika systemu";
+        bootbox.alert("Przepraszamy, na tym etapie system nie obsługuje ewentualnego "+text+" !");
+        return false;
+    }
+    return true;
+
 };
 

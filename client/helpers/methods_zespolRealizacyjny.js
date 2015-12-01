@@ -221,15 +221,30 @@ addCzlonekToZespolRealizacyjnyNotificationNew=function(idUser,zespolToUpdate,num
 
 //FUNKCJE
 getCzlonekFullName=function(number,idZR,ZRType){
-
+console.log("get czlonek full name");
+    console.log(number);
+    console.log(idZR);
+    console.log(ZRType);
     var userID=getZRData(number,idZR,ZRType);
     if(userID){
         var user = Users.findOne({_id: userID});
-        if(user.profile)
+        if(user.profile) {
+            //$('#czlonek1').css("visibility", "visible");
+            //$('#czlonek2').css("visibility", "visible");
+            //$('#czlonek3').css("visibility", "visible");
+            //$('#powolajZR').css("visibility", "visible");
+            //$('#nowyZRButton').css("visibility", "visible");
+            //$('#istniejacyZRButton').css("visibility", "visible");
+            //$('#zapiszButton').css("visibility", "visible");
+           //document.getElementsByClassName("btn-success").visibility="hidden";
+            //$('.btn-success').css("visibility", "visible");
             return user.profile.fullName;
+        }
     }
 };
 getZRData=function(number,idZR,ZRType){
+    console.log("getZRdata");
+
     var z=null;
     if(ZRType=="ZRDraft")
         z = ZespolRealizacyjnyDraft.findOne({_id: idZR});
@@ -238,6 +253,7 @@ getZRData=function(number,idZR,ZRType){
     if(z){
         zespolId = z._id;
         var zespol = z.zespol;
+        console.log(zespol);
         if(zespol){
             var id = zespol[number];
             return id ? id :null;
@@ -257,9 +273,9 @@ rezygnujZRAlert=function(idUserZR,idKwestia){
         buttons: {
             success: {
                 label: "Rezygnuję",
-                className: "btn-success",
+                className: "btn-success successGiveUp",
                 callback: function() {
-                    $('.btn-success').css("visibility", "hidden");
+                    $('.successGiveUp').css("visibility", "hidden");
                     rezygnujZRFunction(idUserZR,idKwestia);
                 }
             },
@@ -285,6 +301,7 @@ rezygnujZRFunction=function(idUserZR,idKwestia){
             };
             console.log("ten zespół");
             console.log();
+            $('.successGiveUp').css("visibility", "visible");
             Meteor.call('updateZespolRealizacyjnyDraft', zespol._id, ZRDraft, function (error) {
                 if (error) {
                     if (typeof Errors === "undefined")

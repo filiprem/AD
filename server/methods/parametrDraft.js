@@ -1,6 +1,7 @@
 Meteor.methods({
     addParametrDraft: function(newParametr) {
         var id = ParametrDraft.insert({
+            dataWprowadzenia: new Date(),
             nazwaOrganizacji: newParametr.nazwaOrganizacji,
             terytorium: newParametr.terytorium,
             kontakty: newParametr.kontakty,
