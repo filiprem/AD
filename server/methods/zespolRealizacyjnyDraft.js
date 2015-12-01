@@ -36,6 +36,10 @@ Meteor.methods({
         var id = ZespolRealizacyjnyDraft.update(id, {$set: {zespol: czlonkowie,nazwa:nazwa}}, {upsert: true});
         return id;
     },
+    updateCzlonkowieNazwaIdZrZRDraft: function (id, czlonkowie,nazwa) {
+        var id = ZespolRealizacyjnyDraft.update(id, {$set: {zespol: czlonkowie,nazwa:nazwa}}, {upsert: true});
+        return id;
+    },
     updateIdZRDraft:function (id, idZR) {
         var id = ZespolRealizacyjnyDraft.update(id, {$set: {idZR: idZR}}, {upsert: true});
         return id;

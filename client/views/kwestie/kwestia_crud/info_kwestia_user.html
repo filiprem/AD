@@ -37,36 +37,38 @@
         <div class="row">
             <div class="col-md-12">
                 <legend>{{kwestiaNazwa}}<small> ({{status}})</small></legend>
-                <p class="bg-info padding-15">
-                    <b>Obecni:</b> {{glosujacyCount}}<br/>
-                    {{#if kworumComplete}}
-                        <b>Kworum:</b> spełnione.<br/>
-                    {{else}}
-                        <b>Kworum:</b> brak {{textKworum}} dla uzyskania kworum.<br/>
-                    {{/if}}
-                    {{#unless isGlobalParamChange}}
-                        {{#if ZRComplete}}
-                            <b>Zespół Realizacyjny:</b> skompletowany.<br/>
+                {{#unless isRealizowana}}
+                    <p class="bg-info padding-15">
+                        <b>Obecni:</b> {{glosujacyCount}}<br/>
+                        {{#if kworumComplete}}
+                            <b>Kworum:</b> spełnione.<br/>
                         {{else}}
-                            <b>Zespół Realizacyjny:</b> brak jeszcze {{ZRText}} ZR.<br/>
+                            <b>Kworum:</b> brak {{textKworum}} dla uzyskania kworum.<br/>
                         {{/if}}
-                    {{/unless}}
-                    <br/>
-                    {{#if kwestiaInKosz}}
-                        <b>Powód odrzucenia kwestii:</b> {{reason}} <br/>
-                    {{/if}}
-                    {{#if isNotAdminOrDoradca}}
-                        {{#if mojPriorytetZero}}
-                            <br/>Wstrzymałeś się od głosu nadając tej Kwestii priorytet <b>0</b>
-                        {{else}}
-                            {{#if mojPiorytet}}
-                                <br/>Nadałeś tej Kwestii priorytet: <b>{{mojPiorytet}}</b>
+                        {{#unless isGlobalParamChange}}
+                            {{#if ZRComplete}}
+                                <b>Zespół Realizacyjny:</b> skompletowany.<br/>
                             {{else}}
-                                <br/>Nie nadałeś jeszcze tej Kwestii priorytetu
+                                <b>Zespół Realizacyjny:</b> brak jeszcze {{ZRText}} ZR.<br/>
+                            {{/if}}
+                        {{/unless}}
+                        <br/>
+                        {{#if kwestiaInKosz}}
+                            <b>Powód odrzucenia kwestii:</b> {{reason}} <br/>
+                        {{/if}}
+                        {{#if isNotAdminOrDoradca}}
+                            {{#if mojPriorytetZero}}
+                                <br/>Wstrzymałeś się od głosu nadając tej Kwestii priorytet <b>0</b>
+                            {{else}}
+                                {{#if mojPiorytet}}
+                                    <br/>Nadałeś tej Kwestii priorytet: <b>{{mojPiorytet}}</b>
+                                {{else}}
+                                    <br/>Nie nadałeś jeszcze tej Kwestii priorytetu
+                                {{/if}}
                             {{/if}}
                         {{/if}}
-                    {{/if}}
-                </p>
+                    </p>
+                {{/unless}}
             </div>
             <!--{{thisKwestia}}-->
             {{> kwestiaTopButtons

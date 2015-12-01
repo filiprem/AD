@@ -251,14 +251,14 @@ Template.issueDetails.helpers({
             return zespol.length >= 3 ? true : false;
         }
         else
-            return getZRCount(this.idZespolRealizacyjny) >=3 ? true : false;
+            return getZRCount(this.idZespolRealizacyjny,this._id) >=3 ? true : false;
     },
     ZRText:function(){
         var count=null;
         if(this.zespol)
             count = this.zespol.czlonkowie.length;
         else
-            count=getZRCount(this.idZespolRealizacyjny);
+            count=getZRCount(this.idZespolRealizacyjny,null);
         var result=3-count;
         return (result >1)  ? result+ " członków" : result+ " członka";
     }
@@ -315,21 +315,38 @@ Template.zrOptions.events({
         e.preventDefault();
         var idZR=document.getElementById("idZR").value;
         var zr=ZespolRealizacyjny.findOne({_id:idZR});
-        var zespol=zr.zespol.length;
-        if(zespol==1)
-            bootbox.alert("Przepraszamy! Jesteś jedynym członkiem tego ZR. Nie możesz opuścić go dopóki masz pod swoją opieką uchwały")
+        if(zr._id=="jjXKur4qC5ZGPQkgN"){
+            bootbox.alert("Przepraszamy! Funkcjonalność systemu nie pozwala na opuszczenie Zespołu Realiazacyjnego ds. Osób");
+        }
         else {
-            console.log(Template.instance().data._id);
-            console.log("bum!");
-            console.log(this._id);
-            $("#zrCurrentIssueMyResolutions").modal("show");
+            var zespol = zr.zespol.length;
+            if (zespol == 1)
+                bootbox.alert("Przepraszamy! Jesteś jedynym członkiem tego ZR. Nie możesz opuścić go dopóki masz pod swoją opieką uchwały")
+            else {
+                console.log(Template.instance().data._id);
+                console.log("bum!");
+                console.log(this._id);
+                $("#zrCurrentIssueMyResolutions").modal("show");
+            }
         }
     }
 });
 
-getZRCount=function(idZR){
+getZRCount=function(idZR,idIssue){
     var zespol = ZespolRealizacyjny.findOne({_id: idZR});
-    if (!zespol)
+    if (!zespol) {
         zespol = ZespolRealizacyjnyDraft.findOne({_id: idZR});
-    return zespol.zespol.length;
+        //spr,czy kwestia ma idZR ktore ma kwestie w realizacjii
+        if(zespol.idZR){
+            var z=ZespolRealizacyjny.findOne({_id:zespol.idZR});
+            if(z.kwestie.length>0 && z.czyAktywny==true && idIssue!=null){
+                var issue=Kwestia.findOne({_id:idIssue});
+                if(issue.status==KWESTIA_STATUS.GLOSOWANA)
+                    return 3;
+                else return zespol.zespol.length;
+            }
+            else return zespol.zespol.length;
+        }
+        else return zespol.zespol.length;
+    }
 };

@@ -19,10 +19,7 @@ Template.zrModalCurrentIssueMyResolutionsInner.helpers({
     },
     IssuesList: function(){
         var zr = ZespolRealizacyjny.findOne({_id: this.idZespolRealizacyjny});
-        console.log(zr);
-        console.log(zr.kwestie);
         var issues = Kwestia.find({_id: {$in: zr.kwestie}, czyAktywny: true});
-        console.log(issues.count());
         return issues;
     }
 });
@@ -35,13 +32,10 @@ Template.zrModalCurrentIssueMyResolutionsInner.events({
 
 
         var zr=ZespolRealizacyjny.findOne({_id:this.idZespolRealizacyjny});
-        console.log(zr);
         //przepisz do kwestii członków,mimo,że jeszcze nie idzie do kosza?=to nie ,patrz->zeszyt!
         var currentIssueId=Router.current().params._id;
         //usunięcie z zespołu członka
         var zespol= _.without(zr.zespol,Meteor.userId());
-        console.log("new zespół");
-        console.log(zespol);
         Meteor.call("updateCzlonkowieZR",zr._id,zespol,function(error){//to FINISH
             if(error)
                 throwError(error.reason);
@@ -51,9 +45,6 @@ Template.zrModalCurrentIssueMyResolutionsInner.events({
                 zrList.forEach(function(zr){
                     array.push(zr._id);
                 });
-                console.log("te zespoły");
-                console.log(zrList.count());
-                console.log(array);
                 var allIssues=Kwestia.find({
                     czyAktywny:true,
                     status:{$in:[
@@ -64,14 +55,12 @@ Template.zrModalCurrentIssueMyResolutionsInner.events({
                     _id:{$nin:[currentIssueId]},
                     idZespolRealizacyjny:{$in:array}
                 });
-                if(allIssues.count>0){
+                if(allIssues.count()>0){
                     var newZRList=[];
                     allIssues.forEach(function(issue){
                         newZRList.push(issue.idZespolRealizacyjny);
                     });
-                    console.log(allIssues.count());
-                    var zrCur=ZespolRealizacyjnyDraft.findOne({idZR:{$in:newZRList}});
-                    console.log(zrCur.count());
+                    var zrCur=ZespolRealizacyjnyDraft.find({_id:{$in:newZRList}});
                     zrCur.forEach(function(zrItem){
                        Meteor.call("updateCzlonkowieNazwaZRDraft",zrItem._id,zespol,zr.nazwa);
                     });
@@ -79,8 +68,6 @@ Template.zrModalCurrentIssueMyResolutionsInner.events({
                 document.getElementById("agreeButton").disabled=false;
             }
         });
-
-
     }
 });
 

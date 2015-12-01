@@ -56,7 +56,7 @@ Meteor.startup(function(){
                                 if(kwestia.status==KWESTIA_STATUS.REALIZOWANA || kwestia.status==KWESTIA_STATUS.ZREALIZOWANA) {
                                     if (kwestia.idZespolRealizacyjny) {
                                         if (kwestia.idZespolRealizacyjny != null)
-                                            manageZR(kwestia);
+                                            manageZRPosts(kwestia);
                                     }
                                 }
                                 else if((kwestia.status==KWESTIA_STATUS.DELIBEROWANA || kwestia.status==KWESTIA_STATUS.OSOBOWA) && kwestia.typ!=KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE){//osobowa,parametry,
@@ -84,7 +84,7 @@ Meteor.startup(function(){
                                 if((kwestia.status==KWESTIA_STATUS.REALIZOWANA || kwestia.status==KWESTIA_STATUS.ZREALIZOWANA) && kwestia.typ!=KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE) {//osobowa+powiad?
                                     if (kwestia.idZespolRealizacyjny) {
                                         if (kwestia.idZespolRealizacyjny != null)
-                                            manageZR(kwestia);
+                                            manageZRPosts(kwestia);
                                     }
                                 }
                                 else if((kwestia.status==KWESTIA_STATUS.DELIBEROWANA || kwestia.status==KWESTIA_STATUS.OSOBOWA) && kwestia.typ!=KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE){//osobowa,parametry,
@@ -108,7 +108,7 @@ Meteor.startup(function(){
         }
     });
 
-    manageZR=function(newKwestia){
+    manageZRPosts=function(newKwestia){
         var zespolRealizacyjny = ZespolRealizacyjny.findOne({_id: newKwestia.idZespolRealizacyjny});
         if (zespolRealizacyjny.kwestie.length > 0) {
             //wypisz mnie
@@ -116,22 +116,131 @@ Meteor.startup(function(){
                 return kwestiaId == newKwestia._id
             });
             console.log(kwestie);
-            //jezeli bylem tylko ja,set false,o ile to jest zr ds osób
+            //jezeli bylem tylko ja,set false,o ile to jest zr ds osób i zadne kwestie nie sa w głosowaniu
+            //jezlei sa deliberowane- updatuj!
             if(kwestie.length==0 && zespolRealizacyjny._id!=ZespolRealizacyjny.findOne({_id:"jjXKur4qC5ZGPQkgN"})._id){
-                Meteor.call("updateKwestieZRChangeActivity", zespolRealizacyjny._id, kwestie,false, function (error) {
-                    if (error)
-                        console.log(error.reason);
-                    else
-                        rewriteZRMembersToList(zespolRealizacyjny, newKwestia);
+                //sprawdz czy są głosowane
+                var zrList=ZespolRealizacyjnyDraft.find({idZR:zespolRealizacyjny._id});
+                var array=[];
+                zrList.forEach(function(zr){
+                    array.push(zr._id);
                 });
+                var allIssues=Kwestia.find({
+                    czyAktywny:true,
+                    status:{$in:[
+                        KWESTIA_STATUS.GLOSOWANA,
+                        //KWESTIA_STATUS.OSOBOWA,
+                        KWESTIA_STATUS.OCZEKUJACA]},
+                        //KWESTIA_STATUS.DELIBEROWANA]},
+                    _id:{$nin:[newKwestia._id]},
+                    idZespolRealizacyjny:{$in:array}
+                });
+                if(allIssues.count()>0){
+                    //nie mozna usunąć
+                    Meteor.call("updateKwestieZR", zespolRealizacyjny._id, kwestie, function (error) {
+                        if (error)
+                            console.log(error.reason);
+                        else
+                            rewriteZRMembersToList(zespolRealizacyjny, newKwestia);
+                    });
+                }
+                else{//usuń ZR
+                    Meteor.call("updateKwestieZRChangeActivity", zespolRealizacyjny._id, kwestie,false, function (error) {
+                        if (error)
+                            console.log(error.reason);
+                        else
+                            rewriteZRMembersToList(zespolRealizacyjny, newKwestia);
+                    });
+
+                    var allIssues2=Kwestia.find({
+                        czyAktywny:true,
+                        status:{$in:[
+                            KWESTIA_STATUS.OSOBOWA,
+                            KWESTIA_STATUS.DELIBEROWANA
+                        ]},
+                        _id:{$nin:[newKwestia._id]},
+                        idZespolRealizacyjny:{$in:array}
+                    });
+                    if(allIssues.count()>0){
+                        var newZRList=[];
+                        allIssues.forEach(function(issue){
+                            newZRList.push(issue.idZespolRealizacyjny);
+                        });
+                        var zrCur=ZespolRealizacyjnyDraft.find({_id:{$in:newZRList}});
+                        zrCur.forEach(function(zrItem){//usunIdZr
+                            Meteor.call("updateCzlonkowieNazwaIdZrZRDraft",zrItem._id,zespolRealizacyjny.zespol,"",null);
+                        });
+                    }
+                }
             }
             else {
+                console.log("tu wejdzie");
                 Meteor.call("updateKwestieZR", zespolRealizacyjny._id, kwestie, function (error) {
                     if (error)
                         console.log(error.reason);
                     else
                         rewriteZRMembersToList(zespolRealizacyjny, newKwestia);
                 });
+                //new-gdy kwestii jest wiecje niz 1 i nie jest deliberowana
+                if(zespolRealizacyjny._id!=ZespolRealizacyjny.findOne({_id:"jjXKur4qC5ZGPQkgN"})._id) {
+                    var zrList = ZespolRealizacyjnyDraft.find({idZR: zespolRealizacyjny._id});
+                    var array = [];
+                    zrList.forEach(function (zr) {
+                        array.push(zr._id);
+                    });
+                    var allIssues = Kwestia.find({
+                        czyAktywny: true,
+                        status: {
+                            $in: [
+                                KWESTIA_STATUS.GLOSOWANA,
+                                //KWESTIA_STATUS.OSOBOWA,
+                                KWESTIA_STATUS.OCZEKUJACA]
+                        },
+                        //KWESTIA_STATUS.DELIBEROWANA]},
+                        _id: {$nin: [newKwestia._id]},
+                        idZespolRealizacyjny: {$in: array}
+                    });
+                    if (allIssues.count() > 0) {
+                        //nie mozna usunąć
+                        Meteor.call("updateKwestieZR", zespolRealizacyjny._id, kwestie, function (error) {
+                            if (error)
+                                console.log(error.reason);
+                            else
+                                rewriteZRMembersToList(zespolRealizacyjny, newKwestia);
+                        });
+                    }
+                    else {//usuń ZR
+                        Meteor.call("updateKwestieZRChangeActivity", zespolRealizacyjny._id, kwestie, false, function (error) {
+                            if (error)
+                                console.log(error.reason);
+                            else
+                                rewriteZRMembersToList(zespolRealizacyjny, newKwestia);
+                        });
+
+                        var allIssues2 = Kwestia.find({
+                            czyAktywny: true,
+                            status: {
+                                $in: [
+                                    KWESTIA_STATUS.OSOBOWA,
+                                    KWESTIA_STATUS.DELIBEROWANA
+                                ]
+                            },
+                            _id: {$nin: [newKwestia._id]},
+                            idZespolRealizacyjny: {$in: array}
+                        });
+                        if (allIssues.count() > 0) {
+                            var newZRList = [];
+                            allIssues.forEach(function (issue) {
+                                newZRList.push(issue.idZespolRealizacyjny);
+                            });
+                            var zrCur = ZespolRealizacyjnyDraft.find({_id: {$in: newZRList}});
+                            zrCur.forEach(function (zrItem) {//usunIdZr
+                                Meteor.call("updateCzlonkowieNazwaIdZrZRDraft", zrItem._id, zespolRealizacyjny.zespol, "", null);
+                            });
+                        }
+                    }
+                }
+                //new
             }
         }
         else {//jezeli nie ma zadnych kwestii,ustaw na false, o ile
