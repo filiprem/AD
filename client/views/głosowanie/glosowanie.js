@@ -7,7 +7,6 @@ Template.glosowanie.helpers({
             showColumnToggles: false,
             enableRegex: false,
             fields: [
-                { key: 'id', label: "Id", tmpl: Template.id },
                 { key: 'dataGlosowania', label: "Data glosowanie", tmpl: Template.dataGlosowaniaKwestia ,sortOrder:0,sortDirection:'ascending'},
                 { key: 'kwestiaNazwa', label: "Nazwa", tmpl: Template.nazwaKwestiLink },
                 { key: 'wartoscPriorytetu', label: "Priorytet", tmpl: Template.priorytetKwestia ,sortOrder:1,sortDirection:'descending'},

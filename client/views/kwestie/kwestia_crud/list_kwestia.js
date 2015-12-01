@@ -123,7 +123,6 @@ Template.listKwestia.helpers({
             noDataTemplate: Template.noData,
             filters: ['customFilter'],
             fields: [
-                { key: 'id', label: "Id", tmpl: Template.id },
                 { key: 'dataWprowadzenia', label: "Data", tmpl: Template.dataUtwKwestia ,sortOrder:1,sortDirection:'ascending'},
                 { key: 'kwestiaNazwa', label: "Nazwa", tmpl: Template.nazwaKwestiLink },
                 { key: 'wartoscPriorytetu', label: "Priorytet", tmpl: Template.priorytetKwestia,sortOrder:0,sortDirection:'descending' },
@@ -261,8 +260,8 @@ checkTimePause=function(typePause,lastAddedTime){
 
 Template.nazwaKwestiLink.helpers({
     'issueName': function(){
-        if(this.kwestiaNazwa.length>20){
-            return this.kwestiaNazwa.substr(0,20)+"...";
+        if(this.kwestiaNazwa.length>60){
+            return this.kwestiaNazwa.substr(0,60)+"...";
         }else{
             return this.kwestiaNazwa
         }
