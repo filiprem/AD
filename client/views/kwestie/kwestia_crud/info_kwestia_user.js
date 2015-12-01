@@ -185,7 +185,6 @@ Template.issueDetails.helpers({
         }
     },
     glosujacyCount: function () {
-        var currentKwestiaId = this._id;
         var tab = Kwestia.findOne({_id:this._id});
         if (tab) {
             var liczba=null;
