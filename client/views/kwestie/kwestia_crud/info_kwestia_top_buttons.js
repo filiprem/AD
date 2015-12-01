@@ -139,6 +139,8 @@ isIssueAllowedToArchiveBin=function(issue){
         var text=null;
         if(issue.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE)
             text="cofnięcia zmiany parametru globalnego";
+        if(issue.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE)
+            text="cofnięcia zmian wywołanych przez kwestię";
         else
             text="usunięcia/ zawieszenia użytkownika systemu";
         bootbox.alert("Przepraszamy, na tym etapie system nie obsługuje ewentualnego "+text+" !");
