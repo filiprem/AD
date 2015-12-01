@@ -77,10 +77,6 @@ Template.czlonekZwyczajnyForm.rendered = function () {
 Template.czlonekZwyczajnyForm.events({
     'submit form': function (e) {
         e.preventDefault();
-        //sprawdzam,czy jest meteor.user
-        //jeżeli jest,to znaczy,że : tworze nowego drafta,z akutanym userId.po akceptacji kwestii: jeżeli userId jest,to po tym userID przepisuję dane do usera,userDraft usuwam
-        // jeżeli nie ma,to znaczy,że nowy draft->i dane są przepisywane do usera, po akceptacji kwestii:stworzony nowy użytkownik,userDraftUsunięty
-        //kwestia ta sama z draftem zawsze!
 
         if ($('#userForm').valid()) {
             document.getElementById("submitZwyczajny").disabled = true;
@@ -110,8 +106,6 @@ Template.czlonekZwyczajnyForm.events({
 
             addUserDraft(newUser);
 
-            console.log("Dodany członek: ");
-            console.log(newUser[0]);
         }
     },
     'reset form': function () {
@@ -150,18 +144,14 @@ getRegulamin=function(){
     return Parametr.findOne() ? Parametr.findOne().regulamin :"";
 };
 addUserDraft=function(newUser){
-    console.log("add user draft");
-    console.log(newUser);
     Meteor.call('addUserDraft', newUser, function (error, ret) {
             if (error) {
-                // optionally use a meteor errors package
                 if (typeof Errors === "undefined")
                     Log.error('Error: ' + error.reason);
                 else
                     throwError(error.reason);
             }
             else {
-                //do poprawienia
                 var user = UsersDraft.findOne({_id: ret});
                 addKwestiaOsobowa(ret, newUser,user);
 
@@ -177,11 +167,9 @@ addKwestiaOsobowa=function(idUserDraft,newUser,user){
     }];
     Meteor.call('addZespolRealizacyjnyDraft', newZR, function (error,ret) {
         if (error) {
-            console.log(error.reason);
+            throwError(error.reason);
         }
         else{
-            console.log("ret:");
-            console.log(ret);
             var uwagi="";
             if(newUser[0].uwagi!=null)
                 uwagi=newUser[0].uwagi;
@@ -212,11 +200,9 @@ addKwestiaOsobowa=function(idUserDraft,newUser,user){
                     status: KWESTIA_STATUS.OSOBOWA,
                     typ:KWESTIA_TYPE.ACCESS_ZWYCZAJNY
                 }];
-            console.log("add kwestia");
-            console.log(newKwestia);
             Meteor.call('addKwestiaOsobowa', newKwestia, function (error,ret) {
                 if (error) {
-                    console.log(error.reason);
+                    throwError(error.reason);
                 }
                 else {
                     if(Meteor.userId())
@@ -226,7 +212,6 @@ addKwestiaOsobowa=function(idUserDraft,newUser,user){
                     przyjecieWnioskuConfirmation(Parametr.findOne().czasWyczekiwaniaKwestiiSpecjalnej,daneAplikanta.email,"członkowstwo");
                     addPowiadomienieAplikacjaIssueFunction(ret,newKwestia[0].dataWprowadzenia);
                     if(newUser[0].idUser!=null){//jezeli istnieje juz ten użtykownik,jest doradcą,to wyślij mu confirmation w powiad
-                        console.log("existing user,so wysyłamy do niego confirmation w powiadomienia");
                         addPowiadomienieAplikacjaRespondFunction(ret,newKwestia[0].dataWprowadzenia,NOTIFICATION_TYPE.APPLICATION_CONFIRMATION);
                     }
                     Meteor.call("sendApplicationConfirmation", user,function(error){
@@ -234,7 +219,6 @@ addKwestiaOsobowa=function(idUserDraft,newUser,user){
                             Meteor.call("sendEmailAddedIssue", ret);
                         }
                     });
-                    //addZR(ret,newUser[0].email);
                 }
             });
         }
@@ -245,7 +229,6 @@ addKwestiaOsobowa=function(idUserDraft,newUser,user){
 
 addPowiadomienieAplikacjaIssueFunction=function(idKwestia,dataWprowadzenia){
     var users=Users.find({'profile.userType':USERTYPE.CZLONEK});
-    //var kwestia=Kwestia.findOne({_id:idKwestia});
     var idNadawca=null;
     if(Meteor.userId())
         idNadawca=Meteor.userId();
@@ -263,7 +246,7 @@ addPowiadomienieAplikacjaIssueFunction=function(idKwestia,dataWprowadzenia){
         };
         Meteor.call("addPowiadomienie",newPowiadomienie,function(error){
             if(error)
-                console.log(error.reason);
+                throwError(error.reason);
         })
     });
 };
@@ -282,6 +265,6 @@ addPowiadomienieAplikacjaRespondFunction=function(idKwestia,dataWprowadzenia,typ
     };
     Meteor.call("addPowiadomienie",newPowiadomienie,function(error){
         if(error)
-            console.log(error.reason);
+            throwError(error.reason);
     });
 };

@@ -23,7 +23,6 @@ Template.previewKwestiaOpcja.helpers({
 
 Template.previewKwestiaOpcja.events({
     'click #cancel':function(){
-        //Session.set("kwestiaPreviewOpcja",null);
         Session.set("actualKwestia",null);
         Router.go("listKwestia");
     },
@@ -32,7 +31,6 @@ Template.previewKwestiaOpcja.events({
         document.getElementById("save").disabled = true;
 
         var kwestia = Session.get("actualKwestia");
-        //var idParentKwestii = Session.get("idKwestia");
         var newKwestiaOpcja = [{
             idUser: Meteor.userId(),
             dataWprowadzenia: new Date(),
@@ -53,7 +51,6 @@ Template.previewKwestiaOpcja.events({
             idZespolRealizacyjny:kwestia.idZespolRealizacyjny,
             typ:kwestia.typ
         }];
-        console.log(newKwestiaOpcja[0]);
         var methodToCall=null;
         if(kwestia.status==KWESTIA_STATUS.OSOBOWA)
             methodToCall="addKwestiaOsobowaOpcja";
@@ -97,7 +94,6 @@ Template.previewKwestiaOpcja.events({
 
 addPowiadomienieBasicOptionIssueFunction=function(idKwestia,dataWprowadzenia){
     var users=Users.find({'profile.userType':USERTYPE.CZLONEK});
-    //var kwestia=Kwestia.findOne({_id:idKwestia});
     users.forEach(function(user){
         var newPowiadomienie ={
             idOdbiorca: user._id,
@@ -112,7 +108,7 @@ addPowiadomienieBasicOptionIssueFunction=function(idKwestia,dataWprowadzenia){
         };
         Meteor.call("addPowiadomienie",newPowiadomienie,function(error){
             if(error)
-                console.log(error.reason);
+                throwError(error.reason);
         })
     });
 

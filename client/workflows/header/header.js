@@ -36,21 +36,6 @@ Template.header.helpers({
             else return false;
         }
     },
-    hasUserAccess: function () {
-        //if(IsAdminUser()==true)
-        //    return true;
-        //else {
-        //    var users = Users.find({
-        //        $where: function () {
-        //            return (this.roles == 'user');
-        //        }
-        //    });
-        //    if (users.count() > 4)
-        //        return true;
-        //    else return false;
-        //}
-        return true;
-    },
     lessThanFiveUsers: function () {
         var users = Users.find();
         if (users) {
@@ -104,7 +89,6 @@ Template.language.events({
 
         var defaultLang = LANGUAGES.DEFAULT_LANGUAGE;
         var user=Meteor.user();
-        //var lang = user ? user.profile.language : defaultLang;
         var lang = null;
         if(user){
             if(user.profile.language)
@@ -127,9 +111,7 @@ Template.language.events({
 
 Template.header.events({
     'change #notification-counter':function(e){
-        console.log("change!!");
         var value=$(e.target).val();
-        console.log(value);
     },
     'click #newRootClick':function(e){
         e.preventDefault();

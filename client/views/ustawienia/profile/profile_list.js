@@ -44,7 +44,6 @@ Template.profileList.helpers({
             fields: [
                 { key: 'profile.firstName', label: "Imię" },
                 { key: 'profile.lastName', label: "Nazwisko" },
-                //{key: 'username', label: "Nazwa użytkownika", tmpl: Template.usernameLink},
                 { key: 'Kontakt', label: "Kontakt", tmpl: Template.userEmailContact },
                 { key: 'profile.city', label: "Miasto" }
             ],
@@ -55,20 +54,7 @@ Template.profileList.helpers({
                 }
             }
         };
-    },
-    //UserListAdmin: function () {
-    //    return Users.find({
-    //        $where: function () {
-    //            return (this.roles != 'admin');
-    //        }
-    //    }).fetch();
-    //},
-    //usersCount: function () {
-    //    return Users.find().count() - 1;
-    //},
-    //myself: function (userId) {
-    //    return Meteor.userId() === userId;
-    //}
+    }
 });
 Template.userEmailContact.helpers({
     myProfile:function(id){

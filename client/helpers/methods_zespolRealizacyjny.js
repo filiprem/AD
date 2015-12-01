@@ -1,11 +1,5 @@
 isUserInZespolRealizacyjnyNotification=function(id,zespolTab){
-    console.log("tablica");
-    console.log(zespolTab);
-
-    //var tab= _.pluck(zespolTab,'idUser');
-    //console.log(tab);
     if(_.contains(zespolTab,id)){
-        //if(_.contains(tab,id)){
         GlobalNotification.error({
             title: 'Błąd',
             content: 'Jesteś już w ZR.',
@@ -33,13 +27,11 @@ addCzlonekToZespolRealizacyjnyNotification=function(idUser,zespolToUpdate,number
     if(zespolToUpdate.length==2) {
         //sprawdzam czy mamy taki zespol z idącym kolejnym członkiem
         zespolToUpdate.push(idUser);
-        ///////wszystkie kwestie glosowane,czyli ZR się nie zmieni.jezeli jest glosowana,to wiadome,że ZR będzie ==3, a mojej nie bedzie,bo nie jest głosowana!
         var kwestie = Kwestia.find({
             $where: function () {
                 return (this.status==KWESTIA_STATUS.GLOSOWANA || this.status==KWESTIA_STATUS.ARCHIWALNA);
             }
         });
-        console.log(kwestie.count());
         var flag=false;
         var arrayZespolyDouble=[];
         kwestie.forEach(function(kwestia){//odnajdujemy zespoly
@@ -47,18 +39,12 @@ addCzlonekToZespolRealizacyjnyNotification=function(idUser,zespolToUpdate,number
             if(zespol){
                 var i=0;
                 _.each(zespol.zespol, function (zespolItem) {//dla kazdej aktualnego item z aktualnego zepsolu
-                    console.log("czlonek zespolu");
-                    console.log(zespolItem);
 
                     if (_.contains(zespolToUpdate, zespolItem)) {//jezeli z bazy tablica zawiera ten z zespołu
                         i++;
-                        console.log("Jest już nr: " + i);
-                        console.log(zespol);
                     }
                 });
                 if (i == zespol.zespol.length) {
-                    console.log("Mamy taki zespół!");
-                    console.log(zespol.zespol.length);
                     arrayZespolyDouble.push(zespol._id);
                     flag = true;
                     //moze sie zdarzyc,ze bd kilka zespołów o tych samym składzie,więc dajmy je do tablicy!
@@ -123,7 +109,6 @@ bladNotification=function(){
 
 isUserInZRNotification=function(idZespolu){
     var zespol=ZespolRealizacyjny.findOne({_id:idZespolu});
-    console.log(zespol._id);
     if(zespol) {
         if (!_.contains(zespol.zespol, Meteor.userId())) {
             GlobalNotification.error({
@@ -151,21 +136,14 @@ addCzlonekToZespolRealizacyjnyNotificationNew=function(idUser,zespolToUpdate,num
             zespoly.forEach(function(zespol) {
                 var i = 0;
                 _.each(zespol.zespol, function (zespolItem) {//dla kazdej aktualnego item z aktualnego zepsolu
-                    console.log("czlonek zespolu");
-                    console.log(zespolItem);
 
                     if (_.contains(zespolToUpdate, zespolItem)) {//jezeli z bazy tablica zawiera ten z zespołu
                         i++;
-                        console.log("Jest już nr: " + i);
-                        console.log(zespol);
                     }
                 });
                 if (i == zespol.zespol.length) {
-                    console.log("Mamy taki zespół!");
-                    console.log(zespol.zespol.length);
                     arrayZespolyDouble.push(zespol._id);
                     flag = true;
-                    //moze sie zdarzyc,ze bd kilka zespołów o tych samym składzie,więc dajmy je do tablicy!
                 }
             });
         }
@@ -176,7 +154,6 @@ addCzlonekToZespolRealizacyjnyNotificationNew=function(idUser,zespolToUpdate,num
         }
         //nie ma tekiego w bazie,więc sobie uzupelniamy drafta.to finish
         else {
-            //komunikat = 'Zostałeś dodany do Zespołu Realizacyjnego.Mamy już komplet';
             $("#addNazwa").modal("show");
 
             GlobalNotification.success({
@@ -221,30 +198,15 @@ addCzlonekToZespolRealizacyjnyNotificationNew=function(idUser,zespolToUpdate,num
 
 //FUNKCJE
 getCzlonekFullName=function(number,idZR,ZRType){
-console.log("get czlonek full name");
-    console.log(number);
-    console.log(idZR);
-    console.log(ZRType);
     var userID=getZRData(number,idZR,ZRType);
     if(userID){
         var user = Users.findOne({_id: userID});
         if(user.profile) {
-            //$('#czlonek1').css("visibility", "visible");
-            //$('#czlonek2').css("visibility", "visible");
-            //$('#czlonek3').css("visibility", "visible");
-            //$('#powolajZR').css("visibility", "visible");
-            //$('#nowyZRButton').css("visibility", "visible");
-            //$('#istniejacyZRButton').css("visibility", "visible");
-            //$('#zapiszButton').css("visibility", "visible");
-           //document.getElementsByClassName("btn-success").visibility="hidden";
-            //$('.btn-success').css("visibility", "visible");
             return user.profile.fullName;
         }
     }
 };
 getZRData=function(number,idZR,ZRType){
-    console.log("getZRdata");
-
     var z=null;
     if(ZRType=="ZRDraft")
         z = ZespolRealizacyjnyDraft.findOne({_id: idZR});
@@ -253,7 +215,6 @@ getZRData=function(number,idZR,ZRType){
     if(z){
         zespolId = z._id;
         var zespol = z.zespol;
-        console.log(zespol);
         if(zespol){
             var id = zespol[number];
             return id ? id :null;
@@ -299,8 +260,6 @@ rezygnujZRFunction=function(idUserZR,idKwestia){
                 "zespol": zespolR,
                 "idZR": null
             };
-            console.log("ten zespół");
-            console.log();
             $('.successGiveUp').css("visibility", "visible");
             Meteor.call('updateZespolRealizacyjnyDraft', zespol._id, ZRDraft, function (error) {
                 if (error) {

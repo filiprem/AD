@@ -8,8 +8,8 @@ Template.doradcaForm.rendered = function () {
         rules: {
             email: {
                 email: true,
-                checkExistsEmail: USERTYPE.DORADCA,//czy juz nie ma mnie jako doradca w systemie
-                checkExistsEmail2: USERTYPE.CZLONEK,//czy nie jestem wyzej
+                checkExistsEmail: USERTYPE.DORADCA,
+                checkExistsEmail2: USERTYPE.CZLONEK,
                 checkExistsEmailDraft: true
             }
         },
@@ -75,11 +75,9 @@ Template.doradcaForm.events({
     }
 });
 addUserDraftDoradca=function(newUser){
-    console.log("add user draft");
-    console.log(newUser);
     Meteor.call('addUserDraft', newUser, function (error, ret) {
         if (error) {
-            console.log(error.reason);
+            throwError(error.reason);
         }
         else {
             addKwestiaOsobowaDoradca(ret, newUser);
@@ -88,8 +86,6 @@ addUserDraftDoradca=function(newUser){
 };
 addKwestiaOsobowaDoradca=function(idUserDraft,newUser){
     var ZR=ZespolRealizacyjny.findOne({_id:"jjXKur4qC5ZGPQkgN"});
-    console.log("ten zr");
-    console.log(ZR);
     var newZR=[{
         nazwa:ZR.nazwa,
         idZR:ZR._id,
@@ -97,7 +93,7 @@ addKwestiaOsobowaDoradca=function(idUserDraft,newUser){
     }];
     Meteor.call('addZespolRealizacyjnyDraft', newZR, function (error,ret) {
         if (error) {
-            console.log(error.reason);
+            throwError(error.reason);
         }
         else {
             var uwagi = "";
@@ -127,11 +123,8 @@ addKwestiaOsobowaDoradca=function(idUserDraft,newUser){
                     status: KWESTIA_STATUS.OSOBOWA,
                     typ: KWESTIA_TYPE.ACCESS_DORADCA
                 }];
-            console.log("add kwestia");
-            console.log(newKwestia);
             Meteor.call('addKwestiaOsobowa', newKwestia, function (error, ret) {
                 if (error) {
-                    // optionally use a meteor errors package
                     if (typeof Errors === "undefined")
                         Log.error('Error: ' + error.reason);
                     else {

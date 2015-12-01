@@ -8,8 +8,6 @@ Template.informacjeRaport.helpers({
     },
     issueReport:function(){
         var issue=Kwestia.findOne({_id:this.idKwestia});
-        console.log("ta kwestyjaa");
-        console.log(issue);
         return issue? issue : null;
     }
 });

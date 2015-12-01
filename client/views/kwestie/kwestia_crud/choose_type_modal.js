@@ -23,8 +23,6 @@ Template.chooseTypeModalInner.helpers({
         };
     },
     TypeList: function(){
-        //var topicId = Session.get("choosenTopicId");
-        //return Rodzaj.find({idTemat: topicId});
         var topicName = Session.get("choosenTopic");
         var topic = Temat.findOne({nazwaTemat: topicName});
         var topicId = null;

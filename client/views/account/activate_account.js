@@ -1,9 +1,6 @@
 Template.activateAccount.rendered=function(){
     var currentRoute=Router.current().params;
     var userD=UsersDraft.findOne({linkAktywacyjny:currentRoute.linkAktywacyjny});
-    console.log("User do aktywacji");
-    console.log(currentRoute);
-    console.log(userD);
     var clickedLinkCount=userD.licznikKlikniec+1;
     Meteor.call("updateLicznikKlikniec",userD._id,clickedLinkCount,function(error){
        if(!error){
@@ -33,19 +30,17 @@ Template.activateAccount.rendered=function(){
 
                Meteor.call('addUser', newUser, function (error,ret) {
                    if (error) {
-                       console.log(error.reason);
+                       throwError(error.reason);
                    }
                    else {
                        var idUser=ret;
-                       console.log("idUser");
-                       console.log(idUser);
                        Meteor.call("removeUserDraftAddNewIdUser", userDraft._id,idUser, function (error) {
                            if (error)
-                               console.log(error.reason);
+                               throwError(error.reason);
                            else{
                                Meteor.call("sendFirstLoginData",Users.findOne({_id:idUser}),newUser[0].password,function(error){
                                    if(error)
-                                       console.log(error.reason);
+                                       throwError(error.reason);
                                })
                            }
                        });
@@ -58,8 +53,6 @@ Template.activateAccount.rendered=function(){
 Template.activateAccount.helpers({
     notActivatedAccount:function(){
         var currentRoute=Router.current().params;
-        console.log("current route");
-        console.log(currentRoute.linkAktywacyjny);
         var userDraft=UsersDraft.findOne({linkAktywacyjny:currentRoute.linkAktywacyjny});
         if(userDraft)
             return userDraft.czyAktywny==true || userDraft.licznikKlikniec<=1 ? true : false;

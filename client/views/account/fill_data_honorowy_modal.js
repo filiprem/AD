@@ -5,18 +5,14 @@ Template.fillDataHonorowyModal.events({
         var firstName = $('#firstName').val();
         var lastName=$('#lastName').val();
         var city=$('#city').val();
-        console.log("dane:");
-        console.log(firstName);
-        console.log(lastName);
-        console.log(city);
         if(firstName.trim()!='' && lastName.trim()!='' && city.trim()!=''){
             $("#fillDataHonorowy").modal("hide");
             addNewUser(firstName,lastName,city,email,kwestia);
         }
         else{
             GlobalNotification.error({
-                title: 'B³¹d',
-                content: 'Formularz nie mo¿e zawieraæ pustych pól!',
+                title: 'Bï¿½ï¿½d',
+                content: 'Formularz nie moï¿½e zawieraï¿½ pustych pï¿½l!',
                 duration: 3 // duration the notification should stay in seconds
             });
         }

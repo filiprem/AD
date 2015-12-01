@@ -51,12 +51,8 @@ Template.listZespolRealizacyjnyDoubleModalInner.events({
         $("#decyzjaModalId").modal("show");
     },
     'click #przyjmijZR':function(){
-
-        console.log("to będzie tutaaaaj");
-        console.log(this._id);
         if(isUserInZRNotification(this._id)==false) {//jezeli jestem w  takowym zespole
             powolajZRFunction(Session.get("idKwestia"),this._id);
         }
-        //Session.setPersistent("zespolRealizacyjnyDouble",null);
     }
 });

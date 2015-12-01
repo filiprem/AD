@@ -1,5 +1,4 @@
 Template.editParametrModalInner.rendered=function(){
-    console.log("render!");
     $('.successBtn').css("visibility", "visible");
 },
 Template.editParametrModalInner.helpers({
@@ -48,8 +47,7 @@ Template.editParametrModalInner.events({
         $("#editParametrMod").modal("hide");
     },
     'submit form':function(e){
-        console.log("success");//submit form
-        e.preventDefault();//click .btn-success
+        e.preventDefault();
         if ($('#parametrFormEditModal').valid()) {
             $('.successBtn').css("visibility", "hidden");
             var odp = checkIssueGlobalParamExists();
@@ -60,15 +58,9 @@ Template.editParametrModalInner.events({
             }
             else {
                 var session = Session.get("chosenParameterSession");
-                console.log(session.name);
-                console.log(session.title);
-                console.log(session.value);
-                console.log();
 
                 var val = session.name;
                 var newValue = document.getElementById("param").value;
-                console.log(newValue);
-                console.log(document.getElementById("param").name);
                 if (newValue == null || newValue.trim() == "") {
                     GlobalNotification.error({
                         title: 'Przepraszamy',
@@ -123,8 +115,6 @@ parametrPreview=function(paramName,title,oldValue,newValue){
 };
 
 createIssueChangeParam=function(paramName,title,oldValue,newValue){
-    console.log("param name");
-    console.log(paramName);
     var params=Parametr.findOne();
     var nazwaOrg=params.nazwaOrganizacji;
     var terytorium=params.terytorium;
@@ -165,7 +155,6 @@ createIssueChangeParam=function(paramName,title,oldValue,newValue){
         addReferencePause:refPause,
         okresSkladaniaRR:okresSkladaniaRR
     };
-    console.log(addParamDraft);
     var odp=checkIssueGlobalParamExists();
     var params=ParametrDraft.find({czyAktywny:true});
     if(odp==false && params.count()<=1) {
@@ -193,7 +182,7 @@ createIssueChangeParam=function(paramName,title,oldValue,newValue){
 
                 Meteor.call('addKwestiaADMINISTROWANA', newKwestia, function (error, ret) {
                     if (error)
-                        console.log(error.reason);
+                        throwError(error.reason);
                     else {
                         addPowiadomienieGlobalneFunction(ret);
                         Meteor.call("sendEmailAddedIssue", ret);
@@ -223,7 +212,7 @@ addPowiadomienieGlobalneFunction=function(idKwestia){
         };
         Meteor.call("addPowiadomienie",newPowiadomienie,function(error){
             if(error)
-                console.log(error.reason);
+                throwError(error.reason);
         })
     });
 

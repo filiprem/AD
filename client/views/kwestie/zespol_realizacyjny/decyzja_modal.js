@@ -18,7 +18,7 @@ Template.decyzjaModalInner.helpers({
             ]
         };
     },
-    ZRDoubleList: function(){//tutaj lista wwszystkich zespołów zatweirdzonych.,które mają taki sam zespół jak mój!
+    ZRDoubleList: function(){
         var val=Session.get("zespolRealizacyjnyDouble");
         if(val) {
             return ZespolRealizacyjny.find({
@@ -50,34 +50,16 @@ Template.zespolDoubleTemplatee.helpers({
 Template.decyzjaModalInner.events({
     'click #istniejacyZRButton':function(){
         //sprawdzam,czy mam uprawnienia
-        console.log("KWESTYJKAAAA");//tu jest
-        console.log(this._id);
         $('#nowyZRButton').css("visibility", "hidden");
         $('#istniejacyZRButton').css("visibility", "hidden");
         $("#listZespolRealizacyjnyDouble").modal("show");
         $('#nowyZRButton').css("visibility", "visible");
         $('#istniejacyZRButton').css("visibility", "visible");
-        //if(isUserInZRNotification(Session.get("zespolRealizacyjnyDouble"))==false){//ttuaj chyba trzeba przekeić tamtą metodę z kwestii!!??cos tu nie działa!!!BD POTRZEBNE!
-            //jeśli ma uprawnienia,to dać styl pusty
-            //$("#modalBody").attr('disabled','disabled');
-
-            //Meteor.call('updateIdZespolu',kwestia._id, newZR, function (error, ret) {
-            //    if (error) {
-            //        if (typeof Errors === "undefined")
-            //            Log.error('Error: ' + error.reason);
-            //        else {
-            //            throwError(error.reason);
-            //        }
-            //    }
-            //});
-       // }
-        //Session.setPersistent("zespolRealizacyjnyDouble",null);
     },
     'click #nowyZRButton':function(){
         $('#nowyZRButton').css("visibility", "hidden");
         $('#istniejacyZRButton').css("visibility", "hidden");
         $('#addNazwa').modal('show');
         $('#nowyZRButton').css("visibility", "visible");
-        //Session.setPersistent("zespolRealizacyjnyDouble",null);
     }
 });

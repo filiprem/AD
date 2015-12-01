@@ -13,11 +13,6 @@ Template.addTopicModalInner.events({
 
         var topicName = document.getElementById("topicName").value;
 
-        //var topic = [{
-        //    nazwaTemat: document.getElementById("topicName").value,
-        //    opis: document.getElementById("topicDescription").value
-        //}];
-
         var topicsCount = Temat.find({nazwaTemat: topicName}).count();
 
         if(topicsCount > 0){
@@ -34,22 +29,6 @@ Template.addTopicModalInner.events({
                     duration: 5 // duration the notification should stay in seconds
                 });
             }else {
-                //Meteor.call('addTemat', topic, function (error,ret) {
-                //    if (error) {
-                //        throwError(error.reason);
-                //    }
-                //    else {
-                //        Session.setPersistent("choosenTopicId", ret);
-                //        Session.setPersistent("choosenTypeId", null);
-                //        if(Rodzaj.find({idTemat: ret}).count()>0) {
-                //            document.getElementById("chooseTypeBtn").disabled = false;
-                //        }else{
-                //            document.getElementById("chooseTypeBtn").disabled = true;
-                //        }
-                //        document.getElementById("addTypeBtn").disabled = false;
-                //        $("#addTopicModalId").modal("hide");
-                //    }
-                //});
 
                 document.getElementById("addTypeBtn").disabled = false;
                 Session.setPersistent("choosenTopic", topicName);

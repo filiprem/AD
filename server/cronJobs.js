@@ -20,11 +20,7 @@ SyncedCron.add({
 SyncedCron.add({
     name: 'checking RR',
     schedule: function(parser) {
-        // parser is a later.parse object
-        var RRFrequency = Parametr.findOne({}).okresSkladaniaRR;
-        //return parser.text('every '+ voteFreq + ' day'); domyslnie bedzie w dniach?
-        return parser.text('every 20 minutes');
-        //return parser.text('every '+ RRFrequency + ' minute');
+        return parser.text('every 1 day');
     },
     job: function() {
         return checkingRRExist();
@@ -45,20 +41,12 @@ SyncedCron.add({
 
 //==================================== wywoływane metody ======================================================//
 
-//Sprawdzanie dat dla głosowania oraz dla kwestii oczekujących
-//oczekujące do zrobienia - potrzebne dodanie do bazy jakiejś daty kiedy kwestia przeszła na oczekującą
-//i wtedy dodawać 30 dni (taki jest termin) lub odrazu zapisywać termin wygaśniecia kwesti oczekującej.
-
-//sprawdzanie kiedy koniec glosowania i dopowiednie dzzialania-realizacja lub kosz lub sth else
 checkingRRExist=function(){
-    console.log("checking rr exists");
     var kwestie=Kwestia.find({
         czyAktywny:true,
         status:{$in:[KWESTIA_STATUS.ZREALIZOWANA,KWESTIA_STATUS.REALIZOWANA]},
         typ:{$nin:[KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE]}});
     kwestie.forEach(function(kwestia){
-    //moment(new Date()).add(Parametr.findOne().okresSkladaniaRR,"minutes").format()
-       //var nextCheck= _.last(kwestia.listaDatRR);
         var initial=_.last(kwestia.listaDatRR);
         var nextCheck= moment(initial).add(Parametr.findOne().okresSkladaniaRR,"minutes").format();
         var currentTime=moment(new Date()).format();
@@ -68,26 +56,22 @@ checkingRRExist=function(){
         console.log("Obecna godzina");
         console.log(currentTime);
        if(nextCheck<=currentTime){
-           //sprawdzamy czy jest raport-jeśli jest,to git, jeśli nie-powiad
            var raporty=Raport.find({idKwestia:kwestia._id,
                dataUtworzenia: {
                    $gte: initial,
                }},{sort:{dataWprowadzenia:-1}});
 
            if(raporty.count()==0) {
-                console.log("brak raportów");
                Meteor.call("sendEmailNoRealizationReport", kwestia._id, function (error) {
                    if (error)
                        console.log(error.reason);
                });
                var users = Users.find({'profile.userType': USERTYPE.CZLONEK});
                users.forEach(function (user) {
-                   //dodaj!-wybranie z zespolu tych czlonkow,którzy czyAtywny==true
                    var zr = ZespolRealizacyjny.findOne({_id: kwestia.idZespolRealizacyjny});
                    addPowiadomienieAplikacjaRespondMethodPosts(kwestia._id, new Date(), NOTIFICATION_TYPE.LACK_OF_REALIZATION_REPORT, user._id, zr.zespol);
                });
            }
-           else console.log("jest raport ->git");
            var array=kwestia.listaDatRR;
            array.push(currentTime);
            Meteor.call("updateDeadlineNextRR",kwestia._id,array,function(error){
@@ -116,30 +100,19 @@ checkingEndOfVote = function() {
         if(issueUpdated.status == KWESTIA_STATUS.GLOSOWANA) {
             if(actualDate >= issueUpdated.dataGlosowania) {
                 if (issueUpdated.wartoscPriorytetu > 0) {
-                    //for global prameters- jeśli minął czas głosowania,wartPrior>0-> update parametrów, zmiana na zrealizowaną
                     if (issueUpdated.typ == KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE)
                         changeParametersSuccess(issueUpdated);
 
-                    //for kwestia type basic,osobowa-jesli minal czas glosowania,wartPrior>0->
-                    //-dodajemy pkt uzytkownikom za udzial w zespole(zepsol bierzemy z ZrDraft)
-                    //-jezeli zrDraft ma idZR- to odszukujemy ten ZR i o ile istnieje(mogl byc w miedzyczasie rozwiazany)
-                    //to dopisujemy do tego zr tą kwestię i tej kwestii zeminiamy idZr,stary ZRDraft usuwamy
-                    //-else: tworzymy nowy ZR przepisujac ZRDraft,dodajemy do niego kwestie,W kwestii zmeiniamy idZr, ZRDraft usuwamy
-                    //-kwestia zmienia status na realizowana
                     else {
-                        console.log("GLOSOWANA->REALIZAZCJA");
-                        //awansUzytkownika(issueUpdated.idZespolRealizacyjny, pktZaUdzialWZesp);
                         issueUpdated.dataRealizacji = new Date();
                         issueUpdated.numerUchwaly = issueUpdated.issueNumber;//nadawanieNumeruUchwaly(kwestia.dataRealizacji);
 
                         if(issueUpdated.idParent!=null) {
-                            //var kwestieOpcje=Kwestia.find({idParent:kwestia.idParent});
-                            //if(kwestieOpcje.count()>1)
                             hibernateKwestieOpcje(issueUpdated);
                         }
 
                         var zrDraft = ZespolRealizacyjnyDraft.findOne({_id: issueUpdated.idZespolRealizacyjny});
-                        if (zrDraft.idZR != null) {//jezeli draft ma id ZR( kopiuje od istniejącego ZR), to dopisz do kisty ZR tego drafta
+                        if (zrDraft.idZR != null) {
                             var ZR = ZespolRealizacyjny.findOne({_id: zrDraft.idZR});
                             if(ZR) {
                                 console.log("updetujemy zr istniejący");
@@ -157,27 +130,14 @@ checkingEndOfVote = function() {
                         }
 
 
-
-                        //W przypadku przejścia Kwestii-Opcji do Realizacji - pozostałe Opcje przechodzą na status HIBERNOWANA
-
-
-                        //TO BĘDZIE ZREALIZOWANA!
-                        ////dla kwestii osobowych akcesyjnych bezpośrednich:
-                        ////powiadom o pozytywnej decyzji.nadaj login i hasło
-                        ////email
-                        ////przepisz user draft do user
-                        ////ustaw kwestię jako zrealizowaną
-                        //ZMIANA!!!20.11
                         if(_.contains([KWESTIA_TYPE.ACCESS_DORADCA,KWESTIA_TYPE.ACCESS_ZWYCZAJNY,KWESTIA_TYPE.ACCESS_HONOROWY],issueUpdated.typ)) {
                             var userDraft = UsersDraft.findOne({_id: issueUpdated.idUser});
 
                             console.log("contains");
                             console.log(userDraft);
-                            //jezeli userDraft mial idUser=byl juz doradcą,to tylko zmieniamy user type,wysylamy powiadomienie email,updateuserDraft
-                            if(userDraft.profile.idUser!=null){//moze todotyczyc apliakcji istniejacego na czlonka lub honorowego
+                            if(userDraft.profile.idUser!=null){
                                 var user=Users.findOne({_id:userDraft.profile.idUser});
                                 if(user){
-                                    //if (user.profile.userType == USERTYPE.DORADCA) {//sprawdzamy cz ten wcześniej nie aplikował i już ma zmienione
                                     var newUserFields=null;
                                     var text=null;
                                     if(kwestia.typ==KWESTIA_TYPE.ACCESS_ZWYCZAJNY) {
@@ -210,7 +170,7 @@ checkingEndOfVote = function() {
                                     });
                                 }
                             }
-                            else {//zupełnie nowy członek systemu
+                            else {
                                 var activationLink = CryptoJS.MD5(userDraft._id).toString();
                                 if (userDraft) {
                                     Meteor.call("setZrealizowanyActivationHashUserDraft", userDraft._id, activationLink, true, function (error, ret) {
@@ -230,12 +190,6 @@ checkingEndOfVote = function() {
                 else {
                     console.log("admnistrowna/deliberowana w glosowaniu->kosz");
 
-
-                    //dla kwestii osobowych akcesyjnych bezpośrednich:
-                    //powiadom o negatywnej decyzji
-                    //usuń Zrdrat,userDraft->set to false
-                    //set w kwestii czyaktywny:false
-
                     var ZRDraft=ZespolRealizacyjnyDraft.findOne({_id:issueUpdated.idZespolRealizacyjny});
                     if(ZRDraft){
                         var zr=null;
@@ -254,18 +208,14 @@ checkingEndOfVote = function() {
                     if(_.contains([KWESTIA_TYPE.ACCESS_DORADCA,KWESTIA_TYPE.ACCESS_ZWYCZAJNY],issueUpdated.typ)){
                         var userDraft=UsersDraft.findOne({_id:issueUpdated.idUser});
                         if(userDraft) {
-                            //jezeli to jest existing user- powiadom o negatywnej w powiadomieniach
                             if(userDraft.profile.idUser!=null) {
                                 var user = Users.findOne({_id:userDraft.profile.idUser});
-                                console.log("to jest existing user- powiadom o negatywnej w powiadomieniach");
                                 addPowiadomienieAplikacjaRespondMethod(issueUpdated._id,new Date(),NOTIFICATION_TYPE.APPLICATION_REJECTED,user._id);
                             }
                             Meteor.call("sendApplicationRejected",userDraft,function(error,ret){
                                 if(!error)
                                     Meteor.call("removeUserDraft",userDraft);
                             });
-                            //set userDraft to false
-                            //ad to kwestia idUserDraft
                         }
                         Meteor.call('removeUserDraftNotZrealizowany',userDraft._id);
                     }
@@ -275,13 +225,6 @@ checkingEndOfVote = function() {
             }
         }
         else if(issueUpdated.status == KWESTIA_STATUS.OCZEKUJACA){ //DO ZROBIENIA!!!!! po miesiącu idzie do kosza
-            console.log("oczekujaca crone");
-            //to bedzie do wyrzucenia? bo nie ma głosowania w tyh kwestiach
-            //awansUzytkownika(kwestia.idZespolRealizacyjny, pktZaUdzialWZesp);
-            //kwestia.dataRealizacji = new Date();
-            //kwestia.numerUchwaly = nadawanieNumeruUchwaly(kwestia.dataRealizacji);
-            //Meteor.call('updateStatNrUchwDtRealKwestii', kwestia._id, KWESTIA_STATUS.REALIZOWANA, kwestia.numerUchwaly, kwestia.dataRealizacji);
-           //to samo,co dla tej powyzej, +zmiana statusu na w realizacji
         }
     });
 };
@@ -297,50 +240,11 @@ checkingDeliberationExpiration=function(){
         var date=moment(kwestia).add(1,"month").format();
         if(date<=moment(new Date().format()))
            Meteor.call("removeKwestia",kwestia._id);
-        //+ zarządzanie zr!
     });
 };
-//RAZ NA 7 DNI 3 NAJWYŻEJ OCENIANE KWESTIE PRZECHODZĄ DO GŁOSOWANIA
-// 7 i 3 mają być wczytywane z parametru z tym że 7 jest ustawiane w cronie
-//checkingIssuesToVote = function () {
-//
-//    var kworum = liczenieKworumZwykle();
-//    var voteQuant = Parametr.findOne({}).voteQuantity;
-//    var issues = Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.DELIBEROWANA});
-//    var kwestie = [];
-//
-//    issues.forEach(function (issue) {
-//
-//        var usersCount = issue.glosujacy.length;
-//        var teamCount = ZespolRealizacyjnyDraft.findOne({_id: issue.idZespolRealizacyjny}).zespol.length;
-//
-//        if(issue.wartoscPriorytetu > 0 && usersCount >= kworum && teamCount >= 3) {
-//
-//            kwestie.push(issue);
-//        }
-//    });
-//
-//    if(kwestie!=null){
-//        kwestie = kwestie.sort({ wartoscPriorytetu: -1});
-//        var iloscKwestii = 0;
-//
-//        kwestie.forEach(function (kwestia) {
-//            if(iloscKwestii<voteQuant){
-//
-//                var czasGlosowania = Rodzaj.findOne({_id: kwestia.idRodzaj}).czasGlosowania;
-//                kwestia.dataGlosowania = new Date().addHours(czasGlosowania);
-//                Meteor.call('updateStatusDataGlosowaniaKwestii', kwestia._id, KWESTIA_STATUS.GLOSOWANA, kwestia.dataGlosowania);
-//            }
-//            iloscKwestii++;
-//        });
-//    }
-//};
-
-
 //=========================================== metody pomocnicze ===============================================//
 
 awansUzytkownika = function(idZespoluRealiz, pktZaUdzialWZesp) {
-    console.log(ZespolRealizacyjnyDraft.findOne({_id: idZespoluRealiz}));
     var zespol = ZespolRealizacyjnyDraft.findOne({_id: idZespoluRealiz}).zespol;
 
     zespol.forEach(function (idUzytkownikaZespolu){
@@ -382,25 +286,18 @@ changeParametersSuccess=function(kwestia){
         addReferencePause:globalPramsDraft.addReferencePause,
         okresSkladaniaRR:globalPramsDraft.okresSkladaniaRR
     };
-    console.log("new Parameter");
-    console.log(obj);
     var globalParam=Parametr.findOne();
     Meteor.call("updateParametr",globalParam._id,obj,function(error){
-        if(!error)
-            Meteor.call("setActivityParametrDraft",globalPramsDraft._id,false,function(error){
-                if(!error)
-                    Meteor.call("updateStatusNrUchwalyDataRealizacjiiKwestii",kwestia._id,KWESTIA_STATUS.ZREALIZOWANA,kwestia.issueNumber,new Date());
-                else
-                    console.log("update param failed");
+        if(!error) {
+            Meteor.call("setActivityParametrDraft", globalPramsDraft._id, false, function (error) {
+                if (!error)
+                    Meteor.call("updateStatusNrUchwalyDataRealizacjiiKwestii", kwestia._id, KWESTIA_STATUS.ZREALIZOWANA, kwestia.issueNumber, new Date());
             });
-        else{
-            console.log("nie udało się");
         }
     });
 };
 
 updateListKwestie=function(ZR,kwestia){
-    //var kwestia=Kwestia.findOne({_id:kwestiaId});
     if(kwestia) {
         var listKwestii = ZR.kwestie.slice();
         listKwestii.push(kwestia._id);
@@ -412,17 +309,7 @@ updateListKwestie=function(ZR,kwestia){
                     throwError(error.reason);
 
             }
-            else {//zaktualizuj idZespoluRealizacyjnego w tej kwestii
-                console.log("update kwestii");
-                //if(_.contains([KWESTIA_TYPE.ACCESS_DORADCA,KWESTIA_TYPE.ACCESS_ZWYCZAJNY],kwestia.typ)){
-                //    var issueName=kwestia.kwestiaNazwa;
-                //    if (issueName.contains("Aplikowanie-")){
-                //       var  newIssueName=issueName.substring(issueName.indexOf("-")+1);
-                //        Meteor.call('updateStatNrUchwDtRealIdZespolKwestiiNazwa', kwestia._id, KWESTIA_STATUS.REALIZOWANA, kwestia.numerUchwaly, kwestia.dataRealizacji, ZR._id,newIssueName);
-                //    }
-                //    Meteor.call('updateStatNrUchwDtRealIdZespolKwestii', kwestia._id, KWESTIA_STATUS.REALIZOWANA, kwestia.numerUchwaly, kwestia.dataRealizacji, ZR._id);
-                //}
-                //else
+            else {
                 Meteor.call('updateStatNrUchwDtRealIdZespolKwestii', kwestia._id, KWESTIA_STATUS.REALIZOWANA, kwestia.numerUchwaly, kwestia.dataRealizacji, ZR._id);
             }
         });
@@ -438,8 +325,6 @@ createNewZR=function(zrDraft,kwestia){
         kwestie: arrayKwestie,
         czyAktywny: true
     }];
-    console.log("ten zespol");
-    console.log(newZR);
     Meteor.call('addZespolRealizacyjny', newZR, function (error, ret) {
         if (error) {
             if (typeof Errors === "undefined")
@@ -448,7 +333,7 @@ createNewZR=function(zrDraft,kwestia){
                 throwError(error.reason);
 
         }
-        else {//zaktualizuj idZespoluRealizacyjnego w tej kwestii
+        else {
             var idZR = ret;
             Meteor.call('updateStatNrUchwDtRealIdZespolKwestii', kwestia._id, KWESTIA_STATUS.REALIZOWANA, kwestia.numerUchwaly, kwestia.dataRealizacji, idZR);
         }
@@ -458,11 +343,8 @@ hibernateKwestieOpcje=function(kwestia){
     kwestieOpcje = Kwestia.find({czyAktywny: true, idParent: kwestia.idParent,
         status:{$in:[KWESTIA_STATUS.GLOSOWANA,KWESTIA_STATUS.DELIBEROWANA]}});
     if(kwestieOpcje.count()>1){
-        console.log("kwestie opcje");
-        console.log(kwestieOpcje);
         kwestieOpcje.forEach(function (kwestiaOpcja) {
             if(kwestiaOpcja._id!=kwestia._id) {
-                console.log("update kwestii opcjii");
                 Meteor.call('updateStatusKwestii', kwestiaOpcja._id, KWESTIA_STATUS.HIBERNOWANA);
             }
         });

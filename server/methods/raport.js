@@ -1,9 +1,6 @@
 Meteor.methods({
     addRaportMethod: function(newRaport){
         var id=Raport.insert({
-            //terminyGlosowan: newRaport[0].terminyGlosowan,
-            //uzytkownicy: newRaport[0].uzytkownicy,
-            //realizacja: newRaport[0].realizacja
             idAutor:newRaport.idAutor,
             autorFullName:newRaport.autorFullName,
             dataUtworzenia:moment(newRaport.dataUtworzenia).format(),

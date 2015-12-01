@@ -29,15 +29,11 @@ Template.informacjeKwestia.helpers({
             zespol = ZespolRealizacyjnyDraft.findOne({_id: this.idZespolRealizacyjny});
         if(zespol.idZR)
             zespol=ZespolRealizacyjny.findOne({_id: zespol.idZR});
-        console.log("ten zespół");
-        console.log(zespol.zespol);
         return _.contains(zespol.zespol,Meteor.userId()) ? true : false;
     }
 });
 
 Template.issueDetails.rendered = function () {
-    //nadajemy priorytet automatycznie po wejściu na kwestię + dajemy punkty
-    //za wyjątkiem ,gdy użytkownik nie jest zalogowany lub jest kims innym niz czlonek
     if(Meteor.userId()==null)
         return;
     var me=Users.findOne({_id:Meteor.userId()});
@@ -49,7 +45,6 @@ Template.issueDetails.rendered = function () {
     var idKwestia=Template.instance().data._id;
     var kwestia = Kwestia.findOne({_id: idKwestia});
     if(kwestia.status!=KWESTIA_STATUS.REALIZOWANA) {
-        //var tabGlosujacy = getAllUsersWhoVoted(kwestia._id);
         if (!_.contains(_.pluck(kwestia.glosujacy.slice(), 'idUser'), Meteor.userId())) {//jeżeli użytkownik jeszcze nie głosował
             var glosujacy = {
                 idUser: Meteor.userId(),
@@ -66,7 +61,6 @@ Template.issueDetails.rendered = function () {
                     }
                 }
             });
-            //dodanie pkt za głosowanie
             var newValue = 0;
 
             newValue = Number(RADKING.NADANIE_PRIORYTETU) + getUserRadkingValue(Meteor.userId());
@@ -89,9 +83,7 @@ Template.issueDetails.rendered = function () {
             czyAktywny:true,czyOdczytany:false
         });
         myNotifications.forEach(function(powiadomienie){
-           //if(powiadomienie.typ==NOTIFICATION_TYPE.ISSUE_NO_PRIORITY){
                Meteor.call("setOdczytaneAktywnoscPowiadomienie",powiadomienie._id,true,false);
-          //}
         });
     }
 };
@@ -126,15 +118,6 @@ Template.issueDetails.helpers({
             return "+"+this.wartoscPriorytetu;
         else return this.wartoscPriorytetu;
     },
-    //thisKwestia: function () {
-    //    var kw = Kwestia.findOne({_id: this._id});
-    //    if (kw) {
-    //        if (kw.isOption)
-    //            Session.set("idKwestia", kw.idParent);
-    //        else
-    //            Session.set("idKwestia", this._id)
-    //    }
-    //},
     // OPCJE
     ifHasOpcje: function () {
         var kwestiaGlownaId = this.idParent;
@@ -216,7 +199,7 @@ Template.issueDetails.helpers({
         return (d) ? moment(d).format("DD-MM-YYYY, HH:mm") : "---";
     },
     //USERS
-    isNotAdminOrDoradca: function () {//jezeli nie jest adminem ani doradcą
+    isNotAdminOrDoradca: function () {
         if (Meteor.user()) {
             if (Meteor.user().roles) {
                 if (Meteor.user().roles == "admin")
@@ -245,7 +228,7 @@ Template.issueDetails.helpers({
     },
     ZRComplete:function(){
         var zespol=null;
-        if(this.zespol) {//kwestia archiwalna lub w koszu
+        if(this.zespol) {
             zespol = this.zespol.czlonkowie;
             return zespol.length >= 3 ? true : false;
         }
@@ -268,7 +251,7 @@ Template.issueManageZR.helpers({
             return zespol.nazwa;
         else {
             var zespol = null;
-            zespol = ZespolRealizacyjny.findOne({_id: this.idZespolRealizacyjny});//wlasciwie tylko ta linijka powinna być
+            zespol = ZespolRealizacyjny.findOne({_id: this.idZespolRealizacyjny});
             if (!zespol)
                 zespol = ZespolRealizacyjnyDraft.findOne({_id: this.idZespolRealizacyjny});
             if (zespol.idZR)
@@ -294,7 +277,7 @@ Template.issueManageZR.helpers({
             }
         };
     },
-    ZRList:function(){//tylko dla realizacji czy zrealizowanych? przyjmijmy ,ze w reazacji,wiec z zr bierzemy
+    ZRList:function(){
         var zespol = ZespolRealizacyjny.findOne({_id: this.idZespolRealizacyjny});
         if(zespol){
             var users=Users.find({_id:{$in:zespol.zespol}});
@@ -322,9 +305,6 @@ Template.zrOptions.events({
             if (zespol == 1)
                 bootbox.alert("Przepraszamy! Jesteś jedynym członkiem tego ZR. Nie możesz opuścić go dopóki masz pod swoją opieką uchwały")
             else {
-                console.log(Template.instance().data._id);
-                console.log("bum!");
-                console.log(this._id);
                 $("#zrCurrentIssueMyResolutions").modal("show");
             }
         }
@@ -335,7 +315,6 @@ getZRCount=function(idZR,idIssue){
     var zespol = ZespolRealizacyjny.findOne({_id: idZR});
     if (!zespol) {
         zespol = ZespolRealizacyjnyDraft.findOne({_id: idZR});
-        //spr,czy kwestia ma idZR ktore ma kwestie w realizacjii
         if(zespol.idZR){
             var z=ZespolRealizacyjny.findOne({_id:zespol.idZR});
             if(z.kwestie.length>0 && z.czyAktywny==true && idIssue!=null){

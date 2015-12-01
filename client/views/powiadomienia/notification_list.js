@@ -17,21 +17,11 @@ Template.notificationList.helpers({
                 { key: 'dataWprowadzenia', label: "Data", tmpl: Template.dataWpr,sortOrder: 0, sortDirection: 'descending' }
             ],
             rowClass:function(item){
-                console.log(item.czyOdczytany);
                 if(item.czyOdczytany==false)
                 return "danger";
             }
         };
-    },
-    //PowiadomieniaList: function () {
-    //    //console.log(this._id);
-    //    console.log(Powiadomienie.find({idOdbiorca:Meteor.userId()}).count());
-    //    return Powiadomienie.find({idOdbiorca:Meteor.userId(),czyAktywny:true},{$sort:{dataWprowadzenia:-1}});
-    //},
-    usersCount: function () {
-        return Users.find().count() - 1;
     }
-
 });
 Template.dataWpr.helpers({
     date: function () {
@@ -41,7 +31,6 @@ Template.dataWpr.helpers({
 });
 Template.tematLink.helpers({
     notificationTitle:function(){
-        console.log(this.powiadomienieTyp);
         var idNadawca=this.idNadawca;
         var idKwestia=this.idKwestia;
         return getTopicTypeNotification(this.powiadomienieTyp,idNadawca,idKwestia);
@@ -49,7 +38,6 @@ Template.tematLink.helpers({
 });
 
 getTopicTypeNotification=function(powiadomienieTyp,idNadawca,idKwestia){
-    console.log(idNadawca);
     switch(powiadomienieTyp){
         case NOTIFICATION_TYPE.MESSAGE_FROM_USER:{
             var user = Users.findOne({_id: idNadawca});

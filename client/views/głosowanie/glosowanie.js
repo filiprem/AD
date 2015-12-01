@@ -15,14 +15,7 @@ Template.glosowanie.helpers({
                 { key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestia}
             ]
         };
-    },
-    //GlosowanieList: function () {
-    //    return Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.GLOSOWANA}).fetch();
-    //},
-    //GlosowanieListCount: function () {
-    //    var ile = Kwestia.find({czyAktywny: true, status: KWESTIA_STATUS.GLOSOWANA}).count();
-    //    return ile > 0 ? true : false;
-    //}
+    }
 });
 
 Template.dataGlosowaniaKwestia.helpers({

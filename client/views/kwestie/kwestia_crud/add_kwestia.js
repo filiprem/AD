@@ -1,7 +1,5 @@
 Template.addKwestiaForm.rendered = function () {
 
-    //Session.setPersistent("choosenTopicId", null);
-    //Session.setPersistent("choosenTypeId", null);
     Session.setPersistent("choosenTopic", null);
     Session.setPersistent("choosenType", null);
     document.getElementById("sugerowanyTemat").readOnly = true;
@@ -63,25 +61,9 @@ Template.addKwestiaForm.rendered = function () {
 Template.addKwestiaForm.helpers({
     topic: function () {
         return Session.get("choosenTopic");
-        //var topic = Temat.findOne({_id: Session.get("choosenTopic")});
-        //if(topic!=null){
-        //    //return topic.nazwaTemat
-        //    return topic
-        //}
-        //else{
-        //    return null
-        //}
     },
     type: function () {
         return Session.get("choosenType");
-        //var type = Rodzaj.findOne({_id: Session.get("choosenType")});
-        //if(type!=null){
-        //    //return type.nazwaRodzaj
-        //    type
-        //}
-        //else {
-        //    return null
-        //}
     }
 });
 
@@ -105,8 +87,6 @@ Template.addKwestiaForm.events({
                     dataWprowadzenia: new Date(),
                     kwestiaNazwa: $(e.target).find('[name=kwestiaNazwa]').val(),
                     wartoscPriorytetu: 20,
-                    //temat: Temat.findOne({_id:Session.get("choosenTopicId")}).nazwaTemat,
-                    //rodzaj: Rodzaj.findOne({_id:Session.get("choosenTypeId")}).nazwaRodzaj,
                     temat: Session.get("choosenTopic"),
                     rodzaj: Session.get("choosenType"),
                     krotkaTresc: $(e.target).find('[name=krotkaTresc]').val(),

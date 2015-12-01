@@ -46,14 +46,9 @@ Template.kwestiaTopButtons.helpers({
         typ==KWESTIA_TYPE.ACCESS_HONOROWY ||
         typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE) && (status==KWESTIA_STATUS.REALIZOWANA || status==KWESTIA_STATUS.ZREALIZOWANA) && czyAktywny==false) ||
         status==KWESTIA_STATUS.GLOSOWANA ||
-        //status==KWESTIA_STATUS.ZREALIZOWANA ||
-        //status==KWESTIA_STATUS.ADMINISTROWANA ||
         status==KWESTIA_STATUS.OCZEKUJACA ||
         status==KWESTIA_STATUS.ARCHIWALNA ||
         czyAktywny==false ? true : false;
-    },
-    isKwestiaZrealizowana:function(status){
-        return status==KWESTIA_STATUS.ZREALIZOWANA ? true : false;
     }
 });
 Template.kwestiaTopButtons.events({
@@ -67,9 +62,9 @@ Template.kwestiaTopButtons.events({
             var kwestia = Kwestia.findOne({_id: this.idKwestia});
             if (kwestia) {
                 if (kwestia.idParent) {
-                    if (kwestia.isOption == false)//jezeli to glowna jest,to,ok
+                    if (kwestia.isOption == false)
                         kw = kwestia;
-                    else//znajdz glowna
+                    else
                         kw = Kwestia.findOne({idParent: kwestia.idParent});
 
                 }

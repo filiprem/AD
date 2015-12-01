@@ -75,7 +75,7 @@ addPowiadomienieFunction=function(content){
     };
     Meteor.call("addPowiadomienie",newPowiadomienie,function(error){
         if(error)
-            console.log(error.reason);
+            throwError(error.reason);
     })
 };
 askToFillSubject=function(text,newEmail){

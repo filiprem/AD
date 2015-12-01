@@ -42,8 +42,6 @@ Template.addHonorowy.events({
                 if (user.emails[0].address == email)
                     idUser = user._id;
             });
-            console.log("id user!");
-            console.log(idUser);
             var firstName = "";
             var lastName = "";
             if (idUser != null) {
@@ -72,11 +70,9 @@ Template.addHonorowy.events({
     }
 });
 addUserDraftHonorowy=function(newUser){
-    console.log("add user draft");
-    console.log(newUser);
     Meteor.call('addUserDraft', newUser, function (error, ret) {
         if (error) {
-            console.log(error.reason);
+            throwError(error.reason);
         }
         else {
             addKwestiaOsobowaHonorowy(ret, newUser);
@@ -92,7 +88,7 @@ addKwestiaOsobowaHonorowy=function(idUserDraft,newUser){
     }];
     Meteor.call('addZespolRealizacyjnyDraft', newZR, function (error,ret) {
         if (error) {
-            console.log(error.reason);
+            throwError(error.reason);
         }
         else {
             var fullName=null;
@@ -123,15 +119,12 @@ addKwestiaOsobowaHonorowy=function(idUserDraft,newUser){
                     typ: KWESTIA_TYPE.ACCESS_HONOROWY,
                     idZglaszajacego:Meteor.userId()
                 }];
-            console.log("add kwestia");
-            console.log(newKwestia);
             Meteor.call('addKwestiaStatusowa', newKwestia, function (error, ret) {
                 if (error) {
                     // optionally use a meteor errors package
                     if (typeof Errors === "undefined")
                         Log.error('Error: ' + error.reason);
                     else {
-                        //if(error.error === 409)
                         throwError(error.reason);
                     }
                 }
@@ -140,10 +133,7 @@ addKwestiaOsobowaHonorowy=function(idUserDraft,newUser){
                     addPowiadomienieAplikacjaIssueFunction(ret,newKwestia[0].dataWprowadzenia);
                     przyjecieWnioskuHonorowyConfirmation(Parametr.findOne().czasWyczekiwaniaKwestiiSpecjalnej, daneAplikanta.email, "członek honorowy");
                     var user = UsersDraft.findOne({_id: idUserDraft});
-                    //Meteor.call("sendApplicationConfirmation", user,function(error){
-                       // if(!error)
-                            Meteor.call("sendEmailAddedIssue", ret);
-                    //});
+                    Meteor.call("sendEmailAddedIssue", ret);
                 }
             });
         }

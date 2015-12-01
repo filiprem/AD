@@ -58,8 +58,6 @@ Template.uzasadnienieKoszModal.events({
                                         throwError(error.reason);
                                 }
                             });
-                            //    }
-                            //});
                             document.getElementById("message").value = "";
                             $("#uzasadnijWyborKosz").modal("hide");
                             $('html, body').animate({

@@ -34,24 +34,11 @@ Template.addKwestiaOpcjaForm.rendered = function () {
     })
 };
 Template.addKwestiaOpcjaForm.helpers({
-    kwestiaInfo:function(idKwestia){
-        console.log("kwestia info");
-        console.log(idKwestia);
-        var kwestia=Kwestia.findOne({_id:idKwestia});
-        if(kwestia)
-            return kwestia;
-    },
     rodzajNazwa: function () {
         return Rodzaj.findOne({_id: this.idRodzaj}).nazwaRodzaj;
     },
     tematNazwa: function () {
         return Temat.findOne({_id: this.idTemat}).nazwaTemat;
-    },
-    krotkaTrescValidator: function (tresc) {
-        if (tresc && stringContains(tresc, "Wnioskuję podjęcie uchwały:"))
-            tresc = tresc.replace("Wnioskuję podjęcie uchwały: ", "");
-
-        return tresc;
     },
     isKwestiaOsobowa:function(){
         return this.status==KWESTIA_STATUS.OSOBOWA ? true :false;
@@ -59,8 +46,6 @@ Template.addKwestiaOpcjaForm.helpers({
     protectorZR:function(){
         if(!Meteor.userId()) return false;
         var zr=ZespolRealizacyjny.findOne({_id:"jjXKur4qC5ZGPQkgN"});
-        console.log("protector");
-        console.log(zr);
         if(zr){
             if(zr.protector)
                 return zr.protector==Meteor.userId() ? true : false;
@@ -101,9 +86,6 @@ Template.addKwestiaOpcjaForm.events({
                 typ: KWESTIA_TYPE.BASIC,
                 issueNumber: parentIssue.issueNumber
             }];
-            console.log("kwestia prev");
-            console.log(newKwestiaOpcja[0]);
-            // Session.set("kwestiaPreviewOpcja", newKwestiaOpcja[0]);
             Session.setPersistent("actualKwestia", newKwestiaOpcja[0]);
             Router.go('previewKwestiaOpcja');
         },2000);

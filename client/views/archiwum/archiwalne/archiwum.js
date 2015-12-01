@@ -30,29 +30,6 @@ Template.archiwumList.helpers({
             ]
         };
     },
-    //ArchiwumList: function () {
-    //    return Kwestia.find({
-    //        czyAktywny: true,
-    //        status: {
-    //            $in: [
-    //                KWESTIA_STATUS.ARCHIWALNA
-    //                //KWESTIA_STATUS.HIBERNOWANA
-    //            ]
-    //        }
-    //    });
-    //},
-    //'ArchiwumListCount': function () {
-    //    var count = Kwestia.find({
-    //        czyAktywny: true,
-    //        status: {
-    //            $in: [
-    //                KWESTIA_STATUS.ARCHIWALNA,
-    //                KWESTIA_STATUS.HIBERNOWANA
-    //            ]
-    //        }
-    //    }).count();
-    //    return count > 0 ? true : false;
-    //},
     'isAdminUser': function () {
         return IsAdminUser();
     },

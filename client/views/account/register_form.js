@@ -87,8 +87,6 @@ Template.registerForm.rendered = function () {
 Template.registerForm.events({
     'submit form': function (e) {
         e.preventDefault();
-        console.log("Użytkownicy");
-        console.log(Users.find());
         // uzupełnienie tymczasowej tablicy danymi z formularza
         var newUser = [
             {
@@ -113,8 +111,6 @@ Template.registerForm.events({
         newUser[0].login = generateLogin(newUser[0].firstName, newUser[0].lastName);
         newUser[0].fullName=newUser[0].firstName+" "+newUser[0].lastName;
 
-        console.log("ten user");
-        console.log(newUser[0]);
         Meteor.call('addUser', newUser, function (error,ret) {
             if (error) {
                 // optionally use a meteor errors package
@@ -144,7 +140,6 @@ Template.registerForm.events({
                                             if (typeof Errors === "undefined")
                                                 Log.error('Error: ' + error.reason);
                                             else {
-                                                //if(error.error === 409)
                                                 throwError(error.reason);
                                             }
                                         }
@@ -157,7 +152,6 @@ Template.registerForm.events({
                                             if (typeof Errors === "undefined")
                                                 Log.error('Error: ' + error.reason);
                                             else {
-                                                //if(error.error === 409)
                                                 throwError(error.reason);
                                             }
                                         }

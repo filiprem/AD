@@ -67,7 +67,6 @@ Template.previewKwestia.events({
         kwestie.forEach(function(item){
             if(item.kwestiaNazwa.trim().toUpperCase() == kwestia.kwestiaNazwa.trim().toUpperCase()) {
                 flag=true;
-                console.log("flag!");
             }
         });
         if(flag==false) {
@@ -99,7 +98,6 @@ setValue=function(temat,rodzaj,isOption,kwestia){
             return;
         }
     });
-    //jeżeli nie ma tematu,dodaj nowy,to rodzaju też nie może być,dodaj rodzaj!
 
     if(foundIdTemat==null) {
         temat=firstLetterToUpperCase(temat);
@@ -142,7 +140,6 @@ setValue=function(temat,rodzaj,isOption,kwestia){
             }
         });
     }
-    //jezeli temat jest,to sprawdzam czy jest rodzaj
     else {
         var foundIdRodzaj=null;
         idTemat=foundIdTemat;
@@ -156,7 +153,7 @@ setValue=function(temat,rodzaj,isOption,kwestia){
                 }
             }
         });
-        if(foundIdRodzaj==null){//jezeli nie ma rodzaju,to dodaj rodzaj z istneijacym tematem
+        if(foundIdRodzaj==null){
 
             rodzaj=firstLetterToUpperCase(rodzaj);
             var newRodzaj=[{
@@ -194,7 +191,6 @@ addKwestia=function(idTemat,idRodzaj,isOption,kwestia){
     var status = KWESTIA_STATUS.DELIBEROWANA;
     var newKwestia = [{
         idUser: Meteor.userId(),
-        //dataWprowadzenia: moment(new Date()).format(),
         dataWprowadzenia: new Date(),
         kwestiaNazwa: kwestia.kwestiaNazwa,
         wartoscPriorytetu: 0,
@@ -234,7 +230,6 @@ addKwestia=function(idTemat,idRodzaj,isOption,kwestia){
 
 addPowiadomienieIssueFunction=function(idKwestia,dataWprowadzenia,typ,text){
     var users=Users.find({'profile.userType':USERTYPE.CZLONEK});
-    //var kwestia=Kwestia.findOne({_id:idKwestia});
     users.forEach(function(user){
         var newPowiadomienie ={
             idOdbiorca: user._id,
@@ -249,7 +244,7 @@ addPowiadomienieIssueFunction=function(idKwestia,dataWprowadzenia,typ,text){
         };
         Meteor.call("addPowiadomienie",newPowiadomienie,function(error){
             if(error)
-                console.log(error.reason);
+                throwError(error.reason);
         })
     });
 

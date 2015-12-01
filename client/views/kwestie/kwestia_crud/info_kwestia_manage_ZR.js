@@ -8,7 +8,6 @@ Template.ZRTemplate.helpers({
 
         if (zespolR){
             return zespolR.nazwa;
-            //return zespolR.zespol.slice().length==3 ? zespolR.nazwa :null;
         }
     },
     isInKoszOrZrealizowana:function(czyAktywny,status){
@@ -63,7 +62,6 @@ Template.ZRTemplate.helpers({
         if(zespol){
             for(var i=0;i<zespol.zespol.length;i++){
                 var user=Users.findOne({_id:zespol.zespol[i]});
-                //data+=user.profile.fullName+",";
                 data.push(user.profile.fullName);
             }
         }
@@ -93,15 +91,12 @@ Template.ZRTemplate.helpers({
 
 Template.ZRTemplate.events({
     'click #czlonek1': function () {
-        //zmiana!
         zespolId=this.idZR;
         var idUser=getZRData(0,this.idZR,"ZRDraft");
-        //var idUser=checkIfInZR(zespolId,Meteor.userId());
-        if(idUser==Meteor.userId()){//jezeli jest juz w zespole
+        if(idUser==Meteor.userId()){
             rezygnujZRAlert(getZRData(0,zespolId,"ZRDraft"),this.idKwestia);
-            //rezygnujZRAlert(checkIfInZR(zespolId,Meteor.userId()),this.idKwestia);
         }
-        else {//nie ma go w zespole
+        else {
             var z = ZespolRealizacyjnyDraft.findOne({_id: zespolId});
             var zespolToUpdate = z.zespol.slice();
             if (z.zespol.length > 0) {
@@ -122,10 +117,8 @@ Template.ZRTemplate.events({
     'click #czlonek2': function () {
 
         zespolId=this.idZR;
-        //var idUser=getZRData(1,zespolId);
         var idUser=checkIfInZR(zespolId,Meteor.userId());
         if(idUser==Meteor.userId()) {//to znaczy,że już jestem w zespole i mogę zrezygnować
-            //rezygnujZRAlert(getZRData(1,zespolId,"ZRDraft"),this.idKwestia);
             rezygnujZRAlert(checkIfInZR(zespolId,Meteor.userId()),this.idKwestia);
         }
         else {
@@ -134,8 +127,8 @@ Template.ZRTemplate.events({
             var zespolToUpdate = z.zespol.slice();
             var liczba = 3 - z.zespol.length - 1;
 
-            if (isUserInZespolRealizacyjnyNotification(Meteor.userId(), zespolToUpdate) == false) {//jeżeli nie jest w zespole
-                if (isUserCountInZespolRealizacyjnyNotification(Meteor.userId(), zespolToUpdate, 2) == false) {//jeżeli jest drugi
+            if (isUserInZespolRealizacyjnyNotification(Meteor.userId(), zespolToUpdate) == false) {
+                if (isUserCountInZespolRealizacyjnyNotification(Meteor.userId(), zespolToUpdate, 2) == false) {
 
                     if (addCzlonekToZespolRealizacyjnyNotificationNew(Meteor.userId(), zespolToUpdate, liczba, zespolId) == false) {
                         bladNotification();
@@ -148,10 +141,8 @@ Template.ZRTemplate.events({
     'click #czlonek3': function () {
 
         zespolId=this.idZR;
-        //var idUser=getZRData(2,this.idZR,"ZRDraft");
         var idUser=checkIfInZR(zespolId,Meteor.userId());
         if(idUser==Meteor.userId()) {
-            //rezygnujZRAlert(getZRData(1, zespolId,"ZRDraft"), this.idKwestia);
             rezygnujZRAlert(checkIfInZR(zespolId,Meteor.userId()),this.idKwestia);
         }
         else {
