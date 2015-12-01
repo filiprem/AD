@@ -7,7 +7,6 @@ Template.realizacjaTab2.helpers({
             showColumnToggles: false,
             enableRegex: false,
             fields: [
-                { key: 'id', label: "Id", tmpl: Template.id },
                 { key: 'dataRealizacji', label: "Data realizacji", tmpl: Template.dataRealizKwestia },
                 { key: 'numerUchwaly', label: "Numer uchwaly", tmpl: Template.numerUchwKwestia },
                 { key: 'kwestiaNazwa', label: "Kwestia nazwa", tmpl: Template.nazwaKwestiLink },

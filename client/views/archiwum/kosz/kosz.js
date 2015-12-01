@@ -7,15 +7,6 @@ Template.kosz.helpers({
             showColumnToggles: false,
             enableRegex: false,
             fields: [
-                {
-                    key: 'id',
-                    label: Template.listKwestiaColumnLabel,
-                    labelData: {
-                        title: "id",
-                        text: "Id"
-                    },
-                    tmpl: Template.id
-                },
                 { key: 'kwestiaNazwa', label: "Nazwa", tmpl: Template.nazwaKwestiLink },
                 { key: 'wartoscPriorytetu', label: "Priorytet", tmpl: Template.priorytetKwestia ,sortOrder:1,sortDirection:'descending'},
                 { key: 'idTemat', label: "Temat", tmpl: Template.tematKwestia },
