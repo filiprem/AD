@@ -83,7 +83,6 @@ jQuery.validator.addMethod("checkExistsAnyEmail", function (value, element) {
 jQuery.validator.addMethod("checkExistsEmailZwyczajny", function (value, element) {
     var found=null;
     var users=Users.find({'profile.userType':{$in:[USERTYPE.CZLONEK,USERTYPE.HONOROWY]}});
-    console.log(users.count());
     users.forEach(function(user){
        if(user.emails[0].address==value)
         found=true;
@@ -145,12 +144,9 @@ jQuery.validator.addMethod("peselValidation2", function(value, element) {
     }
     suma=suma % 10;
     var cyfraKontr = parseInt(value.substring(10,11),10);
-    console.log(suma);
-    console.log(cyfraKontr);
     if(suma==cyfraKontr)
         found=false;
     else found ==null;
-    console.log(found);
     return this.optional(element) || found == false;
 }, "Nieprawidłowy Numer PESEL");
 
