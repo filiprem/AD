@@ -47,7 +47,9 @@ Meteor.startup(function(){
         if(kwestiaAllowedToGlosowana()) {
             console.log("MOVE KWESTIA TO GLOSOWANA");
             var czasGlosowania = Parametr.findOne({}).voteDuration;
+            console.log("ZMIANA_PARAMS");
             var final = moment(new Date()).add(czasGlosowania, "minutes").format();
+            //var final = moment(new Date()).add(czasGlosowania, "hours").format();
             var start = new Date();
             Meteor.call('updateStatusDataGlosowaniaKwestiiFinal', newKwestia._id, KWESTIA_STATUS.GLOSOWANA, final,start,function(error){
                 if(error)

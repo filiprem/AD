@@ -159,15 +159,6 @@ Template.informacjeKwestiaArchiwum.helpers({
         if (this.dataGlosowania)
             return moment(this.dataGlosowania).format("DD-MM-YYYY, HH:mm");
     },
-    dataGlosowaniaObliczana: function () {
-        var dataG = this.dataGlosowania;
-        var r = Rodzaj.findOne({_id: this.idRodzaj});
-        if (r) {
-            var czasGlRodzaj = r.czasGlosowania;
-            var k = moment(dataG).subtract(czasGlRodzaj, 'h').format("DD-MM-YYYY, HH:mm");
-            return k;
-        }
-    },
     isSelected: function (number) {
         var flag = false;
         var kwestie = Kwestia.find({'glosujacy.idUser': Meteor.userId(), idParent: Template.instance().data._id});

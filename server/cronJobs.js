@@ -48,7 +48,9 @@ checkingRRExist=function(){
         typ:{$nin:[KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE]}});
     kwestie.forEach(function(kwestia){
         var initial=_.last(kwestia.listaDatRR);
-        var nextCheck= moment(initial).add(Parametr.findOne().okresSkladaniaRR,"minutes").format();
+        //console.log("ZMIANA_PARAMS");
+        var nextCheck= moment(initial).add(Parametr.findOne().okresSkladaniaRR,"days").format();
+        //var nextCheck= moment(initial).add(Parametr.findOne().okresSkladaniaRR,"minutes").format();
         var currentTime=moment(new Date()).format();
         console.log("Daty miedzy którymi musi pojawić się raport");
         console.log(initial);
