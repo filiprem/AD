@@ -1,25 +1,25 @@
 Meteor.startup(function () {
-    console.log("ZMIANA_PARAMS");
+    //console.log("ZMIANA_PARAMS");
     var globalParameters = [
         {
             "nazwaOrganizacji": "Aktywna Demokracja",
             "terytorium": "Polska",
             "kontakty": "Warszawa ul. Miła",
             "regulamin": "brak regulaminu",
-            "czasWyczekiwaniaKwestiiSpecjalnej":2,//7dni
-            "voteQuantity": 3,
-            "voteDuration":1,
-            "addIssuePause":60,
-            "addCommentPause":2,
-            "addReferencePause":1,
-            "okresSkladaniaRR":1
-            //"czasWyczekiwaniaKwestiiSpecjalnej":7,
+            //"czasWyczekiwaniaKwestiiSpecjalnej":2,
             //"voteQuantity": 3,
-            //"voteDuration":24,
+            //"voteDuration":1,
             //"addIssuePause":60,
             //"addCommentPause":2,
-            //"addReferencePause":2,
-            //"okresSkladaniaRR":30
+            //"addReferencePause":1,
+            //"okresSkladaniaRR":1
+            "czasWyczekiwaniaKwestiiSpecjalnej":7,
+            "voteQuantity": 3,
+            "voteDuration":24,
+            "addIssuePause":60,
+            "addCommentPause":2,
+            "addReferencePause":2,
+            "okresSkladaniaRR":30
         }
     ];
     if (Parametr.find().count() == 0) {

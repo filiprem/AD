@@ -59,21 +59,17 @@ Meteor.startup(function(){
                 }
             }
             if(newKwestia.wartoscPriorytetu > 0 && usersCount >= kworum && newKwestia.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE && newKwestia.status==KWESTIA_STATUS.ADMINISTROWANA) {
-                console.log("global params change: adminitrowana->glosowana");
                 moveKwestiaToGlosowana(newKwestia);
             }
 
             if(newKwestia.wartoscPriorytetu > 0 && usersCount >= kworum && zespolCount >= 3 && newKwestia.status != KWESTIA_STATUS.REALIZOWANA){
                 if(newKwestia.status == KWESTIA_STATUS.DELIBEROWANA){
-                    console.log("basic: deliberowana->glosowana");
                     moveKwestiaToGlosowana(newKwestia);
                 }
                 else if(newKwestia.status==KWESTIA_STATUS.OSOBOWA && (newKwestia.typ==KWESTIA_TYPE.ACCESS_DORADCA || newKwestia.typ==KWESTIA_TYPE.ACCESS_ZWYCZAJNY)){
-                    console.log("OSOBOWA(ACCESS)->GLOSOWANA");
                     moveKwestiaToGlosowana(newKwestia);
                 }
                 else if (newKwestia.status == KWESTIA_STATUS.STATUSOWA && newKwestia.typ==KWESTIA_TYPE.ACCESS_HONOROWY){
-                    console.log("STATUSOWA(ACCESS HONOROWY)->OCZEKUJACA");
                     var userDraft=UsersDraft.findOne({_id:newKwestia.idUser});
                     var acceptInvitationLink = CryptoJS.MD5(userDraft._id).toString();
                     Meteor.call("setActivationHashUserDraft",userDraft._id,acceptInvitationLink,function(error){
@@ -90,25 +86,14 @@ Meteor.startup(function(){
                     });
                 }
                 else if (newKwestia.status == KWESTIA_STATUS.OCZEKUJACA && newKwestia.typ==KWESTIA_TYPE.ACCESS_HONOROWY){
-                    console.log("OCZEKUJĄCA (HONOROWY)->REALIZACJA");
-                    console.log("to obsłużone w kodzie!");
                    if(newKwestia.isAnswerPositive==true){
-                       //przepisz ZR
-                       //te 2: jeśli zrealizowana:dopisz czlonka do userów
-                       //drafta obsłuż
-                       //kwestia realizacja
-                   }
-                    else{//drafta obsluz,przepisz ZR,kwestia do kosza
-
+                        }
+                    else{
                    }
                 }
             }
 
             if(newKwestia.status == KWESTIA_STATUS.REALIZOWANA && newKwestia.wartoscPriorytetuWRealizacji < ((-1)*newKwestia.wartoscPriorytetu) && newKwestia.czyAktywny==true){
-                console.log("REALIZOWANA->KOSZ gdy osiagnie minusowy priorytet:");
-                console.log(newKwestia.wartoscPriorytetuWRealizacji);
-                console.log(-newKwestia.wartoscPriorytetu);
-
                 Meteor.call('removeKwestiaSetReason', newKwestia._id,KWESTIA_ACTION.NEGATIVE_PRIORITY,function(error) {
                     if(!error) {
                         if (newKwestia.idZespolRealizacyjny) {
@@ -156,22 +141,32 @@ Meteor.startup(function(){
                         }
                         },
                         {wartoscPriorytetu: {$gt: 0}},
-                        {'glosujacy.length': {$gte: liczenieKworumZwykle()}},
                         {sort: {wartoscPriorytetu: -1, dataWprowadzenia: 1}});
 
                     var arrayKwestie=[];
-                    var idParent=oldKwestia.idParent; //uwaga! jezeli kwestia,kotra poszla do realizacji miała idParent,to moze trzeba załadować wiecej
+                    var idParent=oldKwestia.idParent;
                     kwestie.forEach(function (kwestia) {
-                        if (kwestia.idZespolRealizacyjny) {
-                            var zespol = ZespolRealizacyjny.findOne({_id: kwestia.idZespolRealizacyjny});
-                            if (!zespol) {
-                                zespol = ZespolRealizacyjnyDraft.findOne({_id: kwestia.idZespolRealizacyjny});
+                        var condtion=null;
+                        if(kwestia.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE)
+                            condtion=liczenieKworumZwykle();
+                        else {
+                            var rodzaj=Rodzaj.findOne({_id:kwestia.idRodzaj});
+                            if(rodzaj.rodzajNazwa=="Statutotwe")
+                            condtion=liczenieKworumStatutowe();
+                            else condtion=liczenieKworumZwykle();
+                        }
+                        if(kwestia.glosujacy.length>=condtion) {
+                            if (kwestia.idZespolRealizacyjny) {
+                                var zespol = ZespolRealizacyjny.findOne({_id: kwestia.idZespolRealizacyjny});
+                                if (!zespol) {
+                                    zespol = ZespolRealizacyjnyDraft.findOne({_id: kwestia.idZespolRealizacyjny});
+                                }
+                                if (zespol.zespol.length >= 3)
+                                    arrayKwestie.push(kwestia);
                             }
-                            if (zespol.zespol.length >= 3)
+                            else
                                 arrayKwestie.push(kwestia);
                         }
-                        else
-                            arrayKwestie.push(kwestia);
                     });
 
                     if(arrayKwestie.length>0) {
@@ -240,11 +235,9 @@ Meteor.startup(function(){
     };
     moveKwestiaToGlosowana=function(newKwestia,ZRDraft,ifUpdateZR){
         if(kwestiaAllowedToGlosowana()) {
-            console.log("MOVE KWESTIA TO GłOSOWANA");
             var czasGlosowania = Parametr.findOne({}).voteDuration;
             //console.log("ZMIANA_PARAMS");
-            var final = moment(new Date()).add(czasGlosowania, "minutes").format();
-            //var final = moment(new Date()).add(czasGlosowania, "hours").format();
+            var final = moment(new Date()).add(czasGlosowania, "hours").format();
             var start = new Date();
             Meteor.call('updateStatusDataGlosowaniaKwestiiFinal', newKwestia._id, KWESTIA_STATUS.GLOSOWANA, final,start,function(error){
                 if(error)
@@ -378,8 +371,6 @@ Meteor.startup(function(){
         }
     };
     unhibernateKwestieOpcje=function(kwestia){
-        console.log("realizowana->do jakakowliek (powrót opcji z hibernacji do realizacji");
-
         var kwestieOpcje = Kwestia.find({czyAktywny: true, idParent: kwestia.idParent, status: KWESTIA_STATUS.HIBERNOWANA});
         kwestieOpcje.forEach(function (kwestiaOpcja){
             if(kwestiaOpcja._id!=kwestia._id) {

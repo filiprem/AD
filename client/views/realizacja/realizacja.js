@@ -177,7 +177,6 @@ lackOfRealizatonReport=function(){
 checkRRExists=function(raporty,param){
     //console.log("ZMIANA_PARAMS");
     var previousCheck = moment(new Date()).subtract(param, "days").format();
-    //var previousCheck = moment(new Date()).subtract(param, "minutes").format();
     var timeNow = moment(new Date()).format();
     var reports = Raport.find({
         _id: {$in: raporty},

@@ -23,7 +23,6 @@ Template.answerInvitation.helpers({
         var param=Parametr.findOne().czasWyczekiwaniaKwestiiSpecjalnej;
         //console.log("ZMIANA_PARAMS");
         return (moment(kwestia.dataRozpoczeciaOczekiwania).add("days",param).format() < moment(new Date()).format()) ? true : false;
-        //return (moment(kwestia.dataRozpoczeciaOczekiwania).add("hours",param).format() < moment(new Date()).format()) ? true : false;
 
     },
     fullName:function(){
