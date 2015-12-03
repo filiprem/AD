@@ -26,7 +26,7 @@ Template.listKwestia.rendered = function () {
                 return ((this.czyAktywny == true) &&
                 (this.wartoscPriorytetu > 0) &&
                 (this.glosujacy.length>=typKworum) && zrCondition==true
-                &&(this.status==KWESTIA_STATUS.DELIBEROWANA || this.status==KWESTIA_STATUS.ADMINISTROWANA));
+                &&(this.status==KWESTIA_STATUS.DELIBEROWANA || this.status==KWESTIA_STATUS.ADMINISTROWANA || this.status==KWESTIA_STATUS.OSOBOWA));
             }
         }, {sort: {wartoscPriorytetu: -1,dataWprowadzenia:1}});//, limit: 3});
         var tab = [];
