@@ -179,10 +179,10 @@ Meteor.startup(function(){
                             tab = setInQueueToVote(arrayKwestie,arrayKwestie.length);
                         }
                         else if(kwestieGlosowane.count()==1){
-                            var tab= _.first(setInQueueToVote(arrayKwestie,arrayKwestie.length),2);
+                            tab= _.first(setInQueueToVote(arrayKwestie,arrayKwestie.length),2);
                         }
                         else{
-                            var tab= _.first(setInQueueToVote(arrayKwestie,1),1);
+                            tab= _.first(setInQueueToVote(arrayKwestie,1),1);
                         }
                         _.each(tab,function(kwestiaId){
                             var kwestia=Kwestia.findOne({_id:kwestiaId});
