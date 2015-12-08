@@ -269,3 +269,12 @@ Meteor.publish("reportsIssue",function(idRaport){
         flag=true;
        return flag==true}});
 });
+
+Meteor.publish("userChangePassword", function (token) {
+    var user = Users.find({'services.password.reset.token':token},{fields: {'services.password.reset': 1}});
+    if(user){
+        return user;
+    }else{
+        return false;
+    }
+});

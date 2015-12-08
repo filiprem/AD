@@ -11,6 +11,7 @@ SSR.compileTemplate('email_application_accepted',Assets.getText('email_applicati
 SSR.compileTemplate('email_application_accepted_existing_user',Assets.getText('email_application_accepted_existing_user.html'));
 SSR.compileTemplate('email_login_data',Assets.getText('email_login_data.html'));
 SSR.compileTemplate('email_no_realization_report',Assets.getText('email_no_realization_report.html'));
+SSR.compileTemplate('email_reset_password',Assets.getText('email_reset_password.html'));
 
 Template.email_started_voting.helpers({
     nadanoPriorytet: function (kwestiaId,userId) {
@@ -334,6 +335,23 @@ Meteor.methods({
             subject: "Dane logowania do systemu "+Parametr.findOne().nazwaOrganizacji,
             html: data.html
         });
+    },
+    sendResetPasswordEmail:function(email, pass){
+        var users = Users.find();
+        users.forEach(function (user) {
+            _.each(user.emails, function (em) {
+                if (_.isEqual(em.address.toLowerCase(), email.toLowerCase())) {
+                    var userData = user;
+                    var data=applicationEmail(userData, "resetPassword", pass);
+                    Email.send({
+                        to: data.to,
+                        from: data.to,
+                        subject: "Resetowanie hasła dostępu do systemu "+Parametr.findOne().nazwaOrganizacji,
+                        html: data.html
+                    });
+                }
+            });
+        });
     }
 });
 recognizeSex=function(userData){
@@ -368,6 +386,7 @@ applicationEmail=function(userData,emailTypeText,passw){
     var pass=null;
     var to=userData.email;
     var textGender=null;
+    var urlResetPassword = null;
     if(emailTypeText=="reject") {
         emailTypeText = 'email_application_rejected';
     }
@@ -395,6 +414,23 @@ applicationEmail=function(userData,emailTypeText,passw){
         login=userData.username;
         pass=passw;
         to=userData.emails[0].address
+    } else if(emailTypeText == "resetPassword") {
+        emailTypeText = 'email_reset_password';
+        login=userData.username;
+        pass=passw;
+        to=userData.emails[0].address;
+
+        var token = Random.secret();
+        var when = new Date();
+        var tokenRecord = {
+            token: token,
+            email: userData.emails[0].address,
+            when: when
+        };
+        urlResetPassword = Meteor.absoluteUrl()+"account/reset_password/" + token;
+        Meteor.users.update(userData._id, {$set: {
+            "services.password.reset": tokenRecord
+        }});
     }
     else{
        emailTypeText = 'email_application_confirmation';
@@ -415,7 +451,8 @@ applicationEmail=function(userData,emailTypeText,passw){
         welcomeType:welcomeGender,
         login:login,
         password:pass,
-        textGender:textGender
+        textGender:textGender,
+        urlResetPassword: urlResetPassword
     });
     var obj={
         to:to,
