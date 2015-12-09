@@ -36,58 +36,25 @@ Template.header.helpers({
             else return false;
         }
     },
-    hasUserAccess: function () {
-        //if(IsAdminUser()==true)
-        //    return true;
-        //else {
-        //    var users = Users.find({
-        //        $where: function () {
-        //            return (this.roles == 'user');
-        //        }
-        //    });
-        //    if (users.count() > 4)
-        //        return true;
-        //    else return false;
-        //}
-        return true;
-    },
     lessThanFiveUsers: function () {
         var users = Users.find();
         if (users) {
-            return users.count() <= 4 ? true : false;
+            return users.count() <= 5 ? true : false;
         }
         return null;
     },
-    isDoradca: function () {
-        var user = Users.findOne({_id: Meteor.userId()});
-        if (user) {
-            if (user.profile.userType == 'doradca') {
-                //sprawdzam czy aplikowal już
-                var userDraf = UsersDraft.find({'profile.idUser': Meteor.userId()});
-                if (userDraf) {
-                    return userDraf.count() > 0 ? false : true;
-                }
-                return true;
-            }
-            return false;
-        }
-        return false;
-    },
-    liczbaNieprzeczytanych: function () {
-        var powiad = Powiadomienie.find({idUser: Meteor.userId(), czyOdczytany: false});
+    issuesNotReadCount: function () {
+        var powiad = Powiadomienie.find({idOdbiorca: Meteor.userId(), czyOdczytany: false,czyAktywny:true});
         return powiad ? powiad.count() : null;
+    },
+    anyNotRead:function(){
+        var powiad = Powiadomienie.find({idOdbiorca: Meteor.userId(), czyOdczytany: false,czyAktywny:true});
+        if(powiad)
+            return powiad.count()>0 ? true : false;
+    },
+    currentUser:function(){
+        return Meteor.userId()? true : false;
     }
-    //appliedForCzlonek:function(){
-    //    if(isDoradca()){
-    //        var userDraf= UsersDraft.find({'profile.idUser':Meteor.userId()});
-    //        console.log(UsersDraft.find({'profile.idUser':Meteor.userId()}));
-    //        if(userDraf){
-    //            return userDraf.count()>0 ? false : true;
-    //        }
-    //        return true;
-    //    }
-    //    return false;
-    //}
 });
 
 Template.language.events({
@@ -121,10 +88,17 @@ Template.language.events({
     'click #showPageInfo': function () {
 
         var defaultLang = LANGUAGES.DEFAULT_LANGUAGE;
-        var lang = Meteor.user().profile.language ? Meteor.user().profile.language : defaultLang;
+        var user=Meteor.user();
+        var lang = null;
+        if(user){
+            if(user.profile.language)
+                lang=user.profile.language;
+            else lang=defaultLang;
+        }
+        else lang=defaultLang;
         var routeName = Router.current().route.getName();
         var item = PagesInfo.findOne({shortLanguageName: lang, routeName: routeName});
-        var title = TAPi18n.__("pageInfo." + lang + "." + routeName)
+        var title = TAPi18n.__("pageInfo." + lang + "." + routeName);
         bootbox.dialog({
             message: item.infoText ? item.infoText : "Brak opisu",
             title: title
@@ -135,6 +109,17 @@ Template.language.events({
     }
 });
 
+Template.header.events({
+    'change #notification-counter':function(e){
+        var value=$(e.target).val();
+    },
+    'click #newRootClick':function(e){
+        e.preventDefault();
+        bootbox.confirm("Funkcja niedostępna w tej wersji systemu!", function(result) {
+        });
+    }
+});
+
 Template.language.helpers({
     'getUserLang': function () {
         if (Meteor.user()) {
@@ -142,6 +127,8 @@ Template.language.helpers({
                 return Meteor.user().profile.language;
             }
         }
+        else
+            return LANGUAGES.DEFAULT_LANGUAGE;
     },
     'langs': function () {
         var langs = Languages.find({isEnabled: true, czyAktywny: true});
@@ -153,8 +140,9 @@ Template.language.helpers({
         var param = Parametr.findOne({});
         if (param) {
             var nazwa = param.nazwaOrganizacji;
+            var users=Users.find({'profile.userType':USERTYPE.CZLONEK}).count();
             if (nazwa) {
-                return nazwa;
+                return nazwa+" ["+users+"]";
             }
             else {
                 return "AD";
@@ -162,27 +150,4 @@ Template.language.helpers({
         }
     }
 });
-//Template.header.events({
-//    'click #aplikujIdClick': function (e) {
-//        e.preventDefault();
-//        console.log("kliknąłem");
-//        var me=Users.findOne({_id:Meteor.userId()});
-//        var array=[];
-//        if(me.profile.firstName.trim()!=null)
-//            array.push("firstName");
-//        if(me.profile.lastName.trim()!=null)
-//            array.push("lastName");
-//        console.log(me);
-//        Router.go("czlonek_zwyczajny_form");
-//    }
-//});
-//isDoradca=function(){
-//    var user=Users.findOne({_id:Meteor.userId()});
-//    if(user){
-//        if(user.profile.userType=='doradca'){
-//            return user;
-//        }
-//        return false;
-//    }
-//    return false;
-//};
+

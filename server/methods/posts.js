@@ -3,6 +3,7 @@ Meteor.methods({
         var id = Posts.insert({
             idKwestia: newPost[0].idKwestia,
             wiadomosc: newPost[0].wiadomosc,
+            uzasadnienie:newPost[0].uzasadnienie,
             idUser: newPost[0].idUser,
             userFullName: newPost[0].userFullName,
             addDate: newPost[0].addDate,

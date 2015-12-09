@@ -17,7 +17,8 @@ Template.registerForm.rendered = function () {
             },
             pesel:{
                 exactlength: 11,
-                peselValidation:true
+                peselValidation:true,
+                peselValidation2:true
             },
             ZipCode:{
                 kodPocztowyValidation:true
@@ -95,9 +96,8 @@ Template.registerForm.events({
                 lastName: $(e.target).find('[name=lastName]').val(),
                 password: $(e.target).find('[name=password]').val(),
                 confirm_password: $(e.target).find('[name=confirmPassword]').val(),
-                profession: $(e.target).find('[name=profession]').val(),
                 address: $(e.target).find('[name=address]').val(),
-                zip: $(e.target).find('[name=zipCode]').val(),
+                zip: $(e.target).find('[name=ZipCode]').val(),
                 role: 'user',
                 userType: USERTYPE.CZLONEK,
                 uwagi: $(e.target).find('[name=uwagi]').val(),
@@ -111,8 +111,6 @@ Template.registerForm.events({
         newUser[0].login = generateLogin(newUser[0].firstName, newUser[0].lastName);
         newUser[0].fullName=newUser[0].firstName+" "+newUser[0].lastName;
 
-        console.log("ten user");
-        console.log(newUser[0]);
         Meteor.call('addUser', newUser, function (error,ret) {
             if (error) {
                 // optionally use a meteor errors package
@@ -129,22 +127,36 @@ Template.registerForm.events({
                     if (err) {
                         throwError('Niepoprawne dane logowania.');
                     } else {
-                        var zespol=ZespolRealizacyjny.findOne();
+                        var zespol=ZespolRealizacyjny.findOne({_id:"jjXKur4qC5ZGPQkgN"});
                         if(zespol) {
                             if(zespol.zespol.length<3) {
                                 var ZR=zespol.zespol.slice();
                                 ZR.push(addedUser);
-                                Meteor.call('updateCzlonkowieZR', zespol._id,ZR, function (error, ret) {
-                                    if (error) {
-                                        // optionally use a meteor errors package
-                                        if (typeof Errors === "undefined")
-                                            Log.error('Error: ' + error.reason);
-                                        else {
-                                            //if(error.error === 409)
-                                            throwError(error.reason);
+
+                                if(zespol.zespol.length==0){
+                                    Meteor.call('updateCzlonkowieZRProtector', zespol._id, ZR, addedUser, function (error, ret) {
+                                        if (error) {
+                                            // optionally use a meteor errors package
+                                            if (typeof Errors === "undefined")
+                                                Log.error('Error: ' + error.reason);
+                                            else {
+                                                throwError(error.reason);
+                                            }
                                         }
-                                    }
-                                });
+                                    });
+                                }
+                                else {
+                                    Meteor.call('updateCzlonkowieZR', zespol._id, ZR, function (error, ret) {
+                                        if (error) {
+                                            // optionally use a meteor errors package
+                                            if (typeof Errors === "undefined")
+                                                Log.error('Error: ' + error.reason);
+                                            else {
+                                                throwError(error.reason);
+                                            }
+                                        }
+                                    });
+                                }
                             }
                         }
                         if (Meteor.loggingIn()) {
@@ -186,7 +198,7 @@ Template.registerForm.events({
 Template.registerForm.helpers({
     'lessThanFiveUsers': function () {
         var users = Users.find();
-        return !!users && users.count() <= 4 ? true : false;
+        return !!users && users.count() <= 5 ? true : false;
     },
     'getLanguages':function(){
         return Languages.find({});

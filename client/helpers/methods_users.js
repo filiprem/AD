@@ -73,16 +73,13 @@ checkExistsUser=function(searchedEmail,userType1,userType2){
     var userType=null;
     var users = Users.find();
     users.forEach(function (user) {
-        console.log(user);
         _.each(user.emails, function (email) {
             if (_.isEqual(email.address.toLowerCase(), searchedEmail.toLowerCase())) {
 
                 if(userType1 ==null && userType2==null)//dla przeszukania czy wgl jest taki user w systemie
                     found=true;
                 else {
-                    console.log("tu nie powinno wejść");
                     userType=user.profile.userType;
-                    console.log("User type: "+userType);
                     if (userType2 == null) {
                         if (userType == userType1) {//dla przeszukania czy doradca/czlonek jest w systemie
                             found = true;
@@ -99,9 +96,9 @@ checkExistsUser=function(searchedEmail,userType1,userType2){
     });
     return found;
 };
-przyjecieWnioskuConfirmation=function(email,userTypeText){
+przyjecieWnioskuConfirmation=function(time,email,userTypeText){
     bootbox.dialog({
-        message: "Twój wniosek aplikacyjny będzie oczekiwał (maksymalnie 1 tydzień) na akceptację ogółu członków organizacji "+ getNazwaOrganizacji()+
+        message: "Twój wniosek aplikacyjny będzie oczekiwał (maksymalnie "+ time+" dzień/dni) na akceptację ogółu członków organizacji "+ getNazwaOrganizacji()+
         ". Po pozytywnym rozpatrzeniu otrzymasz informację w wiadomości na "+ email+", w której otrzymasz link aktywujący Twoje "+ userTypeText+ " dla nas.",
         title: "Uwaga",
         buttons: {
@@ -111,4 +108,17 @@ przyjecieWnioskuConfirmation=function(email,userTypeText){
             }
         }
     });
-}
+};
+przyjecieWnioskuHonorowyConfirmation=function(time,email,userTypeText){
+    bootbox.dialog({
+        message: "Twój wniosek będzie oczekiwał (maksymalnie "+ time+" dzień/dni) na akceptację ogółu członków organizacji "+ getNazwaOrganizacji()+
+        ". Po pozytywnym rozpatrzeniu osoba, którą wskazałeś otrzyma  informację w wiadomości na "+ email+", w której otrzyma link, gdzie będzie mógł potwierdzić/odrzucić chęć przynależności do oragnizacji jako "+ userTypeText+ " .",
+        title: "Uwaga",
+        buttons: {
+            main: {
+                label: "Ok",
+                className: "btn-primary"
+            }
+        }
+    });
+};

@@ -20,15 +20,15 @@ Meteor.methods({
         ZespolRealizacyjnyDraft.remove(object);
     },
     updateZespolRealizacyjnyDraft:function(id,data){
-        var id = ZespolRealizacyjnyDraft.update(id, {$set: data}, {upsert: true});
+        var id = ZespolRealizacyjnyDraft.update({_id:id}, {$set: {nazwa: data.nazwa,zespol:data.zespol,idZR:data.idZR}}, {upsert: true});
         return id;
     },
     updateCzlonkowieZRDraft: function (id, czlonkowie) {
         var id = ZespolRealizacyjnyDraft.update(id, {$set: {zespol: czlonkowie}}, {upsert: true});
         return id;
     },
-    updateIdZRDraft:function (id, idZR) {
-        var id = ZespolRealizacyjnyDraft.update(id, {$set: {idZR: idZR}}, {upsert: true});
+    updateCzlonkowieNazwaZRDraft: function (id, czlonkowie,nazwa) {
+        var id = ZespolRealizacyjnyDraft.update(id, {$set: {zespol: czlonkowie,nazwa:nazwa}}, {upsert: true});
         return id;
     }
 });

@@ -4,7 +4,6 @@
         <div class="navbar-header">
         </div>
         <div id="navbar-collapse" class="navbar-collapse collapse">
-                {{#if hasUserAccess}}
                     {{#if isAdmin}}
                         <ul class="nav navbar-nav">
                             <li class="{{activeRouteClass 'listLanguages'}}">
@@ -21,11 +20,13 @@
                                 <i class="fa fa-file-o"></i> Kwestie
                             </a>
                         </li>
-                        <li class="{{activeRouteClass 'glosowanie'}}">
-                            <a href="{{pathFor 'glosowanie'}}">
-                                <i class="fa fa-file-text-o"></i> Głosowanie
-                            </a>
-                        </li>
+                        {{#if currentUser}}
+                            <li class="{{activeRouteClass 'glosowanie'}}">
+                                <a href="{{pathFor 'glosowanie'}}">
+                                    <i class="fa fa-file-text-o"></i> Głosowanie
+                                </a>
+                            </li>
+                        {{/if}}
                         <li class="{{activeRouteClass 'realizacja'}}">
                             <a href="{{pathFor 'realizacja'}}">
                                 <i class="fa fa-file-text"></i> Realizacja
@@ -37,14 +38,9 @@
                             </a>
                         </li>
                         {{#if currentUser}}
-                        <li class="{{activeRouteClass 'profile_list'}}">
-                            <a href="{{pathFor 'profile_list'}}">
-                                <i class="fa fa-users"></i> Użytkownicy
-                            </a>
-                        </li>
                             <li class="{{activeRouteClass 'administracjaUserMain'}}">
                                 <a href="{{pathFor 'administracjaUserMain'}}">
-                                    <i class="fa fa-gears"></i> Administracja
+                                    <i class="fa fa-gears"></i> Ustawienia
                                 </a>
                             </li>
                         {{/if}}
@@ -70,25 +66,22 @@
                                         <span class="caret"></span>
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                        <li><a href="{{pathFor 'czlonek_zwyczajny_form'}}">Członek zwyczajny</a></li>
-                                        <li><a href="{{pathFor 'doradca_form'}}">Doradca</a></li>
+                                        <li><a href="{{pathFor 'czlonek_zwyczajny_form'}}">jako Członek zwyczajny</a></li>
+                                        <li><a href="{{pathFor 'doradca_form'}}">jako Doradca</a></li>
+                                        <li><a href="#" id="newRootClick">Nowy węzeł sieci</a></li>
                                     </ul>
                                 </li>
                             {{/if}}
                         </ul>
                     {{/unless}}
-                {{/if}}
             <ul class="nav navbar-nav navbar-right">
                 {{#if currentUser}}
-                    {{#if isDoradca}}
-                        <li class="{{activeRouteClass 'register_form'}} ">
-                            <a href="{{pathFor 'czlonek_zwyczajny_form'}}" id="aplikujIdClick">
-                                <i class="fa fa-male"></i> Aplikuj na członka zwyczajnego
-                            </a>
-                        </li>
-                    {{/if}}
                     <li class="{{activeRouteClass 'notification_list'}} ">
-                        <a href="{{pathFor 'notification_list'}}">Powiadomienia <span class="badge red">{{liczbaNieprzeczytanych}}</span></a>
+                        <a href="{{pathFor 'notification_list'}}">Powiadomienia
+                            {{#if anyNotRead}}
+                                <span class="badge notification-counter" style="background-color:red" id="notification-counter">{{issuesNotReadCount}}</span>
+                            {{/if}}
+                        </a>
                     </li>
                     {{> loginButtons}}
                 {{/if}}

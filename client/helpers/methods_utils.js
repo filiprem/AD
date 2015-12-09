@@ -77,3 +77,36 @@ renderTmpForBootbox = function (template, data) {
 getNazwaOrganizacji=function(){
     return Parametr.findOne() ? Parametr.findOne().nazwaOrganizacji :"Aktywna Demokracjaa";
 };
+
+getLocalDate=function(date) {
+    var dt = new Date(date);
+    var minutes = dt.getTimezoneOffset();
+    dt = new Date(dt.getTime() + minutes*60000);
+    return dt;
+};
+
+notificationPauseWarning=function(text,timeLeft){
+    GlobalNotification.warning({
+        title: 'Przepraszamy',
+        content: "Istnieje ograniczenie częstotliwości dodawania "+ text +" . Następna tego typu akcja możliwa za "+timeLeft,
+        duration: 5 // duration the notification should stay in seconds
+    });
+};
+
+recognizeSexMethod=function(userData){
+    var welcomeGender=null;
+    if(userData.profile.pesel){
+        if(userData.profile.pesel!="") {
+            var pesel = userData.profile.pesel.substring(9, 10);
+            if (_.contains(['1', '3', '5', '7', '9'], pesel))
+                welcomeGender = "Szanowny ";
+            else welcomeGender = "Szanowna "
+        }
+        else
+            welcomeGender="Szanowny/a ";
+    }
+    else
+        welcomeGender="Szanowny/a ";
+
+    return welcomeGender;
+};

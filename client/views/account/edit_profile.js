@@ -3,6 +3,9 @@ Template.profileEdit.rendered = function () {
         rules: {
             email: {
                 email: true
+            },
+            zipcode:{
+                kodPocztowyValidation:true
             }
         },
         messages: {
@@ -15,17 +18,19 @@ Template.profileEdit.rendered = function () {
             },
             surname: {
                 required: fieldEmptyMessage(),
+            },
+            address: {
+                required: fieldEmptyMessage()
+            },
+            zipcode: {
+                required: fieldEmptyMessage()
             }
         },
         highlight: function (element) {
-            var id_attr = "#" + $(element).attr("id") + "1";
-            $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-            $(id_attr).removeClass('glyphicon-ok').addClass('glyphicon-remove');
+            highlightFunction(element);
         },
         unhighlight: function (element) {
-            var id_attr = "#" + $(element).attr("id") + "1";
-            $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
-            $(id_attr).removeClass('glyphicon-remove').addClass('glyphicon-ok');
+            unhighlightFunction(element);
         },
         errorElement: 'span',
         errorClass: 'help-block',
@@ -72,12 +77,9 @@ Template.profileEdit.events({
                     firstName: $(e.target).find('[name=name]').val(),
                     lastName: $(e.target).find('[name=surname]').val(),
                     fullName: $(e.target).find('[name=name]').val() + ' ' + $(e.target).find('[name=surname]').val(),
-                    profession: $(e.target).find('[name=profession]').val(),
                     address: $(e.target).find('[name=address]').val(),
                     zip: $(e.target).find('[name=zipcode]').val(),
-                    gender: $(e.target).find('[name=genderRadios]:checked').val(),
-                    phone: $(e.target).find('[name=phone]').val(),
-                    web: $(e.target).find('[name=website]').val(),
+                    city: $(e.target).find('[name=city]').val(),
                     userType: userType
                 }
             };
