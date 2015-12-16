@@ -1,18 +1,4 @@
-//TO DO zbadac gdzie są subskrypcje i używac jednej publikacji bo robia to samo
-
 // USERS
-
-//Meteor.publish("allUserData", function () {
-//    return Meteor.users.find({});
-//});
-
-Meteor.publish('users', function () {
-    return Users.find({});
-});
-
-Meteor.publish('user', function (id) {
-    return Users.find({_id:id});
-});
 
 Meteor.publish('userTypeAndNames', function (id) {
     return Users.find({_id:id}, {fields: {
@@ -25,10 +11,6 @@ Meteor.publish('userTypeAndNames', function (id) {
 
 Meteor.publish('usersRoles', function () {
     return Users.find({}, {fields: {roles: 1}});
-});
-
-Meteor.publish('usersEmails', function () {
-    return Users.find({}, {fields: {emails: 1}});
 });
 
 Meteor.publish('usersType', function () {
@@ -80,7 +62,7 @@ Meteor.publish('userDraftByLinkAktywacyjny', function (linkAktywacyjny) {
     return UsersDraft.find({linkAktywacyjny: linkAktywacyjny});
 });
 
-Meteor.publish('usersDraftUseridIsActive', function () {
+Meteor.publish('usersDraftUserIdIsActive', function () {
     return UsersDraft.find({}, {fields: {'profile.idUser': 1, 'profile.userType': 1, czyAktywny:1}});
 });
 
