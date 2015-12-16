@@ -9,25 +9,22 @@ Template.managePriorities.helpers({
         }
         else return 0;
     },
-    isSelected: function (number,idParent,glosujacy,status,idKwestia) {
+    isSelected: function (number, idParent, glosujacy, status, idKwestia) {
         if (!Meteor.userId())
             return "disabled";
-        var user = Users.findOne({_id: Meteor.userId()});
-        if (user) {
-            if (user.profile.userType != USERTYPE.CZLONEK)
-                return "disabled";
-        }
-        var kwestia=Kwestia.findOne({_id:idKwestia});
+        if (Meteor.user().profile.userType != USERTYPE.CZLONEK)
+            return "disabled";
+        var kwestia = Kwestia.findOne({_id: idKwestia});
         var flag = false;
-        if(kwestia) {
+        if (kwestia) {
             if (kwestia.typ == KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE) {
-                var globalParams=ParametrDraft.findOne({czyAktywny:true});
-                if(globalParams){
+                var globalParams = ParametrDraft.findOne({czyAktywny: true});
+                if (globalParams) {
                     var kwestie = Kwestia.find({
                         czyAktywny: true,
                         'glosujacy.idUser': Meteor.userId(),
                         typ: KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE,
-                        idParametr:globalParams._id
+                        idParametr: globalParams._id
                     });
                 }
             }
@@ -38,9 +35,9 @@ Template.managePriorities.helpers({
                     idParent: idParent
                 });
         }
-        if(status==KWESTIA_STATUS.REALIZOWANA){
-            var kwestia=Kwestia.findOne({_id:idKwestia});
-            if(kwestia) {
+        if (status == KWESTIA_STATUS.REALIZOWANA) {
+            var kwestia = Kwestia.findOne({_id: idKwestia});
+            if (kwestia) {
                 var glosujacyUser = _.findWhere(kwestia.glosujacyWRealizacji, {'idUser': Meteor.userId()});
                 if (glosujacyUser) {
                     if (glosujacyUser.value == number) {
@@ -70,17 +67,15 @@ Template.managePriorities.helpers({
     isUserOrDoradcaLogged: function () {
         if (!Meteor.userId())
             return "disabled";
-        var user = Users.findOne({_id: Meteor.userId()});
-        if (user) {
-            return user.profile.userType!= USERTYPE.CZLONEK ? "disabled" : "";
-        }
+        return Meteor.user().profile.userType != USERTYPE.CZLONEK ? "disabled" : "";
         return "";
     },
-    koszZrealizowanaArchiwum:function(czyAktywny,status){
-        return czyAktywny==false || status==KWESTIA_STATUS.ZREALIZOWANA || status==KWESTIA_STATUS.ARCHIWALNA || status==KWESTIA_STATUS.OCZEKUJACA ? true: false;
+    koszZrealizowanaArchiwum: function (czyAktywny, status) {
+        return czyAktywny == false || status == KWESTIA_STATUS.ZREALIZOWANA || status == KWESTIA_STATUS.ARCHIWALNA || status == KWESTIA_STATUS.OCZEKUJACA
+        || status == KWESTIA_STATUS.HIBERNOWANA ? true : false;
     },
-    isRealizowana:function(status){
-        return status==KWESTIA_STATUS.REALIZOWANA ? true: false;
+    isRealizowana: function (status) {
+        return status == KWESTIA_STATUS.REALIZOWANA ? true : false;
     }
 });
 
@@ -96,31 +91,33 @@ Template.managePriorities.events({
             idUser: Meteor.userId(),
             value: ratingValue
         };
-        if(kwestia.status==KWESTIA_STATUS.REALIZOWANA){
-            managePriorityKwestiaRealizowana(ratingKwestiaId,kwestia,object,ratingValue);
+        if (kwestia.status == KWESTIA_STATUS.REALIZOWANA) {
+            managePriorityKwestiaRealizowana(ratingKwestiaId, kwestia, object, ratingValue);
 
         }
         else {
-            managePriorityKwestiaDelibGlosowana(ratingKwestiaId,kwestia,object,ratingValue);
+            managePriorityKwestiaDelibGlosowana(ratingKwestiaId, kwestia, object, ratingValue);
 
         }
     }
 });
-managePriorityKwestiaRealizowana=function(ratingKwestiaId,kwestia,object,ratingValue){
-    var wartoscPriorytetuWRealizacji=kwestia.wartoscPriorytetuWRealizacji;
+managePriorityKwestiaRealizowana = function (ratingKwestiaId, kwestia, object, ratingValue) {
+    var wartoscPriorytetuWRealizacji = kwestia.wartoscPriorytetuWRealizacji;
     var glosujacyWRealizacji = kwestia.glosujacyWRealizacji;
-    var myGlos= _.findWhere(glosujacyWRealizacji,{'idUser':Meteor.userId()});
+    var myGlos = _.findWhere(glosujacyWRealizacji, {'idUser': Meteor.userId()});
 
-    if(myGlos){
-        wartoscPriorytetuWRealizacji-=myGlos.value;
-        wartoscPriorytetuWRealizacji+=ratingValue;
-        var newGlosujacyWRealiz=_.reject(glosujacyWRealizacji,function(el){return el.idUser==Meteor.userId()});
-        object.value=ratingValue;
-        glosujacyWRealizacji=newGlosujacyWRealiz;
+    if (myGlos) {
+        wartoscPriorytetuWRealizacji -= myGlos.value;
+        wartoscPriorytetuWRealizacji += ratingValue;
+        var newGlosujacyWRealiz = _.reject(glosujacyWRealizacji, function (el) {
+            return el.idUser == Meteor.userId()
+        });
+        object.value = ratingValue;
+        glosujacyWRealizacji = newGlosujacyWRealiz;
         glosujacyWRealizacji.push(object);
     }
-    else{
-        wartoscPriorytetuWRealizacji+=ratingValue;
+    else {
+        wartoscPriorytetuWRealizacji += ratingValue;
         glosujacyWRealizacji.push(object);
     }
     var kwestiaUpdate = [{
@@ -136,7 +133,7 @@ managePriorityKwestiaRealizowana=function(ratingKwestiaId,kwestia,object,ratingV
         }
     });
 };
-managePriorityKwestiaDelibGlosowana=function(ratingKwestiaId,kwestia,object,ratingValue){
+managePriorityKwestiaDelibGlosowana = function (ratingKwestiaId, kwestia, object, ratingValue) {
     var wartoscPriorytetu = parseInt(kwestia.wartoscPriorytetu);
     var parent = this.idParent;
     var kwestieOpcje = Kwestia.find({czyAktywny: true, idParent: parent});

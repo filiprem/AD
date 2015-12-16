@@ -114,6 +114,7 @@
         typ=typ
         }}
         {{#if currentUser}}
+            {{#unless isIssueArchiwalna}}
             {{#unless isGlobalParamChange}}
                 {{>ZRTemplate
                 idZR=idZespolRealizacyjny
@@ -123,6 +124,7 @@
                 zespol=zespol
                 typ=typ
                 }}
+            {{/unless}}
             {{/unless}}
         {{/if}}
         {{#if ifHasOpcje}}

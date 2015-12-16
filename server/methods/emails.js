@@ -299,7 +299,8 @@ Meteor.methods({
             html: data.html
         });
     },
-    sendApplicationConfirmation:function(userData){
+    sendApplicationConfirmation:function(idUser){
+        var userData = UsersDraft.findOne({_id: idUser});
         var data=applicationEmail(userData,"confirm",null);
         Email.send({
             to: data.to,

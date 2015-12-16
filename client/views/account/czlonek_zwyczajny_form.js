@@ -4,10 +4,7 @@ Template.czlonekZwyczajnyForm.rendered = function () {
     $("#userForm").validate({
         rules: {
             email: {
-                email: true,
-                checkExistsEmail: USERTYPE.CZLONEK,
-                checkExistsEmail2: USERTYPE.DORADCA,
-                checkExistsEmailDraft: true
+                email: true
             },
             confirmPassword: {
                 equalTo: "#inputPassword"
@@ -80,32 +77,72 @@ Template.czlonekZwyczajnyForm.events({
 
         if ($('#userForm').valid()) {
             document.getElementById("submitZwyczajny").disabled = true;
+            var email=$(e.target).find('[name=email]').val();
+            Meteor.call('serverCheckExistsUser', email, USERTYPE.CZLONEK, null, function (error, ret) {
+                if (error) {
+                    throwError(error.reason);
+                }
+                else {
+                    if(ret == false) {
+                        Meteor.call('serverCheckExistsUser', email, USERTYPE.DORADCA,USERTYPE.HONOROWY, function (error, ret) {
+                            if (error) {
+                                throwError(error.reason);
+                            }
+                            else {
+                                if(ret==false) {
+                                    Meteor.call("serverCheckExistsUserDraft",email, function (error, ret) {
+                                        if (error) {
+                                            throwError(error.reason);
+                                        }
+                                        else {
+                                            if(ret==false) {
+                                                var idUser = null;
+                                                if (Meteor.userId())
+                                                    idUser = Meteor.userId();
+                                                var newUser = [
+                                                    {
+                                                        email: email,
+                                                        login: "",
+                                                        firstName: $(e.target).find('[name=firstName]').val(),
+                                                        lastName: $(e.target).find('[name=lastName]').val(),
+                                                        address: $(e.target).find('[name=address]').val(),
+                                                        zip: $(e.target).find('[name=ZipCode]').val(),
+                                                        role: 'user',
+                                                        userType: USERTYPE.CZLONEK,
+                                                        uwagi: $(e.target).find('[name=uwagi]').val(),
+                                                        language: $(e.target).find('[name=language]').val(),
+                                                        isExpectant: false,
+                                                        idUser: idUser,
+                                                        city: $(e.target).find('[name=city]').val(),
+                                                        pesel: $(e.target).find('[name=pesel]').val()
+                                                    }];
+                                                newUser[0].login = generateLogin(newUser[0].firstName, newUser[0].lastName);
 
-            var idUser = null;
-            if (Meteor.userId())
-                idUser = Meteor.userId();
-            var newUser = [
-                {
-                    email: $(e.target).find('[name=email]').val(),
-                    login: "",
-                    firstName: $(e.target).find('[name=firstName]').val(),
-                    lastName: $(e.target).find('[name=lastName]').val(),
-                    address: $(e.target).find('[name=address]').val(),
-                    zip: $(e.target).find('[name=ZipCode]').val(),
-                    role: 'user',
-                    userType: USERTYPE.CZLONEK,
-                    uwagi: $(e.target).find('[name=uwagi]').val(),
-                    language: $(e.target).find('[name=language]').val(),
-                    isExpectant: false,
-                    idUser: idUser,
-                    city: $(e.target).find('[name=city]').val(),
-                    pesel: $(e.target).find('[name=pesel]').val()
-                }];
-            //-- generowanie loginu dla użytkownika
-            newUser[0].login = generateLogin(newUser[0].firstName, newUser[0].lastName);
-
-            addUserDraft(newUser);
-
+                                                addUserDraft(newUser);
+                                            }
+                                            else{
+                                                throwError('Został już złożony wniosek na podany adres email!');
+                                                document.getElementById("submitZwyczajny").disabled = false;
+                                                return false;
+                                            }
+                                        }
+                                    });
+                                }
+                                else{
+                                    throwError('Istnieje już w systemie podany użytkownik!');
+                                    document.getElementById("submitZwyczajny").disabled = false;
+                                    return false;
+                                }
+                            }
+                        });
+                    }
+                    else{
+                        throwError('Istnieje już w systemie podany użytkownik z pozycją, na którą aplikujesz!');
+                        document.getElementById("submitZwyczajny").disabled = false;
+                        return false;
+                    }
+                }
+            });
         }
     },
     'reset form': function () {
@@ -152,13 +189,11 @@ addUserDraft=function(newUser){
                     throwError(error.reason);
             }
             else {
-                var user = UsersDraft.findOne({_id: ret});
-                addKwestiaOsobowa(ret, newUser,user);
-
+                addKwestiaOsobowa(ret, newUser);
             }
         });
 };
-addKwestiaOsobowa=function(idUserDraft,newUser,user){
+addKwestiaOsobowa=function(idUserDraft,newUser){
     var ZR=ZespolRealizacyjny.findOne({_id:"jjXKur4qC5ZGPQkgN"});
     var newZR=[{
         nazwa:ZR.nazwa,
@@ -214,7 +249,7 @@ addKwestiaOsobowa=function(idUserDraft,newUser,user){
                     if(newUser[0].idUser!=null){//jezeli istnieje juz ten użtykownik,jest doradcą,to wyślij mu confirmation w powiad
                         addPowiadomienieAplikacjaRespondFunction(ret,newKwestia[0].dataWprowadzenia,NOTIFICATION_TYPE.APPLICATION_CONFIRMATION);
                     }
-                    Meteor.call("sendApplicationConfirmation", user,function(error){
+                    Meteor.call("sendApplicationConfirmation", idUserDraft,function(error){
                         if(!error) {
                             Meteor.call("sendEmailAddedIssue", ret);
                         }
