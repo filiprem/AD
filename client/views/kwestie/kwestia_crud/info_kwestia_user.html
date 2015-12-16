@@ -24,11 +24,9 @@
         {{else}}
             {{>issueDetails}}
         {{/if}}
-        {{>zrModalCurrentIssueMyResolutions
-            idZespolRealizacyjny=idZespolRealizacyjny
-        }}
-        {{else}}
-            {{>issueDetails}}
+            {{>zrModalCurrentIssueMyResolutions idZespolRealizacyjny=idZespolRealizacyjny }}
+    {{else}}
+        {{>issueDetails}}
     {{/if}}
 </template>
 
@@ -149,11 +147,16 @@
     </div>
 
     {{> notifications}}
-    {{> listZespolRealizacyjnyModal}}
+
     {{> addNazwaModal}}
-    {{>decyzjaModal}}
-    {{>listZespolRealizacyjnyDoubleModal}}
+
+
     {{> GlobalNotifications}}
+    {{#unless isWaiting}}
+        {{> listZespolRealizacyjnyModal}}
+        {{>decyzjaModal}}
+        {{>listZespolRealizacyjnyDoubleModal}}
+    {{/unless}}
 
 </template>
 

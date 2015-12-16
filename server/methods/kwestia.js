@@ -28,7 +28,7 @@ Meteor.methods({
             glosujacy: [],
             glosujacyWRealizacji:[],
             isOption: false,
-            numerUchwały: newKwestia[0].numerUchwały,
+            numerUchwaly: newKwestia[0].numerUchwaly,
             typ:newKwestia[0].typ,
 
             idZespolRealizacyjny: z,
@@ -64,7 +64,7 @@ Meteor.methods({
             glosujacy: [],
             glosujacyWRealizacji:[],
             isOption: false,
-            numerUchwały: newKwestia[0].numerUchwały,
+            numerUchwaly: newKwestia[0].numerUchwaly,
             idZespolRealizacyjny: newKwestia[0].idZespolRealizacyjny,
             typ:newKwestia[0].typ,
             issueNumber: issueNumber
@@ -166,7 +166,7 @@ Meteor.methods({
             glosujacyWRealizacji:[],
             isOption: true,
             idParent: newKwestiaOpcja[0].idParent,
-            numerUchwały: newKwestiaOpcja[0].numerUchwały,
+            numerUchwaly: newKwestiaOpcja[0].numerUchwaly,
             idZespolRealizacyjny: z,
             typ:newKwestiaOpcja[0].typ,
             issueNumber: issueNumber
@@ -201,7 +201,7 @@ Meteor.methods({
             glosujacy: [],
             glosujacyWRealizacji:[],
             isOption: true,
-            numerUchwały: newKwestia[0].numerUchwały,
+            numerUchwaly: newKwestia[0].numerUchwaly,
             idZespolRealizacyjny: newKwestia[0].idZespolRealizacyjny,
             idParent: newKwestia[0].idParent,
             typ:newKwestia[0].typ,

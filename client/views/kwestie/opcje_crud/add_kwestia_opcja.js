@@ -81,7 +81,7 @@ Template.addKwestiaOpcjaForm.events({
                 szczegolowaTresc: szczegolowaTresc,
                 idParent: parentIssue._id,
                 isOption: true,
-                numerUchwały: null,
+                numerUchwaly: null,
                 czyAktywny: true,
                 typ: KWESTIA_TYPE.BASIC,
                 issueNumber: parentIssue.issueNumber

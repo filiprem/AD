@@ -59,12 +59,12 @@ Template.listKwestia.events({
         else
             notificationPauseWarning("kwestii",kwestiaCanBeInserted);
     },
-    'click #clickMe': function () {
-        var users = Users.find({}).fetch();
-        var en = new EmailNotifications();
-        en.registerAddKwestiaNotification('AD', 'Organizacja DOM', users,
-            'Kwestia w sprawie...', 'Uchwała', 'Opis Kwestii....', 'linkDK', 'linkLoginTo');
-    },
+    //'click #clickMe': function () {
+    //    var users = Users.find({}).fetch();
+    //    var en = new EmailNotifications();
+    //    en.registerAddKwestiaNotification('AD', 'Organizacja DOM', users,
+    //        'Kwestia w sprawie...', 'Uchwała', 'Opis Kwestii....', 'linkDK', 'linkLoginTo');
+    //},
     "change #customFilterSelect": function (event, template) {
         var input = $(event.target).val();
         var self = Template.instance();

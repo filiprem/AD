@@ -327,7 +327,9 @@ Meteor.methods({
             html: data.html
         });
     },
-    sendFirstLoginData:function(userData,pass){
+    sendFirstLoginData:function(idUser,pass){
+
+        var userData = Users.findOne({_id:idUser});
         var data=applicationEmail(userData,"loginData",pass);
         Email.send({
             to: data.to,

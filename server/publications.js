@@ -30,12 +30,28 @@ Meteor.publish('usersUsernames', function () {
     return Users.find({}, {fields: {username: 1}});
 });
 
+Meteor.publish('usersFullNames', function () {
+    return Users.find({}, {fields: {'profile.fullName':1}});
+});
+
 Meteor.publish('usersDraft', function () {
     return UsersDraft.find({});
 });
 
 Meteor.publish('userDraft', function (id) {
     return UsersDraft.find({idUser: id});
+});
+
+Meteor.publish('userDraftByLinkAktywacyjny', function (linkAktywacyjny) {
+    return UsersDraft.find({linkAktywacyjny: linkAktywacyjny});
+});
+
+Meteor.publish('usersDraftEmailsUserTypeCzyAktywny', function () {
+    return UsersDraft.find({}, {fields: {email: 1,'profile.userType':1,czyAktywny:1}});
+});
+
+Meteor.publish('usersEmailsUserType', function () {
+    return UsersDraft.find({}, {fields: {email: 1,'profile.userType':1}});
 });
 
 Meteor.publish('usersDraftEmails', function () {

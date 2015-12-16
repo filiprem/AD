@@ -243,6 +243,9 @@ Template.issueDetails.helpers({
             count=getZRCount(this.idZespolRealizacyjny,null);
         var result=3-count;
         return (result >1)  ? result+ " członków" : result+ " członka";
+    },
+    isWaiting: function(){
+        return this.status == KWESTIA_STATUS.OCZEKUJACA ? true : false;
     }
 });
 Template.issueManageZR.helpers({

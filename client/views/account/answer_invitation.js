@@ -12,7 +12,6 @@ Template.answerInvitation.rendered=function(){
 Template.answerInvitation.helpers({
     userNotAnswered:function(){
         var currentRoute=Router.current().params;
-        var userDraft=UsersDraft.findOne({linkAktywacyjny:currentRoute.linkAktywacyjny});
         var kwestia=getKwestia(currentRoute);
         if(kwestia) {
             return kwestia.isAnswerPositive==null ? true: false;
@@ -250,7 +249,7 @@ addNewUser=function(firstName,lastName,city,email,kwestia){
                 if (error)
                     throwError(error.reason);
                 else{
-                    Meteor.call("sendFirstLoginData",Users.findOne({_id:idUser}),newUser[0].password,function(error){
+                    Meteor.call("sendFirstLoginData",idUser,newUser[0].password,function(error){
                         if(error)
                             throwError(error.reason);
                     })
