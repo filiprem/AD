@@ -43,7 +43,7 @@ Template.administracjaUserMain.helpers({
         return ile > 0 ? true : false;
     },
     myData:function(){
-        return Users.findOne({_id:Meteor.userId()});
+        return Meteor.user();
     },
     myKwestia:function(){
         var userDraft = UsersDraft.findOne({'profile.idUser': Meteor.userId(),czyAktywny:true});

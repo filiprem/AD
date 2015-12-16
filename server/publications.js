@@ -2,9 +2,9 @@
 
 // USERS
 
-Meteor.publish("allUserData", function () {
-    return Meteor.users.find({});
-});
+//Meteor.publish("allUserData", function () {
+//    return Meteor.users.find({});
+//});
 
 Meteor.publish('users', function () {
     return Users.find({});
@@ -12,6 +12,15 @@ Meteor.publish('users', function () {
 
 Meteor.publish('user', function (id) {
     return Users.find({_id:id});
+});
+
+Meteor.publish('userTypeAndNames', function (id) {
+    return Users.find({_id:id}, {fields: {
+        'profile.fullName':1,
+        'profile.userType': 1,
+        'profile.firstName': 1,
+        'profile.lastName': 1
+    }});
 });
 
 Meteor.publish('usersRoles', function () {
@@ -34,6 +43,19 @@ Meteor.publish('usersFullNames', function () {
     return Users.find({}, {fields: {'profile.fullName':1}});
 });
 
+Meteor.publish('usersTypeFullNames', function () {
+    return Users.find({}, {fields: {'profile.fullName':1, 'profile.userType': 1}});
+});
+
+Meteor.publish('usersTypeAndNames', function () {
+    return Users.find({}, {fields: {
+        'profile.fullName':1,
+        'profile.userType': 1,
+        'profile.firstName': 1,
+        'profile.lastName': 1
+    }});
+});
+
 Meteor.publish('usersDraft', function () {
     return UsersDraft.find({});
 });
@@ -42,8 +64,16 @@ Meteor.publish('userDraft', function (id) {
     return UsersDraft.find({idUser: id});
 });
 
+Meteor.publish('userDraftActivationLink', function (id) {
+    return UsersDraft.find({_id: id}, {fields: {linkAktywacyjny: 1}})
+});
+
 Meteor.publish('userDraftByLinkAktywacyjny', function (linkAktywacyjny) {
     return UsersDraft.find({linkAktywacyjny: linkAktywacyjny});
+});
+
+Meteor.publish('usersDraftUseridIsActive', function () {
+    return UsersDraft.find({}, {fields: {'profile.idUser': 1, 'profile.userType': 1, czyAktywny:1}});
 });
 
 Meteor.publish('usersDraftEmailsUserTypeCzyAktywny', function () {

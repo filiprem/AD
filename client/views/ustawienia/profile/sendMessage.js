@@ -51,12 +51,7 @@ sendMessage=function(newEmail,idReceiver){
         }
         else {
             var from=Meteor.user().profile.firstName+" "+Meteor.user().profile.lastName;
-            var to=null;
-            var user=Users.findOne({_id:newEmail[0].idReceiver});
-            if(user)
-                to=user.emails[0].address;
             addPowiadomienieFunction( newEmail[0]);
-            //Meteor.call("sendEmail", to, from, newEmail[0].subject, newEmail[0].content);
             Meteor.call("sendDirectMessageToUser",idReceiver,from, newEmail[0].subject, newEmail[0].content);
             Router.go('administracjaUserMain');
         }

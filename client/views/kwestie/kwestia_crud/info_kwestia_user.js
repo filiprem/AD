@@ -245,7 +245,7 @@ Template.issueDetails.helpers({
         return (result >1)  ? result+ " członków" : result+ " członka";
     },
     isWaiting: function(){
-        return this.status == KWESTIA_STATUS.OCZEKUJACA ? true : false;
+        return this.status == KWESTIA_STATUS.OCZEKUJACA || this.status == KWESTIA_STATUS.GLOSOWANA ? true : false;
     }
 });
 Template.issueManageZR.helpers({
