@@ -81,31 +81,39 @@ Template.czlonekZwyczajnyForm.events({
         if ($('#userForm').valid()) {
             document.getElementById("submitZwyczajny").disabled = true;
 
+            var firstName = $(e.target).find('[name=firstName]').val();
+            var lastName = $(e.target).find('[name=lastName]').val();
             var idUser = null;
             if (Meteor.userId())
                 idUser = Meteor.userId();
-            var newUser = [
-                {
-                    email: $(e.target).find('[name=email]').val(),
-                    login: "",
-                    firstName: $(e.target).find('[name=firstName]').val(),
-                    lastName: $(e.target).find('[name=lastName]').val(),
-                    address: $(e.target).find('[name=address]').val(),
-                    zip: $(e.target).find('[name=ZipCode]').val(),
-                    role: 'user',
-                    userType: USERTYPE.CZLONEK,
-                    uwagi: $(e.target).find('[name=uwagi]').val(),
-                    language: $(e.target).find('[name=language]').val(),
-                    isExpectant: false,
-                    idUser: idUser,
-                    city: $(e.target).find('[name=city]').val(),
-                    pesel: $(e.target).find('[name=pesel]').val()
-                }];
-            //-- generowanie loginu dla użytkownika
-            newUser[0].login = generateLogin(newUser[0].firstName, newUser[0].lastName);
 
-            addUserDraft(newUser);
+            Meteor.call("serverGenerateLogin", firstName, lastName, function(err, ret) {
+                if (!err) {
+                    var newUser = [
+                        {
+                            email: $(e.target).find('[name=email]').val(),
+                            login: "",
+                            firstName: firstName,
+                            lastName: lastName,
+                            address: $(e.target).find('[name=address]').val(),
+                            zip: $(e.target).find('[name=ZipCode]').val(),
+                            role: 'user',
+                            userType: USERTYPE.CZLONEK,
+                            uwagi: $(e.target).find('[name=uwagi]').val(),
+                            language: $(e.target).find('[name=language]').val(),
+                            isExpectant: false,
+                            idUser: idUser,
+                            city: $(e.target).find('[name=city]').val(),
+                            pesel: $(e.target).find('[name=pesel]').val()
+                        }];
+                    //-- generowanie loginu dla użytkownika
+                    newUser[0].login = ret;//generateLogin(newUser[0].firstName, newUser[0].lastName);
 
+                    addUserDraft(newUser);
+                } else {
+                    throwError(err.reason)
+                }
+            });
         }
     },
     'reset form': function () {
