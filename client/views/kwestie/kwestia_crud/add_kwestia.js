@@ -8,7 +8,6 @@ Template.addKwestiaForm.rendered = function () {
     document.getElementById("addTypeBtn").disabled = true;
 
     $("#kwestiaForm").validate({
-        ignore: ':hidden:not([class~=selectized]),:hidden > .selectized, .selectize-control .selectize-input input',
         rules: {
             kwestiaNazwa: {
                 checkExistsNazwaKwestii: true,
@@ -26,9 +25,6 @@ Template.addKwestiaForm.rendered = function () {
                 required:fieldEmptyMessage()
             },
             sugerowanyRodzaj:{
-                required:fieldEmptyMessage()
-            },
-            rodzajHidden:{
                 required:fieldEmptyMessage()
             },
             kwestiaNazwa: {

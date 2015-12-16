@@ -30,10 +30,7 @@ Template.resetPassword.rendered = function () {
         errorElement: 'span',
         errorClass: 'help-block',
         errorPlacement: function (error, element) {
-            if(element.attr("name") == "statutConfirmation")
-                error.insertAfter(document.getElementById("statutConfirmationSpan"));
-            else
-                validationPlacementError(error, element);
+            validationPlacementError(error, element);
         }
     });
 };

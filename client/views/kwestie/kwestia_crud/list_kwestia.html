@@ -3,7 +3,7 @@
         <div class="row">
                 <div class="col-md-4">
                     {{#if currentUser}}
-                        {{#if isUserOrDoradcaLogged}}
+                        {{#if isZwyczajnyLogged}}
                             <div class="btn-group">
                                 <a id="addKwestiaButton" class="btn btn-primary">
                                     <i class="fa fa-plus"></i>
@@ -73,11 +73,7 @@
     {{id}}
 </template>
 <template name="nazwaKwestiLink">
-    {{#if isArchiwalna}}
-        <a href="{{ pathFor 'informacjeKwestiaArchiwum'}}" class="kwestiaId">{{issueName}}</a>
-     {{else}}
-        <a href="{{ pathFor 'informacjeKwestia'}}" id="kwestiaIdClick" class="kwestiaId">{{issueName}}</a>
-    {{/if}}
+    <a href="{{ pathFor 'informacjeKwestia'}}" id="kwestiaIdClick" class="kwestiaId">{{issueName}}</a>
 </template>
 
 <template name="nazwaKwestii">

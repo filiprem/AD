@@ -75,7 +75,7 @@ Meteor.methods({
         }});
     },
     serverCheckExistsUser: function(searchedEmail,userType1,userType2){
-        var found = null;
+        var found = false;
         var userType = null;
         var users = Users.find();
         users.forEach(function (user) {
@@ -102,6 +102,24 @@ Meteor.methods({
         });
         return found;
     },
+    serverCheckExistsUserDraft:function(value){
+        var found = null;
+        var usersDraft = UsersDraft.find({czyAktywny:true});
+        usersDraft.forEach(function(user){
+            if(((user.email == value) || (user.email.toLowerCase() == value.toLowerCase())) && user.czyAktywny==true)
+                found=true;
+        });
+
+        return found==true? true : false;
+    },
+    serverGetFullName:function(idUsersArray){
+        var users=Users.find({_id: {$in:idUsersArray}});
+        var array=[];
+        users.forEach(function(user){
+            array.push(user.profile.firstName + " " + user.profile.lastName);
+        });
+        return  array;
+    },
     serverGenerateLogin: function (u_firstName, u_lastName) {
         var i = 1;
         do {
@@ -116,5 +134,4 @@ Meteor.methods({
         while (userExists != null);
         return userName;
     }
-
 });

@@ -2,7 +2,7 @@
  * Created by Bartłomiej Szewczyk on 2015-12-07.
  */
 Template.forgottenPassword.rendered = function () {
-
+    document.getElementById("resetButton").disabled=false;
     $("#forgottenPassword").validate({
         rules: {
             email: {
@@ -48,6 +48,7 @@ Template.forgottenPassword.events({
                 else {
                     if(ret == true){
                         //Accounts.forgotPassword(options);
+                        document.getElementById("resetButton").disabled=true;
                         Meteor.call('sendResetPasswordEmail', options.email, function (error, ret) {
                             if (error) {
                                 throwError(error.reason);

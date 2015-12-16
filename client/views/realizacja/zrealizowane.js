@@ -9,7 +9,7 @@ Template.realizacjaTab2.helpers({
             fields: [
                 { key: 'dataRealizacji', label: "Data realizacji", tmpl: Template.dataRealizKwestia },
                 { key: 'numerUchwaly', label: "Numer uchwaly", tmpl: Template.numerUchwKwestia },
-                { key: 'kwestiaNazwa', label: "Kwestia nazwa", tmpl: Template.nazwaKwestiLink },
+                { key: 'kwestiaNazwa', label: "Nazwa", tmpl: Template.nazwaKwestiLink },
                 { key: 'idTemat', label: "Temat", tmpl: Template.tematKwestia },
                 { key: 'idRodzaj', label: "Rodzaj", tmpl: Template.rodzajKwestia },
                 {key: 'raporty', label: "Raport", tmpl:Template.raport},
@@ -31,33 +31,17 @@ Template.realizacjaTab2.helpers({
 
 Template.realizacjaTab2.events({
     'click #printResolution': function() {
-
         var globalParameters = Parametr.findOne({});
         var vote = this.glosujacy;
         var voteFor = 0;
         var voteAgainst = 0;
         var abstained = 0;
-        var realizationTeamMembers = new Array(3);
         var membersNames = new Array(3);
         var issueContent;
 
         for(i=0; i < 3; i++){
             membersNames[i] = "";
         }
-
-        if(this.idZespolRealizacyjny){
-            var realizationTeam = ZespolRealizacyjny.findOne({_id: this.idZespolRealizacyjny}).zespol;
-
-            for(i = 0; i < realizationTeam.length; i++){
-                realizationTeamMembers[i] = Users.findOne({_id: realizationTeam[i]});
-            }
-            var iterator = 0;
-            realizationTeamMembers.forEach(function(member){
-                membersNames[iterator] = member.profile.firstName + " " + member.profile.lastName;
-                iterator++;
-            });
-        }
-
         for(i = 0; i < vote.length; i++){
             if(vote[i].value>0){
                 voteFor++;
@@ -73,34 +57,44 @@ Template.realizacjaTab2.events({
         }else{
             issueContent = this.krotkaTresc;
         }
+        var numerUchwaly=this.numerUchwaly.toString();
+        var glosujacyLength=this.glosujacy.length;
+        var issueName=this.kwestiaNazwa;
 
         if(this.idZespolRealizacyjny){
-            var docDefinition = {
-                content: [
-                    { text: "dn. " + moment(this.dataRealizacji).format("DD.MM.YYYY").toString() + "r.", style: 'uchwalaTop'},
-                    { text: globalParameters.nazwaOrganizacji + "\n" +
-                    globalParameters.terytorium + "\n" +
-                    globalParameters.kontakty + "\n"
-                    },
-                    { text: "Uchwała  Numer: " + this.numerUchwaly.toString() + "\nDotyczy: " + this.kwestiaNazwa , style: 'uchwalaHeadline'},
-                    { text: "\n\t\t\t\t\t\t" + issueContent, style: 'contentStyle'},
-                    { text: "\nStan osobowy - " + this.glosujacy.length +
-                    "\nObecnych  - " + this.glosujacy.length +
-                    "\nGłosujących za - " + voteFor +
-                    "\nGłosujących przeciw - " + voteAgainst +
-                    "\nWstrzymujących - " + abstained +
-                    "\n\nZespół Realizacyjny:" +
-                    "\n1. - " + membersNames[0] +
-                    "\n2. - " + membersNames[1] +
-                    "\n3. - " + membersNames[2]
-                    }
-                ],
-                styles: {
-                    uchwalaTop: {fontSize: 12, alignment: 'right'},
-                    uchwalaHeadline: {fontSize: 16, bold: true, alignment: 'center', margin: [0,50,0,50]},
-                    contentStyle: {fontSize: 12, alignment: 'justify'}
+            var realizationTeam = ZespolRealizacyjny.findOne({_id: this.idZespolRealizacyjny}).zespol;
+            Meteor.call("serverGetFullName",realizationTeam,function(error,ret){
+                if(!error){
+                    membersNames=ret;
+                    var docDefinition = {
+                        content: [
+                            { text: "dn. " + moment(this.dataRealizacji).format("DD.MM.YYYY").toString() + "r.", style: 'uchwalaTop'},
+                            { text: globalParameters.nazwaOrganizacji + "\n" +
+                            globalParameters.terytorium + "\n" +
+                            globalParameters.kontakty + "\n"
+                            },
+                            { text: "Uchwała  Numer: " + numerUchwaly + "\nDotyczy: " + issueName, style: 'uchwalaHeadline'},
+                            { text: "\n\t\t\t\t\t\t" + issueContent, style: 'contentStyle'},
+                            { text: "\nStan osobowy - " + glosujacyLength +
+                            "\nObecnych  - " + glosujacyLength +
+                            "\nGłosujących za - " + voteFor +
+                            "\nGłosujących przeciw - " + voteAgainst +
+                            "\nWstrzymujących - " + abstained +
+                            "\n\nZespół Realizacyjny:" +
+                            "\n1. - " + membersNames[0] +
+                            "\n2. - " + membersNames[1] +
+                            "\n3. - " + membersNames[2]
+                            }
+                        ],
+                        styles: {
+                            uchwalaTop: {fontSize: 12, alignment: 'right'},
+                            uchwalaHeadline: {fontSize: 16, bold: true, alignment: 'center', margin: [0,50,0,50]},
+                            contentStyle: {fontSize: 12, alignment: 'justify'}
+                        }
+                    };
+                    pdfMake.createPdf(docDefinition).open();
                 }
-            };
+            });
         }else{
             var docDefinition = {
                 content: [
@@ -124,8 +118,7 @@ Template.realizacjaTab2.events({
                     contentStyle: {fontSize: 12, alignment: 'justify'}
                 }
             };
+            pdfMake.createPdf(docDefinition).open();
         }
-
-        pdfMake.createPdf(docDefinition).open();
     }
 });
