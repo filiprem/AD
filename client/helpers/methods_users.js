@@ -1,18 +1,3 @@
-generateLogin = function (u_firstName, u_lastName) {
-    var i = 1;
-    do {
-        if (i <= u_firstName.length) {
-            var userName = replacePolishChars(u_firstName.slice(0, i).toLowerCase() + u_lastName.toLowerCase());
-        } else {
-            var userName = replacePolishChars(u_firstName.slice(0, 1).toLowerCase() + u_lastName.toLowerCase() + (i - u_firstName.length));
-        }
-        var userExists = Users.findOne({username: userName});
-        i++;
-    }
-    while (userExists != null);
-    return userName;
-};
-
 IsAdminUser = function () {
     return Roles.userIsInRole(Meteor.user(), ['admin']);
 };

@@ -24,11 +24,9 @@
         {{else}}
             {{>issueDetails}}
         {{/if}}
-        {{>zrModalCurrentIssueMyResolutions
-            idZespolRealizacyjny=idZespolRealizacyjny
-        }}
-        {{else}}
-            {{>issueDetails}}
+            {{>zrModalCurrentIssueMyResolutions idZespolRealizacyjny=idZespolRealizacyjny }}
+    {{else}}
+        {{>issueDetails}}
     {{/if}}
 </template>
 
@@ -116,6 +114,7 @@
         typ=typ
         }}
         {{#if currentUser}}
+            {{#unless isIssueArchiwalna}}
             {{#unless isGlobalParamChange}}
                 {{>ZRTemplate
                 idZR=idZespolRealizacyjny
@@ -125,6 +124,7 @@
                 zespol=zespol
                 typ=typ
                 }}
+            {{/unless}}
             {{/unless}}
         {{/if}}
         {{#if ifHasOpcje}}
@@ -149,11 +149,16 @@
     </div>
 
     {{> notifications}}
-    {{> listZespolRealizacyjnyModal}}
+
     {{> addNazwaModal}}
-    {{>decyzjaModal}}
-    {{>listZespolRealizacyjnyDoubleModal}}
+
+
     {{> GlobalNotifications}}
+    {{#unless isWaiting}}
+        {{> listZespolRealizacyjnyModal}}
+        {{>decyzjaModal}}
+        {{>listZespolRealizacyjnyDoubleModal}}
+    {{/unless}}
 
 </template>
 

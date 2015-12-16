@@ -49,6 +49,7 @@ Template.loginForm.events({
 
                         Router.go('home');
                     }
+                    Meteor.logoutOtherClients();
                 }
             });
         } else {

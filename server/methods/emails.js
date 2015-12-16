@@ -299,7 +299,8 @@ Meteor.methods({
             html: data.html
         });
     },
-    sendApplicationConfirmation:function(userData){
+    sendApplicationConfirmation:function(idUser){
+        var userData = UsersDraft.findOne({_id: idUser});
         var data=applicationEmail(userData,"confirm",null);
         Email.send({
             to: data.to,
@@ -327,7 +328,9 @@ Meteor.methods({
             html: data.html
         });
     },
-    sendFirstLoginData:function(userData,pass){
+    sendFirstLoginData:function(idUser,pass){
+
+        var userData = Users.findOne({_id:idUser});
         var data=applicationEmail(userData,"loginData",pass);
         Email.send({
             to: data.to,

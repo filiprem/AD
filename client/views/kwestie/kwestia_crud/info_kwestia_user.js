@@ -1,19 +1,3 @@
-/*
- Po odesłaniu do Kosza Kwestii-Opcji powinna ona zniknąć z wykazu Kwestii-Opcji.
- Trzeba ja trwale odłączyć od grupy, a miejsce zwolnione będzie dla ewentualnego dołożenia innej Opcji. ->
- trzeba usunąć idParent z Kwestii-Opcji aby już nie była powiązana z Kwestią-Główna.
- Automatycznie zwolni się miejsce dla kolejnej Opcji i przycisk "Dodaj Opcję" się pojawi.
-
- Po odesłaniu do Archiwym odłączać i zwalniać miejsca nie należy.
- Archiwalna Kwestia-Opcja nadal jest częścią grupy, a w wykazie "podglądowym" (pod szczegółami) powinna być wykazana
- i jakoś inaczej oznaczona (może napisem "archiwalna"), a po kloknięciu w nią - oczywiście - prowadzić do niej (czyli do Archiwum).
- -> Dodać mechanizm, który będzie dopisywał "ARCHIWALNA" do Kwestii-Opcji, która została przeniesiona do Archiwum.
- * */
-
-/*
- Dopóki Kwestia jest w Deliberacji, nie wyświetlamy jej dat GLOSOWANIA i FINALU.
- Jak Kwestia przejdzie do panelu GLOSOWANIE to daty się pojawiaja.
- * */
 Template.informacjeKwestia.helpers({
     isIssueRealizowana:function(){
         if(!Meteor.userId()) return false;
@@ -36,11 +20,8 @@ Template.informacjeKwestia.helpers({
 Template.issueDetails.rendered = function () {
     if(Meteor.userId()==null)
         return;
-    var me=Users.findOne({_id:Meteor.userId()});
-    if(me){
-        if(me.profile.userType!=USERTYPE.CZLONEK || Meteor.user().roles == "admin")
-            return;
-    }
+    if(Meteor.user().profile.userType!=USERTYPE.CZLONEK || Meteor.user().roles == "admin")
+        return;
 
     var idKwestia=Template.instance().data._id;
     var kwestia = Kwestia.findOne({_id: idKwestia});
@@ -103,6 +84,9 @@ Template.issueDetails.events({
 Template.issueDetails.helpers({
     isGlobalParamChange: function(){
         return this.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE ? true : false;
+    },
+    isIssueArchiwalna:function(){
+        return this.status==KWESTIA_STATUS.ARCHIWALNA || this.status==KWESTIA_STATUS.HIBERNOWANA ? true : false;
     },
     isGlosowana:function(){
         return this.status==KWESTIA_STATUS.GLOSOWANA ? true :false;
@@ -205,11 +189,7 @@ Template.issueDetails.helpers({
                 if (Meteor.user().roles == "admin")
                     return false;
                 else {
-                    var user = Users.findOne({_id: Meteor.userId()});
-                    if (user) {
-                        return user.profile.userType == 'doradca' ? false : true;
-                    }
-                    return true;
+                    return Meteor.user().profile.userType !=USERTYPE.DORADCA && Meteor.user().profile.userType !=USERTYPE.HONOROWY ? false : true;
                 }
             }
         }
@@ -243,6 +223,9 @@ Template.issueDetails.helpers({
             count=getZRCount(this.idZespolRealizacyjny,null);
         var result=3-count;
         return (result >1)  ? result+ " członków" : result+ " członka";
+    },
+    isWaiting: function(){
+        return this.status == KWESTIA_STATUS.OCZEKUJACA || this.status == KWESTIA_STATUS.GLOSOWANA ? true : false;
     }
 });
 Template.issueManageZR.helpers({

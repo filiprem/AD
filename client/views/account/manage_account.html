@@ -22,6 +22,12 @@
                 <td><span class="glyphicon glyphicon-info-sign"></span><strong> Imię i nazwisko</strong></td>
                 <td>{{profile.fullName}}</td>
             </tr>
+            {{#if profile.pesel}}
+                <tr>
+                    <td><span class="fa fa-envelope"></span><strong> Pesel</strong></td>
+                    <td>{{profile.pesel}}</td>
+                </tr>
+            {{/if}}
             <tr>
                 <td><span class="glyphicon glyphicon-book"></span><strong> Stanowisko w systemie</strong></td>
                 <td>{{profile.userType}}

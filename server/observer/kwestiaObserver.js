@@ -100,19 +100,19 @@ Meteor.startup(function(){
                             manageZR(newKwestia);
                         }
                         
-                        if(_.contains([KWESTIA_TYPE.ACCESS_DORADCA,KWESTIA_TYPE.ACCESS_ZWYCZAJNY,KWESTIA_TYPE.ACCESS_HONOROWY],newKwestia.typ)) {
-                            var userDraft = UsersDraft.findOne({_id: newKwestia.idUser});
-                            if (userDraft) {
-                                Meteor.call("sendApplicationRejected", userDraft, function (error, ret) {
-                                    (!error)
-                                        Meteor.call('removeUserDraftNotZrealizowany',userDraft._id);
-                                });
-                            }
-                            if(userDraft.profile.idUser!=null) {
-                                var user = Users.findOne({_id:userDraft.profile.idUser});
-                                addPowiadomienieAplikacjaObsRespondMethod(newKwestia._id,new Date(),NOTIFICATION_TYPE.APPLICATION_REJECTED,user._id,null);
-                            }
-                        }
+                        //if(_.contains([KWESTIA_TYPE.ACCESS_DORADCA,KWESTIA_TYPE.ACCESS_ZWYCZAJNY,KWESTIA_TYPE.ACCESS_HONOROWY],newKwestia.typ)) {
+                        //    var userDraft = UsersDraft.findOne({_id: newKwestia.idUser});
+                        //    if (userDraft) {
+                        //        Meteor.call("sendApplicationRejected", userDraft, function (error, ret) {
+                        //            (!error)
+                        //                Meteor.call('removeUserDraftNotZrealizowany',userDraft._id);
+                        //        });
+                        //    }
+                        //    if(userDraft.profile.idUser!=null) {
+                        //        var user = Users.findOne({_id:userDraft.profile.idUser});
+                        //        addPowiadomienieAplikacjaObsRespondMethod(newKwestia._id,new Date(),NOTIFICATION_TYPE.APPLICATION_REJECTED,user._id,null);
+                        //    }
+                        //}
 
                     }
                     else

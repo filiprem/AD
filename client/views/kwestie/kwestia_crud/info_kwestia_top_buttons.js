@@ -49,6 +49,9 @@ Template.kwestiaTopButtons.helpers({
         status==KWESTIA_STATUS.OCZEKUJACA ||
         status==KWESTIA_STATUS.ARCHIWALNA ||
         czyAktywny==false ? true : false;
+    },
+    isArchiwalna:function(status,typ){
+        return _.contains([KWESTIA_STATUS.HIBERNOWANA,KWESTIA_STATUS.ARCHIWALNA],status) || typ==false ? true: false;
     }
 });
 Template.kwestiaTopButtons.events({
@@ -57,7 +60,7 @@ Template.kwestiaTopButtons.events({
     },
     'click #addOptionButton': function () {
         var kwestiaCanBeInserted=kwestiaIsAllowedToInsert();
-       // if(kwestiaCanBeInserted==true) {
+        if(kwestiaCanBeInserted==true) {
             var kw = null;
             var kwestia = Kwestia.findOne({_id: this.idKwestia});
             if (kwestia) {
@@ -71,9 +74,9 @@ Template.kwestiaTopButtons.events({
             }
             Session.setPersistent("actualKwestia", kw);
             Router.go("addKwestiaOpcja");
-        //}
-       // else
-        //    notificationPauseWarning("kwestii",kwestiaCanBeInserted);
+        }
+        else
+            notificationPauseWarning("kwestii",kwestiaCanBeInserted);
     },
     'click #doArchiwum': function (e) {
         e.preventDefault();

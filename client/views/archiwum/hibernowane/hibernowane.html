@@ -2,23 +2,19 @@
     <div class="main">
         <div class="row">
             <div class="col-md-12">
-                <!--{{#if hibernowaneListCount}}-->
-                    {{> reactiveTable
-                    class = "table table-bordered table-hover"
-                    fields = settings.fields
-                    settings = settings
-                    collection = "HibernowaneList"
-                    }}
-                <!--{{else}}-->
-                    <!--<label>Brak Kwestii</label>-->
-                <!--{{/if}}-->
+                {{> reactiveTable
+                class = "table table-bordered table-hover"
+                fields = settings.fields
+                settings = settings
+                collection = "HibernowaneList"
+                }}
             </div>
         </div>
     </div>
 </template>
 
 <template name="nazwaKwestiiHibernowaneLink">
-    <a href="{{ pathFor 'informacjeKwestiaArchiwum'}}">{{this.kwestiaNazwa}}</a>
+    <a href="{{ pathFor 'informacjeKwestia'}}">{{this.kwestiaNazwa}}</a>
 </template>
 
 <template name="tematKwestiiHibernowane">
