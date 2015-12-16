@@ -63,11 +63,18 @@ Template.activateAccount.rendered=function(){
 
 };
 Template.activateAccount.helpers({
+    activatedAccountRightNow:function(){
+        var currentRoute=Router.current().params;
+        var userDraft=UsersDraft.findOne({linkAktywacyjny:currentRoute.linkAktywacyjny});
+        if(userDraft)
+            return userDraft.licznikKlikniec==1 ? true : false;
+        return true;
+    },
     notActivatedAccount:function(){
         var currentRoute=Router.current().params;
         var userDraft=UsersDraft.findOne({linkAktywacyjny:currentRoute.linkAktywacyjny});
         if(userDraft)
-            return userDraft.czyAktywny==true || userDraft.licznikKlikniec<=1 ? true : false;
+            return userDraft.czyAktywny==true && userDraft.licznikKlikniec==0 ? true : false;
         return true;
     },
     link:function(){
