@@ -1,7 +1,3 @@
-Template.listZespolRealizacyjnyModal.helpers({
-});
-Template.listZespolRealizacyjnyDoubleModalInner.rendered=function(){
-};
 Template.listZespolRealizacyjnyDoubleModalInner.helpers({
     'settings': function () {
         return {
@@ -19,11 +15,19 @@ Template.listZespolRealizacyjnyDoubleModalInner.helpers({
     },
     ZRDoubleList: function(){
         var val=Session.get("zespolRealizacyjnyDouble");
-        return ZespolRealizacyjny.find({
-            _id: {$in:val}
-        });
+        if(val){
 
-        Session.setPersistent('zespolRealizacyjnyDouble', null);
+            var zesp = ZespolRealizacyjny.find({_id: {$in:val}});
+            if (zesp){
+
+                return zesp;
+                Session.setPersistent('zespolRealizacyjnyDouble', null);
+            }else{
+                return null;
+            }
+        }else{
+            return null;
+        }
     }
 });
 
@@ -41,9 +45,6 @@ Template.zespolDoubleTemplate.helpers({
         }
         return tab;
     }
-});
-
-Template.zespolOptionsTemplate.helpers({
 });
 
 Template.listZespolRealizacyjnyDoubleModalInner.events({

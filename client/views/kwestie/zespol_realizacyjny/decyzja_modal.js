@@ -1,5 +1,3 @@
-Template.decyzjaModal.helpers({
-});
 Template.decyzjaModalInner.rendered=function(){
     $('#nowyZRButton').css("visibility", "visible");
     $('#istniejacyZRButton').css("visibility", "visible");
@@ -21,11 +19,16 @@ Template.decyzjaModalInner.helpers({
     ZRDoubleList: function(){
         var val=Session.get("zespolRealizacyjnyDouble");
         if(val) {
-            return ZespolRealizacyjny.find({
-                _id: {$in: val}
-            });
+            var zesp = ZespolRealizacyjny.find({_id: {$in: val}});
+            if(zesp){
+                return zesp;
 
-            Session.setPersistent('zespolRealizacyjnyDouble', null);
+                Session.setPersistent('zespolRealizacyjnyDouble', null);
+            }else{
+                return null;
+            }
+        }else{
+            return null;
         }
     }
 });
