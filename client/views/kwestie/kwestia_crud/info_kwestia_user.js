@@ -224,8 +224,18 @@ Template.issueDetails.helpers({
         var result=3-count;
         return (result >1)  ? result+ " członków" : result+ " członka";
     },
-    isWaiting: function(){
-        return this.status == KWESTIA_STATUS.OCZEKUJACA || this.status == KWESTIA_STATUS.GLOSOWANA ? true : false;
+    helperObserver:function(){
+        if(this.status == KWESTIA_STATUS.OCZEKUJACA || this.status == KWESTIA_STATUS.GLOSOWANA ||
+            this.status == KWESTIA_STATUS.REALIZOWANA || this.status == KWESTIA_STATUS.ZREALIZOWANA){
+            $("#listZespolRealizacyjny").modal("hide");
+            $("#listZespolRealizacyjnyDouble").modal("hide");
+            $("#addNazwa").modal("hide");
+            $("#decyzjaModalId").modal("hide");
+            setTimeout(function(){
+                return true;
+            }, 2000);
+        }
+        return false;
     }
 });
 Template.issueManageZR.helpers({
@@ -309,5 +319,7 @@ getZRCount=function(idZR,idIssue){
             else return zespol.zespol.length;
         }
         else return zespol.zespol.length;
+    } else {
+        return 0;
     }
 };

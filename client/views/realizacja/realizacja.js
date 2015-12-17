@@ -83,6 +83,8 @@ Template.realizacjaTab1.events({
                         }
                     };
                     pdfMake.createPdf(docDefinition).open();
+                }else {
+                    throwError(error);
                 }
             });
         }else{
@@ -132,13 +134,17 @@ Template.listKwestiaRealzacjaColumnLabel.rendered = function () {
 
 Template.raport.helpers({
     reportCurrentDurationExists:function(raporty){
-    var raportId= _.last(raporty);
-    var issue=Kwestia.findOne({_id:this._id});
-    if(raportId==null)
-        return false;
-    else{
-        var report=Raport.findOne({_id: raportId});
-        return report.dataUtworzenia> _.last(issue.listaDatRR) ? true : false;_
+        var raportId= _.last(raporty);
+        var issue=Kwestia.findOne({_id:this._id});
+        if(raportId==null)
+            return false;
+        else{
+            var report=Raport.findOne({_id: raportId});
+            if(report){
+                return report.dataUtworzenia > _.last(issue.listaDatRR) ? true : false;_
+            }else {
+                return false;
+            }
         }
     },
     currentReport:function(raporty){

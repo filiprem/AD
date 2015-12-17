@@ -1,18 +1,18 @@
 Template.profileEdit.rendered = function () {
     $("#profileForm").validate({
         rules: {
-            email: {
-                email: true
-            },
+            //email: {
+            //    email: true
+            //},
             zipcode:{
                 kodPocztowyValidation:true
             }
         },
         messages: {
-            email: {
-                required: fieldEmptyMessage(),
-                email: validEmailMessage()
-            },
+            //email: {
+            //    required: fieldEmptyMessage(),
+            //    email: validEmailMessage()
+            //},
             name: {
                 required: fieldEmptyMessage(),
             },
@@ -64,15 +64,16 @@ Template.profileEdit.events({
         var currentUserId = this._id;
         var userType = Users.findOne({_id: currentUserId}).profile.userType;
         if (isNotEmpty($(e.target).find('[name=name]').val(), 'imię') &&
-            isNotEmpty($(e.target).find('[name=surname]').val(), 'nazwisko') &&
-            isEmail($(e.target).find('[name=email]').val())) {
-            var object = {
-                address: $(e.target).find('[name=email]').val()
-            };
-            var array = [];
-            array.push(object);
+            isNotEmpty($(e.target).find('[name=surname]').val(), 'nazwisko')) //&&
+            //isEmail($(e.target).find('[name=email]').val()))
+            {
+            //var object = {
+            //    address: $(e.target).find('[name=email]').val()
+            //};
+            //var array = [];
+            //array.push(object);
             var userProperties = {
-                emails: array,
+                //emails: array,
                 profile: {
                     firstName: $(e.target).find('[name=name]').val(),
                     lastName: $(e.target).find('[name=surname]').val(),
