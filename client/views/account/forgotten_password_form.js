@@ -7,7 +7,6 @@ Template.forgottenPassword.rendered = function () {
         rules: {
             email: {
                 email: true,
-                checkExistsAnyEmail: false
             }
         },
         messages: {

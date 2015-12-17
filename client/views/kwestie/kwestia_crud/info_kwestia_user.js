@@ -308,17 +308,19 @@ getZRCount=function(idZR,idIssue){
     var zespol = ZespolRealizacyjny.findOne({_id: idZR});
     if (!zespol) {
         zespol = ZespolRealizacyjnyDraft.findOne({_id: idZR});
-        if(zespol.idZR){
-            var z=ZespolRealizacyjny.findOne({_id:zespol.idZR});
-            if(z.kwestie.length>0 && z.czyAktywny==true && idIssue!=null){
-                var issue=Kwestia.findOne({_id:idIssue});
-                if(issue.status==KWESTIA_STATUS.GLOSOWANA)
-                    return 3;
+        if(zespol) {
+            if (zespol.idZR) {
+                var z = ZespolRealizacyjny.findOne({_id: zespol.idZR});
+                if (z.kwestie.length > 0 && z.czyAktywny == true && idIssue != null) {
+                    var issue = Kwestia.findOne({_id: idIssue});
+                    if (issue.status == KWESTIA_STATUS.GLOSOWANA)
+                        return 3;
+                    else return zespol.zespol.length;
+                }
                 else return zespol.zespol.length;
             }
             else return zespol.zespol.length;
         }
-        else return zespol.zespol.length;
     } else {
         return 0;
     }

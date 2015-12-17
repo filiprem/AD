@@ -78,82 +78,63 @@ Template.czlonekZwyczajnyForm.events({
         if ($('#userForm').valid()) {
             document.getElementById("submitZwyczajny").disabled = true;
             var email=$(e.target).find('[name=email]').val();
-            Meteor.call('serverCheckExistsUser', email, USERTYPE.CZLONEK, null, function (error, ret) {
+
+            Meteor.call("serverCheckExistsUserDraft",email, function (error, ret) {
                 if (error) {
                     throwError(error.reason);
                 }
                 else {
                     if(ret == false) {
-                        Meteor.call('serverCheckExistsUser', email, USERTYPE.DORADCA,USERTYPE.HONOROWY, function (error, ret) {
-                            if (error) {
-                                throwError(error.reason);
-                            }
-                            else {
-                                if(ret==false) {
-                                    Meteor.call("serverCheckExistsUserDraft",email, function (error, ret) {
-                                        if (error) {
-                                            throwError(error.reason);
-                                        }
-                                        else {
-                                            if(ret==false) {
-
-                                                var firstName = $(e.target).find('[name=firstName]').val();
-                                                var lastName = $(e.target).find('[name=lastName]').val();
-                                                var idUser = null;
-                                                if (Meteor.userId())
-                                                    idUser = Meteor.userId();
-
-                                                Meteor.call("serverGenerateLogin", firstName, lastName, function(err, ret) {
-                                                    if (!err) {
-                                                        var newUser = [
-                                                            {
-                                                                email: $(e.target).find('[name=email]').val(),
-                                                                login: "",
-                                                                firstName: firstName,
-                                                                lastName: lastName,
-                                                                address: $(e.target).find('[name=address]').val(),
-                                                                zip: $(e.target).find('[name=ZipCode]').val(),
-                                                                role: 'user',
-                                                                userType: USERTYPE.CZLONEK,
-                                                                uwagi: $(e.target).find('[name=uwagi]').val(),
-                                                                language: $(e.target).find('[name=language]').val(),
-                                                                isExpectant: false,
-                                                                idUser: idUser,
-                                                                city: $(e.target).find('[name=city]').val(),
-                                                                pesel: $(e.target).find('[name=pesel]').val()
-                                                            }];
-
-                                                        newUser[0].login = ret;
-                                                        addUserDraft(newUser);
-                                                    } else {
-                                                        throwError(err.reason)
-                                                    }
-                                                });
-                                            }
-                                            else{
-                                                throwError('Został już złożony wniosek na podany adres email!');
-                                                document.getElementById("submitZwyczajny").disabled = false;
-                                                return false;
-                                            }
-                                        }
-                                    });
+                        var idUser=null;
+                        if (Meteor.userId())
+                            idUser = Meteor.userId();
+                        var firstName = $(e.target).find('[name=firstName]').val();
+                        var lastName = $(e.target).find('[name=lastName]').val();
+                        var newUser = [
+                            {
+                                email: $(e.target).find('[name=email]').val(),
+                                login: "",
+                                firstName: firstName,
+                                lastName: lastName,
+                                address: $(e.target).find('[name=address]').val(),
+                                zip: $(e.target).find('[name=ZipCode]').val(),
+                                role: 'user',
+                                userType: USERTYPE.CZLONEK,
+                                uwagi: $(e.target).find('[name=uwagi]').val(),
+                                language: $(e.target).find('[name=language]').val(),
+                                isExpectant: false,
+                                idUser: idUser,
+                                city: $(e.target).find('[name=city]').val(),
+                                pesel: $(e.target).find('[name=pesel]').val()
+                            }];
+                        if(Meteor.userId()){
+                            addIssueOsobowa(newUser);
+                        }
+                        else {
+                            Meteor.call('serverCheckExistsUser', email, USERTYPE.DORADCA, USERTYPE.HONOROWY, function (error, ret) {
+                                if (error) {
+                                    throwError(error.reason);
                                 }
-                                else{
-                                    throwError('Istnieje już w systemie podany użytkownik!');
-                                    document.getElementById("submitZwyczajny").disabled = false;
-                                    return false;
+                                else {
+                                    if (ret == false) {
+                                        addIssueOsobowa(newUser);
+                                    }
+                                    else {
+                                        throwError('Istnieje już w systemie podany użytkownik!');
+                                        document.getElementById("submitZwyczajny").disabled = false;
+                                        return false;
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
                     }
                     else{
-                        throwError('Istnieje już w systemie podany użytkownik z pozycją, na którą aplikujesz!');
+                        throwError('Został już złożony wniosek na podany adres email!');
                         document.getElementById("submitZwyczajny").disabled = false;
                         return false;
                     }
                 }
             });
-                    addUserDraft(newUser);
         }
     },
     'reset form': function () {
@@ -190,6 +171,33 @@ Template.czlonekZwyczajnyForm.helpers({
 });
 getRegulamin=function(){
     return Parametr.findOne() ? Parametr.findOne().regulamin :"";
+};
+addIssueOsobowa=function(newUser){
+    Meteor.call('serverCheckExistsUser', newUser[0].email, USERTYPE.CZLONEK, null, function (error, ret) {
+        if (error) {
+            throwError(error.reason);
+        }
+        else {
+            if (ret == false) {
+                var firstName = newUser[0].firstName;
+                var lastName = newUser[0].lastName;
+                Meteor.call("serverGenerateLogin", firstName, lastName, function (err, ret) {
+                    if (!err) {
+
+                        newUser[0].login = ret;
+                        addUserDraft(newUser);
+                    } else {
+                        throwError(err.reason)
+                    }
+                });
+            }
+            else {
+                throwError('Istnieje już w systemie podany użytkownik z pozycją, na którą aplikujesz!');
+                document.getElementById("submitZwyczajny").disabled = false;
+                return false;
+            }
+        }
+    });
 };
 addUserDraft=function(newUser){
     Meteor.call('addUserDraft', newUser, function (error, ret) {

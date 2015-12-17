@@ -133,5 +133,14 @@ Meteor.methods({
         }
         while (userExists != null);
         return userName;
+    },
+    getUserData:function(userType,email){
+        var userSearched=null;
+        var users = Users.find({'profile.userType': userType});
+        users.forEach(function (user) {
+            if (user.emails[0].address == email)
+                userSearched = user;
+        });
+        return userSearched;
     }
 });
