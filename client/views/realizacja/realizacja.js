@@ -138,7 +138,7 @@ Template.raport.helpers({
         return false;
     else{
         var report=Raport.findOne({_id: raportId});
-        return report.dataUtworzenia> _.last(issue.listaDatRR) ? true : false;_
+        return report.dataUtworzenia > _.last(issue.listaDatRR) ? true : false;_
         }
     },
     currentReport:function(raporty){

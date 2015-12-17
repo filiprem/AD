@@ -1,4 +1,9 @@
 Template.ZRTemplate.helpers({
+    hasAccess:function(){
+        if(!Meteor.userId())
+            return "disabled";
+        return Meteor.user().profile.userType==USERTYPE.CZLONEK ? "" : "disabled";
+    },
     getZRName:function(idZR,status){
         var zespolR=null;
         if(status==KWESTIA_STATUS.REALIZOWANA)

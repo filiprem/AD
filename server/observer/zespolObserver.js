@@ -44,7 +44,7 @@ Meteor.startup(function(){
         }
     });
     moveKwestiaToGlosowana=function(newKwestia,ZRDraft,ifUpdateZR){
-        if(kwestiaAllowedToGlosowana()) {
+        if(kwestiaAllowedToGlosowana()){
             var czasGlosowania = Parametr.findOne({}).voteDuration;
             //console.log("ZMIANA_PARAMS");
             var final = moment(new Date()).add(czasGlosowania, "hours").format();

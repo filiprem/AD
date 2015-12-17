@@ -184,7 +184,9 @@ checkingEndOfVote = function() {
                     }
                 }
                 else {
-
+                    if(issueUpdated.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE){
+                        Meteor.call("setActivityParametrDraft", issueUpdated.idParametr, false);
+                    }
                     var ZRDraft=ZespolRealizacyjnyDraft.findOne({_id:issueUpdated.idZespolRealizacyjny});
                     if(ZRDraft){
                         var zr=null;
@@ -215,6 +217,7 @@ checkingEndOfVote = function() {
                         Meteor.call('removeUserDraftNotZrealizowany',userDraft._id);
                     }
                     Meteor.call('removeKwestiaSetReason', issueUpdated._id,KWESTIA_ACTION.NEGATIVE_PRIORITY_VOTE);
+
 
                 }
             }

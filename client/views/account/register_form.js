@@ -132,72 +132,78 @@ Template.registerForm.events({
                                             newUser[0].login = ret; //generateLogin(newUser[0].firstName, newUser[0].lastName);
                                             newUser[0].fullName = newUser[0].firstName + " " + newUser[0].lastName;
 
-                                            Meteor.call('addUser', newUser, function (error, ret) {
-                                                if (error) {
-                                                    // optionally use a meteor errors package
-                                                    if (typeof Errors === "undefined")
-                                                        Log.error('Error: ' + error.reason);
-                                                    else {
-                                                        //if(error.error === 409)
-                                                        throwError(error.reason);
-                                                    }
-                                                }
-                                                else {//jeżeli poprawne dane
-                                                    var addedUser = ret;
-                                                    Meteor.loginWithPassword(newUser[0].login, newUser[0].password, function (err) {
-                                                        if (err) {
-                                                            throwError('Niepoprawne dane logowania.');
-                                                        } else {
-                                                            var zespol = ZespolRealizacyjny.findOne({_id: "jjXKur4qC5ZGPQkgN"});
-                                                            if (zespol) {
-                                                                if (zespol.zespol.length < 3) {
-                                                                    var ZR = zespol.zespol.slice();
-                                                                    ZR.push(addedUser);
-
-                                                                    if (zespol.zespol.length == 0) {
-                                                                        Meteor.call('updateCzlonkowieZRProtector', zespol._id, ZR, addedUser, function (error, ret) {
-                                                                            if (error) {
-                                                                                // optionally use a meteor errors package
-                                                                                if (typeof Errors === "undefined")
-                                                                                    Log.error('Error: ' + error.reason);
-                                                                                else {
-                                                                                    throwError(error.reason);
-                                                                                }
-                                                                            }
-                                                                        });
-                                                                    }
-                                                                    else {
-                                                                        Meteor.call('updateCzlonkowieZR', zespol._id, ZR, function (error, ret) {
-                                                                            if (error) {
-                                                                                // optionally use a meteor errors package
-                                                                                if (typeof Errors === "undefined")
-                                                                                    Log.error('Error: ' + error.reason);
-                                                                                else {
-                                                                                    throwError(error.reason);
-                                                                                }
-                                                                            }
-                                                                        });
-                                                                    }
-                                                                }
-                                                            }
-                                                            if (Meteor.loggingIn()) {
-                                                                Router.go('home');
-                                                            }
-                                                            bootbox.dialog({
-                                                                message: "Twój login: " + newUser[0].login,
-                                                                title: "Witaj " + newUser[0].firstName,
-                                                                buttons: {
-                                                                    main: {
-                                                                        label: "Ok",
-                                                                        className: "btn-primary"
-                                                                    }
-                                                                }
-                                                            });
+                                            var users=Users.find({'profile.userType':USERTYPE.CZLONEK});
+                                            if(users.count()<5) {
+                                                Meteor.call('addUser', newUser, function (error, ret) {
+                                                    if (error) {
+                                                        // optionally use a meteor errors package
+                                                        if (typeof Errors === "undefined")
+                                                            Log.error('Error: ' + error.reason);
+                                                        else {
+                                                            //if(error.error === 409)
+                                                            throwError(error.reason);
                                                         }
-                                                    });
+                                                    }
+                                                    else {//jeżeli poprawne dane
+                                                        var addedUser = ret;
+                                                        Meteor.loginWithPassword(newUser[0].login, newUser[0].password, function (err) {
+                                                            if (err) {
+                                                                throwError('Niepoprawne dane logowania.');
+                                                            } else {
+                                                                var zespol = ZespolRealizacyjny.findOne({_id: "jjXKur4qC5ZGPQkgN"});
+                                                                if (zespol) {
+                                                                    if (zespol.zespol.length < 3) {
+                                                                        var ZR = zespol.zespol.slice();
+                                                                        ZR.push(addedUser);
 
-                                                }
-                                            });
+                                                                        if (zespol.zespol.length == 0) {
+                                                                            Meteor.call('updateCzlonkowieZRProtector', zespol._id, ZR, addedUser, function (error, ret) {
+                                                                                if (error) {
+                                                                                    // optionally use a meteor errors package
+                                                                                    if (typeof Errors === "undefined")
+                                                                                        Log.error('Error: ' + error.reason);
+                                                                                    else {
+                                                                                        throwError(error.reason);
+                                                                                    }
+                                                                                }
+                                                                            });
+                                                                        }
+                                                                        else {
+                                                                            Meteor.call('updateCzlonkowieZR', zespol._id, ZR, function (error, ret) {
+                                                                                if (error) {
+                                                                                    // optionally use a meteor errors package
+                                                                                    if (typeof Errors === "undefined")
+                                                                                        Log.error('Error: ' + error.reason);
+                                                                                    else {
+                                                                                        throwError(error.reason);
+                                                                                    }
+                                                                                }
+                                                                            });
+                                                                        }
+                                                                    }
+                                                                }
+                                                                if (Meteor.loggingIn()) {
+                                                                    Router.go('home');
+                                                                }
+                                                                bootbox.dialog({
+                                                                    message: "Twój login: " + newUser[0].login,
+                                                                    title: "Witaj " + newUser[0].firstName,
+                                                                    buttons: {
+                                                                        main: {
+                                                                            label: "Ok",
+                                                                            className: "btn-primary"
+                                                                        }
+                                                                    }
+                                                                });
+                                                            }
+                                                        });
+
+                                                    }
+                                                });
+                                            }
+                                            else{
+                                                bootbox.alert("Przepraszamy! Rejestracja nie możliwa z powodu osiągnięcia limitu osób, które mogą się zarejestrować samodzielnie.Aby aplikować kliknij dołącz.")
+                                            }
                                         } else {
                                             throwError(err.reason)
                                         }

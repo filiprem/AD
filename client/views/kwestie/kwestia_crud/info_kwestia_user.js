@@ -224,8 +224,21 @@ Template.issueDetails.helpers({
         var result=3-count;
         return (result >1)  ? result+ " członków" : result+ " członka";
     },
-    isWaiting: function(){
-        return this.status == KWESTIA_STATUS.OCZEKUJACA || this.status == KWESTIA_STATUS.GLOSOWANA ? true : false;
+    //isWaiting: function(){
+    //    return this.status == KWESTIA_STATUS.OCZEKUJACA || this.status == KWESTIA_STATUS.GLOSOWANA ? true : false;
+    //},
+    helperObserver:function(){
+        if(this.status == KWESTIA_STATUS.OCZEKUJACA || this.status == KWESTIA_STATUS.GLOSOWANA ||
+            this.status == KWESTIA_STATUS.REALIZOWANA || this.status == KWESTIA_STATUS.ZREALIZOWANA){
+            $("#listZespolRealizacyjny").modal("hide");
+            $("#listZespolRealizacyjnyDouble").modal("hide");
+            $("#addNazwa").modal("hide");
+            $("#decyzjaModalId").modal("hide");
+            setTimeout(function(){
+                return true;
+            }, 2000);
+        }
+        return false;
     }
 });
 Template.issueManageZR.helpers({
@@ -298,16 +311,18 @@ getZRCount=function(idZR,idIssue){
     var zespol = ZespolRealizacyjny.findOne({_id: idZR});
     if (!zespol) {
         zespol = ZespolRealizacyjnyDraft.findOne({_id: idZR});
-        if(zespol.idZR){
-            var z=ZespolRealizacyjny.findOne({_id:zespol.idZR});
-            if(z.kwestie.length>0 && z.czyAktywny==true && idIssue!=null){
-                var issue=Kwestia.findOne({_id:idIssue});
-                if(issue.status==KWESTIA_STATUS.GLOSOWANA)
-                    return 3;
+        if(zespol) {
+            if (zespol.idZR) {
+                var z = ZespolRealizacyjny.findOne({_id: zespol.idZR});
+                if (z.kwestie.length > 0 && z.czyAktywny == true && idIssue != null) {
+                    var issue = Kwestia.findOne({_id: idIssue});
+                    if (issue.status == KWESTIA_STATUS.GLOSOWANA)
+                        return 3;
+                    else return zespol.zespol.length;
+                }
                 else return zespol.zespol.length;
             }
             else return zespol.zespol.length;
         }
-        else return zespol.zespol.length;
     }
 };

@@ -297,6 +297,23 @@ Meteor.publish("reportsIssuesRealization",function(){
     return reports;
 });
 
+Meteor.publish("reports",function() {
+    return Raport.find({});
+});
+
+Meteor.publish("report",function(idReport) {
+    return Raport.find({_id:idReport});
+});
+
+Meteor.publish("reportsByIssue",function(idIssue){
+    var issue=Kwestia.findOne({_id:idIssue});
+    if(issue.raporty) {
+        var reports = Raport.find({_id: {$in: issue.raporty}});
+        return reports;
+    }
+    return null;
+});
+
 Meteor.publish("reportsIssue",function(idRaport){
    return Kwestia.find({},{$where: function () {
        var raporty=this.raporty;

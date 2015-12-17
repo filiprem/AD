@@ -206,7 +206,7 @@ Meteor.startup(function(){
     });
 
     kwestiaAllowedToGlosowana=function(){
-        var allKwestieGlosowane=Kwestia.find({status:KWESTIA_STATUS.GLOSOWANA}).count();
+        var allKwestieGlosowane=Kwestia.find({status:KWESTIA_STATUS.GLOSOWANA,czyAktywny:true}).count();
         return allKwestieGlosowane < 3 ? true : false;
     };
     changeParametersSuccessObserver=function(kwestia){//głosowana->zrealizowana
