@@ -45,8 +45,12 @@ Template.activateAccount.rendered=function(){
                                             throwError(error.reason);
                                         else{
                                             Meteor.call("sendFirstLoginData",idUser,newUser[0].password,function(error){
-                                                if(error)
-                                                    throwError(error.reason);
+                                                if(error){
+                                                    bootbox.alert("Z nieznanych przyczyn link z danymi do logowania " +
+                                                        "nie został wysłany. Aby zalogować się do systemu możesz " +
+                                                        "skorzystać z opcji przypomnienia hasła");
+                                                }
+
                                             })
                                         }
                                     });

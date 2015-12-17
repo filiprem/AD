@@ -79,7 +79,12 @@ Meteor.startup(function(){
                                     console.log(error.reason);
                                 else {
                                     addPowiadomienieAplikacjaObsRespondMethod(newKwestia._id,new Date(),NOTIFICATION_TYPE.HONOROWY_INVITATION,userDraft.profile.idUser,newKwestia.idUser);
-                                    Meteor.call("sendEmailHonorowyInvitation", UsersDraft.findOne({_id: newKwestia.idUser}), "honorowyInvitation");
+                                    Meteor.call("sendEmailHonorowyInvitation", UsersDraft.findOne({_id: newKwestia.idUser}), "honorowyInvitation",function(error){
+                                        if(error){
+                                            Meteor.call("setIssueProblemSendingEmail",newKwestia._id,
+                                                SENDING_EMAIL_PROBLEMS.NO_INVITATION_HONOROWY);
+                                        }
+                                    });
                                 }
                             });
                         }

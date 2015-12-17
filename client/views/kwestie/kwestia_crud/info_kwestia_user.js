@@ -82,6 +82,9 @@ Template.issueDetails.events({
 });
 
 Template.issueDetails.helpers({
+    anyEmailProblem:function(){
+       return this.emailProblemNotification ? true : false;
+    },
     isGlobalParamChange: function(){
         return this.typ==KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE ? true : false;
     },

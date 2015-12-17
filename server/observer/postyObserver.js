@@ -64,6 +64,20 @@ Meteor.startup(function(){
                                             rewriteZRMembersToList(zr, kwestia);
                                         }
                                     }
+                                    if(_.contains([KWESTIA_TYPE.ACCESS_DORADCA,KWESTIA_TYPE.ACCESS_ZWYCZAJNY],kwestia.typ)){
+                                        var userDraft=UsersDraft.findOne({_id:kwestia.idUser});
+                                        if(userDraft) {
+                                            if(userDraft.profile.idUser!=null) {
+                                                var user = Users.findOne({_id:userDraft.profile.idUser});
+                                                addPowiadomienieAplikacjaRespondMethod(kwestia._id,new Date(),NOTIFICATION_TYPE.APPLICATION_REJECTED,user._id);
+                                            }
+                                            Meteor.call("sendApplicationRejected",userDraft,function(error,ret){
+                                                if(!error)
+                                                    Meteor.call("removeUserDraft",userDraft);
+                                            });
+                                        }
+                                        Meteor.call('removeUserDraftNotZrealizowany',userDraft._id);
+                                    }
                                 }
                             });
                         }
@@ -97,6 +111,21 @@ Meteor.startup(function(){
                                             rewriteZRMembersToList(zr, kwestia);
                                         }
                                     }
+                                    if(_.contains([KWESTIA_TYPE.ACCESS_DORADCA,KWESTIA_TYPE.ACCESS_ZWYCZAJNY],kwestia.typ)){
+                                        var userDraft=UsersDraft.findOne({_id:kwestia.idUser});
+                                        if(userDraft) {
+                                            if(userDraft.profile.idUser!=null) {
+                                                var user = Users.findOne({_id:userDraft.profile.idUser});
+                                                addPowiadomienieAplikacjaRespondMethod(kwestia._id,new Date(),NOTIFICATION_TYPE.APPLICATION_REJECTED,user._id);
+                                            }
+                                            Meteor.call("sendApplicationRejected",userDraft,function(error,ret){
+                                                if(!error)
+                                                    Meteor.call("removeUserDraft",userDraft);
+                                            });
+                                        }
+                                        Meteor.call('removeUserDraftNotZrealizowany',userDraft._id);
+                                    }
+
                                 }
                                 else throwError(error.reason);
 

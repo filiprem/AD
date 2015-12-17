@@ -14,10 +14,10 @@ Template.profileEdit.rendered = function () {
             //    email: validEmailMessage()
             //},
             name: {
-                required: fieldEmptyMessage(),
+                required: fieldEmptyMessage()
             },
             surname: {
-                required: fieldEmptyMessage(),
+                required: fieldEmptyMessage()
             },
             address: {
                 required: fieldEmptyMessage()
@@ -54,6 +54,9 @@ Template.profileEdit.helpers({
             return "checked";
         else
             return "";
+    },
+    userZwyczajny: function () {
+        return this.profile.userType== USERTYPE.CZLONEK ? true : false;
     }
 });
 

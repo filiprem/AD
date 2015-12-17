@@ -316,5 +316,8 @@ Meteor.methods({
     },
     updateDeadlineNextRR:function(id,checkArrayRR){
         Kwestia.update(id, {$set: {listaDatRR:checkArrayRR}});
+    },
+    setIssueProblemSendingEmail:function(id,emailProblem){
+        Kwestia.update(id, {$set: {emailProblemNotification:emailProblem}});
     }
 });
