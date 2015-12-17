@@ -173,8 +173,13 @@ checkingEndOfVote = function() {
                                         (!error)
                                         {
                                             Meteor.call("sendApplicationAccepted", UsersDraft.findOne({_id: userDraft._id}), "acceptNew", function (error) {
-                                                (!error)
+                                                if(error){
+                                                    Meteor.call("setIssueProblemSendingEmail",kwestia._id,
+                                                        SENDING_EMAIL_PROBLEMS.NO_ACTVATION_LINK);
+                                                }
+                                                else
                                                     Meteor.call("updateLicznikKlikniec", userDraft._id, 0);
+
                                             });
                                         }
                                     });

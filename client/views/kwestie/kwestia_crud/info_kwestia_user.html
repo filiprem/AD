@@ -31,11 +31,17 @@
 </template>
 
 <template name="issueDetails">
-    <!--{{helperObserver}}-->
     <div class="main">
         <div class="row">
             <div class="col-md-12">
                 <legend>{{kwestiaNazwa}}<small> ({{status}})</small></legend>
+                {{#if anyEmailProblem}}
+                    <div class="col-md-12 bg-danger padding-15" style="text-align: center ">
+                        <p>Uwaga!</p>
+                        <p>{{emailProblemNotification}}</p>
+                    </div>
+                {{/if}}
+                &nbsp;
                 {{#unless isRealizowana}}
                     <p class="bg-info padding-15">
                         <b>Obecni:</b> {{glosujacyCount}}<br/>

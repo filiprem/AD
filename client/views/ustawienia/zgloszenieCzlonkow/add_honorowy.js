@@ -32,97 +32,103 @@ Template.addHonorowy.events({
     'submit form':function(e){
         e.preventDefault();
         if ($('#honorowyForm').valid()) {
-            document.getElementById("submitHonorowy").disabled = true;
-            var email = $(e.target).find('[name=email]').val();
-            Meteor.call("serverCheckExistsUserDraft",email, function (error, ret) {
-                if (error) {
-                    throwError(error.reason);
-                }
-                else {
-                    if (ret == false) {
-                        Meteor.call("serverCheckExistsUser",email,null,null,function(error, ret){
-                            if (error) {
-                                throwError(error.reason);
-                            }
-                            else {
-                                if (ret == false) {
-                                    var idUser = null;
-                                    var firstName = "";
-                                    var lastName = "";
-
-                                    var newUserDraft = [
-                                        {
-                                            email: email,
-                                            login: "",
-                                            firstName: firstName,
-                                            lastName: lastName,
-                                            role: 'user',
-                                            uwagi: $(e.target).find('[name=uzasadnienie]').val(),
-                                            userType: USERTYPE.HONOROWY,
-                                            pesel: "",
-                                            idUser: idUser,
-                                            licznikKlikniec: 0
-                                        }];
-                                    addUserDraftHonorowy(newUserDraft);
+            var zr=ZespolRealizacyjny.findOne({_id:"jjXKur4qC5ZGPQkgN"});
+            if(zr.zespol.length >=3) {
+                document.getElementById("submitHonorowy").disabled = true;
+                var email = $(e.target).find('[name=email]').val();
+                Meteor.call("serverCheckExistsUserDraft", email, function (error, ret) {
+                    if (error) {
+                        throwError(error.reason);
+                    }
+                    else {
+                        if (ret == false) {
+                            Meteor.call("serverCheckExistsUser", email, null, null, function (error, ret) {
+                                if (error) {
+                                    throwError(error.reason);
                                 }
-                                else{
-                                    Meteor.call("serverCheckExistsUser",$(e.target).find('[name=email]').val(),USERTYPE.CZLONEK,USERTYPE.HONOROWY,function(error, ret){
-                                        if (error) {
-                                            throwError(error.reason);
-                                        }
-                                        else {
-                                            if (ret == false) {
-                                                var idUser = null;
-                                                var email = $(e.target).find('[name=email]').val();
-                                                Meteor.call("getUserData",USERTYPE.DORADCA,email,function(error,ret){
-                                                    if (error) {
-                                                        throwError(error.reason);
-                                                    }
-                                                    else{
-                                                        idUser=ret._id;
-                                                        var firstName = "";
-                                                        var lastName = "";
-                                                        if (idUser != null) {
-                                                            console.log(idUser);
-                                                            firstName = ret.profile.firstName;
-                                                            lastName = ret.profile.lastName;
+                                else {
+                                    if (ret == false) {
+                                        var idUser = null;
+                                        var firstName = "";
+                                        var lastName = "";
+
+                                        var newUserDraft = [
+                                            {
+                                                email: email,
+                                                login: "",
+                                                firstName: firstName,
+                                                lastName: lastName,
+                                                role: 'user',
+                                                uwagi: $(e.target).find('[name=uzasadnienie]').val(),
+                                                userType: USERTYPE.HONOROWY,
+                                                pesel: "",
+                                                idUser: idUser,
+                                                licznikKlikniec: 0
+                                            }];
+                                        addUserDraftHonorowy(newUserDraft);
+                                    }
+                                    else {
+                                        Meteor.call("serverCheckExistsUser", $(e.target).find('[name=email]').val(), USERTYPE.CZLONEK, USERTYPE.HONOROWY, function (error, ret) {
+                                            if (error) {
+                                                throwError(error.reason);
+                                            }
+                                            else {
+                                                if (ret == false) {
+                                                    var idUser = null;
+                                                    var email = $(e.target).find('[name=email]').val();
+                                                    Meteor.call("getUserData", USERTYPE.DORADCA, email, function (error, ret) {
+                                                        if (error) {
+                                                            throwError(error.reason);
                                                         }
-                                                        var newUserDraft = [
-                                                            {
-                                                                email: email,
-                                                                login: "",
-                                                                firstName: firstName,
-                                                                lastName: lastName,
-                                                                role: 'user',
-                                                                uwagi: $(e.target).find('[name=uzasadnienie]').val(),
-                                                                userType: USERTYPE.HONOROWY,
-                                                                pesel: "",
-                                                                idUser: idUser,
-                                                                licznikKlikniec: 0
-                                                            }];
-                                                        addUserDraftHonorowy(newUserDraft);
-                                                    }
-                                                });
+                                                        else {
+                                                            idUser = ret._id;
+                                                            var firstName = "";
+                                                            var lastName = "";
+                                                            if (idUser != null) {
+                                                                console.log(idUser);
+                                                                firstName = ret.profile.firstName;
+                                                                lastName = ret.profile.lastName;
+                                                            }
+                                                            var newUserDraft = [
+                                                                {
+                                                                    email: email,
+                                                                    login: "",
+                                                                    firstName: firstName,
+                                                                    lastName: lastName,
+                                                                    role: 'user',
+                                                                    uwagi: $(e.target).find('[name=uzasadnienie]').val(),
+                                                                    userType: USERTYPE.HONOROWY,
+                                                                    pesel: "",
+                                                                    idUser: idUser,
+                                                                    licznikKlikniec: 0
+                                                                }];
+                                                            addUserDraftHonorowy(newUserDraft);
+                                                        }
+                                                    });
 
+                                                }
+                                                else {
+                                                    throwError('Istnieje już w systemie podany użytkownik!');
+                                                    document.getElementById("submitHonorowy").disabled = false;
+                                                    return false;
+                                                }
                                             }
-                                            else{
-                                                throwError('Istnieje już w systemie podany użytkownik!');
-                                                document.getElementById("submitHonorowy").disabled = false;
-                                                return false;
-                                            }
-                                        }
-                                    });
+                                        });
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
+                        else {
+                            throwError('Został już złożony wniosek na podany adres email!');
+                            document.getElementById("submitHonorowy").disabled = false;
+                            return false;
+                        }
                     }
-                    else{
-                        throwError('Został już złożony wniosek na podany adres email!');
-                        document.getElementById("submitHonorowy").disabled = false;
-                        return false;
-                    }
-                }
-            });
+                });
+            }
+            else{
+                bootbox.alert("Przepraszamy!Aby zgłosić Członka Honorowego Zespół Realizacyjny ds Osób musi byś skompletowany!");
+            }
         }
     },
     'reset form':function(e){
