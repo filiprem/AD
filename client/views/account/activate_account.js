@@ -5,49 +5,58 @@ Template.activateAccount.rendered=function(){
         var clickedLinkCount=userD.licznikKlikniec+1;
         Meteor.call("updateLicznikKlikniec",userD._id,clickedLinkCount,function(error){
             if(!error){
-                //var userDraft=UsersDraft.findOne({linkAktywacyjny:currentRoute.linkAktywacyjny,czyAktywny:true});
-                //if(userDraft) {
-                //    var newUser = [
-                //        {
-                //            email: userDraft.email,
-                //            login: "",
-                //            firstName: userDraft.profile.firstName,
-                //            lastName: userDraft.profile.lastName,
-                //            address: userDraft.profile.address,
-                //            zip: userDraft.profile.zip,
-                //            role: 'user',
-                //            userType: userDraft.profile.userType,
-                //            uwagi: userDraft.profile.uwagi,
-                //            language: userDraft.profile.language,
-                //            city:userDraft.profile.city,
-                //            pesel:userDraft.profile.pesel,
-                //            rADking:0
-                //
-                //        }];
-                //    newUser[0].login = generateLogin(newUser[0].firstName, newUser[0].lastName);
-                //    newUser[0].fullName=newUser[0].firstName+" "+newUser[0].lastName;
-                //    newUser[0].password=CryptoJS.MD5(newUser[0].login).toString();
-                //    newUser[0].confirm_password=newUser[0].password;
-                //
-                //    Meteor.call('addUser', newUser, function (error,ret) {
-                //        if (error) {
-                //            throwError(error.reason);
-                //        }
-                //        else {
-                //            var idUser=ret;
-                //            Meteor.call("removeUserDraftAddNewIdUser", userDraft._id,idUser, function (error) {
-                //                if (error)
-                //                    throwError(error.reason);
-                //                else{
-                //                    Meteor.call("sendFirstLoginData",idUser,newUser[0].password,function(error){
-                //                        if(error)
-                //                            throwError(error.reason);
-                //                    })
-                //                }
-                //            });
-                //        }
-                //    });
-                //}
+                var userDraft=UsersDraft.findOne({linkAktywacyjny:currentRoute.linkAktywacyjny,czyAktywny:true});
+                if(userDraft) {
+                    Meteor.call("serverGenerateLogin",
+                        userDraft.profile.firstName,
+                        userDraft.profile.lastName,
+                        function(err, ret){
+                        if(!err){
+                            var newUser = [
+                                {
+                                    email: userDraft.email,
+                                    login: "",
+                                    firstName: userDraft.profile.firstName,
+                                    lastName: userDraft.profile.lastName,
+                                    address: userDraft.profile.address,
+                                    zip: userDraft.profile.zip,
+                                    role: 'user',
+                                    userType: userDraft.profile.userType,
+                                    uwagi: userDraft.profile.uwagi,
+                                    language: userDraft.profile.language,
+                                    city:userDraft.profile.city,
+                                    pesel:userDraft.profile.pesel,
+                                    rADking:0
+
+                                }];
+                            newUser[0].login = ret;
+                            newUser[0].fullName=newUser[0].firstName+" "+newUser[0].lastName;
+                            newUser[0].password=CryptoJS.MD5(newUser[0].login).toString();
+                            newUser[0].confirm_password=newUser[0].password;
+
+                            Meteor.call('addUser', newUser, function (error,ret) {
+                                if (error) {
+                                    throwError(error.reason);
+                                }
+                                else {
+                                    var idUser=ret;
+                                    Meteor.call("removeUserDraftAddNewIdUser", userDraft._id,idUser, function (error) {
+                                        if (error)
+                                            throwError(error.reason);
+                                        else{
+                                            Meteor.call("sendFirstLoginData",idUser,newUser[0].password,function(error){
+                                                if(error)
+                                                    throwError(error.reason);
+                                            })
+                                        }
+                                    });
+                                }
+                            });
+                        }else{
+                            throwError(err.reason);
+                        }
+                    });
+                }
             }
         });
     }

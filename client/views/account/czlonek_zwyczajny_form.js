@@ -96,29 +96,39 @@ Template.czlonekZwyczajnyForm.events({
                                         }
                                         else {
                                             if(ret==false) {
+
+                                                var firstName = $(e.target).find('[name=firstName]').val();
+                                                var lastName = $(e.target).find('[name=lastName]').val();
                                                 var idUser = null;
                                                 if (Meteor.userId())
                                                     idUser = Meteor.userId();
-                                                var newUser = [
-                                                    {
-                                                        email: email,
-                                                        login: "",
-                                                        firstName: $(e.target).find('[name=firstName]').val(),
-                                                        lastName: $(e.target).find('[name=lastName]').val(),
-                                                        address: $(e.target).find('[name=address]').val(),
-                                                        zip: $(e.target).find('[name=ZipCode]').val(),
-                                                        role: 'user',
-                                                        userType: USERTYPE.CZLONEK,
-                                                        uwagi: $(e.target).find('[name=uwagi]').val(),
-                                                        language: $(e.target).find('[name=language]').val(),
-                                                        isExpectant: false,
-                                                        idUser: idUser,
-                                                        city: $(e.target).find('[name=city]').val(),
-                                                        pesel: $(e.target).find('[name=pesel]').val()
-                                                    }];
-                                                newUser[0].login = generateLogin(newUser[0].firstName, newUser[0].lastName);
 
-                                                addUserDraft(newUser);
+                                                Meteor.call("serverGenerateLogin", firstName, lastName, function(err, ret) {
+                                                    if (!err) {
+                                                        var newUser = [
+                                                            {
+                                                                email: $(e.target).find('[name=email]').val(),
+                                                                login: "",
+                                                                firstName: firstName,
+                                                                lastName: lastName,
+                                                                address: $(e.target).find('[name=address]').val(),
+                                                                zip: $(e.target).find('[name=ZipCode]').val(),
+                                                                role: 'user',
+                                                                userType: USERTYPE.CZLONEK,
+                                                                uwagi: $(e.target).find('[name=uwagi]').val(),
+                                                                language: $(e.target).find('[name=language]').val(),
+                                                                isExpectant: false,
+                                                                idUser: idUser,
+                                                                city: $(e.target).find('[name=city]').val(),
+                                                                pesel: $(e.target).find('[name=pesel]').val()
+                                                            }];
+
+                                                        newUser[0].login = ret;
+                                                        addUserDraft(newUser);
+                                                    } else {
+                                                        throwError(err.reason)
+                                                    }
+                                                });
                                             }
                                             else{
                                                 throwError('Został już złożony wniosek na podany adres email!');
@@ -143,6 +153,7 @@ Template.czlonekZwyczajnyForm.events({
                     }
                 }
             });
+                    addUserDraft(newUser);
         }
     },
     'reset form': function () {

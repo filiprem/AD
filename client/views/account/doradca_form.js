@@ -66,26 +66,36 @@ Template.doradcaForm.events({
                                     }
                                     else {
                                         if(ret==false) {
-                                            var idUser = null;
-                                            if (Meteor.userId())
-                                                idUser = Meteor.userId();
-                                            var newUser = [
-                                                {
-                                                    email: email,
-                                                    login: "",
-                                                    firstName: $(e.target).find('[name=firstName]').val(),
-                                                    lastName: $(e.target).find('[name=lastName]').val(),
-                                                    role: 'user',
-                                                    city: $(e.target).find('[name=city]').val(),
-                                                    userType: USERTYPE.DORADCA,
-                                                    isExpectant: false,
-                                                    uwagi: $(e.target).find('[name=uwagi]').val(),
-                                                    pesel: ""
-                                                }];
-                                            //-- generowanie loginu dla użytkownika
-                                            newUser[0].login = generateLogin(newUser[0].firstName, newUser[0].lastName);
+                                            var firstName = $(e.target).find('[name=firstName]').val();
+                                            var lastName = $(e.target).find('[name=lastName]').val();
 
-                                            addUserDraftDoradca(newUser);
+                                            Meteor.call("serverGenerateLogin", firstName, lastName, function(err, ret) {
+                                                if (!err) {
+
+                                                    var idUser = null;
+                                                    if (Meteor.userId())
+                                                        idUser = Meteor.userId();
+                                                    var newUser = [
+                                                        {
+                                                            email: $(e.target).find('[name=email]').val(),
+                                                            login: "",
+                                                            firstName: firstName,
+                                                            lastName: lastName,
+                                                            role: 'user',
+                                                            city: $(e.target).find('[name=city]').val(),
+                                                            userType: USERTYPE.DORADCA,
+                                                            isExpectant: false,
+                                                            uwagi: $(e.target).find('[name=uwagi]').val(),
+                                                            pesel: ""
+                                                        }];
+                                                    //-- generowanie loginu dla użytkownika
+                                                    newUser[0].login = ret; //generateLogin(newUser[0].firstName, newUser[0].lastName);
+
+                                                    addUserDraftDoradca(newUser);
+                                                }else{
+                                                    throwError(err.reason)
+                                                }
+                                            });
                                         }
                                         else{
                                             throwError('Został już złożony wniosek na podany adres email!');

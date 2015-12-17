@@ -76,7 +76,7 @@ Meteor.methods({
     },
     serverCheckExistsUser: function(searchedEmail,userType1,userType2){
         var found = false;
-        var userType=null;
+        var userType = null;
         var users = Users.find();
         users.forEach(function (user) {
             _.each(user.emails, function (email) {
@@ -119,5 +119,19 @@ Meteor.methods({
             array.push(user.profile.firstName + " " + user.profile.lastName);
         });
         return  array;
+    },
+    serverGenerateLogin: function (u_firstName, u_lastName) {
+        var i = 1;
+        do {
+            if (i <= u_firstName.length) {
+                var userName = replacePolishChars(u_firstName.slice(0, i).toLowerCase() + u_lastName.toLowerCase());
+            } else {
+                var userName = replacePolishChars(u_firstName.slice(0, 1).toLowerCase() + u_lastName.toLowerCase() + (i - u_firstName.length));
+            }
+            var userExists = Users.findOne({username: userName});
+            i++;
+        }
+        while (userExists != null);
+        return userName;
     }
 });

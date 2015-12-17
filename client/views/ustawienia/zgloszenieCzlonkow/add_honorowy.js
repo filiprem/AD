@@ -3,9 +3,7 @@ Template.addHonorowy.rendered=function(){
     $("#honorowyForm").validate({
         rules: {
             email: {
-                email: true,
-                checkExistsEmailZwyczajny: true,
-                checkExistsEmailDraft:true
+                email: true
             }
         },
         messages: {
@@ -35,34 +33,63 @@ Template.addHonorowy.events({
         e.preventDefault();
         if ($('#honorowyForm').valid()) {
             document.getElementById("submitHonorowy").disabled = true;
-            var idUser = null;
             var email = $(e.target).find('[name=email]').val();
-            var users = Users.find({'profile.userType': USERTYPE.DORADCA});
-            users.forEach(function (user) {
-                if (user.emails[0].address == email)
-                    idUser = user._id;
+            Meteor.call("serverCheckExistsUserDraft",email, function (error, ret) {
+                if (error) {
+                    throwError(error.reason);
+                }
+                else {
+                    if (ret == false) {
+                        Meteor.call("serverCheckExistsUser",email,null,null,function(error, ret){
+                            if (error) {
+                                throwError(error.reason);
+                            }
+                            else {
+                                if (ret == false) {
+                                    var idUser = null;
+                                    var email = $(e.target).find('[name=email]').val();
+                                    var users = Users.find({'profile.userType': USERTYPE.DORADCA});
+                                    users.forEach(function (user) {
+                                        if (user.emails[0].address == email)
+                                            idUser = user._id;
+                                    });
+                                    var firstName = "";
+                                    var lastName = "";
+                                    if (idUser != null) {
+                                        var user = Users.findOne({_id: idUser});
+                                        firstName = user.profile.firstName,
+                                            lastName = user.profile.lastName
+                                    }
+                                    var newUserDraft = [
+                                        {
+                                            email: email,
+                                            login: "",
+                                            firstName: firstName,
+                                            lastName: lastName,
+                                            role: 'user',
+                                            uwagi: $(e.target).find('[name=uzasadnienie]').val(),
+                                            userType: USERTYPE.HONOROWY,
+                                            pesel: "",
+                                            idUser: idUser,
+                                            licznikKlikniec: 0
+                                        }];
+                                    addUserDraftHonorowy(newUserDraft);
+                                }
+                                else{
+                                    throwError('Istnieje już w systemie podany użytkownik!');
+                                    document.getElementById("submitHonorowy").disabled = false;
+                                    return false;
+                                }
+                            }
+                        });
+                    }
+                    else{
+                        throwError('Został już złożony wniosek na podany adres email!');
+                        document.getElementById("submitHonorowy").disabled = false;
+                        return false;
+                    }
+                }
             });
-            var firstName = "";
-            var lastName = "";
-            if (idUser != null) {
-                var user = Users.findOne({_id: idUser});
-                firstName = user.profile.firstName,
-                    lastName = user.profile.lastName
-            }
-            var newUserDraft = [
-                {
-                    email: email,
-                    login: "",
-                    firstName: firstName,
-                    lastName: lastName,
-                    role: 'user',
-                    uwagi: $(e.target).find('[name=uzasadnienie]').val(),
-                    userType: USERTYPE.HONOROWY,
-                    pesel: "",
-                    idUser: idUser,
-                    licznikKlikniec: 0
-                }];
-            addUserDraftHonorowy(newUserDraft);
         }
     },
     'reset form':function(e){

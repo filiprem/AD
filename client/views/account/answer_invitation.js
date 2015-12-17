@@ -224,37 +224,44 @@ fillDataNewHonorowyBootbox=function(kwestia,email){
 };
 addNewUser=function(firstName,lastName,city,email,kwestia){
     applyPositiveMethod(kwestia);
-    var newUser = [
-        {
-            email: email,
-            login: "",
-            firstName: firstName,
-            lastName: lastName,
-            city:city,
-            userType:USERTYPE.HONOROWY
 
-        }];
-    newUser[0].login = generateLogin(firstName,lastName);
-    newUser[0].fullName=firstName+" "+lastName;
-    newUser[0].password=CryptoJS.MD5(newUser[0].login).toString();
-    newUser[0].confirm_password=newUser[0].password;
+    Meteor.call("serverGenerateLogin", firstName, lastName, function(err, ret) {
+        if (!err) {
+            var newUser = [
+                {
+                    email: email,
+                    login: "",
+                    firstName: firstName,
+                    lastName: lastName,
+                    city:city,
+                    userType:USERTYPE.HONOROWY
 
-    Meteor.call('addUser', newUser, function (error,ret) {
-        if (error) {
-            throwError(error.reason);
-        }
-        else {
-            var idUser=ret;
-            Meteor.call("removeUserDraftAddNewIdUser", getUserDraftMethod(Router.current().params)._id,idUser, function (error) {
-                if (error)
+                }];
+            newUser[0].login = ret;//generateLogin(firstName,lastName);
+            newUser[0].fullName=firstName+" "+lastName;
+            newUser[0].password=CryptoJS.MD5(newUser[0].login).toString();
+            newUser[0].confirm_password=newUser[0].password;
+
+            Meteor.call('addUser', newUser, function (error,ret) {
+                if (error) {
                     throwError(error.reason);
-                else{
-                    Meteor.call("sendFirstLoginData",idUser,newUser[0].password,function(error){
-                        if(error)
+                }
+                else {
+                    var idUser=ret;
+                    Meteor.call("removeUserDraftAddNewIdUser", getUserDraftMethod(Router.current().params)._id,idUser, function (error) {
+                        if (error)
                             throwError(error.reason);
-                    })
+                        else{
+                            Meteor.call("sendFirstLoginData",idUser,newUser[0].password,function(error){
+                                if(error)
+                                    throwError(error.reason);
+                            })
+                        }
+                    });
                 }
             });
+        } else {
+            throwError(err.reason)
         }
     });
 };

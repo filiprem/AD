@@ -37,9 +37,9 @@ Template.header.helpers({
         }
     },
     lessThanFiveUsers: function () {
-        var users = Users.find();
+        var users = Users.find({'profile.userType':USERTYPE.CZLONEK});
         if (users) {
-            return users.count() <= 5 ? true : false;
+            return users.count() < 5 ? true : false;
         }
         return null;
     },
