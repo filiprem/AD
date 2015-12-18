@@ -5,6 +5,7 @@ Template.listParametr.helpers({
     noKwestiaParameters:function(){
         var kwestie=Kwestia.find({typ:KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE, czyAktywny:true,
             status:{$nin:[KWESTIA_STATUS.ZREALIZOWANA,KWESTIA_STATUS.ARCHIWALNA]}});
+        //status:{$in:[KWESTIA_STATUS.ADMINISTROWANA,KWESTIA_STATUS.GLOSOWANA]}});
         return kwestie.count()>0 ? false : true;
     }
 });
@@ -15,10 +16,7 @@ Template.listParametr.events({
            czyAktywny:true,status:{$nin:[KWESTIA_STATUS.ZREALIZOWANA]}});
        if(kwestia){
            var path=null;
-           if(kwestia.status==KWESTIA_STATUS.ARCHIWALNA)
-                path="/archive_issue_info/"+kwestia._id;
-           else
-                path="/issue_info/"+kwestia._id;
+           path="/issue_info/"+kwestia._id;
            Router.go(path);
        }
    },

@@ -274,7 +274,10 @@ nadawanieNumeruUchwaly = function(dataRealizacji) {
 };
 //...................................................................................
 changeParametersSuccess=function(kwestia){
-    var globalPramsDraft=ParametrDraft.findOne({czyAktywny:true});
+    console.log(kwestia);
+    var globalPramsDraft=ParametrDraft.findOne({_id:kwestia.idParametr,czyAktywny:true});
+    console.log("change param");
+    console.log(globalPramsDraft);
     var obj={
         nazwaOrganizacji:globalPramsDraft.nazwaOrganizacji,
         terytorium:globalPramsDraft.terytorium,

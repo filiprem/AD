@@ -50,6 +50,7 @@ Template.realizacjaTab1.events({
         var numerUchwaly=this.numerUchwaly.toString();
         var glosujacyLength=this.glosujacy.length;
         var issueName=this.kwestiaNazwa;
+        var realizationDate=moment(this.dataRealizacji).format("DD.MM.YYYY").toString();
 
         if(this.idZespolRealizacyjny){
             var realizationTeam = ZespolRealizacyjny.findOne({_id: this.idZespolRealizacyjny}).zespol;
@@ -58,7 +59,7 @@ Template.realizacjaTab1.events({
                     membersNames=ret;
                     var docDefinition = {
                         content: [
-                            { text: "dn. " + moment(this.dataRealizacji).format("DD.MM.YYYY").toString() + "r.", style: 'uchwalaTop'},
+                            { text: "dn. " + realizationDate + "r.", style: 'uchwalaTop'},
                             { text: globalParameters.nazwaOrganizacji + "\n" +
                             globalParameters.terytorium + "\n" +
                             globalParameters.kontakty + "\n"

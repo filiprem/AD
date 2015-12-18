@@ -80,10 +80,9 @@ Template.answerInvitation.events({
                applyPositiveMethod(kwestia);
                Meteor.call("updateUserType",userDraft.profile.idUser,userDraft.profile.userType,function(error){
                    Meteor.call("sendApplicationAccepted", userDraft._id, "acceptExisting", function (error) {
-                       (!error)
-                       {
+                       if(!error)
                            Meteor.call("removeUserDraft", userDraft._id);
-                       }
+
                    });
                });
            }
@@ -254,7 +253,9 @@ addNewUser=function(firstName,lastName,city,email,kwestia){
                         else{
                             Meteor.call("sendFirstLoginData",idUser,newUser[0].password,function(error){
                                 if(error)
-                                    throwError(error.reason);
+                                    bootbox.alert("Z powodu błędu serwera pocztowego link z danymi do logowania " +
+                                        "nie został wysłany. Aby zalogować się do systemu możesz " +
+                                        "skorzystać z opcji przypomnienia hasła");
                             })
                         }
                     });

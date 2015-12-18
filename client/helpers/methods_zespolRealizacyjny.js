@@ -156,11 +156,11 @@ addCzlonekToZespolRealizacyjnyNotificationNew=function(idUser,zespolToUpdate,num
         else {
             $("#addNazwa").modal("show");
 
-            GlobalNotification.success({
-                title: 'Sukces',
-                content: komunikat,
-                duration: 3 // duration the notification should stay in seconds
-            });
+            //GlobalNotification.success({
+            //    title: 'Sukces',
+            //    content: komunikat,
+            //    duration: 3 // duration the notification should stay in seconds
+            //});
             return true;
         }
     }

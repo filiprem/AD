@@ -36,32 +36,58 @@ Template.uzasadnienieArchiwumModal.events({
                     glosujacy: glosujacy,
                     postType: postType
                 }];
-                Meteor.call('addPost', post, function (error, ret) {
-                    if (error) {
-                        if (typeof Errors === "undefined")
-                            Log.error('Error: ' + error.reason);
-                        else {
-                            throwError(error.reason);
-                        }
-                    }
-                    else {
-                        var newValue = 0;
-                        newValue = Number(RADKING.DODANIE_ODNIESIENIA) + getUserRadkingValue(Meteor.userId());
-                        Meteor.call('updateUserRanking', Meteor.userId(), newValue, function (error) {
-                            if (error) {
-                                if (typeof Errors === "undefined")
-                                    Log.error('Error: ' + error.reason);
-                                else
-                                    throwError(error.reason);
+                var z = Posts.findOne({idKwestia: idKwestia, postType: POSTS_TYPES.ARCHIWUM});
+
+                if(!z) {
+                    Meteor.call('addPost', post, function (error, ret) {
+                        if (error) {
+                            if (typeof Errors === "undefined")
+                                Log.error('Error: ' + error.reason);
+                            else {
+                                throwError(error.reason);
                             }
-                        });
-                        document.getElementById("message").value = "";
-                        $("#uzasadnijWyborArchiwum").modal("hide");
-                        $('html, body').animate({
-                            scrollTop: $(".doArchiwumClass").offset().top
-                        }, 600);
-                    }
-                });
+                        }
+                        else {
+                            var postId=ret;
+                            var z2 = Posts.find({idKwestia: idKwestia, postType: POSTS_TYPES.ARCHIWUM});
+                            if(z2.count()<=1) {
+                                var newValue = 0;
+                                newValue = Number(RADKING.DODANIE_ODNIESIENIA) + getUserRadkingValue(Meteor.userId());
+                                Meteor.call('updateUserRanking', Meteor.userId(), newValue, function (error) {
+                                    if (error) {
+                                        if (typeof Errors === "undefined")
+                                            Log.error('Error: ' + error.reason);
+                                        else
+                                            throwError(error.reason);
+                                    }
+                                });
+                                document.getElementById("message").value = "";
+                                $("#uzasadnijWyborArchiwum").modal("hide");
+                                $('html, body').animate({
+                                    scrollTop: $(".doArchiwumClass").offset().top
+                                }, 600);
+                            }
+                            else{
+                                document.getElementById("message").value = "";
+                                $("#uzasadnijWyborArchiwum").modal("hide");
+                                Meteor.call("removePost",postId,function(error,ret){
+                                    if(!error) {
+                                        $('html, body').animate({
+                                            scrollTop: $(".doArchiwumClass").offset().top
+                                        }, 600);
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+                else{
+                    document.getElementById("message").value = "";
+                    $("#uzasadnijWyborArchiwum").modal("hide");
+                    $('html, body').animate({
+                        scrollTop: $(".doArchiwumClass").offset().top
+                    }, 600);
+                }
             }
         }
     },

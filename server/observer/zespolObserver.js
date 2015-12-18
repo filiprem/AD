@@ -35,9 +35,14 @@ Meteor.startup(function(){
                     }
                     else if (kwestia.status == KWESTIA_STATUS.STATUSOWA){
 
-                        Meteor.call('updateStatusDataOczekwianiaKwestii', newKwestia._id, KWESTIA_STATUS.OCZEKUJACA,new Date());
+                        Meteor.call('updateStatusDataOczekwianiaKwestii', kwestia._id, KWESTIA_STATUS.OCZEKUJACA,new Date());
 
-                        Meteor.call("sendEmailHonorowyInvitation", newKwestia.idZgloszonego);
+                        Meteor.call("sendEmailHonorowyInvitation", kwestia.idUser,function(error,ret){
+                            if(error){
+                                Meteor.call("setIssueProblemSendingEmail",kwestia._id,
+                                    SENDING_EMAIL_PROBLEMS.NO_INVITATION_HONOROWY);
+                            }
+                        });
                     }
                 }
             }
