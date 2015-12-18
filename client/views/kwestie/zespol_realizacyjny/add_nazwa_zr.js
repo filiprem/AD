@@ -32,12 +32,13 @@ Template.addNazwaModalInner.rendered = function () {
 Template.addNazwaModal.events({
     'click #zapiszButton': function (e) {
         e.preventDefault();
-        $('#nazwaZR').css("visibility", "hidden");
+
         var idKwestia=this._id;
         var nazwa = document.getElementById('nazwaZR').value;
         var zespoly = ZespolRealizacyjny.find({czyAktywny:true});
         var z = "Zespół Realizacyjny ds. ";
         if (nazwa.toLowerCase().trim() =="") {
+            $('#nazwaZR').css("visibility", "visible");
             GlobalNotification.error({
                 title: 'Błąd',
                 content: 'Uzupełnij nazwę ZR!',
@@ -52,6 +53,7 @@ Template.addNazwaModal.events({
                     found = true;
             });
             if(found==true){
+                $('#nazwaZR').css("visibility", "visible");
                 GlobalNotification.error({
                     title: 'Błąd',
                     content: 'Istnieje już ZR o podanej nazwie!',
@@ -59,6 +61,7 @@ Template.addNazwaModal.events({
                 });
             }
             else {
+                $('#nazwaZR').css("visibility", "hidden");
                 var text="Zespół realizacyjny ds."+nazwa;
                 var kwestia=Kwestia.findOne({_id:idKwestia});
                 if(kwestia) {

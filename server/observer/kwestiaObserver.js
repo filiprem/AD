@@ -11,15 +11,15 @@ Badanie zmian w postach, zespołach i kwestii w celu sprawdzenia czy kwestia pow
  */
 
 Meteor.startup(function(){
-    var globalParamsDraft=ParametrDraft.find({czyAktywny:true});
+    var globalParamsDraft=ParametrDraft.find();
     globalParamsDraft.observe({
         added:function(newParam){
             var params=ParametrDraft.find({czyAktywny:true}, {sort: {dataWprowadzenia:-1}});
             if(params.count()>1){
                 var issue=Kwestia.findOne({idParametr:newParam._id});
                 if(issue)
-                    Kwestia.remove({_id: issue._id});
-                ParametrDraft.remove({_id: newParam._id});
+                    Meteor.call("removeKwestia",issue._id);
+                Meteor.call("setActivityParametrDraft",newParam._id,false);
             }
         }
     });

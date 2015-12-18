@@ -46,7 +46,7 @@ Template.activateAccount.rendered=function(){
                                         else{
                                             Meteor.call("sendFirstLoginData",idUser,newUser[0].password,function(error){
                                                 if(error){
-                                                    bootbox.alert("Z nieznanych przyczyn link z danymi do logowania " +
+                                                    bootbox.alert("Z powodu błędu serwera pocztowego link z danymi do logowania " +
                                                         "nie został wysłany. Aby zalogować się do systemu możesz " +
                                                         "skorzystać z opcji przypomnienia hasła");
                                                 }
@@ -61,6 +61,9 @@ Template.activateAccount.rendered=function(){
                         }
                     });
                 }
+            }
+            else{
+                throwError(error.reason);
             }
         });
     }
