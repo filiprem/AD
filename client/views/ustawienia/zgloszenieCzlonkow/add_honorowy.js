@@ -85,7 +85,6 @@ Template.addHonorowy.events({
                                                             var firstName = "";
                                                             var lastName = "";
                                                             if (idUser != null) {
-                                                                console.log(idUser);
                                                                 firstName = ret.profile.firstName;
                                                                 lastName = ret.profile.lastName;
                                                             }

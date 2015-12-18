@@ -2,18 +2,28 @@ Template.addKwestiaOpcjaForm.rendered = function () {
     $("#kwestiaOpcjaForm").validate({
         rules: {
             kwestiaNazwa: {
-                checkExistsNazwaKwestii: true
+                checkExistsNazwaKwestii: true,
+                maxlength: 80
+            },
+            krotkaTresc: {
+                maxlength: 400
+            },
+            szczegolowaTresc: {
+                maxlength: 1000
             }
         },
         messages: {
             kwestiaNazwa: {
-                required: fieldEmptyMessage()
+                required: fieldEmptyMessage(),
+                maxlength: maxLengthMessage(80)
             },
             krotkaTresc: {
-                required: fieldEmptyMessage()
+                required: fieldEmptyMessage(),
+                maxlength: maxLengthMessage(400)
             },
             szczegolowaTresc: {
-                required: fieldEmptyMessage()
+                required: fieldEmptyMessage(),
+                maxlength: maxLengthMessage(1000)
             }
         },
         highlight: function (element) {

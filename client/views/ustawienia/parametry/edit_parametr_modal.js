@@ -94,7 +94,8 @@ parametrPreview=function(paramName,title,oldValue,newValue){
                 callback: function () {
                     $('.successBtn').css("visibility", "hidden");
                     var odp=checkIssueGlobalParamExists();
-                    if(odp==true){
+                    var params=ParametrDraft.find({czyAktywny:true});
+                    if(odp==true || params.count()>0){
                         bootbox.alert("Przepraszamy, istnieje już kwestia dotycząca zmiany parametru globalnego!");
                         $("#editParametrMod").modal("hide");
                     }
@@ -157,37 +158,43 @@ createIssueChangeParam=function(paramName,title,oldValue,newValue){
     };
     var odp=checkIssueGlobalParamExists();
     var params=ParametrDraft.find({czyAktywny:true});
-    if(odp==false && params.count()<=1) {
+    if(odp==false || params.count()==0) {
         Meteor.call('addParametrDraft', addParamDraft, function (error, ret) {
             if (!error) {
-                var dataParams = {
-                    title: title.toUpperCase(),
-                    oldValue: oldValue,
-                    newValue: newValue
+                var params=ParametrDraft.find({czyAktywny: true});
+                if(params.count()>1){
+                    Meteor.call("setActivityParametrDraft",ret,false);
                 }
-                var newKwestia = [
-                    {
-                        idUser: Meteor.userId(),
-                        dataWprowadzenia: new Date(),
-                        kwestiaNazwa: 'Propozycja zmiany parametru globalnego  przez ' + Meteor.user().profile.firstName + "  " + Meteor.user().profile.lastName,
-                        wartoscPriorytetu: 0,
-                        dataGlosowania: null,
-                        krotkaTresc: 'Propozycja zmiany parametrów globalnego',
-                        szczegolowaTresc: dataParams,
-                        isOption: false,
-                        status: KWESTIA_STATUS.ADMINISTROWANA,
-                        idParametr: ret,
-                        typ: KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE
-                    }];
+                else {
+                    var dataParams = {
+                        title: title.toUpperCase(),
+                        oldValue: oldValue,
+                        newValue: newValue
+                    };
+                    var newKwestia = [
+                        {
+                            idUser: Meteor.userId(),
+                            dataWprowadzenia: new Date(),
+                            kwestiaNazwa: 'Propozycja zmiany parametru globalnego  przez ' + Meteor.user().profile.firstName + "  " + Meteor.user().profile.lastName,
+                            wartoscPriorytetu: 0,
+                            dataGlosowania: null,
+                            krotkaTresc: 'Propozycja zmiany parametrów globalnego',
+                            szczegolowaTresc: dataParams,
+                            isOption: false,
+                            status: KWESTIA_STATUS.ADMINISTROWANA,
+                            idParametr: ret,
+                            typ: KWESTIA_TYPE.GLOBAL_PARAMETERS_CHANGE
+                        }];
 
-                Meteor.call('addKwestiaADMINISTROWANA', newKwestia, function (error, ret) {
-                    if (error)
-                        throwError(error.reason);
-                    else {
-                        addPowiadomienieGlobalneFunction(ret);
-                        Meteor.call("sendEmailAddedIssue", ret);
-                    }
-                });
+                    Meteor.call('addKwestiaADMINISTROWANA', newKwestia, function (error, ret) {
+                        if (error)
+                            throwError(error.reason);
+                        else {
+                            addPowiadomienieGlobalneFunction(ret);
+                            Meteor.call("sendEmailAddedIssue", ret);
+                        }
+                    });
+                }
             }
         });
         Session.setPersistent("chosenParameterSession", null);

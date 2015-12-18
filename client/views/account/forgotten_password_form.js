@@ -50,7 +50,8 @@ Template.forgottenPassword.events({
                         document.getElementById("resetButton").disabled=true;
                         Meteor.call('sendResetPasswordEmail', options.email, function (error, ret) {
                             if (error) {
-                                throwError(error.reason);
+                                document.getElementById("resetButton").disabled=false;
+                                throwError("Email nie został wysłny,spróbuj ponownie");
                             }
                             else {
                                 GlobalNotification.success({
@@ -63,6 +64,7 @@ Template.forgottenPassword.events({
                             }
                         });
                     }else{
+                        document.getElementById("resetButton").disabled=false;
                         throwError('Podany adres email nie istnieje w systemie');
                         return false;
                     }

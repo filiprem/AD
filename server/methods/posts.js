@@ -34,5 +34,8 @@ Meteor.methods({
     updatePostRating: function (id,obj) {
         var id = Posts.update(id,{$set:{wartoscPriorytetu:  obj[0].wartoscPriorytetu, glosujacy:  obj[0].glosujacy}});
         return id;
+    },
+    removePost:function(id){
+        Posts.remove({_id:id});
     }
 });
