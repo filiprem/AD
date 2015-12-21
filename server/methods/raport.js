@@ -12,11 +12,5 @@ Meteor.methods({
         });
         Posts.update({_id:newRaport.idPost},{$set:{idRaport:id}});
         return id;
-    },
-    updateRaport: function(id, raport){
-        Raport.update(id, {$set: raport}, {upsert: true});
-    },
-    removeRaport: function(id){
-        Raport.remove({_id: id});
     }
 });

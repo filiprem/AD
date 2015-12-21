@@ -198,7 +198,15 @@ addKwestiaOsobowaHonorowy=function(idUserDraft,newUser){
                     addPowiadomienieAplikacjaIssueFunction(ret,newKwestia[0].dataWprowadzenia);
                     przyjecieWnioskuHonorowyConfirmation(Parametr.findOne().czasWyczekiwaniaKwestiiSpecjalnej, daneAplikanta.email, "członek honorowy");
                     var user = UsersDraft.findOne({_id: idUserDraft});
-                    Meteor.call("sendEmailAddedIssue", ret);
+                    Meteor.call("sendEmailAddedIssue", ret, function(error) {
+                        if(error){
+                            var emailError = {
+                                idIssue: ret,
+                                type: NOTIFICATION_TYPE.NEW_ISSUE
+                            };
+                            Meteor.call("addEmailError", emailError);
+                        }
+                    } );
                 }
             });
         }

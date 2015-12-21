@@ -8,14 +8,6 @@ Meteor.methods({
         });
         return id;
     },
-    updateIdZespoluDraft: function (id, idZespol) {
-        var id = Kwestia.update(id, {$set: {idZespolRealizacyjny: idZespol}}, {upsert: true});
-        return id;
-    },
-    updateNazwaZRDraft: function (id, nazwaZespolu) {
-        var id = ZespolRealizacyjnyDraft.update(id, {$set: {nazwa: nazwaZespolu}}, {upsert: true});
-        return id;
-    },
     removeZespolRealizacyjnyDraft:function(object){
         ZespolRealizacyjnyDraft.remove(object);
     },

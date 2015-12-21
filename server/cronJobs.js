@@ -64,8 +64,14 @@ checkingRRExist=function(){
 
            if(raporty.count()==0) {
                Meteor.call("sendEmailNoRealizationReport", kwestia._id, function (error) {
-                   if (error)
+                   if (error) {
                        console.log(error.reason);
+                       var emailError = {
+                           idIssue: kwestia._id,
+                           type: NOTIFICATION_TYPE.LACK_OF_REALIZATION_REPORT
+                       };
+                       Meteor.call("addEmailError", emailError);
+                   }
                });
                var users = Users.find({'profile.userType': USERTYPE.CZLONEK});
                users.forEach(function (user) {
@@ -136,7 +142,7 @@ checkingEndOfVote = function() {
                                 if(user){
                                     var newUserFields=null;
                                     var text=null;
-                                    if(kwestia.typ==KWESTIA_TYPE.ACCESS_ZWYCZAJNY) {
+                                    if(issueUpdated.typ==KWESTIA_TYPE.ACCESS_ZWYCZAJNY) {
                                         newUserFields = {
                                             address: userDraft.profile.address,
                                             zip: userDraft.profile.zip,
@@ -147,7 +153,7 @@ checkingEndOfVote = function() {
                                         };
                                         text="rewriteFromDraftToUser";
                                     }
-                                    else if(kwestia.typ==KWESTIA_TYPE.ACCESS_HONOROWY){
+                                    else if(issueUpdated.typ==KWESTIA_TYPE.ACCESS_HONOROWY){
                                         newUserFields=userDraft.profile.userType;
                                         text="updateUserType";
                                     }
@@ -159,6 +165,14 @@ checkingEndOfVote = function() {
                                                     Meteor.call("sendApplicationAccepted",userDraft,"acceptExisting",function(error){
                                                         if(error)
                                                             console.log(error.reason);
+                                                        else{
+                                                            var emailError = {
+                                                                idIssue: issueUpdated._id,
+                                                                idUserDraft: userDraft._id,
+                                                                type: NOTIFICATION_TYPE.APPLICATION_ACCEPTED
+                                                            };
+                                                            Meteor.call("addEmailError", emailError);
+                                                        }
                                                     });
                                                 }
                                             });
@@ -174,12 +188,18 @@ checkingEndOfVote = function() {
                                         {
                                             Meteor.call("sendApplicationAccepted", UsersDraft.findOne({_id: userDraft._id}), "acceptNew", function (error) {
                                                 if(error){
-                                                    Meteor.call("setIssueProblemSendingEmail",kwestia._id,
+                                                    Meteor.call("setIssueProblemSendingEmail",issueUpdated._id,
                                                         SENDING_EMAIL_PROBLEMS.NO_ACTVATION_LINK);
                                                 }
-                                                else
+                                                else{
                                                     Meteor.call("updateLicznikKlikniec", userDraft._id, 0);
-
+                                                    var emailError = {
+                                                        idIssue: issueUpdated._id,
+                                                        idUserDraft: userDraft._id,
+                                                        type: NOTIFICATION_TYPE.APPLICATION_ACCEPTED
+                                                    };
+                                                    Meteor.call("addEmailError", emailError);
+                                                }
                                             });
                                         }
                                     });
@@ -217,6 +237,14 @@ checkingEndOfVote = function() {
                             Meteor.call("sendApplicationRejected",userDraft,function(error,ret){
                                 if(!error)
                                     Meteor.call("removeUserDraft",userDraft);
+                                else{
+                                    var emailError = {
+                                        idIssue: issueUpdated._id,
+                                        idUserDraft: userDraft._id,
+                                        type: NOTIFICATION_TYPE.APPLICATION_REJECTED
+                                    };
+                                    Meteor.call("addEmailError", emailError);
+                                }
                             });
                         }
                         Meteor.call('removeUserDraftNotZrealizowany',userDraft._id);

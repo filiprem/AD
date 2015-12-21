@@ -11,8 +11,5 @@ Meteor.methods({
     },
     updateRodzaj: function (idRodzaj, rodzaj) {
         Rodzaj.update(idRodzaj, {$set: rodzaj}, {upsert: true});
-    },
-    removeRodzaj: function(id){
-        Rodzaj.remove({_id: id});
     }
 });

@@ -41,6 +41,12 @@ Meteor.startup(function(){
                             if(error){
                                 Meteor.call("setIssueProblemSendingEmail",kwestia._id,
                                     SENDING_EMAIL_PROBLEMS.NO_INVITATION_HONOROWY);
+                                var emailError = {
+                                    idIssue: kwestia._id,
+                                    idUserDraft: kwestia.idUser,
+                                    type: NOTIFICATION_TYPE.HONOROWY_INVITATION
+                                };
+                                Meteor.call("addEmailError", emailError);
                             }
                         });
                     }
@@ -58,7 +64,15 @@ Meteor.startup(function(){
                 if(error)
                     console.log(error.reason);
             });
-            Meteor.call("sendEmailStartedVoting",newKwestia._id);
+            Meteor.call("sendEmailStartedVoting",newKwestia._id, function(error){
+                if(error){
+                    var emailError = {
+                        idIssue: newKwestia._id,
+                        type: NOTIFICATION_TYPE.VOTE_BEGINNING
+                    };
+                    Meteor.call("addEmailError", emailError);
+                }
+            });
             addPowiadomienieKwestiaGlosowanaMethod(newKwestia._id);
         }
     };

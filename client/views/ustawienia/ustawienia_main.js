@@ -153,6 +153,13 @@ sendEmailAndNotification=function(idKwestia,emailText){
             if(!error){
                 addPowiadomienieLobbingIssueFunction(idKwestia,emailText);
                 Meteor.call("sendEmailLobbingIssue",idKwestia,emailText,Meteor.userId(),function(error){
+                    if(error){
+                        var emailError = {
+                            idIssue: idKwestia,
+                            type: NOTIFICATION_TYPE.LOOBBING_MESSAGE
+                        };
+                        Meteor.call("addEmailError", emailError);
+                    }
                 });
             }
             else{

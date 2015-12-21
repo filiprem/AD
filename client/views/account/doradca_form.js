@@ -192,8 +192,25 @@ addKwestiaOsobowaDoradca=function(idUserDraft,newUser){
                     addPowiadomienieAplikacjaIssueFunction(ret,newKwestia[0].dataWprowadzenia);
                     przyjecieWnioskuConfirmation(Parametr.findOne().czasWyczekiwaniaKwestiiSpecjalnej, daneAplikanta.email, "doradztwo");
                     Meteor.call("sendApplicationConfirmation", idUserDraft,function(error){
-                        if(!error)
-                            Meteor.call("sendEmailAddedIssue", ret);
+                        if(!error) {
+                            Meteor.call("sendEmailAddedIssue", ret, function (error) {
+                                if (error) {
+                                    var emailError = {
+                                        idIssue: ret,
+                                        type: NOTIFICATION_TYPE.NEW_ISSUE
+                                    };
+                                    Meteor.call("addEmailError", emailError);
+                                }
+                            });
+                        }else{
+                            var emailError = {
+                                idIssue: ret,
+                                idUserDraft: idUserDraft,
+                                type: NOTIFICATION_TYPE.APPLICATION_CONFIRMATION
+                            };
+                            Meteor.call("addEmailError", emailError);
+                        }
+
                     });
                 }
             });

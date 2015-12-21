@@ -74,6 +74,14 @@ Meteor.startup(function(){
                                             Meteor.call("sendApplicationRejected",userDraft,function(error,ret){
                                                 if(!error)
                                                     Meteor.call("removeUserDraft",userDraft);
+                                                else{
+                                                    var emailError = {
+                                                        idIssue: kwestia._id,
+                                                        idUserDraft: userDraft._id,
+                                                        type: NOTIFICATION_TYPE.APPLICATION_REJECTED
+                                                    };
+                                                    Meteor.call("addEmailError", emailError);
+                                                }
                                             });
                                         }
                                         Meteor.call('removeUserDraftNotZrealizowany',userDraft._id);
@@ -121,6 +129,14 @@ Meteor.startup(function(){
                                             Meteor.call("sendApplicationRejected",userDraft,function(error,ret){
                                                 if(!error)
                                                     Meteor.call("removeUserDraft",userDraft);
+                                                else{
+                                                    var emailError = {
+                                                        idIssue: kwestia._id,
+                                                        idUserDraft: userDraft._id,
+                                                        type: NOTIFICATION_TYPE.APPLICATION_REJECTED
+                                                    };
+                                                    Meteor.call("addEmailError", emailError);
+                                                }
                                             });
                                         }
                                         Meteor.call('removeUserDraftNotZrealizowany',userDraft._id);

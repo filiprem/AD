@@ -64,9 +64,17 @@ Template.previewKwestiaOpcja.events({
                 }
             }
             else {
-                Meteor.call("sendEmailAddedIssue", ret);
+                Meteor.call("sendEmailAddedIssue", ret, function(error) {
+                    if(error){
+                        var emailError = {
+                            idIssue: ret,
+                            type: NOTIFICATION_TYPE.NEW_ISSUE
+                        };
+                        Meteor.call("addEmailError", emailError);
+                    }
+                } );
                 addPowiadomienieBasicOptionIssueFunction(ret,newKwestiaOpcja[0].dataWprowadzenia);
-                var text="Nie odnotowali�my Twojej aktywno�ci w nast�puj�cej Kwestii:";
+                var text="Nie odnotowaliśmy Twojej aktywności w następującej Kwestii:";
                 addPowiadomienieIssueFunction(ret,newKwestiaOpcja[0].dataWprowadzenia,NOTIFICATION_TYPE.ISSUE_NO_PRIORITY,text);
                 var userKwestia= Meteor.userId();
                 var newValue=0;

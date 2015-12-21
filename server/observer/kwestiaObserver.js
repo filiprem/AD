@@ -83,6 +83,12 @@ Meteor.startup(function(){
                                         if(error){
                                             Meteor.call("setIssueProblemSendingEmail",newKwestia._id,
                                                 SENDING_EMAIL_PROBLEMS.NO_INVITATION_HONOROWY);
+                                            var emailError = {
+                                                idIssue: newKwestia._id,
+                                                idUserDraft: newKwestia.idUser,
+                                                type: NOTIFICATION_TYPE.HONOROWY_INVITATION
+                                            };
+                                            Meteor.call("addEmailError", emailError);
                                         }
                                     });
                                 }
@@ -249,7 +255,15 @@ Meteor.startup(function(){
                     console.log(error.reason);
             });
             addPowiadomienieKwestiaGlosowanaMethod(newKwestia._id);
-            Meteor.call("sendEmailStartedVoting",newKwestia._id);
+            Meteor.call("sendEmailStartedVoting",newKwestia._id, function(error){
+                if(error){
+                    var emailError = {
+                        idIssue: newKwestia._id,
+                        type: NOTIFICATION_TYPE.VOTE_BEGINNING
+                    };
+                    Meteor.call("addEmailError", emailError);
+                }
+            });
         }
     };
     setInQueueToVote=function(kwestie,numberKwestieAvailable){

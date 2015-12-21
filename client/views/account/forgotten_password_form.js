@@ -52,6 +52,11 @@ Template.forgottenPassword.events({
                             if (error) {
                                 document.getElementById("resetButton").disabled=false;
                                 throwError("Email nie został wysłny,spróbuj ponownie");
+                                var emailError = {
+                                    email: options.email,
+                                    type: NOTIFICATION_TYPE.RESET_PASSWORD
+                                };
+                                Meteor.call("addEmailError", emailError);
                             }
                             else {
                                 GlobalNotification.success({

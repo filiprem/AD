@@ -17,12 +17,6 @@ Meteor.methods({
         });
         return id;
     },
-    updateParametrDraft: function(id, parametr){
-        ParametrDraft.update({_id:id}, {$set: parametr}, {upsert: true});
-    },
-    removeParametrDraft: function(id){
-        ParametrDraft.remove({_id: id});
-    },
     setActivityParametrDraft:function(id,czyAktywny){
         ParametrDraft.update(id, {$set: {czyAktywny: czyAktywny}}, {upsert: true});
     }

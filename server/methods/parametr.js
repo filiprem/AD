@@ -16,8 +16,5 @@ Meteor.methods({
     },
     updateParametr: function(id, parametr){
         Parametr.update({_id:id}, {$set: parametr}, {upsert: true});
-    },
-    removeParametr: function(id){
-        Parametr.remove({_id: id});
     }
 });

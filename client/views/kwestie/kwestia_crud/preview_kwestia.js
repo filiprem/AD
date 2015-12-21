@@ -219,7 +219,15 @@ addKwestia=function(idTemat,idRodzaj,isOption,kwestia){
         }
         else {
             Session.set("kwestiaPreview", null);
-            Meteor.call("sendEmailAddedIssue", ret);
+            Meteor.call("sendEmailAddedIssue", ret, function(error) {
+                if(error){
+                    var emailError = {
+                        idIssue: ret,
+                        type: NOTIFICATION_TYPE.NEW_ISSUE
+                    };
+                    Meteor.call("addEmailError", emailError);
+                }
+            } );
             addPowiadomienieIssueFunction(ret,newKwestia[0].dataWprowadzenia,NOTIFICATION_TYPE.NEW_ISSUE,"");
             var text="Nie odnotowaliśmy Twojej aktywności w następującej Kwestii:";
             addPowiadomienieIssueFunction(ret,newKwestia[0].dataWprowadzenia,NOTIFICATION_TYPE.ISSUE_NO_PRIORITY,text);
