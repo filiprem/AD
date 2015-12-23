@@ -141,6 +141,13 @@ Meteor.publish('kwestie', function () {
     return Kwestia.find({});
 });
 
+Meteor.publish('kwestieNoPeselEmailDetails', function () {
+    return Kwestia.find({},{fields: {
+        'szczegolowaTresc.email': 0,
+        'szczegolowaTresc.pesel': 0
+    }});
+});
+
 Meteor.publish('kwestia', function (id) {
     return Kwestia.find({_id: id});
 });
