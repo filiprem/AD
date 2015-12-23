@@ -163,9 +163,7 @@ checkingEndOfVote = function() {
                                                 if(!error){
                                                     addPowiadomienieAplikacjaRespondMethodPosts(issueUpdated._id,new Date(),NOTIFICATION_TYPE.APPLICATION_ACCEPTED,user._id,null);
                                                     Meteor.call("sendApplicationAccepted",userDraft,"acceptExisting",function(error){
-                                                        if(error)
-                                                            console.log(error.reason);
-                                                        else{
+                                                        if(error){
                                                             var emailError = {
                                                                 idIssue: issueUpdated._id,
                                                                 idUserDraft: userDraft._id,
