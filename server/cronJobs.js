@@ -188,15 +188,16 @@ checkingEndOfVote = function() {
                                                 if(error){
                                                     Meteor.call("setIssueProblemSendingEmail",issueUpdated._id,
                                                         SENDING_EMAIL_PROBLEMS.NO_ACTVATION_LINK);
-                                                }
-                                                else{
-                                                    Meteor.call("updateLicznikKlikniec", userDraft._id, 0);
+
                                                     var emailError = {
                                                         idIssue: issueUpdated._id,
                                                         idUserDraft: userDraft._id,
                                                         type: NOTIFICATION_TYPE.APPLICATION_ACCEPTED
                                                     };
                                                     Meteor.call("addEmailError", emailError);
+                                                }
+                                                else{
+                                                    Meteor.call("updateLicznikKlikniec", userDraft._id, 0);
                                                 }
                                             });
                                         }
